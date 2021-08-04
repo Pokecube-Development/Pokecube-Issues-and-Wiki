@@ -40,6 +40,8 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.PokecubeLegends;
+import pokecube.legends.init.PlantsInit;
 
 public class ItemGenerator
 {
@@ -119,6 +121,10 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "fruit_" + name);
             BerryManager.berryFruits.put(index, block);
             registry.register(block);
+
+            block = new GenericPottedPlant(berryFruits,
+                    AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion());
+            block.setRegistryName(PokecubeCore.MODID, "potted_" + name + "berry");
         }
 
         // Make the logs and planks.

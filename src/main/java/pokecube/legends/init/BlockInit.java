@@ -1614,10 +1614,10 @@ public class BlockInit
             () -> new ItemGenerator.GenericPottedPlant(PlantsInit.COMPRECED_MUSHROOM.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
-            () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_BUSH.get(),
+            () -> new PottedCrystallizedBush(CRYSTALLIZED_BUSH.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_TAB.register("potted_crystallized_cactus",
-            () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_CACTUS.get(),
+            () -> new PottedCrystallizedCactus(CRYSTALLIZED_CACTUS.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
             () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
@@ -1632,7 +1632,7 @@ public class BlockInit
             () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
-            () -> new ItemGenerator.GenericPottedPlant(TALL_CRYSTALLIZED_BUSH.get(),
+            () -> new PottedCrystallizedBush(TALL_CRYSTALLIZED_BUSH.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 

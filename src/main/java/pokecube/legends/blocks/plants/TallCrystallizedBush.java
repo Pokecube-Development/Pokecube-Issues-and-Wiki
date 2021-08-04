@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.normalblocks;
+package pokecube.legends.blocks.plants;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

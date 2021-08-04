@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.normalblocks;
+package pokecube.legends.blocks.plants;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -42,10 +42,9 @@ public class CrystallizedCactus extends Block implements IWaterLoggable
 	      return OUTLINE_SHAPE;
     }
 
-	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-		if ((entityIn instanceof LivingEntity)) {
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
-		}
+	@Override
+	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+		entity.hurt(DamageSource.CACTUS, 1.0F);
     }
 
 	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType path) {
