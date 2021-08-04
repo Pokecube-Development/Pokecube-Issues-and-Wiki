@@ -510,6 +510,9 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
+    public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
+    public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
+    public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
 
     static
@@ -1618,6 +1621,15 @@ public class BlockInit
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
             () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
+            () -> new ItemGenerator.GenericPottedPlant(DISTORTIC_VINES.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
             () -> new ItemGenerator.GenericPottedPlant(TALL_CRYSTALLIZED_BUSH.get(),
