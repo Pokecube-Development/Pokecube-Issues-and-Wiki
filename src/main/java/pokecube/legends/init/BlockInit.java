@@ -1690,10 +1690,10 @@ public class BlockInit
         compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
         compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
-        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT1);
-        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
-        compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
-        compostableBlocks(0.65f, PlantsInit.DIRST_FLOWER);
+        compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
+        compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
+        compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
+        compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
     }
     
     public static void flammableBlocks(Block block, int speed, int flammability) {
@@ -1782,9 +1782,9 @@ public class BlockInit
         flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
 
         //Plants
-        flammableBlocks(PlantsInit.AGED_FLOWER.get(), 60, 100);
-        flammableBlocks(PlantsInit.DIRST_FLOWER.get(), 60, 100);
-        flammableBlocks(PlantsInit.MUSH_PLANT1.get(), 60, 100);
-        flammableBlocks(PlantsInit.MUSH_PLANT2.get(), 60, 100);
+        flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
+        flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
+        flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
+        flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
     }
 }

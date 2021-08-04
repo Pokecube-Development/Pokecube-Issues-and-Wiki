@@ -12,20 +12,20 @@ public class PlantsInit
 {
 
     // Plants
-    public static RegistryObject<Block> MUSH_PLANT1;
-    public static RegistryObject<Block> MUSH_PLANT2;
-    public static RegistryObject<Block> AGED_FLOWER;
-    public static RegistryObject<Block> DIRST_FLOWER;
+    public static RegistryObject<Block> DISTORCED_MUSHROOM;
+    public static RegistryObject<Block> COMPRECED_MUSHROOM;
+    public static RegistryObject<Block> GOLDEN_POPPY;
+    public static RegistryObject<Block> INVERTED_ORCHID;
 
     static
     {
-        PlantsInit.MUSH_PLANT1 = PokecubeLegends.BLOCKS_TAB.register("mush_plant1", () -> new PlantBase(Material.PLANT, 
+        PlantsInit.DISTORCED_MUSHROOM = PokecubeLegends.BLOCKS_TAB.register("mush_plant1", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PURPLE, 0f, 3f, SoundType.GRASS));
-        PlantsInit.MUSH_PLANT2 = PokecubeLegends.BLOCKS_TAB.register("mush_plant2", () -> new PlantBase(Material.PLANT,
+        PlantsInit.COMPRECED_MUSHROOM = PokecubeLegends.BLOCKS_TAB.register("mush_plant2", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PURPLE, 0f, 3f, SoundType.GRASS));
-        PlantsInit.AGED_FLOWER = PokecubeLegends.BLOCKS_TAB.register("a1_flower", () -> new PlantBase(Material.PLANT,
+        PlantsInit.GOLDEN_POPPY = PokecubeLegends.BLOCKS_TAB.register("a1_flower", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_YELLOW, 0f, 3f, SoundType.CORAL_BLOCK));
-        PlantsInit.DIRST_FLOWER = PokecubeLegends.BLOCKS_TAB.register("b1_flower", () -> new PlantBase(Material.PLANT,
+        PlantsInit.INVERTED_ORCHID = PokecubeLegends.BLOCKS_TAB.register("b1_flower", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PINK, 0f, 3f, SoundType.BAMBOO_SAPLING));
     }
 
