@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -389,6 +390,14 @@ public class ItemGenerator
         public GenericPressurePlate(final Sensitivity sesitivity, final Properties properties)
         {
             super(sesitivity, properties);
+        }
+    }
+
+    public static class GenericPottedPlant extends FlowerPotBlock
+    {
+        public GenericPottedPlant(final Block pottedPlant, final Properties properties)
+        {
+            super(pottedPlant, properties);
         }
     }
 

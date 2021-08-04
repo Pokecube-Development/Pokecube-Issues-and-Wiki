@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:potted_aged_sapling",
+    "pokecube_legends:potted_corrupted_sapling",
+    "pokecube_legends:potted_distortic_sapling",
+    "pokecube_legends:potted_inverted_sapling",
+    "pokecube_legends:potted_mirage_sapling",
+    "pokecube_legends:potted_temporal_sapling"
+  ]
+}

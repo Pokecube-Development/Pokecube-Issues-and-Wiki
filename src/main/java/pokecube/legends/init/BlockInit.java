@@ -20,37 +20,14 @@ import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.EffectBlockBase;
 import pokecube.legends.blocks.FaceBlock_Base;
 import pokecube.legends.blocks.SaplingBase;
-import pokecube.legends.blocks.customblocks.CramomaticBlock;
-import pokecube.legends.blocks.customblocks.HeatranBlock;
-import pokecube.legends.blocks.customblocks.KeldeoBlock;
-import pokecube.legends.blocks.customblocks.MagearnaBlock;
-import pokecube.legends.blocks.customblocks.NatureCoreBlock;
-import pokecube.legends.blocks.customblocks.PortalWarp;
-import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
-import pokecube.legends.blocks.customblocks.TimeSpaceCoreBlock;
-import pokecube.legends.blocks.customblocks.TaoTrioBlock;
-import pokecube.legends.blocks.customblocks.TapuBuluCore;
-import pokecube.legends.blocks.customblocks.TapuFiniCore;
-import pokecube.legends.blocks.customblocks.TapuKokoCore;
-import pokecube.legends.blocks.customblocks.TapuLeleCore;
-import pokecube.legends.blocks.customblocks.TroughBlock;
-import pokecube.legends.blocks.customblocks.VictiniBlock;
-import pokecube.legends.blocks.customblocks.XerneasCore;
-import pokecube.legends.blocks.customblocks.YveltalEgg;
+import pokecube.legends.blocks.customblocks.*;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
 import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
 import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
-import pokecube.legends.blocks.normalblocks.*;
 import pokecube.legends.blocks.normalblocks.OreBlock;
-import pokecube.legends.blocks.plants.AgedTree;
-import pokecube.legends.blocks.plants.CorruptedTree;
-import pokecube.legends.blocks.plants.DistortedVinesBlock;
-import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
-import pokecube.legends.blocks.plants.DistorticTree;
-import pokecube.legends.blocks.plants.InvertedTree;
-import pokecube.legends.blocks.plants.MirageTree;
-import pokecube.legends.blocks.plants.TemporalTree;
+import pokecube.legends.blocks.normalblocks.*;
+import pokecube.legends.blocks.plants.*;
 
 import java.util.function.ToIntFunction;
 
@@ -521,6 +498,13 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_STAIRS;
     
     public static final RegistryObject<Block> COSMIC_DUST_BLOCK;
+
+    public static final RegistryObject<Block> POTTED_AGED_SAPLING;
+    public static final RegistryObject<Block> POTTED_CORRUPTED_SAPLING;
+    public static final RegistryObject<Block> POTTED_DISTORTIC_SAPLING;
+    public static final RegistryObject<Block> POTTED_INVERTED_SAPLING;
+    public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
+    public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
     static
     {
@@ -1597,6 +1581,25 @@ public class BlockInit
             .sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(2).dynamicShape()));
         FINI_BLACK   = PokecubeLegends.DECORATION_TAB.register("fini_black_totem", () -> new FiniTotem(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_BLACK).strength(5, 15)
             .sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(2).dynamicShape()));
+
+        POTTED_AGED_SAPLING = PokecubeLegends.NO_TAB.register("potted_aged_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(AGED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_corrupted_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(CORRUPTED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORTIC_SAPLING = PokecubeLegends.NO_TAB.register("potted_distortic_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(DISTORTIC_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_INVERTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_inverted_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(INVERTED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_MIRAGE_SAPLING = PokecubeLegends.NO_TAB.register("potted_mirage_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(MIRAGE_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TEMPORAL_SAPLING = PokecubeLegends.NO_TAB.register("potted_temporal_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(TEMPORAL_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(int i) {
@@ -1627,6 +1630,11 @@ public class BlockInit
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                 .tab(PokecubeLegends.DECO_TAB)));
         }
+
+//        for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
+//        {
+//            PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new Block(reg.get()));
+//        }
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)

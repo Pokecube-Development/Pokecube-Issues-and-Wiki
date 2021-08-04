@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "dirt": "pokecube_legends:blocks/ultrasand",
+    "plant": "pokecube_legends:blocks/mirage_sapling"
+  }
+}

@@ -79,7 +79,9 @@ public class PokecubeLegends
     public static final DeferredRegister<Block>         BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Block>         DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Reference.ID);
+        Reference.ID);
+    public static final DeferredRegister<Block>         NO_TAB         = DeferredRegister.create(ForgeRegistries.BLOCKS,
+        Reference.ID);
     public static final DeferredRegister<Item>          ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
 	public static final DeferredRegister<Fluid>  		FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
@@ -162,6 +164,7 @@ public class PokecubeLegends
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
+        PokecubeLegends.NO_TAB.register(modEventBus);
 		PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.LEGENDS_SERIALIZERS.register(modEventBus);
