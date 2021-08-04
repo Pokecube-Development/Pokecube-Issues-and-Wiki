@@ -1630,11 +1630,6 @@ public class BlockInit
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                 .tab(PokecubeLegends.DECO_TAB)));
         }
-
-//        for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
-//        {
-//            PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new Block(reg.get()));
-//        }
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
