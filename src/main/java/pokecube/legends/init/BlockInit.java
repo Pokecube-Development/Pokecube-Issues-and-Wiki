@@ -730,7 +730,7 @@ public class BlockInit
         // Woods (LOGS/LEAVES/PLANKS)
         // Inverted Blocks
         INVERTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()));
         INVERTED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_LIGHT_BLUE, MaterialColor.TERRACOTTA_LIGHT_BLUE));
         INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> Blocks.log(
@@ -766,7 +766,7 @@ public class BlockInit
 
         // Temporal Blocks
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.WARPED_NYLIUM).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.WARPED_NYLIUM).strength(0.2f).sound(SoundType.GRASS).noOcclusion()));
         TEMPORAL_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> Blocks.log(
                 MaterialColor.WARPED_NYLIUM, MaterialColor.COLOR_BROWN));
         TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> Blocks.log(
@@ -802,7 +802,7 @@ public class BlockInit
 
         // Aged Blocks
         AGED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_ORANGE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_ORANGE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()));
         AGED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> Blocks.log(
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> Blocks.log(MaterialColor.COLOR_BROWN,
@@ -838,7 +838,7 @@ public class BlockInit
 
         // Distortic Blocks
         DISTORTIC_LEAVES = PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_PURPLE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_PURPLE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()));
         DISTORTIC_LOG = PokecubeLegends.BLOCKS_TAB.register("distortic_log", () -> Blocks.log(
                 MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE));
         DISTORTIC_WOOD = PokecubeLegends.BLOCKS_TAB.register("distortic_wood", () -> Blocks.log(
@@ -910,7 +910,7 @@ public class BlockInit
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new GlassBlockBase(AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeavesBlock(9032191,
-            AbstractBlock.Properties.of(Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.NYLIUM).strength(0.5f).noOcclusion()));
+            AbstractBlock.Properties.of(Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.NYLIUM).strength(0.2f).noOcclusion()));
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.log(
                 MaterialColor.SAND, MaterialColor.COLOR_LIGHT_BLUE));
         MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("mirage_wood", () -> Blocks.log(
@@ -1434,11 +1434,11 @@ public class BlockInit
 
         // Decorative_Blocks
         DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
         DYNA_LEAVES2 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_2", () ->  new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
         DYNA_LEAVES3 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_3", () ->  new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
 
         //Tapus Totems
         TOTEM_BLOCK = PokecubeLegends.DECORATION_TAB.register("totem_block", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY,
