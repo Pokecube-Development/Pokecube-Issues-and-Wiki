@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:blocks/mush1"
+      "layer0":"pokecube_legends:blocks/distorced_mushroom"
    }
 }

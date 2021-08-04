@@ -506,8 +506,10 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
     public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
+    public static final RegistryObject<Block> POTTED_COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
+    public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
 
     static
@@ -1605,11 +1607,17 @@ public class BlockInit
             () -> new ItemGenerator.GenericPottedPlant(TEMPORAL_SAPLING.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
 
+        POTTED_COMPRECED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_compreced_mushroom",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.COMPRECED_MUSHROOM.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
             () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_BUSH.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_TAB.register("potted_crystallized_cactus",
             () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_CACTUS.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
             () -> new ItemGenerator.GenericPottedPlant(TALL_CRYSTALLIZED_BUSH.get(),
