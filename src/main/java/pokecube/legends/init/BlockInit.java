@@ -507,6 +507,8 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
+    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
+    public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
 
     static
     {
@@ -1605,6 +1607,12 @@ public class BlockInit
 
         POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
             () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_BUSH.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_TAB.register("potted_crystallized_cactus",
+            () -> new ItemGenerator.GenericPottedPlant(CRYSTALLIZED_CACTUS.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
+            () -> new ItemGenerator.GenericPottedPlant(TALL_CRYSTALLIZED_BUSH.get(),
                 AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 
