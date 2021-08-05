@@ -462,8 +462,7 @@
   "item.pokecube.venusaurmega":"Venusaurite",
   "item.pokecube.alphaorb":"Alpha Orb",
   "item.pokecube.omegaorb":"Omega Orb",
-  
-  
+
   "block.pokecube.fruit_cheri":"Cheri Berry",
   "block.pokecube.fruit_chesto":"Chesto Berry",
   "block.pokecube.fruit_pecha":"Pecha Berry",
@@ -475,6 +474,7 @@
   "block.pokecube.fruit_lum":"Lum Berry",
   "block.pokecube.fruit_sitrus":"Sitrus Berry",
   "block.pokecube.fruit_nanab":"Nanab Berry",
+  "block.pokecube.fruit_null":"Null Berry",
   "block.pokecube.fruit_pinap":"Pinap Berry",
   "block.pokecube.fruit_cornn":"Cornn Berry",
   "block.pokecube.fruit_pomeg":"Pomeg Berry",
@@ -486,6 +486,8 @@
   "block.pokecube.fruit_enigma":"Enigma Berry",
   "block.pokecube.fruit_jaboca":"Jaboca Berry",
   "block.pokecube.fruit_rowap":"Rowap Berry",
+
+  "block.pokecube.potted_null_berry": "Potted Null Berry",
   
   "block.pokecube.crop_cheri":"Cheri Crop",
   "block.pokecube.crop_chesto":"Chesto Crop",
