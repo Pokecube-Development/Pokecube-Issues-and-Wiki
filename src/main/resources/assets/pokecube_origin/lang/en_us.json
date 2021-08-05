@@ -487,8 +487,9 @@
   "block.pokecube.fruit_jaboca":"Jaboca Berry",
   "block.pokecube.fruit_rowap":"Rowap Berry",
 
+  "block.pokecube.potted_cheri_berry": "Potted Cheri Berry",
   "block.pokecube.potted_null_berry": "Potted Null Berry",
-  
+
   "block.pokecube.crop_cheri":"Cheri Crop",
   "block.pokecube.crop_chesto":"Chesto Crop",
   "block.pokecube.crop_pecha":"Pecha Crop",
