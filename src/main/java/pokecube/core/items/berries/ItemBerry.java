@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -38,7 +39,7 @@ import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;
  * @author Oracion
  * @author Manchou
  */
-public class ItemBerry extends Item implements IMoveConstants, IPlantable
+public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
 {
     public static class BerryType extends Properties
     {
@@ -68,11 +69,19 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
 
     public final BerryType type;
 
-    public ItemBerry(final BerryType type)
-    {
-        super(type);
+    public ItemBerry(final BerryType type) {
+        super(BerryManager.berryFruits.get(type.index), type);
         this.type = type;
         BerryManager.addBerry(this);
+    }
+
+    @Override
+    public Block getBlock() {
+        return this.getBlockRaw() == null ? null : this.getBlockRaw().delegate.get();
+    }
+
+    public Block getBlockRaw() {
+        return BerryManager.berryFruits.get(type.index);
     }
 
     /**
@@ -167,12 +176,14 @@ public class ItemBerry extends Item implements IMoveConstants, IPlantable
 
         final ItemStack stack = playerIn.getItemInHand(hand);
         final BlockState state = worldIn.getBlockState(pos);
+        Block block = state.getBlock();
         if (side == Direction.UP && playerIn.mayUseItemAt(pos.relative(side), side, stack) && state.getBlock()
-                .canSustainPlant(state, worldIn, pos, Direction.UP, this) && worldIn.isEmptyBlock(pos.above()))
+            .canSustainPlant(state, worldIn, pos, Direction.UP, this) && worldIn.isEmptyBlock(pos.above()))
         {
             worldIn.setBlockAndUpdate(pos.above(), BerryManager.getCrop(this).defaultBlockState());
             stack.split(1);
+            return ActionResultType.SUCCESS;
         }
-        return ActionResultType.SUCCESS;
+        return ActionResultType.FAIL;
     }
 }

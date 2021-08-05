@@ -1,6 +1,7 @@
 package pokecube.core.handlers;
 
 import static net.minecraft.item.AxeItem.STRIPABLES;
+import static net.minecraft.item.Item.byBlock;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,6 +79,7 @@ public class ItemGenerator
     public static Map<String, Block> buttons         = Maps.newHashMap();
     public static Map<String, Block> trapdoors       = Maps.newHashMap();
     public static Map<String, Block> doors           = Maps.newHashMap();
+    public static Map<Item, Block> potted_berries  = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
@@ -122,9 +124,11 @@ public class ItemGenerator
             BerryManager.berryFruits.put(index, block);
             registry.register(block);
 
-            block = new GenericPottedPlant(berryFruits,
+            block = new GenericPottedPlant(BerryManager.berryFruits.get(index),
                     AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion());
-            block.setRegistryName(PokecubeCore.MODID, "potted_" + name + "berry");
+            block.setRegistryName(PokecubeCore.MODID, "potted_" + name + "_berry");
+            BerryManager.pottedBerries.put(index, block);
+            registry.register(block);
         }
 
         // Make the logs and planks.
@@ -504,7 +508,6 @@ public class ItemGenerator
 
     public static void registerBlocks(final IForgeRegistry<Block> registry)
     {
-
         // Initialize the nullberry
         new BerryType("null", null, 0, 0, 0, 0, 0, 0);
         // Fire event so that others can initialize their berries.
