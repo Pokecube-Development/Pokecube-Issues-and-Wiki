@@ -1,7 +1,7 @@
 {
    "parent": "block/cross",
    "textures": {
-	"cross": "pokecube_legends:blocks/ultra_sapling01",
-    "particle": "pokecube_legends:blocks/ultra_sapling01"
+	"cross": "pokecube_legends:blocks/inverted_sapling",
+    "particle": "pokecube_legends:blocks/inverted_sapling"
    }
 }
