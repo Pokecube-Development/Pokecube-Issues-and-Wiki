@@ -16,12 +16,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -140,7 +143,8 @@ public class ItemGenerator
 
             // Leaves
             Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, berryLeaves.get(name)).strength(0.2F)
-                    .randomTicks().noOcclusion().sound(SoundType.GRASS), index);
+                .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
+                .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
@@ -492,6 +496,11 @@ public class ItemGenerator
                 flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
             }
         });
+    }
+
+
+    public static Boolean ocelotOrParrot(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
+        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 
     public static void postInitItems()
