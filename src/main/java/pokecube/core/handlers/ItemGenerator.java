@@ -243,7 +243,8 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
             // Leaves
             final Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, onlyBerryLeaves.get(name)).strength(0.2F)
-                    .randomTicks().noOcclusion().sound(SoundType.GRASS), index);
+                .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
+                .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
