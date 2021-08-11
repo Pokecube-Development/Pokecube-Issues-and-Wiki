@@ -318,7 +318,7 @@ public class PokecubeMobs
         ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.COLOR_RED);
         ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.COLOR_PINK);
         ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.PLANT);
-        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.COLOR_PURPLE);
+        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.TERRACOTTA_PURPLE);
         ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.COLOR_RED);
         ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
 
