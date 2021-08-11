@@ -82,7 +82,7 @@ public class ItemGenerator
     public static Map<String, Block> buttons         = Maps.newHashMap();
     public static Map<String, Block> trapdoors       = Maps.newHashMap();
     public static Map<String, Block> doors           = Maps.newHashMap();
-    public static Map<Item, Block> potted_berries  = Maps.newHashMap();
+    public static Map<Item, Block>   potted_berries  = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
