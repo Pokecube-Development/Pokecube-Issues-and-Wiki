@@ -105,8 +105,8 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             living.baseTick();
             living.inChunk = false;
 
-            final float eye = living.getEyeHeight(holder.getPose());
-            if (eye != holder.getEyeHeight(holder.getPose())) holder.refreshDimensions();
+            final float eye = living.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()));
+            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder.refreshDimensions();
 
             living.setItemInHand(Hand.MAIN_HAND, holder.getItemInHand(Hand.MAIN_HAND));
             living.setItemInHand(Hand.OFF_HAND, holder.getItemInHand(Hand.OFF_HAND));

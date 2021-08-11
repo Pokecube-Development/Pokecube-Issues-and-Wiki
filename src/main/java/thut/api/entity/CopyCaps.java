@@ -124,7 +124,7 @@ public class CopyCaps
         final EntitySize dims = copied.getDimensions(pose);
         final float height = dims.height;
         final float width = dims.width;
-        final float eye = copied.getEyeHeight(pose);
+        final float eye = copied.getEyeHeight(pose, dims);
         event.setNewEyeHeight(eye);
         event.setNewSize(EntitySize.fixed(width, height));
     }
