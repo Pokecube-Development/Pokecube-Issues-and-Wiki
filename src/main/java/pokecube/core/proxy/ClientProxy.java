@@ -1,16 +1,9 @@
 package pokecube.core.proxy;
 
-import java.io.File;
-import java.util.Map;
-import java.util.UUID;
-
-import org.apache.commons.io.FilenameUtils;
-
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -28,13 +21,18 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import org.apache.commons.io.FilenameUtils;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
+
+import java.io.File;
+import java.util.Map;
+import java.util.UUID;
 
 public class ClientProxy extends CommonProxy
 {
@@ -46,23 +44,27 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void colourBlocks(final ColorHandlerEvent.Block event)
     {
-        final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
+        final Block pechaLeaves = BerryManager.berryLeaves.get(3);
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+//      System.out.println(pechaLeaves);
+//      System.out.println(qualotLeaves);
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColors.getDefaultColor();
-        }, leaves);
+        }, pechaLeaves, qualotLeaves);
     }
 
     @SubscribeEvent
     public void colourItems(final ColorHandlerEvent.Item event)
     {
-        final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
+        final Block pechaLeaves = BerryManager.berryLeaves.get(3);
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
         event.getItemColors().register((stack, tintIndex) ->
         {
             final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, leaves);
+        }, pechaLeaves, qualotLeaves);
 
         event.getItemColors().register((stack, tintIndex) ->
         {

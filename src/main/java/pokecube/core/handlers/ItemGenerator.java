@@ -147,6 +147,7 @@ public class ItemGenerator
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
+            BerryManager.berryLeaves.put(index, block);
             registry.register(block);
 
             // Logs
@@ -247,6 +248,7 @@ public class ItemGenerator
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
+            BerryManager.berryLeaves.put(index, block);
             registry.register(block);
         }
     }
