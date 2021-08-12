@@ -58,6 +58,9 @@
 	"pokecube.thutmose.named": "Dev. Thutmose",
 	
     // "Pokecubes"
+    "item.pokecube.dynacube": "Dynamax cube",
+    "item.pokecube.dynacube.desc": "§7A modified pokécube which is used to capture pokemobs from [§6RAIDS§6]",
+    
     "item.pokecube.beastcube": "Beastcube",
     "item.pokecube.beastcube.desc": "§7A modified pokécube that increases the \n§7chance of capture in other dimensions.",
     
@@ -76,7 +79,10 @@
     "item.pokecube.rocketcube": "Rocketcube",
     "item.pokecube.rocketcube.desc": "§7A modified pokécube used by Team Rocket.",
 
-
+	// Raid Alerts
+	"raid.nocube.info": "§l§cYou cannot capture Raid pokemobs with simple pokécubes!",
+	"raid.lifelevel.info": "§l§cIt's too strong to stay in the pokécube!",
+	
     // Alert Pokemon Legendary Capture"
 	"msg.infolegend.info": "§aCapture [%1$s§a] Type Pokémobs so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokémobs, and Kill [%2$s§a] Type Pokémobs. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aKilled: %6$s.",

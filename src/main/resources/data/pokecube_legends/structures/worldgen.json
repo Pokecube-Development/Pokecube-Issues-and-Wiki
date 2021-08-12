@@ -595,7 +595,14 @@
       "rigid":true,
       "ignoreAir":false,
       "options":[
-        "pokecube_legends:temples/surface/hooh_tower"
+        "pokecube_legends:temples/surface/hooh_temple_base"
+      ]
+    },
+	{
+      "name":"pokecube_legends:temples/surface/hooh_temple_top",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/surface/hooh_temple_top"
       ]
     },
     {
@@ -1135,7 +1142,7 @@
       "biomeType":"ruin",
       "distance":84,
       "separation":32,
-      "base_under":false,
+      "base_under":true,
       "spawn":{
         "values":{
           "category":"ocean"

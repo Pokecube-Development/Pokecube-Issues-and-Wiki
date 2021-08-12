@@ -49,6 +49,7 @@ import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
+import pokecube.legends.client.render.resources.RaidCapture;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.handlers.ItemHelperEffect;
@@ -91,7 +92,9 @@ public class PokecubeLegends
     public static final DeferredRegister<IRecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
     		Reference.ID);
 
+    /**Packs Textures,Tags,etc...*/
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
+    //
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -154,6 +157,9 @@ public class PokecubeLegends
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
+        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::CatchPokeobRaid);
+        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
+        
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::loadComplete);
@@ -234,6 +240,14 @@ public class PokecubeLegends
     {
         final PokecubeDim helper = new PokecubeDim();
 
+        event.behaviors.add(new DefaultPokecubeBehavior()
+        {
+        	@Override
+        	public double getCaptureModifier(final IPokemob mob)
+            {
+                return helper.dyna(mob);
+            }
+        }.setRegistryName(Reference.ID, "dyna"));
         event.behaviors.add(new DefaultPokecubeBehavior()
         {
             @Override

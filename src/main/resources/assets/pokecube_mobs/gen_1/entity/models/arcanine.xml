@@ -5,7 +5,7 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="arcanine">
    <part name="Head" tex="arcanineeye"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

@@ -18,6 +18,13 @@ public class PokecubeDim
         return x;
     }
 
+    // Dynamax/Gigantamax
+    public double dyna(final IPokemob mob)
+    {
+        final double x = 3;
+        return x;
+    }
+    
     // Teams
     public double teamR(final IPokemob mob)
     {
