@@ -52,18 +52,18 @@ public class StatsHandler
 
     private static void canCapture(final CaptureEvent.Pre evt)
     {
-        final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
+        final ResourceLocation id = PokecubeItems.getCubeId(evt.getFilledCube());
         if (IPokecube.BEHAVIORS.containsKey(id))
         {
             final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(id);
             cube.onPreCapture(evt);
         }
-        if (evt.caught == null) return;
-        final PokedexEntry entry = evt.caught.getPokedexEntry();
-        if (evt.caught.getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
-        if (evt.caught.getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(Result.DENY);
+        if (evt.getCaught() == null) return;
+        final PokedexEntry entry = evt.getCaught().getPokedexEntry();
+        if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
+        if (evt.getCaught().getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(Result.DENY);
         final Entity catcher = ((EntityPokecube) evt.pokecube).shootingEntity;
-        if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.caught))
+        if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
             if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
@@ -101,7 +101,7 @@ public class StatsHandler
             final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
             try
             {
-                deny = !condition.canCapture(catcher, evt.caught);
+                deny = !condition.canCapture(catcher, evt.getCaught());
             }
             catch (final Exception e)
             {
@@ -113,7 +113,7 @@ public class StatsHandler
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.NIL_UUID);
-                condition.onCaptureFail(catcher, evt.caught);
+                condition.onCaptureFail(catcher, evt.getCaught());
                 evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
                 evt.pokecube.remove();
                 return;
@@ -123,14 +123,14 @@ public class StatsHandler
 
     private static void recordCapture(final CaptureEvent.Post evt)
     {
-        final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
+        final ResourceLocation id = PokecubeItems.getCubeId(evt.getFilledCube());
         if (IPokecube.BEHAVIORS.containsKey(id))
         {
             final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(id);
             cube.onPostCapture(evt);
         }
-        if (evt.caught == null || evt.isCanceled() || evt.caught.isShadow()) return;
-        StatsCollector.addCapture(evt.caught);
+        if (evt.getCaught() == null || evt.isCanceled() || evt.getCaught().isShadow()) return;
+        StatsCollector.addCapture(evt.getCaught());
     }
 
     private static void recordEvolve(final EvolveEvent.Post evt)
