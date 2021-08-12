@@ -8,6 +8,8 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -16,15 +18,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.items.tools.ToolSword;
 
-public class LegendsSword extends ToolSword
+public class LegendsSword extends SwordItem
 {
 	String  tooltipname;
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
 
-    public LegendsSword(final IItemTier material, final int attackSpeed, final int bonusDamage, final ItemGroup group)
+    public LegendsSword(final IItemTier material, final int bonusDamage, final float attackSpeed, final Properties properties, final ItemGroup group)
     {
-        super(attackSpeed, bonusDamage, material, group);
+        super(material, bonusDamage, attackSpeed, properties.tab(group));
     }
 
     public LegendsSword setTooltipName(final String tooltipname)
