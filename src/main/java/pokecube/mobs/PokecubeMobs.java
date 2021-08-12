@@ -572,7 +572,7 @@ public class PokecubeMobs
             @Override
             public void onPostCapture(final Post evt)
             {
-                final IPokemob mob = evt.caught;
+                final IPokemob mob = evt.getCaught();
                 mob.addHappiness(200 - mob.getHappiness());
             }
         }.setRegistryName("pokecube", "friend"));
@@ -614,7 +614,7 @@ public class PokecubeMobs
             @Override
             public void onPostCapture(final Post evt)
             {
-                final IPokemob mob = evt.caught;
+                final IPokemob mob = evt.getCaught();
                 mob.getEntity().setHealth(mob.getEntity().getMaxHealth());
                 mob.healStatus();
             }
@@ -634,7 +634,7 @@ public class PokecubeMobs
             @Override
             public void onPostCapture(final Post evt)
             {
-                final IPokemob mob = evt.caught;
+                final IPokemob mob = evt.getCaught();
                 if (mob != null) evt.pokecube.spawnAtLocation(PokecubeManager.pokemobToItem(mob), 1.0F);
                 evt.setCanceled(true);
             }
@@ -643,22 +643,22 @@ public class PokecubeMobs
             public void onPreCapture(final Pre evt)
             {
                 // The below processing is for pokemobs only
-                if (evt.caught == null) return;
+                if (evt.getCaught() == null) return;
 
-                final boolean tameSnag = !evt.caught.isPlayerOwned() && evt.caught.getGeneralState(GeneralStates.TAMED);
+                final boolean tameSnag = !evt.getCaught().isPlayerOwned() && evt.getCaught().getGeneralState(GeneralStates.TAMED);
 
-                if (evt.caught.isShadow())
+                if (evt.getCaught().isShadow())
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
-                    final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
+                    final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
                             .getPokedexEntry(), cube.getCommandSenderWorld()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
-                    if (!tameSnag) evt.caught.setPokecube(evt.filledCube);
-                    cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
+                    if (!tameSnag) evt.getCaught().setPokecube(evt.getFilledCube());
+                    cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
-                    evt.caught.getEntity().remove();
+                    evt.getCaught().getEntity().remove();
                     cube.setDeltaMovement(0, 0.1, 0);
                     cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                     evt.pokecube.remove();
@@ -688,7 +688,7 @@ public class PokecubeMobs
 
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
-                final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
+                final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
                         .getPokedexEntry(), cube.getCommandSenderWorld()));
                 final Vector3 v = Vector3.getNewVector();
                 final Entity thrower = cube.shootingEntity;
@@ -697,12 +697,12 @@ public class PokecubeMobs
                 final double rate = has > 0 ? 3 : 1;
                 cube.setTilt(Tools.computeCatchRate(mob, rate));
                 cube.setTime(cube.getTilt() * 20 + 5);
-                evt.caught.setPokecube(evt.filledCube);
-                cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
+                evt.getCaught().setPokecube(evt.getFilledCube());
+                cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
-                evt.caught.getEntity().remove();
+                evt.getCaught().getEntity().remove();
                 cube.setDeltaMovement(0, 0.1, 0);
                 cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                 evt.setCanceled(true);

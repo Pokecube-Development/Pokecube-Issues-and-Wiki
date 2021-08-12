@@ -502,7 +502,7 @@ public class TrainerEventHandler
     public static void captureAttempt(final CaptureEvent.Pre event)
     {
         if (PokecubeAdv.config.canSnagTrainers) return;
-        if (TrainerCaps.getHasPokemobs(event.mob) != null && event.caught == null) event.setCanceled(true);
+        if (TrainerCaps.getHasPokemobs(event.mob) != null && event.getCaught() == null) event.setCanceled(true);
     }
 
     /**

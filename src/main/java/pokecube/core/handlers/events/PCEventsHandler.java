@@ -51,7 +51,7 @@ public class PCEventsHandler
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onSendToPC);
         // This sends the pokecube to PC if the player captures on without
         // enough free inventory space. Otherwise it adds it to their inventory.
-        PokecubeCore.POKEMOB_BUS.addListener(PCEventsHandler::onCapturePost);
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, false, PCEventsHandler::onCapturePost);
 
         // This handler deals with changing the name of the PC from "Someone's
         // PC" to "Thutmose's PC" when the owner logs in. This is in reference
@@ -222,14 +222,14 @@ public class PCEventsHandler
     private static void onCapturePost(final CaptureEvent.Post evt)
     {
         // Case for things like snag cubes
-        if (evt.caught == null)
+        if (evt.getCaught() == null)
         {
-            evt.pokecube.spawnAtLocation(evt.filledCube, 0.5f);
+            evt.pokecube.spawnAtLocation(evt.getFilledCube(), 0.5f);
             return;
         }
-        final Entity catcher = evt.caught.getOwner();
-        if (evt.caught.isShadow()) return;
-        if (catcher instanceof ServerPlayerEntity && PokecubeManager.isFilled(evt.filledCube))
+        final Entity catcher = evt.getCaught().getOwner();
+        if (evt.getCaught().isShadow()) return;
+        if (catcher instanceof ServerPlayerEntity && PokecubeManager.isFilled(evt.getFilledCube()))
         {
             final PlayerEntity player = (PlayerEntity) catcher;
             if (player instanceof FakePlayer) return;
@@ -237,28 +237,28 @@ public class PCEventsHandler
             evt.setCanceled(true);
 
             final PlayerInventory inv = player.inventory;
-            final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.filledCube));
+            final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.getFilledCube()));
             final PCInventory pc = PCInventory.getPC(id);
             final int num = inv.getFreeSlot();
-            if (evt.filledCube == null || pc == null) System.err.println("Cube is null");
+            if (evt.getFilledCube() == null || pc == null) System.err.println("Cube is null");
             else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0) PCInventory
-                    .addPokecubeToPC(evt.filledCube, catcher.getCommandSenderWorld());
+                    .addPokecubeToPC(evt.getFilledCube(), catcher.getCommandSenderWorld());
             else
             {
-                player.inventory.add(evt.filledCube);
+                player.inventory.add(evt.getFilledCube());
                 if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).refreshContainer(
                         player.inventoryMenu, player.inventoryMenu.getItems());
             }
 
             // Apply the same code that StatsHandler does, as it does not
             // get the cancelled event.
-            final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
+            final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.getFilledCube());
             if (IPokecube.BEHAVIORS.containsKey(cube_id))
             {
                 final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
                 cube.onPostCapture(evt);
             }
-            StatsCollector.addCapture(evt.caught);
+            StatsCollector.addCapture(evt.getCaught());
         }
     }
 
