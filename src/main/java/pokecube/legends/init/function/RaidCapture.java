@@ -1,6 +1,4 @@
-package pokecube.legends.client.render.resources;
-
-import java.util.Random;
+package pokecube.legends.init.function;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -14,7 +12,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class RaidCapture 
 {
-	public static void CatchPokeobRaid(final CaptureEvent.Pre event)
+	public static void CatchPokemobRaid(final CaptureEvent.Pre event)
     {
 		final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
 
@@ -49,22 +47,20 @@ public class RaidCapture
 		final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
             
 		//Catch Raids
-        if(event.pokecube.getPersistentData().getBoolean("pokecube_legends:raid_mob") == true) {
-        	if(id.toString().equals("pokecube_legends:dyna")) 
-        	{
-        		IPokemob pokemob = event.getCaught();
-        		pokemob.setPokecube(PokecubeItems.getStack("pokecube:poke"));
-        		
-        		//Pokemob Level Spawm
-                int level = pokemob.getLevel();
+    	if(id.toString().equals("pokecube_legends:dyna")) 
+    	{
+    		IPokemob pokemob = event.getCaught();
+    		pokemob.setPokecube(PokecubeItems.getStack("pokecube"));
+    		
+    		//Pokemob Level Spawm
+            int level = pokemob.getLevel();
 
-                if(level <= 10 || level >= 40) {
-                	level = 20;
-                	pokemob.setForSpawn(level, false);
-                }
-                
-        		event.setFilledCube(PokecubeManager.pokemobToItem(pokemob), true);
-        	}
-        }
+            if(level <= 10 || level >= 40) {
+            	level = 20;
+            	pokemob.setForSpawn(level, false);
+            }
+            
+    		event.setFilledCube(PokecubeManager.pokemobToItem(pokemob), true);
+    	}
 	}
 }

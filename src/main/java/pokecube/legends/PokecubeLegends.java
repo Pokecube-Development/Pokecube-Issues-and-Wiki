@@ -49,7 +49,6 @@ import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
-import pokecube.legends.client.render.resources.RaidCapture;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.handlers.ItemHelperEffect;
@@ -60,6 +59,7 @@ import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
+import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
@@ -157,7 +157,7 @@ public class PokecubeLegends
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::CatchPokeobRaid);
+        PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
         PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
         
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
