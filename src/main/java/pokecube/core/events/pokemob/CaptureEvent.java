@@ -45,32 +45,46 @@ public class CaptureEvent extends Event
 
     }
 
-    public final ItemStack filledCube;
+    private ItemStack filledCube = ItemStack.EMPTY;
 
     public final Entity pokecube;
 
-    public final IPokemob caught;
+    private IPokemob caught;
 
     protected CaptureEvent(final EntityPokecubeBase pokecube)
     {
         this.pokecube = pokecube;
-        if (pokecube != null)
-        {
-            this.filledCube = pokecube.getItem();
-            this.caught = PokecubeManager.itemToPokemob(pokecube.getItem(), pokecube.getCommandSenderWorld());
-        }
-        else
-        {
-            this.filledCube = null;
-            this.caught = null;
-        }
+        if (pokecube != null) this.setFilledCube(pokecube.getItem(), true);
+        else this.setFilledCube(ItemStack.EMPTY, true);
     }
 
     protected CaptureEvent(final IPokemob hit, final EntityPokecubeBase pokecube)
     {
         this.pokecube = pokecube;
-        this.caught = hit;
-        this.filledCube = pokecube.getItem();
+        this.setCaught(hit);
+        this.setFilledCube(pokecube.getItem(), false);
+    }
+
+    public ItemStack getFilledCube()
+    {
+        return this.filledCube;
+    }
+
+    public void setFilledCube(final ItemStack filledCube, final boolean replaceMob)
+    {
+        this.filledCube = filledCube;
+        if (replaceMob) this.setCaught(PokecubeManager.itemToPokemob(filledCube, this.pokecube
+                .getCommandSenderWorld()));
+    }
+
+    public IPokemob getCaught()
+    {
+        return this.caught;
+    }
+
+    public void setCaught(final IPokemob caught)
+    {
+        this.caught = caught;
     }
 
 }
