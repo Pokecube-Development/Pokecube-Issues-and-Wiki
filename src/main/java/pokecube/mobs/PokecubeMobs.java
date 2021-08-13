@@ -308,9 +308,9 @@ public class PokecubeMobs
         ItemGenerator.berryWoods.put("enigma", MaterialColor.COLOR_BLACK);
         ItemGenerator.berryWoods.put("nanab", MaterialColor.TERRACOTTA_BROWN);
 
-        ItemGenerator.berryLeaves.put("pecha", MaterialColor.PLANT);
-        ItemGenerator.berryLeaves.put("oran", MaterialColor.TERRACOTTA_PINK);
-        ItemGenerator.berryLeaves.put("leppa", MaterialColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryLeaves.put("pecha", MaterialColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("oran", MaterialColor.COLOR_ORANGE);
+        ItemGenerator.berryLeaves.put("leppa", MaterialColor.TERRACOTTA_PINK);
         ItemGenerator.berryLeaves.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
         ItemGenerator.berryLeaves.put("enigma", MaterialColor.TERRACOTTA_WHITE);
         ItemGenerator.berryLeaves.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
