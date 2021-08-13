@@ -44,7 +44,6 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void colourBlocks(final ColorHandlerEvent.Block event)
     {
-        final Block pechaLeaves = BerryManager.berryLeaves.get(3);
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
 //      System.out.println(pechaLeaves);
 //      System.out.println(qualotLeaves);
@@ -52,19 +51,18 @@ public class ClientProxy extends CommonProxy
         {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColors.getDefaultColor();
-        }, pechaLeaves, qualotLeaves);
+        }, qualotLeaves);
     }
 
     @SubscribeEvent
     public void colourItems(final ColorHandlerEvent.Item event)
     {
-        final Block pechaLeaves = BerryManager.berryLeaves.get(3);
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
         event.getItemColors().register((stack, tintIndex) ->
         {
             final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, pechaLeaves, qualotLeaves);
+        }, qualotLeaves);
 
         event.getItemColors().register((stack, tintIndex) ->
         {
