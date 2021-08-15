@@ -5,9 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -21,6 +23,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class CrystallizedCactus extends Block implements IWaterLoggable
 {  
@@ -49,6 +53,11 @@ public class CrystallizedCactus extends Block implements IWaterLoggable
 
 	public boolean isPathfindable(BlockState state, IBlockReader worldIn, BlockPos pos, PathType path) {
 		return false;
+	}
+
+	public PathNodeType getAIPathNodeType(BlockState state, IBlockReader worldIn, BlockPos pos, @Nullable MobEntity entity)
+	{
+		return PathNodeType.DANGER_CACTUS;
 	}
 
 	@Override

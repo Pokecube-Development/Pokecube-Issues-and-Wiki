@@ -6,9 +6,11 @@ import net.minecraft.block.DeadBushBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -23,6 +25,8 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 {
@@ -54,8 +58,14 @@ public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 	}
 
 	@Override
-    public boolean isPathfindable(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final PathType path) {
+	public boolean isPathfindable(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final PathType path)
+	{
 		return false;
+	}
+
+	public PathNodeType getAIPathNodeType(BlockState state, IBlockReader worldIn, BlockPos pos, @Nullable MobEntity entity)
+	{
+		return PathNodeType.DAMAGE_OTHER;
 	}
 
 	@Override
