@@ -55,9 +55,11 @@ public class CrystallizedCactus extends Block implements IWaterLoggable
 		return false;
 	}
 
-	public PathNodeType getAIPathNodeType(BlockState state, IBlockReader worldIn, BlockPos pos, @Nullable MobEntity entity)
+	@Nullable
+	@Override
+	public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
 	{
-		return PathNodeType.DANGER_CACTUS;
+		return PathNodeType.DAMAGE_CACTUS;
 	}
 
 	@Override

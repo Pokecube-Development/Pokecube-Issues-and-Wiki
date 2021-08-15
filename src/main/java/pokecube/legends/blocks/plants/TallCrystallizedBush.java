@@ -55,7 +55,9 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 		}
 	}
 
-	public PathNodeType getAIPathNodeType(BlockState state, IBlockReader worldIn, BlockPos pos, @Nullable MobEntity entity)
+	@Nullable
+	@Override
+	public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
 	{
 		return PathNodeType.DAMAGE_OTHER;
 	}
