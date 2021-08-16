@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate",
   "textures": {
-    "texture": "pokecube:block/plank_sitrus"
+    "texture": "pokecube:block/sitrus_planks"
   }
 }

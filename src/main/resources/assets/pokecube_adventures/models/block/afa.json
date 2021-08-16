@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "pokecube_adventures:blocks/afa_top",
-        "side": "pokecube_adventures:blocks/afa"
+        "end": "pokecube_adventures:blocks/ability_field_amplifier_top",
+        "side": "pokecube_adventures:blocks/ability_field_amplifier"
     }
 }

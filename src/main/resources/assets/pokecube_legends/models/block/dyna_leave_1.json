@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/dyna_leaves_1",
-    "up": "pokecube_legends:blocks/dyna_leaves_1",
-    "north": "pokecube_legends:blocks/dyna_leaves_1",
-    "east": "pokecube_legends:blocks/dyna_leaves_1",
-    "south": "pokecube_legends:blocks/dyna_leaves_1",
-    "west": "pokecube_legends:blocks/dyna_leaves_1",
-    "particle": "pokecube_legends:blocks/dyna_leaves_1"
+	"all": "pokecube_legends:blocks/dyna_leaves_pink"
    }
 }

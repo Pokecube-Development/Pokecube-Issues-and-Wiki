@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_oran",
-		"oran": "pokecube:block/fruit_oran"
+		"particle": "pokecube:block/oran_fruit",
+		"oran": "pokecube:block/oran_fruit"
 	},
 	"elements": [
 		{

@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube:block/plank_enigma",
-    "top": "pokecube:block/plank_enigma",
-    "side": "pokecube:block/plank_enigma"
+    "bottom": "pokecube:block/enigma_planks",
+    "top": "pokecube:block/enigma_planks",
+    "side": "pokecube:block/enigma_planks"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate",
   "textures": {
-    "texture": "pokecube:block/plank_leppa"
+    "texture": "pokecube:block/leppa_planks"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_pressed",
   "textures": {
-    "texture": "pokecube_legends:blocks/ultra_plank03"
+    "texture": "pokecube_legends:blocks/aged_planks"
   }
 }

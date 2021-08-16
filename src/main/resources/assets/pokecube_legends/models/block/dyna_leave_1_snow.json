@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "pokecube_legends:blocks/dyna_leaves_1",
+    "bottom": "pokecube_legends:blocks/dyna_leaves_pink",
     "top": "minecraft:block/snow",
-    "side": "pokecube_legends:blocks/dyna_leaves_1_snow",
-    "particle": "pokecube_legends:blocks/dyna_leaves_1_snow"
+    "side": "pokecube_legends:blocks/dyna_leaves_pink_snow",
+    "particle": "pokecube_legends:blocks/dyna_leaves_pink_snow"
   }
 }

@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_nanab",
-		"nanab": "pokecube:block/fruit_nanab"
+		"particle": "pokecube:block/nanab_fruit",
+		"nanab": "pokecube:block/nanab_fruit"
 	},
 	"elements": [
 		{

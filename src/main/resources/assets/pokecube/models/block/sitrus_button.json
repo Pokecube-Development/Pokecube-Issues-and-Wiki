@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button",
   "textures": {
-    "texture": "pokecube:block/plank_sitrus"
+    "texture": "pokecube:block/sitrus_planks"
   }
 }

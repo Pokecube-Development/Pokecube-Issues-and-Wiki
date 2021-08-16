@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_up",
   "textures": {
-    "texture": "pokecube:block/plank_oran"
+    "texture": "pokecube:block/oran_planks"
   }
 }

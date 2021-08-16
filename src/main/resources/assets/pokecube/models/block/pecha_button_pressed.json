@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_pressed",
   "textures": {
-    "texture": "pokecube:block/plank_pecha"
+    "texture": "pokecube:block/pecha_planks"
   }
 }
