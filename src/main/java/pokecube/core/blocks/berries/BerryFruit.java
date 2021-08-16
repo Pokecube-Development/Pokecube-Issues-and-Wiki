@@ -103,7 +103,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape ROWAP_BERRY = VoxelShapes.or(
-      Block.box(3, 0, 3, 13, 7, 13))
+      Block.box(0, 0, 0, 16, 7, 16))
       .optimize();
 
     public final Integer index;
