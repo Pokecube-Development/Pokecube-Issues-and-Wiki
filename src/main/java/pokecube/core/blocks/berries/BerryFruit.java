@@ -181,6 +181,6 @@ public class BerryFruit extends BushBlock
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         if (!world.isClientSide) world.destroyBlock(pos, true);
-        return ActionResultType.CONSUME;
+        return ActionResultType.SUCCESS;
     }
 }
