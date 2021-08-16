@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:crops/aspear",
+    "#forge:crops/cheri",
+    "#forge:crops/chesto",
+    "#forge:crops/cornn",
+    "#forge:crops/enigma",
+    "#forge:crops/grepa",
+    "#forge:crops/hondew",
+    "#forge:crops/jaboca",
+    "#forge:crops/kelpsy",
+    "#forge:crops/leppa",
+    "#forge:crops/lum",
+    "#forge:crops/nanab",
+    "#forge:crops/null",
+    "#forge:crops/oran",
+    "#forge:crops/pecha",
+    "#forge:crops/persim",
+    "#forge:crops/pinap",
+    "#forge:crops/pomeg",
+    "#forge:crops/qualot",
+    "#forge:crops/rawst",
+    "#forge:crops/rowap",
+    "#forge:crops/sitrus",
+    "#forge:crops/tamato"
+  ]
+}
