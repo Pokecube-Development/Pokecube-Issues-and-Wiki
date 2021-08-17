@@ -20,37 +20,14 @@ import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.EffectBlockBase;
 import pokecube.legends.blocks.FaceBlock_Base;
 import pokecube.legends.blocks.SaplingBase;
-import pokecube.legends.blocks.customblocks.CramomaticBlock;
-import pokecube.legends.blocks.customblocks.HeatranBlock;
-import pokecube.legends.blocks.customblocks.KeldeoBlock;
-import pokecube.legends.blocks.customblocks.MagearnaBlock;
-import pokecube.legends.blocks.customblocks.NatureCoreBlock;
-import pokecube.legends.blocks.customblocks.PortalWarp;
-import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
-import pokecube.legends.blocks.customblocks.TimeSpaceCoreBlock;
-import pokecube.legends.blocks.customblocks.TaoTrioBlock;
-import pokecube.legends.blocks.customblocks.TapuBuluCore;
-import pokecube.legends.blocks.customblocks.TapuFiniCore;
-import pokecube.legends.blocks.customblocks.TapuKokoCore;
-import pokecube.legends.blocks.customblocks.TapuLeleCore;
-import pokecube.legends.blocks.customblocks.TroughBlock;
-import pokecube.legends.blocks.customblocks.VictiniBlock;
-import pokecube.legends.blocks.customblocks.XerneasCore;
-import pokecube.legends.blocks.customblocks.YveltalEgg;
+import pokecube.legends.blocks.customblocks.*;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
 import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
 import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
-import pokecube.legends.blocks.normalblocks.*;
 import pokecube.legends.blocks.normalblocks.OreBlock;
-import pokecube.legends.blocks.plants.AgedTree;
-import pokecube.legends.blocks.plants.CorruptedTree;
-import pokecube.legends.blocks.plants.DistortedVinesBlock;
-import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
-import pokecube.legends.blocks.plants.DistorticTree;
-import pokecube.legends.blocks.plants.InvertedTree;
-import pokecube.legends.blocks.plants.MirageTree;
-import pokecube.legends.blocks.plants.TemporalTree;
+import pokecube.legends.blocks.normalblocks.*;
+import pokecube.legends.blocks.plants.*;
 
 import java.util.function.ToIntFunction;
 
@@ -522,6 +499,22 @@ public class BlockInit
     
     public static final RegistryObject<Block> COSMIC_DUST_BLOCK;
 
+    public static final RegistryObject<Block> POTTED_AGED_SAPLING;
+    public static final RegistryObject<Block> POTTED_CORRUPTED_SAPLING;
+    public static final RegistryObject<Block> POTTED_DISTORTIC_SAPLING;
+    public static final RegistryObject<Block> POTTED_INVERTED_SAPLING;
+    public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
+    public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
+
+    public static final RegistryObject<Block> POTTED_COMPRECED_MUSHROOM;
+    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
+    public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
+    public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
+    public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
+    public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
+    public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
+    public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
+
     static
     {
         // Dimensions Creative Tab - Sorting depends on the order the blocks are listed in
@@ -746,7 +739,8 @@ public class BlockInit
         // Woods (LOGS/LEAVES/PLANKS)
         // Inverted Blocks
         INVERTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         INVERTED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log01", () -> Blocks.log(
                 MaterialColor.TERRACOTTA_LIGHT_BLUE, MaterialColor.TERRACOTTA_LIGHT_BLUE));
         INVERTED_WOOD = PokecubeLegends.BLOCKS_TAB.register("inverted_wood", () -> Blocks.log(
@@ -782,7 +776,8 @@ public class BlockInit
 
         // Temporal Blocks
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.WARPED_NYLIUM).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.WARPED_NYLIUM).strength(0.2f).sound(SoundType.GRASS).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         TEMPORAL_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log02", () -> Blocks.log(
                 MaterialColor.WARPED_NYLIUM, MaterialColor.COLOR_BROWN));
         TEMPORAL_WOOD = PokecubeLegends.BLOCKS_TAB.register("temporal_wood", () -> Blocks.log(
@@ -818,7 +813,8 @@ public class BlockInit
 
         // Aged Blocks
         AGED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave03", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_ORANGE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_ORANGE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         AGED_LOG = PokecubeLegends.BLOCKS_TAB.register("ultra_log03", () -> Blocks.log(
                 MaterialColor.COLOR_BROWN, MaterialColor.COLOR_BROWN));
         AGED_WOOD = PokecubeLegends.BLOCKS_TAB.register("aged_wood", () -> Blocks.log(MaterialColor.COLOR_BROWN,
@@ -854,7 +850,8 @@ public class BlockInit
 
         // Distortic Blocks
         DISTORTIC_LEAVES = PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(AbstractBlock.Properties.of(
-                Material.LEAVES, MaterialColor.COLOR_PURPLE).strength(1f, 5).sound(SoundType.GRASS).noOcclusion()));
+                Material.LEAVES, MaterialColor.COLOR_PURPLE).strength(0.2f).sound(SoundType.GRASS).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         DISTORTIC_LOG = PokecubeLegends.BLOCKS_TAB.register("distortic_log", () -> Blocks.log(
                 MaterialColor.COLOR_BLUE, MaterialColor.COLOR_BLUE));
         DISTORTIC_WOOD = PokecubeLegends.BLOCKS_TAB.register("distortic_wood", () -> Blocks.log(
@@ -926,7 +923,8 @@ public class BlockInit
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new GlassBlockBase(AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS_TAB.register("mirage_leave", () -> new MirageLeavesBlock(9032191,
-            AbstractBlock.Properties.of(Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.NYLIUM).strength(0.5f).noOcclusion()));
+            AbstractBlock.Properties.of(Material.LEAVES, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.NYLIUM).strength(0.2f).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         MIRAGE_LOG = PokecubeLegends.BLOCKS_TAB.register("mirage_log", () -> Blocks.log(
                 MaterialColor.SAND, MaterialColor.COLOR_LIGHT_BLUE));
         MIRAGE_WOOD = PokecubeLegends.BLOCKS_TAB.register("mirage_wood", () -> Blocks.log(
@@ -1450,11 +1448,14 @@ public class BlockInit
 
         // Decorative_Blocks
         DYNA_LEAVES1 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_1", () -> new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()
+            .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES2 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_2", () ->  new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()
+            .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES3 = PokecubeLegends.DECORATION_TAB.register("dyna_leave_3", () ->  new DynaLeavesBlock(AbstractBlock.Properties.of(
-            Material.LEAVES, MaterialColor.COLOR_PINK).strength(1f, 5).sound(SoundType.WET_GRASS).noDrops().noOcclusion()));
+            Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(SoundType.WET_GRASS).noDrops().noOcclusion()
+            .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         //Tapus Totems
         TOTEM_BLOCK = PokecubeLegends.DECORATION_TAB.register("totem_block", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY,
@@ -1597,6 +1598,50 @@ public class BlockInit
             .sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(2).dynamicShape()));
         FINI_BLACK   = PokecubeLegends.DECORATION_TAB.register("fini_black_totem", () -> new FiniTotem(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_BLACK).strength(5, 15)
             .sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(2).dynamicShape()));
+
+        POTTED_AGED_SAPLING = PokecubeLegends.NO_TAB.register("potted_aged_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(AGED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_corrupted_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(CORRUPTED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORTIC_SAPLING = PokecubeLegends.NO_TAB.register("potted_distortic_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(DISTORTIC_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_INVERTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_inverted_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(INVERTED_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_MIRAGE_SAPLING = PokecubeLegends.NO_TAB.register("potted_mirage_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(MIRAGE_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TEMPORAL_SAPLING = PokecubeLegends.NO_TAB.register("potted_temporal_sapling",
+            () -> new ItemGenerator.GenericPottedPlant(TEMPORAL_SAPLING.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+
+        POTTED_COMPRECED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_compreced_mushroom",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.COMPRECED_MUSHROOM.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_crystallized_bush",
+            () -> new PottedCrystallizedBush(CRYSTALLIZED_BUSH.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CRYSTALLIZED_CACTUS = PokecubeLegends.NO_TAB.register("potted_crystallized_cactus",
+            () -> new PottedCrystallizedCactus(CRYSTALLIZED_CACTUS.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
+            () -> new ItemGenerator.GenericPottedPlant(DISTORTIC_VINES.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
+            () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
+            () -> new PottedCrystallizedBush(TALL_CRYSTALLIZED_BUSH.get(),
+                AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(int i) {
@@ -1673,10 +1718,10 @@ public class BlockInit
         compostableBlocks(0.3f, BlockInit.DISTORTIC_LEAVES);
         compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
-        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT1);
-        compostableBlocks(0.65f, PlantsInit.MUSH_PLANT2);
-        compostableBlocks(0.65f, PlantsInit.AGED_FLOWER);
-        compostableBlocks(0.65f, PlantsInit.DIRST_FLOWER);
+        compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
+        compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
+        compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
+        compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
     }
     
     public static void flammableBlocks(Block block, int speed, int flammability) {
@@ -1765,9 +1810,9 @@ public class BlockInit
         flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
 
         //Plants
-        flammableBlocks(PlantsInit.AGED_FLOWER.get(), 60, 100);
-        flammableBlocks(PlantsInit.DIRST_FLOWER.get(), 60, 100);
-        flammableBlocks(PlantsInit.MUSH_PLANT1.get(), 60, 100);
-        flammableBlocks(PlantsInit.MUSH_PLANT2.get(), 60, 100);
+        flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
+        flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
+        flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
+        flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
     }
 }

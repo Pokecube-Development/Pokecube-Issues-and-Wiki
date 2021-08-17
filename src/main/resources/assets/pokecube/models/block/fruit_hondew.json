@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_hondew",
-		"hondew": "pokecube:block/fruit_hondew"
+		"particle": "pokecube:block/hondew_fruit",
+		"hondew": "pokecube:block/hondew_fruit"
 	},
 	"elements": [
 		{

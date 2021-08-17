@@ -1,14 +1,7 @@
 package pokecube.legends.init;
 
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemModelsProperties;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.WallOrFloorItem;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
@@ -17,6 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.PokecubeItems;
+import pokecube.core.handlers.ItemTiers;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
@@ -304,27 +298,27 @@ public class ItemInit
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1,PokecubeItems.POKECUBEITEMS));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
-        RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(ItemInit.MATERIAL_RAINBOW,
-        		5, 1, PokecubeItems.POKECUBEITEMS));
+        RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(ItemTiers.RAINBOW_WING,
+        		2, -2.4F, PokecubeItems.POKECUBEITEMS));
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeLegends.LEGEND_TAB));
         SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeLegends.LEGEND_TAB));
         IMPRISIONMENT_HELMET   = PokecubeLegends.ITEMS.register("imprisonment_helmet", () -> new ItemBase("imprisonment_helmet", 1,PokecubeLegends.LEGEND_TAB));
         
         // Swords
-        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 
-        		1, 1, PokecubeLegends.LEGEND_TAB).setTooltipName("keldeo_sword").setShiny());
+        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("keldeo_sword").setShiny());
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-        		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("terrakion_sword"));
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("terrakion_sword"));
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-        		1, 3, PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
+            3, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-        		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
-        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-        		2, 2, PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
+        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemTier.NETHERITE,
+            3, -2.4F, new Item.Properties().fireResistant(), PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
         
         //Shields
-        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem("zamazenta_shield",
-        		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB)));
+        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem(ItemTier.NETHERITE,"zamazenta_shield",
+        		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB).fireResistant()));
         
         
         // Ores
@@ -414,7 +408,7 @@ public class ItemInit
         @Override
         public Ingredient getRepairIngredient()
         {
-            return Ingredient.of(ItemInit.CRYSTAL_SHARD.get());
+            return Ingredient.of(ItemInit.SPECTRUM_SHARD.get());
         }
 
         @Override

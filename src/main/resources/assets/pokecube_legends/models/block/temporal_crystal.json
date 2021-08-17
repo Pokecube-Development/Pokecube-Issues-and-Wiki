@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/temporal_crystal",
-    "up": "pokecube_legends:blocks/temporal_crystal",
-    "north": "pokecube_legends:blocks/temporal_crystal",
-    "east": "pokecube_legends:blocks/temporal_crystal",
-    "south": "pokecube_legends:blocks/temporal_crystal",
-    "west": "pokecube_legends:blocks/temporal_crystal",
-    "particle": "pokecube_legends:blocks/temporal_crystal"
+	"all": "pokecube_legends:blocks/temporal_crystal"
    }
 }

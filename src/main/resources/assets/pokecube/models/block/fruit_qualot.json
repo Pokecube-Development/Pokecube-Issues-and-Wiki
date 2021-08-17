@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_qualot",
-		"qualot": "pokecube:block/fruit_qualot"
+		"particle": "pokecube:block/qualot_fruit",
+		"qualot": "pokecube:block/qualot_fruit"
 	},
 	"elements": [
 		{

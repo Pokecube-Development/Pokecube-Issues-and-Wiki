@@ -133,62 +133,46 @@ public class BerryHelper implements IMoveConstants
     {
         final DefaultBerryEffect effect = new DefaultBerryEffect();
         new BerryType("cheri", effect, 1, 10, 0, 0, 0, 0);// Cures
-                                                          // Paralysis
+                                                        // Paralysis
         new BerryType("chesto", effect, 2, 0, 10, 0, 0, 0);// Cures
-                                                           // sleep
+                                                        // sleep
         new BerryType("pecha", effect, 3, 0, 0, 10, 0, 0);// Cures
-                                                          // poison
+                                                        // poison
         new BerryType("rawst", effect, 4, 0, 0, 0, 10, 0);// Cures burn
         new BerryType("aspear", effect, 5, 0, 0, 0, 0, 10);// Cures
-                                                           // freeze
+                                                        // freeze
         new BerryType("leppa", effect, 6, 10, 0, 10, 10, 10);// Restores
-                                                             // 10PP
+                                                        // 10PP
         new BerryType("oran", effect, 7, 10, 10, 10, 10, 10);// Restores
-                                                             // 10HP
+                                                        // 10HP
         new BerryType("persim", effect, 8, 10, 10, 10, 0, 10);// Cures
-                                                              // confusion
+                                                        // confusion
         new BerryType("lum", effect, 9, 10, 10, 10, 10, 0);// Cures any
-                                                           // status
-                                                           // ailment
+                                                        // status ailment
         new BerryType("sitrus", effect, 10, 0, 10, 10, 10, 10);// Restores
-                                                               // 1/4 HP
+                                                        // 1/4 HP
         new BerryType("nanab", effect, 18, 0, 0, 10, 10, 0);// Pokeblock
-                                                            // ingredient
+                                                        // ingredient
         new BerryType("pinap", effect, 20, 10, 0, 0, 0, 10);// Pokeblock
-                                                            // ingredient
+                                                        // ingredient
         new BerryType("pomeg", effect, 21, 10, 0, 10, 10, 0);// EV Berry
         new BerryType("kelpsy", effect, 22, 0, 10, 0, 10, 10);// EV
-                                                              // Berry
+                                                        // Berry
         new BerryType("qualot", effect, 23, 10, 0, 10, 0, 10);// EV
-                                                              // Berry
+                                                        // Berry
         new BerryType("hondew", effect, 24, 10, 10, 0, 10, 0);// EV
-                                                              // Berry
+                                                        // Berry
         new BerryType("grepa", effect, 25, 0, 10, 10, 0, 10);// EV Berry
         new BerryType("tamato", effect, 26, 20, 10, 0, 0, 0);// EV Berry
         new BerryType("cornn", effect, 27, 0, 20, 10, 0, 0);// Pokeblock
-                                                            // ingredient
+                                                        // ingredient
         new BerryType("enigma", effect, 60, 40, 10, 0, 0, 0);// Restores
-                                                             // 1/4 of
-                                                             // HP
+                                                        // 1/4 of HP
         new BerryType("jaboca", effect, 63, 0, 0, 0, 40, 10);// 4th gen.
-                                                             // Causes
-                                                             // recoil
-                                                             // damage
-                                                             // on foe
-                                                             // if
-                                                             // holder
-                                                             // is hit
-                                                             // by a
-                                                             // physical
-                                                             // move
+                                                        // Causes recoil damage on foe if holder
+                                                        // is hit by a physical move
         new BerryType("rowap", effect, 64, 10, 0, 0, 0, 40);// 4th gen.
-                                                            // Causes
-                                                            // recoil
-                                                            // damage on
-                                                            // foe if
-                                                            // holder is
-                                                            // hit by a
-                                                            // special
-                                                            // move
+                                                        // Causes recoil damage on foe if holder
+                                                        // is hit by a special move
     }
 }

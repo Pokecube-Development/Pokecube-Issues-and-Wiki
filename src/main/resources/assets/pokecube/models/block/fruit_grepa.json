@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_grepa",
-		"grepa": "pokecube:block/fruit_grepa"
+		"particle": "pokecube:block/grepa_fruit",
+		"grepa": "pokecube:block/grepa_fruit"
 	},
 	"elements": [
 		{

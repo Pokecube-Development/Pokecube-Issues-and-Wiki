@@ -1,0 +1,34 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/potted_cactus",
+	"ambientocclusion": false,
+	"textures": {
+		"cactus": "pokecube_legends:blocks/crystallized_cactus_side",
+		"cactus_top": "pokecube_legends:blocks/crystallized_cactus_top"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 5],
+			"to": [11, 6, 11],
+			"faces": {
+				"north": {"uv": [5, 10, 11, 16], "texture": "#flowerpot"},
+				"east": {"uv": [5, 10, 11, 16], "texture": "#flowerpot"},
+				"south": {"uv": [5, 10, 11, 16], "texture": "#flowerpot"},
+				"west": {"uv": [5, 10, 11, 16], "texture": "#flowerpot"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#flowerpot"},
+				"down": {"uv": [5, 5, 6, 11], "texture": "#flowerpot", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 5, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [6, 4, 10, 16], "texture": "#cactus"},
+				"east": {"uv": [5, 0, 9, 12], "texture": "#cactus"},
+				"south": {"uv": [6, 4, 10, 16], "texture": "#cactus"},
+				"west": {"uv": [5, 0, 9, 12], "texture": "#cactus"},
+				"up": {"uv": [4, 2, 8, 6], "texture": "#cactus_top"}
+			}
+		}
+	]
+}

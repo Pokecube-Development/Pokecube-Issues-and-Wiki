@@ -19,6 +19,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.PlantBase;
@@ -36,6 +37,11 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
+        for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
+        {
+            final Block b = reg.get();
+            if (b instanceof ItemGenerator.GenericPottedPlant) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
+        }
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
         {
             final Block b = reg.get();

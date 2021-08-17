@@ -1,5 +1,5 @@
 {
-  "parent": "block/leaves",
+  "parent": "pokecube:block/pokecube_leaves",
   "textures": {
     "all": "pokecube:block/pecha_leaves"
   }

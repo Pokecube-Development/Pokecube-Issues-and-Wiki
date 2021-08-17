@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate_open",
   "textures": {
-    "texture": "pokecube:block/plank_oran"
+    "texture": "pokecube:block/oran_planks"
   }
 }

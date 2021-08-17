@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_enigma",
-		"enigma": "pokecube:block/fruit_enigma"
+		"particle": "pokecube:block/enigma_fruit",
+		"enigma": "pokecube:block/enigma_fruit"
 	},
 	"elements": [
 		{

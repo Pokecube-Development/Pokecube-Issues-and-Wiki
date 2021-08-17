@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_pomeg",
-		"pomeg": "pokecube:block/fruit_pomeg"
+		"particle": "pokecube:block/pomeg_fruit",
+		"pomeg": "pokecube:block/pomeg_fruit"
 	},
 	"elements": [
 		{

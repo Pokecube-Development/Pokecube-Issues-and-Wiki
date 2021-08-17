@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_inventory",
   "textures": {
-    "texture": "pokecube:block/plank_pecha"
+    "texture": "pokecube:block/pecha_planks"
   }
 }

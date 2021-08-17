@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_sitrus",
-		"sitrus": "pokecube:block/fruit_sitrus"
+		"particle": "pokecube:block/sitrus_fruit",
+		"sitrus": "pokecube:block/sitrus_fruit"
 	},
 	"elements": [
 		{
