@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/button_inventory",
+  "parent": "pokecube:block/template_wall_gate_wall_open",
   "textures": {
     "texture": "pokecube_legends:blocks/concrete_dense_planks"
   }

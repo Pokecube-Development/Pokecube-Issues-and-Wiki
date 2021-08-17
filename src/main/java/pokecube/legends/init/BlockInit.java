@@ -422,6 +422,7 @@ public class BlockInit
     public static final RegistryObject<Block> CONCRETE_FENCE;
     public static final RegistryObject<Block> CONCRETE_FENCE_GATE;
     public static final RegistryObject<Block> CONCRETE_DENSE_WALL;
+    public static final RegistryObject<Block> CONCRETE_DENSE_WALL_GATE;
     public static final RegistryObject<Block> CONCRETE_TRAPDOOR;
     public static final RegistryObject<Block> CONCRETE_DOOR;
     public static final RegistryObject<Block> CONCRETE_BUTTON;
@@ -1200,51 +1201,53 @@ public class BlockInit
 
         //Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log", () -> ItemGenerator.stoneLog(
-            MaterialColor.TERRACOTTA_GRAY, MaterialColor.COLOR_GRAY));
+            MaterialColor.SNOW, MaterialColor.COLOR_GRAY));
         CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("concrete_wood", () -> ItemGenerator.stoneLog(
-            MaterialColor.COLOR_BLACK, MaterialColor.COLOR_GRAY));
+            MaterialColor.COLOR_GRAY, MaterialColor.COLOR_GRAY));
         STRIP_CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_log", () -> ItemGenerator.stoneLog(
-            MaterialColor.COLOR_GRAY, MaterialColor.COLOR_LIGHT_GRAY));
+            MaterialColor.SNOW, MaterialColor.SNOW));
         STRIP_CONCRETE_WOOD = PokecubeLegends.DECORATION_TAB.register("stripped_concrete_wood", () -> ItemGenerator.stoneLog(
-            MaterialColor.COLOR_LIGHT_GRAY, MaterialColor.COLOR_LIGHT_GRAY));
+            MaterialColor.SNOW, MaterialColor.SNOW));
         CONCRETE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_plank", () -> new Block(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_STAIRS = PokecubeLegends.DECORATION_TAB.register("concrete_stairs",() -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(),
-            AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_SLAB = PokecubeLegends.DECORATION_TAB.register("concrete_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_dense_plank", () -> new Block(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         CONCRETE_DENSE_STAIRS = PokecubeLegends.DECORATION_TAB.register("concrete_dense_stairs",() -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(),
-            AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_SLAB = PokecubeLegends.DECORATION_TAB.register("concrete_dense_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_FENCE = PokecubeLegends.DECORATION_TAB.register("concrete_fence", () -> new FenceBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_FENCE_GATE = PokecubeLegends.DECORATION_TAB.register("concrete_fence_gate", () -> new FenceGateBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(2.4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_WALL = PokecubeLegends.DECORATION_TAB.register("concrete_dense_wall", () -> new WallBlock(AbstractBlock.Properties.of(
-            Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+            Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+        CONCRETE_DENSE_WALL_GATE = PokecubeLegends.DECORATION_TAB.register("concrete_dense_wall_gate", () -> new WallGateBlock(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CONCRETE_PR_PLATE = PokecubeLegends.DECORATION_TAB.register("concrete_pressure_plate",
             () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties
-                .of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.STONE).noCollission().strength(
+                .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).noCollission().strength(
                     0.5f).requiresCorrectToolForDrops()));
         CONCRETE_BUTTON = PokecubeLegends.DECORATION_TAB.register("concrete_button",
-            () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY)
+            () -> new ItemGenerator.GenericWoodButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW)
                 .sound(SoundType.STONE).noCollission().strength(0.5f).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_PR_PLATE = PokecubeLegends.DECORATION_TAB.register("concrete_dense_pressure_plate",
             () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties
-                .of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.STONE).noCollission().strength(
+                .of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).noCollission().strength(
                     0.8f).requiresCorrectToolForDrops()));
         CONCRETE_DENSE_BUTTON = PokecubeLegends.DECORATION_TAB.register("concrete_dense_button",
-            () -> new ItemGenerator.GenericStoneButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY)
+            () -> new ItemGenerator.GenericStoneButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW)
                 .sound(SoundType.STONE).noCollission().strength(0.8f).requiresCorrectToolForDrops()));
         CONCRETE_TRAPDOOR = PokecubeLegends.DECORATION_TAB.register("concrete_trapdoor",
-            () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY)
+            () -> new ItemGenerator.GenericTrapDoor(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW)
                 .sound(SoundType.STONE).strength(2.0f, 3.0f).noOcclusion().requiresCorrectToolForDrops()));
         CONCRETE_DOOR = PokecubeLegends.DECORATION_TAB.register("concrete_door", () -> new ItemGenerator.GenericDoor(
-            AbstractBlock.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).sound(SoundType.STONE).strength(
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).strength(
                 2.0f, 3.0f).noOcclusion().requiresCorrectToolForDrops()));
 
         OCEAN_BRICK = PokecubeLegends.DECORATION_TAB.register("oceanbrick", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_CYAN,

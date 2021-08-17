@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/concrete_dense_plank",
-    "up": "pokecube_legends:blocks/concrete_dense_plank",
-    "north": "pokecube_legends:blocks/concrete_dense_plank",
-    "east": "pokecube_legends:blocks/concrete_dense_plank",
-    "south": "pokecube_legends:blocks/concrete_dense_plank",
-    "west": "pokecube_legends:blocks/concrete_dense_plank",
-    "particle": "pokecube_legends:blocks/concrete_dense_plank"
+	"all": "pokecube_legends:blocks/concrete_dense_planks"
    }
 }
