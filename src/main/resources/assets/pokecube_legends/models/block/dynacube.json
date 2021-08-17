@@ -1,0 +1,10 @@
+{
+  "parent": "pokecube:block/pokecubes",
+  "textures": {
+    "top": "pokecube_legends:items/dynacubetop",
+    "bottom": "pokecube_legends:items/dynacubebottom",
+    "front": "pokecube_legends:items/dynacubefront",
+    "back": "pokecube_legends:items/dynacubeback",
+    "side": "pokecube_legends:items/dynacubeside"
+  }
+}

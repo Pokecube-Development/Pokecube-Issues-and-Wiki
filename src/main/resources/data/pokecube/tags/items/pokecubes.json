@@ -33,6 +33,7 @@
     "pokecube:teammagmacube",
     "pokecube:timercube",
     "pokecube:typingcube",
-    "pokecube:ultracube"
+    "pokecube:ultracube",
+    "pokecube:dynacube"
   ]
 }

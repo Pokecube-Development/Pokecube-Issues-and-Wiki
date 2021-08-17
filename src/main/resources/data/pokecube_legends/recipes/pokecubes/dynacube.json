@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "pokecube:pokecubes"
+    },
+    {
+      "item": "pokecube_legends:wishing_piece"
+    }
+  ],
+  "result": {
+    "item": "pokecube:dynacube",
+    "count": 1
+  }
+}

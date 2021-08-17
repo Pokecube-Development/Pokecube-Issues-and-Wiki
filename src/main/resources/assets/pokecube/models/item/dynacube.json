@@ -1,0 +1,19 @@
+{
+  "parent": "pokecube_legends:block/dynacube",
+  "display": {
+	    "thirdperson_righthand": {
+	      	"rotation": [10,-45,170],
+	      	"translation": [0,1.5,-2.75],
+	      	"scale": [1.275,1.275,1.275]
+	    },
+	    "thirdperson_lefthand": {
+	      	"rotation": [10,-45,170],
+	      	"translation": [0,1.5,-2.75],
+	      	"scale": [1.275,1.275,1.275]
+	    },
+	    "ground": {
+	    	"translation": [0, 2.75, 0],
+			"scale": [1.5, 1.5, 1.5]
+		}
+  	}
+}

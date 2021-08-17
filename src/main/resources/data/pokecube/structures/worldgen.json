@@ -295,31 +295,6 @@
       ]
     },
     {
-      "name":"pokecube:village/badlands/tunnels/enter",
-      "rigid":true,
-      "ignoreAir":false,
-      "options":[
-        "pokecube:village/badlands/tunnels/enter"
-      ]
-    },
-    {
-      "name":"pokecube:village/badlands/tunnels/base",
-      "rigid":true,
-      "ignoreAir":false,
-      "options":[
-        "pokecube:village/badlands/tunnels/base"
-      ]
-    },
-    {
-      "name":"pokecube:village/badlands/tunnels/lines",
-      "rigid":true,
-      "ignoreAir":false,
-      "options":[
-        "pokecube:village/badlands/tunnels/lines/line_1",
-        "pokecube:village/badlands/tunnels/lines/line_2"
-      ]
-    },
-    {
       "name":"pokecube:village/badlands/decor/room_1",
       "rigid":true,
       "ignoreAir":false,
@@ -430,6 +405,66 @@
         "pokecube:village/beach/houses/shop_house_4;{\"weight\":3}",
         "pokecube:village/beach/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/beach/gym/gym_01;{\"flag\":\"gym\"}"
+      ]
+    },
+    //
+    
+    //Jungle
+    {
+      "name":"pokecube:village/jungle/town_centers",
+      "options":[
+        "pokecube:village/jungle/town_centers/center_1;{\"dy\":2}"
+      ]
+    },
+    {
+      "name":"pokecube:village/jungle/terminators",
+      "rigid":true,
+      "options":[
+        "pokecube:village/jungle/terminators/terminator_01;{\"dy\":2}"
+      ]
+    },
+    {
+      "name":"pokecube:village/jungle/streets",
+      "target":"pokecube:village/jungle/terminators",
+      "rigid":true,
+      "options":[
+        "pokecube:village/jungle/streets/crossroad_01;{\"weight\":2,\"dy\":2}",
+        "pokecube:village/jungle/streets/straight_1;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/streets/straight_2;{\"weight\":5,\"dy\":2}",
+        "pokecube:village/jungle/streets/straight_3;{\"weight\":5,\"dy\":2}"
+      ]
+    },
+    {
+      "name":"pokecube:village/jungle/pokecenter/path",
+      "rigid":true,
+      "options":[
+        "pokecube:village/jungle/pokecenter/path;{\"dy\":2}"
+      ]
+    },
+    {
+      "name":"pokecube:village/jungle/gym/path",
+      "rigid":true,
+      "options":[
+        "pokecube:village/jungle/gym/path;{\"dy\":2}"
+      ]
+    },
+    {
+      "name":"pokecube:village/jungle/houses",
+      "target":"pokecube:village/jungle/terminators",
+      "rigid":true,
+      "options":[
+        "empty;{\"weight\":1}",
+        "pokecube:village/jungle/houses/house_1;{\"weight\":2,\"dy\":2}",
+        "pokecube:village/jungle/houses/house_2;{\"weight\":2,\"dy\":2}",
+        "pokecube:village/jungle/houses/house_3;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/houses/fisher_house;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/houses/fletcher_house;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/houses/library_house;{\"weight\":2,\"dy\":2}",
+        "pokecube:village/jungle/houses/masons_house;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/houses/shepherds_house;{\"weight\":3,\"dy\":2}",
+        "pokecube:village/jungle/houses/tool_smith_house;{\"weight\":3,\"dy\":2}",     
+        "pokecube:village/jungle/pokecenter/center_01;{\"flag\":\"pokecenter\",\"dy\":2}",
+        "pokecube:village/jungle/gym/gym_01;{\"flag\":\"gym\",\"dy\":2}"
       ]
     },
     //
@@ -1232,6 +1267,7 @@
       "separation":12,
       "size":6,
       "priority":10,
+      "base_under":true,
       "biomeType":"village",
       "needed_once":[
         "pokecenter",
@@ -1282,6 +1318,35 @@
     //
     {
       "type":"pokecube:village",
+      "name":"pokecube:village/jungle",
+      "root":"pokecube:village/jungle/town_centers",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":6,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"jungle",
+          "typesBlacklist":"snowy,spooky,swamp,mesa",
+          "categoryBlacklist":"plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
+    //
+    
+    //
+    {
+      "type":"pokecube:village",
       "name":"pokecube:village/dark_forest",
       "root":"pokecube:village/dark_forest/town_centers",
       "chance":1,
@@ -1301,7 +1366,7 @@
       "spawn":{
         "values":{
           "types": "spooky",
-          "typesBlacklist":"snowy",
+          "typesBlacklist":"snowy,jungle",
           "categoryBlacklist":"desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
         }
       }
@@ -1329,7 +1394,7 @@
       "spawn":{
         "values":{
           "category": "forest",
-          "typesBlacklist":"snowy",
+          "typesBlacklist":"snowy,jungle",
           "categoryBlacklist":"desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
         }
       }

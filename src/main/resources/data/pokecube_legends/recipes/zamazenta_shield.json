@@ -3,7 +3,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "pokecube_legends:rustedsword"
+      "item": "pokecube_legends:rustedshield"
     },
     {
       "item": "minecraft:shield"
