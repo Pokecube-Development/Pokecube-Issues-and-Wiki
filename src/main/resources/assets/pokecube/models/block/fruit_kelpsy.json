@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_kelpsy",
-		"kelpsy": "pokecube:block/fruit_kelpsy"
+		"particle": "pokecube:block/kelpsy_fruit",
+		"kelpsy": "pokecube:block/kelpsy_fruit"
 	},
 	"elements": [
 		{

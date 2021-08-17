@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_pressed",
   "textures": {
-    "texture": "pokecube:block/plank_oran"
+    "texture": "pokecube:block/oran_planks"
   }
 }

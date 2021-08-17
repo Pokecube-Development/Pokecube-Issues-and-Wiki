@@ -1,6 +1,7 @@
 package pokecube.core.handlers;
 
 import static net.minecraft.item.AxeItem.STRIPABLES;
+import static net.minecraft.item.Item.byBlock;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,11 +16,15 @@ import net.minecraft.block.*;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -39,6 +44,8 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.PokecubeLegends;
+import pokecube.legends.init.PlantsInit;
 
 public class ItemGenerator
 {
@@ -75,6 +82,7 @@ public class ItemGenerator
     public static Map<String, Block> buttons         = Maps.newHashMap();
     public static Map<String, Block> trapdoors       = Maps.newHashMap();
     public static Map<String, Block> doors           = Maps.newHashMap();
+    public static Map<Item, Block>   potted_berries  = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)
     {
@@ -118,6 +126,12 @@ public class ItemGenerator
             block.setRegistryName(PokecubeCore.MODID, "fruit_" + name);
             BerryManager.berryFruits.put(index, block);
             registry.register(block);
+
+            block = new GenericPottedPlant(BerryManager.berryFruits.get(index),
+                    AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion());
+            block.setRegistryName(PokecubeCore.MODID, "potted_" + name + "_berry");
+            BerryManager.pottedBerries.put(index, block);
+            registry.register(block);
         }
 
         // Make the logs and planks.
@@ -129,9 +143,11 @@ public class ItemGenerator
 
             // Leaves
             Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, berryLeaves.get(name)).strength(0.2F)
-                    .randomTicks().noOcclusion().sound(SoundType.GRASS), index);
+                .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
+                .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
+            BerryManager.berryLeaves.put(index, block);
             registry.register(block);
 
             // Logs
@@ -228,9 +244,11 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
             // Leaves
             final Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, onlyBerryLeaves.get(name)).strength(0.2F)
-                    .randomTicks().noOcclusion().sound(SoundType.GRASS), index);
+                .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
+                .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
+            BerryManager.berryLeaves.put(index, block);
             registry.register(block);
         }
     }
@@ -392,6 +410,14 @@ public class ItemGenerator
         }
     }
 
+    public static class GenericPottedPlant extends FlowerPotBlock
+    {
+        public GenericPottedPlant(final Block pottedPlant, final Properties properties)
+        {
+            super(pottedPlant, properties);
+        }
+    }
+
     public static void addStrippable(final Block logs, final Block strippedLogs)
     {
         STRIPABLES = Maps.newHashMap(STRIPABLES);
@@ -475,6 +501,11 @@ public class ItemGenerator
         });
     }
 
+
+    public static Boolean ocelotOrParrot(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
+        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
+    }
+
     public static void postInitItems()
     {
         for (final String type : ItemGenerator.fossilVariants)
@@ -489,7 +520,6 @@ public class ItemGenerator
 
     public static void registerBlocks(final IForgeRegistry<Block> registry)
     {
-
         // Initialize the nullberry
         new BerryType("null", null, 0, 0, 0, 0, 0, 0);
         // Fire event so that others can initialize their berries.

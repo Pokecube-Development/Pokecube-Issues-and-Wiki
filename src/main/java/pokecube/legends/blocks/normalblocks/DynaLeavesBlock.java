@@ -37,8 +37,6 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
         }
         return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1) :
             (BlockState) state.setValue(SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(Blocks.SNOW));
-//        return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1) :
-//            (BlockState) state.setValue(SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(Blocks.SNOW));
     }
 
     public static int getDistanceAt(BlockState state) {

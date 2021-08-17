@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "pokecube:block/plank_leppa",
-    "top": "pokecube:block/plank_leppa",
-    "side": "pokecube:block/plank_leppa"
+    "bottom": "pokecube:block/leppa_planks",
+    "top": "pokecube:block/leppa_planks",
+    "side": "pokecube:block/leppa_planks"
   }
 }

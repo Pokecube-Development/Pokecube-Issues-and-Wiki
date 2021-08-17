@@ -19,16 +19,20 @@ import pokecube.core.items.berries.ItemBerry.BerryType;
  */
 public class BerryManager
 {
-    /** Map of berry id -> block of crop */
+    /** Map of berry id -> fruit crops */
     public static Int2ObjectArrayMap<Block>     berryCrops  = new Int2ObjectArrayMap<>();
-    /** Map of berry id -> block of fruit */
+    /** Map of berry id -> fruit items */
     public static Int2ObjectArrayMap<Block>     berryFruits = new Int2ObjectArrayMap<>();
-    /** Map of berry id -> block of fruit */
+    /** Map of berry id -> fruit items */
     public static Int2ObjectArrayMap<ItemBerry> berryItems  = new Int2ObjectArrayMap<>();
+    /** Map of berry id -> fruit leaves */
+    public static Int2ObjectArrayMap<Block>     berryLeaves = new Int2ObjectArrayMap<>();
     /** Map of berry id -> name of berry */
     public static Int2ObjectArrayMap<String>    berryNames  = new Int2ObjectArrayMap<>();
     /** Map of berry id -> name of berry */
     public static Map<String, ItemBerry>        byName      = Maps.newHashMap();
+    /** Map of berry id -> block of potted berries */
+    public static Int2ObjectArrayMap<Block>     pottedBerries = new Int2ObjectArrayMap<>();
 
     public static void addBerry(final ItemBerry berry)
     {
@@ -53,6 +57,11 @@ public class BerryManager
     public static Block getFruit(final ItemBerry berry)
     {
         return BerryManager.berryFruits.get(berry.type.index);
+    }
+
+    public static Block getPottedBerry(final ItemBerry berry)
+    {
+        return BerryManager.pottedBerries.get(berry.type.index);
     }
 
     public static void registerTrees()

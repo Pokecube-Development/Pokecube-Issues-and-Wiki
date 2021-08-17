@@ -205,6 +205,8 @@ public class ClientSetupHandler
             RenderTypeLookup.setRenderLayer(trapdoor, RenderType.cutoutMipped());
         for (final Block door : ItemGenerator.doors.values())
             RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
+        for (final Block door : BerryManager.pottedBerries.values())
+            RenderTypeLookup.setRenderLayer(door, RenderType.cutoutMipped());
         RenderTypeLookup.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
         RenderTypeLookup.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 

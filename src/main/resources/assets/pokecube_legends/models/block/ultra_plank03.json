@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/ultra_plank03",
-    "up": "pokecube_legends:blocks/ultra_plank03",
-    "north": "pokecube_legends:blocks/ultra_plank03",
-    "east": "pokecube_legends:blocks/ultra_plank03",
-    "south": "pokecube_legends:blocks/ultra_plank03",
-    "west": "pokecube_legends:blocks/ultra_plank03",
-    "particle": "pokecube_legends:blocks/ultra_plank03"
+	"all": "pokecube_legends:blocks/aged_planks"
    }
 }

@@ -12,12 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.handlers.ItemGenerator;
 
 public class CorruptedLeavesBlock extends LeavesBlock
 {
     public CorruptedLeavesBlock()
     {
-        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_GRAY).sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion());
+        super(Properties.of(Material.LEAVES, MaterialColor.COLOR_GRAY).sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion()
+            .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false));
     }
 
     @OnlyIn(Dist.CLIENT)

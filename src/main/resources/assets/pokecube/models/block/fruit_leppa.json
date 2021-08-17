@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_leppa",
-		"leppa": "pokecube:block/fruit_leppa"
+		"particle": "pokecube:block/leppa_fruit",
+		"leppa": "pokecube:block/leppa_fruit"
 	},
 	"elements": [
 		{

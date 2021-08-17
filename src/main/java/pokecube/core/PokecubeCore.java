@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.entity.item.PaintingType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,10 +70,7 @@ import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
-import pokecube.core.handlers.Config;
-import pokecube.core.handlers.ItemGenerator;
-import pokecube.core.handlers.ItemHandler;
-import pokecube.core.handlers.RecipeHandler;
+import pokecube.core.handlers.*;
 import pokecube.core.handlers.data.Drops;
 import pokecube.core.handlers.data.Recipes;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -431,6 +429,7 @@ public class PokecubeCore
         PokecubeItems.TILES.register(bus);
 
         bus.addListener(this::loadComplete);
+        bus.addGenericListener(PaintingType.class, PaintingsHandler::registerPaintings);
 
         RecipeHandler.init(bus);
         SecretBaseDimension.onConstruct(bus);

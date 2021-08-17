@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/stairs",
   "textures": {
-    "bottom": "pokecube:block/plank_nanab",
-    "top": "pokecube:block/plank_nanab",
-    "side": "pokecube:block/plank_nanab"
+    "bottom": "pokecube:block/nanab_planks",
+    "top": "pokecube:block/nanab_planks",
+    "side": "pokecube:block/nanab_planks"
   }
 }

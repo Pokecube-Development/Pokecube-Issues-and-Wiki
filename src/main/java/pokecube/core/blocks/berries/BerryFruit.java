@@ -44,7 +44,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape LUM_BERRY = VoxelShapes.or(
-      Block.box(4, 0, 4, 12, 5, 12))
+      Block.box(2, 0, 2, 14, 6, 14))
       .optimize();
 
     private static final VoxelShape SITRUS_BERRY = VoxelShapes.or(
@@ -58,7 +58,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape PINAP_BERRY = VoxelShapes.or(
-      Block.box(4, 0, 4, 12, 16, 12))
+      Block.box(4, 0, 4, 12, 15, 12))
       .optimize();
 
     private static final VoxelShape POMEG_BERRY = VoxelShapes.or(
@@ -103,7 +103,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape ROWAP_BERRY = VoxelShapes.or(
-      Block.box(3, 0, 3, 13, 7, 13))
+      Block.box(0, 0, 0, 16, 7, 16))
       .optimize();
 
     public final Integer index;
@@ -181,6 +181,6 @@ public class BerryFruit extends BushBlock
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         if (!world.isClientSide) world.destroyBlock(pos, true);
-        return ActionResultType.CONSUME;
+        return ActionResultType.SUCCESS;
     }
 }

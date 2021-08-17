@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube:block/fruit_pecha",
-		"pecha": "pokecube:block/fruit_pecha"
+		"particle": "pokecube:block/pecha_fruit",
+		"pecha": "pokecube:block/pecha_fruit"
 	},
 	"elements": [
 		{

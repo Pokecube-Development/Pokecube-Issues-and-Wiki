@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_post",
   "textures": {
-    "texture": "pokecube:block/plank_nanab"
+    "texture": "pokecube:block/nanab_planks"
   }
 }

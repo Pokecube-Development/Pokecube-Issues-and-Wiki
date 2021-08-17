@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_side",
   "textures": {
-    "texture": "pokecube:block/plank_leppa"
+    "texture": "pokecube:block/leppa_planks"
   }
 }

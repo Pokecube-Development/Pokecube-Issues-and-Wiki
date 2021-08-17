@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "pokecube_legends:blocks/ultra_plank02",
-    "top": "pokecube_legends:blocks/ultra_plank02",
-    "side": "pokecube_legends:blocks/ultra_plank02"
+    "bottom": "pokecube_legends:blocks/temporal_planks",
+    "top": "pokecube_legends:blocks/temporal_planks",
+    "side": "pokecube_legends:blocks/temporal_planks"
   }
 }
