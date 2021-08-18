@@ -1,9 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -17,11 +13,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -39,6 +31,11 @@ import pokecube.legends.Reference;
 import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 public class CramomaticBlock extends Rotates implements IWaterLoggable {
 
 	private static final Map<Direction, VoxelShape> CRAMOBOT  = new HashMap<>();
@@ -46,7 +43,7 @@ public class CramomaticBlock extends Rotates implements IWaterLoggable {
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
     
     //Tags
-    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "crambot_fuel");
+    public static ResourceLocation CRAMOMATIC_FUEL = new ResourceLocation(Reference.ID, "crambot_fuel");
     String infoName;
     
     @Override
@@ -62,7 +59,7 @@ public class CramomaticBlock extends Rotates implements IWaterLoggable {
             final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoName +".tooltip", TextFormatting.GOLD, TextFormatting.RESET);
+        if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", TextFormatting.GOLD, TextFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
     }
@@ -161,17 +158,24 @@ public class CramomaticBlock extends Rotates implements IWaterLoggable {
 		int y = pos.getY();
 		int z = pos.getZ();
 		
-		if (ItemList.is(CramomaticBlock.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
 		{
 			addParticles(entity,world,x,y,z);
 			return ActionResultType.SUCCESS;
 		}
+		else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
+		{
+			entity.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.cramomatic.fail"), true);
+			return ActionResultType.PASS;
+		}
 		return ActionResultType.PASS;
 	}
-	
+
 	public static void addParticles(PlayerEntity entity, World world, int x, int y, int z) {
-			world.addParticle(ParticleTypes.BUBBLE, x, y, z, 0, 1, 0);
-			world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                "entity.villager.yes")), SoundCategory.NEUTRAL, 1, 1, false);
+		if (world.isClientSide) {
+			world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5, 0, 1, 0);
+		}
+		world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+			"entity.player.levelup"))), SoundCategory.NEUTRAL, 1, 1, false);
 	}
 }
