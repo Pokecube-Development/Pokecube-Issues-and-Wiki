@@ -321,11 +321,11 @@
     
     "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
-    "block.pokecube_legends.spectrum_block": "Spectrum Block",
+    "block.pokecube_legends.spectrum_block": "Block of Spectrum",
     "block.pokecube_legends.spectrum_glass": "Spectrum Glass",
-    "block.pokecube_legends.spectrum_slab": "Spectrum Block Slab",
-    "block.pokecube_legends.spectrum_stairs": "Spectrum Block Stairs",
-    
+    "block.pokecube_legends.spectrum_slab": "Block of Spectrum Slab",
+    "block.pokecube_legends.spectrum_stairs": "Block of Spectrum Stairs",
+
     "block.pokecube_legends.ultra_torch1": "Infected Torch",
     
     "block.pokecube_legends.ultra_log01": "Inverted Log",
