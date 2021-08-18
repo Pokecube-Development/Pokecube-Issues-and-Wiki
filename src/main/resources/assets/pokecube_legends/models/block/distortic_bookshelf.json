@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_column",
+    "textures": {
+        "end": "pokecube_legends:blocks/distortic_plank",
+        "side": "pokecube_legends:blocks/distortic_plank_shelf"
+    }
+}

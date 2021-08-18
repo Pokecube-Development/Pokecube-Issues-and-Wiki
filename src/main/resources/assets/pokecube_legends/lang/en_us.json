@@ -212,7 +212,29 @@
     "itemGroup.legendtab":  "Pokécube Legends",
     "itemGroup.decotab": "Pokécube Decoration",
     
-    // Blocks Dimension   
+	// Barrels
+	"block.pokecube_legends.distortic_stone_barrel": "Distortic Stone Barrel",
+	"block.pokecube_legends.distortic_barrel": "Distortic Barrel",
+	"block.pokecube_legends.mirage_barrel": "Mirage Barrel",
+	"block.pokecube_legends.temporal_barrel": "Temporal Barrel",
+	"block.pokecube_legends.aged_barrel": "Aged Barrel",
+	"block.pokecube_legends.corrupted_barrel": "Corrupted Barrel",
+	"block.pokecube_legends.inverted_barrel": "Inverted Barrel",
+	"block.pokecube_legends.concrete_barrel": "Concrete Barrel",
+	
+	"container.pokecube_legends.distortic_stone_barrel": "Distortic Barrel",
+	"container.pokecube_legends.distortic_barrel": "Distortic Barrel",
+	"container.pokecube_legends.inverted_barrel": "Inverted Barrel",
+	"container.pokecube_legends.corrupted_barrel": "Corrupted Barrel",
+	"container.pokecube_legends.temporal_barrel": "Temporal Barrel",
+	"container.pokecube_legends.mirage_barrel": "Mirage Barrel",
+	"container.pokecube_legends.aged_barrel": "Aged Barrel",
+	"container.pokecube_legends.concrete_barrel": "Concrete Barrel",
+	
+    // Blocks Dimension
+	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
+	"block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf Empty",
+	
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_iron_ore": "Ultra Stone Iron Ore",
     "block.pokecube_legends.ultra_gold_ore": "Ultra Stone Gold Ore",

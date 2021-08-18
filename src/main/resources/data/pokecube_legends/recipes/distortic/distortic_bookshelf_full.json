@@ -1,0 +1,15 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:distortic_bookshelf_empty"
+    },
+	{
+      "item": "minecraft:book"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:distortic_bookshelf"
+  }
+}
