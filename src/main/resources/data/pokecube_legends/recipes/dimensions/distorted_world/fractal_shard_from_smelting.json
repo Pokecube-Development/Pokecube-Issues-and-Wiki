@@ -4,9 +4,9 @@
   "experience": 1,
   "cookingtime": 200,
   "ingredient": {
-    "item": "pokecube_legends:spectrum_ore"
+    "item": "pokecube_legends:fractal_ore"
   },
   "result": {
-    "item": "pokecube_legends:spectrum_shard"
+    "item": "pokecube_legends:fractal_shard"
   }
 }

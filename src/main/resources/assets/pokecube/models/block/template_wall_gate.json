@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"name": "gate",
+			"from": [0, 5, 7],
+			"to": [16, 16, 9],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 11], "texture": "#texture"},
+				"east": {"uv": [7, 0, 9, 11], "texture": "#texture"},
+				"south": {"uv": [0, 0, 16, 11], "texture": "#texture"},
+				"west": {"uv": [7, 0, 9, 11], "texture": "#texture"},
+				"up": {"uv": [0, 7, 16, 9], "texture": "#texture"},
+				"down": {"uv": [0, 7, 16, 9], "texture": "#texture"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [ 30, 45, 0 ],
+			"translation": [ 0, -1, 0],
+			"scale":[ 0.8, 0.8, 0.8 ]
+		},
+		"head": {
+			"rotation": [ 0, 0, 0 ],
+			"translation": [ 0, -3, -6],
+			"scale":[ 1, 1, 1]
+		}
+	}
+}

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:concrete_dense_wall_gate",
     "pokecube_legends:concrete_fence_gate"
   ]
 }

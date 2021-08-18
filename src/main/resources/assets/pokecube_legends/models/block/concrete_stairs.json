@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/stairs",
   "textures": {
-    "bottom": "pokecube_legends:blocks/concrete_plank",
-    "top": "pokecube_legends:blocks/concrete_plank",
-    "side": "pokecube_legends:blocks/concrete_plank"
+    "bottom": "pokecube_legends:blocks/concrete_planks",
+    "top": "pokecube_legends:blocks/concrete_planks",
+    "side": "pokecube_legends:blocks/concrete_planks"
   }
 }
