@@ -163,12 +163,6 @@ public class SplicerBlock extends InteractableHorizontalBlock implements IWaterL
     }
 
     @Override
-    public VoxelShape getOcclusionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
-    {
-        return InteractableBlock.RENDERSHAPE;
-    }
-
-    @Override
     public boolean hasTileEntity(final BlockState state)
     {
         return true;
