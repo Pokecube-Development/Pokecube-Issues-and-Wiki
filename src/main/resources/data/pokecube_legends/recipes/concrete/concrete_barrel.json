@@ -8,10 +8,10 @@
   ],
   "key": {
     "A": {
-      "item": "pokecube_legends:concrete_plank"
+      "tag": "pokecube_legends:concrete_planks"
     },
 	"S": {
-      "item": "pokecube_legends:concrete_slab"
+      "tag": "pokecube_legends:concrete_slabs"
     }
   },
   "result": {

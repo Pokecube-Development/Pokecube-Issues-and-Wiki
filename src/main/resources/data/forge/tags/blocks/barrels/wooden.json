@@ -1,0 +1,12 @@
+{
+    "replace": false,
+    "values": [
+        "pokecube_legends:concrete_barrel",
+        "pokecube_legends:aged_barrel",
+        "pokecube_legends:inverted_barrel",
+        "pokecube_legends:corrupted_barrel",
+        "pokecube_legends:mirage_barrel",
+        "pokecube_legends:distortic_barrel",
+        "pokecube_legends:temporal_barrel"
+    ]
+}
