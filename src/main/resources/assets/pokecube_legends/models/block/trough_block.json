@@ -122,7 +122,7 @@
 				"south": {"uv": [4, 11, 12, 12], "texture": "#0"},
 				"west": {"uv": [4, 11, 12, 12], "texture": "#0"},
 				"up": {"uv": [4, 4, 12, 12], "texture": "#0"},
-				"down": {"uv": [4, 4, 12, 12], "texture": "#0"}
+				"down": {"uv": [4, 4, 12, 12], "texture": "#0", "cullface": "down"}
 			}
 		}
 	],
@@ -166,6 +166,7 @@
 		{
 			"name": "group",
 			"origin": [12, 8, 12],
+			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 		}
 	]

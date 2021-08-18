@@ -11,10 +11,10 @@
 			"to": [16, 16, 9.5],
 			"faces": {
 				"north": {"uv": [5, 5.5, 0, 10], "texture": "#0"},
-				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0", "cullface": "east"},
 				"south": {"uv": [0, 5.5, 5, 10], "texture": "#0"},
 				"west": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
-				"up": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"up": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0", "cullface": "up"},
 				"down": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"}
 			}
 		},
@@ -24,10 +24,10 @@
 			"to": [16, 1.5, 9.5],
 			"faces": {
 				"north": {"uv": [0.5, 10, 5, 10.5], "rotation": 180, "texture": "#0"},
-				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0", "cullface": "east"},
 				"south": {"uv": [0.5, 10, 5, 10.5], "texture": "#0"},
 				"west": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
-				"down": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"}
+				"down": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0", "cullface": "down"}
 			}
 		}
 	],
@@ -71,6 +71,7 @@
 		{
 			"name": "portal_middle_left",
 			"origin": [8, 8, 8],
+			"color": 0,
 			"children": [0, 1]
 		}
 	]

@@ -527,7 +527,7 @@ public class BlockInit
 	public static final RegistryObject<Block> DISTORTIC_BOOKSHELF_FULL;
     public static final RegistryObject<Block> DISTORTIC_BOOKSHELF_EMPTY;
 
-    //Chests
+    //Barrels
     public static final RegistryObject<Block> DISTORTIC_STONE_BARREL;
     public static final RegistryObject<Block> DISTORTIC_BARREL;
     public static final RegistryObject<Block> INVERTED_BARREL;
