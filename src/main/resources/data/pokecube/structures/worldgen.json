@@ -248,7 +248,7 @@
     },
     {
       "name":"pokecube:village/badlands/terminators",
-      "rigid":true,
+      "rigid":false,
       "options":[
         "pokecube:village/badlands/terminators/terminator_01;{\"weight\":8}",
         "pokecube:village/badlands/terminators/terminator_02;{\"weight\":2}"
@@ -257,7 +257,7 @@
     {
       "name":"pokecube:village/badlands/streets",
       "target":"pokecube:village/badlands/terminators",
-      "rigid":true,
+      "rigid":false,
       "options":[
         "pokecube:village/badlands/streets/crossroad_01;{\"weight\":2}",
         "pokecube:village/badlands/streets/crossroad_02;{\"weight\":2}",
@@ -267,14 +267,14 @@
     },
     {
       "name":"pokecube:village/badlands/pokecenter/path",
-      "rigid":true,
+      "rigid":false,
       "options":[
         "pokecube:village/badlands/pokecenter/path"
       ]
     },
     {
       "name":"pokecube:village/badlands/gym/path",
-      "rigid":true,
+      "rigid":false,
       "options":[
         "pokecube:village/badlands/gym/path"
       ]
@@ -282,7 +282,7 @@
     {
       "name":"pokecube:village/badlands/decor/tunnel",
       "rigid":true,
-      "ignoreAir":false,
+      "ignoreAir":true,
       "options":[
         "pokecube:village/badlands/decor/tunnel"
       ]
@@ -457,6 +457,8 @@
         "pokecube:village/jungle/houses/house_1;{\"weight\":2,\"dy\":2}",
         "pokecube:village/jungle/houses/house_2;{\"weight\":2,\"dy\":2}",
         "pokecube:village/jungle/houses/house_3;{\"weight\":3,\"dy\":2}",
+		"pokecube:village/jungle/houses/house_4;{\"weight\":3,\"dy\":2}",
+		"pokecube:village/jungle/houses/house_5;{\"weight\":3,\"dy\":2}",
         "pokecube:village/jungle/houses/fisher_house;{\"weight\":3,\"dy\":2}",
         "pokecube:village/jungle/houses/fletcher_house;{\"weight\":3,\"dy\":2}",
         "pokecube:village/jungle/houses/library_house;{\"weight\":2,\"dy\":2}",
@@ -522,6 +524,7 @@
         "pokecube:village/swamp/houses/house_4;{\"weight\":2,\"dy\":3}",
         "pokecube:village/swamp/houses/house_5;{\"weight\":3,\"dy\":3}",
         "pokecube:village/swamp/houses/house_6;{\"weight\":3,\"dy\":3}",
+		"pokecube:village/swamp/houses/house_7;{\"weight\":3,\"dy\":3}",
         "pokecube:village/swamp/houses/fisher_house;{\"weight\":3,\"dy\":3}",
         "pokecube:village/swamp/houses/fletcher_house;{\"weight\":3,\"dy\":3}",
         "pokecube:village/swamp/houses/library_house;{\"weight\":2,\"dy\":3}",

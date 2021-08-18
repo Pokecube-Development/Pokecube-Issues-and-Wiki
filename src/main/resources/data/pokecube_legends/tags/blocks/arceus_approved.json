@@ -4,6 +4,8 @@
     "minecraft:torch",
     "minecraft:wall_torch",
     "minecraft:ladder",
-    "minecraft:vine"
+    "minecraft:vine",
+	"#minecraft:wooden_buttons",
+	"#minecraft:buttons"
   ]
 }

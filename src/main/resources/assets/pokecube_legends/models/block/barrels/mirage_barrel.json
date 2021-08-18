@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "pokecube_legends:blocks/barrels/mirage_top",
+    "bottom": "pokecube_legends:blocks/barrels/mirage_bottom",
+    "side": "pokecube_legends:blocks/barrels/mirage_side"
+  }
+}

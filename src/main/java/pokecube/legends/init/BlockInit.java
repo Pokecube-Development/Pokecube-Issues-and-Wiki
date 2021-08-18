@@ -21,6 +21,14 @@ import pokecube.legends.blocks.EffectBlockBase;
 import pokecube.legends.blocks.FaceBlock_Base;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.customblocks.*;
+import pokecube.legends.blocks.customblocks.chests.AgedPlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.ConcretePlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.CorruptedPlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.MiragePlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.DistorticPlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.DistorticStoneBarrel;
+import pokecube.legends.blocks.customblocks.chests.InvertedPlankBarrel;
+import pokecube.legends.blocks.customblocks.chests.TemporalPlankBarrel;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
 import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
@@ -515,9 +523,46 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
+	
+	public static final RegistryObject<Block> DISTORTIC_BOOKSHELF_FULL;
+    public static final RegistryObject<Block> DISTORTIC_BOOKSHELF_EMPTY;
 
+    //Chests
+    public static final RegistryObject<Block> DISTORTIC_STONE_BARREL;
+    public static final RegistryObject<Block> DISTORTIC_BARREL;
+    public static final RegistryObject<Block> INVERTED_BARREL;
+    public static final RegistryObject<Block> AGED_BARREL;
+    public static final RegistryObject<Block> CORRUPTED_BARREL;
+    public static final RegistryObject<Block> TEMPORAL_BARREL;
+    public static final RegistryObject<Block> MIRAGE_BARREL;
+    public static final RegistryObject<Block> CONCRETE_BARREL;
+    
     static
     {
+    	//Chest Blocks
+    	DISTORTIC_STONE_BARREL = PokecubeLegends.DECORATION_TAB.register("distortic_stone_barrel", () -> new DistorticStoneBarrel(
+    			AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+    	CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new ConcretePlankBarrel(
+    			AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+    	INVERTED_BARREL = PokecubeLegends.DECORATION_TAB.register("inverted_barrel", () -> new InvertedPlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	AGED_BARREL = PokecubeLegends.DECORATION_TAB.register("aged_barrel", () -> new AgedPlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	CORRUPTED_BARREL = PokecubeLegends.DECORATION_TAB.register("corrupted_barrel", () -> new CorruptedPlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	TEMPORAL_BARREL = PokecubeLegends.DECORATION_TAB.register("temporal_barrel", () -> new TemporalPlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	MIRAGE_BARREL = PokecubeLegends.DECORATION_TAB.register("mirage_barrel", () -> new MiragePlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	DISTORTIC_BARREL = PokecubeLegends.DECORATION_TAB.register("distortic_barrel", () -> new DistorticPlankBarrel(
+    			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+    	
+    	
+    	DISTORTIC_BOOKSHELF_FULL = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf", () -> new BlockBase(Material.WOOD, MaterialColor.TERRACOTTA_BLUE,
+                5f, 4f, SoundType.WOOD, ToolType.AXE, 1, true));
+    	DISTORTIC_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf_empty", () -> new DistorticBookShelfEmpty(AbstractBlock.Properties.of(
+    			Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
+
         // Dimensions Creative Tab - Sorting depends on the order the blocks are listed in
         // Block Raid
         RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(AbstractBlock.Properties.of(

@@ -15,6 +15,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
@@ -54,9 +55,11 @@ import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.handlers.ItemHelperEffect;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
+import pokecube.legends.init.ContainerInit;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.RaidCapture;
@@ -89,6 +92,12 @@ public class PokecubeLegends
             Reference.ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(ForgeRegistries.ENTITIES,
     		Reference.ID);
+			
+	// Barrels Inventory/Container
+    public static final DeferredRegister<TileEntityType<?>>  TILES     = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
+            Reference.ID);
+    public static final DeferredRegister<ContainerType<?>>  CONTAINER  = DeferredRegister.create(ForgeRegistries.CONTAINERS,
+            Reference.ID);
 
     //Recipes
     public static final DeferredRegister<IRecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
@@ -139,6 +148,8 @@ public class PokecubeLegends
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.BLOCK_PORTALWARP.get()
                     .getRegistryName()));
+					
+			TileEntityInit.init();
         }
 
         @SubscribeEvent
@@ -174,6 +185,8 @@ public class PokecubeLegends
 		PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.LEGENDS_SERIALIZERS.register(modEventBus);
+		PokecubeLegends.TILES.register(modEventBus);
+        PokecubeLegends.CONTAINER.register(modEventBus);
 
         // Biomes Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
@@ -188,6 +201,7 @@ public class PokecubeLegends
         MoveRegister.init();
         EntityInit.init();
         ItemHelperEffect.init();
+		ContainerInit.init();
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();

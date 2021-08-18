@@ -1,0 +1,8 @@
+{
+  "variants": {
+	"facing=east":  { "model": "pokecube_legends:block/distortic_bookshelf_empty", "y":90 },
+    "facing=west":  { "model": "pokecube_legends:block/distortic_bookshelf_empty", "y":270 },
+    "facing=north": { "model": "pokecube_legends:block/distortic_bookshelf_empty", "y":0},
+    "facing=south": { "model": "pokecube_legends:block/distortic_bookshelf_empty", "y":180 }
+  }
+}
