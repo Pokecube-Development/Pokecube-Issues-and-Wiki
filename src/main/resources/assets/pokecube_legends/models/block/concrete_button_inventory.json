@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_inventory",
   "textures": {
-    "texture": "pokecube_legends:blocks/concrete_plank"
+    "texture": "pokecube_legends:blocks/concrete_planks"
   }
 }

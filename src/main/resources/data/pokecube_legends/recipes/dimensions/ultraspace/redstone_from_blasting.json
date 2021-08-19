@@ -1,12 +1,12 @@
 {
   "group": "pokecube_legends",
   "type": "minecraft:blasting",
-  "experience": 1,
+  "experience": 0.7,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:spectrum_ore"
+    "item": "pokecube_legends:ultra_redstone_ore"
   },
   "result": {
-    "item": "pokecube_legends:spectrum_shard"
+    "item": "minecraft:redstone"
   }
 }

@@ -496,6 +496,7 @@
 	"block.pokecube_legends.concrete_plank": "Concrete Lined Planks",
 	"block.pokecube_legends.concrete_dense_plank": "Dense Concrete Lined Planks",
 	"block.pokecube_legends.concrete_dense_wall": "Dense Concrete Lined Wall",
+	"block.pokecube_legends.concrete_dense_wall_gate": "Dense Concrete Lined Wall Gate",
     "block.pokecube_legends.concrete_stairs": "Concrete Lined Stairs",
     "block.pokecube_legends.concrete_slab": "Concrete Lined Slab",
     "block.pokecube_legends.concrete_dense_stairs": "Dense Concrete Lined Stairs",
@@ -844,7 +845,7 @@
     "legendblock.raidspawn.tooltip": "§6Creates a raid battle.",
 	"legends.gigantic_shard.tooltip": "§6Used to Gigantamax your pokémob.",
     "legends.wishing_piece.tooltip": "§6Used to activate an inactive raid spot.",
-	"legendblock.cramobot.tooltip": "Win an item! Give the robot a:\n%1$s[Diamond,Emerald or Ender Pearl]",
+	"pokecube_legends.cramobot.tooltip": "Win an item! Feed me:\n%1$s[Diamonds, Emeralds, Ender Pearls]",
 
 	// Entitys
 	"entity.pokecube_legends.wormhole": "Wormhole",
@@ -854,7 +855,8 @@
     "legends.giratina_mirror.tooltip": "§6Used to teleport to the Distorted World.",
     "legends.ultrakey.tooltip": "§6Used to teleport to Ultra Space.\n%1$s[Requires %2$s Cosmic Dust]",
     "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s%2$s Cosmic Dust",
-    
+    "msg.pokecube_legends.cramomatic.fail": "§cFeed me valuables",
+
     // Food ToolTip
     "legends.pokepuff_grass.tooltip": "Increases %1$s[Grass type] §rdamage",
     "legends.pokepuff_fire.tooltip": "Increases %1$s[Fire type] §rdamage",
