@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.customblocks;
+package pokecube.core.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
