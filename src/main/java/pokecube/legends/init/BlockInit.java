@@ -558,9 +558,9 @@ public class BlockInit
     			AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
     	
     	
-    	DISTORTIC_BOOKSHELF_FULL = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf", () -> new BlockBase(Material.WOOD, MaterialColor.TERRACOTTA_BLUE,
-                5f, 4f, SoundType.WOOD, ToolType.AXE, 1, true));
-    	DISTORTIC_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf_empty", () -> new DistorticBookShelfEmpty(AbstractBlock.Properties.of(
+    	DISTORTIC_BOOKSHELF_FULL = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1)));
+    	DISTORTIC_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
     			Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Dimensions Creative Tab - Sorting depends on the order the blocks are listed in
