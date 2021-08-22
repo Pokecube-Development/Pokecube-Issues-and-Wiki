@@ -23,14 +23,7 @@ import pokecube.legends.blocks.EffectBlockBase;
 import pokecube.legends.blocks.FaceBlock_Base;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.customblocks.*;
-import pokecube.legends.blocks.customblocks.chests.AgedPlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.ConcretePlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.CorruptedPlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.MiragePlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.DistorticPlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.DistorticStoneBarrel;
-import pokecube.legends.blocks.customblocks.chests.InvertedPlankBarrel;
-import pokecube.legends.blocks.customblocks.chests.TemporalPlankBarrel;
+import pokecube.core.blocks.GenericBarrel;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
 import pokecube.legends.blocks.customblocks.taputotem.FiniTotem;
 import pokecube.legends.blocks.customblocks.taputotem.KokoTotem;
@@ -214,9 +207,9 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_OW_GLASS_SPECTRUM;
     public static final RegistryObject<Block> DISTORTIC_OW_FRAMED_MIRROR;
     
-    public static final RegistryObject<Block> DISTORTIC_STONEBRICK;
-    public static final RegistryObject<Block> DISTORTIC_STONEBRICK_SLAB;
-    public static final RegistryObject<Block> DISTORTIC_STONEBRICK_STAIRS;
+    public static final RegistryObject<Block> DISTORTIC_STONE_BRICKS;
+    public static final RegistryObject<Block> DISTORTIC_STONE_BRICK_SLAB;
+    public static final RegistryObject<Block> DISTORTIC_STONE_BRICK_STAIRS;
     
     public static final RegistryObject<Block> DISTORTIC_CHISELED_STONE;
     public static final RegistryObject<Block> DISTORTIC_CHISELED_SLAB;
@@ -448,7 +441,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
 
     // Portal
-    public static final RegistryObject<Block> BLOCK_PORTALWARP;
+    public static final RegistryObject<Block> PORTAL;
 
     // Legendary Spawns
     public static final RegistryObject<Block> LEGENDARY_SPAWN;
@@ -811,7 +804,7 @@ public class BlockInit
             4f, 3f, SoundType.METAL, ToolType.PICKAXE, 2, true));
         
         // Mirage Spot (Hoopa Ring)
-        BLOCK_PORTALWARP = PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", AbstractBlock.Properties
+        PORTAL = PokecubeLegends.BLOCKS.register("portal", () -> new PortalWarp("portal", AbstractBlock.Properties
                 .of(Material.STONE, MaterialColor.GOLD).sound(SoundType.METAL).strength(2000, 2000)).setShape(VoxelShapes
                         .box(0.05, 0, 0.05, 1, 3, 1)).setToolTip("portalwarp"));
 
@@ -1038,12 +1031,9 @@ public class BlockInit
         INVERTED_DOOR = PokecubeLegends.BLOCKS_TAB.register("inverted_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        INVERTED_BARREL = PokecubeLegends.DECORATION_TAB.register("inverted_barrel", () -> new InvertedPlankBarrel(
+        INVERTED_BARREL = PokecubeLegends.BLOCKS_TAB.register("inverted_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
-        //Chest Blocks
-        DISTORTIC_STONE_BARREL = PokecubeLegends.DECORATION_TAB.register("distortic_stone_barrel", () -> new DistorticStoneBarrel(
-            AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
         // Temporal Blocks
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(AbstractBlock.Properties.of(
             Material.LEAVES, MaterialColor.WARPED_NYLIUM).strength(0.2f).sound(SoundType.GRASS).noOcclusion()
@@ -1080,7 +1070,7 @@ public class BlockInit
         TEMPORAL_DOOR = PokecubeLegends.BLOCKS_TAB.register("temporal_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        TEMPORAL_BARREL = PokecubeLegends.DECORATION_TAB.register("temporal_barrel", () -> new TemporalPlankBarrel(
+        TEMPORAL_BARREL = PokecubeLegends.BLOCKS_TAB.register("temporal_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
         // Aged Blocks
@@ -1119,7 +1109,7 @@ public class BlockInit
         AGED_DOOR = PokecubeLegends.BLOCKS_TAB.register("aged_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        AGED_BARREL = PokecubeLegends.DECORATION_TAB.register("aged_barrel", () -> new AgedPlankBarrel(
+        AGED_BARREL = PokecubeLegends.BLOCKS_TAB.register("aged_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
         // Distortic Blocks
@@ -1158,7 +1148,7 @@ public class BlockInit
         DISTORTIC_DOOR = PokecubeLegends.BLOCKS_TAB.register("distortic_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.COLOR_BLUE).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        DISTORTIC_BARREL = PokecubeLegends.DECORATION_TAB.register("distortic_barrel", () -> new DistorticPlankBarrel(
+        DISTORTIC_BARREL = PokecubeLegends.BLOCKS_TAB.register("distortic_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
         DISTORTIC_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
             Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1)));
@@ -1199,7 +1189,7 @@ public class BlockInit
         CORRUPTED_DOOR = PokecubeLegends.BLOCKS_TAB.register("corrupted_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        CORRUPTED_BARREL = PokecubeLegends.DECORATION_TAB.register("corrupted_barrel", () -> new CorruptedPlankBarrel(
+        CORRUPTED_BARREL = PokecubeLegends.BLOCKS_TAB.register("corrupted_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
         // MIRAGE Blocks
@@ -1239,7 +1229,7 @@ public class BlockInit
         MIRAGE_DOOR = PokecubeLegends.BLOCKS_TAB.register("mirage_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.SAND).sound(SoundType.WOOD).strength(
                 2.0f, 3.0f).noOcclusion()));
-        MIRAGE_BARREL = PokecubeLegends.DECORATION_TAB.register("mirage_barrel", () -> new MiragePlankBarrel(
+        MIRAGE_BARREL = PokecubeLegends.BLOCKS_TAB.register("mirage_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
         //Concrete Blocks
@@ -1274,7 +1264,7 @@ public class BlockInit
         CONCRETE_DOOR = PokecubeLegends.DECORATION_TAB.register("concrete_door", () -> new ItemGenerator.GenericDoor(
             AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).strength(
                 2.0f, 3.0f).noOcclusion().requiresCorrectToolForDrops()));
-        CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new ConcretePlankBarrel(
+        CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         CONCRETE_DENSE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_dense_plank", () -> new Block(AbstractBlock.Properties.of(
@@ -1346,12 +1336,12 @@ public class BlockInit
                 Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)
                 .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
-        DISTORTIC_STONEBRICK = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_BLACK,
+        DISTORTIC_STONE_BRICKS = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick", () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_BLACK,
             2.5f, 10f, SoundType.STONE, ToolType.PICKAXE, 2, true));
-        DISTORTIC_STONEBRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
+        DISTORTIC_STONE_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
             .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
-        DISTORTIC_STONEBRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick_stairs",
+        DISTORTIC_STONE_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_stonebrick_stairs",
             () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                 .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
@@ -1365,6 +1355,9 @@ public class BlockInit
             () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), AbstractBlock.Properties.of(
                 Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                 .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+
+        DISTORTIC_STONE_BARREL = PokecubeLegends.DECORATION_TAB.register("distortic_stone_barrel", () -> new GenericBarrel(
+            AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
         // Unown Stones
         UNOWN_STONE_A = PokecubeLegends.DECORATION_TAB.register("unown_stone_a", () -> new BlockBase(

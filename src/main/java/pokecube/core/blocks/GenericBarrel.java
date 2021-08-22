@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.customblocks.chests;
+package pokecube.core.blocks;
 
 import java.util.Random;
 
@@ -32,24 +32,29 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.legends.tileentity.barrels.DistorticStoneBarrelTile;
+import pokecube.legends.tileentity.GenericBarrelTile;
 
-public class DistorticStoneBarrel extends ContainerBlock 
+public class GenericBarrel extends ContainerBlock
 {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 	
-	public DistorticStoneBarrel(Properties props) {
+	public GenericBarrel(Properties props) {
 		super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)));
+	}
+	
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
 	}
 	
 	public void setPlacedBy(World world, BlockPos pos, BlockState state,
 			@Nullable LivingEntity livingEntity, ItemStack stack) {
 		if (stack.hasCustomHoverName()) {
 			TileEntity tileentity = world.getBlockEntity(pos);
-			if (tileentity instanceof DistorticStoneBarrelTile) {
-				((DistorticStoneBarrelTile) tileentity).setCustomName(stack.getHoverName());
+			if (tileentity instanceof GenericBarrelTile) {
+				((GenericBarrelTile) tileentity).setCustomName(stack.getHoverName());
 			}
 		}
 	}
@@ -64,8 +69,8 @@ public class DistorticStoneBarrel extends ContainerBlock
 			return ActionResultType.SUCCESS;
 		} else {
 			TileEntity tileentity = world.getBlockEntity(pos);
-			if (tileentity instanceof DistorticStoneBarrelTile) {
-				player.openMenu((DistorticStoneBarrelTile) tileentity);
+			if (tileentity instanceof GenericBarrelTile) {
+				player.openMenu((GenericBarrelTile) tileentity);
 				player.awardStat(Stats.OPEN_BARREL);
 				PiglinTasks.angerNearbyPiglins(player, true);
 			}
@@ -90,8 +95,8 @@ public class DistorticStoneBarrel extends ContainerBlock
 
 	public void tick(BlockState p_225534_1_, ServerWorld p_225534_2_, BlockPos p_225534_3_, Random p_225534_4_) {
 		TileEntity tileentity = p_225534_2_.getBlockEntity(p_225534_3_);
-		if (tileentity instanceof DistorticStoneBarrelTile) {
-			((DistorticStoneBarrelTile) tileentity).recheckOpen();
+		if (tileentity instanceof GenericBarrelTile) {
+			((GenericBarrelTile) tileentity).recheckOpen();
 		}
 	}
 	
@@ -102,7 +107,7 @@ public class DistorticStoneBarrel extends ContainerBlock
 
 	@Override
 	public TileEntity newBlockEntity(IBlockReader reader) {
-		return new DistorticStoneBarrelTile();
+		return new GenericBarrelTile();
 	}
 	
 	public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {

@@ -144,9 +144,9 @@ public class PokecubeLegends
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
             RaidSpawn.TYPE = TileEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
-            RingTile.TYPE = TileEntityType.Builder.of(RingTile::new, BlockInit.BLOCK_PORTALWARP.get()).build(null);
+            RingTile.TYPE = TileEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
-            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.BLOCK_PORTALWARP.get()
+            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get()
                     .getRegistryName()));
 					
 			TileEntityInit.init();

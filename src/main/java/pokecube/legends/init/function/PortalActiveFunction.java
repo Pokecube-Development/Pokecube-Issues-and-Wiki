@@ -75,7 +75,7 @@ public class PortalActiveFunction
 
     public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
     {
-        if (state.getBlock() != BlockInit.BLOCK_PORTALWARP.get()) return;
+        if (state.getBlock() != BlockInit.PORTAL.get()) return;
 
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
         final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);

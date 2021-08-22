@@ -1,4 +1,4 @@
-package pokecube.legends.tileentity.barrels;
+package pokecube.legends.tileentity;
 
 import net.minecraft.block.BlockState;
 import pokecube.legends.init.BlockInit;
@@ -23,20 +23,19 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.legends.Reference;
-import pokecube.legends.blocks.customblocks.chests.InvertedPlankBarrel;
+import pokecube.core.blocks.GenericBarrel;
 import pokecube.legends.init.TileEntityInit;
-import pokecube.legends.tileentity.CustomBarrelContainer;
 
-public class InvertedPlankBarrelTile extends LockableLootTileEntity {
+public class GenericBarrelTile extends LockableLootTileEntity {
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 	private int openCount;
 	
-	private InvertedPlankBarrelTile(TileEntityType<?> tileEntityType) {
+	private GenericBarrelTile(TileEntityType<?> tileEntityType) {
 		super(tileEntityType);
 	}
 	
-	public InvertedPlankBarrelTile() {
-		this(TileEntityInit.INVERTED_PLANK_BARREL_TILE.get());
+	public GenericBarrelTile() {
+		this(TileEntityInit.GENERIC_BARREL_TILE.get());
 	}
 	
 	public int getContainerSize() {
@@ -85,7 +84,7 @@ public class InvertedPlankBarrelTile extends LockableLootTileEntity {
 
 			++this.openCount;
 			BlockState blockstate = this.getBlockState();
-			boolean flag = blockstate.getValue(InvertedPlankBarrel.OPEN);
+			boolean flag = blockstate.getValue(GenericBarrel.OPEN);
 			if (!flag) {
 				this.playSound(blockstate, SoundEvents.BARREL_OPEN);
 				this.updateBlockState(blockstate, true);
@@ -108,12 +107,15 @@ public class InvertedPlankBarrelTile extends LockableLootTileEntity {
 			this.scheduleRecheck();
 		} else {
 			BlockState blockstate = this.getBlockState();
-			if (!blockstate.is(BlockInit.INVERTED_BARREL.get())) {
+			if (!blockstate.is(BlockInit.INVERTED_BARREL.get()) || !blockstate.is(BlockInit.CONCRETE_BARREL.get()) ||
+				!blockstate.is(BlockInit.CORRUPTED_BARREL.get()) || !blockstate.is(BlockInit.DISTORTIC_STONE_BARREL.get()) ||
+				!blockstate.is(BlockInit.DISTORTIC_BARREL.get()) || !blockstate.is(BlockInit.MIRAGE_BARREL.get()) ||
+				!blockstate.is(BlockInit.TEMPORAL_BARREL.get()) || !blockstate.is(BlockInit.AGED_BARREL.get())) {
 				this.setRemoved();
 				return;
 			}
 
-			boolean flag = blockstate.getValue(InvertedPlankBarrel.OPEN);
+			boolean flag = blockstate.getValue(GenericBarrel.OPEN);
 			if (flag) {
 				this.playSound(blockstate, SoundEvents.BARREL_CLOSE);
 				this.updateBlockState(blockstate, false);
@@ -129,11 +131,11 @@ public class InvertedPlankBarrelTile extends LockableLootTileEntity {
 	}
 
 	private void updateBlockState(BlockState state, boolean update) {
-		this.level.setBlock(this.getBlockPos(), state.setValue(InvertedPlankBarrel.OPEN, Boolean.valueOf(update)), 3);
+		this.level.setBlock(this.getBlockPos(), state.setValue(GenericBarrel.OPEN, Boolean.valueOf(update)), 3);
 	}
 	
 	private void playSound(BlockState state, SoundEvent sound) {
-		Vector3i vector3i = state.getValue(InvertedPlankBarrel.FACING).getNormal();
+		Vector3i vector3i = state.getValue(GenericBarrel.FACING).getNormal();
 		double d0 = (double) this.worldPosition.getX() + 0.5D + (double) vector3i.getX() / 2.0D;
 		double d1 = (double) this.worldPosition.getY() + 0.5D + (double) vector3i.getY() / 2.0D;
 		double d2 = (double) this.worldPosition.getZ() + 0.5D + (double) vector3i.getZ() / 2.0D;
