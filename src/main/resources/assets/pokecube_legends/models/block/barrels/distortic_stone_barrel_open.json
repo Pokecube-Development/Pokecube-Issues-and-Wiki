@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "top": "pokecube_legends:blocks/barrels/distortic_stone_barrel_top_open",
-    "bottom": "pokecube_legends:blocks/barrels/distortic_stone_barrel_bottom",
+    "bottom": "pokecube_legends:blocks/chiseled_distortic_stone_bricks",
     "side": "pokecube_legends:blocks/barrels/distortic_stone_barrel_side"
   }
 }
