@@ -119,7 +119,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i - 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				player.addItem(stack);
-				System.out.println("Removed a book");
 				this.setChanged();
 				return ActionResultType.SUCCESS;
 			}
@@ -138,7 +137,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i + 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				this.setChanged();
-				System.out.println("Shelved a book");
 				return ActionResultType.SUCCESS;
 			}
 		}
