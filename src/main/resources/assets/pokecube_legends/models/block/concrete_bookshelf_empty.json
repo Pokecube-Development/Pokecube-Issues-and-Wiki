@@ -1,0 +1,9 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "pokecube:block/generic_bookshelf_empty",
+	"textures": {
+		"particle": "pokecube_legends:blocks/concrete_bookshelf_empty",
+		"center": "pokecube_legends:blocks/concrete_bookshelf_empty",
+		"planks": "pokecube_legends:blocks/concrete_planks"
+	}
+}

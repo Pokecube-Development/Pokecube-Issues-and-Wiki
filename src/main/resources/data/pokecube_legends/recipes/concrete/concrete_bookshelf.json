@@ -2,19 +2,19 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ASA",
-    "A A",
-    "AAA"
+    "000",
+    "AAA",
+    "000"
   ],
   "key": {
-    "A": {
+    "0": {
       "item": "pokecube_legends:concrete_plank"
     },
-	"S": {
-      "item": "pokecube_legends:concrete_slab"
+	"A": {
+      "item": "minecraft:book"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_barrel"
+    "item": "pokecube_legends:concrete_bookshelf"
   }
 }

@@ -221,13 +221,18 @@
 	"block.pokecube_legends.corrupted_barrel": "Corrupted Barrel",
 	"block.pokecube_legends.inverted_barrel": "Inverted Barrel",
 	"block.pokecube_legends.concrete_barrel": "Concrete Barrel",
-	
+	"block.pokecube_legends.concrete_dense_barrel": "Dense Concrete Barrel",
+
 	"container.pokecube_legends.generic_barrel": "Barrel",
 	
     // Blocks Dimension
     "block.pokecube_legends.bookshelf_empty": "Bookshelf",
 	"block.pokecube_legends.aged_bookshelf": "Aged Bookshelf",
     "block.pokecube_legends.aged_bookshelf_empty": "Aged Bookshelf",
+    "block.pokecube_legends.concrete_bookshelf": "Concrete Bookshelf",
+    "block.pokecube_legends.concrete_bookshelf_empty": "Concrete Bookshelf",
+    "block.pokecube_legends.concrete_dense_bookshelf": "Dense Concrete Bookshelf",
+    "block.pokecube_legends.concrete_dense_bookshelf_empty": "Dense Concrete Bookshelf",
 	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
     "block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf",
 

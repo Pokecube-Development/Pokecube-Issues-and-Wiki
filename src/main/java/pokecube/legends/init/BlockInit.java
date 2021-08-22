@@ -344,7 +344,6 @@ public class BlockInit
 
     public static final RegistryObject<Block> CONCRETE_LOG;
     public static final RegistryObject<Block> CONCRETE_PLANKS;
-    public static final RegistryObject<Block> CONCRETE_DENSE_PLANKS;
     public static final RegistryObject<Block> CONCRETE_WOOD;
     public static final RegistryObject<Block> STRIP_CONCRETE_LOG;
     public static final RegistryObject<Block> STRIP_CONCRETE_WOOD;
@@ -357,12 +356,19 @@ public class BlockInit
     public static final RegistryObject<Block> CONCRETE_BUTTON;
     public static final RegistryObject<Block> CONCRETE_PR_PLATE;
     public static final RegistryObject<Block> CONCRETE_BARREL;
+    public static final RegistryObject<Block> CONCRETE_BOOKSHELF;
+    public static final RegistryObject<Block> CONCRETE_BOOKSHELF_EMPTY;
+
+    public static final RegistryObject<Block> CONCRETE_DENSE_PLANKS;
     public static final RegistryObject<Block> CONCRETE_DENSE_STAIRS;
     public static final RegistryObject<Block> CONCRETE_DENSE_SLAB;
     public static final RegistryObject<Block> CONCRETE_DENSE_WALL;
     public static final RegistryObject<Block> CONCRETE_DENSE_WALL_GATE;
     public static final RegistryObject<Block> CONCRETE_DENSE_BUTTON;
     public static final RegistryObject<Block> CONCRETE_DENSE_PR_PLATE;
+    public static final RegistryObject<Block> CONCRETE_DENSE_BARREL;
+    public static final RegistryObject<Block> CONCRETE_DENSE_BOOKSHELF;
+    public static final RegistryObject<Block> CONCRETE_DENSE_BOOKSHELF_EMPTY;
 
     public static final RegistryObject<Block> CORRUPTED_LOG;
     public static final RegistryObject<Block> CORRUPTED_PLANKS;
@@ -995,8 +1001,9 @@ public class BlockInit
         DISTORTIC_JUNGLE_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_jungle_slab", () -> new SlabBlock(AbstractBlock.Properties.of(
             Material.WOOD, MaterialColor.WOOD).strength(2.0f).sound(SoundType.WOOD).harvestTool(ToolType.AXE)));
 
-        BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
-            Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
+        BOOKSHELF_EMPTY = PokecubeLegends.DECORATION_TAB.register("bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Woods (LOGS/LEAVES/PLANKS)
         // Aged Blocks
@@ -1037,11 +1044,12 @@ public class BlockInit
                 2.0f, 3.0f).noOcclusion()));
         AGED_BARREL = PokecubeLegends.BLOCKS_TAB.register("aged_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
-
         AGED_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("aged_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
-            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1)));
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
         AGED_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("aged_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
-            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Corrupted Blocks
         CORRUPTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("corrupted_leave", () -> new CorruptedLeavesBlock());
@@ -1119,9 +1127,11 @@ public class BlockInit
         DISTORTIC_BARREL = PokecubeLegends.BLOCKS_TAB.register("distortic_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
         DISTORTIC_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
-            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1)));
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
         DISTORTIC_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("distortic_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
-            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Inverted Blocks
         INVERTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave01", () -> new LeavesBlock(AbstractBlock.Properties.of(
@@ -1274,7 +1284,13 @@ public class BlockInit
             AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE).strength(
                 2.0f, 3.0f).noOcclusion().requiresCorrectToolForDrops()));
         CONCRETE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_barrel", () -> new GenericBarrel(
-            AbstractBlock.Properties.of(Material.STONE).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+        CONCRETE_BOOKSHELF = PokecubeLegends.DECORATION_TAB.register("concrete_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.SNOW).strength(4.5f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().harvestLevel(1)));
+        CONCRETE_BOOKSHELF_EMPTY = PokecubeLegends.DECORATION_TAB.register("concrete_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.SNOW).strength(4.5f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().harvestLevel(1).dynamicShape()));
 
         CONCRETE_DENSE_PLANKS = PokecubeLegends.DECORATION_TAB.register("concrete_dense_plank", () -> new Block(AbstractBlock.Properties.of(
             Material.STONE, MaterialColor.SNOW).strength(3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
@@ -1293,6 +1309,14 @@ public class BlockInit
         CONCRETE_DENSE_BUTTON = PokecubeLegends.DECORATION_TAB.register("concrete_dense_button",
             () -> new ItemGenerator.GenericStoneButton(AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW)
                 .sound(SoundType.STONE).noCollission().strength(0.8f).requiresCorrectToolForDrops()));
+        CONCRETE_DENSE_BARREL = PokecubeLegends.DECORATION_TAB.register("concrete_dense_barrel", () -> new GenericBarrel(
+            AbstractBlock.Properties.of(Material.STONE, MaterialColor.SNOW).strength(4.5F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
+        CONCRETE_DENSE_BOOKSHELF = PokecubeLegends.DECORATION_TAB.register("concrete_dense_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.SNOW).strength(4.5f).sound(SoundType.STONE)
+            .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().harvestLevel(1)));
+        CONCRETE_DENSE_BOOKSHELF_EMPTY = PokecubeLegends.DECORATION_TAB.register("concrete_dense_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.STONE, MaterialColor.SNOW).strength(4.5f).sound(SoundType.STONE)
+            .harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().harvestLevel(1).dynamicShape()));
 
         OCEAN_BRICK = PokecubeLegends.DECORATION_TAB.register("oceanbrick", () -> new BlockBase(Material.STONE, MaterialColor.COLOR_CYAN,
             1.5f, 10f, SoundType.STONE, ToolType.PICKAXE, 1, true));

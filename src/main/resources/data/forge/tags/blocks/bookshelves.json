@@ -3,6 +3,13 @@
     "values": [
         "minecraft:bookshelf",
         "pokecube_legends:aged_bookshelf",
-        "pokecube_legends:distortic_bookshelf"
+        "pokecube_legends:aged_bookshelf_empty",
+        "pokecube_legends:bookshelf_empty",
+        "pokecube_legends:concrete_bookshelf",
+        "pokecube_legends:concrete_bookshelf_empty",
+        "pokecube_legends:concrete_dense_bookshelf",
+        "pokecube_legends:concrete_dense_bookshelf_empty",
+        "pokecube_legends:distortic_bookshelf",
+        "pokecube_legends:distortic_bookshelf_empty"
     ]
 }

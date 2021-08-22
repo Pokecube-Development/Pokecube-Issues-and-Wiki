@@ -8,13 +8,13 @@
   ],
   "key": {
     "A": {
-      "item": "pokecube_legends:concrete_plank"
+      "item": "pokecube_legends:concrete_dense_plank"
     },
 	"S": {
-      "item": "pokecube_legends:concrete_slab"
+      "item": "pokecube_legends:concrete_dense_slab"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_barrel"
+    "item": "pokecube_legends:concrete_dense_barrel"
   }
 }
