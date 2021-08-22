@@ -1,21 +1,21 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "block/cube",
+	"parent": "block/cube_all",
 	"textures": {
-		"particle": "pokecube_legends:blocks/mirage_plank",
-		"down": "pokecube_legends:blocks/mirage_plank"
+		"particle": "pokecube_legends:blocks/mirage_planks",
+		"all": "pokecube_legends:blocks/mirage_planks"
 	},
 	"elements": [
 		{
 			"from": [0, 0, 0],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": {"uv": [16, 0, 0, 16], "texture": "#down", "cullface": "north"},
-				"east": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "east"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "south"},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "west"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "up"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "down"}
+				"north": {"uv": [16, 0, 0, 16], "texture": "#all", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "down"}
 			}
 		}
 	]
