@@ -1,0 +1,11 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "pokecube:block/generic_bookshelf_1",
+	"textures": {
+		"books": "pokecube_legends:blocks/bookshelf_books",
+		"books_side": "pokecube_legends:blocks/bookshelf_books_side",
+		"particle": "pokecube_legends:blocks/bookshelf_empty",
+		"center": "pokecube_legends:blocks/bookshelf_empty",
+		"planks": "block/oak_planks"
+	}
+}

@@ -225,8 +225,9 @@
 	"container.pokecube_legends.generic_barrel": "Barrel",
 	
     // Blocks Dimension
+    "block.pokecube_legends.bookshelf_empty": "Bookshelf",
 	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
-	"block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf",
+    "block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf",
 	
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_iron_ore": "Ultra Stone Iron Ore",
