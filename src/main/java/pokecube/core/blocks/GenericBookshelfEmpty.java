@@ -25,7 +25,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
+import pokecube.core.tileentity.GenericBookshelfEmptyTile;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

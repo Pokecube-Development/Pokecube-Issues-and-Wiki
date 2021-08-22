@@ -3,8 +3,8 @@ package pokecube.legends.init;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
-import pokecube.legends.tileentity.GenericBarrelTile;
+import pokecube.core.tileentity.GenericBookshelfEmptyTile;
+import pokecube.core.tileentity.GenericBarrelTile;
 
 public class TileEntityInit 
 {

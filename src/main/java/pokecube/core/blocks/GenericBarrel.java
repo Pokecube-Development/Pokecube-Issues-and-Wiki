@@ -11,7 +11,6 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.piglin.PiglinTasks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItemUseContext;
@@ -32,8 +31,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.legends.tileentity.GenericBarrelTile;
-import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
+import pokecube.core.tileentity.GenericBarrelTile;
 
 public class GenericBarrel extends ContainerBlock
 {

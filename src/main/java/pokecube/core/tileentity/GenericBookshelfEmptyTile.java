@@ -1,4 +1,4 @@
-package pokecube.legends.tileentity;
+package pokecube.core.tileentity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

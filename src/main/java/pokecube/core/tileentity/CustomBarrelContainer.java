@@ -1,4 +1,4 @@
-package pokecube.legends.tileentity;
+package pokecube.core.tileentity;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

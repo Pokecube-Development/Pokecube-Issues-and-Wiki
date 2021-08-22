@@ -3,7 +3,7 @@ package pokecube.legends.init;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.tileentity.CustomBarrelContainer;
+import pokecube.core.tileentity.CustomBarrelContainer;
 
 public class ContainerInit {
 

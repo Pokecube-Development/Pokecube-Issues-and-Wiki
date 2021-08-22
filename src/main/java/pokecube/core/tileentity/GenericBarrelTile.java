@@ -1,7 +1,6 @@
-package pokecube.legends.tileentity;
+package pokecube.core.tileentity;
 
 import net.minecraft.block.BlockState;
-import pokecube.legends.init.BlockInit;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.DoubleSidedInventory;
