@@ -1855,5 +1855,8 @@ public class BlockInit
         flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
         flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
+
+        //Bookshelves
+        flammableBlocks(BlockInit.DISTORTIC_BOOKSHELF.get(), 5, 20);
     }
 }
