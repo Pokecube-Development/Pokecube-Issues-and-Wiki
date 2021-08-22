@@ -107,10 +107,7 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 			this.scheduleRecheck();
 		} else {
 			BlockState blockstate = this.getBlockState();
-			if (!blockstate.is(BlockInit.INVERTED_BARREL.get()) || !blockstate.is(BlockInit.CONCRETE_BARREL.get()) ||
-				!blockstate.is(BlockInit.CORRUPTED_BARREL.get()) || !blockstate.is(BlockInit.DISTORTIC_STONE_BARREL.get()) ||
-				!blockstate.is(BlockInit.DISTORTIC_BARREL.get()) || !blockstate.is(BlockInit.MIRAGE_BARREL.get()) ||
-				!blockstate.is(BlockInit.TEMPORAL_BARREL.get()) || !blockstate.is(BlockInit.AGED_BARREL.get())) {
+			if (!(blockstate.getBlock() instanceof GenericBarrel)) {
 				this.setRemoved();
 				return;
 			}

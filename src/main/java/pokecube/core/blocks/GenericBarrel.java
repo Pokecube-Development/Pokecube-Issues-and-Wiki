@@ -33,6 +33,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.legends.tileentity.GenericBarrelTile;
+import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBarrel extends ContainerBlock
 {
@@ -80,15 +81,15 @@ public class GenericBarrel extends ContainerBlock
 	}
 
 	@SuppressWarnings("deprecation")
+	@Override
 	public void onRemove(BlockState state, World world, BlockPos pos, BlockState state2,
 			boolean remove) {
 		if (!state.is(state2.getBlock())) {
 			TileEntity tileentity = world.getBlockEntity(pos);
-			if (tileentity instanceof IInventory) {
-				InventoryHelper.dropContents(world, pos, (IInventory) tileentity);
+			if (tileentity instanceof GenericBarrelTile) {
+				InventoryHelper.dropContents(world, pos, (GenericBarrelTile) tileentity);
 				world.updateNeighbourForOutputSignal(pos, this);
 			}
-
 			super.onRemove(state, world, pos, state2, remove);
 		}
 	}

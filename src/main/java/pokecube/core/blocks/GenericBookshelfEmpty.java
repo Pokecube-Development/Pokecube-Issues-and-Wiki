@@ -188,16 +188,15 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public void onRemove(BlockState state, World world, BlockPos pos, BlockState state1, boolean b) {
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState state1, boolean b)
+    {
         if (!state.is(state1.getBlock())) {
             TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof GenericBookshelfEmptyTile) {
                 InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile)tile).getItems());
                 world.updateNeighbourForOutputSignal(pos, this);
             }
-
             super.onRemove(state, world, pos, state1, b);
         }
-
     }
 }
