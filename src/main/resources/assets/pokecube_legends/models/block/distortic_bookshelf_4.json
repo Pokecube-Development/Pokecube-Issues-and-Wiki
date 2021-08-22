@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "pokecube:block/generic_bookshelf",
+	"parent": "pokecube:block/generic_bookshelf_4",
 	"textures": {
 		"particle": "pokecube_legends:blocks/distortic_bookshelf_books",
 		"books": "pokecube_legends:blocks/distortic_bookshelf_books",
