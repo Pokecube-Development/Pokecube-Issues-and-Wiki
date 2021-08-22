@@ -222,14 +222,7 @@
 	"block.pokecube_legends.inverted_barrel": "Inverted Barrel",
 	"block.pokecube_legends.concrete_barrel": "Concrete Barrel",
 	
-	"container.pokecube_legends.distortic_stone_barrel": "Distortic Barrel",
-	"container.pokecube_legends.distortic_barrel": "Distortic Barrel",
-	"container.pokecube_legends.inverted_barrel": "Inverted Barrel",
-	"container.pokecube_legends.corrupted_barrel": "Corrupted Barrel",
-	"container.pokecube_legends.temporal_barrel": "Temporal Barrel",
-	"container.pokecube_legends.mirage_barrel": "Mirage Barrel",
-	"container.pokecube_legends.aged_barrel": "Aged Barrel",
-	"container.pokecube_legends.concrete_barrel": "Concrete Barrel",
+	"container.pokecube_legends.generic_barrel": "Barrel",
 	
     // Blocks Dimension
 	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",

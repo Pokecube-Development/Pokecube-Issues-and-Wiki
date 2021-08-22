@@ -55,7 +55,7 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 	}
 	
 	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container." + Reference.ID + ".inverted_barrel");
+		return new TranslationTextComponent("container." + Reference.ID + ".generic_barrel");
 	}
 	
 	public CompoundNBT save(CompoundNBT saveCompoundNBT) {
