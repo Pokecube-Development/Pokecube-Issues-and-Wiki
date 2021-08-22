@@ -339,6 +339,8 @@ public class BlockInit
     public static final RegistryObject<Block> AGED_BUTTON;
     public static final RegistryObject<Block> AGED_PR_PLATE;
     public static final RegistryObject<Block> AGED_BARREL;
+    public static final RegistryObject<Block> AGED_BOOKSHELF;
+    public static final RegistryObject<Block> AGED_BOOKSHELF_EMPTY;
 
     public static final RegistryObject<Block> CONCRETE_LOG;
     public static final RegistryObject<Block> CONCRETE_PLANKS;
@@ -1036,6 +1038,10 @@ public class BlockInit
         AGED_BARREL = PokecubeLegends.BLOCKS_TAB.register("aged_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
+        AGED_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("aged_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1)));
+        AGED_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("aged_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.COLOR_BLUE).strength(2f, 4f).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Corrupted Blocks
         CORRUPTED_LEAVES = PokecubeLegends.BLOCKS_TAB.register("corrupted_leave", () -> new CorruptedLeavesBlock());
@@ -1860,6 +1866,7 @@ public class BlockInit
         flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
 
         //Bookshelves
+        flammableBlocks(BlockInit.AGED_BOOKSHELF.get(), 5, 20);
         flammableBlocks(BlockInit.DISTORTIC_BOOKSHELF.get(), 5, 20);
     }
 }

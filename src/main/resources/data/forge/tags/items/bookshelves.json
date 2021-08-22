@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
+        "pokecube_legends:aged_bookshelf",
         "pokecube_legends:distortic_bookshelf"
     ]
 }
