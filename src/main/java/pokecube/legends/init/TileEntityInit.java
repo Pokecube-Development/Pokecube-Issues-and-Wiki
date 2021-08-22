@@ -3,6 +3,7 @@ package pokecube.legends.init;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 import pokecube.legends.tileentity.barrels.AgedPlankBarrelTile;
 import pokecube.legends.tileentity.barrels.ConcreteBarrelTile;
 import pokecube.legends.tileentity.barrels.CorruptedPlankBarrelTile;
@@ -23,7 +24,8 @@ public class TileEntityInit
     public static final RegistryObject<TileEntityType<MiragePlankBarrelTile>> CRYSTALLIZED_PLANK_BARREL_TILE;
     public static final RegistryObject<TileEntityType<CorruptedPlankBarrelTile>> CORRUPTED_PLANK_BARREL_TILE;
     public static final RegistryObject<TileEntityType<DistorticPlankBarrelTile>> DISTORTIC_PLANK_BARREL_TILE;
-    
+    public static final RegistryObject<TileEntityType<GenericBookshelfEmptyTile>> GENERIC_BOOKSHELF_EMPTY_TILE;
+
     static
     {
     	DISTORTIC_STONE_BARREL_TILE = PokecubeLegends.TILES.register("distortic_stone_barrel", () -> TileEntityType.Builder.of(
@@ -40,8 +42,10 @@ public class TileEntityInit
     			MiragePlankBarrelTile::new, BlockInit.MIRAGE_BARREL.get()).build(null));
     	CORRUPTED_PLANK_BARREL_TILE = PokecubeLegends.TILES.register("corrupted_barrel", () -> TileEntityType.Builder.of(
     			CorruptedPlankBarrelTile::new, BlockInit.CORRUPTED_BARREL.get()).build(null));
-    	DISTORTIC_PLANK_BARREL_TILE = PokecubeLegends.TILES.register("distortic_barrel", () -> TileEntityType.Builder.of(
-    			DistorticPlankBarrelTile::new, BlockInit.DISTORTIC_BARREL.get()).build(null));
+		DISTORTIC_PLANK_BARREL_TILE = PokecubeLegends.TILES.register("distortic_barrel", () -> TileEntityType.Builder.of(
+			DistorticPlankBarrelTile::new, BlockInit.DISTORTIC_BARREL.get()).build(null));
+		GENERIC_BOOKSHELF_EMPTY_TILE = PokecubeLegends.TILES.register("generic_bookshelf_empty", () -> TileEntityType.Builder.of(
+			GenericBookshelfEmptyTile::new, BlockInit.DISTORTIC_BOOKSHELF_EMPTY.get()).build(null));
     }
     
     public static void init() {}

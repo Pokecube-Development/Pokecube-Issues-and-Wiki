@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:filled_map",
+    "minecraft:map",
+    "pokecube:pokedex"
+  ],
+  "optional": [
+    "antiqueatlas:antique_atlas",
+    "computercraft:printed_page",
+    "computercraft:printed_pages"
+  ]
+}

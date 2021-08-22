@@ -56,12 +56,10 @@ public class Config extends ConfigData
 
     private static SoundEvent getRegisteredSoundEvent(final String id)
     {
-
         final SoundEvent soundevent = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(id));
         if (soundevent == null) throw new IllegalStateException("Invalid Sound requested: " + id);
         else return soundevent;
     }
-
     @Configure(category = Config.misc, comment = "Scaling factor for EXP yield from fighting another player's pokemobs. [Default: 0.5]")
     public double pvpExpMultiplier = 0.5;
     @Configure(category = Config.misc, comment = "Scales EXP yield from fighting non-player owned pokemobs. [Default: 1.0]")

@@ -1,18 +1,20 @@
 package pokecube.core.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.*;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.*;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -20,14 +22,16 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import pokecube.legends.blocks.customblocks.Rotates;
+import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericBookshelfEmpty extends Rotates implements IWaterLoggable
+public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLoggable
 {
     public static final IntegerProperty BOOKS = IntegerProperty.create("books", 0, 9);
     private static final Map<Direction, VoxelShape> EMPTY = new HashMap<>();
@@ -91,6 +95,48 @@ public class GenericBookshelfEmpty extends Rotates implements IWaterLoggable
     }
 
     @Override
+    public void setPlacedBy(World world, BlockPos pos, BlockState state,
+                            @Nullable LivingEntity entity, ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            TileEntity tile = world.getBlockEntity(pos);
+            if (tile instanceof GenericBookshelfEmptyTile) {
+                ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
+            }
+        }
+    }
+
+    // Adds Waterlogging
+    @SuppressWarnings("deprecation")
+    @Override
+    public FluidState getFluidState(final BlockState state)
+    {
+        return state.getValue(GenericBookshelfEmpty.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Deprecated
+    @Override
+    public BlockState rotate(final BlockState state, final Rotation rot)
+    {
+        return state.setValue(GenericBookshelfEmpty.FACING, rot.rotate(state.getValue(GenericBookshelfEmpty.FACING)));
+    }
+
+    @Deprecated
+    @Override
+    public BlockState mirror(final BlockState state, final Mirror mirrorIn)
+    {
+        return state.rotate(mirrorIn.getRotation(state.getValue(GenericBookshelfEmpty.FACING)));
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
     protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(GenericBookshelfEmpty.BOOKS, GenericBookshelfEmpty.FACING, GenericBookshelfEmpty.WATERLOGGED);
@@ -120,28 +166,38 @@ public class GenericBookshelfEmpty extends Rotates implements IWaterLoggable
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
                                 BlockRayTraceResult hit)
     {
-        ItemStack itemStack = entity.getItemInHand(hand);
-        Item book = itemStack.getItem();
-        boolean flag = book == Items.BOOK;
-        int i = this.getBooks(state);
-
-        ItemStack itemStack1 = new ItemStack(Items.BOOK);
-
-                if (flag && !entity.isShiftKeyDown() && i != 9)
-                {
-                    world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i + 1), 1);
-                    world.playSound((PlayerEntity)null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    itemStack.shrink(1);
-                    System.out.println("Shelved a book");
-                    return ActionResultType.SUCCESS;
-                }
-                else if ((i > 0) && entity.isShiftKeyDown()) {
-                    world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i - 1), 1);
-                    world.playSound((PlayerEntity)null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    entity.addItem(itemStack1);
-                    System.out.println("Removed a book");
-                    return ActionResultType.SUCCESS;
-                }
+        TileEntity tile = world.getBlockEntity(pos);
+        if (tile instanceof GenericBookshelfEmptyTile)
+        {
+            return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, state, pos, world);
+        }
         return ActionResultType.PASS;
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    public TileEntity newBlockEntity(IBlockReader block) {
+        return new GenericBookshelfEmptyTile();
+    }
+
+    public BlockRenderType getRenderShape(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState state1, boolean b) {
+        if (!state.is(state1.getBlock())) {
+            TileEntity tile = world.getBlockEntity(pos);
+            if (tile instanceof GenericBookshelfEmptyTile) {
+                InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile)tile).getItems());
+                world.updateNeighbourForOutputSignal(pos, this);
+            }
+
+            super.onRemove(state, world, pos, state1, b);
+        }
+
     }
 }
