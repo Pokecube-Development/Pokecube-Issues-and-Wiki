@@ -235,8 +235,10 @@
     "block.pokecube_legends.concrete_dense_bookshelf_empty": "Dense Concrete Bookshelf",
     "block.pokecube_legends.corrupted_bookshelf": "Corrupted Bookshelf",
     "block.pokecube_legends.corrupted_bookshelf_empty": "Corrupted Bookshelf",
-	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
+    "block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
     "block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf",
+    "block.pokecube_legends.inverted_bookshelf": "Inverted Bookshelf",
+    "block.pokecube_legends.inverted_bookshelf_empty": "Inverted Bookshelf",
 
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_iron_ore": "Ultra Stone Iron Ore",

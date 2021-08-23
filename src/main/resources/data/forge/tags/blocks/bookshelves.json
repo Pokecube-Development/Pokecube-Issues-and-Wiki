@@ -12,6 +12,8 @@
         "pokecube_legends:corrupted_bookshelf",
         "pokecube_legends:corrupted_bookshelf_empty",
         "pokecube_legends:distortic_bookshelf",
-        "pokecube_legends:distortic_bookshelf_empty"
+        "pokecube_legends:distortic_bookshelf_empty",
+        "pokecube_legends:inverted_bookshelf",
+        "pokecube_legends:inverted_bookshelf_empty"
     ]
 }

@@ -1,7 +1,7 @@
 {
   "group": "pokecube_legends",
   "type": "minecraft:smelting",
-  "experience": 1,
+  "experience": 0.5,
   "cookingtime": 260,
   "ingredient": {
     "item": "pokecube_legends:crystallized_cactus"

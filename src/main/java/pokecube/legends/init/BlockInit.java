@@ -421,6 +421,8 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_BUTTON;
     public static final RegistryObject<Block> INVERTED_PR_PLATE;
     public static final RegistryObject<Block> INVERTED_BARREL;
+    public static final RegistryObject<Block> INVERTED_BOOKSHELF;
+    public static final RegistryObject<Block> INVERTED_BOOKSHELF_EMPTY;
 
     public static final RegistryObject<Block> MIRAGE_GLASS;
     public static final RegistryObject<Block> MIRAGE_LOG;
@@ -1179,6 +1181,12 @@ public class BlockInit
                 2.0f, 3.0f).noOcclusion()));
         INVERTED_BARREL = PokecubeLegends.BLOCKS_TAB.register("inverted_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
+        INVERTED_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("inverted_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
+        INVERTED_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("inverted_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // MIRAGE Blocks
         MIRAGE_GLASS = PokecubeLegends.BLOCKS_TAB.register("mirage_glass", () -> new GlassBlockBase(AbstractBlock.Properties.copy(Blocks.GLASS).noOcclusion()));
