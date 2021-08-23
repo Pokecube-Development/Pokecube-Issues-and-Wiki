@@ -385,6 +385,8 @@ public class BlockInit
     public static final RegistryObject<Block> CORRUPTED_BUTTON;
     public static final RegistryObject<Block> CORRUPTED_PR_PLATE;
     public static final RegistryObject<Block> CORRUPTED_BARREL;
+    public static final RegistryObject<Block> CORRUPTED_BOOKSHELF;
+    public static final RegistryObject<Block> CORRUPTED_BOOKSHELF_EMPTY;
 
     public static final RegistryObject<Block> DISTORTIC_LOG;
     public static final RegistryObject<Block> DISTORTIC_PLANKS;
@@ -1087,6 +1089,12 @@ public class BlockInit
                 2.0f, 3.0f).noOcclusion()));
         CORRUPTED_BARREL = PokecubeLegends.BLOCKS_TAB.register("corrupted_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+        CORRUPTED_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("corrupted_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
+        CORRUPTED_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("corrupted_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.WOOD).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Distortic Blocks
         DISTORTIC_LEAVES = PokecubeLegends.BLOCKS_TAB.register("distortic_leave", () -> new LeavesBlock(AbstractBlock.Properties.of(

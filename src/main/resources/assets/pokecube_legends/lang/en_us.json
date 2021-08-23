@@ -58,8 +58,8 @@
 	"pokecube.thutmose.named": "Dev. Thutmose",
 	
     // "Pokecubes"
-    "item.pokecube.dynacube": "Dynamax cube",
-    "item.pokecube.dynacube.desc": "§7A modified pokécube which is used to capture pokemobs from [§6RAIDS§6]",
+    "item.pokecube.dynacube": "Dynamax Cube",
+    "item.pokecube.dynacube.desc": "§7A modified pokécube which is used to capture pokemobs from raids",
     
     "item.pokecube.beastcube": "Beastcube",
     "item.pokecube.beastcube.desc": "§7A modified pokécube that increases the \n§7chance of capture in other dimensions.",
@@ -233,6 +233,8 @@
     "block.pokecube_legends.concrete_bookshelf_empty": "Concrete Bookshelf",
     "block.pokecube_legends.concrete_dense_bookshelf": "Dense Concrete Bookshelf",
     "block.pokecube_legends.concrete_dense_bookshelf_empty": "Dense Concrete Bookshelf",
+    "block.pokecube_legends.corrupted_bookshelf": "Corrupted Bookshelf",
+    "block.pokecube_legends.corrupted_bookshelf_empty": "Corrupted Bookshelf",
 	"block.pokecube_legends.distortic_bookshelf": "Distortic Bookshelf",
     "block.pokecube_legends.distortic_bookshelf_empty": "Distortic Bookshelf",
 
