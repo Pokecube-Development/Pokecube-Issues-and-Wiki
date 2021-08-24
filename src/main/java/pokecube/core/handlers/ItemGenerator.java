@@ -3,10 +3,7 @@ package pokecube.core.handlers;
 import static net.minecraft.item.AxeItem.STRIPABLES;
 import static net.minecraft.item.Item.byBlock;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -364,10 +361,10 @@ public class ItemGenerator
         }
     }
 
-    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2) {
+    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2, AbstractBlock.Properties properties) {
         return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(2.4F).sound(SoundType.STONE));
+        }));
     }
 
     public static class GenericTrapDoor extends TrapDoorBlock
