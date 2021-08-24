@@ -21,7 +21,8 @@ public class TileEntityInit
 			BlockInit.TEMPORAL_BARREL.get()).build(null));
 		GENERIC_BOOKSHELF_EMPTY_TILE = PokecubeLegends.TILES.register("generic_bookshelf_empty", () -> TileEntityType.Builder.of(
 			GenericBookshelfEmptyTile::new, BlockInit.AGED_BOOKSHELF_EMPTY.get(), BlockInit.CONCRETE_BOOKSHELF_EMPTY.get(),
-			BlockInit.CONCRETE_DENSE_BOOKSHELF_EMPTY.get(), BlockInit.CORRUPTED_BOOKSHELF_EMPTY.get(), BlockInit.DISTORTIC_BOOKSHELF_EMPTY.get()).build(null));
+			BlockInit.CONCRETE_DENSE_BOOKSHELF_EMPTY.get(), BlockInit.CORRUPTED_BOOKSHELF_EMPTY.get(),
+			BlockInit.DISTORTIC_BOOKSHELF_EMPTY.get(), BlockInit.INVERTED_BOOKSHELF_EMPTY.get(), BlockInit.MIRAGE_BOOKSHELF_EMPTY.get()).build(null));
     }
     
     public static void init() {}
