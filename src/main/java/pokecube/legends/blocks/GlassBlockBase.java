@@ -3,13 +3,14 @@ package pokecube.legends.blocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IWorldReader;
 
 public class GlassBlockBase extends GlassBlock
 {
-    public GlassBlockBase(final Properties props)
+    public GlassBlockBase(DyeColor color, final Properties props)
     {
         super(props);
     }
@@ -21,6 +22,6 @@ public class GlassBlockBase extends GlassBlock
 
     @Override
     public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.00f, 0.95f, 1.00f};
+        return new float[]{0.00f, 0.00f, 0.00f};
     }
 }

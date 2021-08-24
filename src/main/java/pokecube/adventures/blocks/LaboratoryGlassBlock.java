@@ -8,9 +8,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IWorldReader;
 
-public class LaboratoryGlass extends StainedGlassBlock
+public class LaboratoryGlassBlock extends StainedGlassBlock
 {
-    public LaboratoryGlass(DyeColor color, final Properties properties)
+    public LaboratoryGlassBlock(DyeColor color, final Properties properties)
     {
         super(color, properties);
     }
