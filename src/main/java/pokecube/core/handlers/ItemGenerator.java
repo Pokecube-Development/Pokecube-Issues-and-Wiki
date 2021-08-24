@@ -364,7 +364,7 @@ public class ItemGenerator
     public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2, AbstractBlock.Properties properties) {
         return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }));
+        }).strength(2.4f, 6.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
 
     public static class GenericTrapDoor extends TrapDoorBlock
