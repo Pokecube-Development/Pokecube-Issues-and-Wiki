@@ -896,6 +896,8 @@ public class BlockInit
         		Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
         DISTORTIC_VINES_PLANT = PokecubeLegends.BLOCKS_TAB.register("distortic_vines_plant", () -> new DistortedVinesBlock(AbstractBlock.Properties.of(
         		Material.PLANT, MaterialColor.COLOR_MAGENTA).noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
+        TEMPORAL_VINES = PokecubeLegends.BLOCKS_TAB.register("temporal_vines", () -> new DistortedVinesTopBlock(AbstractBlock.Properties.of(
+            Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
 
         // Decorations Creative Tab - Sorting depends on the order the blocks are listed in
         // Torches
