@@ -459,6 +459,8 @@ public class BlockInit
     public static final RegistryObject<Block> TEMPORAL_BUTTON;
     public static final RegistryObject<Block> TEMPORAL_PR_PLATE;
     public static final RegistryObject<Block> TEMPORAL_BARREL;
+    public static final RegistryObject<Block> TEMPORAL_BOOKSHELF;
+    public static final RegistryObject<Block> TEMPORAL_BOOKSHELF_EMPTY;
     
     // Plants
     public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
@@ -1275,6 +1277,12 @@ public class BlockInit
                 2.0f, 3.0f).noOcclusion()));
         TEMPORAL_BARREL = PokecubeLegends.BLOCKS_TAB.register("temporal_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2.5F).sound(SoundType.WOOD)));
+        TEMPORAL_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("temporal_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
+        TEMPORAL_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("temporal_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.WARPED_NYLIUM).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         //Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.DECORATION_TAB.register("concrete_log", () -> concreteLog(
@@ -1926,5 +1934,6 @@ public class BlockInit
         flammableBlocks(BlockInit.DISTORTIC_BOOKSHELF.get(), 5, 20);
         flammableBlocks(BlockInit.INVERTED_BOOKSHELF.get(), 5, 20);
         flammableBlocks(BlockInit.MIRAGE_BOOKSHELF.get(), 5, 20);
+        flammableBlocks(BlockInit.TEMPORAL_BOOKSHELF.get(), 5, 20);
     }
 }
