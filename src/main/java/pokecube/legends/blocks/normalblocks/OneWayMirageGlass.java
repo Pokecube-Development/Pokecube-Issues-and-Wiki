@@ -8,11 +8,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
-public class DistorticOneWaySpectrumGlass extends DistorticOneWayStainedGlass
+public class OneWayMirageGlass extends OneWayStainedGlass
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWaySpectrumGlass(DyeColor color, final Properties properties)
+    public OneWayMirageGlass(DyeColor color, final Properties properties)
     {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
@@ -20,6 +20,6 @@ public class DistorticOneWaySpectrumGlass extends DistorticOneWayStainedGlass
 
     @Override
     public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.97f, 0.45f, 0.24f};
+        return new float[]{0.00f, 0.95f, 1.00f};
     }
 }

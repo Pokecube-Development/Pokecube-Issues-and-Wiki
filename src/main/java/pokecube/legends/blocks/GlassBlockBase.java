@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.normalblocks;
+package pokecube.legends.blocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GlassBlock;

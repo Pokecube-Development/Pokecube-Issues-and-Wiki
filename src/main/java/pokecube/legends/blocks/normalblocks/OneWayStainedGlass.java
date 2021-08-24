@@ -13,11 +13,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 
-public class DistorticOneWayStainedGlass extends StainedGlassBlock
+public class OneWayStainedGlass extends StainedGlassBlock
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayStainedGlass(DyeColor color, final Properties properties)
+    public OneWayStainedGlass(DyeColor color, final Properties properties)
     {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

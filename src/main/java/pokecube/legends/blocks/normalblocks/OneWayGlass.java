@@ -12,11 +12,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 
-public class DistorticOneWayGlass extends GlassBlock
+public class OneWayGlass extends GlassBlock
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayGlass(final Properties properties)
+    public OneWayGlass(final Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

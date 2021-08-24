@@ -8,11 +8,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
-public class DistorticOneWayLaboratoryGlass extends DistorticOneWayStainedGlass
+public class OneWayLaboratoryGlass extends OneWayStainedGlass
 {
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
 
-    public DistorticOneWayLaboratoryGlass(DyeColor color, final Properties properties)
+    public OneWayLaboratoryGlass(DyeColor color, final Properties properties)
     {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
