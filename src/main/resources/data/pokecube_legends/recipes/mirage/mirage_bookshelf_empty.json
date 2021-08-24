@@ -1,0 +1,20 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "AAA",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:mirage_plank"
+    },
+	"A": {
+      "item": "pokecube_legends:mirage_slab"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:mirage_bookshelf_empty"
+  }
+}

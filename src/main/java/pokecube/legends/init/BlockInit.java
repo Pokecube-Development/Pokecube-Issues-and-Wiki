@@ -440,6 +440,8 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_BUTTON;
     public static final RegistryObject<Block> MIRAGE_PR_PLATE;
     public static final RegistryObject<Block> MIRAGE_BARREL;
+    public static final RegistryObject<Block> MIRAGE_BOOKSHELF;
+    public static final RegistryObject<Block> MIRAGE_BOOKSHELF_EMPTY;
 
     public static final RegistryObject<Block> TEMPORAL_LOG;
     public static final RegistryObject<Block> TEMPORAL_PLANKS;
@@ -1227,6 +1229,12 @@ public class BlockInit
                 2.0f, 3.0f).noOcclusion()));
         MIRAGE_BARREL = PokecubeLegends.BLOCKS_TAB.register("mirage_barrel", () -> new GenericBarrel(
             AbstractBlock.Properties.of(Material.WOOD, MaterialColor.SAND).strength(2.5F).sound(SoundType.WOOD)));
+        MIRAGE_BOOKSHELF = PokecubeLegends.BLOCKS_TAB.register("mirage_bookshelf", () -> new GenericBookshelf(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.SAND).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1)));
+        MIRAGE_BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS_TAB.register("mirage_bookshelf_empty", () -> new GenericBookshelfEmpty(AbstractBlock.Properties.of(
+            Material.WOOD, MaterialColor.SAND).strength(2f, 4f).sound(SoundType.WOOD)
+            .harvestTool(ToolType.AXE).harvestLevel(1).dynamicShape()));
 
         // Temporal Blocks
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS_TAB.register("ultra_leave02", () -> new LeavesBlock(AbstractBlock.Properties.of(
