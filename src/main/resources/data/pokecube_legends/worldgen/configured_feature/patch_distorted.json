@@ -21,7 +21,7 @@
     },
     "decorator": {
       "config": {
-        "count": 2.0,
+        "count": 8.0,
         "extra_chance": 0.2,
         "extra_count": 1
       },
