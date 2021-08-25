@@ -1,5 +1,6 @@
 package pokecube.core.tileentity;
 
+import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,7 +28,9 @@ import java.util.Objects;
 
 public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements ISidedInventory
 {
-	private NonNullList<ItemStack> itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
+	public NonNullList<ItemStack> itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
+	private ITextComponent name;
+	public int bookCount;
 
 	private GenericBookshelfEmptyTile(TileEntityType<?> tileEntityType) {
 		super(tileEntityType);
@@ -45,14 +48,30 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT nbt)
+	public CompoundNBT save(CompoundNBT saveCompoundNBT)
 	{
-		super.save(nbt);
-		this.saveMetadataAndItems(nbt);
-		if (!this.trySaveLootTable(nbt)) {
-			ItemStackHelper.saveAllItems(nbt, this.itemStacks);
+		super.save(saveCompoundNBT);
+		this.saveMetadataAndItems(saveCompoundNBT);
+		if (!this.trySaveLootTable(saveCompoundNBT)) {
+			ItemStackHelper.saveAllItems(saveCompoundNBT, this.itemStacks);
 		}
-		return nbt;
+		if (this.name != null) {
+			saveCompoundNBT.putString("CustomName", ITextComponent.Serializer.toJson(this.name));
+		}
+		return saveCompoundNBT;
+	}
+
+	@Override
+	public void load(BlockState state, CompoundNBT loadCompoundNBT)
+	{
+		super.load(state, loadCompoundNBT);
+		this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+		if (!this.tryLoadLootTable(loadCompoundNBT)) {
+			ItemStackHelper.loadAllItems(loadCompoundNBT, this.itemStacks);
+		}
+		if (loadCompoundNBT.contains("CustomName", 8)) {
+			this.name = ITextComponent.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
+		}
 	}
 
 	@Override
@@ -63,16 +82,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 	@Override
 	protected Container createMenu(int i, PlayerInventory playerInventory) {
 		return null;
-	}
-
-	@Override
-	public void load(BlockState state, CompoundNBT nbt)
-	{
-		super.load(state, nbt);
-		this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(nbt)) {
-			ItemStackHelper.loadAllItems(nbt, this.itemStacks);
-		}
 	}
 
 	public CompoundNBT saveMetadataAndItems(CompoundNBT nbt)
@@ -109,6 +118,9 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 		ItemStack item = player.getItemInHand(hand);
 		int i = this.getBooks(state);
 		slot = i - 1;
+		if (this.bookCount < 0) {
+			this.bookCount = 0;
+		}
 		//remove book
 		if (item.isEmpty() && i >= 0 && hand == Hand.MAIN_HAND)
 		{
@@ -119,6 +131,7 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i - 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				player.addItem(stack);
+				--this.bookCount;
 				this.setChanged();
 				return ActionResultType.SUCCESS;
 			}
@@ -136,6 +149,7 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 				}
 				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i + 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				++this.bookCount;
 				this.setChanged();
 				return ActionResultType.SUCCESS;
 			}
@@ -149,6 +163,11 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 		Item book = stack.getItem();
 		return book instanceof BookItem || book instanceof EnchantedBookItem ||
 			book.is(ItemTags.LECTERN_BOOKS) || book.is(ModTags.BOOKS) || book.is(ModTags.BOOKSHELF_ITEMS);
+	}
+
+	public void updateBlockState(BlockState state, int books) {
+		assert this.level != null;
+		this.level.setBlock(this.getBlockPos(), state.setValue(GenericBookshelfEmpty.BOOKS, this.bookCount), 3);
 	}
 
 	public void markUpdated()

@@ -11,6 +11,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.piglin.PiglinTasks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItemUseContext;
@@ -84,8 +85,8 @@ public class GenericBarrel extends ContainerBlock
 			boolean remove) {
 		if (!state.is(state2.getBlock())) {
 			TileEntity tileentity = world.getBlockEntity(pos);
-			if (tileentity instanceof GenericBarrelTile) {
-				InventoryHelper.dropContents(world, pos, (GenericBarrelTile) tileentity);
+			if (tileentity instanceof IInventory) {
+				InventoryHelper.dropContents(world, pos, (IInventory) tileentity);
 				world.updateNeighbourForOutputSignal(pos, this);
 			}
 			super.onRemove(state, world, pos, state2, remove);

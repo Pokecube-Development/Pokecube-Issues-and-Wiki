@@ -20,6 +20,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.LockCode;
 import net.minecraft.world.World;
 import pokecube.legends.Reference;
 import pokecube.core.blocks.GenericBarrel;
@@ -27,6 +28,7 @@ import pokecube.legends.init.TileEntityInit;
 
 public class GenericBarrelTile extends LockableLootTileEntity {
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+	private ITextComponent name;
 	private int openCount;
 	
 	private GenericBarrelTile(TileEntityType<?> tileEntityType) {
@@ -62,7 +64,9 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 		if (!this.trySaveLootTable(saveCompoundNBT)) {
 			ItemStackHelper.saveAllItems(saveCompoundNBT, this.items);
 		}
-
+		if (this.name != null) {
+			saveCompoundNBT.putString("CustomName", ITextComponent.Serializer.toJson(this.name));
+		}
 		return saveCompoundNBT;
 	}
 
@@ -72,7 +76,9 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 		if (!this.tryLoadLootTable(loadCompoundNBT)) {
 			ItemStackHelper.loadAllItems(loadCompoundNBT, this.items);
 		}
-
+		if (loadCompoundNBT.contains("CustomName", 8)) {
+			this.name = ITextComponent.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
+		}
 	}
 	
 	public void startOpen(PlayerEntity player) {
