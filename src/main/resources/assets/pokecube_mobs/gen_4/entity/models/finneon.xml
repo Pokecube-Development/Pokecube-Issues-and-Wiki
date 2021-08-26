@@ -2,12 +2,16 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.30"/>
+        <customTex default="finneon">
+   <part name="finneon_eye" tex="finneon_eye"/>
+   <animation diffs="0,0.5" part="finneon_eye" trigger="random:0.005:3"/>
+  </customTex>
   <phase type="idle">
-   <part name="Tail_l_pt1">
+   <part name="righ tail">
     <component length="5" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
     <component length="5" name="2" rotChange="3,0,0" startKey="5"/>
    </part>
-   <part name="Tail_r_pt1">
+   <part name="left tail">
     <component length="5" name="1" rotChange="3,0,0" rotOffset="-3,0,0" startKey="0"/>
     <component length="5" name="2" rotChange="3,0,0" startKey="5"/>
    </part>
