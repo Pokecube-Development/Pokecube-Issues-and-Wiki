@@ -28,12 +28,12 @@ public abstract class NBTPacket extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public final void write(final PacketBuffer buffer)
     {
         buffer.writeNbt(this.getTag());
     }
 
-    public void setTag(final CompoundNBT tag)
+    public final void setTag(final CompoundNBT tag)
     {
         this.tag = tag;
     }
@@ -70,7 +70,7 @@ public abstract class NBTPacket extends Packet
 
     }
 
-    public CompoundNBT getTag()
+    public final CompoundNBT getTag()
     {
         return this.tag;
     }
