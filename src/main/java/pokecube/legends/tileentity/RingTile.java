@@ -14,6 +14,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.PortalWarpPart;
 import pokecube.legends.init.BlockInit;
+import thut.core.common.ThutCore;
 
 public class RingTile extends TileEntity implements ITickableTileEntity
 {
@@ -39,7 +40,7 @@ public class RingTile extends TileEntity implements ITickableTileEntity
         }
         else
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             this.timer = PokecubeLegends.config.ticksPerPortalReset;
             this.timer = this.timer / 2 + rand.nextInt(this.timer);
         }

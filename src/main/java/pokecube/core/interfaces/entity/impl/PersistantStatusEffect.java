@@ -26,6 +26,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.moves.damage.StatusEffectDamageSource;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class PersistantStatusEffect extends BaseEffect
 {
@@ -131,7 +132,7 @@ public class PersistantStatusEffect extends BaseEffect
 
         protected void spawnPoisonParticle(final Entity entity)
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             final Vector3 loc = Vector3.getNewVector();
             // int i = 0xFFFF00FF;
             // final double d0 = (i >> 16 & 255) / 255.0D;
@@ -150,7 +151,7 @@ public class PersistantStatusEffect extends BaseEffect
 
         protected void spawnSleepParticle(final Entity entity)
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             final Vector3 loc = Vector3.getNewVector();
             Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)

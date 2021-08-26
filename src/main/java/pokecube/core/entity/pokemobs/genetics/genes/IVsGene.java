@@ -10,13 +10,14 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneByteArr;
 
 public class IVsGene extends GeneByteArr
 {
     public IVsGene()
     {
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         this.value = new byte[] { Tools.getRandomIV(rand), Tools.getRandomIV(rand), Tools.getRandomIV(rand), Tools
                 .getRandomIV(rand), Tools.getRandomIV(rand), Tools.getRandomIV(rand) };
     }
@@ -55,7 +56,7 @@ public class IVsGene extends GeneByteArr
         final IVsGene newGene = new IVsGene();
         newGene.value = this.value.clone();
         final byte[] ret = newGene.value;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final float chance = GeneticsManager.mutationRates.get(this.getKey());
         for (int i = 0; i < 6; i++)
         {
@@ -84,7 +85,7 @@ public class IVsGene extends GeneByteArr
                     + parent1 + " " + parent2);
             return newGene;
         }
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final EVsGene gene1 = evs1.getExpressed();
         final EVsGene gene2 = evs2.getExpressed();
         final byte[] ret = newGene.value;

@@ -37,6 +37,7 @@ import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.SyncHandler;
 import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
@@ -195,7 +196,7 @@ public abstract class PokemobBase implements IPokemob
     /** The Entity this IPokemob is attached to. */
     protected MobEntity          entity;
     /** RNG used, should be entity.getRNG() */
-    protected Random             rand  = new Random();
+    protected Random             rand  = ThutCore.newRandom();
     /** Our original owner. */
     protected UUID               OTID;
     /** Used for maintaining/storing homes and routes. */

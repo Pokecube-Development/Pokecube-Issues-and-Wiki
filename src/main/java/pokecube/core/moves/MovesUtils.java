@@ -58,7 +58,7 @@ public class MovesUtils implements IMoveConstants
         ABLE, SLEEP, FREEZE, AIOFF, GENERICUNABLE;
     }
 
-    public static Random rand = new Random();
+    public static Random rand = ThutCore.newRandom();
 
     private static HashMap<String, Move_Base> moves = Maps.newHashMap();
 
@@ -578,7 +578,7 @@ public class MovesUtils implements IMoveConstants
         final boolean[] statuses = new boolean[Status.values().length];
         for (final Status test : Status.values())
             statuses[test.ordinal()] = (test.getMask() & status) != 0;
-        final int start = new Random().nextInt(1000);
+        final int start = ThutCore.newRandom().nextInt(1000);
         for (int i = 0; i < statuses.length; i++)
         {
             final int j = (i + start) % statuses.length;

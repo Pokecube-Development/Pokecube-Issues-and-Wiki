@@ -9,6 +9,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.moves.templates.Move_Ongoing;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class Whirlpool extends Move_Ongoing
 {
@@ -29,7 +30,7 @@ public class Whirlpool extends Move_Ongoing
     @Override
     public int getDuration()
     {
-        final Random r = new Random();
+        final Random r = ThutCore.newRandom();
         return 2 + r.nextInt(4);
     }
 

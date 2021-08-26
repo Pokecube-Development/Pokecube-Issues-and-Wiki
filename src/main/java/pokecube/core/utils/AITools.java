@@ -1,6 +1,5 @@
 package pokecube.core.utils;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -22,6 +21,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
+import thut.core.common.ThutCore;
 
 public class AITools
 {
@@ -32,7 +32,7 @@ public class AITools
         {
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             boolean wildAgress = !tame;
-            if (PokecubeCore.getConfig().mobAgroRate > 0) wildAgress = wildAgress && new Random().nextInt(PokecubeCore
+            if (PokecubeCore.getConfig().mobAgroRate > 0) wildAgress = wildAgress && ThutCore.newRandom().nextInt(PokecubeCore
                     .getConfig().mobAgroRate) == 0;
             else wildAgress = false;
             // Check if the mob should always be agressive.

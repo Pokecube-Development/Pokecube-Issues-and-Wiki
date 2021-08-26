@@ -1,7 +1,5 @@
 package pokecube.core.moves.templates;
 
-import java.util.Random;
-
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -12,6 +10,7 @@ import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 public class Move_Terrain extends Move_Basic
 {
@@ -47,7 +46,7 @@ public class Move_Terrain extends Move_Basic
         if (attacker.getMoveStats().SPECIALCOUNTER > 0) return;
         attacker.getMoveStats().SPECIALCOUNTER = 20;
 
-        this.duration = 300 + new Random().nextInt(600);
+        this.duration = 300 + ThutCore.newRandom().nextInt(600);
         final World world = attacker.getEntity().getCommandSenderWorld();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, location);
 

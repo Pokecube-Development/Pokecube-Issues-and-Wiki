@@ -29,6 +29,7 @@ import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.Alleles;
+import thut.core.common.ThutCore;
 
 public abstract class PokemobGenes extends PokemobSided implements IMobColourable
 {
@@ -206,7 +207,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 gene = new SpeciesGene();
                 info = gene.getValue();
                 info.entry = PokecubeCore.getEntryFor(this.getEntity().getType());
-                info.value = Tools.getSexe(info.entry.getSexeRatio(), new Random());
+                info.value = Tools.getSexe(info.entry.getSexeRatio(), ThutCore.newRandom());
                 info.entry = info.entry.getForGender(info.value);
                 info = info.clone();
                 // Generate the basic genes

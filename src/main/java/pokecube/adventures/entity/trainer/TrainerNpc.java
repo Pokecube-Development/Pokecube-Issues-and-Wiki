@@ -1,7 +1,6 @@
 package pokecube.adventures.entity.trainer;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.entity.AgeableEntity;
@@ -34,6 +33,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -192,7 +192,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (this.getNPCName().isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.setTypedName(names.get(new Random().nextInt(names.size())));
+            if (!names.isEmpty()) this.setTypedName(names.get(ThutCore.newRandom().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
     }

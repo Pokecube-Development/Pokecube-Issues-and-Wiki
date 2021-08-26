@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
 import java.util.Map;
-import java.util.Random;
 
 import com.google.common.collect.Maps;
 
@@ -12,6 +11,7 @@ import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.tasks.AbstractAntTask;
 import pokecube.core.interfaces.IPokemob;
+import thut.core.common.ThutCore;
 
 public class Idle extends AbstractAntTask
 {
@@ -44,7 +44,7 @@ public class Idle extends AbstractAntTask
         if (num == 0) return;
         if (this.timer-- > 0) return;
         this.timer = 100;
-        final int index = new Random().nextInt(num);
+        final int index = ThutCore.newRandom().nextInt(num);
         final Node room = this.nest.hab.rooms.allRooms.get(index);
         if (!room.started) return;
         // PokecubeCore.LOGGER.debug("wander to {} ({})", room.center,

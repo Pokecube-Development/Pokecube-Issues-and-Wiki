@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.combat.movement;
 
 import java.util.Map;
-import java.util.Random;
 
 import com.google.common.collect.Maps;
 
@@ -20,6 +19,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /**
  * This one extends TaskBase, rather than FightTask, as it can apply when just a
@@ -56,7 +56,7 @@ public class LeapTask extends TaskBase implements IAICombat
     private SoundEvent getLeapSound()
     {
         if (PokecubeCore.getConfig().leaps.length == 1) return PokecubeCore.getConfig().leaps[0];
-        return PokecubeCore.getConfig().leaps[new Random().nextInt(PokecubeCore.getConfig().leaps.length)];
+        return PokecubeCore.getConfig().leaps[ThutCore.newRandom().nextInt(PokecubeCore.getConfig().leaps.length)];
     }
 
     @Override

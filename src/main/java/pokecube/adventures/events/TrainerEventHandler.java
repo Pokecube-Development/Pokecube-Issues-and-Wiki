@@ -89,6 +89,7 @@ import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.SyncHandler;
@@ -109,7 +110,7 @@ public class TrainerEventHandler
             // Check for blank name, and if so, randomize it.
             final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
             if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName("pokecube." + mob.getNpcType().getName()
-                    + ".named:" + names.get(new Random().nextInt(names.size())));
+                    + ".named:" + names.get(ThutCore.newRandom().nextInt(names.size())));
         }
 
         @Override

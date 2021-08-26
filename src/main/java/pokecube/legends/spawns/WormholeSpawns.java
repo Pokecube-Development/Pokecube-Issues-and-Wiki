@@ -36,6 +36,7 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
+import thut.core.common.ThutCore;
 
 public class WormholeSpawns implements IWorldTickListener
 {
@@ -149,7 +150,7 @@ public class WormholeSpawns implements IWorldTickListener
 
     public static BlockPos getWormholePos(final ServerWorld world, final BlockPos base)
     {
-        final Random rng = new Random();
+        final Random rng = ThutCore.newRandom();
 
         // Ensusre the chunk is loaded.
         world.getChunk(base);

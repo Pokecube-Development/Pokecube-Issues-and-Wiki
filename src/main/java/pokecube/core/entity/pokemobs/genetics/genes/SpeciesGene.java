@@ -14,6 +14,7 @@ import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.genetics.Gene;
+import thut.core.common.ThutCore;
 
 public class SpeciesGene implements Gene<SpeciesInfo>
 {
@@ -69,7 +70,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
     SpeciesInfo info = new SpeciesInfo();
 
-    Random rand = new Random();
+    Random rand = ThutCore.newRandom();
 
     /** The value here is of format {gender, ratio}. */
     public SpeciesGene()

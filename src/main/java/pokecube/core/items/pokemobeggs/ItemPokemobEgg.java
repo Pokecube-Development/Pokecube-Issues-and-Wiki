@@ -2,7 +2,6 @@ package pokecube.core.items.pokemobeggs;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -62,6 +61,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -164,7 +164,7 @@ public class ItemPokemobEgg extends Item
     public static float getSize(final float fatherSize, final float motherSize)
     {
         float ret = 1;
-        ret = (fatherSize + motherSize) * 0.5f * (1 + 0.075f * (float) new Random().nextGaussian());
+        ret = (fatherSize + motherSize) * 0.5f * (1 + 0.075f * (float) ThutCore.newRandom().nextGaussian());
         ret = Math.min(Math.max(0.1f, ret), 2);
         return ret;
     }

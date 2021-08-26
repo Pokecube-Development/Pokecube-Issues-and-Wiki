@@ -1,7 +1,6 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -53,6 +52,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 
 public class Pokecube extends Item implements IPokecube
@@ -421,7 +421,7 @@ public class Pokecube extends Item implements IPokecube
         if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
         if (!world.isClientSide)
         {
-            thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
+            thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
             world.addFreshEntity(entity);
             if (hasMob && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
@@ -483,7 +483,7 @@ public class Pokecube extends Item implements IPokecube
             }
             if (!world.isClientSide)
             {
-                thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
+                thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
                 world.addFreshEntity(entity);
                 if (PokecubeManager.isFilled(stack) && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(
                         stack, false, false);

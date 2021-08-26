@@ -1,7 +1,5 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import java.util.Random;
-
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -15,6 +13,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public abstract class PokemobHungry extends PokemobMoves
 {
@@ -69,7 +68,7 @@ public abstract class PokemobHungry extends PokemobMoves
                     this.getPokedexEntry());
             if (this.getExp() < exp)
             {
-                final int n = new Random().nextInt(exp - this.getExp()) / 3 + 1;
+                final int n = ThutCore.newRandom().nextInt(exp - this.getExp()) / 3 + 1;
                 this.setExp(this.getExp() + n, true);
             }
         }

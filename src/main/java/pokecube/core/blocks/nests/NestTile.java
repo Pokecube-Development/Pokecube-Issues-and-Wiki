@@ -40,6 +40,7 @@ import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvid
 import pokecube.core.inventory.InvWrapper;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.core.common.ThutCore;
 
 public class NestTile extends InteractableTile implements ITickableTileEntity
 {
@@ -53,7 +54,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         final CompoundNBT nest = NBTUtil.writeBlockPos(pos);
         nbt.put("nestLoc", nest);
         eggItem.setTag(nbt);
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world);
         egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1, pos.getZ() + 1.5 * (0.5 - rand
                 .nextDouble())).setStack(eggItem);
@@ -171,8 +172,14 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (this.level == null) return false;
-        return SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
+        if (!(this.level instanceof ServerWorld)) return false;
+        final IInhabitable hab = this.getWrappedHab();
+        if (hab == null || this.level.isClientSide()) return false;
+        final BlockPos pos = this.getBlockPos();
+        hab.setPos(pos);
+        final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.level);
+        if (region == null) return false;
+        return SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
     }
 
     public void removeResident(final IPokemob resident)

@@ -1,13 +1,12 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
-import java.util.Random;
-
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
 import thut.api.entity.genetics.Gene;
+import thut.core.common.ThutCore;
 
 public class AbilityGene implements Gene<AbilityObject>
 {
@@ -68,7 +67,7 @@ public class AbilityGene implements Gene<AbilityObject>
     public Gene<AbilityObject> mutate()
     {
         final AbilityGene newGene = new AbilityGene();
-        final byte index = (byte) (this.ability.abilityIndex == 2 ? new Random().nextInt(2) : 2);
+        final byte index = (byte) (this.ability.abilityIndex == 2 ? ThutCore.newRandom().nextInt(2) : 2);
         newGene.ability.abilityIndex = index;
         return newGene;
     }

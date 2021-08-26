@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" scale="0.9"/>
+  <phase name="global" scale="0.2"/>
   <metadata head="head" headCap="-60,60"/>
-  <phase armAngle="50" duration="10" leftArm="armleft" leftLeg="footleft" legAngle="45" name="biWalk" rightArm="armright" rightLeg="footright"/>
+  <phase armAngle="50" duration="10" leftArm="left_arm" leftLeg="left_leg" legAngle="45" name="biWalk" rightArm="right_arm" rightLeg="right_leg"/>
+  <customTex default="oshawott">
+   <part name="oshawott_eye" tex="oshawott_eye"/>
+   <animation diffs="0,0.5" part="oshawott_eye" trigger="random:0.005:3"/>
+  </customTex>
  </model>
 </ModelAnimator>

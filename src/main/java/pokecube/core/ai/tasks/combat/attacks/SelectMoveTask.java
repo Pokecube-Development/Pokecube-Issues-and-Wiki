@@ -17,6 +17,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.Tools;
 import thut.api.entity.ai.IAICombat;
+import thut.core.common.ThutCore;
 
 public class SelectMoveTask extends CombatTask implements IAICombat
 {
@@ -106,7 +107,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
      */
     protected boolean selectRandomMove()
     {
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         if (this.moveIndexCounter++ > rand.nextInt(30))
         {
             final int nb = rand.nextInt(5);

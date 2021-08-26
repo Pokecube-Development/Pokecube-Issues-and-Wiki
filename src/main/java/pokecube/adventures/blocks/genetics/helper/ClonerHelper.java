@@ -245,7 +245,7 @@ public class ClonerHelper
         alleles = selector.merge(alleles, eggsAllele);
         if (alleles != null)
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             if (alleles.getExpressed().getEpigeneticRate() > rand.nextFloat())
             {
                 final GENE gene = alleles.getAllele(rand.nextBoolean() ? 0 : 1);

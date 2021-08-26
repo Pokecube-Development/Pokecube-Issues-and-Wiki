@@ -62,6 +62,7 @@ import pokecube.mobs.moves.MoveRegister;
 import pokecube.mobs.proxy.ClientProxy;
 import pokecube.mobs.proxy.CommonProxy;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -208,7 +209,7 @@ public class PokecubeMobs
             if (item.isEmpty()) return;
             final Item itemId = item.getItem();
             boolean berry = itemId == BerryManager.getBerryItem("oran");
-            final Random r = new Random();
+            final Random r = ThutCore.newRandom();
             if (berry && r.nextGaussian() > EventsHandler.juiceChance)
             {
                 if (shuckle.getOwner() != null)

@@ -1,9 +1,11 @@
 package pokecube.core.client.gui.watch;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -12,6 +14,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -30,26 +35,80 @@ public class SecretBaseRadarPage extends WatchPage
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_meteor_nm.png");
 
-    public static Set<BlockPos> bases   = Sets.newHashSet();
-    public static Set<BlockPos> meteors = Sets.newHashSet();
+    public static Map<RadarMode, Set<BlockPos>> radar_hits = Maps.newHashMap();
 
-    public static float    baseRange  = 64;
-    private static boolean meteorMode = false;
+    public static enum RadarMode
+    {
+        SECRET_BASE("base"), METEOR("meteor", 10), SPAWN_INHIBITORS("repels");
 
-    private final ITextComponent meteorTitle;
-    private final ITextComponent baseTitle;
+        RadarMode(final String string)
+        {
+            this(string, 1);
+        }
+
+        RadarMode(final String string, final float scale)
+        {
+            this.key = new TranslationTextComponent("pokewatch.title." + string + "radar");
+            this.rangeScale = scale;
+            SecretBaseRadarPage.radar_hits.put(this, Sets.newHashSet());
+        }
+
+        final TranslationTextComponent key;
+
+        final float rangeScale;
+    }
+
+    public static void updateRadar(final CompoundNBT data)
+    {
+        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListNBT)
+        {
+            final ListNBT list = (ListNBT) data.get("_meteors_");
+            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).clear();
+            for (int i = 0; i < list.size(); i++)
+            {
+                final CompoundNBT tag = list.getCompound(i);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).add(NBTUtil
+                        .readBlockPos(tag));
+            }
+        }
+        if (data.contains("_bases_") && data.get("_bases_") instanceof ListNBT)
+        {
+            final ListNBT list = (ListNBT) data.get("_bases_");
+            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).clear();
+            for (int i = 0; i < list.size(); i++)
+            {
+                final CompoundNBT tag = list.getCompound(i);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).add(NBTUtil
+                        .readBlockPos(tag));
+            }
+        }
+        if (data.contains("_repels_") && data.get("_repels_") instanceof ListNBT)
+        {
+            final ListNBT list = (ListNBT) data.get("_repels_");
+            pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).clear();
+            for (int i = 0; i < list.size(); i++)
+            {
+                final CompoundNBT tag = list.getCompound(i);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).add(
+                        NBTUtil.readBlockPos(tag));
+            }
+        }
+        pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange = data.getInt("R");
+    }
+
+    public static float baseRange = 64;
+
+    private static RadarMode mode = RadarMode.SECRET_BASE;
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
-        this.meteorTitle = new TranslationTextComponent("pokewatch.title.meteorradar");
-        this.baseTitle = new TranslationTextComponent("pokewatch.title.baseradar");
     }
 
     @Override
     public ITextComponent getTitle()
     {
-        return SecretBaseRadarPage.meteorMode ? this.meteorTitle : this.baseTitle;
+        return SecretBaseRadarPage.mode.key;
     }
 
     @Override
@@ -59,8 +118,9 @@ public class SecretBaseRadarPage extends WatchPage
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
         this.addButton(new TexButton(x + 95, y - 70, 12, 12, new StringTextComponent(""),
-                b -> SecretBaseRadarPage.meteorMode = !SecretBaseRadarPage.meteorMode).setTex(GuiPokeWatch
-                        .getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1) % RadarMode
+                        .values().length]).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12,
+                                12)));
     }
 
     @Override
@@ -86,15 +146,13 @@ public class SecretBaseRadarPage extends WatchPage
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder vertexbuffer = tessellator.getBuilder();
         r = 1;
-        g = SecretBaseRadarPage.meteorMode ? 1 : 0;
+        g = 0;
         final Vector3 here = Vector3.getNewVector().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
         GL11.glRotated(angle, 0, 0, 1);
 
-        final Set<BlockPos> coords = SecretBaseRadarPage.meteorMode ? SecretBaseRadarPage.meteors
-                : SecretBaseRadarPage.bases;
-        final float range = SecretBaseRadarPage.meteorMode ? SecretBaseRadarPage.baseRange * 10
-                : SecretBaseRadarPage.baseRange;
+        final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
+        final float range = SecretBaseRadarPage.baseRange * SecretBaseRadarPage.mode.rangeScale;
 
         for (final BlockPos c : coords)
         {
@@ -109,7 +167,7 @@ public class SecretBaseRadarPage extends WatchPage
             a = (64 - vDist) / 64;
             a = Math.min(a, 1);
             a = Math.max(a, 0.125f);
-            if (SecretBaseRadarPage.meteorMode) a = 1;
+
             double dist = max * Math.sqrt(hDistSq) / range;
             dist = Math.min(dist, max);
             v.scalarMultBy(dist);

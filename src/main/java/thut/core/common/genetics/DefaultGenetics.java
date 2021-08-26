@@ -12,10 +12,11 @@ import net.minecraft.util.ResourceLocation;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.ThutCore;
 
 public class DefaultGenetics implements IMobGenetics
 {
-    Random                               rand     = new Random();
+    Random                               rand     = ThutCore.newRandom();
     Map<ResourceLocation, Alleles<?, ?>> genetics = Maps.newHashMap();
     Set<Alleles<?, ?>>                   epigenes;
 

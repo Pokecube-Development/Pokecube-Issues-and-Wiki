@@ -1,7 +1,5 @@
 package thut.api.entity.blockentity.render;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.block.BlockState;
@@ -37,6 +35,7 @@ import net.minecraftforge.client.model.data.IModelData;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.core.common.ThutCore;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer<T>
@@ -184,7 +183,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                 final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
                 final IBakedModel model = blockRenderer.getBlockModel(state);
                 blockRenderer.getModelRenderer().renderModel((IBlockDisplayReader) world, model, state, real_pos,
-                        mat, bufferIn.getBuffer(type), false, new Random(), state.getSeed(rpos),
+                        mat, bufferIn.getBuffer(type), false, ThutCore.newRandom(), state.getSeed(rpos),
                         packedLightIn, data);
             }
     }

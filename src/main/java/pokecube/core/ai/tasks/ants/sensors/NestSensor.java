@@ -21,6 +21,7 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
 import pokecube.core.blocks.nests.NestTile;
+import thut.core.common.ThutCore;
 
 public class NestSensor extends Sensor<MobEntity>
 {
@@ -71,7 +72,7 @@ public class NestSensor extends Sensor<MobEntity>
 
         final PointOfInterestManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
                 worldIn, entityIn), Status.ANY, pos, NestSensor.NESTSPACING, rand);
         if (opt.isPresent())
