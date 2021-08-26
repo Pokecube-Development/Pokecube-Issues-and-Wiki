@@ -1,7 +1,5 @@
 package pokecube.mobs.moves.world;
 
-import java.util.Random;
-
 import net.minecraft.util.Direction;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -9,6 +7,7 @@ import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.TreeRemover;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class ActionCut implements IMoveAction
 {
@@ -29,7 +28,7 @@ public class ActionCut implements IMoveAction
         int cut = remover.cut(true);
         if (cut == 0)
         {
-            final int index = new Random().nextInt(6);
+            final int index = ThutCore.newRandom().nextInt(6);
             for (int i = 0; i < 6; i++)
             {
                 final Direction dir = Direction.values()[(i + index) % 6];

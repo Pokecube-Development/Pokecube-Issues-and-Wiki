@@ -572,7 +572,7 @@ public class PokedexEntry
                 result = results.get(index).copy();
             }
             if (result.isEmpty()) return false;
-            final long dt = (long) ((action.cooldown + new Random().nextInt(action.variance)) * PokecubeCore
+            final long dt = (long) ((action.cooldown + ThutCore.newRandom().nextInt(action.variance)) * PokecubeCore
                     .getConfig().interactDelayScale);
             final long now = Tracker.instance().getTick();
             final long timer = dt + now;

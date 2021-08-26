@@ -38,6 +38,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
 /**
@@ -77,7 +78,7 @@ public class Health
     {
         final ITextComponent comp = compIn;
         String val = comp.getString();
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final char[] chars = val.toCharArray();
         for (int i = 0; i < val.length(); i++)
             for (int j = 0; j < 10; j++)

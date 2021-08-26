@@ -2,7 +2,6 @@ package pokecube.core.ai.logic;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
@@ -24,6 +23,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /**
  * This applies ongoing moves, applies status effects, and manages sounds when
@@ -103,7 +103,7 @@ public class LogicMovesUpdates extends LogicBase
             {
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
-                if (!moves.isEmpty()) move = moves.get(new Random().nextInt(moves.size()));
+                if (!moves.isEmpty()) move = moves.get(ThutCore.newRandom().nextInt(moves.size()));
                 this.pokemob.learn(move);
             }
         }

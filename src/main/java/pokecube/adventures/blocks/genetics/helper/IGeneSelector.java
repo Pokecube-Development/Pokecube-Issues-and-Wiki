@@ -8,6 +8,7 @@ import pokecube.core.PokecubeCore;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.core.common.ThutCore;
 
 public interface IGeneSelector
 {
@@ -46,7 +47,7 @@ public interface IGeneSelector
     default <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final Alleles<T, GENE> source,
             final Alleles<T, GENE> destination)
     {
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         GENE geneSource = source.getExpressed();
         GENE geneDest = destination.getExpressed();
         if (geneSource.getEpigeneticRate() < rand.nextFloat())

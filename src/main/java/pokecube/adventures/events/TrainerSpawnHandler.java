@@ -64,6 +64,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
+import thut.core.common.ThutCore;
 
 public class TrainerSpawnHandler
 {
@@ -146,7 +147,7 @@ public class TrainerSpawnHandler
 
         final Vector3 v = TrainerSpawnHandler.vec1.set(player);
 
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
 
         // SElect random gaussians from here.
         double x = rand.nextGaussian() * maxRange;
@@ -224,7 +225,7 @@ public class TrainerSpawnHandler
             // Randomize badge for leader.
 
             final IHasRewards rewardsCap = ((LeaderNpc) trainer).rewardsCap;
-            final PokeType type = PokeType.values()[new Random().nextInt(PokeType.values().length)];
+            final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.MODID, ":badge_" + type));
             if (item != null)
             {

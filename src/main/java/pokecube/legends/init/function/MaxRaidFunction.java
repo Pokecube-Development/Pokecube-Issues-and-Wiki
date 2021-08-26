@@ -30,6 +30,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /**
  * Uses player interact here to also prevent opening of inventories.
@@ -44,7 +45,7 @@ public class MaxRaidFunction
     {
         PokedexEntry ret = null;
         int n = 0;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         while (ret == null)
         {
             // Pick a random number from 1 to just below database size, this
@@ -90,7 +91,7 @@ public class MaxRaidFunction
             bannedAI.add(AIRoutine.ANTAI);
 
             //Pokemob Level Spawm
-            final int level = new Random().nextInt(50);
+            final int level = ThutCore.newRandom().nextInt(50);
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
             

@@ -9,6 +9,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
 import pokecube.core.moves.damage.GenericDamageSource;
+import thut.core.common.ThutCore;
 
 public class Move_Ongoing extends Move_Basic
 {
@@ -42,7 +43,7 @@ public class Move_Ongoing extends Move_Basic
 
     public int getDuration()
     {
-        final Random r = new Random();
+        final Random r = ThutCore.newRandom();
         return 4 + r.nextInt(2);
     }
 

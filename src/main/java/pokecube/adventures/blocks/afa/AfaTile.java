@@ -37,6 +37,7 @@ import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
 public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage, IInventoryChangedListener
@@ -313,7 +314,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     {
         if (this.shiny) if (evt.location.distanceTo(Vector3.getNewVector().set(this)) <= this.distance)
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             final int rate = Math.max(PokecubeAdv.config.afaShinyRate, 1);
             if (rand.nextInt(rate) == 0)
             {

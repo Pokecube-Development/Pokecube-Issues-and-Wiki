@@ -7,6 +7,7 @@ import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 @AnimPreset(getPreset = "pont")
 public class ParticlesOnTarget extends MoveAnimationBase
@@ -46,7 +47,7 @@ public class ParticlesOnTarget extends MoveAnimationBase
         if (Math.random() > this.density) return;
         this.initColour(info.attacker.getCommandSenderWorld().getDayTime(), 0, info.move);
         final Vector3 temp = Vector3.getNewVector().set(info.target);
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         float dw = 0.25f;
         if (info.attacked != null) dw = info.attacked.getBbWidth();
         final float width = this.width * dw;

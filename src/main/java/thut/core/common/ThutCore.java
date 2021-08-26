@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -237,6 +238,11 @@ public class ThutCore
         trim = trim.replaceAll(" ", "_");
         ThutCore.trimmed.put(name, trim);
         return trim;
+    }
+
+    public static Random newRandom()
+    {
+        return new Random(System.nanoTime());
     }
 
     public ThutCore()

@@ -1,7 +1,6 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -32,6 +31,7 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.utils.Tools;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class EntityPokecube extends EntityPokecubeBase
 {
@@ -177,7 +177,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     ItemStack loot = ItemStack.EMPTY;
                     if (!this.lootStacks.isEmpty())
                     {
-                        loot = this.lootStacks.get(new Random().nextInt(this.lootStacks.size()));
+                        loot = this.lootStacks.get(ThutCore.newRandom().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
                             PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick()

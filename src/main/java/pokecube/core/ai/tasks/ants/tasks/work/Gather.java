@@ -1,12 +1,11 @@
 package pokecube.core.ai.tasks.ants.tasks.work;
 
-import java.util.Random;
-
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
 import pokecube.core.ai.tasks.utility.GatherTask;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ai.IAIRunnable;
+import thut.core.common.ThutCore;
 
 public class Gather extends AbstractWorkTask
 {
@@ -40,7 +39,7 @@ public class Gather extends AbstractWorkTask
         else if (this.gather_timer++ > 100 && this.task.targetItem == null)
         {
             this.gather_timer = 0;
-            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items.get(new Random().nextInt(
+            if (!this.nest.hab.items.isEmpty()) this.task.targetItem = this.nest.hab.items.get(ThutCore.newRandom().nextInt(
                     this.nest.hab.items.size()));
         }
     }

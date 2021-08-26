@@ -10,6 +10,7 @@ import java.util.Random;
 import org.nfunk.jep.JEP;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -73,6 +74,7 @@ import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 /** @author Manchou Heavily modified by Thutmose */
 public final class SpawnHandler
@@ -131,7 +133,6 @@ public final class SpawnHandler
         {
             return this.mid;
         }
-
     }
 
     public static class ForbiddenEntry
@@ -330,6 +331,16 @@ public final class SpawnHandler
         for (final ForbiddenEntry entry : entries.values())
             if (entry.region.isInside(here)) return entry;
         return null;
+    }
+
+    public static List<ForbiddenEntry> getForbiddenEntries(final World world, final BlockPos pos)
+    {
+        final List<ForbiddenEntry> ret = Lists.newArrayList();
+        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
+        if (entries == null) return ret;
+        for (final ForbiddenEntry entry : entries.values())
+            if (entry.region.isInside(pos)) ret.add(entry);
+        return ret;
     }
 
     public static ForbidReason getNoSpawnReason(final World world, final BlockPos pos)
@@ -798,7 +809,7 @@ public final class SpawnHandler
         final SpawnBiomeMatcher matcher = entry.getMatcher(world, loc);
         if (matcher == null) return 0;
         final byte distGroupZone = 4;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final int n = Math.max(entry.getMax(matcher) - entry.getMin(matcher), 1);
         final int spawnNumber = entry.getMin(matcher) + rand.nextInt(n);
 

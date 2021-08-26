@@ -1,7 +1,5 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import java.util.Random;
-
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,6 +13,7 @@ import pokecube.core.network.pokemobs.PacketNickname;
 import pokecube.core.network.pokemobs.PacketSyncExp;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
+import thut.core.common.ThutCore;
 
 public abstract class PokemobStats extends PokemobGenes
 {
@@ -55,7 +54,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public int getRNGValue()
     {
-        if (this.personalityValue == 0) this.personalityValue = new Random().nextInt();
+        if (this.personalityValue == 0) this.personalityValue = ThutCore.newRandom().nextInt();
         return this.personalityValue;
     }
 
@@ -174,7 +173,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public void setRNGValue(int value)
     {
-        if (value == 0) value = new Random().nextInt();
+        if (value == 0) value = ThutCore.newRandom().nextInt();
         this.personalityValue = value;
     }
 

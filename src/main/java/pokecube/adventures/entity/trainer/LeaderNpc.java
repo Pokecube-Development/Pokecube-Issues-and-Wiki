@@ -1,7 +1,6 @@
 package pokecube.adventures.entity.trainer;
 
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -17,6 +16,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class LeaderNpc extends TrainerNpc
 {
@@ -45,7 +45,7 @@ public class LeaderNpc extends TrainerNpc
         if (this.rewardsCap != null && this.rewardsCap.getRewards().isEmpty() || (type = PokecubeAdv.BADGEINV.get(
                 this.rewardsCap.getRewards().get(0).stack.getItem())) == null)
         {
-            type = PokeType.values()[new Random().nextInt(PokeType.values().length)];
+            type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
             final Item badge = PokecubeAdv.BADGES.get(type);
             this.rewardsCap.getRewards().add(0, new Reward(new ItemStack(badge)));
         }

@@ -24,6 +24,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
+import thut.core.common.ThutCore;
 
 /**
  * This IAIRunnable makes the mobs randomly wander around if they have nothing
@@ -36,7 +37,7 @@ public class IdleWalkTask extends BaseIdleTask
     public static Vector3 getRandomPointNear(final IBlockReader world, final IPokemob mob, final Vector3 v,
             final int distance)
     {
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
 
         // SElect random gaussians from here.
         double x = rand.nextGaussian() * distance;

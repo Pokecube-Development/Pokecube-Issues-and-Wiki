@@ -15,6 +15,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class ExitCube
 {
@@ -27,7 +28,7 @@ public class ExitCube
         Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             final Vector3 loc = Vector3.getNewVector().set(entity, true);
             final float width = entity.getBbWidth();
             final Vector3 vel = Vector3.getNewVector();
@@ -72,7 +73,7 @@ public class ExitCube
         }
         if (pokemob.isShiny())
         {
-            final Random rand = new Random();
+            final Random rand = ThutCore.newRandom();
             final Vector3 loc = Vector3.getNewVector().set(entity, true);
             final float width = entity.getBbWidth();
             final Vector3 vel = Vector3.getNewVector();

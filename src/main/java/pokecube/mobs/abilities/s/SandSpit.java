@@ -1,7 +1,5 @@
 package pokecube.mobs.abilities.s;
 
-import java.util.Random;
-
 import net.minecraft.world.World;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
@@ -11,10 +9,11 @@ import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 public class SandSpit extends Ability
 {
-	public int duration = 300 + new Random().nextInt(600);
+	public int duration = 300 + ThutCore.newRandom().nextInt(600);
     
 	@Override
     public void onMoveUse(IPokemob mob, MovePacket move)
