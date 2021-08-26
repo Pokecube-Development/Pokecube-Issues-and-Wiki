@@ -368,14 +368,14 @@ public final class SpawnHandler
     public static Vector3 getRandomPointNear(final ServerWorld world, final Vector3 pos, final int range)
     {
         // Lets try a few times
-        int n = 10;
+        int n = 100;
         while (n-- > 0)
         {
             int dx = world.getRandom().nextInt(range);
             int dz = world.getRandom().nextInt(range);
+            final int dy = world.getRandom().nextInt(10);
             dx *= world.getRandom().nextBoolean() ? 1 : -1;
             dz *= world.getRandom().nextBoolean() ? 1 : -1;
-            final int dy = 10;
             final Vector3 vec = pos.add(dx, 0, dz);
             final IChunk chunk = world.getChunk(vec.getPos());
             if (!(chunk instanceof Chunk)) continue;
