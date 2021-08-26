@@ -172,9 +172,9 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (this.level == null) return false;
+        if (!(this.level instanceof ServerWorld)) return false;
         final IInhabitable hab = this.getWrappedHab();
-        if (hab == null) return false;
+        if (hab == null || this.level.isClientSide()) return false;
         final BlockPos pos = this.getBlockPos();
         hab.setPos(pos);
         final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.level);
