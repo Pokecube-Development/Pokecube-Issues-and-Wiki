@@ -123,7 +123,6 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 				this.updateBlockState(blockstate, false);
 			}
 		}
-
 	}
 
 	public void stopOpen(PlayerEntity entity) {
@@ -153,11 +152,11 @@ public class GenericBarrelTile extends LockableLootTileEntity {
       return r;
    }
 
-   public static int getOpenCount(World world, LockableTileEntity lockableTileEntity, int p_213976_2_, int p_213976_3_, int p_213976_4_) {
+   public static int getOpenCount(World world, LockableTileEntity lockableTileEntity, int j, int k, int l) {
       int i = 0;
-      for(PlayerEntity playerentity : world.getEntitiesOfClass(PlayerEntity.class, new AxisAlignedBB((double)((float)p_213976_2_ - 5.0F), (double)((float)p_213976_3_ - 5.0F), (double)((float)p_213976_4_ - 5.0F), (double)((float)(p_213976_2_ + 1) + 5.0F), (double)((float)(p_213976_3_ + 1) + 5.0F), (double)((float)(p_213976_4_ + 1) + 5.0F)))) {
-         if (playerentity.containerMenu instanceof CustomBarrelContainer) {
-            IInventory iinventory = ((CustomBarrelContainer)playerentity.containerMenu).getContainer();
+      for(PlayerEntity player : world.getEntitiesOfClass(PlayerEntity.class, new AxisAlignedBB((double)((float)j - 5.0F), (double)((float)k - 5.0F), (double)((float)l - 5.0F), (double)((float)(j + 1) + 5.0F), (double)((float)(k + 1) + 5.0F), (double)((float)(l + 1) + 5.0F)))) {
+         if (player.containerMenu instanceof CustomBarrelContainer) {
+            IInventory iinventory = ((CustomBarrelContainer)player.containerMenu).getContainer();
             if (iinventory == lockableTileEntity || iinventory instanceof DoubleSidedInventory && ((DoubleSidedInventory)iinventory).contains(lockableTileEntity)) {
                ++i;
             }

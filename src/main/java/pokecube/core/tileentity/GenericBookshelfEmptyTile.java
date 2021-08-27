@@ -1,6 +1,5 @@
 package pokecube.core.tileentity;
 
-import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -24,7 +23,6 @@ import pokecube.core.handlers.ModTags;
 import pokecube.legends.init.TileEntityInit;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements ISidedInventory
 {
@@ -40,11 +38,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 	{
 		this(TileEntityInit.GENERIC_BOOKSHELF_EMPTY_TILE.get());
 		itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
-	}
-
-	@Override
-	public int getContainerSize() {
-		return 9;
 	}
 
 	@Override
@@ -80,6 +73,11 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 	}
 
 	@Override
+	public int getContainerSize() {
+		return 9;
+	}
+
+	@Override
 	protected Container createMenu(int i, PlayerInventory playerInventory) {
 		return null;
 	}
@@ -105,30 +103,29 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 		return 1;
 	}
 
-	public int getBooks(BlockState state) {
-		return (Integer)state.getValue(GenericBookshelfEmpty.BOOKS);
-	}
-
-	public ActionResultType interact(PlayerEntity player, Hand handIn, BlockState state, BlockPos pos, World world){
-		return this.interact(player, handIn, 0, state, pos, world);
-	}
-
-	public ActionResultType interact(PlayerEntity player, Hand hand, int slot, BlockState state, BlockPos pos, World world)
+	public ActionResultType interact(PlayerEntity player, Hand hand, BlockState state, BlockPos pos, World world)
 	{
-		ItemStack item = player.getItemInHand(hand);
-		int i = this.getBooks(state);
-		slot = i - 1;
+		ItemStack playerHand = player.getItemInHand(hand);
+		int number = 0;
+		for(ItemStack stack: this.getItems())
+		{
+			if (!stack.isEmpty())
+			{
+				number++;
+				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, number), 1);
+			}
+		}
+		int slot = number - 1;
 		if (this.bookCount < 0) {
 			this.bookCount = 0;
 		}
 		//remove book
-		if (item.isEmpty() && i >= 0 && hand == Hand.MAIN_HAND)
+		if (playerHand.isEmpty() && hand == Hand.MAIN_HAND)
 		{
 			ItemStack stack = this.removeItemNoUpdate(slot);
-
-			if (!world.isClientSide() && i > 0)
+			if (!world.isClientSide() && number > 0)
 			{
-				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i - 1), 1);
+				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, number - 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				player.addItem(stack);
 				--this.bookCount;
@@ -137,17 +134,16 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 			}
 		}
 		//place book
-		else if (!item.isEmpty() && this.canPlaceItem(slot, item) && i <= 9 && hand == Hand.MAIN_HAND)
+		else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == Hand.MAIN_HAND)
 		{
-			ItemStack stack = item.copy();
+			ItemStack stack = playerHand.copy();
 			stack.setCount(1);
-
-			if (!world.isClientSide() && i < 9) {
-				this.setItem(slot + 1, stack);
+			if (!world.isClientSide()) {
+				this.setItem(number, stack);
 				if (!player.isCreative()) {
-					item.shrink(1);
+					playerHand.shrink(1);
 				}
-				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, i + 1), 1);
+				world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, number + 1), 1);
 				world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				++this.bookCount;
 				this.setChanged();
@@ -163,17 +159,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
 		Item book = stack.getItem();
 		return book instanceof BookItem || book instanceof EnchantedBookItem ||
 			book.is(ItemTags.LECTERN_BOOKS) || book.is(ModTags.BOOKS) || book.is(ModTags.BOOKSHELF_ITEMS);
-	}
-
-	public void updateBlockState(BlockState state, int books) {
-		assert this.level != null;
-		this.level.setBlock(this.getBlockPos(), state.setValue(GenericBookshelfEmpty.BOOKS, this.bookCount), 3);
-	}
-
-	public void markUpdated()
-	{
-		this.setChanged();
-		Objects.requireNonNull(this.getLevel()).sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 9);
 	}
 
 	@Override

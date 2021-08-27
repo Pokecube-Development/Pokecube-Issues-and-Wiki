@@ -5,7 +5,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -92,14 +91,26 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         return this.defaultBlockState().setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection().getOpposite())
             .setValue(GenericBookshelfEmpty.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8)
-            .setValue(GenericBookshelfEmpty.BOOKS, 0);
+            .setValue(GenericBookshelfEmpty.BOOKS, context.getItemInHand().getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size());
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+                                  final BlockPos facingPos)
+    {
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED))
+        {
+            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        }
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     public void setPlacedBy(World world, BlockPos pos, BlockState state,
                             @Nullable LivingEntity entity, ItemStack stack) {
+        TileEntity tile = world.getBlockEntity(pos);
         if (stack.hasCustomHoverName()) {
-            TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof GenericBookshelfEmptyTile) {
                 ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
             }
@@ -126,15 +137,6 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     public BlockState mirror(final BlockState state, final Mirror mirrorIn)
     {
         return state.rotate(mirrorIn.getRotation(state.getValue(GenericBookshelfEmpty.FACING)));
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
-    {
-        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override

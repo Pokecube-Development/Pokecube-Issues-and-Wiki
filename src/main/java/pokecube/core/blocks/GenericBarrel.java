@@ -74,7 +74,6 @@ public class GenericBarrel extends ContainerBlock
 				player.awardStat(Stats.OPEN_BARREL);
 				PiglinTasks.angerNearbyPiglins(player, true);
 			}
-
 			return ActionResultType.CONSUME;
 		}
 	}
@@ -93,8 +92,9 @@ public class GenericBarrel extends ContainerBlock
 		}
 	}
 
-	public void tick(BlockState p_225534_1_, ServerWorld p_225534_2_, BlockPos p_225534_3_, Random p_225534_4_) {
-		TileEntity tileentity = p_225534_2_.getBlockEntity(p_225534_3_);
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		TileEntity tileentity = world.getBlockEntity(pos);
+		System.out.println(tileentity);
 		if (tileentity instanceof GenericBarrelTile) {
 			((GenericBarrelTile) tileentity).recheckOpen();
 		}
