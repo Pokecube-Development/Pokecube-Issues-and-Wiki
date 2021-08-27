@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
+		"particle": "pokecube_legends:blocks/bookshelf_books",
 		"books": "pokecube_legends:blocks/bookshelf_books",
 		"books_side": "pokecube_legends:blocks/bookshelf_books_side",
 		"books_side2": "pokecube_legends:blocks/bookshelf_books_side2",
 		"center": "pokecube_legends:blocks/bookshelf_empty",
-		"particle": "pokecube_legends:blocks/bookshelf_books",
 		"planks": "block/oak_planks"
 	},
 	"elements": [
@@ -17,9 +17,9 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [0, 15, 16, 16], "texture": "#books", "cullface": "north"},
-				"east": {"uv": [0, 0, 16, 1], "texture": "#planks", "cullface": "east"},
+				"east": {"uv": [0, 15, 16, 16], "texture": "#planks", "cullface": "east"},
 				"south": {"uv": [0, 15, 16, 16], "texture": "#books", "cullface": "south"},
-				"west": {"uv": [0, 0, 16, 1], "texture": "#planks", "cullface": "west"},
+				"west": {"uv": [0, 15, 16, 16], "texture": "#planks", "cullface": "west"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#planks"},
 				"down": {"uv": [0, 0, 16, 16], "texture": "#planks", "cullface": "down"}
 			}
