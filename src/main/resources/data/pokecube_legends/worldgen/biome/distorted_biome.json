@@ -46,10 +46,11 @@
     ],
     [],
     [
-    "pokecube_legends:distorted_vegetation",
-	"pokecube_legends:patch_distorted"
+    "pokecube_legends:distorted_vegetation"
     ],
-    []
+    [
+      "pokecube_legends:patch_distorted"
+    ]
   ],
   "starts": [],
   "spawners":{},
