@@ -428,10 +428,10 @@
     "block.pokecube_legends.mirage_leave": "Mirage Leaves",
     "block.pokecube_legends.mirage_glass":	"Mirage Glass",
     
-    "block.pokecube_legends.ultragrass3": "Aged Grass",
+    "block.pokecube_legends.ultragrass3": "Aged Grass Block",
     "block.pokecube_legends.ultradirt3": "Aged Dirt",
     
-    "block.pokecube_legends.ultrasand1": "Corrupted Grass",
+    "block.pokecube_legends.ultrasand1": "Corrupted Grass Block",
     "block.pokecube_legends.ultradirt4": "Corrupted Dirt",
     
 	"block.pokecube_legends.ultracobbles": "Dark Ultra Stone",
@@ -446,10 +446,10 @@
     "block.pokecube_legends.ultra_darkstone_bricks_slab": "Dark Ultra Stone Brick Slab",
     "block.pokecube_legends.ultra_darkstone_bricks_stairs": "Dark Ultra Stone Brick Stairs",
     
-    "block.pokecube_legends.ultragrass1": "Mushroom Grass",
+    "block.pokecube_legends.ultragrass1": "Mushroom Grass Block",
     "block.pokecube_legends.ultradirt1": "Mushroom Dirt",
     
-    "block.pokecube_legends.ultragrass2": "Temporal Grass",
+    "block.pokecube_legends.ultragrass2": "Temporal Grass Block",
     "block.pokecube_legends.ultradirt2": "Temporal Dirt",
     "block.pokecube_legends.ultramagnetic": "Ultra Magnetic Stone",
     
@@ -492,7 +492,7 @@
     "block.pokecube_legends.crystal_bricks_stairs": "Crystal Brick Stairs",
     "block.pokecube_legends.crystal_button": "Crystal Button",
        
-    "block.pokecube_legends.distortic_grass": "Distortic Grass",
+    "block.pokecube_legends.distortic_grass": "Distortic Grass Block",
     "block.pokecube_legends.distortic_stone": "Distortic Stone",
     "block.pokecube_legends.distortic_stone_slab": "Distortic Stone Slab",
     "block.pokecube_legends.distortic_stone_stairs": "Distortic Stone Stairs",
