@@ -1,7 +1,6 @@
 package pokecube.core.handlers;
 
 import static net.minecraft.item.AxeItem.STRIPABLES;
-import static net.minecraft.item.Item.byBlock;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +11,25 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FireBlock;
+import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.PressurePlateBlock.Sensitivity;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.StoneButtonBlock;
+import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
@@ -22,7 +38,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -44,8 +59,6 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.utils.PokeType;
-import pokecube.legends.PokecubeLegends;
-import pokecube.legends.init.PlantsInit;
 
 public class ItemGenerator
 {
@@ -364,10 +377,10 @@ public class ItemGenerator
         }
     }
 
-    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2) {
+    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2, AbstractBlock.Properties properties) {
         return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(2.4F).sound(SoundType.STONE));
+        }).strength(2.4f, 6.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
 
     public static class GenericTrapDoor extends TrapDoorBlock

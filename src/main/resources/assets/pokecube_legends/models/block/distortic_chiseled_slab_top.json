@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube_legends:blocks/unown_stone_side",
-    "top": "pokecube_legends:blocks/unown_stone_side",
-    "side": "pokecube_legends:blocks/unown_stone_side"
+    "bottom": "pokecube_legends:blocks/chiseled_distortic_stone_bricks",
+    "top": "pokecube_legends:blocks/chiseled_distortic_stone_bricks",
+    "side": "pokecube_legends:blocks/chiseled_distortic_stone_bricks"
   }
 }

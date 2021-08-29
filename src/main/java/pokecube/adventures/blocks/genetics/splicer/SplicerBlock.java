@@ -24,7 +24,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class SplicerBlock extends InteractableHorizontalBlock implements IWaterLoggable
@@ -160,12 +159,6 @@ public class SplicerBlock extends InteractableHorizontalBlock implements IWaterL
     public FluidState getFluidState(BlockState state) 
     {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    public VoxelShape getOcclusionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
-    {
-        return InteractableBlock.RENDERSHAPE;
     }
 
     @Override

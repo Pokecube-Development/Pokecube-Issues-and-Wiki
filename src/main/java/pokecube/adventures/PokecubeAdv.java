@@ -42,7 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
-import pokecube.adventures.blocks.LaboratoryGlass;
+import pokecube.adventures.blocks.LaboratoryGlassBlock;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -222,7 +222,7 @@ public class PokecubeAdv
                 MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
         WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(AbstractBlock.Properties.of(Material.METAL,
                 MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
-        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlass(
+        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlassBlock(
                 DyeColor.LIGHT_BLUE, AbstractBlock.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
                 .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
 

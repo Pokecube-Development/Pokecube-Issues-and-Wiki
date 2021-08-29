@@ -1,7 +1,5 @@
 package thut.api.particle;
 
-import java.util.Random;
-
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;

@@ -76,11 +76,11 @@ public class ActionHyperspaceHole implements IMoveAction
                     return false;
                 }
             }
-            final PortalWarp block = (PortalWarp) BlockInit.BLOCK_PORTALWARP.get();
+            final PortalWarp block = (PortalWarp) BlockInit.PORTAL.get();
             final UseContext context = MoveEventsHandler.getContext(world, user, block.defaultBlockState(), location.add(
                     0, 2, 0));
             final BlockPos prevPos = context.getClickedPos();
-            final BlockState state = BlockInit.BLOCK_PORTALWARP.get().getStateForPlacement(context);
+            final BlockState state = BlockInit.PORTAL.get().getStateForPlacement(context);
 
             // Didn't place, so lets skip
             if (state == null)

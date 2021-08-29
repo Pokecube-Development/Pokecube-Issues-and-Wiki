@@ -16,8 +16,8 @@
 				"east": {"uv": [2, 0, 14, 16], "texture": "#1"},
 				"south": {"uv": [2, 0, 14, 16], "texture": "#1"},
 				"west": {"uv": [2, 0, 14, 16], "texture": "#1"},
-				"up": {"uv": [2, 2, 14, 14], "texture": "#3"},
-				"down": {"uv": [2, 2, 14, 14], "texture": "#3"}
+				"up": {"uv": [2, 2, 14, 14], "texture": "#3", "cullface": "up"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#3", "cullface": "down"}
 			}
 		},
 		{
@@ -28,9 +28,9 @@
 			"faces": {
 				"north": {"uv": [14, 8, 16, 16], "texture": "#1"},
 				"south": {"uv": [0, 8, 2, 16], "texture": "#1"},
-				"west": {"uv": [4, 8, 12, 16], "texture": "#1"},
+				"west": {"uv": [4, 8, 12, 16], "texture": "#1", "cullface": "west"},
 				"up": {"uv": [0, 4, 2, 12], "texture": "#1"},
-				"down": {"uv": [0, 4, 2, 12], "texture": "#3"}
+				"down": {"uv": [0, 4, 2, 12], "texture": "#3", "cullface": "down"}
 			}
 		},
 		{
@@ -40,10 +40,10 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [9, 23.75, 13]},
 			"faces": {
 				"east": {"uv": [0, 8, 2, 16], "texture": "#1"},
-				"south": {"uv": [4, 8, 12, 16], "texture": "#1"},
+				"south": {"uv": [4, 8, 12, 16], "texture": "#1", "cullface": "south"},
 				"west": {"uv": [14, 8, 16, 16], "texture": "#1"},
 				"up": {"uv": [4, 14, 12, 16], "texture": "#1"},
-				"down": {"uv": [4, 0, 12, 2], "texture": "#3"}
+				"down": {"uv": [4, 0, 12, 2], "texture": "#3", "cullface": "down"}
 			}
 		},
 		{
@@ -53,10 +53,10 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [13, 23.75, 3]},
 			"faces": {
 				"north": {"uv": [0, 8, 2, 16], "texture": "#1"},
-				"east": {"uv": [4, 8, 12, 16], "texture": "#1"},
+				"east": {"uv": [4, 8, 12, 16], "texture": "#1", "cullface": "east"},
 				"south": {"uv": [14, 8, 16, 16], "texture": "#1"},
 				"up": {"uv": [14, 4, 16, 12], "texture": "#1"},
-				"down": {"uv": [14, 4, 16, 12], "texture": "#3"}
+				"down": {"uv": [14, 4, 16, 12], "texture": "#3", "cullface": "down"}
 			}
 		},
 		{
@@ -65,11 +65,11 @@
 			"to": [12, 8, 2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 23.75, 5]},
 			"faces": {
-				"north": {"uv": [4, 8, 12, 16], "texture": "#1"},
+				"north": {"uv": [4, 8, 12, 16], "texture": "#1", "cullface": "north"},
 				"east": {"uv": [14, 8, 16, 16], "texture": "#1"},
 				"west": {"uv": [0, 8, 2, 16], "texture": "#1"},
 				"up": {"uv": [4, 0, 12, 2], "texture": "#1"},
-				"down": {"uv": [4, 14, 12, 16], "texture": "#3"}
+				"down": {"uv": [4, 14, 12, 16], "texture": "#3", "cullface": "down"}
 			}
 		}
 	],
@@ -115,6 +115,7 @@
 		{
 			"name": "xerneas_tree",
 			"origin": [8, 8, 8],
+			"color": 0,
 			"children": [0, 1, 2, 3, 4]
 		}
 	]

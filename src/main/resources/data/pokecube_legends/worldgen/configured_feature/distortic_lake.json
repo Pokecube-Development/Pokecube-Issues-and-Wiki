@@ -6,16 +6,16 @@
           "Properties": {
             "level": "0"
           },
-          "Name": "pokecube_legends:distortic_water"
+          "Name": "pokecube_legends:distortic_water_block"
         }
       },
       "type": "minecraft:lake"
     },
     "decorator": {
       "config": {
-        "chance": 6
+        "chance": 15
       },
-      "type": "minecraft:water_lake"
+      "type": "minecraft:lava_lake"
     }
   },
   "type": "minecraft:decorated"

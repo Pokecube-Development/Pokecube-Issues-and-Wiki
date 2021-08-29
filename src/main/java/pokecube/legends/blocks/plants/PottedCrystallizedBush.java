@@ -1,5 +1,7 @@
 package pokecube.legends.blocks.plants;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,8 +15,6 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import pokecube.core.handlers.ItemGenerator;
-
-import javax.annotation.Nullable;
 
 public class PottedCrystallizedBush extends ItemGenerator.GenericPottedPlant {
     public PottedCrystallizedBush(Block pottedPlant, AbstractBlock.Properties properties) {
