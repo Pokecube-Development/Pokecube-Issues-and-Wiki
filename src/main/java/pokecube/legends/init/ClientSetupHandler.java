@@ -19,6 +19,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import pokecube.core.blocks.GenericBookshelfEmpty;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
@@ -76,6 +77,7 @@ public class ClientSetupHandler
             RenderTypeLookup.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
             RenderTypeLookup.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
+            if (b instanceof GenericBookshelfEmpty) RenderTypeLookup.setRenderLayer(b, RenderType.cutoutMipped());
         }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
@@ -108,7 +110,7 @@ public class ClientSetupHandler
                 }
             }
             if (!fullCube) RenderTypeLookup.setRenderLayer(b, RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(BlockInit.DISTORTIC_OW_GLASS.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
 			RenderTypeLookup.setRenderLayer(BlockInit.DISTORTIC_FRAMED_MIRROR.get(), RenderType.translucent());
         }
 

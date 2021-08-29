@@ -16,7 +16,7 @@
 				"east": {"uv": [3, 0, 13, 16], "texture": "#1"},
 				"south": {"uv": [3, 0, 13, 16], "texture": "#2"},
 				"west": {"uv": [3, 0, 13, 16], "texture": "#1"},
-				"up": {"uv": [3, 3, 13, 13], "texture": "#1"}
+				"up": {"uv": [3, 3, 13, 13], "texture": "#1", "cullface": "up"}
 			}
 		}
 	],
@@ -62,6 +62,7 @@
 		{
 			"name": "xerneas_tree",
 			"origin": [8, 8, 8],
+			"color": 0,
 			"children": [0]
 		}
 	]

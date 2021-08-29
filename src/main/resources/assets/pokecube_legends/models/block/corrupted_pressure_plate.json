@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_up",
   "textures": {
-    "texture": "pokecube_legends:blocks/corrupted_plank"
+    "texture": "pokecube_legends:blocks/corrupted_planks"
   }
 }

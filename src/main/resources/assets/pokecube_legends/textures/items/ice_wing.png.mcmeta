@@ -1,11 +1,15 @@
 {
   "animation": {
-    "frametime": 2,
-    "interpolate": true,
+    "frametime": 10,
+    "interpolate": false,
     "frames": [
       0,
+      0,
+      1,
       1,
       2,
+      2,
+      3,
       3
     ]
   }

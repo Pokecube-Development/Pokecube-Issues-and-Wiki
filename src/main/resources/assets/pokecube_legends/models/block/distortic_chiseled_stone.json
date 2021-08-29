@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-    "down": "pokecube_legends:blocks/unown_stone_side",
-    "up": "pokecube_legends:blocks/unown_stone_side",
-    "north": "pokecube_legends:blocks/unown_stone_side",
-    "east": "pokecube_legends:blocks/unown_stone_side",
-    "south": "pokecube_legends:blocks/unown_stone_side",
-    "west": "pokecube_legends:blocks/unown_stone_side",
-    "particle": "pokecube_legends:blocks/unown_stone_side"
+    "all": "pokecube_legends:blocks/chiseled_distortic_stone_bricks"
   }
 }

@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"ambientocclusion": false,
+	"ambientocclusion": true,
 	"textures": {
 		"particle": "#texture"
 	},

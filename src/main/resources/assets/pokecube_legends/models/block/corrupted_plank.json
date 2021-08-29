@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/corrupted_plank",
-    "up": "pokecube_legends:blocks/corrupted_plank",
-    "north": "pokecube_legends:blocks/corrupted_plank",
-    "east": "pokecube_legends:blocks/corrupted_plank",
-    "south": "pokecube_legends:blocks/corrupted_plank",
-    "west": "pokecube_legends:blocks/corrupted_plank",
-    "particle": "pokecube_legends:blocks/corrupted_plank"
+	"all": "pokecube_legends:blocks/corrupted_planks"
    }
 }

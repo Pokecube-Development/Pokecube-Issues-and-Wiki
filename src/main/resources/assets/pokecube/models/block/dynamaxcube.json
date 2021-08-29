@@ -1,10 +1,43 @@
 {
-  "parent": "pokecube:block/pokecubes",
-  "textures": {
-    "top": "pokecube_legends:items/dynamaxcubetop",
-    "bottom": "pokecube_legends:items/dynamaxcubebottom",
-    "front": "pokecube_legends:items/dynamaxcubefront",
-    "back": "pokecube_legends:items/dynamaxcubeback",
-    "side": "pokecube_legends:items/dynamaxcubeside"
-  }
+	"parent": "pokecube:block/pokecubes",
+	"textures": {
+		"top": "pokecube:items/dynacubetop",
+		"bottom": "pokecube:items/dynacubebottom",
+		"front": "pokecube:items/dynacubefront",
+		"back": "pokecube:items/dynacubeback",
+		"side": "pokecube:items/dynacubeside"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 8.25, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 8.25, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"scale": [0.75, 0.75, 0.75]
+		}
+	}
 }
