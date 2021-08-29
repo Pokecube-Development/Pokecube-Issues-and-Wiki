@@ -17,7 +17,8 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -39,8 +40,9 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         {
         }
 
-        EntityPokecube cube;
-        float          ageInTicks;
+        EntityPokecube    cube;
+        float             ageInTicks;
+        IRenderTypeBuffer buffer;
 
         @Override
         public void setupAnim(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
@@ -56,7 +58,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         {
             mat.pushPose();
             mat.translate(0.125, 1.5, -0.125);
-            final float scale = 0.25f;
+            final float scale = 1.f;
             mat.scale(scale, scale, scale);
             mat.mulPose(Vector3f.ZP.rotationDegrees(180));
 
@@ -82,9 +84,10 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
                     renderStack.hasFoil());
 
             final Minecraft mc = Minecraft.getInstance();
-            final IBakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level,
-                    (LivingEntity) null);
-            mc.getItemRenderer().renderModelLists(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
+            final IBakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level, this.cube);
+            if (this.buffer != null) mc.getItemRenderer().render(renderStack, ItemCameraTransforms.TransformType.GROUND,
+                    false, mat, this.buffer, packedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
+            else mc.getItemRenderer().renderModelLists(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
                     ivertexbuilder);
 
             mat.popPose();
@@ -111,7 +114,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         final long time = entity.reset;
         final long world = Tracker.instance().getTick();
         if (time > world) return;
-
+        this.getModel().buffer = bufferIn;
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());
         if (RenderPokecube.pokecubeRenderers.containsKey(num))
         {
