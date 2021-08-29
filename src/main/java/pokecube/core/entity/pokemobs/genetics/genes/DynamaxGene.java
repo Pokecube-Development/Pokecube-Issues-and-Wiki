@@ -1,13 +1,12 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
-import java.util.Random;
-
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
 import thut.api.entity.genetics.Gene;
+import thut.core.common.ThutCore;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
@@ -54,7 +53,7 @@ public class DynamaxGene implements Gene<DynaObject>
     public Gene<DynaObject> interpolate(final Gene<DynaObject> other)
     {
         final DynamaxGene result = new DynamaxGene();
-        result.value = new Random().nextBoolean() ? other.getValue() : this.getValue();
+        result.value = ThutCore.newRandom().nextBoolean() ? other.getValue() : this.getValue();
         return result;
     }
 

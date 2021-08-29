@@ -5,12 +5,13 @@ import java.util.Random;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
+import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneFloat;
 
 public class SizeGene extends GeneFloat
 {
     public static float scaleFactor = 0.075f;
-    Random              rand        = new Random();
+    Random              rand        = ThutCore.newRandom();
 
     public SizeGene()
     {
@@ -43,7 +44,7 @@ public class SizeGene extends GeneFloat
     {
         final SizeGene newGene = new SizeGene();
         final float factor = SizeGene.scaleFactor * (this.value > 1 ? 1 / this.value : this.value);
-        newGene.value = this.value + factor * (float) new Random().nextGaussian();
+        newGene.value = this.value + factor * (float) ThutCore.newRandom().nextGaussian();
         newGene.value = Math.abs(newGene.value);
         return newGene;
     }

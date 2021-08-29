@@ -1,7 +1,5 @@
 package pokecube.core.moves.templates;
 
-import java.util.Random;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -13,6 +11,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class Move_MultiHit extends Move_Basic
 {
@@ -50,7 +49,7 @@ public class Move_MultiHit extends Move_Basic
 
     public int getCount(@Nonnull final IPokemob user, @Nullable final Entity target)
     {
-        final int random = new Random().nextInt(6);
+        final int random = ThutCore.newRandom().nextInt(6);
         switch (random)
         {
         case 1:

@@ -22,6 +22,7 @@ import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
+import thut.core.common.ThutCore;
 
 public class BurrowSensor extends Sensor<MobEntity>
 {
@@ -71,7 +72,7 @@ public class BurrowSensor extends Sensor<MobEntity>
 
         final PointOfInterestManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
                 worldIn, entityIn), Status.ANY, pos, 64, rand);
         if (opt.isPresent())

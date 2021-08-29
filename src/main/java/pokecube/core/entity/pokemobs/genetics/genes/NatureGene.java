@@ -7,13 +7,14 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.interfaces.Nature;
 import thut.api.entity.genetics.Gene;
+import thut.core.common.ThutCore;
 
 public class NatureGene implements Gene<Nature>
 {
     private static Nature getNature(final Nature nature, final Nature nature2)
     {
         byte ret = 0;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final byte[] motherMods = nature.getStatsMod();
         final byte[] fatherMods = nature2.getStatsMod();
         final byte[] sum = new byte[6];
@@ -72,7 +73,7 @@ public class NatureGene implements Gene<Nature>
         return Nature.values()[ret];
     }
 
-    Random rand = new Random();
+    Random rand = ThutCore.newRandom();
 
     Nature nature = Nature.values()[this.rand.nextInt(Nature.values().length)];
 

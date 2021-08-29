@@ -7,6 +7,7 @@ import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 @AnimPreset(getPreset = "powder")
 public class AnimationPowder extends MoveAnimationBase
@@ -48,7 +49,7 @@ public class AnimationPowder extends MoveAnimationBase
         final Vector3 target = info.target;
         this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
         final Vector3 temp = Vector3.getNewVector();
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         for (int i = 0; i < 100 * this.density; i++)
         {
             temp.set(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());

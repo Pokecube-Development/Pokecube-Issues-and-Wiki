@@ -62,7 +62,7 @@ public class TextureHelper implements IPartTexturer
             double dy = 0;
             toFill[0] = dx;
             toFill[1] = dy;
-            final Random random = new Random();
+            final Random random = ThutCore.newRandom();
             final List<String> states = mob.getTextureStates();
             for (final String state : states)
                 if (this.infoStates.containsKey(state))

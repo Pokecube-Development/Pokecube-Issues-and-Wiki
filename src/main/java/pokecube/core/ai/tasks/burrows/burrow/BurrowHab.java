@@ -43,6 +43,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 import thut.api.world.IWorldTickListener;
+import thut.core.common.ThutCore;
 
 public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, IWorldTickListener
 {
@@ -130,7 +131,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                     .get().height;
             float size = height * 2 + 1;
             size = Math.max(3, size);
-            final float direction = new Random().nextInt(360);
+            final float direction = ThutCore.newRandom().nextInt(360);
             this.burrow = new Room(direction, size);
             this.burrow.setCenter(pos.below((int) Math.ceil(size + 2)), size, direction);
             this.burrow.started = true;
@@ -207,7 +208,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         final boolean playerNear = !world.getPlayers(p -> p.distanceToSqr(x, y, z) < PokecubeCore
                 .getConfig().cullDistance).isEmpty();
 
-        final Random rng = new Random();
+        final Random rng = ThutCore.newRandom();
         // Lets make the eggs not hatch for now,
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid ->

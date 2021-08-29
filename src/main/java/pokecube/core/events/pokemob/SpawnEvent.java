@@ -1,7 +1,5 @@
 package pokecube.core.events.pokemob;
 
-import java.util.Random;
-
 import org.nfunk.jep.JEP;
 
 import net.minecraft.entity.MobEntity;
@@ -12,6 +10,7 @@ import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /** These events are all fired on the PokecubeCore.POKEMOB_BUS */
 public class SpawnEvent extends Event
@@ -140,7 +139,7 @@ public class SpawnEvent extends Event
         @Override
         public int apply(final int level)
         {
-            return this.nums[0] + new Random().nextInt(this.nums[1] - this.nums[0]);
+            return this.nums[0] + ThutCore.newRandom().nextInt(this.nums[1] - this.nums[0]);
         }
     }
 

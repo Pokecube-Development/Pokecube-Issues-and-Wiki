@@ -23,6 +23,7 @@ import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.FeaturesInit;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 /**
  * Uses player interact here to also prevent opening of inventories.
@@ -35,7 +36,7 @@ public class PortalActiveFunction
     {
         PokedexEntry ret = null;
         int n = 0;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         while (ret == null)
         {
             // Pick a random number from 1 to just below database size, this

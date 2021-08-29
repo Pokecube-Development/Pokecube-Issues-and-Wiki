@@ -1,7 +1,5 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import java.util.Random;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -17,6 +15,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class DodgeTask extends CombatTask implements IAICombat
 {
@@ -40,7 +39,7 @@ public class DodgeTask extends CombatTask implements IAICombat
     private SoundEvent getDodgeSound()
     {
         if (PokecubeCore.getConfig().dodges.length == 1) return PokecubeCore.getConfig().dodges[0];
-        return PokecubeCore.getConfig().dodges[new Random().nextInt(PokecubeCore.getConfig().dodges.length)];
+        return PokecubeCore.getConfig().dodges[ThutCore.newRandom().nextInt(PokecubeCore.getConfig().dodges.length)];
     }
 
     @Override

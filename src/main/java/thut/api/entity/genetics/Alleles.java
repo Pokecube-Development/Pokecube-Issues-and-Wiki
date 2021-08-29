@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.nbt.CompoundNBT;
+import thut.core.common.ThutCore;
 
 public class Alleles<T, GENE extends Gene<T>>
 {
     final ArrayList<GENE> alleles = new ArrayList<>(2);
-    final Random          rand    = new Random();
+    final Random          rand    = ThutCore.newRandom();
     GENE                  expressed;
 
     public Alleles()

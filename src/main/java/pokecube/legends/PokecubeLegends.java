@@ -1,6 +1,5 @@
 package pokecube.legends;
 
-import java.util.Random;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,10 +11,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.RegistryKey;
@@ -59,9 +58,9 @@ import pokecube.legends.init.ContainerInit;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
-import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
+import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
@@ -72,6 +71,7 @@ import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
+import thut.core.common.ThutCore;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -339,7 +339,7 @@ public class PokecubeLegends
         if (active) return;
         else
         {
-            final State state = new Random().nextInt(20) == 0 ? State.RARE : State.NORMAL;
+            final State state = ThutCore.newRandom().nextInt(20) == 0 ? State.RARE : State.NORMAL;
             event.getWorld().setBlockAndUpdate(event.getPos(), hit.setValue(RaidSpawnBlock.ACTIVE, state));
             event.setUseItem(Result.ALLOW);
             if (!event.getPlayer().isCreative()) event.getItemStack().grow(-1);

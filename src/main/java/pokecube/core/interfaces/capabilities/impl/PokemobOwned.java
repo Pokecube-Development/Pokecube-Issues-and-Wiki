@@ -395,6 +395,9 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
             super.setHeldItem(itemStack);
             this.dataSync().set(this.params.HELDITEMDW, itemStack);
+            // Now check if we need to cancel any mega evolutions, etc.
+            // megaRevert handles checking if we are mega evolved, etc
+            if (!itemStack.isEmpty()) this.megaRevert();
 
         }
         catch (final Exception e)

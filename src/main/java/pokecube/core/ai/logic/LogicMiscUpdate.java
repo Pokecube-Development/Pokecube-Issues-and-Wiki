@@ -404,7 +404,7 @@ public class LogicMiscUpdate extends LogicBase
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
-        rand = new Random();
+        rand = ThutCore.newRandom();
         final Vector3 particleLoc = Vector3.getNewVector().set(this.entity);
         boolean randomV = false;
         final Vector3 particleVelo = Vector3.getNewVector();

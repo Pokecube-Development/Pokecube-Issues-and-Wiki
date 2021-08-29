@@ -19,6 +19,7 @@ import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
+import thut.core.common.ThutCore;
 
 public class HoopaPortalSpawn 
 {
@@ -27,7 +28,7 @@ public class HoopaPortalSpawn
         if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.players());
         if (players.size() < 1) return;
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final Entity player = (Entity) players.get(rand.nextInt(players.size()));
         final int dx = rand.nextInt(distance) - distance / 2;
         final int dz = rand.nextInt(distance) - distance / 2;

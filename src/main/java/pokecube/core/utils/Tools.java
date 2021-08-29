@@ -183,7 +183,7 @@ public class Tools
     public static int computeCatchRate(final IPokemob pokemob, final double cubeBonus, final int cubeBonus2)
     {
         final float HPmax = pokemob.getMaxHealth();
-        final Random rand = new Random();
+        final Random rand = ThutCore.newRandom();
         final float HP = pokemob.getHealth();
         float statusBonus = 1F;
         final byte status = pokemob.getStatus();

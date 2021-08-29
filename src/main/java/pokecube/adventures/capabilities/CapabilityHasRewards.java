@@ -1,7 +1,6 @@
 package pokecube.adventures.capabilities;
 
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -19,6 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.ActionContext;
 import pokecube.adventures.capabilities.utils.MessageState;
+import thut.core.common.ThutCore;
 
 public class CapabilityHasRewards
 {
@@ -63,7 +63,7 @@ public class CapabilityHasRewards
             {
                 final ItemStack i = reward.stack;
                 if (i.isEmpty()) continue;
-                if (new Random().nextFloat() > reward.chance) continue;
+                if (ThutCore.newRandom().nextFloat() > reward.chance) continue;
                 if (!player.inventory.add(i.copy()))
                 {
                     final ItemEntity item = player.spawnAtLocation(i.copy(), 0.5f);
