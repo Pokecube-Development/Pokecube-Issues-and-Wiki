@@ -1,6 +1,16 @@
 package pokecube.core.blocks;
 
-import net.minecraft.block.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -15,7 +25,11 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -28,10 +42,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.tileentity.GenericBookshelfEmptyTile;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLoggable
 {
@@ -78,8 +88,8 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     public VoxelShape getShape(final BlockState state, final IBlockReader world, final BlockPos pos,
             final ISelectionContext context)
     {
-        Direction direction = state.getValue(GenericBookshelfEmpty.FACING);
-        return EMPTY.get(direction);
+        final Direction direction = state.getValue(GenericBookshelfEmpty.FACING);
+        return GenericBookshelfEmpty.EMPTY.get(direction);
     }
 
     public GenericBookshelfEmpty(final Properties props)
@@ -103,22 +113,15 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
                                   final BlockPos facingPos)
     {
-        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED))
-        {
-            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        }
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
-    public void setPlacedBy(World world, BlockPos pos, BlockState state,
-                            @Nullable LivingEntity entity, ItemStack stack) {
-        TileEntity tile = world.getBlockEntity(pos);
-        if (stack.hasCustomHoverName()) {
-            if (tile instanceof GenericBookshelfEmptyTile) {
-                ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
-            }
-        }
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+                            @Nullable final LivingEntity entity, final ItemStack stack) {
+        final TileEntity tile = world.getBlockEntity(pos);
+        if (stack.hasCustomHoverName()) if (tile instanceof GenericBookshelfEmptyTile) ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
     }
 
     // Adds Waterlogging
@@ -149,71 +152,71 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
         builder.add(GenericBookshelfEmpty.BOOKS, GenericBookshelfEmpty.FACING, GenericBookshelfEmpty.WATERLOGGED);
     }
 
-    public boolean hasAnalogOutputSignal(BlockState state) {
+    @Override
+    public boolean hasAnalogOutputSignal(final BlockState state) {
         return true;
     }
 
-    public int getAnalogOutputSignal(BlockState state, World world, BlockPos pos) {
-        int books = this.getBooks(world.getBlockState(pos));
+    @Override
+    public int getAnalogOutputSignal(final BlockState state, final World world, final BlockPos pos) {
+        final int books = this.getBooks(world.getBlockState(pos));
         return books;
     }
 
     @Override
-    public float getEnchantPowerBonus(BlockState state, IWorldReader world, BlockPos pos)
+    public float getEnchantPowerBonus(final BlockState state, final IWorldReader world, final BlockPos pos)
     {
-        int books = this.getBooks(world.getBlockState(pos));
+        final int books = this.getBooks(world.getBlockState(pos));
         return books/3f;
     }
 
-    public int getBooks(BlockState state) {
-        return (Integer)state.getValue(GenericBookshelfEmpty.BOOKS);
+    public int getBooks(final BlockState state) {
+        return state.getValue(GenericBookshelfEmpty.BOOKS);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
-                                BlockRayTraceResult hit)
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
+                                final BlockRayTraceResult hit)
     {
-        TileEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile)
-        {
-            return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, state, pos, world);
-        }
+        final TileEntity tile = world.getBlockEntity(pos);
+        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, state, pos, world);
         return ActionResultType.PASS;
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
+    public boolean hasTileEntity(final BlockState state) {
         return true;
     }
 
     @Override
-    public TileEntity newBlockEntity(IBlockReader block) {
+    public TileEntity newBlockEntity(final IBlockReader block) {
         return new GenericBookshelfEmptyTile();
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
+    public BlockRenderType getRenderShape(final BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getShadeBrightness(BlockState state, IBlockReader world, BlockPos pos)
+    public float getShadeBrightness(final BlockState state, final IBlockReader world, final BlockPos pos)
     {
         return 1.0F;
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos)
+    public boolean propagatesSkylightDown(final BlockState state, final IBlockReader reader, final BlockPos pos)
     {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState state, World world, BlockPos pos, BlockState state1, boolean b)
+    public void onRemove(final BlockState state, final World world, final BlockPos pos, final BlockState state1, final boolean b)
     {
         if (!state.is(state1.getBlock())) {
-            TileEntity tile = world.getBlockEntity(pos);
+            final TileEntity tile = world.getBlockEntity(pos);
             if (tile instanceof GenericBookshelfEmptyTile) {
                 InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile)tile).getItems());
                 world.updateNeighbourForOutputSignal(pos, this);

@@ -6,12 +6,12 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -81,7 +81,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
     }
 
     public Block getBlockRaw() {
-        return BerryManager.berryFruits.get(type.index);
+        return BerryManager.berryFruits.get(this.type.index);
     }
 
     /**
@@ -114,7 +114,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             final int fav = Nature.getFavouriteBerryIndex(nature);
             if (fav == this.type.index)
             {
-                String tooltips = I18n.get("item.berry.favourite.desc",
+                final String tooltips = I18n.get("item.berry.favourite.desc",
                     TextFormatting.GOLD, TextFormatting.RESET, pokemob.getDisplayName().getString());
                 info = new TranslationTextComponent(tooltips);
                 tooltip.add(info);
@@ -176,8 +176,8 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
 
         final ItemStack stack = playerIn.getItemInHand(hand);
         final BlockState state = worldIn.getBlockState(pos);
-        Block block = state.getBlock();
-        if (side == Direction.UP && playerIn.mayUseItemAt(pos.relative(side), side, stack) && state.getBlock()
+        final Block block = state.getBlock();
+        if (side == Direction.UP && playerIn.mayUseItemAt(pos.relative(side), side, stack) && block
             .canSustainPlant(state, worldIn, pos, Direction.UP, this) && worldIn.isEmptyBlock(pos.above()))
         {
             worldIn.setBlockAndUpdate(pos.above(), BerryManager.getCrop(this).defaultBlockState());

@@ -1,10 +1,7 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DirectionalBlock;
 import net.minecraft.item.DyeColor;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import pokecube.legends.blocks.GlassBlockBase;

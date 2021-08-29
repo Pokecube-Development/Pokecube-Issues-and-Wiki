@@ -24,7 +24,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class SplicerBlock extends InteractableHorizontalBlock implements IWaterLoggable
