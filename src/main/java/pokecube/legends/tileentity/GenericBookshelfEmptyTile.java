@@ -124,7 +124,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
             final ItemStack stack = this.removeItemNoUpdate(slot);
             if (!world.isClientSide() && number > 0)
             {
-                world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, number - 1), 1);
                 world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS,
                         1.0F, 1.0F);
                 player.addItem(stack);
@@ -142,7 +141,6 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
             {
                 this.setItem(number, stack);
                 if (!player.isCreative()) playerHand.shrink(1);
-                world.setBlock(pos, state.setValue(GenericBookshelfEmpty.BOOKS, number + 1), 1);
                 world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F,
                         1.0F);
                 ++this.bookCount;
