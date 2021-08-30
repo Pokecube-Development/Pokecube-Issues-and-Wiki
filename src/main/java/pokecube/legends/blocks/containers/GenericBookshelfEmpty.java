@@ -1,4 +1,4 @@
-package pokecube.core.blocks;
+package pokecube.legends.blocks.containers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.tileentity.GenericBookshelfEmptyTile;
+import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLoggable
 {

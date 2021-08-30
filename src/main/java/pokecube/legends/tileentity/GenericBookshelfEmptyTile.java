@@ -1,4 +1,4 @@
-package pokecube.core.tileentity;
+package pokecube.legends.tileentity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,8 +18,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import pokecube.core.blocks.GenericBookshelfEmpty;
 import pokecube.core.handlers.ModTags;
+import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.init.TileEntityInit;
 
 import javax.annotation.Nullable;

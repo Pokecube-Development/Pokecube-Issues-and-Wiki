@@ -1,4 +1,4 @@
-package pokecube.core.tileentity;
+package pokecube.legends.tileentity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,8 +21,8 @@ import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import pokecube.core.blocks.GenericBarrel;
 import pokecube.legends.Reference;
+import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.init.TileEntityInit;
 
 public class GenericBarrelTile extends LockableLootTileEntity {
