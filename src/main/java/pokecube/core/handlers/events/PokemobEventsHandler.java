@@ -729,6 +729,10 @@ public class PokemobEventsHandler
             return;
         }
 
+        // If not alled to interact with the mob, exit here, this prevents
+        // opening pokemob inventory while holding empty cubes, etc.
+        if (ItemList.is(new ResourceLocation("pokecube", "pokemob_no_interact"), held)) return;
+
         boolean isOwner = false;
         if (pokemob.getOwnerId() != null) isOwner = pokemob.getOwnerId().equals(player.getUUID());
         // Owner only interactions phase 1
