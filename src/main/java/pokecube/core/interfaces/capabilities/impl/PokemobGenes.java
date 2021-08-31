@@ -276,8 +276,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         return info.value;
     }
 
-    @Override
-    public float getSize()
+    public float getSizeRaw()
     {
         if (this.genesSize == null)
         {
@@ -302,7 +301,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         }
         final SizeGene gene = this.genesSize.getExpressed();
         final Float size = gene.getValue();
-        return (float) (size * PokecubeCore.getConfig().scalefactor);
+        return size;
+    }
+
+    @Override
+    public float getSize()
+    {
+        return (float) (this.getSizeRaw() * PokecubeCore.getConfig().scalefactor);
     }
 
     private void initAbilityGene()
@@ -380,7 +385,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.genesSpecies = null;
         this.getPokedexEntry();
         this.genesSize = null;
-        this.getSize();
+        this.getSizeRaw();
         this.genesIVs = null;
         this.getIVs();
         this.genesEVs = null;
@@ -403,7 +408,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         // Refresh the datamanager for evs
         this.setEVs(this.getEVs());
 
-        this.setSize(this.getSize());
+        this.setSize(this.getSizeRaw());
     }
 
     private void refreshDynaGene()
@@ -594,7 +599,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setSize(float size)
     {
-        if (this.genesSize == null) this.getSize();
+        if (this.genesSize == null) this.getSizeRaw();
         float a = 1, b = 1, c = 1;
         final PokedexEntry entry = this.getPokedexEntry();
         if (entry != null)
