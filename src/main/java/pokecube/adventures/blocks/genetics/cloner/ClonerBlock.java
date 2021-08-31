@@ -17,8 +17,11 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -33,7 +36,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public static final EnumProperty<ClonerBlockPart> HALF        = EnumProperty.create("half", ClonerBlockPart.class);
     public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(
             Block.box(0, 0, 0, 16, 12, 16),
             Block.box(0.5, 12, 0.5, 15.5, 13, 15.5),
@@ -43,8 +46,8 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
             Block.box(0, 12, 0, 16, 16, 16),
             Block.box(0.5, 11, 0.5, 15.5, 12, 15.5),
             Block.box(1, 0, 1, 15, 11, 15)).optimize();
+    // Precise selection box @formatter:on
 
-    // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
@@ -58,21 +61,38 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public ClonerBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM).setValue(
-                HorizontalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
+                .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
     }
 
     // Places Cloner with both top and bottom pieces
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
-            final LivingEntity placer, final ItemStack stack)
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state, final LivingEntity placer,
+            final ItemStack stack)
     {
         if (placer != null)
         {
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(ClonerBlock.HALF, ClonerBlockPart.TOP).setValue(
                     ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
+            final TileEntity tile = world.getBlockEntity(pos.above());
+            if (tile != null)
+            {
+                // Refresh the block state for the tile, incase it wasn't set
+                // properly and is needed.
+                tile.clearCache();
+                tile.getBlockState();
+            }
+
         }
+        super.setPlacedBy(world, pos, state, placer, stack);
+    }
+
+    @Override
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    {
+        return super.use(state, world, pos, player, hand, hit);
     }
 
     // Breaking Cloner breaks both parts and returns one item only
@@ -93,9 +113,9 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     }
 
     // Breaking the Cloner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+    private void removeHalf(final World world, final BlockPos pos, final BlockState state, final PlayerEntity player)
     {
-        BlockState blockstate = world.getBlockState(pos);
+        final BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
         else
@@ -142,10 +162,11 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final IWorld world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(ClonerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(ClonerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER,
+                Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
@@ -171,11 +192,14 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     @Override
     public boolean hasTileEntity(final BlockState state)
     {
-        return true;
+        return true;// state.getValue(ClonerBlock.HALF) ==
+                    // ClonerBlockPart.BOTTOM;
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
-        return new float[]{0.62f, 0.85f, 1.00f};
+    public float[] getBeaconColorMultiplier(final BlockState state, final IWorldReader world, final BlockPos pos,
+            final BlockPos beaconPos)
+    {
+        return new float[] { 0.62f, 0.85f, 1.00f };
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -47,7 +48,8 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         BaseGeneticsTile.parser.parseExpression(function);
     }
 
-    private final List<ItemStack> inventory;
+    private final NonNullList<ItemStack> inventory;
+    protected BlockState                 loaded = null;
 
     public final IIntArray syncValues = new IIntArray()
     {
@@ -316,14 +318,31 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     @Override
     public void load(final BlockState state, final CompoundNBT nbt)
     {
+        this.loaded = state;
         super.load(state, nbt);
-        InvHelper.load(this, nbt);
+        if (nbt.contains("Items")) InvHelper.load(this, nbt);
         if (nbt.contains("progress"))
         {
             final CompoundNBT tag = nbt.getCompound("progress");
             this.setProcess(PoweredProcess.load(tag, this));
             if (this.getProcess() != null) this.total = this.getProcess().recipe.getEnergyCost(this);
         }
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt)
+    {
+        nbt = super.save(nbt);
+
+        if (this.loaded == null) this.loaded = Blocks.AIR.defaultBlockState();
+
+        // saveInv check is needed for multiblock tiles!
+        if (!this.saveInv(this.loaded)) return nbt;
+
+        InvHelper.save(this, nbt);
+        if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
+
+        return nbt;
     }
 
     /**
@@ -333,8 +352,13 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public void setRemoved()
     {
         super.setRemoved();
-        for (final LazyOptional<? extends IItemHandler> wrapper : this.wrappers)
-            wrapper.invalidate();
+    }
+
+    @Override
+    public void clearRemoved()
+    {
+        this.clearCache();
+        super.clearRemoved();
     }
 
     @Override
@@ -379,12 +403,15 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         this.checkRecipes();
     }
 
-    @Override
-    public CompoundNBT save(final CompoundNBT nbt)
+    /**
+     * If true, this will save the inventory. This is optionally false for
+     * multi-block things, where inventory is only stored in the root part!
+     *
+     * @param state
+     * @return
+     */
+    protected boolean saveInv(final BlockState state)
     {
-        super.save(nbt);
-        InvHelper.save(this, nbt);
-        if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
-        return nbt;
+        return true;
     }
 }

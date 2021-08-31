@@ -14,19 +14,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import thut.api.item.ItemList;
 
-public class ClonerTile extends GeneticsTileParentable
+public class ClonerTile extends GeneticsTileParentable<ClonerTile>
 {
     public static final ResourceLocation EGGS = new ResourceLocation("forge", "eggs");
-
-    ClonerTile parent        = null;
-    boolean    checkedParent = false;
 
     public ClonerTile()
     {
@@ -39,20 +35,26 @@ public class ClonerTile extends GeneticsTileParentable
     }
 
     @Override
-    public BaseGeneticsTile getParent()
+    protected ClonerTile findParent()
     {
-        if (!this.checkedParent && this.getLevel() != null)
+        final BlockState state = this.getBlockState();
+        final boolean nullState = !state.hasProperty(ClonerBlock.HALF);
+        if (nullState) return null;
+        if (state.getValue(ClonerBlock.HALF) == ClonerBlockPart.TOP)
         {
-            this.checkedParent = true;
-            final BlockState state = this.getLevel().getBlockState(this.getBlockPos());
-            if (state.getValue(ClonerBlock.HALF) == ClonerBlockPart.TOP)
-            {
-                final BlockPos new_pos = this.getBlockPos().below();
-                final TileEntity down = this.getLevel().getBlockEntity(new_pos);
-                if (down instanceof ClonerTile) this.parent = (ClonerTile) down;
-            }
+            final TileEntity down = this.getLevel().getBlockEntity(this.getBlockPos().below());
+            if (down instanceof ClonerTile) return (ClonerTile) down;
         }
-        return this.parent;
+        return null;
+    }
+
+    @Override
+    protected boolean saveInv(final BlockState state)
+    {
+        if (!this.isDummy) return true;
+        final boolean doSave = state.hasProperty(ClonerBlock.HALF) && state.getValue(
+                ClonerBlock.HALF) == ClonerBlockPart.BOTTOM;
+        return doSave;
     }
 
     @Override
