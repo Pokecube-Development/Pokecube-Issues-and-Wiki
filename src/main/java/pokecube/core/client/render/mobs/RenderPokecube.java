@@ -57,18 +57,22 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
                 final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
         {
             mat.pushPose();
-            mat.translate(0.125, 1.5, -0.125);
             final float scale = 1.f;
             mat.scale(scale, scale, scale);
-            mat.mulPose(Vector3f.ZP.rotationDegrees(180));
 
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
                 final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * this.ageInTicks) / 12));
-                mat.translate(.5, 0.5, 0);
+                final float sx = 0.0f;
+                final float sy = 1.25f;
+                final float sz = 0f;
+                mat.translate(sx, sy, sz);
                 mat.mulPose(Vector3f.ZP.rotation(rotateY));
-                mat.translate(-.5, -0.5, 0);
+                mat.translate(-sx, -sy, -sz);
             }
+            mat.translate(0, 1.5, 0);
+            mat.mulPose(Vector3f.ZP.rotationDegrees(180));
+
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
