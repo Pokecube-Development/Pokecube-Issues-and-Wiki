@@ -133,6 +133,8 @@ public class LogicMountedControl extends LogicBase
         boolean waterSpeed = false;
         boolean airSpeed = !this.entity.isOnGround();
 
+        final boolean fluidRestricted = this.inFluid && !(this.canSurf || this.canDive);
+
         if (this.canFly)
         {
             shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
@@ -164,9 +166,10 @@ public class LogicMountedControl extends LogicBase
             no_burning.setCurativeItems(Lists.newArrayList(stack));
             buffs.add(no_burning);
         }
-        if (!this.hasInput()) return;
 
         shouldControl = verticalControl || this.inFluid;
+
+        this.entity.setNoGravity(verticalControl);
 
         if (!shouldControl) return;
 
@@ -178,6 +181,7 @@ public class LogicMountedControl extends LogicBase
                     ((LivingEntity) e).addEffect(buff);
                 else((LivingEntity) e).curePotionEffects(stack);
             }
+        if (!this.hasInput()) return;
 
         final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
         final float baseSpd = (float) (0.25f * this.throttle * speedFactor);
@@ -218,7 +222,7 @@ public class LogicMountedControl extends LogicBase
             if (airSpeed) f *= config.flySpeedFactor;
             else if (waterSpeed) f *= config.surfSpeedFactor;
             else f *= config.groundSpeedFactor;
-            if (this.inFluid) f *= 0.1;
+            if (fluidRestricted) f *= 0.1;
             if (shouldControl)
             {
                 vx += MathHelper.sin(-this.entity.yRot * 0.017453292F) * f;
@@ -230,7 +234,7 @@ public class LogicMountedControl extends LogicBase
             vy += moveUp;
             move = true;
         }
-        else if (this.inFluid)
+        else if (fluidRestricted)
         {
             vy += 0.05 * this.throttle;
             move = true;

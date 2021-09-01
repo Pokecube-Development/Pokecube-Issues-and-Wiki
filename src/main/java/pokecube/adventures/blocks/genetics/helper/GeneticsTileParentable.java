@@ -2,9 +2,11 @@ package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -13,15 +15,46 @@ import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInvent
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 
-public abstract class GeneticsTileParentable extends BaseGeneticsTile
+public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>> extends BaseGeneticsTile
 {
+
+    protected T parent = null;
+
+    protected boolean isDummy       = false;
+    protected boolean checkedParent = false;
 
     public GeneticsTileParentable(final TileEntityType<?> tileEntityTypeIn, final int size, final int output)
     {
         super(tileEntityTypeIn, size, output);
+        this.isDummy = true;
     }
 
-    public abstract BaseGeneticsTile getParent();
+    @Override
+    public BlockState getBlockState()
+    {
+        return super.getBlockState();
+    }
+
+    protected abstract T findParent();
+
+    public T getParent()
+    {
+        if (this.parent != null) return this.parent;
+        if (!this.isDummy) return null;
+        if (this.getLevel() == null) return null;
+        // No parent if we are the state to save!
+        if (this.saveInv(this.loaded == null ? super.getBlockState() : this.loaded))
+        {
+            this.isDummy = false;
+            return null;
+        }
+        if (!this.checkedParent)
+        {
+            this.checkedParent = true;
+            this.parent = this.findParent();
+        }
+        return this.parent;
+    }
 
     @Override
     public ItemStack getItem(final int arg0)
@@ -33,10 +66,14 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     @Override
     public void setItem(final int index, final ItemStack stack)
     {
-        if (this.getParent() != null) this.getParent().setItem(index, stack);
-        super.setItem(index, stack);
         this.progress = 0;
         this.total = 0;
+        if (this.getParent() != null)
+        {
+            this.getParent().setItem(index, stack);
+            return;
+        }
+        super.setItem(index, stack);
     }
 
     @Override
@@ -133,7 +170,7 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
+    public <C> LazyOptional<C> getCapability(final Capability<C> capability, final Direction facing)
     {
         if (this.getParent() != null) return this.getParent().getCapability(capability, facing);
         return super.getCapability(capability, facing);
@@ -256,5 +293,30 @@ public abstract class GeneticsTileParentable extends BaseGeneticsTile
     {
         if (this.getParent() != null) return this.getParent().receiveEnergy(maxReceive, simulate);
         return super.receiveEnergy(maxReceive, simulate);
+    }
+
+    @Override
+    /**
+     * We are the multiblock case where only parent should save anything.
+     */
+    protected boolean saveInv(final BlockState state)
+    {
+        return this.getParent() == null;
+    }
+
+    @Override
+    public void load(final BlockState state, final CompoundNBT nbt)
+    {
+        if (nbt.contains("isDummy")) this.isDummy = nbt.getBoolean("isDummy");
+        super.load(state, nbt);
+        this.loaded = null;
+    }
+
+    @Override
+    public CompoundNBT save(final CompoundNBT nbt)
+    {
+        nbt.putBoolean("isDummy", this.isDummy);
+        super.save(nbt);
+        return nbt;
     }
 }

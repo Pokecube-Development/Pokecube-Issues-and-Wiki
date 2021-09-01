@@ -19,9 +19,12 @@ public class RaidCapture
     {
         final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
         final Entity catcher = ((EntityPokecube) event.pokecube).shootingEntity;
+
+        final boolean dynamaxCube = id.toString().equals("pokecube_legends:dyna");
+        final boolean raidMob = event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob");
+
         // Catch Raids
-        if (event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob") == true) if (id.toString().equals(
-                "pokecube_legends:dyna"))
+        if (raidMob) if (dynamaxCube)
         {
             PokecubeCore.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
@@ -41,7 +44,7 @@ public class RaidCapture
         }
 
         // No Catch normal Pokemobs
-        if (event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob") == false)
+        if (dynamaxCube && !raidMob)
         {
             if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                     "pokecube.denied"), Util.NIL_UUID);

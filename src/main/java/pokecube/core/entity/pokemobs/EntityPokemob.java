@@ -197,7 +197,6 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void travel(final Vector3d dr)
     {
-
         // If we are ridden on ground, do similar stuff to horses.
         if (this.isVehicle())
         {

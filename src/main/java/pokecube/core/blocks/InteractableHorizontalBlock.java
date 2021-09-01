@@ -1,9 +1,12 @@
 package pokecube.core.blocks;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
@@ -26,8 +29,7 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
     public InteractableHorizontalBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalBlock.FACING,
-                Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalBlock.FACING, Direction.NORTH));
     }
 
     @Override
@@ -37,10 +39,25 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
     }
 
     @Override
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+            @Nullable final LivingEntity entity, final ItemStack stack)
+    {
+        final TileEntity tile = world.getBlockEntity(pos);
+        if (tile != null)
+        {
+            // Refresh the block state for the tile, incase it wasn't set
+            // properly and is needed.
+            tile.clearCache();
+            tile.getBlockState();
+        }
+        super.setPlacedBy(world, pos, state, entity, stack);
+    }
+
+    @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        return this.defaultBlockState().setValue(HorizontalBlock.FACING,
-                context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(HorizontalBlock.FACING, context.getHorizontalDirection()
+                .getOpposite());
     }
 
     @Override
