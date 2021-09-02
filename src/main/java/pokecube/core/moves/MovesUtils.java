@@ -311,7 +311,17 @@ public class MovesUtils implements IMoveConstants
         if (playerTarget) cd *= 2;
         final double accuracyMod = attacker.getModifiers().getDefaultMods().getModifier(Stats.ACCURACY);
         final double moveMod = MovesUtils.getDelayMultiplier(attacker, moveName);
-        return (int) (cd * moveMod / accuracyMod);
+
+        final int index = Stats.VIT.ordinal();
+        final double nat = (attacker.getNature().stats[index] * 10f + 100f) / 100f;
+        final int bs = attacker.getPokedexEntry().getStatVIT();
+        final int ev = attacker.getEVs()[index];
+        final int iv = attacker.getIVs()[index];
+        final float mod = attacker.getModifiers().getDefaultMods().values[index];
+
+        final double stat_based_cd = cd * (1 - nat * (bs / 100f + ev / 200f + iv / 50f + mod / 2f) / 10f);
+
+        return (int) (stat_based_cd * moveMod / accuracyMod);
     }
 
     public static float getAttackStrength(final IPokemob attacker, final IPokemob attacked, final Category type,
