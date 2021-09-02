@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.interfaces.PokecubeMod;
@@ -76,7 +77,12 @@ public interface IGuardAICapability
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
         {
-            CapHolders.GUARDAI_CAP.getStorage().readNBT(CapHolders.GUARDAI_CAP, this, null, nbt);
+            this.setState(GuardState.values()[nbt.getInt("state")]);
+            if (nbt.contains("tasks"))
+            {
+                final ListNBT tasks = (ListNBT) nbt.get("tasks");
+                this.loadTasks(tasks);
+            }
         }
 
         @Override
@@ -88,36 +94,29 @@ public interface IGuardAICapability
         @Override
         public CompoundNBT serializeNBT()
         {
-            return (CompoundNBT) CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, this, null);
+            final CompoundNBT ret = new CompoundNBT();
+            ret.putInt("state", this.getState().ordinal());
+            ret.put("tasks", this.serializeTasks());
+            return ret;
         }
     }
 
     public static class Storage implements Capability.IStorage<IGuardAICapability>
     {
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public void readNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
                 final Direction side, final INBT nbt)
         {
-            if (nbt instanceof CompoundNBT)
-            {
-                final CompoundNBT data = (CompoundNBT) nbt;
-                instance.setState(GuardState.values()[data.getInt("state")]);
-                if (data.contains("tasks"))
-                {
-                    final ListNBT tasks = (ListNBT) data.get("tasks");
-                    instance.loadTasks(tasks);
-                }
-            }
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
         }
 
         @Override
         public INBT writeNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
                 final Direction side)
         {
-            final CompoundNBT ret = new CompoundNBT();
-            ret.putInt("state", instance.getState().ordinal());
-            ret.put("tasks", instance.serializeTasks());
-            return ret;
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
         }
     }
 

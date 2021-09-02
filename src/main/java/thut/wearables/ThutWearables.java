@@ -29,6 +29,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -132,20 +133,19 @@ public class ThutWearables
             }, IActiveWearable.Default::new);
             CapabilityManager.INSTANCE.register(IWearableInventory.class, new Capability.IStorage<IWearableInventory>()
             {
+                @SuppressWarnings({ "unchecked", "rawtypes" })
                 @Override
                 public void readNBT(final Capability<IWearableInventory> capability, final IWearableInventory instance,
                         final Direction side, final INBT nbt)
                 {
-                    if (instance instanceof PlayerWearables && nbt instanceof CompoundNBT) ((PlayerWearables) instance)
-                            .readFromNBT((CompoundNBT) nbt);
+                    if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
                 }
 
                 @Override
                 public INBT writeNBT(final Capability<IWearableInventory> capability, final IWearableInventory instance,
                         final Direction side)
                 {
-                    if (instance instanceof PlayerWearables) return ((PlayerWearables) instance).writeToNBT(
-                            new CompoundNBT());
+                    if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
                     return null;
                 }
             }, PlayerWearables::new);

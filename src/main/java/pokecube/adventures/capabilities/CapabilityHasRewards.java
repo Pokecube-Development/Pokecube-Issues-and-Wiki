@@ -14,6 +14,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.ActionContext;
@@ -30,7 +31,14 @@ public class CapabilityHasRewards
         @Override
         public void deserializeNBT(final ListNBT nbt)
         {
-            CapabilityHasRewards.storage.readNBT(TrainerCaps.REWARDS_CAP, this, null, nbt);
+            this.getRewards().clear();
+            for (int i = 0; i < nbt.size(); ++i)
+            {
+                final CompoundNBT tag = nbt.getCompound(i);
+                final ItemStack stack = ItemStack.of(tag);
+                final float chance = tag.contains("chance") ? tag.getFloat("chance") : 1;
+                this.getRewards().add(new Reward(stack, chance));
+            }
         }
 
         @Override
@@ -48,7 +56,20 @@ public class CapabilityHasRewards
         @Override
         public ListNBT serializeNBT()
         {
-            return (ListNBT) CapabilityHasRewards.storage.writeNBT(TrainerCaps.REWARDS_CAP, this, null);
+            final ListNBT ListNBT = new ListNBT();
+            for (final Reward element : this.getRewards())
+            {
+                final ItemStack stack = element.stack;
+
+                if (!stack.isEmpty())
+                {
+                    final CompoundNBT CompoundNBT = new CompoundNBT();
+                    stack.save(CompoundNBT);
+                    CompoundNBT.putFloat("chance", element.chance);
+                    ListNBT.add(CompoundNBT);
+                }
+            }
+            return ListNBT;
         }
 
     }
@@ -101,39 +122,19 @@ public class CapabilityHasRewards
     public static class Storage implements Capability.IStorage<IHasRewards>
     {
 
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public void readNBT(final Capability<IHasRewards> capability, final IHasRewards instance, final Direction side,
                 final INBT base)
         {
-            if (!(base instanceof ListNBT)) return;
-            final ListNBT ListNBT = (ListNBT) base;
-            instance.getRewards().clear();
-            for (int i = 0; i < ListNBT.size(); ++i)
-            {
-                final CompoundNBT tag = ListNBT.getCompound(i);
-                final ItemStack stack = ItemStack.of(tag);
-                final float chance = tag.contains("chance") ? tag.getFloat("chance") : 1;
-                instance.getRewards().add(new Reward(stack, chance));
-            }
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
         }
 
         @Override
         public INBT writeNBT(final Capability<IHasRewards> capability, final IHasRewards instance, final Direction side)
         {
-            final ListNBT ListNBT = new ListNBT();
-            for (final Reward element : instance.getRewards())
-            {
-                final ItemStack stack = element.stack;
-
-                if (!stack.isEmpty())
-                {
-                    final CompoundNBT CompoundNBT = new CompoundNBT();
-                    stack.save(CompoundNBT);
-                    CompoundNBT.putFloat("chance", element.chance);
-                    ListNBT.add(CompoundNBT);
-                }
-            }
-            return ListNBT;
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
         }
 
     }

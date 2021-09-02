@@ -198,19 +198,19 @@ public class CapabilityTerrain
     public static class Storage implements Capability.IStorage<ITerrainProvider>
     {
 
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public void readNBT(final Capability<ITerrainProvider> capability, final ITerrainProvider instance,
                 final Direction side, final INBT base)
         {
-            if (instance instanceof DefaultProvider && base instanceof CompoundNBT) ((DefaultProvider) instance)
-                    .deserializeNBT((CompoundNBT) base);
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
         }
 
         @Override
         public INBT writeNBT(final Capability<ITerrainProvider> capability, final ITerrainProvider instance,
                 final Direction side)
         {
-            if (instance instanceof DefaultProvider) return ((DefaultProvider) instance).serializeNBT();
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
             return null;
         }
     }
