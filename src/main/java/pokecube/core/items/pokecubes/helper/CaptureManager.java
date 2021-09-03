@@ -207,7 +207,7 @@ public class CaptureManager
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
             final IPokemob revert = pokemob.megaRevert();
             if (revert != null) pokemob = revert;
-            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbility(AbilityManager
+            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(AbilityManager
                     .getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
         }
         final ItemStack pokemobStack = PokecubeManager.pokemobToItem(pokemob);

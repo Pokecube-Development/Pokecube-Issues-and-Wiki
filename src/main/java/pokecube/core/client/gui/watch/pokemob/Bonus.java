@@ -12,7 +12,6 @@ import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
-import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.PokecubeMod;
 
@@ -50,7 +49,7 @@ public class Bonus extends PokeInfoPage
         int dx = 20 + offsetX;
 
         // Draw ability, Happiness and Size
-        final Ability ability = this.parent.pokemob.getAbility();
+        final String ability = this.parent.pokemob.getAbilityName();
         final Nature nature = this.parent.pokemob.getNature();
         dx = 145; // 55
         int dy = 40; // 25
@@ -60,9 +59,9 @@ public class Bonus extends PokeInfoPage
         final int natureColour = GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
 
         // Draw ability
-        if (ability != null)
+        if (!ability.isEmpty())
         {
-            final String abilityName = I18n.get(ability.getName());
+            final String abilityName = I18n.get(ability);
             this.font.draw(mat, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();

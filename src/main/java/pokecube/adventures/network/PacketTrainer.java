@@ -425,7 +425,7 @@ public class PacketTrainer extends NBTPacket
         final byte gender = mobtag.getByte("g");
         if (gender != 0) pokemob.setSexe(gender);
         if (!nature.isEmpty()) pokemob.setNature(Nature.valueOf(nature));
-        pokemob.setAbility(AbilityManager.getAbility(ability));
+        pokemob.setAbilityRaw(AbilityManager.getAbility(ability));
         pokemob.setShiny(shiny);
         pokemob.setSize(size);
         pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), level), false);

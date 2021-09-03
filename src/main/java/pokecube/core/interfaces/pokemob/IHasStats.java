@@ -20,7 +20,7 @@ public interface IHasStats extends IHasEntry
      * @param evsToAdd
      *            the Effort Values to add
      */
-    default void addEVs(byte[] evsToAdd)
+    default void addEVs(final byte[] evsToAdd)
     {
         final byte[] evs = this.getEVs().clone();
 
@@ -46,6 +46,11 @@ public interface IHasStats extends IHasEntry
     Ability getAbility();
 
     /**
+     * @return the registered name for the ability, empty for no ability
+     */
+    String getAbilityName();
+
+    /**
      * @return Index of ability, 0 and 1 are "normal" abilities, above 1 are
      *         "hidden" abilities.
      */
@@ -69,7 +74,7 @@ public interface IHasStats extends IHasEntry
      *
      * @return the pokedex stats
      */
-    default int getBaseStat(Stats stat)
+    default int getBaseStat(final Stats stat)
     {
         if (stat.ordinal() > 5) return 1;
         return this.getPokedexEntry().getStats()[stat.ordinal()];
@@ -125,7 +130,7 @@ public interface IHasStats extends IHasEntry
      * @param modified
      * @return the stat
      */
-    default float getFloatStat(Stats stat, boolean modified)
+    default float getFloatStat(final Stats stat, final boolean modified)
     {
         return this.getModifiers().getStat(this, stat, modified);
     }
@@ -174,7 +179,7 @@ public interface IHasStats extends IHasEntry
      *
      * @return the pokedex stat
      */
-    default int getStat(Stats stat, boolean modified)
+    default int getStat(final Stats stat, final boolean modified)
     {
         return Math.max(1, (int) this.getModifiers().getStat(this, stat, modified));
     }
@@ -216,17 +221,26 @@ public interface IHasStats extends IHasEntry
      * @param typeIn
      * @return Are we typeIn
      */
-    default boolean isType(PokeType typeIn)
+    default boolean isType(final PokeType typeIn)
     {
         return this.getType1() == typeIn || this.getType2() == typeIn;
     }
 
     /**
-     * Sets the ability object for the pokemob
+     * Sets the ability object for the pokemob, this is for use in general/in
+     * combat, if used in combat, this is temporary
      *
      * @param ability
      */
     void setAbility(Ability ability);
+
+    /**
+     * Sets the ability object for the pokemob, This is for use if the
+     * underlying ability needs to be force changed, such as during evolution
+     *
+     * @param ability
+     */
+    void setAbilityRaw(Ability ability);
 
     /**
      * Sets the ability index for the pokemob, see
@@ -254,7 +268,7 @@ public interface IHasStats extends IHasEntry
      */
     IPokemob setExp(int exp, boolean notifyLevelUp);
 
-    default void setHealth(float health)
+    default void setHealth(final float health)
     {
         this.getEntity().setHealth(health);
     }
@@ -289,7 +303,7 @@ public interface IHasStats extends IHasEntry
     default void setToHiddenAbility()
     {
         this.setAbilityIndex(2);
-        this.setAbility(this.getPokedexEntry().getHiddenAbility(CapabilityPokemob.getPokemobFor(this.getEntity())));
+        this.setAbilityRaw(this.getPokedexEntry().getHiddenAbility(CapabilityPokemob.getPokemobFor(this.getEntity())));
     }
 
     /**
@@ -297,7 +311,7 @@ public interface IHasStats extends IHasEntry
      *
      * @param type1
      */
-    default void setType1(PokeType type1)
+    default void setType1(final PokeType type1)
     {
         this.getModifiers().type1 = type1;
     }
@@ -307,7 +321,7 @@ public interface IHasStats extends IHasEntry
      *
      * @param type2
      */
-    default void setType2(PokeType type2)
+    default void setType2(final PokeType type2)
     {
         this.getModifiers().type2 = type2;
     }

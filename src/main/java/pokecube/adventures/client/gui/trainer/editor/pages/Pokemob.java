@@ -376,7 +376,7 @@ public class Pokemob extends Page
                     .getAbility());
             else
             {
-                this.pokemob.setAbility(AbilityManager.getAbility(this.ability.getValue()));
+                this.pokemob.setAbilityRaw(AbilityManager.getAbility(this.ability.getValue()));
                 info.putString("a", this.ability.getValue());
             }
 
