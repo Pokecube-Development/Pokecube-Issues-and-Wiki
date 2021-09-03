@@ -32,6 +32,7 @@ public class ConditionLoader implements IResourceData
     {
         ConditionLoader.__presets__.put("entry_based", EntriedCondition.class);
         ConditionLoader.__presets__.put("type_based", TypedCondition.class);
+        ConditionLoader.__presets__.put("spawns_only", PresetCondition.class);
     }
 
     private final String tagPath;

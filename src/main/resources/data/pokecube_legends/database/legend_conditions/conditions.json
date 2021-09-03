@@ -131,6 +131,14 @@
       "spawn": {}
     },
     {
+      "name": "kyogre",
+      "preset": "spawns_only",
+      "spawn": {
+        "key": { "id": "pokecube_legends:blueorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
+    },
+    {
       "name": "rayquaza",
       "preset": "entry_based",
       "options": {
