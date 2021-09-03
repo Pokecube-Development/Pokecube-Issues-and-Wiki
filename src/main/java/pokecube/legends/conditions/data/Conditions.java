@@ -49,14 +49,14 @@ public class Conditions
 
         public Predicate<BlockState> getTarget()
         {
-            if (this._key == null) if (this.key.containsKey("id"))
+            if (this._target == null) if (this.target.containsKey("id"))
             {
-                final ResourceLocation loc = new ResourceLocation(this.key.get("id"));
+                final ResourceLocation loc = new ResourceLocation(this.target.get("id"));
                 this._target = i -> ItemList.is(loc, i);
             }
-            else if (this.key.containsKey("tag"))
+            else if (this.target.containsKey("tag"))
             {
-                final ResourceLocation loc = new ResourceLocation(this.key.get("tag"));
+                final ResourceLocation loc = new ResourceLocation(this.target.get("tag"));
                 this._target = i -> ItemList.is(loc, i);
             }
             return this._target;
@@ -74,6 +74,13 @@ public class Conditions
 
         public void register()
         {
+            if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
+            {
+                final Predicate<ItemStack> heldItemChecker = this.spawn.getKey();
+                final Predicate<BlockState> targetBlockChecker = this.spawn.getTarget();
+                final LegendarySpawn spawn = new LegendarySpawn(this.name, heldItemChecker, targetBlockChecker, true);
+                LegendarySpawn.data_spawns.add(spawn);
+            }
         };
     }
 
@@ -104,15 +111,7 @@ public class Conditions
             {
                 SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
                 SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
-
-                if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
-                {
-                    final Predicate<ItemStack> heldItemChecker = this.spawn.getKey();
-                    final Predicate<BlockState> targetBlockChecker = this.spawn.getTarget();
-                    final LegendarySpawn spawn = new LegendarySpawn(e.getTrimmedName(), heldItemChecker,
-                            targetBlockChecker, true);
-                    LegendarySpawn.data_spawns.add(spawn);
-                }
+                super.register();
             }
         }
     }
@@ -152,6 +151,7 @@ public class Conditions
             {
                 SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
                 SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
+                super.register();
             }
         }
     }

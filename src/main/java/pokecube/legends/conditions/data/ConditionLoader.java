@@ -54,6 +54,7 @@ public class ConditionLoader implements IResourceData
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         this.conditions.clear();
+        LegendarySpawn.data_spawns.clear();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad) valid.set(true);
     }
