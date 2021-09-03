@@ -403,9 +403,10 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
 
     final Holder holder;
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
-        super(p_i50961_1_, null, 1);
+        super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
         else
         {
