@@ -11,7 +11,9 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.EntityPokecube;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
 
 public class RaidCapture
 {
@@ -33,6 +35,7 @@ public class RaidCapture
                         "pokecube.denied"), Util.NIL_UUID);
                 event.setCanceled(true);
                 event.setResult(Result.DENY);
+                CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
             }
         }
         else
@@ -41,6 +44,7 @@ public class RaidCapture
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);
+            CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
         }
 
         // No Catch normal Pokemobs
@@ -50,6 +54,7 @@ public class RaidCapture
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);
+            CaptureManager.onCaptureDenied((EntityPokecubeBase) event.pokecube);
         }
     }
 
