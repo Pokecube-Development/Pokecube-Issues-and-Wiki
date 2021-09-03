@@ -7,7 +7,10 @@
         "threshold": "0.3",
         "type": "ice"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:ice_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "articuno_galar",
@@ -16,7 +19,10 @@
         "threshold": "0.3",
         "type": "flying"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:ice_dark_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "zapdos",

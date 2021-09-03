@@ -78,8 +78,8 @@ public class LegendaryConditions
         new LegendarySpawn("spectrier", ItemInit.SHADOW_CARROT, BlockInit.TROUGH_BLOCK);
 
         // Legendary spawn alternative
-        new LegendarySpawn("articuno", ItemInit.ICE_WING, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("articunogalar", ItemInit.ICE_DARK_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("articuno", ItemInit.ICE_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("articunogalar", ItemInit.ICE_DARK_WING, BlockInit.LEGENDARY_SPAWN);
 
         new LegendarySpawn("zapdos", ItemInit.ELECTRIC_WING, BlockInit.LEGENDARY_SPAWN);
         new LegendarySpawn("zapdosgalar", ItemInit.STATIC_WING, BlockInit.LEGENDARY_SPAWN);

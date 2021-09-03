@@ -21,6 +21,7 @@ import pokecube.core.database.util.DataHelpers.IResourceData;
 import pokecube.legends.conditions.data.Conditions.EntriedCondition;
 import pokecube.legends.conditions.data.Conditions.PresetCondition;
 import pokecube.legends.conditions.data.Conditions.TypedCondition;
+import pokecube.legends.spawns.LegendarySpawn;
 
 public class ConditionLoader implements IResourceData
 {
@@ -60,6 +61,7 @@ public class ConditionLoader implements IResourceData
     @Override
     public void postReload()
     {
+        LegendarySpawn.data_spawns.clear();
         this.conditions.forEach(c -> c.register());
         this.conditions.clear();
     }

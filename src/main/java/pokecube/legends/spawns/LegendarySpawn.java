@@ -43,12 +43,17 @@ public class LegendarySpawn
         SUCCESS, WRONGITEM, NOCAPTURE, ALREADYHAVE, NOSPAWN, FAIL;
     }
 
-    private static List<LegendarySpawn> spawns = Lists.newArrayList();
+    private static List<LegendarySpawn> spawns      = Lists.newArrayList();
+    public static List<LegendarySpawn>  data_spawns = Lists.newArrayList();
 
     private static List<LegendarySpawn> getForBlock(final BlockState state)
     {
         final List<LegendarySpawn> matches = Lists.newArrayList();
         LegendarySpawn.spawns.forEach(s ->
+        {
+            if (s.targetBlockChecker.test(state)) matches.add(s);
+        });
+        LegendarySpawn.data_spawns.forEach(s ->
         {
             if (s.targetBlockChecker.test(state)) matches.add(s);
         });
@@ -84,7 +89,8 @@ public class LegendarySpawn
                     return SpawnResult.NOCAPTURE;
                 }
                 // This puts player on a cooldown for respawning the mob
-                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(), Tracker.instance().getTick());
+                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(), Tracker
+                        .instance().getTick());
                 // Mob gets spawnedby to prevent others from capturing
                 entity.getPersistentData().putUUID("spwnedby", playerIn.getUUID());
                 // These prevent drops and the mob disappearing when it dies
@@ -145,8 +151,8 @@ public class LegendarySpawn
                 final Vector3 location = Vector3.getNewVector().set(evt.getPos());
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
-            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
-                    match.entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.noitem.info",
+                    new TranslationTextComponent(match.entry.getUnlocalizedName())), true);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
@@ -197,15 +203,15 @@ public class LegendarySpawn
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
-            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
-                    wrong_items.get(0).getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.wrongitem.info",
+                    new TranslationTextComponent(wrong_items.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
-            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
-                    matches.get(0).entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.nohere.info",
+                    new TranslationTextComponent(matches.get(0).entry.getUnlocalizedName())), true);
             return;
         }
 
@@ -218,27 +224,27 @@ public class LegendarySpawn
 
     public LegendarySpawn(final String entry, final Item held, final Block target)
     {
-        this(entry, (c) -> c.getItem() == held, (b) -> b.getBlock() == target);
+        this(entry, (c) -> c.getItem() == held, (b) -> b.getBlock() == target, false);
     }
 
     public LegendarySpawn(final String entry, final RegistryObject<Item> held, final Block target)
     {
-        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target);
+        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target, false);
     }
 
     public LegendarySpawn(final String entry, final RegistryObject<Item> held, final RegistryObject<Block> target)
     {
-        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target.get());
+        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target.get(), false);
     }
 
     public LegendarySpawn(final String entry, final Predicate<ItemStack> heldItemChecker,
-            final Predicate<BlockState> targetBlockChecker)
+            final Predicate<BlockState> targetBlockChecker, final boolean data_based)
     {
         this.heldItemChecker = heldItemChecker;
         this.targetBlockChecker = targetBlockChecker;
         this.entry = Database.getEntry(entry);
         if (this.entry == null) PokecubeCore.LOGGER.warn(
                 "Tried to register spawn entry for {}, which is not a valid entry!", entry);
-        else LegendarySpawn.spawns.add(this);
+        else if (!data_based) LegendarySpawn.spawns.add(this);
     }
 }

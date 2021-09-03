@@ -2,10 +2,14 @@ package pokecube.legends.conditions.data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -14,9 +18,50 @@ import pokecube.core.database.stats.ISpecialSpawnCondition;
 import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.legends.conditions.AbstractEntriedCondition;
 import pokecube.legends.conditions.AbstractTypedCondition;
+import pokecube.legends.spawns.LegendarySpawn;
+import thut.api.item.ItemList;
 
 public class Conditions
 {
+
+    public static class Spawn
+    {
+        public Map<String, String> key    = Maps.newHashMap();
+        public Map<String, String> target = Maps.newHashMap();
+
+        private Predicate<ItemStack>  _key;
+        private Predicate<BlockState> _target;
+
+        public Predicate<ItemStack> getKey()
+        {
+            if (this._key == null) if (this.key.containsKey("id"))
+            {
+                final ResourceLocation loc = new ResourceLocation(this.key.get("id"));
+                this._key = i -> ItemList.is(loc, i);
+            }
+            else if (this.key.containsKey("tag"))
+            {
+                final ResourceLocation loc = new ResourceLocation(this.key.get("tag"));
+                this._key = i -> ItemList.is(loc, i);
+            }
+            return this._key;
+        }
+
+        public Predicate<BlockState> getTarget()
+        {
+            if (this._key == null) if (this.key.containsKey("id"))
+            {
+                final ResourceLocation loc = new ResourceLocation(this.key.get("id"));
+                this._target = i -> ItemList.is(loc, i);
+            }
+            else if (this.key.containsKey("tag"))
+            {
+                final ResourceLocation loc = new ResourceLocation(this.key.get("tag"));
+                this._target = i -> ItemList.is(loc, i);
+            }
+            return this._target;
+        }
+    }
 
     public static class PresetCondition
     {
@@ -24,7 +69,8 @@ public class Conditions
         public String preset;
 
         public Map<String, String> options = Maps.newHashMap();
-        public Map<String, String> spawn   = Maps.newHashMap();
+
+        public Spawn spawn;
 
         public void register()
         {
@@ -58,6 +104,15 @@ public class Conditions
             {
                 SpecialCaseRegister.register(e.getName(), (ISpecialCaptureCondition) cond);
                 SpecialCaseRegister.register(e.getName(), (ISpecialSpawnCondition) cond);
+
+                if (this.spawn != null && !this.spawn.key.isEmpty() && !this.spawn.target.isEmpty())
+                {
+                    final Predicate<ItemStack> heldItemChecker = this.spawn.getKey();
+                    final Predicate<BlockState> targetBlockChecker = this.spawn.getTarget();
+                    final LegendarySpawn spawn = new LegendarySpawn(e.getTrimmedName(), heldItemChecker,
+                            targetBlockChecker, true);
+                    LegendarySpawn.data_spawns.add(spawn);
+                }
             }
         }
     }
