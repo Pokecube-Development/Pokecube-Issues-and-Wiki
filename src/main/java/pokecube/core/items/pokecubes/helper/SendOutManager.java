@@ -15,6 +15,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -100,7 +101,8 @@ public class SendOutManager
 
         final boolean hasMob = mob != null;
         final boolean hasPokemob = pokemob != null;
-        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayerEntity;
+        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayerEntity
+                && !(cube.shootingEntity instanceof FakePlayer);
         final ServerPlayerEntity user = isPlayers ? (ServerPlayerEntity) cube.shootingEntity : null;
         final boolean checkPerms = config.permsSendOut && isPlayers;
         boolean hasPerms = true;
@@ -119,8 +121,7 @@ public class SendOutManager
             if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"),
-                        true);
+                user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"), true);
                 cube.remove();
             }
             return null;
@@ -169,8 +170,8 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
-                            .getDisplayName()), true);
+                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific",
+                            pokemob.getDisplayName()), true);
                     cube.remove();
                     return null;
                 }

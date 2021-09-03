@@ -2,16 +2,16 @@ package pokecube.adventures.capabilities;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.PokecubeAdv;
 
 public class CapabilityNPCAIStates
 {
-    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilitySerializable<INBT>
+    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilitySerializable<CompoundNBT>
     {
         int   state = 0;
         float direction;
@@ -20,13 +20,15 @@ public class CapabilityNPCAIStates
 
         public DefaultAIStates()
         {
-            for(final AIState state: AIState.values()) this.setAIState(state, state._default);
+            for (final AIState state : AIState.values())
+                this.setAIState(state, state._default);
         }
 
         @Override
-        public void deserializeNBT(final INBT nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
-            CapabilityNPCAIStates.storage.readNBT(TrainerCaps.AISTATES_CAP, this, null, nbt);
+            this.setTotalState(nbt.getInt("AI"));
+            this.setDirection(nbt.getFloat("D"));
         }
 
         @Override
@@ -59,9 +61,12 @@ public class CapabilityNPCAIStates
         }
 
         @Override
-        public INBT serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            return CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, this, null);
+            final CompoundNBT tag = new CompoundNBT();
+            tag.putInt("AI", this.getTotalState());
+            tag.putFloat("D", this.getDirection());
+            return tag;
         }
 
         @Override
@@ -148,26 +153,19 @@ public class CapabilityNPCAIStates
     {
 
         @Override
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public void readNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
-                final Direction side, final INBT nbt)
+                final Direction side, final INBT base)
         {
-            if (nbt instanceof IntNBT) instance.setTotalState(((IntNBT) nbt).getAsInt());
-            else if (nbt instanceof CompoundNBT)
-            {
-                final CompoundNBT tag = (CompoundNBT) nbt;
-                instance.setTotalState(tag.getInt("AI"));
-                instance.setDirection(tag.getFloat("D"));
-            }
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
         }
 
         @Override
         public INBT writeNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
                 final Direction side)
         {
-            final CompoundNBT tag = new CompoundNBT();
-            tag.putInt("AI", instance.getTotalState());
-            tag.putFloat("D", instance.getDirection());
-            return tag;
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
         }
 
     }

@@ -34,7 +34,7 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         if (dir == null) return stack;
 
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getLevel());
-        player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
+        player.setPos(source.x(), source.y(), source.z());
 
         // Defaults are for south.
         player.xRot = 0;
@@ -59,7 +59,14 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         {
             final IPokecube cube = (IPokecube) stack.getItem();
             final Vector3 direction = Vector3.getNewVector().set(dir);
-            if (cube.throwPokecube(source.getLevel(), player, stack, direction, 0.25f) != null) stack.split(1);
+            final EntityPokecubeBase pokecube = cube.throwPokecube(source.getLevel(), player, stack, direction, 0.25f);
+            if (pokecube != null)
+            {
+                stack.split(1);
+                final Vector3 v = Vector3.getNewVector().set(source.x(), source.y(), source.z());
+                v.addTo(direction);
+                pokecube.setPos(v.x, v.y, v.z);
+            }
         }
         return stack;
     }
