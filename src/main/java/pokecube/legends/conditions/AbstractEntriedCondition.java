@@ -11,17 +11,26 @@ import pokecube.core.database.PokedexEntry;
 
 public abstract class AbstractEntriedCondition extends AbstractCondition
 {
-    final List<String> needed;
+    public final List<String> needed;
+
+    public final String name;
 
     String names;
 
-    public AbstractEntriedCondition(final String... needed)
+    public AbstractEntriedCondition(final String entry, final String... needed)
     {
         this.needed = Lists.newArrayList(needed);
+        this.name = entry;
     }
 
     @Override
-    boolean hasRequirements(final Entity trainer)
+    public final PokedexEntry getEntry()
+    {
+        return Database.getEntry(this.name);
+    }
+
+    @Override
+    protected boolean hasRequirements(final Entity trainer)
     {
         for (final String s : this.needed)
             if (this.caughtNumber(trainer, Database.getEntry(s)) <= 0) return false;

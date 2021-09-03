@@ -2,7 +2,6 @@ package pokecube.legends.spawns;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -15,9 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -86,10 +83,14 @@ public class LegendarySpawn
                     evt.setCanceled(true);
                     return SpawnResult.NOCAPTURE;
                 }
-                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
+                // This puts player on a cooldown for respawning the mob
+                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(), Tracker.instance().getTick());
+                // Mob gets spawnedby to prevent others from capturing
                 entity.getPersistentData().putUUID("spwnedby", playerIn.getUUID());
+                // These prevent drops and the mob disappearing when it dies
                 entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
                 entity.getPersistentData().putBoolean(TagNames.NODROP, true);
+
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
@@ -105,24 +106,6 @@ public class LegendarySpawn
             else return test == CanSpawn.NO ? result : SpawnResult.NOSPAWN;
         }
         return SpawnResult.FAIL;
-    }
-
-    @SubscribeEvent
-    public static void livingDeath(final LivingDeathEvent evt)
-    {
-        if (!(evt.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
-
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().hasUUID(
-                "spwnedby"))
-        {
-            ServerWorld world = (ServerWorld) evt.getEntity().getCommandSenderWorld();
-            world = world.getServer().getLevel(World.OVERWORLD);
-            final UUID id = evt.getEntity().getPersistentData().getUUID("spwnedby");
-            PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
-                    .getTrimmedName(), Tracker.instance().getTick());
-            PokecubePlayerDataHandler.saveCustomData(id.toString());
-        }
     }
 
     /**

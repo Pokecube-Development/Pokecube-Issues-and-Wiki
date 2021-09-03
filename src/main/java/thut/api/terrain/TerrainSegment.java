@@ -301,10 +301,10 @@ public class TerrainSegment
         for (final Class<? extends ITerrainEffect> clas : TerrainSegment.terrainEffectClasses)
             try
             {
-                final ITerrainEffect effect = clas.newInstance();
+                final ITerrainEffect effect = clas.getConstructor().newInstance();
                 this.addEffect(effect, effect.getIdentifier());
             }
-            catch (InstantiationException | IllegalAccessException e)
+            catch (final Exception e)
             {
                 e.printStackTrace();
             }

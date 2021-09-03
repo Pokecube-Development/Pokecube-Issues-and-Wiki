@@ -32,7 +32,7 @@ public class GeneRegistry
     {
         Gene<?> ret = null;
         final ResourceLocation resource = new ResourceLocation(tag.getString("K"));
-        ret = GeneRegistry.geneMap.get(resource).newInstance();
+        ret = GeneRegistry.geneMap.get(resource).getConstructor().newInstance();
         ret.load(tag);
         return ret;
     }
@@ -43,10 +43,10 @@ public class GeneRegistry
         try
         {
             // Ensure the gene has a blank constructor for registration
-            temp = gene.newInstance();
+            temp = gene.getConstructor().newInstance();
             GeneRegistry.geneMap.put(temp.getKey(), gene);
         }
-        catch (InstantiationException | IllegalAccessException e)
+        catch (final Exception e)
         {
             ThutCore.LOGGER.error("Error with registry of " + gene, e);
         }
