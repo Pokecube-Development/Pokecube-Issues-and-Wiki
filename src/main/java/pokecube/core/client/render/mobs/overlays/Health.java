@@ -157,15 +157,14 @@ public class Health
 
             if (maxHealth <= 0) break processing;
 
-            double dy = entity.getBbHeight();
+            double dy = entity.getBoundingBox().getYsize();
 
             if (entity.isMultipartEntity())
             {
                 dy = 0;
                 for (final PartEntity<?> part : entity.getParts())
-                    dy = Math.max(dy, part.getBbHeight() + part.getY() - entity.getY());
+                    dy = Math.max(dy, part.getBoundingBox().getYsize() + part.getY() - entity.getY());
             }
-
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
             quaternion = viewer.rotation();
@@ -282,19 +281,18 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font
-                    .width(healthStr) / 2, h, 0xFFFFFFFF);
+            if (isOwner) mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h,
+                    0xFFFFFFFF);
 
             pos = mat.last().pose();
             mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
-            mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(
-                    gender), h - 1, colour, false, pos, buf, false, 0, br);
+            mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(gender), h - 1, colour, false,
+                    pos, buf, false, 0, br);
 
             if (PokecubeCore.getConfig().enableDebugInfo && mc.options.renderDebug)
             {
                 final String entityID = entity.getEncodeId().toString();
-                mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h
-                        + 16, 0xFFFFFFFF);
+                mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16, 0xFFFFFFFF);
             }
             mat.popPose();
 
