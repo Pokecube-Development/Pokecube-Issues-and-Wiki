@@ -26,6 +26,8 @@
     "computercraft:printed_pages",
     "create:empty_schematic",
     "create:schematic_and_quill",
+    "dungeons_gear:harvester",
+    "dungeons_gear:updraft_tome",
     "forbidden_arcanus:forbiddenmicon",
     "gbook:guidebook",
     "golems:info_book",
@@ -40,6 +42,7 @@
     "minecolonies:scroll_tp",
     "mysticalworld:encyclopedia",
     "patchouli:guide_book",
+    "quark:ancient_tome",
     "theoneprobe:probenote"
   ]
 }
