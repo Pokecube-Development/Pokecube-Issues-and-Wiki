@@ -37,8 +37,7 @@ import thut.core.common.ThutCore;
 
 public class OwnableCaps
 {
-    public abstract static class VanillaWrapper<M extends MobEntity> implements IOwnable,
-            ICapabilitySerializable<ByteNBT>
+    public abstract static class VanillaWrapper<M extends MobEntity> implements IOwnable, ICapabilitySerializable<INBT>
     {
         private final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
 
@@ -58,16 +57,18 @@ public class OwnableCaps
         }
 
         @Override
-        public ByteNBT serializeNBT()
+        public INBT serializeNBT()
         {
-            final ByteNBT tag = ByteNBT.valueOf((byte) (this.playerOwned ? 1 : 0));
+            final CompoundNBT tag = new CompoundNBT();
+            tag.putBoolean("p", this.playerOwned);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(final ByteNBT nbt)
+        public void deserializeNBT(final INBT nbt)
         {
-            this.playerOwned = nbt.getAsByte() != 0;
+            if (nbt instanceof ByteNBT) this.playerOwned = ((ByteNBT) nbt).getAsByte() != 0;
+            else if (nbt instanceof CompoundNBT) this.playerOwned = ((CompoundNBT) nbt).getBoolean("p");
         }
     }
 
@@ -79,16 +80,16 @@ public class OwnableCaps
         {
             super(toWrap);
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getProfileCache().get(this
-                        .getOwnerId()) != null;
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()) != null;
         }
 
         @Override
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getCommandSenderWorld() instanceof ServerWorld)
-                return this.owner = this.getOwner((ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
+            if (this.getOwnerId() != null && this.owner == null && this.wrapped
+                    .getCommandSenderWorld() instanceof ServerWorld) return this.owner = this.getOwner(
+                            (ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
@@ -129,8 +130,7 @@ public class OwnableCaps
             super(toWrap);
             this.playerOwned = toWrap.getOwner() instanceof PlayerEntity;
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
-                this.playerOwned = toWrap.getServer().getProfileCache().get(this
-                        .getOwnerId()) != null;
+                this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()) != null;
         }
 
         @Override
