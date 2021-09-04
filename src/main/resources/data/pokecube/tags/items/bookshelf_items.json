@@ -6,8 +6,35 @@
     "pokecube:pokedex"
   ],
   "optional": [
+    "alexmobs:animal_dictionary",
     "antiqueatlas:antique_atlas",
+    "betterendforge:guidebook",
+    "blue_skies:alchemy_scroll",
+    "blue_skies:blue_journal",
+    "blue_skies:summoning_tome",
+    "buddycards:binder.1",
+    "buddycards:binder.2",
+    "buddycards:binder.3",
+    "buddycards:binder.4",
+    "buddycards:binder.5",
+    "buddycards:binder.7",
+    "buddycards:ender_binder",
     "computercraft:printed_page",
-    "computercraft:printed_pages"
+    "computercraft:printed_pages",
+    "create:empty_schematic",
+    "create:schematic_and_quill",
+    "forbidden_arcanus:forbiddenmicon",
+    "gbook:guidebook",
+    "lotr:red_book",
+    "minecolonies:ancienttome",
+    "minecolonies:clipboard",
+    "minecolonies:resourcescroll",
+    "minecolonies:scroll_area_tp",
+    "minecolonies:scroll_buff",
+    "minecolonies:scroll_guard_help",
+    "minecolonies:scroll_highlight",
+    "minecolonies:scroll_tp",
+    "mysticalworld:encyclopedia",
+    "theoneprobe:probenote"
   ]
 }
