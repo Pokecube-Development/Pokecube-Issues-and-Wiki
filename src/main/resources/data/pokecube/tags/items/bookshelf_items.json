@@ -6,6 +6,7 @@
     "pokecube:pokedex"
   ],
   "optional": [
+    "akashictome:tome",
     "alexmobs:animal_dictionary",
     "antiqueatlas:antique_atlas",
     "antiqueatlas:empty_antique_atlas",
@@ -27,6 +28,7 @@
     "create:schematic_and_quill",
     "forbidden_arcanus:forbiddenmicon",
     "gbook:guidebook",
+    "golems:info_book",
     "lotr:red_book",
     "minecolonies:ancienttome",
     "minecolonies:clipboard",
@@ -37,6 +39,7 @@
     "minecolonies:scroll_highlight",
     "minecolonies:scroll_tp",
     "mysticalworld:encyclopedia",
+    "patchouli:guide_book",
     "theoneprobe:probenote"
   ]
 }
