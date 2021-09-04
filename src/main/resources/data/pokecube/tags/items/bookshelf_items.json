@@ -8,6 +8,7 @@
   "optional": [
     "alexmobs:animal_dictionary",
     "antiqueatlas:antique_atlas",
+    "antiqueatlas:empty_antique_atlas",
     "betterendforge:guidebook",
     "blue_skies:alchemy_scroll",
     "blue_skies:blue_journal",
