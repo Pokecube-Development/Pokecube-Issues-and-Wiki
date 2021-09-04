@@ -265,7 +265,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final float hp = this.getHealth();
             base.setHealth(hp);
             if (base == this) this.returning = false;
-            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
+            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbilityRaw(AbilityManager
                     .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             base.onRecall();
             this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);

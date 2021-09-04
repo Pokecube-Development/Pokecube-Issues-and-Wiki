@@ -12,6 +12,10 @@ public class DataHelpers
     public static interface IResourceData
     {
         void reload(AtomicBoolean valid);
+
+        default void postReload()
+        {
+        };
     }
 
     private static final Set<IResourceData> tagHelpers = Sets.newHashSet();
@@ -20,7 +24,11 @@ public class DataHelpers
     {
         final AtomicBoolean valid = new AtomicBoolean(false);
         DataHelpers.tagHelpers.forEach(t -> t.reload(valid));
-        if (valid.get()) PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
+        if (valid.get())
+        {
+            DataHelpers.tagHelpers.forEach(t -> t.postReload());
+            PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
+        }
     }
 
     public static void addDataType(final IResourceData type)

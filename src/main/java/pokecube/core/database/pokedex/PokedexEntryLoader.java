@@ -619,7 +619,7 @@ public class PokedexEntryLoader
         Object copy = null;
         try
         {
-            copy = type.newInstance();
+            copy = type.getConstructor().newInstance();
         }
         catch (final Exception e1)
         {
@@ -1011,7 +1011,7 @@ public class PokedexEntryLoader
                 else if (valueOut instanceof Collection) field.set(inTo, valueOut);
                 else try
                 {
-                    valueDefault = valueOut.getClass().newInstance();
+                    valueDefault = valueOut.getClass().getConstructor().newInstance();
                     PokedexEntryLoader.mergeNonDefaults(valueDefault, valueOut, valueIn);
                     field.set(inTo, valueIn);
                 }

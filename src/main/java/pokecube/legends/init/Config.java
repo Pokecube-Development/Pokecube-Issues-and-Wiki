@@ -16,7 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.legends.Reference;
-import pokecube.legends.conditions.LegendaryConditions;
+import pokecube.legends.conditions.custom.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.spawns.WormholeSpawns;
 import thut.core.common.config.Config.ConfigData;

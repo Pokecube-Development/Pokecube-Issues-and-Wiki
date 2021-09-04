@@ -39,6 +39,11 @@ import thut.api.maths.Vector3;
 
 public class CaptureManager
 {
+    public static void onCaptureDenied(final EntityPokecubeBase cube)
+    {
+        cube.spawnAtLocation(cube.getItem(), (float) 0.5);
+        cube.remove();
+    }
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
@@ -149,8 +154,7 @@ public class CaptureManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
-        if (mob != null) mob.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z,
-                cube.yRot, 0.0F);
+        if (mob != null) mob.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.yRot, 0.0F);
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
@@ -191,8 +195,8 @@ public class CaptureManager
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
-            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).displayClientMessage(mess,
-                    true);
+            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).displayClientMessage(
+                    mess, true);
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
@@ -203,7 +207,7 @@ public class CaptureManager
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
             final IPokemob revert = pokemob.megaRevert();
             if (revert != null) pokemob = revert;
-            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbility(AbilityManager
+            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(AbilityManager
                     .getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
         }
         final ItemStack pokemobStack = PokecubeManager.pokemobToItem(pokemob);
@@ -212,8 +216,7 @@ public class CaptureManager
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
             ((PlayerEntity) cube.shootingEntity).displayClientMessage(mess, true);
-            cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity
-                    .getZ());
+            cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity.getZ());
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;

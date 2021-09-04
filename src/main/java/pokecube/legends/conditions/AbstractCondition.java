@@ -130,7 +130,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     public abstract PokedexEntry getEntry();
 
-    abstract boolean hasRequirements(Entity trainer);
+    protected abstract boolean hasRequirements(Entity trainer);
 
     public boolean canCapture(final Entity trainer, final boolean message)
     {
@@ -174,11 +174,10 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         if (trainer instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) trainer;
-            final String tag0 = "spwn:" + this.getEntry().getTrimmedName();
-            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).getBoolean(tag0);
+            final String tag = "spwned:" + this.getEntry().getTrimmedName();
+            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).contains(tag);
             if (!prevSpawn) return CanSpawn.YES;
-            final String tag1 = "spwn_ded:" + this.getEntry().getTrimmedName();
-            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(player).getLong(tag1);
+            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(player).getLong(tag);
             final boolean prevDied = spwnDied > 0;
             if (prevDied)
             {
@@ -186,8 +185,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
                 final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < now;
                 if (doneCooldown)
                 {
-                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag0);
-                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag1);
+                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag);
                     PokecubePlayerDataHandler.saveCustomData(player);
                     return CanSpawn.YES;
                 }
@@ -302,10 +300,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         {
             final PlayerEntity player = (PlayerEntity) trainer;
             player.displayClientMessage(component, true);
-        } else
-        {
-            trainer.sendMessage(component, Util.NIL_UUID);
         }
+        else trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
 

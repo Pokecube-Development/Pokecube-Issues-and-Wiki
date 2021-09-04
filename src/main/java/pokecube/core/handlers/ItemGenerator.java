@@ -1,7 +1,5 @@
 package pokecube.core.handlers;
 
-import static net.minecraft.item.AxeItem.STRIPABLES;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +31,7 @@ import net.minecraft.block.WoodButtonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -127,14 +126,14 @@ public class ItemGenerator
             final String name = BerryManager.berryNames.get(index);
 
             // Crop
-            Block block = new BerryCrop(AbstractBlock.Properties.of(Material.PLANT, berryFruits.get(name)).noCollission().randomTicks()
+            Block block = new BerryCrop(AbstractBlock.Properties.of(Material.PLANT, ItemGenerator.berryFruits.get(name)).noCollission().randomTicks()
                     .strength(0.0F).noOcclusion().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "crop_" + name);
             BerryManager.berryCrops.put(index, block);
             registry.register(block);
 
             // Fruit
-            block = new BerryFruit(AbstractBlock.Properties.of(Material.PLANT, berryCrops.get(name)).noCollission().randomTicks()
+            block = new BerryFruit(AbstractBlock.Properties.of(Material.PLANT, ItemGenerator.berryCrops.get(name)).noCollission().randomTicks()
                     .strength(0.0F).noOcclusion().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "fruit_" + name);
             BerryManager.berryFruits.put(index, block);
@@ -155,7 +154,7 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
             // Leaves
-            Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, berryLeaves.get(name)).strength(0.2F)
+            Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, ItemGenerator.berryLeaves.get(name)).strength(0.2F)
                 .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
@@ -164,31 +163,31 @@ public class ItemGenerator
             registry.register(block);
 
             // Logs
-            block = Blocks.log(berryWoods.get(name), berryWoods.get(name));
+            block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);
             registry.register(block);
 
             // Woods
-            block = Blocks.log(berryWoods.get(name), berryWoods.get(name));
+            block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, name + "_wood");
             ItemGenerator.woods.put(name, block);
             registry.register(block);
 
             // Stripped Logs
-            block = Blocks.log(berryWoods.get(name), berryWoods.get(name));
+            block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_log");
             ItemGenerator.stripped_logs.put(name, block);
             registry.register(block);
 
             // Stripped Woods
-            block = Blocks.log(berryWoods.get(name), berryWoods.get(name));
+            block = Blocks.log(ItemGenerator.berryWoods.get(name), ItemGenerator.berryWoods.get(name));
             block.setRegistryName(PokecubeCore.MODID, "stripped_" + name + "_wood");
             ItemGenerator.stripped_woods.put(name, block);
             registry.register(block);
 
             // Planks
-            block = new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD, berryWoods.get(name))
+            block = new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD, ItemGenerator.berryWoods.get(name))
                     .strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "plank_" + name);
             ItemGenerator.planks.put(name, block);
@@ -196,56 +195,56 @@ public class ItemGenerator
 
             // Stairs
             block = new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
             ItemGenerator.stairs.put(name, block);
             registry.register(block);
 
             // Slabs
             block = new SlabBlock(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_slab");
             ItemGenerator.slabs.put(name, block);
             registry.register(block);
 
             // Fences
             block = new FenceBlock(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_fence");
             ItemGenerator.fences.put(name, block);
             registry.register(block);
 
             // Fence Gates
             block = new FenceGateBlock(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_fence_gate");
             ItemGenerator.fence_gates.put(name, block);
             registry.register(block);
 
             // Pressure Plates
             block = new GenericPressurePlate(Sensitivity.EVERYTHING, AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_pressure_plate");
             ItemGenerator.pressure_plates.put(name, block);
             registry.register(block);
 
             // Buttons
             block = new GenericWoodButton(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
             registry.register(block);
 
             // Trapdoors
             block = new GenericTrapDoor(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
             block.setRegistryName(PokecubeCore.MODID, name + "_trapdoor");
             ItemGenerator.trapdoors.put(name, block);
             registry.register(block);
 
             // Doors
             block = new GenericDoor(AbstractBlock.Properties.of(
-            		Material.WOOD, berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
             block.setRegistryName(PokecubeCore.MODID, name + "_door");
             ItemGenerator.doors.put(name, block);
             registry.register(block);
@@ -256,7 +255,7 @@ public class ItemGenerator
         {
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
             // Leaves
-            final Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, onlyBerryLeaves.get(name)).strength(0.2F)
+            final Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, ItemGenerator.onlyBerryLeaves.get(name)).strength(0.2F)
                 .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
@@ -377,7 +376,7 @@ public class ItemGenerator
         }
     }
 
-    public static RotatedPillarBlock stoneLog(MaterialColor color1, MaterialColor color2, AbstractBlock.Properties properties) {
+    public static RotatedPillarBlock stoneLog(final MaterialColor color1, final MaterialColor color2, final AbstractBlock.Properties properties) {
         return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
         }).strength(2.4f, 6.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
@@ -425,6 +424,7 @@ public class ItemGenerator
 
     public static class GenericPottedPlant extends FlowerPotBlock
     {
+        @SuppressWarnings("deprecation")
         public GenericPottedPlant(final Block pottedPlant, final Properties properties)
         {
             super(pottedPlant, properties);
@@ -433,8 +433,8 @@ public class ItemGenerator
 
     public static void addStrippable(final Block logs, final Block strippedLogs)
     {
-        STRIPABLES = Maps.newHashMap(STRIPABLES);
-        STRIPABLES.put(logs, strippedLogs);
+        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
+        AxeItem.STRIPABLES.put(logs, strippedLogs);
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
@@ -452,13 +452,13 @@ public class ItemGenerator
             }
         });
     }
-    
-    public static void compostableBlocks(float chance, IItemProvider item) 
+
+    public static void compostableBlocks(final float chance, final IItemProvider item)
     {
         ComposterBlock.COMPOSTABLES.put(item, chance);
     }
-    
-    public static void compostables(final FMLLoadCompleteEvent event) 
+
+    public static void compostables(final FMLLoadCompleteEvent event)
     {
     	final List<String> leaves = Lists.newArrayList(ItemGenerator.berryLeaves.keySet());
     	final List<String> onlyLeaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
@@ -469,23 +469,19 @@ public class ItemGenerator
         event.enqueueWork(() ->
         {
         	for (final String name : leaves)
-        	{
-                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
-        	}
+                ItemGenerator.compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
         	for (final String name : onlyLeaves)
-        	{
-                compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
-        	}
+                ItemGenerator.compostableBlocks(0.3f, ItemGenerator.leaves.get(name).asItem());
             for (final Integer id : ids)
             {
                 final int index = id;
-                compostableBlocks(0.65f, BerryManager.berryItems.get(index));
+                ItemGenerator.compostableBlocks(0.65f, BerryManager.berryItems.get(index));
             }
         });
     }
 
-    public static void flammableBlocks(Block block, int speed, int flammability) {
-        FireBlock fire = (FireBlock) Blocks.FIRE;
+    public static void flammableBlocks(final Block block, final int speed, final int flammability) {
+        final FireBlock fire = (FireBlock) Blocks.FIRE;
         fire.setFlammable(block, speed, flammability);
     }
 
@@ -496,26 +492,26 @@ public class ItemGenerator
         {
             for (final String name : names) {
                 //Logs
-                flammableBlocks(ItemGenerator.logs.get(name), 5, 5);
-                flammableBlocks(ItemGenerator.woods.get(name), 5, 5);
-                flammableBlocks(ItemGenerator.stripped_logs.get(name), 5, 5);
-                flammableBlocks(ItemGenerator.stripped_woods.get(name), 5, 5);
+                ItemGenerator.flammableBlocks(ItemGenerator.logs.get(name), 5, 5);
+                ItemGenerator.flammableBlocks(ItemGenerator.woods.get(name), 5, 5);
+                ItemGenerator.flammableBlocks(ItemGenerator.stripped_logs.get(name), 5, 5);
+                ItemGenerator.flammableBlocks(ItemGenerator.stripped_woods.get(name), 5, 5);
 
                 //Leaves
-                flammableBlocks(ItemGenerator.leaves.get(name), 30, 60);
+                ItemGenerator.flammableBlocks(ItemGenerator.leaves.get(name), 30, 60);
 
                 //Woods
-                flammableBlocks(ItemGenerator.planks.get(name), 5, 20);
-                flammableBlocks(ItemGenerator.slabs.get(name), 5, 20);
-                flammableBlocks(ItemGenerator.stairs.get(name), 5, 20);
-                flammableBlocks(ItemGenerator.fences.get(name), 5, 20);
-                flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.planks.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.slabs.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.stairs.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.fences.get(name), 5, 20);
+                ItemGenerator.flammableBlocks(ItemGenerator.fence_gates.get(name), 5, 20);
             }
         });
     }
 
 
-    public static Boolean ocelotOrParrot(BlockState state, IBlockReader reader, BlockPos pos, EntityType<?> entity) {
+    public static Boolean ocelotOrParrot(final BlockState state, final IBlockReader reader, final BlockPos pos, final EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 

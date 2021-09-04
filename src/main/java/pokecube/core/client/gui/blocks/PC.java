@@ -223,11 +223,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                         packet.data.putBoolean("R", this.release);
                         packet.data.putInt("page", this.menu.inv.getPage());
                         for (int i = 0; i < 54; i++)
-                            if (this.menu.toRelease[i])
-                            {
-                                packet.data.putBoolean("val" + i, true);
-                                System.out.println("release: " + i);
-                            }
+                            if (this.menu.toRelease[i]) packet.data.putBoolean("val" + i, true);
                         PokecubeCore.packets.sendToServer(packet);
                         this.menu.toRelease = new boolean[54];
                         for (int i = 0; i < 54; i++)

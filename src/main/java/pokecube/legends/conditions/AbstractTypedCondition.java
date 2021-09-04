@@ -2,27 +2,36 @@ package pokecube.legends.conditions;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.IFormattableTextComponent;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
 
 public abstract class AbstractTypedCondition extends AbstractCondition
 {
-    private final String type;
+    public final String type;
+    public final String name;
+    public final float threshold;
 
-    private final float threshold;
-
-    protected AbstractTypedCondition(final String type, final float threshold)
+    protected AbstractTypedCondition(final String name, final String type, final float threshold)
     {
         this.type = type;
         this.threshold = threshold;
+        this.name = name;
     }
 
-    protected AbstractTypedCondition(final String type)
+    protected AbstractTypedCondition(final String name, final String type)
     {
-        this(type, 0.5f);
+        this(name, type, 0.5f);
     }
 
     @Override
-    boolean hasRequirements(final Entity trainer)
+    public final PokedexEntry getEntry()
+    {
+        return Database.getEntry(this.name);
+    }
+
+    @Override
+    protected boolean hasRequirements(final Entity trainer)
     {
         final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
         final int count2 = this.spawnNumber(PokeType.getType(this.type));

@@ -1,0 +1,543 @@
+{
+  "conditions": [
+    {
+      "name": "articuno",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "ice"
+      },
+      "spawn": {
+        "key": { "id": "pokecube_legends:ice_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
+    },
+    {
+      "name": "articuno_galar",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "flying"
+      },
+      "spawn": {
+        "key": { "id": "pokecube_legends:ice_dark_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
+    },
+    {
+      "name": "zapdos",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "electric"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "zapdos_galar",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "fighting"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "moltres",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "fire"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "moltres_galar",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "dark"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "raikou",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.4",
+        "type": "electric"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "entei",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.6",
+        "type": "fire"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "suicune",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "water"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "lugia",
+      "preset": "entry_based",
+      "options": {
+        "entries": "articuno,zapdos,moltres"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "ho-oh",
+      "preset": "entry_based",
+      "options": {
+        "entries": "raikou,suicune,entei"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "celebi",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.7",
+        "type": "grass"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "latias",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "dragon"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "latios",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "dragon"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "kyogre",
+      "preset": "spawns_only",
+      "spawn": {
+        "key": { "id": "pokecube_legends:blueorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
+    },
+    {
+      "name": "rayquaza",
+      "preset": "entry_based",
+      "options": {
+        "entries": "kyogre,groudon"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "jirachi",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "steel"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "deoxys",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "uxie",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "mesprit",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "azelf",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "dialga",
+      "preset": "entry_based",
+      "options": {
+        "entries": "uxie,mesprit,azelf"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "palkia",
+      "preset": "entry_based",
+      "options": {
+        "entries": "uxie,mesprit,azelf"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "heatran",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "fire"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "giratina",
+      "preset": "entry_based",
+      "options": {
+        "entries": "dialga,palkia"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "cresselia",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "fairy"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "manaphy",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.4",
+        "type": "water"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "darkrai",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "dark"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "arceus",
+      "preset": "entry_based",
+      "options": {
+        "entries": "dialga,palkia,giratina"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "victini",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "cobalion",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "steel"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "terrakion",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "rock"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "virizion",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "grass"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "tornadus_incarnate",
+      "preset": "entry_based",
+      "options": {
+        "entries": "meloetta_aria"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "thundurus_incarnate",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "meloetta_aria"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "reshiram",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "dragon"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "zekrom",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "dragon"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "landorus_incarnate",
+      "preset": "entry_based",
+      "options": {
+        "entries": "meloetta_aria"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "kyurem",
+      "preset": "entry_based",
+      "options": {
+        "entries": "reshiram,zekrom"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "keldeo",
+      "preset": "entry_based",
+      "options": {
+        "entries": "virizion,terrakion,cobalion"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "meloetta_aria",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.4",
+        "type": "normal"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "xerneas",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.4",
+        "type": "fairy"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "yveltal",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.5",
+        "type": "dark"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "zygarde_10",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "ground"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "diancie",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "fairy"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "hoopa_confined",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "ghost"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "volcanion",
+      "preset": "entry_based",
+      "options": {
+        "entries": "magearna"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "tapu_koko",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "electric"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "tapu_lele",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "tapu_bulu",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "grass"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "tapu_fini",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "water"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "cosmog",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "psychic"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "necrozma",
+      "preset": "entry_based",
+      "options": {
+        "entries": "solgaleo,lunala"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "magearna",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "ghost"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "zacian",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.6",
+        "type": "steel"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "zamazenta",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.6",
+        "type": "steel"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "eternatus",
+      "preset": "entry_based",
+      "options": {
+        "entries": "zacian,zamazenta"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "kubfu",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.3",
+        "type": "fighting"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "glastrier",
+      "preset": "entry_based",
+      "options": {
+        "entries": "calyrex"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "spectrier",
+      "preset": "entry_based",
+      "options": {
+        "entries": "calyrex"
+      },
+      "spawn": {}
+    },
+    {
+      "name": "calyrex",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.4",
+        "type": "grass"
+      },
+      "spawn": {}
+    }
+  ],
+  "replace": false
+}

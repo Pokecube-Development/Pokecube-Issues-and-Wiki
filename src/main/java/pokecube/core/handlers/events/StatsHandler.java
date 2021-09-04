@@ -26,6 +26,7 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.Permissions;
 
 public class StatsHandler
@@ -68,8 +69,7 @@ public class StatsHandler
             evt.setCanceled(true);
             if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                     "pokecube.denied"), Util.NIL_UUID);
-            evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
-            evt.pokecube.remove();
+            CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
             return;
         }
         final Config config = PokecubeCore.getConfig();
@@ -89,8 +89,7 @@ public class StatsHandler
                 evt.setCanceled(true);
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.NIL_UUID);
-                evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
-                evt.pokecube.remove();
+                CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
             }
         }
@@ -114,8 +113,7 @@ public class StatsHandler
                 if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.NIL_UUID);
                 condition.onCaptureFail(catcher, evt.getCaught());
-                evt.pokecube.spawnAtLocation(((EntityPokecube) evt.pokecube).getItem(), (float) 0.5);
-                evt.pokecube.remove();
+                CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
             }
         }

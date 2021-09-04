@@ -71,6 +71,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     }
 
     @Override
+    public String getAbilityName()
+    {
+        return this.dataSync().get(this.params.ABILITYNAMEID);
+    }
+
+    @Override
     public int getAbilityIndex()
     {
         if (this.genesAbility == null) this.initAbilityGene();
@@ -338,7 +344,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 this.genesAbility.setAllele(1, gene);
                 this.genesAbility.refreshExpressed();
             }
-            this.setAbility(this.getAbility());
+            this.setAbilityRaw(this.getAbility());
         }
     }
 
@@ -435,13 +441,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     }
 
     @Override
-    public void setAbility(final Ability ability)
+    public void setAbilityRaw(final Ability ability)
     {
-        if (this.inCombat())
-        {
-            this.moveInfo.battleAbility = ability;
-            return;
-        }
         if (this.genesAbility == null) this.initAbilityGene();
         final AbilityGene gene = this.genesAbility.getExpressed();
         final AbilityObject obj = gene.getValue();
@@ -451,7 +452,30 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         obj.abilityObject = ability;
         obj.ability = ability != null ? defalt != null && defalt.getName().equals(ability.getName()) ? ""
                 : ability.toString() : "";
-        if (ability != null) ability.init(this);
+        if (ability != null)
+        {
+            ability.init(this);
+            this.dataSync().set(this.params.ABILITYNAMEID, ability.getName());
+        }
+        else this.dataSync().set(this.params.ABILITYNAMEID, "");
+        this.moveInfo.battleAbility = ability;
+
+    }
+
+    @Override
+    public void setAbility(final Ability ability)
+    {
+        if (this.inCombat())
+        {
+            this.moveInfo.battleAbility = ability;
+            if (ability != null)
+            {
+                ability.init(this);
+                this.dataSync().set(this.params.ABILITYNAMEID, ability.getName());
+            }
+            return;
+        }
+        this.setAbilityRaw(ability);
     }
 
     @Override

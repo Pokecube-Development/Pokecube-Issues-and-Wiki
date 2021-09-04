@@ -386,7 +386,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Learn evolution moves and update ability.
                 for (final String s : data.evoMoves)
                     evo.learn(s);
-                evo.setAbility(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
+                evo.setAbilityRaw(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
 
                 // Send post evolve event.
                 evt = new EvolveEvent.Post(evo);
@@ -456,7 +456,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     // Learn evolution moves and update ability.
                     for (final String s : data.evoMoves)
                         evo.learn(s);
-                    evo.setAbility(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
+                    evo.setAbilityRaw(evo.getPokedexEntry().getAbility(thisMob.getAbilityIndex(), evo));
                 }
                 return evo;
             }
@@ -640,21 +640,20 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 final Ability ability = newEntry.getAbility(0, evoMob);
                 PokecubeCore.LOGGER.debug("Mega Evolving, changing ability to " + ability);
 
-                if (ability != null) evoMob.setAbility(ability);
+                if (ability != null) evoMob.setAbilityRaw(ability);
             }
             else if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
             {
                 final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
                 evolution.getPersistentData().remove("pokecube:mega_ability");
-                if (!ability.isEmpty()) evoMob.setAbility(AbilityManager.getAbility(ability));
+                if (!ability.isEmpty()) evoMob.setAbilityRaw(AbilityManager.getAbility(ability));
                 PokecubeCore.LOGGER.debug("Un Mega Evolving, changing ability back to " + ability);
             }
 
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
             PokecubeCore.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
-            if (!evt.isCanceled() && thisEntity.inChunk) EvoTicker.scheduleEvolve(thisEntity, evolution,
-                    immediate);
+            if (!evt.isCanceled() && thisEntity.inChunk) EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
         }
         return evoMob;
     }
