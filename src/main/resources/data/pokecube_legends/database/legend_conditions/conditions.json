@@ -31,7 +31,10 @@
         "threshold": "0.3",
         "type": "electric"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:electric_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "zapdos_galar",
@@ -40,7 +43,10 @@
         "threshold": "0.2",
         "type": "fighting"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:static_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "moltres",
@@ -49,7 +55,10 @@
         "threshold": "0.3",
         "type": "fire"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:fire_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "moltres_galar",
@@ -58,7 +67,10 @@
         "threshold": "0.3",
         "type": "dark"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:dark_fire_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "raikou",
@@ -67,7 +79,10 @@
         "threshold": "0.4",
         "type": "electric"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:thunder_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "entei",
@@ -76,7 +91,10 @@
         "threshold": "0.6",
         "type": "fire"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:flame_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "suicune",
@@ -85,7 +103,10 @@
         "threshold": "0.5",
         "type": "water"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:water_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "lugia",
@@ -93,7 +114,10 @@
       "options": {
         "entries": "articuno,zapdos,moltres"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:oceanorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "ho-oh",
@@ -101,7 +125,10 @@
       "options": {
         "entries": "raikou,suicune,entei"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:legendaryorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "celebi",
@@ -110,7 +137,10 @@
         "threshold": "0.7",
         "type": "grass"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:greenorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "latias",
@@ -119,7 +149,10 @@
         "threshold": "0.3",
         "type": "dragon"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:soul_dew" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "latios",
@@ -128,7 +161,10 @@
         "threshold": "0.3",
         "type": "dragon"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:soul_dew" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "kyogre",
@@ -138,13 +174,24 @@
         "target": { "id": "pokecube_legends:legendaryspawn" }
       }
     },
+	{
+      "name": "groudon",
+      "preset": "spawns_only",
+      "spawn": {
+        "key": { "id": "pokecube_legends:redorb" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
+    },
     {
       "name": "rayquaza",
       "preset": "entry_based",
       "options": {
         "entries": "kyogre,groudon"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:ancient_stone" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "jirachi",
@@ -153,7 +200,10 @@
         "threshold": "0.2",
         "type": "steel"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:star_core" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "deoxys",
@@ -162,7 +212,10 @@
         "threshold": "0.2",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:meteor_shard" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "uxie",
@@ -171,7 +224,10 @@
         "threshold": "0.3",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:uxie_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "mesprit",
@@ -180,7 +236,10 @@
         "threshold": "0.3",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:mesprit_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "azelf",
@@ -189,7 +248,10 @@
         "threshold": "0.3",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:azelf_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "dialga",
@@ -197,7 +259,10 @@
       "options": {
         "entries": "uxie,mesprit,azelf"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:adamantorb" },
+        "target": { "id": "pokecube_legends:timerspawn" }
+      }
     },
     {
       "name": "palkia",
@@ -205,7 +270,10 @@
       "options": {
         "entries": "uxie,mesprit,azelf"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lustrousorb" },
+        "target": { "id": "pokecube_legends:timerspawn" }
+      }
     },
     {
       "name": "heatran",
@@ -214,7 +282,10 @@
         "threshold": "0.5",
         "type": "fire"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:magmacore" },
+        "target": { "id": "pokecube_legends:heatran_block" }
+      }
     },
     {
       "name": "giratina",
@@ -231,7 +302,10 @@
         "threshold": "0.3",
         "type": "fairy"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lunar_wing" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "manaphy",
@@ -240,7 +314,10 @@
         "threshold": "0.4",
         "type": "water"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:manaphy_necklace" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "darkrai",
@@ -249,7 +326,10 @@
         "threshold": "0.3",
         "type": "dark"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:nightmare_book" },
+        "target": { "id": "pokecube_legends:yveltal_egg" }
+      }
     },
     {
       "name": "arceus",
@@ -257,7 +337,10 @@
       "options": {
         "entries": "dialga,palkia,giratina"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:azure_flute" },
+        "target": { "id": "pokecube_legends:timerspawn" }
+      }
     },
     {
       "name": "victini",
@@ -266,7 +349,10 @@
         "threshold": "0.5",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:emblem" },
+        "target": { "id": "pokecube_legends:victiniblock" }
+      }
     },
     {
       "name": "cobalion",
@@ -275,7 +361,10 @@
         "threshold": "0.3",
         "type": "steel"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:cobalion_sword" },
+        "target": { "id": "pokecube_legends:keldeoblock" }
+      }
     },
     {
       "name": "terrakion",
@@ -284,7 +373,10 @@
         "threshold": "0.3",
         "type": "rock"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:terrakion_sword" },
+        "target": { "id": "pokecube_legends:keldeoblock" }
+      }
     },
     {
       "name": "virizion",
@@ -293,7 +385,10 @@
         "threshold": "0.3",
         "type": "grass"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:virizion_sword" },
+        "target": { "id": "pokecube_legends:keldeoblock" }
+      }
     },
     {
       "name": "tornadus_incarnate",
@@ -301,7 +396,10 @@
       "options": {
         "entries": "meloetta_aria"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:green_rune" },
+        "target": { "id": "pokecube_legends:naturespawn" }
+      }
     },
     {
       "name": "thundurus_incarnate",
@@ -310,7 +408,10 @@
         "threshold": "0.5",
         "type": "meloetta_aria"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:blue_rune" },
+        "target": { "id": "pokecube_legends:naturespawn" }
+      }
     },
     {
       "name": "reshiram",
@@ -319,7 +420,10 @@
         "threshold": "0.5",
         "type": "dragon"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lightstone" },
+        "target": { "id": "pokecube_legends:blackwhite_block" }
+      }
     },
     {
       "name": "zekrom",
@@ -328,7 +432,10 @@
         "threshold": "0.5",
         "type": "dragon"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:darkstone" },
+        "target": { "id": "pokecube_legends:blackwhite_block" }
+      }
     },
     {
       "name": "landorus_incarnate",
@@ -336,7 +443,10 @@
       "options": {
         "entries": "meloetta_aria"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:orange_rune" },
+        "target": { "id": "pokecube_legends:naturespawn" }
+      }
     },
     {
       "name": "kyurem",
@@ -344,7 +454,10 @@
       "options": {
         "entries": "reshiram,zekrom"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:kyurem_core" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "keldeo",
@@ -352,7 +465,10 @@
       "options": {
         "entries": "virizion,terrakion,cobalion"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:keldeo_sword" },
+        "target": { "id": "pokecube_legends:keldeoblock" }
+      }
     },
     {
       "name": "meloetta_aria",
@@ -361,7 +477,10 @@
         "threshold": "0.4",
         "type": "normal"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:meloetta_ocarina" },
+        "target": { "id": "pokecube_legends:naturespawn" }
+      }
     },
     {
       "name": "xerneas",
@@ -370,7 +489,10 @@
         "threshold": "0.4",
         "type": "fairy"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lifeorb" },
+        "target": { "id": "pokecube_legends:xerneas_tree" }
+      }
     },
     {
       "name": "yveltal",
@@ -379,7 +501,10 @@
         "threshold": "0.5",
         "type": "dark"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:destructorb" },
+        "target": { "id": "pokecube_legends:yveltal_egg" }
+      }
     },
     {
       "name": "zygarde_10",
@@ -388,7 +513,22 @@
         "threshold": "0.2",
         "type": "ground"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:zygardecube" },
+        "target": { "id": "pokecube_legends:yveltal_egg" }
+      }
+    },
+	{
+      "name": "zygarde_10",
+      "preset": "type_based",
+      "options": {
+        "threshold": "0.2",
+        "type": "ground"
+      },
+      "spawn": {
+        "key": { "id": "pokecube_legends:zygardecube" },
+        "target": { "id": "pokecube_legends:xerneas_tree" }
+      }
     },
     {
       "name": "diancie",
@@ -397,7 +537,10 @@
         "threshold": "0.3",
         "type": "fairy"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:diamond_gem" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "hoopa_confined",
@@ -406,7 +549,10 @@
         "threshold": "0.3",
         "type": "ghost"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:prisonbottle" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "volcanion",
@@ -414,7 +560,10 @@
       "options": {
         "entries": "magearna"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:steam_core" },
+        "target": { "id": "pokecube_legends:magearna_block" }
+      }
     },
     {
       "name": "tapu_koko",
@@ -423,7 +572,10 @@
         "threshold": "0.2",
         "type": "electric"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:koko_orb" },
+        "target": { "id": "pokecube_legends:koko_core" }
+      }
     },
     {
       "name": "tapu_lele",
@@ -432,7 +584,10 @@
         "threshold": "0.2",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lele_orb" },
+        "target": { "id": "pokecube_legends:lele_core" }
+      }
     },
     {
       "name": "tapu_bulu",
@@ -441,7 +596,10 @@
         "threshold": "0.3",
         "type": "grass"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:bulu_orb" },
+        "target": { "id": "pokecube_legends:bulu_core" }
+      }
     },
     {
       "name": "tapu_fini",
@@ -450,7 +608,10 @@
         "threshold": "0.3",
         "type": "water"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:fini_orb" },
+        "target": { "id": "pokecube_legends:fini_core" }
+      }
     },
     {
       "name": "cosmog",
@@ -459,7 +620,10 @@
         "threshold": "0.3",
         "type": "psychic"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:cosmic_orb" },
+        "target": { "id": "pokecube_legends:timerspawn" }
+      }
     },
     {
       "name": "necrozma",
@@ -467,7 +631,10 @@
       "options": {
         "entries": "solgaleo,lunala"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:lighting_crystal" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "magearna",
@@ -476,7 +643,10 @@
         "threshold": "0.2",
         "type": "ghost"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:soul_heart" },
+        "target": { "id": "pokecube_legends:magearna_block" }
+      }
     },
     {
       "name": "zacian",
@@ -485,7 +655,10 @@
         "threshold": "0.6",
         "type": "steel"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:rustedsword" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "zamazenta",
@@ -494,7 +667,10 @@
         "threshold": "0.6",
         "type": "steel"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:rustedshield" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "eternatus",
@@ -511,7 +687,10 @@
         "threshold": "0.3",
         "type": "fighting"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:kubfu_spawn" },
+        "target": { "id": "pokecube_legends:legendaryspawn" }
+      }
     },
     {
       "name": "glastrier",
@@ -519,7 +698,10 @@
       "options": {
         "entries": "calyrex"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:ice_carrot" },
+        "target": { "id": "pokecube_legends:trough_block" }
+      }
     },
     {
       "name": "spectrier",
@@ -527,7 +709,10 @@
       "options": {
         "entries": "calyrex"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:shadow_carrot" },
+        "target": { "id": "pokecube_legends:trough_block" }
+      }
     },
     {
       "name": "calyrex",
@@ -536,7 +721,10 @@
         "threshold": "0.4",
         "type": "grass"
       },
-      "spawn": {}
+      "spawn": {
+        "key": { "id": "pokecube_legends:wooden_crown" },
+        "target": { "id": "pokecube_legends:trough_block" }
+      }
     }
   ],
   "replace": false

@@ -31,9 +31,9 @@ public class LegendaryConditions
 	public void init()
     {
         // Registring Event Lengendary Spawns
-        new LegendarySpawn("ho-oh", ItemInit.RAINBOW_ORB, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("lugia", ItemInit.OCEAN_ORB, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("celebi", ItemInit.GREEN_ORB, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("ho-oh", ItemInit.RAINBOW_ORB, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("lugia", ItemInit.OCEAN_ORB, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("celebi", ItemInit.GREEN_ORB, BlockInit.LEGENDARY_SPAWN);
 
         new LegendarySpawn("registeel", ItemInit.STEEL_CORE, BlockInit.REGISTEEL_CORE);
         new LegendarySpawn("regirock", ItemInit.ROCK_CORE, BlockInit.REGIROCK_CORE);
@@ -43,89 +43,89 @@ public class LegendaryConditions
 
         new LegendarySpawn("regigigas", ItemInit.REGIS_ORB, BlockInit.REGIGIGA_CORE);
 
-        new LegendarySpawn("groudon", ItemInit.RED_ORB, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("groudon", ItemInit.RED_ORB, BlockInit.LEGENDARY_SPAWN);
 //        new LegendarySpawn("kyogre", ItemInit.BLUE_ORB, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("rayquaza", ItemInit.ANCIENT_STONE, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("rayquaza", ItemInit.ANCIENT_STONE, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("arceus", ItemInit.AZURE_FLUTE, BlockInit.TIMESPACE_CORE);
-        new LegendarySpawn("palkia", ItemInit.LUSTROUS_ORB, BlockInit.TIMESPACE_CORE);
-        new LegendarySpawn("dialga", ItemInit.ADAMANT_ORB, BlockInit.TIMESPACE_CORE);
+//        new LegendarySpawn("arceus", ItemInit.AZURE_FLUTE, BlockInit.TIMESPACE_CORE);
+//        new LegendarySpawn("palkia", ItemInit.LUSTROUS_ORB, BlockInit.TIMESPACE_CORE);
+//        new LegendarySpawn("dialga", ItemInit.ADAMANT_ORB, BlockInit.TIMESPACE_CORE);
 
-        new LegendarySpawn("reshiram", ItemInit.LIGHT_STONE, BlockInit.TAO_BLOCK);
-        new LegendarySpawn("zekrom", ItemInit.DARK_STONE, BlockInit.TAO_BLOCK);
+//        new LegendarySpawn("reshiram", ItemInit.LIGHT_STONE, BlockInit.TAO_BLOCK);
+//        new LegendarySpawn("zekrom", ItemInit.DARK_STONE, BlockInit.TAO_BLOCK);
 
-        new LegendarySpawn("heatran", ItemInit.MAGMA_CORE, BlockInit.HEATRAN_BLOCK);
-        new LegendarySpawn("keldeo", ItemInit.KELDEO_SWORD, BlockInit.KELDEO_CORE);
+//        new LegendarySpawn("heatran", ItemInit.MAGMA_CORE, BlockInit.HEATRAN_BLOCK);
+//        new LegendarySpawn("keldeo", ItemInit.KELDEO_SWORD, BlockInit.KELDEO_CORE);
 
-        new LegendarySpawn("landorusincarnate", ItemInit.ORANGE_RUNE, BlockInit.NATURE_CORE);
-        new LegendarySpawn("thundurusincarnate", ItemInit.BLUE_RUNE, BlockInit.NATURE_CORE);
-        new LegendarySpawn("tornadusincarnate", ItemInit.GREEN_RUNE, BlockInit.NATURE_CORE);
+//        new LegendarySpawn("landorusincarnate", ItemInit.ORANGE_RUNE, BlockInit.NATURE_CORE);
+//        new LegendarySpawn("thundurusincarnate", ItemInit.BLUE_RUNE, BlockInit.NATURE_CORE);
+//        new LegendarySpawn("tornadusincarnate", ItemInit.GREEN_RUNE, BlockInit.NATURE_CORE);
 
-        new LegendarySpawn("victini", ItemInit.EMBLEM, BlockInit.VICTINI_CORE);
+//        new LegendarySpawn("victini", ItemInit.EMBLEM, BlockInit.VICTINI_CORE);
 
-        new LegendarySpawn("xerneas", ItemInit.LIFE_ORB, BlockInit.XERNEAS_CORE);
-        new LegendarySpawn("yveltal", ItemInit.DESTRUCT_ORB, BlockInit.YVELTAL_CORE);
+//        new LegendarySpawn("xerneas", ItemInit.LIFE_ORB, BlockInit.XERNEAS_CORE);
+//        new LegendarySpawn("yveltal", ItemInit.DESTRUCT_ORB, BlockInit.YVELTAL_CORE);
 
-        new LegendarySpawn("tapu_koko", ItemInit.KOKO_ORB, BlockInit.TAPU_KOKO_CORE);
-        new LegendarySpawn("tapu_bulu", ItemInit.BULU_ORB, BlockInit.TAPU_BULU_CORE);
-        new LegendarySpawn("tapu_fini", ItemInit.FINI_ORB, BlockInit.TAPU_FINI_CORE);
-        new LegendarySpawn("tapu_lele", ItemInit.LELE_ORB, BlockInit.TAPU_LELE_CORE);
+//        new LegendarySpawn("tapu_koko", ItemInit.KOKO_ORB, BlockInit.TAPU_KOKO_CORE);
+//        new LegendarySpawn("tapu_bulu", ItemInit.BULU_ORB, BlockInit.TAPU_BULU_CORE);
+//        new LegendarySpawn("tapu_fini", ItemInit.FINI_ORB, BlockInit.TAPU_FINI_CORE);
+//        new LegendarySpawn("tapu_lele", ItemInit.LELE_ORB, BlockInit.TAPU_LELE_CORE);
 
-        new LegendarySpawn("zacian", ItemInit.RSWORD, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("zamazenta", ItemInit.RSHIELD, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("zacian", ItemInit.RSWORD, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("zamazenta", ItemInit.RSHIELD, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("glastrier", ItemInit.ICE_CARROT, BlockInit.TROUGH_BLOCK);
-        new LegendarySpawn("spectrier", ItemInit.SHADOW_CARROT, BlockInit.TROUGH_BLOCK);
+//        new LegendarySpawn("glastrier", ItemInit.ICE_CARROT, BlockInit.TROUGH_BLOCK);
+//        new LegendarySpawn("spectrier", ItemInit.SHADOW_CARROT, BlockInit.TROUGH_BLOCK);
 
         // Legendary spawn alternative
 //        new LegendarySpawn("articuno", ItemInit.ICE_WING, BlockInit.LEGENDARY_SPAWN);
 //        new LegendarySpawn("articunogalar", ItemInit.ICE_DARK_WING, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("zapdos", ItemInit.ELECTRIC_WING, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("zapdosgalar", ItemInit.STATIC_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("zapdos", ItemInit.ELECTRIC_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("zapdosgalar", ItemInit.STATIC_WING, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("moltres", ItemInit.FIRE_WING, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("moltresgalar", ItemInit.DARK_FIRE_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("moltres", ItemInit.FIRE_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("moltresgalar", ItemInit.DARK_FIRE_WING, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("entei", ItemInit.FLAME_GEM, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("raikou", ItemInit.THUNDER_GEM, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("suicune", ItemInit.WATER_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("entei", ItemInit.FLAME_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("raikou", ItemInit.THUNDER_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("suicune", ItemInit.WATER_GEM, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("cobalion", ItemInit.COBALION_SWORD, BlockInit.KELDEO_CORE);
-        new LegendarySpawn("terrakion", ItemInit.TERRAKION_SWORD, BlockInit.KELDEO_CORE);
-        new LegendarySpawn("virizion", ItemInit.VIRIZION_SWORD, BlockInit.KELDEO_CORE);
+//        new LegendarySpawn("cobalion", ItemInit.COBALION_SWORD, BlockInit.KELDEO_CORE);
+//        new LegendarySpawn("terrakion", ItemInit.TERRAKION_SWORD, BlockInit.KELDEO_CORE);
+//        new LegendarySpawn("virizion", ItemInit.VIRIZION_SWORD, BlockInit.KELDEO_CORE);
 
-        new LegendarySpawn("deoxys", ItemInit.METEOR_SHARD, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("jirachi", ItemInit.STAR_CORE, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("deoxys", ItemInit.METEOR_SHARD, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("jirachi", ItemInit.STAR_CORE, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("magearna", ItemInit.SOUL_HEART, BlockInit.MAGEARNA_BLOCK);
-        new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.XERNEAS_CORE);
-        new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.YVELTAL_CORE);
+//        new LegendarySpawn("magearna", ItemInit.SOUL_HEART, BlockInit.MAGEARNA_BLOCK);
+//        new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.XERNEAS_CORE);
+//        new LegendarySpawn("zygarde10", ItemInit.ZYGARDE_CUBE, BlockInit.YVELTAL_CORE);
 
-        new LegendarySpawn("cosmog", ItemInit.COSMIC_ORB, BlockInit.TIMESPACE_CORE);
-        new LegendarySpawn("necrozma", ItemInit.LIGHTING_CRYSTAL, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("cosmog", ItemInit.COSMIC_ORB, BlockInit.TIMESPACE_CORE);
+//        new LegendarySpawn("necrozma", ItemInit.LIGHTING_CRYSTAL, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("kubfu", ItemInit.GRAY_SCARF, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("calyrex", ItemInit.WOODEN_CROWN, BlockInit.TROUGH_BLOCK);
+//        new LegendarySpawn("kubfu", ItemInit.GRAY_SCARF, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("calyrex", ItemInit.WOODEN_CROWN, BlockInit.TROUGH_BLOCK);
 
-        new LegendarySpawn("latios", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("latias", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("latios", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("latias", ItemInit.SOUL_DEW, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("darkrai", ItemInit.NIGHTMARE_BOOK, BlockInit.YVELTAL_CORE);
-        new LegendarySpawn("cresselia", ItemInit.LUNAR_WING, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("darkrai", ItemInit.NIGHTMARE_BOOK, BlockInit.YVELTAL_CORE);
+//        new LegendarySpawn("cresselia", ItemInit.LUNAR_WING, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("azelf", ItemInit.AZELF_GEM, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("mesprit", ItemInit.MESPRIT_GEM, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("uxie", ItemInit.UXIE_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("azelf", ItemInit.AZELF_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("mesprit", ItemInit.MESPRIT_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("uxie", ItemInit.UXIE_GEM, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("diancie", ItemInit.DIAMOND_GEM, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("manaphy", ItemInit.MANAPHY_NECKLACE, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("diancie", ItemInit.DIAMOND_GEM, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("manaphy", ItemInit.MANAPHY_NECKLACE, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("kyurem", ItemInit.KYUREM_CORE, BlockInit.LEGENDARY_SPAWN);
-        new LegendarySpawn("hoopaconfined", ItemInit.PRISION_BOTTLE, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("kyurem", ItemInit.KYUREM_CORE, BlockInit.LEGENDARY_SPAWN);
+//        new LegendarySpawn("hoopaconfined", ItemInit.PRISION_BOTTLE, BlockInit.LEGENDARY_SPAWN);
 
-        new LegendarySpawn("volcanion", ItemInit.STEAM_CORE, BlockInit.MAGEARNA_BLOCK);
-        new LegendarySpawn("meloettaaria", ItemInit.MELOETTA_OCARINA, BlockInit.NATURE_CORE);
+//        new LegendarySpawn("volcanion", ItemInit.STEAM_CORE, BlockInit.MAGEARNA_BLOCK);
+//        new LegendarySpawn("meloettaaria", ItemInit.MELOETTA_OCARINA, BlockInit.NATURE_CORE);
 
 
         // Register the thng that prevents genetic modification of protected

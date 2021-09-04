@@ -724,6 +724,7 @@
         "pokecube:village/cave/houses/storage_3;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/storage_4;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/storage_5;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
+		"pokecube:village/cave/houses/storage_6;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/temple_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/houses/library_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/cave/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}"
