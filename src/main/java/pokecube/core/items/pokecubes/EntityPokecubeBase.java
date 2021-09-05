@@ -557,6 +557,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.seeking = false;
         this.isCapturing = true;
         this.canBePickedUp = false;
+
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        if (pokemob != null && pokemob.getBossInfo() != null)
+        {
+            pokemob.getBossInfo().removeAllPlayers();
+            pokemob.getBossInfo().setVisible(false);
+        }
         EntityUpdate.sendEntityUpdate(this);
     }
 
