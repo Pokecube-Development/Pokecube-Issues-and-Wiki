@@ -177,11 +177,14 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
     @Override
     public void setChanged()
     {
-        int number = 0;
-        for (final ItemStack stack : this.getItems())
-            if (!stack.isEmpty()) number++;
-        this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(GenericBookshelfEmpty.BOOKS, number), 3);
-
+        if (this.hasLevel())
+        {
+            int number = 0;
+            for (final ItemStack stack : this.getItems())
+                if (!stack.isEmpty()) number++;
+            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(GenericBookshelfEmpty.BOOKS, number),
+                    3);
+        }
         super.setChanged();
         // Model also depends on state, so mark for update here as well!
         this.requestModelDataUpdate();
