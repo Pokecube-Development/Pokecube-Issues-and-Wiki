@@ -18,6 +18,8 @@ import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -29,6 +31,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.PokemobMoveStats;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.network.pokemobs.PacketPingBoss;
 import thut.api.IOwnable;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
@@ -127,7 +130,8 @@ public abstract class PokemobBase implements IPokemob
             // EntityID of the active move use entity.
             this.ACTIVEMOVEID = sync.register(new Data_Int(), Integer.valueOf(-1));
 
-            this.ABILITYNAMEID = sync.register(new Data_String(), "");// Name of ability
+            this.ABILITYNAMEID = sync.register(new Data_String(), "");// Name of
+                                                                      // ability
         }
     }
 
@@ -213,6 +217,8 @@ public abstract class PokemobBase implements IPokemob
 
     protected ICopyMob transformed = new CopyCaps.Impl();
 
+    protected ServerBossInfo bossEvent = null;
+
     /**
      * Used to cache current texture for quicker lookups, array to include any
      * animated textures
@@ -293,5 +299,18 @@ public abstract class PokemobBase implements IPokemob
         }
         this.setMaxHealth(maxHealth);
         this.setHealth(health);
+    }
+
+    @Override
+    public ServerBossInfo getBossInfo()
+    {
+        return this.bossEvent;
+    }
+
+    @Override
+    public void setBossInfo(final ServerBossInfo event)
+    {
+        this.bossEvent = event;
+        if (this.getEntity().level instanceof ServerWorld && event != null) PacketPingBoss.onNewBossEvent(this);
     }
 }

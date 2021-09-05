@@ -233,6 +233,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         // Ensures the chunk is actually still loaded here.
         world.getChunk(pos);
         if (this.getTransformedTo() != null) this.setTransformedTo(null);
+        if (this.getBossInfo() != null)
+        {
+            this.getBossInfo().removeAllPlayers();
+            this.getBossInfo().setVisible(false);
+        }
         final RecallEvent pre = new RecallEvent.Pre(this);
         PokecubeCore.POKEMOB_BUS.post(pre);
         if (pre.isCanceled()) return;

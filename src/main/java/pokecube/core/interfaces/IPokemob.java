@@ -24,6 +24,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.server.ServerBossInfo;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -469,6 +470,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /** The mob returns to its pokecube. */
     default void onRecall()
     {
+        if (this.getBossInfo() != null)
+        {
+            this.getBossInfo().removeAllPlayers();
+            this.getBossInfo().setVisible(false);
+        }
         this.onRecall(false);
     }
 
@@ -622,4 +628,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *         used for transform, etc.
      */
     ICopyMob getCopy();
+
+    ServerBossInfo getBossInfo();
+
+    void setBossInfo(ServerBossInfo event);
 }

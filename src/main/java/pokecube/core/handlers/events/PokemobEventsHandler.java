@@ -40,7 +40,9 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.BossInfo;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
@@ -56,6 +58,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
+import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -148,7 +151,8 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobTracking);
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStartTracking);
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStopTracking);
         // This syncs rotation of the ridden pokemob with the rider.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onWorldTick);
         // Monitors sim speed and reduces idle tick rate if lagging too much
@@ -404,6 +408,14 @@ public class PokemobEventsHandler
 
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
+        // If the thing that died was a pokemob, ensure no boss bar left
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (pokemob != null && pokemob.getBossInfo() != null)
+        {
+            pokemob.getBossInfo().removeAllPlayers();
+            pokemob.getBossInfo().setVisible(false);
+        }
+
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
@@ -442,7 +454,7 @@ public class PokemobEventsHandler
         pokemob.initAI();
     }
 
-    private static void onMobTracking(final StartTracking event)
+    private static void onStartTracking(final StartTracking event)
     {
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
@@ -458,6 +470,18 @@ public class PokemobEventsHandler
         // auto-sync things like IPokemob, etc.
         // TODO special packet for just our capabiltiies instead!
         if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
+
+        // If the mob has a boss bar, add the player to track from that as well
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer((ServerPlayerEntity) event.getEntity());
+    }
+
+    private static void onStopTracking(final StopTracking event)
+    {
+        // Sync genes over to players when they start tracking a pokemob
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
+        if (pokemob == null) return;
+        if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer((ServerPlayerEntity) event.getEntity());
     }
 
     private static void onWorldTick(final WorldTickEvent evt)
@@ -570,6 +594,12 @@ public class PokemobEventsHandler
                 pokemob.getEntity().remove(false);
                 return;
             }
+
+            if (pokemob.getBossInfo() != null) pokemob.getBossInfo().setPercent(living.getHealth() / living
+                    .getMaxHealth());
+            else if (pokemob.getOwnerId() == null && pokemob.getCombatState(CombatStates.DYNAMAX)
+                    && dim instanceof ServerWorld) pokemob.setBossInfo(new ServerBossInfo(living.getDisplayName(),
+                            BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
