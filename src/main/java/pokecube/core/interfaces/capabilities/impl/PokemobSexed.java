@@ -117,6 +117,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here, PokecubeCore
                 .getConfig().maxSpawnRadius);
         if (!(this.getOwner() instanceof PlayerEntity) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
+        if (num > PokecubeCore.getConfig().mobSpawnNumber * 10) return;
         final Vector3 pos = this.here.set(this.getEntity()).addTo(0, Math.max(this.getPokedexEntry().height * this
                 .getSize() / 4, 0.5f), 0);
         if (pos.isClearOfBlocks(this.getEntity().getCommandSenderWorld()))
