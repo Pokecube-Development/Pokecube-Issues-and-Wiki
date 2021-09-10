@@ -6,6 +6,7 @@
     "optional": [
         "akashictome:tome",
         "computercraft:printed_book",
+        "nethercraft:lava_book",
         "patchouli:guide_book"
     ]
 }
