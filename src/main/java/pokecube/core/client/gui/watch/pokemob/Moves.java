@@ -28,6 +28,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.zmoves.GZMoveManager;
 
 public class Moves extends ListPage<LineEntry>
 {
@@ -79,6 +80,10 @@ public class Moves extends ListPage<LineEntry>
                     final int pwr = move.getPWR(this.parent.pokemob, this.watch.player);
                     if (pwr > 0) text = pwr + "";
                     else text = "-";
+
+                    if (GZMoveManager.isZMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
+                        text = "???";
+
                     text = I18n.get("pokewatch.moves.pwr", text);
                     GlStateManager._disableDepthTest();
                     final int box = Math.max(10, this.font.width(text) + 2);
