@@ -45,12 +45,12 @@ import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLoggable
 {
-    public static final IntegerProperty BOOKS = IntegerProperty.create("books", 0, 9);
-    private static final Map<Direction, VoxelShape> EMPTY = new HashMap<>();
-    private static final DirectionProperty FACING = HorizontalBlock.FACING;
-    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final IntegerProperty             BOOKS       = IntegerProperty.create("books", 0, 9);
+    private static final Map<Direction, VoxelShape> EMPTY       = new HashMap<>();
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
+    private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     static
     {
     	GenericBookshelfEmpty.EMPTY.put(Direction.NORTH, VoxelShapes.or(
@@ -83,7 +83,7 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
             Block.box(0, 15, 0, 16, 16, 16)).optimize());
     }
 
-    // Precise selection box
+    // Precise selection box @formatter:on
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader world, final BlockPos pos,
             final ISelectionContext context)
@@ -94,34 +94,38 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
 
     public GenericBookshelfEmpty(final Properties props)
     {
-    	super(props);
-    	this.registerDefaultState(this.stateDefinition.any().setValue(GenericBookshelfEmpty.FACING, Direction.NORTH).setValue(
-    			GenericBookshelfEmpty.WATERLOGGED, false).setValue(GenericBookshelfEmpty.BOOKS, 0));
+        super(props);
+        this.registerDefaultState(this.stateDefinition.any().setValue(GenericBookshelfEmpty.FACING, Direction.NORTH)
+                .setValue(GenericBookshelfEmpty.WATERLOGGED, false).setValue(GenericBookshelfEmpty.BOOKS, 0));
     }
 
     @Override
     public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection().getOpposite())
-            .setValue(GenericBookshelfEmpty.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8)
-            .setValue(GenericBookshelfEmpty.BOOKS, context.getItemInHand().getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size());
+        return this.defaultBlockState().setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection()
+                .getOpposite()).setValue(GenericBookshelfEmpty.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
+                        && ifluidstate.getAmount() == 8).setValue(GenericBookshelfEmpty.BOOKS, context.getItemInHand()
+                                .getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size());
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final IWorld world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos,
+                Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
-                            @Nullable final LivingEntity entity, final ItemStack stack) {
+            @Nullable final LivingEntity entity, final ItemStack stack)
+    {
         final TileEntity tile = world.getBlockEntity(pos);
-        if (stack.hasCustomHoverName()) if (tile instanceof GenericBookshelfEmptyTile) ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
+        if (stack.hasCustomHoverName()) if (tile instanceof GenericBookshelfEmptyTile)
+            ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
     }
 
     // Adds Waterlogging
@@ -129,7 +133,8 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     @Override
     public FluidState getFluidState(final BlockState state)
     {
-        return state.getValue(GenericBookshelfEmpty.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        return state.getValue(GenericBookshelfEmpty.WATERLOGGED) ? Fluids.WATER.getSource(false)
+                : super.getFluidState(state);
     }
 
     @Deprecated
@@ -153,48 +158,56 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public boolean hasAnalogOutputSignal(final BlockState state) {
+    public boolean hasAnalogOutputSignal(final BlockState state)
+    {
         return true;
     }
 
     @Override
-    public int getAnalogOutputSignal(final BlockState state, final World world, final BlockPos pos) {
-        final int books = this.getBooks(world.getBlockState(pos));
+    public int getAnalogOutputSignal(final BlockState state, final World world, final BlockPos pos)
+    {
+        final int books = this.getBooks(state);
         return books;
     }
 
     @Override
     public float getEnchantPowerBonus(final BlockState state, final IWorldReader world, final BlockPos pos)
     {
-        final int books = this.getBooks(world.getBlockState(pos));
-        return books/3f;
+        final int books = this.getBooks(state);
+        return books / 3f;
     }
 
-    public int getBooks(final BlockState state) {
-        return state.getValue(GenericBookshelfEmpty.BOOKS);
+    public int getBooks(final BlockState state)
+    {
+        if (state.hasProperty(GenericBookshelfEmpty.BOOKS)) return state.getValue(GenericBookshelfEmpty.BOOKS);
+        else return 0;
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
-                                final BlockRayTraceResult hit)
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
         final TileEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, state, pos, world);
+        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand,
+                state, pos, world);
         return ActionResultType.PASS;
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state) {
+    public boolean hasTileEntity(final BlockState state)
+    {
         return true;
     }
 
     @Override
-    public TileEntity newBlockEntity(final IBlockReader block) {
+    public TileEntity newBlockEntity(final IBlockReader block)
+    {
         return new GenericBookshelfEmptyTile();
     }
 
     @Override
-    public BlockRenderType getRenderShape(final BlockState state) {
+    public BlockRenderType getRenderShape(final BlockState state)
+    {
         return BlockRenderType.MODEL;
     }
 
@@ -213,12 +226,15 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(final BlockState state, final World world, final BlockPos pos, final BlockState state1, final boolean b)
+    public void onRemove(final BlockState state, final World world, final BlockPos pos, final BlockState state1,
+            final boolean b)
     {
-        if (!state.is(state1.getBlock())) {
+        if (!state.is(state1.getBlock()))
+        {
             final TileEntity tile = world.getBlockEntity(pos);
-            if (tile instanceof GenericBookshelfEmptyTile) {
-                InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile)tile).getItems());
+            if (tile instanceof GenericBookshelfEmptyTile)
+            {
+                InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile) tile).getItems());
                 world.updateNeighbourForOutputSignal(pos, this);
             }
             super.onRemove(state, world, pos, state1, b);
