@@ -81,7 +81,7 @@ public class Moves extends ListPage<LineEntry>
                     if (pwr > 0) text = pwr + "";
                     else text = "-";
 
-                    if (GZMoveManager.isZMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
+                    if (GZMoveManager.isGZDMove(move.move.baseEntry) && offset[3] != this.parent.pokemob.getMoveIndex())
                         text = "???";
 
                     text = I18n.get("pokewatch.moves.pwr", text);

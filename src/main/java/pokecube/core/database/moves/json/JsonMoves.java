@@ -117,7 +117,7 @@ public class JsonMoves
         public String effectRate;
 
         public String zMovesTo;
-        public String zMovePower;
+        public int    zMovePower = -1;
         public String zEffect;
         public String zMove;
         public String zEntry;
@@ -125,6 +125,7 @@ public class JsonMoves
         public String gMove;
         public String gMoveTo;
         public String gmaxEntry;
+        public int    gMovePower = -1;
 
         public String tmNum;
         public String speedPriority;
