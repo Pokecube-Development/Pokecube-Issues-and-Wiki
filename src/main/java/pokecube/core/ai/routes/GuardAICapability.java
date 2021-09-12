@@ -44,7 +44,8 @@ public class GuardAICapability implements IGuardAICapability
 
         public GuardTask()
         {
-            this.executingGuardTask = new AttributeModifier(GuardTask.UID, "pokecube:guard_task", 1, Operation.ADDITION);
+            this.executingGuardTask = new AttributeModifier(GuardTask.UID, "pokecube:guard_task", 1,
+                    Operation.ADDITION);
         }
 
         @Override
@@ -52,6 +53,9 @@ public class GuardAICapability implements IGuardAICapability
         {
             final Vector3d newPos = entity.position();
             if (this.getPos().closerThan(newPos, this.getRoamDistance())) return;
+
+            // Ensure we are not stuck riding something when trying to path
+            entity.unRide();
 
             final double speed = entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             this.path(entity, speed);
@@ -139,8 +143,8 @@ public class GuardAICapability implements IGuardAICapability
                 final BlockState state = world.getBlockState(this.getPos());
                 final VoxelShape shape = state.getCollisionShape(world, this.getPos());
                 if (shape.isEmpty() || !state.canOcclude()) entity.moveTo(this.getPos(), 0, 0);
-                else entity.moveTo(this.pos.getX() + 0.5D, this.pos.getY() + shape.max(Axis.Y),
-                        this.pos.getZ() + 0.5D, 0, 0);
+                else entity.moveTo(this.pos.getX() + 0.5D, this.pos.getY() + shape.max(Axis.Y), this.pos.getZ() + 0.5D,
+                        0, 0);
                 this.path_fails = 0;
             }
         }

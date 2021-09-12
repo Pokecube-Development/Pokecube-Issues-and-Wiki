@@ -133,6 +133,53 @@ public class MovesParser
         MovesParser.parseHealing(entry, move);
         MovesParser.parseSelfDamage(entry, move);
         MovesParser.parsePreset(entry);
+        MovesParser.parseSize(entry, move);
+    }
+
+    private static void parseSize(final MoveJsonEntry entry, final MoveEntry move)
+    {
+        if (entry.customSize != null)
+        {
+            final String[] args = entry.customSize.split(",");
+
+            float sh;
+            float sv;
+            if (args.length == 1)
+            {
+                sv = sh = 0;
+                try
+                {
+                    sh = Float.valueOf(args[0]);
+                }
+                catch (final NumberFormatException e)
+                {
+                    PokecubeCore.LOGGER.error("Error in with move size for {}", entry.readableName);
+                    return;
+                }
+                sv = sh;
+            }
+            else if (args.length == 2)
+            {
+                sv = sh = 0;
+                try
+                {
+                    sh = Float.valueOf(args[0]);
+                    sv = Float.valueOf(args[1]);
+                }
+                catch (final NumberFormatException e)
+                {
+                    PokecubeCore.LOGGER.error("Error in with move size for {}", entry.readableName);
+                    return;
+                }
+            }
+            else
+            {
+                PokecubeCore.LOGGER.error("Error in with move size for {}, must be 1 or 2 numbers separated by ,",
+                        entry.readableName);
+                return;
+            }
+            move.customSize = new float[] { sh, sv, sh };
+        }
     }
 
     public static void load(final MovesJson moves) throws IOException

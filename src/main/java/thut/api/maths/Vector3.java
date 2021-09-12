@@ -1480,6 +1480,11 @@ public class Vector3
             final short[] p = (short[]) o;
             this.set(p[0], p[1], p[2]);
         }
+        else if (o instanceof float[])
+        {
+            final float[] p = (float[]) o;
+            this.set(p[0], p[1], p[2]);
+        }
         else if (o instanceof Double) this.x = this.y = this.z = (double) o;
         return this;
     }
