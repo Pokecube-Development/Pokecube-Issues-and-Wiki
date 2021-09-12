@@ -154,6 +154,8 @@ public class JsonMoves
         public boolean protectionMoves = false;
         public int     extraInfo       = -1;
 
+        public String customSize = null;
+
         public List<AnimationJson> animations;
     }
 

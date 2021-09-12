@@ -62,24 +62,27 @@ public class MoveEntry implements IMoveConstants
     public final String name;
     public final int    index;
     public PokeType     type;
-    /** Distance, contact, etc. */
-    public int          attackCategory;
-    public int          power                    = 0;
-    public int          accuracy;
-    public int          pp;
-    public byte         statusChange;
-    public float        statusChance;
-    public byte         change                   = IMoveConstants.CHANGE_NONE;
-    public float        chanceChance             = 0;
-    public int[]        attackerStatModification = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float        attackerStatModProb      = 1;
-    public int[]        attackedStatModification = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float        attackedStatModProb      = 1;
-    public float        damageHeal               = 0;
-    public float        selfHealRatio            = 0;
 
-    private boolean multiTarget     = false;
-    private boolean canHitNonTarget = true;
+    /** Distance, contact, etc. */
+    public int   attackCategory;
+    public int   power                    = 0;
+    public int   accuracy;
+    public int   pp;
+    public byte  statusChange;
+    public float statusChance;
+    public byte  change                   = IMoveConstants.CHANGE_NONE;
+    public float chanceChance             = 0;
+    public int[] attackerStatModification = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    public float attackerStatModProb      = 1;
+    public int[] attackedStatModification = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    public float attackedStatModProb      = 1;
+    public float damageHeal               = 0;
+    public float selfHealRatio            = 0;
+
+    public float[] customSize = null;
+
+    private final boolean multiTarget     = false;
+    private boolean       canHitNonTarget = true;
 
     public boolean protect;
     public boolean magiccoat;

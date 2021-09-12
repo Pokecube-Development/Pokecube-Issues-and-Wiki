@@ -67,7 +67,7 @@ public class EntityMoveUse extends ThrowableEntity
         protected Builder(final Entity user, final Move_Base move, final Vector3 start)
         {
             this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.getCommandSenderWorld());
-            this.toMake.setMove(move).setUser(user).setStart(start).setEnd(start);
+            this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
         }
 
         public Builder setStartTick(final int tick)
@@ -146,6 +146,8 @@ public class EntityMoveUse extends ThrowableEntity
 
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
+    private final Vector3 size = Vector3.getNewVector();
+
     Predicate<Entity> valid = e ->
     {
         if (EntityTools.getCoreLiving(e) == null) return false;
@@ -180,6 +182,23 @@ public class EntityMoveUse extends ThrowableEntity
 
         if (this.getUser() == null) return;
 
+        this.size.clear();
+        this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
+        float s = 0;
+        if (this.move.aoe)
+        {
+            s = 8;
+            this.size.set(s, s, s);
+        }
+        else if (this.contact)
+        {
+            s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
+            final float width = this.getUser().getBbWidth() + s;
+            final float height = this.getUser().getBbHeight() + s;
+            this.size.set(width, height, width);
+        }
+        if (this.move.move.customSize != null) this.size.set(this.move.move.customSize);
+
         this.init = true;
         this.startAge = this.getDuration();
         if (!this.start.equals(this.end)) this.dir.set(this.end).subtractFrom(this.start).norm();
@@ -197,25 +216,9 @@ public class EntityMoveUse extends ThrowableEntity
     @Override
     public EntitySize getDimensions(final Pose poseIn)
     {
-        EntitySize size = super.getDimensions(poseIn);
+        final EntitySize size = super.getDimensions(poseIn);
         this.getMove();
         if (this.move == null) return size;
-        this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
-        final boolean aoe = this.move.aoe;
-        if (this.contact)
-        {
-            final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
-            final float width = this.user.getBbWidth();
-            final float height = this.user.getBbHeight();
-            size = EntitySize.fixed(width + s, height + s);
-        }
-        else if (aoe)
-        {
-            final float s = 8;
-            final float width = this.user.getBbWidth();
-            final float height = this.user.getBbHeight();
-            size = EntitySize.fixed(width + s, height + s);
-        }
         return size;
     }
 
@@ -319,8 +322,8 @@ public class EntityMoveUse extends ThrowableEntity
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getCommandSenderWorld(), this.getEntityData().get(
-                EntityMoveUse.USER), true);
+        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getCommandSenderWorld(), this.getEntityData()
+                .get(EntityMoveUse.USER), true);
     }
 
     public boolean isDone()
@@ -462,11 +465,16 @@ public class EntityMoveUse extends ThrowableEntity
 
         final List<AxisAlignedBB> hitboxes = Lists.newArrayList();
 
+        // These are divided by 2, as inflate applies to both directions!
+        final float sh = (float) Math.max(this.size.x, this.size.z) / 2;
+        final float sv = (float) this.size.y / 2;
+
         if (attack.aoe)
         {
             // AOE moves are just a 8-radius box around us.
-            final double frac = (this.startAge - this.getDuration()) / this.startAge;
-            testBox = this.start.getAABB().inflate(8 * frac);
+            final double frac = 2 * (this.startAge - this.getDuration()) / this.startAge;
+            // The 2x above is as sh and sv were divided by 2 earlier.
+            testBox = this.start.getAABB().inflate(sh * frac, sv * frac, sh * frac);
             hitboxes.add(testBox);
         }
         else if (this.onSelf || this.contact)
@@ -475,38 +483,37 @@ public class EntityMoveUse extends ThrowableEntity
             this.start.set(user);
             this.end.set(this.start);
             EntityTools.copyPositions(this, user);
-            final float s = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
-            testBox = user.getBoundingBox().inflate(s);
+            testBox = user.getBoundingBox().inflate(sh, sv, sh);
             if (user.isMultipartEntity())
             {
                 testBox = null;
                 for (final PartEntity<?> part : user.getParts())
                 {
-                    final AxisAlignedBB box = part.getBoundingBox().inflate(s);
+                    final AxisAlignedBB box = part.getBoundingBox().inflate(sh, sv, sh);
                     if (testBox == null) testBox = box;
                     else testBox = box.minmax(testBox);
                     hitboxes.add(box);
                 }
             }
             else hitboxes.add(testBox);
-
         }
         else
         {
             // Otherwise they fly in a straight line from the user to the target
             final double frac = this.dist * (this.startAge - this.getDuration()) / this.startAge;
             this.setDeltaMovement(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
-            this.setPos(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
-                    + this.dir.z * frac);
+            this.setPos(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z + this.dir.z
+                    * frac);
             this.here.set(this);
             testBox = this.getBoundingBox();
             // Increase size near end to increase accuracy a bit
-            if (this.end.distToSq(this.here) < 1) testBox = testBox.inflate(1);
+            testBox = testBox.inflate(sh, sv, sh);
+            if (this.end.distToSq(this.here) < 1) testBox = testBox.inflate(0.5, 0.5, 0.5);
             hitboxes.add(testBox);
         }
 
-        if (this.getCommandSenderWorld().isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
-                .spawnClientEntities(this.getMoveInfo());
+        if (this.getCommandSenderWorld().isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(
+                userMob).spawnClientEntities(this.getMoveInfo());
 
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
