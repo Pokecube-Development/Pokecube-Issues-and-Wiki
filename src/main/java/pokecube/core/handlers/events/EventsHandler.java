@@ -690,7 +690,7 @@ public class EventsHandler
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
             final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getVehicle());
-            if (ridden != null && ridden.canUseFly())
+            if (ridden != null && (ridden.floats() || ridden.flys()))
             {
                 player.connection.aboveGroundTickCount = 0;
                 player.connection.aboveGroundVehicleTickCount = 0;
