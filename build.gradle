@@ -21,6 +21,9 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
+
+mixin { add sourceSets.main, "pokecube.refmap.json" }
 
 ext {
     VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
@@ -150,7 +153,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
-   // annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     
     //Computer Craft Support.
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
@@ -276,6 +279,3 @@ def gitVersion(value) {
     }
     return "${value}.${ver}"
 }
-
-apply plugin: 'org.spongepowered.mixin'
-mixin { add sourceSets.main, "pokecube.refmap.json" }
