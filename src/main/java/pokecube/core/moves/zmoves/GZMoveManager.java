@@ -23,6 +23,11 @@ public class GZMoveManager
     private static Map<String, String>      gmoves_map      = Maps.newHashMap();
     private static Map<String, String>      g_max_moves_map = Maps.newHashMap();
 
+    public static boolean isGZDMove(final MoveJsonEntry entry)
+    {
+        return GZMoveManager.isZMove(entry) || GZMoveManager.isGMove(entry) || GZMoveManager.isDMove(entry);
+    }
+
     public static boolean isZMove(final MoveJsonEntry entry)
     {
         final String battleEffect = ThutCore.trim(entry.battleEffect);

@@ -73,7 +73,7 @@ public class LogicMountedControl extends LogicBase
 
         this.inFluid = this.entity.isInWater() || this.entity.isInLava();
 
-        this.canFly = this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
+        this.canFly = this.pokemob.canUseFly();
         this.canSurf = this.pokemob.canUseSurf();
         this.canDive = this.pokemob.canUseDive();
 
@@ -128,7 +128,7 @@ public class LogicMountedControl extends LogicBase
         boolean move = false;
         this.entity.yRot = this.pokemob.getHeading();
 
-        boolean shouldControl = this.entity.isOnGround() || this.pokemob.floats() || this.pokemob.flys();
+        boolean shouldControl = this.entity.isOnGround() || this.pokemob.canUseFly();
         boolean verticalControl = false;
         boolean waterSpeed = false;
         boolean airSpeed = !this.entity.isOnGround();

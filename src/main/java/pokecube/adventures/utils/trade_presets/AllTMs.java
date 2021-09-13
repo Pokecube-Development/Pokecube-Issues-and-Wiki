@@ -40,9 +40,7 @@ public class AllTMs implements TradePreset
             if (move.move.name.equals(MoveEntry.CONFUSED.name)) continue;
 
             // Blacklist G, Z and D moves
-            if (GZMoveManager.isZMove(move.move.baseEntry)) continue;
-            if (GZMoveManager.isGMove(move.move.baseEntry)) continue;
-            if (GZMoveManager.isDMove(move.move.baseEntry)) continue;
+            if (GZMoveManager.isGZDMove(move.move.baseEntry)) continue;
 
             final ItemStack sell = ItemTM.getTM(name);
             Map<QName, String> values;

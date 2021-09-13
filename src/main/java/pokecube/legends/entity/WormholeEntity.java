@@ -299,7 +299,12 @@ public class WormholeEntity extends LivingEntity
                     : World.OVERWORLD, this.getOnPos().above(20)));
             final Random rng = this.getRandom();
             final RegistryKey<World> key = WormholeEntity.getTargetWorld((ServerWorld) this.level, rng.nextFloat());
-            final ServerWorld dest = this.getServer().getLevel(key);
+            ServerWorld dest = this.getServer().getLevel(key);
+            if (dest == null)
+            {
+                dest = (ServerWorld) this.level;
+                PokecubeCore.LOGGER.error("Warning, Wormhole had invalid exit dimension {}", key);
+            }
             final WorldBorder border = dest.getWorldBorder();
             final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
             this.makingDest = true;
@@ -307,16 +312,16 @@ public class WormholeEntity extends LivingEntity
             {
                 final int x = (int) ((border.getMaxX() - border.getMinX()) * rng.nextDouble() + border.getMinX());
                 final int z = (int) ((border.getMaxZ() - border.getMinZ()) * rng.nextDouble() + border.getMinZ());
-
-                this.dest = new TeleDest().setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(dest, new BlockPos(x,
+                final ServerWorld world = (ServerWorld) w;
+                this.dest = new TeleDest().setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(world, new BlockPos(x,
                         0, z))));
 
-                final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(dest);
+                final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
                 wormhole.moveTo(this.dest.getPos().pos(), 0, 0);
                 wormhole.dest = this.getPos();
                 wormhole.pos = this.dest;
                 holes.addWormhole(this.dest.getPos().pos());
-                dest.addFreshEntity(wormhole);
+                world.addFreshEntity(wormhole);
 
                 EntityUpdate.sendEntityUpdate(this);
                 return true;

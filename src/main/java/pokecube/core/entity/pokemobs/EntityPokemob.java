@@ -160,13 +160,14 @@ public class EntityPokemob extends PokemobRidable
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
         boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
         this.setNoGravity(false);
+        final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
         if (this.deathTime >= PokecubeCore.getConfig().deadDespawnTimer)
         {
             final FaintEvent event = new FaintEvent(this.pokemobCap);
             PokecubeCore.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
-            if (despawn) this.pokemobCap.onRecall(true);
+            if (despawn && !noPoof) this.pokemobCap.onRecall(true);
             for (int k = 0; k < 20; ++k)
             {
                 final double d2 = this.random.nextGaussian() * 0.02D;
@@ -525,6 +526,8 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.pokemobCap.getOwnerId() != null) return false;
         boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
+        final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
+        if (noPoof) return false;
         if (PokecubeCore.getConfig().despawn)
         {
             this.despawntimer--;

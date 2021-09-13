@@ -158,8 +158,7 @@ public class MovesAdder implements IMoveConstants
         for (final MoveEntry e : MoveEntry.values())
             if (!MovesUtils.isMoveImplemented(e.name))
             {
-
-                boolean doesSomething = false;
+                boolean doesSomething = GZMoveManager.isGZDMove(e.baseEntry);
 
                 doesSomething |= e.baseEntry.preset != null;
                 doesSomething |= e.change != 0;
@@ -179,7 +178,7 @@ public class MovesAdder implements IMoveConstants
                     Class<? extends Move_Base> moveClass = e.baseEntry.preset != null ? MovesAdder.presetMap.get(
                             e.baseEntry.preset) : Move_Basic.class;
                     if (moveClass == null) moveClass = Move_Basic.class;
-                    if (GZMoveManager.isZMove(e.baseEntry)) moveClass = Z_Move_Basic.class;
+                    if (GZMoveManager.isGZDMove(e.baseEntry)) moveClass = Z_Move_Basic.class;
 
                     Move_Base toAdd;
                     try
