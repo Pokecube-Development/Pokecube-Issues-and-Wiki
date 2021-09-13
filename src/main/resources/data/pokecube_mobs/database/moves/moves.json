@@ -30,7 +30,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "absorb",
@@ -60,7 +61,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "accelerock",
@@ -90,7 +92,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "acid",
@@ -100,7 +103,7 @@
       "pp": "30",
       "pwr": "40",
       "acc": "100",
-      "battleEffect": "The opposing PokÃƒÆ’Ã‚Â©mon are attacked with a spray of harsh acid. This may also lower their Sp. Def stat.",
+      "battleEffect": "The opposing Pokémon are attacked with a spray of harsh acid. This may also lower their Sp. Def stat.",
       "secondaryEffect": "May lower opponent's Special Defense one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -120,7 +123,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 70
     },
     {
       "name": "acidarmor",
@@ -182,7 +186,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "acidspray",
@@ -212,7 +217,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 70
     },
     {
       "name": "acrobatics",
@@ -242,7 +248,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "acupressure",
@@ -305,7 +312,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "aeroblast",
@@ -335,7 +343,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "afteryou",
@@ -409,7 +418,7 @@
       "pp": "25",
       "pwr": "60",
       "acc": "95",
-      "battleEffect": "The user launches razor-like wind to slash the opposing PokÃƒÆ’Ã‚Â©mon. Critical hits land more easily.",
+      "battleEffect": "The user launches razor-like wind to slash the opposing Pokémon. Critical hits land more easily.",
       "secondaryEffect": "Has an increased Critical Hit ratio",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -429,7 +438,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "airslash",
@@ -459,7 +469,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "alloutpummeling",
@@ -489,7 +500,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "allyswitch",
@@ -500,7 +512,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user teleports using a strange power and switches places with one of its allies.",
-      "secondaryEffect": "Switches place with other PokÃƒÆ’Ã‚Â©mon on field",
+      "secondaryEffect": "Switches place with other Pokémon on field",
       "detailedEffect": "Boosts Speed by 2 stages",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -583,7 +595,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "ancientpower",
@@ -613,7 +626,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "aquajet",
@@ -643,7 +657,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "aquaring",
@@ -705,7 +720,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "armthrust",
@@ -736,7 +752,8 @@
       "preset": "multihit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 70
     },
     {
       "name": "aromatherapy",
@@ -748,7 +765,7 @@
       "acc": "0",
       "battleEffect": "The user releases a soothing scent that heals all status conditions affecting the user's party.",
       "secondaryEffect": "Heals party's status problems.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -778,8 +795,8 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user raises the Sp. Def stat of an ally PokÃƒÆ’Ã‚Â©mon by using a mysterious aroma.",
-      "secondaryEffect": "Raises ally PokÃƒÆ’Ã‚Â©mon's Special Defense one stage.",
+      "battleEffect": "The user raises the Sp. Def stat of an ally Pokémon by using a mysterious aroma.",
+      "secondaryEffect": "Raises ally Pokémon's Special Defense one stage.",
       "detailedEffect": "Boosts Special Defense by 2 stages",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -810,9 +827,9 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user hurriedly and randomly uses a move among those known by ally PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Uses a random move from another PokÃƒÆ’Ã‚Â©mon in the team.",
-      "inDepthEffect": "This move selects and uses a random move known by a PokÃƒÆ’Ã‚Â©mon within your party. However, it cannot use the moves; Assist, Chatter, Circle Throw, Copycat, Counter, Covet, Destiny Bond, Detect, Dragon Tail, Endure, Feint, Focus Punch, Follow Me, Helping Hand, Me First, Metronome, Mimic, Mirror Coat, Mirror Move, Protect, Quick Guard, Sketch, Sleep Talk, Snatch, Struggle, Switcheroo, Thief, Trick, or Wide Guard",
+      "battleEffect": "The user hurriedly and randomly uses a move among those known by ally Pokémon.",
+      "secondaryEffect": "Uses a random move from another Pokémon in the team.",
+      "inDepthEffect": "This move selects and uses a random move known by a Pokémon within your party. However, it cannot use the moves; Assist, Chatter, Circle Throw, Copycat, Counter, Covet, Destiny Bond, Detect, Dragon Tail, Endure, Feint, Focus Punch, Follow Me, Helping Hand, Me First, Metronome, Mimic, Mirror Coat, Mirror Move, Protect, Quick Guard, Sketch, Sleep Talk, Snatch, Struggle, Switcheroo, Thief, Trick, or Wide Guard",
       "detailedEffect": "???",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -863,7 +880,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "astonish",
@@ -893,7 +911,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "attackorder",
@@ -923,7 +942,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "attract",
@@ -985,7 +1005,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "aurorabeam",
@@ -1015,7 +1036,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "auroraveil",
@@ -1109,7 +1131,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "babydolleyes",
@@ -1276,7 +1299,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user switches places with a party PokÃƒÆ’Ã‚Â©mon in waiting and passes along any stat changes.",
+      "battleEffect": "The user switches places with a party Pokémon in waiting and passes along any stat changes.",
       "secondaryEffect": "Switches out the user but stat changes remain.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
@@ -1308,7 +1331,7 @@
       "pp": "15",
       "pwr": "100",
       "acc": "100",
-      "battleEffect": "The user first heats up its beak, and then it attacks the target. Making direct contact with the PokÃƒÆ’Ã‚Â©mon while it's heating up its beak results in a burn.",
+      "battleEffect": "The user first heats up its beak, and then it attacks the target. Making direct contact with the Pokémon while it's heating up its beak results in a burn.",
       "secondaryEffect": "Moves first in turn to charge, and last in the same turn to Attack. If opponent makes physical contact between this, the opponent is Burned",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -1328,7 +1351,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "beatup",
@@ -1338,8 +1362,8 @@
       "pp": "10",
       "pwr": "1",
       "acc": "100",
-      "battleEffect": "The user gets all party PokÃƒÆ’Ã‚Â©mon to attack the target. The more party PokÃƒÆ’Ã‚Â©mon, the greater the number of attacks.",
-      "secondaryEffect": "Does additional damage for every PokÃƒÆ’Ã‚Â©mon in trainer's team.",
+      "battleEffect": "The user gets all party Pokémon to attack the target. The more party Pokémon, the greater the number of attacks.",
+      "secondaryEffect": "Does additional damage for every Pokémon in trainer's team.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -1358,7 +1382,70 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 100
+    },
+	{
+      "name": "behemothbash",
+      "readableName": "Behemoth Bash",
+      "type": "Steel",
+      "category": "Physical",
+      "pp": "5",
+      "pwr": "100",
+      "acc": "100",
+      "battleEffect": "The user becomes a gigantic shield and slams into the target. This move deals twice the damage if the target is Dynamaxed.",
+      "secondaryEffect": "No effect.",
+      "effectRate": "-- %",
+      "tmNum": "None",
+      "speedPriority": "0",
+      "target": "Selected Target",
+      "contact": "Yes",
+      "soundType": "No",
+      "punchType": "No",
+      "snatchable": "No",
+      "zMove": "No",
+      "defrosts": "No",
+      "wideArea": "No",
+      "magiccoat": "No",
+      "protect": "Yes",
+      "mirrormove": "Yes",
+      "multiTarget": false,
+      "interceptable": true,
+      "ohko": false,
+      "protectionMoves": false,
+      "extraInfo": -1,
+	  "gMovePower": 130
+    },
+	{
+      "name": "behemothblade",
+      "readableName": "Behemoth Blade",
+      "type": "Steel",
+      "category": "Physical",
+      "pp": "5",
+      "pwr": "100",
+      "acc": "100",
+      "battleEffect": "The user becomes a gigantic shield and slams into the target. This move deals twice the damage if the target is Dynamaxed.",
+      "secondaryEffect": "No effect.",
+      "effectRate": "-- %",
+      "tmNum": "None",
+      "speedPriority": "0",
+      "target": "Selected Target",
+      "contact": "Yes",
+      "soundType": "No",
+      "punchType": "No",
+      "snatchable": "No",
+      "zMove": "No",
+      "defrosts": "No",
+      "wideArea": "No",
+      "magiccoat": "No",
+      "protect": "Yes",
+      "mirrormove": "Yes",
+      "multiTarget": false,
+      "interceptable": true,
+      "ohko": false,
+      "protectionMoves": false,
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "belch",
@@ -1388,7 +1475,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 95
     },
     {
       "name": "bellydrum",
@@ -1400,7 +1488,7 @@
       "acc": "0",
       "battleEffect": "The user maximizes its Attack stat in exchange for HP equal to half its max HP.",
       "secondaryEffect": "Cut's half of user's maximum HP and maximizes Attack.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -1512,7 +1600,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "bite",
@@ -1542,7 +1631,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "blackholeeclipse",
@@ -1572,7 +1662,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "blastburn",
@@ -1602,7 +1693,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 150
     },
     {
       "name": "blazekick",
@@ -1632,7 +1724,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "blizzard",
@@ -1642,7 +1735,7 @@
       "pp": "5",
       "pwr": "110",
       "acc": "70",
-      "battleEffect": "A howling blizzard is summoned to strike opposing PokÃƒÆ’Ã‚Â©mon. This may also leave the opposing PokÃƒÆ’Ã‚Â©mon frozen.",
+      "battleEffect": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen.",
       "secondaryEffect": "May Freeze opponent.",
       "effectRate": "10 %",
       "tmNum": "TM14",
@@ -1662,7 +1755,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "block",
@@ -1724,7 +1818,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "blueflare",
@@ -1754,7 +1849,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "bodyslam",
@@ -1784,7 +1880,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "boltstrike",
@@ -1814,7 +1911,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "boneclub",
@@ -1875,7 +1973,8 @@
       "preset": "doublehit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "bonerush",
@@ -1906,7 +2005,8 @@
       "preset": "multihit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "boomburst",
@@ -1921,7 +2021,7 @@
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "Yes",
       "punchType": "No",
@@ -1936,7 +2036,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "bounce",
@@ -1966,7 +2067,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "bouncybubble",
@@ -2025,7 +2127,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "breakneckblitz",
@@ -2055,7 +2158,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "brickbreak",
@@ -2085,7 +2189,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "brine",
@@ -2115,7 +2220,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "brutalswing",
@@ -2130,7 +2236,7 @@
       "effectRate": "-- %",
       "tmNum": "TM59",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "Yes",
       "soundType": "No",
       "punchType": "No",
@@ -2145,7 +2251,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "bubble",
@@ -2155,7 +2262,7 @@
       "pp": "30",
       "pwr": "40",
       "acc": "100",
-      "battleEffect": "A spray of countless bubbles is jetted at the opposing PokÃƒÆ’Ã‚Â©mon. This may also lower their Speed stat.",
+      "battleEffect": "A spray of countless bubbles is jetted at the opposing Pokémon. This may also lower their Speed stat.",
       "secondaryEffect": "May lower opponent's Speed one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -2205,7 +2312,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "bugbite",
@@ -2235,7 +2343,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "bugbuzz",
@@ -2265,7 +2374,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "bulkup",
@@ -2312,7 +2422,7 @@
       "effectRate": "-- %",
       "tmNum": "TM78",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -2327,7 +2437,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "bulletpunch",
@@ -2357,7 +2468,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "bulletseed",
@@ -2388,7 +2500,8 @@
       "preset": "multihit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "burnup",
@@ -2418,7 +2531,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "buzzybuzz",
@@ -2515,7 +2629,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "If any opposing PokÃƒÆ’Ã‚Â©mon is the opposite gender of the user, it is charmed, which harshly lowers its Sp. Atk stat.",
+      "battleEffect": "If any opposing Pokémon is the opposite gender of the user, it is charmed, which harshly lowers its Sp. Atk stat.",
       "secondaryEffect": "Lowers opponent's Special Attack by two stages if of an opposite gender to the user.",
       "detailedEffect": "Boosts Special Defense by 2 stages",
       "effectRate": "-- %",
@@ -2568,7 +2682,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "celebrate",
@@ -2578,7 +2693,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The PokÃƒÆ’Ã‚Â©mon congratulates you on your special day!",
+      "battleEffect": "The Pokémon congratulates you on your special day!",
       "secondaryEffect": "No effect.",
       "detailedEffect": "Boosts all stats by 1 stage",
       "effectRate": "-- %",
@@ -2662,7 +2777,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 100
     },
     {
       "name": "charm",
@@ -2724,7 +2840,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "chipaway",
@@ -2764,8 +2881,8 @@
       "pp": "10",
       "pwr": "60",
       "acc": "90",
-      "battleEffect": "The target is thrown, and a different PokÃƒÆ’Ã‚Â©mon is dragged out. In the wild, this ends a battle against a single PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Forces opponent to switch PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The target is thrown, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+      "secondaryEffect": "Forces opponent to switch Pokémon.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "-6",
@@ -2784,7 +2901,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 80
     },
     {
       "name": "clamp",
@@ -2824,7 +2942,7 @@
       "pp": "5",
       "pwr": "110",
       "acc": "100",
-      "battleEffect": "The user rubs the scales on its entire body and makes a huge noise to attack the opposing PokÃƒÆ’Ã‚Â©mon. The user's Defense stat goes down after the attack.",
+      "battleEffect": "The user rubs the scales on its entire body and makes a huge noise to attack the opposing Pokémon. The user's Defense stat goes down after the attack.",
       "secondaryEffect": "Lowers user's Defense one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -2844,7 +2962,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "clearsmog",
@@ -2874,7 +2993,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 75
     },
     {
       "name": "closecombat",
@@ -2904,7 +3024,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 95
     },
     {
       "name": "coil",
@@ -3062,7 +3183,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 100
     },
     {
       "name": "constrict",
@@ -3122,7 +3244,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "conversion",
@@ -3166,7 +3289,7 @@
       "acc": "0",
       "battleEffect": "The user changes its type to make itself resistant to the type of the attack the opponent used last.",
       "secondaryEffect": "User becomes a type resistant to opponent's last Attack.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -3228,7 +3351,7 @@
       "pp": "10",
       "pwr": "100",
       "acc": "100",
-      "battleEffect": "If the PokÃƒÆ’Ã‚Â©mon the user has inflicted damage on have already used their moves, this move eliminates the effect of the target's Ability.",
+      "battleEffect": "If the Pokémon the user has inflicted damage on have already used their moves, this move eliminates the effect of the target's Ability.",
       "secondaryEffect": "If used after the target Attacks, the target's ability is removed",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -3248,7 +3371,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "corkscrewcrash",
@@ -3278,7 +3402,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "cosmicpower",
@@ -3352,7 +3477,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "The user releases cotton-like spores that cling to the opposing PokÃƒÆ’Ã‚Â©mon, which harshly lowers their Speed stat.",
+      "battleEffect": "The user releases cotton-like spores that cling to the opposing Pokémon, which harshly lowers their Speed stat.",
       "secondaryEffect": "Lowers opponent's Speed two stages.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
@@ -3404,7 +3529,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 75
     },
     {
       "name": "covet",
@@ -3434,7 +3560,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "crabhammer",
@@ -3464,7 +3591,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "craftyshield",
@@ -3475,7 +3603,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user protects itself and its allies from status moves with a mysterious power. This does not stop moves that do damage.",
-      "secondaryEffect": "Prevents all PokÃƒÆ’Ã‚Â©mon on the field from using Status moves",
+      "secondaryEffect": "Prevents all Pokémon on the field from using Status moves",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -3526,7 +3654,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "crosspoison",
@@ -3556,7 +3685,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 85
     },
     {
       "name": "crunch",
@@ -3586,7 +3716,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "crushclaw",
@@ -3616,7 +3747,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "crushgrip",
@@ -3628,7 +3760,7 @@
       "acc": "100",
       "battleEffect": "The target is crushed with great force. The more HP the target has left, the greater this move's power.",
       "secondaryEffect": "Increases damage the higher the target's Hit Points",
-      "inDepthEffect": "This attack's Base Power is anything from 1 up to 110 making it a fairly powerful attack to be used. The means of determining the Base Power however is set based on the Opponent's Hit Points. The higher its hit points the better. This does not refer to the Base Stats for the Hit Points but rather the opponent's HP relative to its maximum at the current point in time. With this in mind, a simple equation is made to determine the base power of the attack Base Power = 110 * (Opponent's Current HP / Opponent's Max HP) So for example if we were battling a Max IV'd, Max EV'd Torterra at Level 100 and it had just over half its HP remaining, it would be as such Base Power = 110 * (215 / 394) = 60.03 (2 d.p.) This shows that the best time to use Wring Out & Crush Grip would be at the start of a battle with any PokÃƒÆ’Ã‚Â©mon, whether it has just been switched in or the battle is just beginning, in order to get the maximum Base Power. As the battle progresses, the power behind Wring Out & Crush Grip diminshes",
+      "inDepthEffect": "This attack's Base Power is anything from 1 up to 110 making it a fairly powerful attack to be used. The means of determining the Base Power however is set based on the Opponent's Hit Points. The higher its hit points the better. This does not refer to the Base Stats for the Hit Points but rather the opponent's HP relative to its maximum at the current point in time. With this in mind, a simple equation is made to determine the base power of the attack Base Power = 110 * (Opponent's Current HP / Opponent's Max HP) So for example if we were battling a Max IV'd, Max EV'd Torterra at Level 100 and it had just over half its HP remaining, it would be as such Base Power = 110 * (215 / 394) = 60.03 (2 d.p.) This shows that the best time to use Wring Out & Crush Grip would be at the start of a battle with any Pokémon, whether it has just been switched in or the battle is just beginning, in order to get the maximum Base Power. As the battle progresses, the power behind Wring Out & Crush Grip diminshes",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -3647,7 +3779,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "curse",
@@ -3658,7 +3791,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "A move that works differently for the Ghost type than for all other types.",
-      "secondaryEffect": "Ghost type PokÃƒÆ’Ã‚Â©mon: User loses half their maximum HP, and the opponent gets a Nightmare. Other PokÃƒÆ’Ã‚Â©mon types: Raises user's Attack and Defense one stage. Lowers user's Speed one stage.",
+      "secondaryEffect": "Ghost type Pokémon: User loses half their maximum HP, and the opponent gets a Nightmare. Other Pokémon types: Raises user's Attack and Defense one stage. Lowers user's Speed one stage.",
       "detailedEffect": "This Z-Move will become a standard Z Move based on the type of the move in its effect",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -3709,7 +3842,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 100
     },
     {
       "name": "darkestlariat",
@@ -3739,7 +3873,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "darkpulse",
@@ -3769,7 +3904,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "darkvoid",
@@ -3779,7 +3915,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "50",
-      "battleEffect": "Opposing PokÃƒÆ’Ã‚Â©mon are dragged into a world of total darkness that makes them sleep.",
+      "battleEffect": "Opposing Pokémon are dragged into a world of total darkness that makes them sleep.",
       "secondaryEffect": "Induces sleep.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
@@ -3811,7 +3947,7 @@
       "pp": "10",
       "pwr": "80",
       "acc": "100",
-      "battleEffect": "The user damages opposing PokÃƒÆ’Ã‚Â©mon by emitting a powerful flash.",
+      "battleEffect": "The user damages opposing Pokémon by emitting a powerful flash.",
       "secondaryEffect": "No effect.",
       "effectRate": "-- %",
       "tmNum": "TM99",
@@ -3831,7 +3967,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "defendorder",
@@ -3907,7 +4044,7 @@
       "acc": "0",
       "battleEffect": "A strong wind blows away the target's barriers such as Reflect or Light Screen. This also lowers the target's evasiveness.",
       "secondaryEffect": "Lowers opponent's Evasion one level.",
-      "inDepthEffect": "This attack also removes the effect of Reflect, Light Screen, Safeguard, Mist, Spikes, Toxic Spikes and Stealth Rock on the target PokÃƒÆ’Ã‚Â©mon's side of battle.",
+      "inDepthEffect": "This attack also removes the effect of Reflect, Light Screen, Safeguard, Mist, Spikes, Toxic Spikes and Stealth Rock on the target Pokémon's side of battle.",
       "detailedEffect": "Boosts Accuracy by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -3938,9 +4075,9 @@
       "pp": "5",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "After using this move, if the user faints, the PokÃƒÆ’Ã‚Â©mon that landed the knockout hit also faints. Its chance of failing rises if it is used in succession.",
+      "battleEffect": "After using this move, if the user faints, the Pokémon that landed the knockout hit also faints. Its chance of failing rises if it is used in succession.",
       "secondaryEffect": "If the user faints, the opponent will also faint. May fail on successive uses.",
-      "detailedEffect": "This PokÃƒÆ’Ã‚Â©mon becomes the focus",
+      "detailedEffect": "This Pokémon becomes the focus",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -4023,7 +4160,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "diamondstorm",
@@ -4033,7 +4171,7 @@
       "pp": "5",
       "pwr": "100",
       "acc": "95",
-      "battleEffect": "The user whips up a storm of diamonds to damage opposing PokÃƒÆ’Ã‚Â©mon. This may also sharply raise the user's Defense stat.",
+      "battleEffect": "The user whips up a storm of diamonds to damage opposing Pokémon. This may also sharply raise the user's Defense stat.",
       "secondaryEffect": "May raise user's Defense 2 stages",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -4053,7 +4191,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dig",
@@ -4083,7 +4222,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "disable",
@@ -4125,7 +4265,7 @@
       "pp": "15",
       "pwr": "40",
       "acc": "0",
-      "battleEffect": "Letting out a charming cry, the user does emotional damage to opposing PokÃƒÆ’Ã‚Â©mon. This attack never misses.",
+      "battleEffect": "Letting out a charming cry, the user does emotional damage to opposing Pokémon. This attack never misses.",
       "secondaryEffect": "Never Misses.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -4145,7 +4285,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "discharge",
@@ -4160,7 +4301,7 @@
       "effectRate": "30 %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -4175,7 +4316,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dive",
@@ -4205,7 +4347,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dizzypunch",
@@ -4265,7 +4408,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "doubleedge",
@@ -4296,7 +4440,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "doubleironbash",
@@ -4327,7 +4472,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "doublehit",
@@ -4358,7 +4504,8 @@
       "preset": "doublehit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "doublekick",
@@ -4389,7 +4536,8 @@
       "preset": "doublehit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 80
     },
     {
       "name": "doubleslap",
@@ -4482,7 +4630,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "dragonascent",
@@ -4512,7 +4661,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "dragonbreath",
@@ -4542,7 +4692,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "dragonclaw",
@@ -4572,7 +4723,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dragondance",
@@ -4634,7 +4786,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dragonpulse",
@@ -4664,7 +4817,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dragonrage",
@@ -4724,7 +4878,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dragontail",
@@ -4734,8 +4889,8 @@
       "pp": "10",
       "pwr": "60",
       "acc": "90",
-      "battleEffect": "The target is knocked away, and a different PokÃƒÆ’Ã‚Â©mon is dragged out. In the wild, this ends a battle against a single PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Forces opponent to switch PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The target is knocked away, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+      "secondaryEffect": "Forces opponent to switch Pokémon.",
       "effectRate": "-- %",
       "tmNum": "TM82",
       "speedPriority": "-6",
@@ -4754,7 +4909,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "drainingkiss",
@@ -4784,7 +4940,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 100
     },
     {
       "name": "drainpunch",
@@ -4814,7 +4971,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "dreameater",
@@ -4844,7 +5002,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "drillpeck",
@@ -4874,7 +5033,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "drillrun",
@@ -4904,7 +5064,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dualchop",
@@ -4935,7 +5096,8 @@
       "preset": "doublehit",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dynamicpunch",
@@ -4965,7 +5127,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "earthpower",
@@ -4995,7 +5158,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "earthquake",
@@ -5005,12 +5169,12 @@
       "pp": "10",
       "pwr": "100",
       "acc": "100",
-      "battleEffect": "The user sets off an earthquake that strikes every PokÃƒÆ’Ã‚Â©mon around it.",
+      "battleEffect": "The user sets off an earthquake that strikes every Pokémon around it.",
       "secondaryEffect": "Hits everyone on the field.",
       "effectRate": "-- %",
       "tmNum": "TM26",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -5027,7 +5191,8 @@
       "preset": "aoe",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "echoedvoice",
@@ -5039,7 +5204,7 @@
       "acc": "100",
       "battleEffect": "The user attacks the target with an echoing voice. If this move is used every turn, its power is increased.",
       "secondaryEffect": "Ignores stat changes",
-      "inDepthEffect": "This move increases in power when used by y PokÃƒÆ’Ã‚Â©mon on your side in the last turn. The increase is by 100%. If two PokÃƒÆ’Ã‚Â©mon use it in Double or Triple Battles or it's used repeatedly, the second power is 80 and if a third PokÃƒÆ’Ã‚Â©mon uses it, its Base Power is 160. If it's used a fourth time within the same two turns, it is capped at 200.",
+      "inDepthEffect": "This move increases in power when used by y Pokémon on your side in the last turn. The increase is by 100%. If two Pokémon use it in Double or Triple Battles or it's used repeatedly, the second power is 80 and if a third Pokémon uses it, its Base Power is 160. If it's used a fourth time within the same two turns, it is capped at 200.",
       "effectRate": "-- %",
       "tmNum": "TM49",
       "speedPriority": "0",
@@ -5058,7 +5223,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "eerieimpulse",
@@ -5130,9 +5296,9 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user electrifies the ground for five turns, powering up Electric-type moves. PokÃƒÆ’Ã‚Â©mon on the ground no longer fall asleep.",
+      "battleEffect": "The user electrifies the ground for five turns, powering up Electric-type moves. Pokémon on the ground no longer fall asleep.",
       "secondaryEffect": "Activates Electric Terrain for 5 turns",
-      "inDepthEffect": "This move creates a terrain that helps PokÃƒÆ’Ã‚Â©mon on the ground for 5 turns. It prevents the PokÃƒÆ’Ã‚Â©mon from sleep and boosts the power of Electric-type moves on grounded PokÃƒÆ’Ã‚Â©mon by 50%",
+      "inDepthEffect": "This move creates a terrain that helps Pokémon on the ground for 5 turns. It prevents the Pokémon from sleep and boosts the power of Electric-type moves on grounded Pokémon by 50%",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -5211,7 +5377,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "electroweb",
@@ -5221,7 +5388,7 @@
       "pp": "15",
       "pwr": "55",
       "acc": "95",
-      "battleEffect": "The user attacks and captures opposing PokÃƒÆ’Ã‚Â©mon using an electric net. This lowers their Speed stat.",
+      "battleEffect": "The user attacks and captures opposing Pokémon using an electric net. This lowers their Speed stat.",
       "secondaryEffect": "Lowers opponent's Speed one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -5241,7 +5408,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "embargo",
@@ -5303,7 +5471,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "encore",
@@ -5366,7 +5535,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "endure",
@@ -5378,7 +5548,7 @@
       "acc": "0",
       "battleEffect": "The user endures any attack with at least 1 HP. Its chance of failing rises if it is used in succession.",
       "secondaryEffect": "Survives any Attack for one turn leaving at least 1 HP but may fail with successive uses.",
-      "inDepthEffect": "If used in succession with other protection moves, it has a 50% reduction in its success rate. Endure runs differently to the other moves. It doesn't prevent damage from attacks, but rather it prevents the PokÃƒÆ’Ã‚Â©mon from fainting. When Endure is used and is successful, it will prevent the user from being knocked out by leaving the user with 1 Hit Point. This lasts the entire turn so it can receive multiple hits which end up doing no damage. This can be used with multiple strategies and moves including Reversal so that you can get your Hit Points down safely and then do massive damage Several items and abilities work in a similar manner to Endure; Sturdy leaves the user with 1 Hit Point if the user was to be knocked out when having full Hit Points. In a similar manner, the item Focus Sash works in an identical way. However, the other item; Focus Band will work regardless of Hit Points as it has a 10% chance of allowing the user to hold on from a move which would knock it out. Like the previous item, it'll leave it at 1 Hit Point.",
+      "inDepthEffect": "If used in succession with other protection moves, it has a 50% reduction in its success rate. Endure runs differently to the other moves. It doesn't prevent damage from attacks, but rather it prevents the Pokémon from fainting. When Endure is used and is successful, it will prevent the user from being knocked out by leaving the user with 1 Hit Point. This lasts the entire turn so it can receive multiple hits which end up doing no damage. This can be used with multiple strategies and moves including Reversal so that you can get your Hit Points down safely and then do massive damage Several items and abilities work in a similar manner to Endure; Sturdy leaves the user with 1 Hit Point if the user was to be knocked out when having full Hit Points. In a similar manner, the item Focus Sash works in an identical way. However, the other item; Focus Band will work regardless of Hit Points as it has a 10% chance of allowing the user to hold on from a move which would knock it out. Like the previous item, it'll leave it at 1 Hit Point.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -5429,7 +5599,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "entrainment",
@@ -5441,7 +5612,7 @@
       "acc": "100",
       "battleEffect": "The user dances with an odd rhythm that compels the target to mimic it, making the target's Ability the same as the user's.",
       "secondaryEffect": "Causes target's ability to match the user",
-      "inDepthEffect": "This move changes the opponent's abiliy to that of the user of this move. Doesn't work against PokÃƒÆ’Ã‚Â©mon with the Truant, Zen Mode or Multitype abilities.",
+      "inDepthEffect": "This move changes the opponent's abiliy to that of the user of this move. Doesn't work against Pokémon with the Truant, Zen Mode or Multitype abilities.",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -5472,7 +5643,7 @@
       "pp": "5",
       "pwr": "150",
       "acc": "100",
-      "battleEffect": "The user attacks opposing PokÃƒÆ’Ã‚Â©mon with explosive fury. The lower the user's HP, the lower the move's power.",
+      "battleEffect": "The user attacks opposing Pokémon with explosive fury. The lower the user's HP, the lower the move's power.",
       "secondaryEffect": "Inflicts more damage when the user's HP is high.",
       "inDepthEffect": "Power wise, this attack has a Base Power of 150 but that completely changes all depending on the HP. This is calculated in the manner below: Base Power = (Current HP * 150) / Max HP This gives it a maximum power of 150 and a Minimum of 1.",
       "effectRate": "-- %",
@@ -5493,7 +5664,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 150
     },
     {
       "name": "explosion",
@@ -5508,7 +5680,7 @@
       "effectRate": "-- %",
       "tmNum": "TM64",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -5524,7 +5696,8 @@
       "preset": "explode",
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 150
     },
     {
       "name": "extrasensory",
@@ -5554,7 +5727,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "extremeevoboost",
@@ -5585,7 +5759,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "extremespeed",
@@ -5615,7 +5790,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "facade",
@@ -5645,7 +5821,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 120
     },
     {
       "name": "fairylock",
@@ -5655,7 +5832,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "By locking down the battlefield, the user keeps all PokÃƒÆ’Ã‚Â©mon from fleeing during the next turn.",
+      "battleEffect": "By locking down the battlefield, the user keeps all Pokémon from fleeing during the next turn.",
       "secondaryEffect": "Prevents opponent from fleeing this turn",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -6263,9 +6440,9 @@
       "pp": "15",
       "pwr": "70",
       "acc": "100",
-      "battleEffect": "The user attacks the target with a bursting flame. The bursting flame damages PokÃƒÆ’Ã‚Â©mon next to the target as well.",
-      "secondaryEffect": "Damages PokÃƒÆ’Ã‚Â©mon to the side of the target equal to 1/16th of their max Hit Points",
-      "inDepthEffect": "This move does damage to the PokÃƒÆ’Ã‚Â©mon to the side of the target equal to 1/16th of their maximum Hit Points",
+      "battleEffect": "The user attacks the target with a bursting flame. The bursting flame damages Pokémon next to the target as well.",
+      "secondaryEffect": "Damages Pokémon to the side of the target equal to 1/16th of their max Hit Points",
+      "inDepthEffect": "This move does damage to the Pokémon to the side of the target equal to 1/16th of their maximum Hit Points",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -6631,8 +6808,8 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user raises the Defense stat of all Grass-type PokÃƒÆ’Ã‚Â©mon in battle with a mysterious power.",
-      "secondaryEffect": "Raises Defense of Grass-type PokÃƒÆ’Ã‚Â©mon by 1 stage.",
+      "battleEffect": "The user raises the Defense stat of all Grass-type Pokémon in battle with a mysterious power.",
+      "secondaryEffect": "Raises Defense of Grass-type Pokémon by 1 stage.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -6873,7 +7050,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "Enables a Ghost-type target to be hit by Normal- and Fighting-type attacks. This also enables an evasive target to be hit.",
-      "secondaryEffect": "Allows opponent to be hit if Evasion is high. Allows Ghost-type PokÃƒÆ’Ã‚Â©mon to be hit by Normal-type moves.",
+      "secondaryEffect": "Allows opponent to be hit if Evasion is high. Allows Ghost-type Pokémon to be hit by Normal-type moves.",
       "detailedEffect": "Increases Critical Hit Ratio by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7111,7 +7288,7 @@
       "acc": "100",
       "battleEffect": "This full-power attack grows more powerful the less the user likes its Trainer.",
       "secondaryEffect": "The less happy the user, the stronger the Attack.",
-      "inDepthEffect": "Frustration is the move that utilises the Happiness in the negative light, by rewarding the amount the PokÃƒÆ’Ã‚Â©mon hates the trainer. It also is a Normal Type Physical Attack with 20PP and 100% accuracy and its power is calculated by the following means:Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Base Power = (255 - PokÃƒÆ’Ã‚Â©mon Happiness) / 2.5 This gives a maximum result of 102 and a minimum result of 1",
+      "inDepthEffect": "Frustration is the move that utilises the Happiness in the negative light, by rewarding the amount the Pokémon hates the trainer. It also is a Normal Type Physical Attack with 20PP and 100% accuracy and its power is calculated by the following means:Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Base Power = (255 - Pokémon Happiness) / 2.5 This gives a maximum result of 102 and a minimum result of 1",
       "effectRate": "-- %",
       "tmNum": "TM21",
       "speedPriority": "0",
@@ -7296,7 +7473,7 @@
       "acc": "100",
       "battleEffect": "Two turns after this move is used, a hunk of psychic energy attacks the target.",
       "secondaryEffect": "Damage delays 2 turns.",
-      "inDepthEffect": "This move causes damage to the opponent two turns after it is used. The damage given cannot critical hit. It bypasses any Protection (Protect, Endure etc.) of the opponent on the turn it damages and if the opponent switches out, it hits the new PokÃƒÆ’Ã‚Â©mon",
+      "inDepthEffect": "This move causes damage to the opponent two turns after it is used. The damage given cannot critical hit. It bypasses any Protection (Protect, Endure etc.) of the opponent on the turn it damages and if the opponent switches out, it hits the new Pokémon",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -7388,8 +7565,8 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user engages its gears to raise the Attack and Sp. Atk stats of ally PokÃƒÆ’Ã‚Â©mon with the Plus or Minus Ability.",
-      "secondaryEffect": "Raises Attack and Special Attack of ally PokÃƒÆ’Ã‚Â©mon with the Plus or Minus ability by 1 stage",
+      "battleEffect": "The user engages its gears to raise the Attack and Sp. Atk stats of ally Pokémon with the Plus or Minus Ability.",
+      "secondaryEffect": "Raises Attack and Special Attack of ally Pokémon with the Plus or Minus ability by 1 stage",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7441,7 +7618,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "geomancy",
@@ -7563,7 +7741,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "glaciate",
@@ -7573,7 +7752,7 @@
       "pp": "10",
       "pwr": "65",
       "acc": "95",
-      "battleEffect": "The user attacks by blowing freezing cold air at opposing PokÃƒÆ’Ã‚Â©mon. This lowers their Speed stat.",
+      "battleEffect": "The user attacks by blowing freezing cold air at opposing Pokémon. This lowers their Speed stat.",
       "secondaryEffect": "Lowers opponent's Speed one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7753,9 +7932,9 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user turns the ground to grass for five turns. This restores the HP of PokÃƒÆ’Ã‚Â©mon on the ground a little every turn and powers up Grass type-moves.",
+      "battleEffect": "The user turns the ground to grass for five turns. This restores the HP of Pokémon on the ground a little every turn and powers up Grass type-moves.",
       "secondaryEffect": "Activates Grassy Terrain for 5 turns",
-      "inDepthEffect": "This move creates a terrain that helps PokÃƒÆ’Ã‚Â©mon on the ground for 5 turns. It increases their Hit Points by 1/16th per turn and increases Grass-type move power by 50%",
+      "inDepthEffect": "This move creates a terrain that helps Pokémon on the ground for 5 turns. It increases their Hit Points by 1/16th per turn and increases Grass-type move power by 50%",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7787,8 +7966,8 @@
       "pp": "5",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "Enables Flying-type PokÃƒÆ’Ã‚Â©mon or PokÃƒÆ’Ã‚Â©mon with the Levitate Ability to be hit by Ground-type moves. Flying moves can't be used.",
-      "secondaryEffect": "Removes Ground-type resistance. Prevents certain moves from being used. Lowers all PokÃƒÆ’Ã‚Â©mon's Evasion two stages",
+      "battleEffect": "Enables Flying-type Pokémon or Pokémon with the Levitate Ability to be hit by Ground-type moves. Flying moves can't be used.",
+      "secondaryEffect": "Removes Ground-type resistance. Prevents certain moves from being used. Lowers all Pokémon's Evasion two stages",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7819,7 +7998,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "The user growls in an endearing way, making opposing PokÃƒÆ’Ã‚Â©mon less wary. This lowers their Attack stat.",
+      "battleEffect": "The user growls in an endearing way, making opposing Pokémon less wary. This lowers their Attack stat.",
       "secondaryEffect": "Lowers opponent's Attack one stage.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -7853,7 +8032,7 @@
       "acc": "0",
       "battleEffect": "The user's body grows all at once, raising the Attack and Sp. Atk stats.",
       "secondaryEffect": "Raises user's Attack & Special Attack one stage",
-      "inDepthEffect": "This move increases Attack & Special Attack one stage in standard weather. However, if Sunny Day or Drought has been used and Growth is then used, the PokÃƒÆ’Ã‚Â©mon's Attack & Special Attack is increased by two stages",
+      "inDepthEffect": "This move increases Attack & Special Attack one stage in standard weather. However, if Sunny Day or Drought has been used and Growth is then used, the Pokémon's Attack & Special Attack is increased by two stages",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7886,7 +8065,7 @@
       "acc": "0",
       "battleEffect": "If the user faints, the user's grudge fully depletes the PP of the opponent's move that knocked it out.",
       "secondaryEffect": "If the user faints this turn, deletes the PP of opponent's last move.",
-      "detailedEffect": "This PokÃƒÆ’Ã‚Â©mon becomes the focus",
+      "detailedEffect": "This Pokémon becomes the focus",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -7916,7 +8095,7 @@
       "pp": "1",
       "pwr": "1",
       "acc": "0",
-      "battleEffect": "The user, the Land Spirit PokÃƒÆ’Ã‚Â©mon, obtains Alola's energy using its Z-Power and attacks the target with full force. This reduces the target's HP greatly.",
+      "battleEffect": "The user, the Land Spirit Pokémon, obtains Alola's energy using its Z-Power and attacks the target with full force. This reduces the target's HP greatly.",
       "secondaryEffect": "Removes 75% of the target's Hit Points",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -7937,7 +8116,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "guardsplit",
@@ -8104,7 +8284,7 @@
       "acc": "100",
       "battleEffect": "The user tackles the target with a high-speed spin. The slower the user compared to the target, the greater the move's power.",
       "secondaryEffect": "Increases power the lower the target's Speed",
-      "inDepthEffect": "This attack's Base Power is anything from 1 up to 150 making it a very powerful attack to be used. However, this is completely dependant on your PokÃƒÆ’Ã‚Â©mon's Speed as well as the Speed of your target. First, the user & targets speeds are claculated. Their Speed Stat is taken into account as well as other effects such as previous attack effects that my have raised or lowered speed, whether the PokÃƒÆ’Ã‚Â©mon is Paralyzed and whether or not it is holding an item that lowers Speed such as the Power Items used to train EVs or an Iron ball. With these statistics now calculated, a simple equation is made to determine the base power of the attack Base Power = 25 * (TargetSpeed / UserSpeed) With this equation, it is very easy to see that if the user has a considerably lower speed, due to being a slow PokÃƒÆ’Ã‚Â©mon or just being unlucky and having had loads of attacks that have lowered speed used on it as well as being Paralyzed and holding an Iron Ball, it will do considerable damage. However, even if the Base Power calculation obtains an amount that is greater than 150, you will never have more than that.",
+      "inDepthEffect": "This attack's Base Power is anything from 1 up to 150 making it a very powerful attack to be used. However, this is completely dependant on your Pokémon's Speed as well as the Speed of your target. First, the user & targets speeds are claculated. Their Speed Stat is taken into account as well as other effects such as previous attack effects that my have raised or lowered speed, whether the Pokémon is Paralyzed and whether or not it is holding an item that lowers Speed such as the Power Items used to train EVs or an Iron ball. With these statistics now calculated, a simple equation is made to determine the base power of the attack Base Power = 25 * (TargetSpeed / UserSpeed) With this equation, it is very easy to see that if the user has a considerably lower speed, due to being a slow Pokémon or just being unlucky and having had loads of attacks that have lowered speed used on it as well as being Paralyzed and holding an Iron Ball, it will do considerable damage. However, even if the Base Power calculation obtains an amount that is greater than 150, you will never have more than that.",
       "effectRate": "-- %",
       "tmNum": "TM74",
       "speedPriority": "0",
@@ -8133,7 +8313,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user summons a hailstorm lasting five turns. It damages all PokÃƒÆ’Ã‚Â©mon except the Ice type.",
+      "battleEffect": "The user summons a hailstorm lasting five turns. It damages all Pokémon except the Ice type.",
       "secondaryEffect": "Causes Hailstorm for 5 rounds.",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
@@ -8260,9 +8440,9 @@
       "pp": "30",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user creates a haze that eliminates every stat change among all the PokÃƒÆ’Ã‚Â©mon engaged in battle.",
+      "battleEffect": "The user creates a haze that eliminates every stat change among all the Pokémon engaged in battle.",
       "secondaryEffect": "Resets all ability stages.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -8382,9 +8562,9 @@
       "pp": "5",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user makes a soothing bell chime to heal the status conditions of all the party PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The user makes a soothing bell chime to heal the status conditions of all the party Pokémon.",
       "secondaryEffect": "Heals party's status problems.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -8446,8 +8626,8 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user faints. In return, the PokÃƒÆ’Ã‚Â©mon taking its place will have its HP restored and status conditions cured.",
-      "secondaryEffect": "Recovers PokÃƒÆ’Ã‚Â©mon switched in if user is Knocked Out.",
+      "battleEffect": "The user faints. In return, the Pokémon taking its place will have its HP restored and status conditions cured.",
+      "secondaryEffect": "Recovers Pokémon switched in if user is Knocked Out.",
       "detailedEffect": "???",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -8634,7 +8814,7 @@
       "pp": "10",
       "pwr": "95",
       "acc": "90",
-      "battleEffect": "The user attacks by exhaling hot breath on the opposing PokÃƒÆ’Ã‚Â©mon. This may also leave those PokÃƒÆ’Ã‚Â©mon with a burn.",
+      "battleEffect": "The user attacks by exhaling hot breath on the opposing Pokémon. This may also leave those Pokémon with a burn.",
       "secondaryEffect": "May induce burn.",
       "effectRate": "10 %",
       "tmNum": "None",
@@ -8695,7 +8875,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user assists an ally by boosting the power of that ally's attack.",
-      "secondaryEffect": "Increases power of ally PokÃƒÆ’Ã‚Â©mon's Attacks by 50%",
+      "secondaryEffect": "Increases power of ally Pokémon's Attacks by 50%",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -8756,7 +8936,7 @@
       "pp": "15",
       "pwr": "60",
       "acc": "100",
-      "battleEffect": "A unique attack that varies in type depending on the PokÃƒÆ’Ã‚Â©mon using it.",
+      "battleEffect": "A unique attack that varies in type depending on the Pokémon using it.",
       "secondaryEffect": "Type depends upon user's IVs.",
       "effectRate": "-- %",
       "tmNum": "TM10",
@@ -9063,7 +9243,7 @@
       "pwr": "110",
       "acc": "70",
       "battleEffect": "The user attacks by wrapping its opponent in a fierce wind that flies up into the sky. This may also confuse the target.",
-      "secondaryEffect": "May induce CONFUSION. Damages PokÃƒÆ’Ã‚Â©mon using Fly",
+      "secondaryEffect": "May induce CONFUSION. Damages Pokémon using Fly",
       "inDepthEffect": "This move has different accuracies depending upon the weather. In Rain, it has an accuracy of 100%. In Sunshine, it has an accuracy of 50%. In all other weather states, it has an accuracy of 70%.",
       "effectRate": "30 %",
       "tmNum": "None",
@@ -9173,7 +9353,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "hyperbeam",
@@ -9636,7 +9817,7 @@
       "pp": "15",
       "pwr": "55",
       "acc": "95",
-      "battleEffect": "The user attacks with a gust of chilled air. This also lowers the opposing PokÃƒÆ’Ã‚Â©mon's Speed stats.",
+      "battleEffect": "The user attacks with a gust of chilled air. This also lowers the opposing Pokémon's Speed stats.",
       "secondaryEffect": "May lower opponent's Speed one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -9666,7 +9847,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "If opposing PokÃƒÆ’Ã‚Â©mon know any move also known by the user, they are prevented from using it.",
+      "battleEffect": "If opposing Pokémon know any move also known by the user, they are prevented from using it.",
       "secondaryEffect": "Opponent cannot use any move that user knows.",
       "detailedEffect": "Boosts Special Defense by 2 stages",
       "effectRate": "-- %",
@@ -9698,7 +9879,7 @@
       "pp": "15",
       "pwr": "60",
       "acc": "100",
-      "battleEffect": "The user attacks opposing PokÃƒÆ’Ã‚Â©mon with fire. If a PokÃƒÆ’Ã‚Â©mon is holding a certain item, such as a Berry, the item becomes burned up and unusable.",
+      "battleEffect": "The user attacks opposing Pokémon with fire. If a Pokémon is holding a certain item, such as a Berry, the item becomes burned up and unusable.",
       "secondaryEffect": "Removes opponent's hold berry.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -9781,7 +9962,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
 	{
       "name": "letssnuggleforever",
@@ -9812,7 +9994,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
 	{
       "name": "lightthatburnsthesky",
@@ -9843,7 +10026,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
 	{
       "name": "menacingmoonrazemaelstrom",
@@ -9874,7 +10058,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
 	{
       "name": "searingsunrazesmash",
@@ -9905,7 +10090,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
 	{
       "name": "splinteredstormshards",
@@ -9936,7 +10122,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "infernooverdrive",
@@ -9966,7 +10153,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "infestation",
@@ -10351,7 +10539,7 @@
       "acc": "100",
       "battleEffect": "The user slaps down the target's held item, and that item can't be used in that battle. The move does more damage if the target has a held item.",
       "secondaryEffect": "Knocks down opponent's held item to prevent its use. Increases power by 50% if so.",
-      "inDepthEffect": "If the target of this move is holding an item, then the target will lose the item and the power of the move is increased by 50%. The item cannot be recovered with Recycle If the PokÃƒÆ’Ã‚Â©mon is holding an item that cannot be removed, such as Giratina with the Griseous Orb, Arceus holding any of its plates or a PokÃƒÆ’Ã‚Â©mon who is holding a Mega Stone needed for it to Mega Evolve, then the move will not do extra damage and they will not lose the hold item. If the user is knocked out from recoil caused by the opponent's hold item or ability, then the opponent will keep the hold item. If the target has got the Sticky Hold ability, the damage will be increased, but the opponent will not lose the hold item.",
+      "inDepthEffect": "If the target of this move is holding an item, then the target will lose the item and the power of the move is increased by 50%. The item cannot be recovered with Recycle If the Pokémon is holding an item that cannot be removed, such as Giratina with the Griseous Orb, Arceus holding any of its plates or a Pokémon who is holding a Mega Stone needed for it to Mega Evolve, then the move will not do extra damage and they will not lose the hold item. If the user is knocked out from recoil caused by the opponent's hold item or ability, then the opponent will keep the hold item. If the target has got the Sticky Hold ability, the damage will be increased, but the opponent will not lose the hold item.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -10478,7 +10666,7 @@
       "effectRate": "30 %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -10685,7 +10873,7 @@
       "pp": "30",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "The user gives opposing PokÃƒÆ’Ã‚Â©mon an intimidating leer that lowers the Defense stat.",
+      "battleEffect": "The user gives opposing Pokémon an intimidating leer that lowers the Defense stat.",
       "secondaryEffect": "Lowers opponent's Defense one stage.",
       "detailedEffect": "Boosts Attack by 1 stage",
       "effectRate": "-- %",
@@ -10959,7 +11147,7 @@
       "pp": "30",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user chants an incantation toward the sky, preventing opposing PokÃƒÆ’Ã‚Â©mon from landing critical hits for five turns.",
+      "battleEffect": "The user chants an incantation toward the sky, preventing opposing Pokémon from landing critical hits for five turns.",
       "secondaryEffect": "Prevents target from afflicting Critical Hits for 5 turns",
       "detailedEffect": "Boosts Evasion by 1 stage",
       "effectRate": "-- %",
@@ -10991,8 +11179,8 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user faints. In return, the PokÃƒÆ’Ã‚Â©mon taking its place will have its status and HP fully restored.",
-      "secondaryEffect": "Causes the user to faint and completely heals the next PokÃƒÆ’Ã‚Â©mon",
+      "battleEffect": "The user faints. In return, the Pokémon taking its place will have its status and HP fully restored.",
+      "secondaryEffect": "Causes the user to faint and completely heals the next Pokémon",
       "detailedEffect": "???",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -11168,7 +11356,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user creates a bizarre area in which PokÃƒÆ’Ã‚Â©mon's held items lose their effects for five turns.",
+      "battleEffect": "The user creates a bizarre area in which Pokémon's held items lose their effects for five turns.",
       "secondaryEffect": "Prevents hold item use for five turns.",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
@@ -11260,8 +11448,8 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user manipulates magnetic fields, which raises the Defense and Sp. Def stats of ally PokÃƒÆ’Ã‚Â©mon with the Plus or Minus Ability.",
-      "secondaryEffect": "Raises Defense and Special Defense of ally PokÃƒÆ’Ã‚Â©mon with the Plus or Minus ability by 1 stage",
+      "battleEffect": "The user manipulates magnetic fields, which raises the Defense and Sp. Def stats of ally Pokémon with the Plus or Minus Ability.",
+      "secondaryEffect": "Raises Defense and Special Defense of ally Pokémon with the Plus or Minus ability by 1 stage",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -11329,7 +11517,7 @@
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -11376,7 +11564,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "matblock",
@@ -11483,7 +11672,7 @@
       "pwr": "1",
       "acc": "0",
       "battleEffect": "The user cuts ahead of the target to copy and use the target's intended move with greater power. This move fails if it isn't used first.",
-      "secondaryEffect": "Users the target's move before the target PokÃƒÆ’Ã‚Â©mon",
+      "secondaryEffect": "Users the target's move before the target Pokémon",
       "detailedEffect": "Boosts Speed by 2 stages",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -11636,7 +11825,7 @@
       "acc": "100",
       "battleEffect": "The user faints when using this move. In return, this harshly lowers the target's Attack and Sp. Atk stats.",
       "secondaryEffect": "Lowers opponent's Attack & Special Attack by two stages. User faints.",
-      "detailedEffect": "Heals the Hit Points of the PokÃƒÆ’Ã‚Â©mon that switches in after this PokÃƒÆ’Ã‚Â©mon",
+      "detailedEffect": "Heals the Hit Points of the Pokémon that switches in after this Pokémon",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -11667,7 +11856,7 @@
       "pwr": "1",
       "acc": "100",
       "battleEffect": "The user retaliates with much greater force against the opponent that last inflicted damage on it.",
-      "secondaryEffect": "Damages the last PokÃƒÆ’Ã‚Â©mon to hit the user with 150% of the damage inflicted on the user",
+      "secondaryEffect": "Damages the last Pokémon to hit the user with 150% of the damage inflicted on the user",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -11853,7 +12042,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user copies the target's last move. The move can be used during battle until the PokÃƒÆ’Ã‚Â©mon is switched out.",
+      "battleEffect": "The user copies the target's last move. The move can be used during battle until the Pokémon is switched out.",
       "secondaryEffect": "Copies opponents last move.",
       "detailedEffect": "Boosts Accuracy by 1 stage",
       "effectRate": "-- %",
@@ -12075,7 +12264,7 @@
       "acc": "0",
       "battleEffect": "The user cloaks itself and its allies in a white mist that prevents any of their stats from being lowered for five turns.",
       "secondaryEffect": "Stops stat reduction.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -12136,9 +12325,9 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "This protects PokÃƒÆ’Ã‚Â©mon on the ground from status conditions and halves damage from Dragon-type moves for five turns.",
+      "battleEffect": "This protects Pokémon on the ground from status conditions and halves damage from Dragon-type moves for five turns.",
       "secondaryEffect": "Activates Misty Terrain for 5 turns",
-      "inDepthEffect": "This move creates a terrain that helps PokÃƒÆ’Ã‚Â©mon on the ground for 5 turns. It increases protects the PokÃƒÆ’Ã‚Â©mon from status afflictions and halves the power of Dragon-type moves for PokÃƒÆ’Ã‚Â©mon on the ground",
+      "inDepthEffect": "This move creates a terrain that helps Pokémon on the ground for 5 turns. It increases protects the Pokémon from status afflictions and halves the power of Dragon-type moves for Pokémon on the ground",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -12326,7 +12515,7 @@
       "pp": "10",
       "pwr": "90",
       "acc": "85",
-      "battleEffect": "The user attacks by shooting muddy water at the opposing PokÃƒÆ’Ã‚Â©mon. This may also lower their accuracy.",
+      "battleEffect": "The user attacks by shooting muddy water at the opposing Pokémon. This may also lower their accuracy.",
       "secondaryEffect": "May lower opponent's Accuracy one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -12417,7 +12606,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user kicks up mud on the battlefield. This weakens Electric-type moves for five turns.",
-      "secondaryEffect": "Lowers the power of Electric-type moves used on this PokÃƒÆ’Ã‚Â©mon.",
+      "secondaryEffect": "Lowers the power of Electric-type moves used on this Pokémon.",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -12671,7 +12860,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "nightdaze",
@@ -12916,7 +13106,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "octazooka",
@@ -12957,7 +13148,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "Enables a Ghost-type target to be hit by Normal- and Fighting-type attacks. This also enables an evasive target to be hit.",
-      "secondaryEffect": "Allows opponent to be hit if Evasion is high. Allows Ghost-type PokÃƒÆ’Ã‚Â©mon to be hit by Normal-type moves.",
+      "secondaryEffect": "Allows opponent to be hit if Evasion is high. Allows Ghost-type Pokémon to be hit by Normal-type moves.",
       "detailedEffect": "Boosts Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -13018,7 +13209,7 @@
       "pp": "10",
       "pwr": "110",
       "acc": "85",
-      "battleEffect": "The user attacks opposing PokÃƒÆ’Ã‚Â©mon with countless beams of light that glow a deep and brilliant blue.",
+      "battleEffect": "The user attacks opposing Pokémon with countless beams of light that glow a deep and brilliant blue.",
       "secondaryEffect": "No effect.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -13145,7 +13336,7 @@
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -13170,9 +13361,9 @@
       "pp": "20",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "With a parting threat, the user lowers the target's Attack and Sp. Atk stats. Then it switches with a party PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Lowers opponent's Attack & Special Attack stats by one stage. PokÃƒÆ’Ã‚Â©mon switches out",
-      "detailedEffect": "Heals the Hit Points of the PokÃƒÆ’Ã‚Â©mon that switches in after this PokÃƒÆ’Ã‚Â©mon",
+      "battleEffect": "With a parting threat, the user lowers the target's Attack and Sp. Atk stats. Then it switches with a party Pokémon.",
+      "secondaryEffect": "Lowers opponent's Attack & Special Attack stats by one stage. Pokémon switches out",
+      "detailedEffect": "Heals the Hit Points of the Pokémon that switches in after this Pokémon",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -13292,8 +13483,8 @@
       "pp": "5",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "Any PokÃƒÆ’Ã‚Â©mon that hears this song faints in three turns, unless it switches out of battle.",
-      "secondaryEffect": "All PokÃƒÆ’Ã‚Â©mon on the field faint in 3 turns.",
+      "battleEffect": "Any Pokémon that hears this song faints in three turns, unless it switches out of battle.",
+      "secondaryEffect": "All Pokémon on the field faint in 3 turns.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -13329,7 +13520,7 @@
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -13627,7 +13818,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "90",
-      "battleEffect": "A cloud of poison gas is sprayed in the face of opposing PokÃƒÆ’Ã‚Â©mon, poisoning those hit.",
+      "battleEffect": "A cloud of poison gas is sprayed in the face of opposing Pokémon, poisoning those hit.",
       "secondaryEffect": "Induces Poison.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -13842,7 +14033,7 @@
       "pwr": "0",
       "acc": "100",
       "battleEffect": "The user covers the target in a combustible powder. If the target uses a Fire-type move, the powder explodes and damages the target.",
-      "secondaryEffect": "Damages PokÃƒÆ’Ã‚Â©mon by 25% of max Hit Points if they use a Fire-type move in the turn hit by this Attack",
+      "secondaryEffect": "Damages Pokémon by 25% of max Hit Points if they use a Fire-type move in the turn hit by this Attack",
       "detailedEffect": "Boosts Special Defense by 2 stages",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -13873,7 +14064,7 @@
       "pp": "25",
       "pwr": "40",
       "acc": "100",
-      "battleEffect": "The user attacks with a chilling gust of powdery snow. This may also freeze the opposing PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The user attacks with a chilling gust of powdery snow. This may also freeze the opposing Pokémon.",
       "secondaryEffect": "May induce freeze.",
       "effectRate": "10 %",
       "tmNum": "None",
@@ -14119,7 +14310,7 @@
       "pp": "10",
       "pwr": "120",
       "acc": "85",
-      "battleEffect": "The user attacks opposing PokÃƒÆ’Ã‚Â©mon by manifesting the power of the land in fearsome blades of stone.",
+      "battleEffect": "The user attacks opposing Pokémon by manifesting the power of the land in fearsome blades of stone.",
       "secondaryEffect": "No effect.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -14334,7 +14525,7 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "This protects PokÃƒÆ’Ã‚Â©mon on the ground from priority moves and powers up Psychic-type moves for five turns.",
+      "battleEffect": "This protects Pokémon on the ground from priority moves and powers up Psychic-type moves for five turns.",
       "secondaryEffect": "Activates Psychic Terrain",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
@@ -14460,7 +14651,7 @@
       "acc": "0",
       "battleEffect": "The user hypnotizes itself into copying any stat change made by the target.",
       "secondaryEffect": "Copies opponent's stat changes.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "TM77",
       "speedPriority": "0",
@@ -14581,7 +14772,7 @@
       "pp": "1",
       "pwr": "210",
       "acc": "0",
-      "battleEffect": "Z-Power brings out the true capabilities of the user, Snorlax. The PokÃƒÆ’Ã‚Â©mon moves its enormous body energetically and attacks the target with full force.",
+      "battleEffect": "Z-Power brings out the true capabilities of the user, Snorlax. The Pokémon moves its enormous body energetically and attacks the target with full force.",
       "secondaryEffect": "No effect.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -14602,7 +14793,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "punishment",
@@ -14737,7 +14929,7 @@
       "pwr": "0",
       "acc": "100",
       "battleEffect": "The user suppresses the target and makes its move go last.",
-      "secondaryEffect": "Target PokÃƒÆ’Ã‚Â©mon moves last in the turn",
+      "secondaryEffect": "Target Pokémon moves last in the turn",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
       "tmNum": "TM60",
@@ -14799,8 +14991,8 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user protects itself and its allies from priority moves.",
-      "secondaryEffect": "Protects ally PokÃƒÆ’Ã‚Â©mon from moves with increased Speed Priority",
-      "inDepthEffect": "Unlike Protect, which works on all moves, Quick Guard prevents all effects from moves with a heightened Speed Priority. In addition to that, it also protects all the player's PokÃƒÆ’Ã‚Â©mon on the field rather than just the user. However, even though it blocks all moves with a Speed Priority of 1 or higher. In addition to that, the move Feint will hit through this move, as it does with Protect and Detect.",
+      "secondaryEffect": "Protects ally Pokémon from moves with increased Speed Priority",
+      "inDepthEffect": "Unlike Protect, which works on all moves, Quick Guard prevents all effects from moves with a heightened Speed Priority. In addition to that, it also protects all the player's Pokémon on the field rather than just the user. However, even though it blocks all moves with a Speed Priority of 1 or higher. In addition to that, the move Feint will hit through this move, as it does with Protect and Detect.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -14988,7 +15180,7 @@
       "pp": "25",
       "pwr": "55",
       "acc": "95",
-      "battleEffect": "Sharp-edged leaves are launched to slash at the opposing PokÃƒÆ’Ã‚Â©mon. Critical hits land more easily.",
+      "battleEffect": "Sharp-edged leaves are launched to slash at the opposing Pokémon. Critical hits land more easily.",
       "secondaryEffect": "Has an increased Critical Hit ratio",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -15048,7 +15240,7 @@
       "pp": "10",
       "pwr": "80",
       "acc": "100",
-      "battleEffect": "In this two-turn attack, blades of wind hit opposing PokÃƒÆ’Ã‚Â©mon on the second turn. Critical hits land more easily.",
+      "battleEffect": "In this two-turn attack, blades of wind hit opposing Pokémon on the second turn. Critical hits land more easily.",
       "secondaryEffect": "Has an increased Critical Hit ratio",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -15208,7 +15400,7 @@
       "acc": "0",
       "battleEffect": "The user rests to cure itself of poisoning, a burn, or paralysis.",
       "secondaryEffect": "Heals poison, paralysis, or a burn.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -15238,7 +15430,7 @@
       "pp": "10",
       "pwr": "75",
       "acc": "100",
-      "battleEffect": "The user sings an ancient song and attacks by appealing to the hearts of the listening opposing PokÃƒÆ’Ã‚Â©mon. This may also induce sleep.",
+      "battleEffect": "The user sings an ancient song and attacks by appealing to the hearts of the listening opposing Pokémon. This may also induce sleep.",
       "secondaryEffect": "May induce SLEEP. Changes Meloetta's Form",
       "effectRate": "10 %",
       "tmNum": "None",
@@ -15301,7 +15493,7 @@
       "pwr": "70",
       "acc": "100",
       "battleEffect": "The user gets revenge for a fainted ally. If an ally fainted in the previous turn, this move's power is increased.",
-      "secondaryEffect": "If a team-mate has been knocked out in the turn before this PokÃƒÆ’Ã‚Â©mon moves, the power is increased by 100%.",
+      "secondaryEffect": "If a team-mate has been knocked out in the turn before this Pokémon moves, the power is increased by 100%.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -15332,7 +15524,7 @@
       "acc": "100",
       "battleEffect": "This full-power attack grows more powerful the more the user likes its Trainer.",
       "secondaryEffect": "The happier the user, the stronger the Attack.",
-      "inDepthEffect": "Return is the move that utilises the Happiness in a more positive light, by rewarding the amount the PokÃƒÆ’Ã‚Â©mon likes the trainer. It is a Normal Type Physical Attack with 20PP and 100% accuracy. Its power is calculated by the following means:Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Base Power = PokÃƒÆ’Ã‚Â©mon Happiness / 2.5 This gives a maximum result of 102 and a minimum result of 1",
+      "inDepthEffect": "Return is the move that utilises the Happiness in a more positive light, by rewarding the amount the Pokémon likes the trainer. It is a Normal Type Physical Attack with 20PP and 100% accuracy. Its power is calculated by the following means:Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Ãƒâ€šÃ‚Â Base Power = Pokémon Happiness / 2.5 This gives a maximum result of 102 and a minimum result of 1",
       "effectRate": "-- %",
       "tmNum": "TM27",
       "speedPriority": "0",
@@ -15451,8 +15643,8 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The target is scared off, and a different PokÃƒÆ’Ã‚Â©mon is dragged out. In the wild, this ends a battle against a single PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Ends wild battles. Switches the opponent PokÃƒÆ’Ã‚Â©mon in a trainer battle.",
+      "battleEffect": "The target is scared off, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+      "secondaryEffect": "Ends wild battles. Switches the opponent Pokémon in a trainer battle.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "TM05",
@@ -15606,7 +15798,7 @@
       "pp": "10",
       "pwr": "75",
       "acc": "90",
-      "battleEffect": "Large boulders are hurled at the opposing PokÃƒÆ’Ã‚Â©mon to inflict damage. This may also make the opposing PokÃƒÆ’Ã‚Â©mon flinch.",
+      "battleEffect": "Large boulders are hurled at the opposing Pokémon to inflict damage. This may also make the opposing Pokémon flinch.",
       "secondaryEffect": "May cause opponent to flinch.",
       "effectRate": "30 %",
       "tmNum": "TM80",
@@ -15757,8 +15949,8 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user mimics the target completely, copying the target's natural Ability.",
-      "secondaryEffect": "Copies the target PokÃƒÆ’Ã‚Â©mon's ability",
-      "inDepthEffect": "This move changes the user's abiliy to that of the target PokÃƒÆ’Ã‚Â©mon. Doesn't work on PokÃƒÆ’Ã‚Â©mon with the Wonder Guard ability.",
+      "secondaryEffect": "Copies the target Pokémon's ability",
+      "inDepthEffect": "This move changes the user's abiliy to that of the target Pokémon. Doesn't work on Pokémon with the Wonder Guard ability.",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -15850,7 +16042,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user lands and rests its body. It restores the user's HP by up to half of its max HP.",
-      "secondaryEffect": "Heals up to 50% of maximum Hit Points. Flying-type PokÃƒÆ’Ã‚Â©mon are no longer Flying-type for the rest of the turn.",
+      "secondaryEffect": "Heals up to 50% of maximum Hit Points. Flying-type Pokémon are no longer Flying-type for the rest of the turn.",
       "detailedEffect": "Resets all stat modifications",
       "effectRate": "-- %",
       "tmNum": "TM19",
@@ -15881,8 +16073,8 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "Tilling the soil, the user makes it easier for plants to grow. This raises the Attack and Sp. Atk stats of Grass-type PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Raises Attack & Special Attack stats of Grass-type PokÃƒÆ’Ã‚Â©mon on the field",
+      "battleEffect": "Tilling the soil, the user makes it easier for plants to grow. This raises the Attack and Sp. Atk stats of Grass-type Pokémon.",
+      "secondaryEffect": "Raises Attack & Special Attack stats of Grass-type Pokémon on the field",
       "detailedEffect": "Boosts Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -15914,8 +16106,8 @@
       "pwr": "60",
       "acc": "100",
       "battleEffect": "The user attacks the target with a song. Others can join in the Round to increase the power of the attack.",
-      "secondaryEffect": "Increases power if other PokÃƒÆ’Ã‚Â©mon used Round this turn",
-      "inDepthEffect": "This move increases in power when used by different PokÃƒÆ’Ã‚Â©mon on your side in a single turn. When Round is used by multiple PokÃƒÆ’Ã‚Â©mon, the PokÃƒÆ’Ã‚Â©mon will immediately use it, regardless of Speed or Priority. Each consecutive use of this move has the power doubled up until it hits the maximum of 240.",
+      "secondaryEffect": "Increases power if other Pokémon used Round this turn",
+      "inDepthEffect": "This move increases in power when used by different Pokémon on your side in a single turn. When Round is used by multiple Pokémon, the Pokémon will immediately use it, regardless of Speed or Priority. Each consecutive use of this move has the power doubled up until it hits the maximum of 240.",
       "effectRate": "-- %",
       "tmNum": "TM48",
       "speedPriority": "0",
@@ -16181,7 +16373,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "scald",
@@ -16320,7 +16513,7 @@
       "effectRate": "30 %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -16495,7 +16688,7 @@
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -16753,7 +16946,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "sheercold",
@@ -16763,7 +16957,7 @@
       "pp": "5",
       "pwr": "1",
       "acc": "30",
-      "battleEffect": "The target faints instantly. It's less likely to hit the target if it's used by PokÃƒÆ’Ã‚Â©mon other than Ice types.",
+      "battleEffect": "The target faints instantly. It's less likely to hit the target if it's used by Pokémon other than Ice types.",
       "secondaryEffect": "May cause one-hit KO.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -16825,7 +17019,7 @@
       "pp": "5",
       "pwr": "150",
       "acc": "100",
-      "battleEffect": "The user sets a shell trap. If the user is hit by a physical move, the trap will explode and inflict damage on the opposing PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The user sets a shell trap. If the user is hit by a physical move, the trap will explode and inflict damage on the opposing Pokémon.",
       "secondaryEffect": "If user is hit by a physical Attack after using this move, damage is inflict",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -17013,7 +17207,7 @@
       "acc": "100",
       "battleEffect": "The user's mysterious psychic wave changes the target's Ability to Simple.",
       "secondaryEffect": "Changes target's ability to Simple",
-      "inDepthEffect": "Changes the target's ability to be Simple. This does not work on PokÃƒÆ’Ã‚Â©mon with the abilities Multitype, Stance Change, or Truant.",
+      "inDepthEffect": "Changes the target's ability to be Simple. This does not work on Pokémon with the abilities Multitype, Stance Change, or Truant.",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -17097,7 +17291,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "sizzlyslide",
@@ -17171,7 +17366,7 @@
       "acc": "0",
       "battleEffect": "The user employs its psychic power to exchange Abilities with the target.",
       "secondaryEffect": "User and target trade abilities.",
-      "inDepthEffect": "This move will switch the users ability to the ability of the target PokÃƒÆ’Ã‚Â©mon if that PokÃƒÆ’Ã‚Â©mon does not have the Illusion, Wonder Guard, Stance Change or Multitype abilities",
+      "inDepthEffect": "This move will switch the users ability to the ability of the target Pokémon if that Pokémon does not have the Illusion, Wonder Guard, Stance Change or Multitype abilities",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -17263,7 +17458,7 @@
       "pwr": "60",
       "acc": "100",
       "battleEffect": "The user takes the target into the sky, then drops it during the next turn. The target cannot attack while in the sky.",
-      "secondaryEffect": "Rises to the sky and prevents the target PokÃƒÆ’Ã‚Â©mon from using a move in the next turn.",
+      "secondaryEffect": "Rises to the sky and prevents the target Pokémon from using a move in the next turn.",
       "effectRate": "-- %",
       "tmNum": "TM58",
       "speedPriority": "0",
@@ -17543,7 +17738,7 @@
       "effectRate": "10 %",
       "tmNum": "TM34",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -17568,7 +17763,7 @@
       "pp": "15",
       "pwr": "50",
       "acc": "100",
-      "battleEffect": "The user throws a stone or similar projectile to attack an opponent. A flying PokÃƒÆ’Ã‚Â©mon will fall to the ground when it's hit.",
+      "battleEffect": "The user throws a stone or similar projectile to attack an opponent. A flying Pokémon will fall to the ground when it's hit.",
       "secondaryEffect": "Removes target's Ground-type resistance.",
       "effectRate": "100 %",
       "tmNum": "TM23",
@@ -17720,7 +17915,7 @@
       "pp": "15",
       "pwr": "55",
       "acc": "95",
-      "battleEffect": "The user yells as if it's ranting about something, which lowers the Sp. Atk stat of opposing PokÃƒÆ’Ã‚Â©mon.",
+      "battleEffect": "The user yells as if it's ranting about something, which lowers the Sp. Atk stat of opposing Pokémon.",
       "secondaryEffect": "May lower opponent's Special Attack one stage.",
       "effectRate": "-- %",
       "tmNum": "TM95",
@@ -17987,7 +18182,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "spacialrend",
@@ -18057,12 +18253,12 @@
       "pp": "10",
       "pwr": "90",
       "acc": "100",
-      "battleEffect": "The user bursts into song, emitting many bubbles. Any PokÃƒÆ’Ã‚Â©mon suffering from a burn will be healed by the touch of these bubbles.",
+      "battleEffect": "The user bursts into song, emitting many bubbles. Any Pokémon suffering from a burn will be healed by the touch of these bubbles.",
       "secondaryEffect": "Heals the target from Burn",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "Yes",
       "punchType": "No",
@@ -18242,7 +18438,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user lays a trap of spikes at the opposing team's feet. The trap hurts PokÃƒÆ’Ã‚Â©mon that switch into battle.",
+      "battleEffect": "The user lays a trap of spikes at the opposing team's feet. The trap hurts Pokémon that switch into battle.",
       "secondaryEffect": "Sets spikes that hurt the opponent upon switching.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -18369,7 +18565,7 @@
       "acc": "100",
       "battleEffect": "The user unleashes its grudge on the move last used by the target by cutting 4 PP from it.",
       "secondaryEffect": "Opponent's last move loses 4 PP.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -18526,7 +18722,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user lays a trap of levitating stones around the opposing team. The trap hurts opposing PokÃƒÆ’Ã‚Â©mon that switch into battle.",
+      "battleEffect": "The user lays a trap of levitating stones around the opposing team. The trap hurts opposing Pokémon that switch into battle.",
       "secondaryEffect": "Sets rocks that hurt the opponent upon switching.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -18714,7 +18910,7 @@
       "acc": "0",
       "battleEffect": "The user charges up power and raises both its Defense and Sp. Def stats. The move can be used three times.",
       "secondaryEffect": "User stockpiles power for up to 3 turns. Raises Defense & Special Defense one stage until Stockpile is released.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -18765,7 +18961,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "stomp",
@@ -18867,7 +19064,7 @@
       "acc": "100",
       "battleEffect": "The user attacks the target with stored power. The more the user's stats are raised, the greater the move's power.",
       "secondaryEffect": "Increases damage by 100% for each stage a stat has been increased by the user",
-      "inDepthEffect": "This attack's power starts off with 20 Base Power but increases by 20 Base Power for each stat increase used by the PokÃƒÆ’Ã‚Â©mon. Can get a maximum Base Power of 860. Moves with stat lowering effects do not affect this move's power.",
+      "inDepthEffect": "This attack's power starts off with 20 Base Power but increases by 20 Base Power for each stat increase used by the Pokémon. Can get a maximum Base Power of 860. Moves with stat lowering effects do not affect this move's power.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -18989,7 +19186,7 @@
       "pp": "40",
       "pwr": "0",
       "acc": "95",
-      "battleEffect": "The opposing PokÃƒÆ’Ã‚Â©mon are bound with silk blown from the user's mouth that harshly lowers the Speed stat.",
+      "battleEffect": "The opposing Pokémon are bound with silk blown from the user's mouth that harshly lowers the Speed stat.",
       "secondaryEffect": "Lowers opponent's Speed two stages.",
       "detailedEffect": "Boosts Speed by 1 stage",
       "effectRate": "-- %",
@@ -19051,7 +19248,7 @@
       "pp": "20",
       "pwr": "50",
       "acc": "100",
-      "battleEffect": "While resisting, the user attacks the opposing PokÃƒÆ’Ã‚Â©mon. This lowers the Sp. Atk stat of those hit.",
+      "battleEffect": "While resisting, the user attacks the opposing Pokémon. This lowers the Sp. Atk stat of those hit.",
       "secondaryEffect": "May lower opponent's Special Attack one stage.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -19195,7 +19392,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "suckerpunch",
@@ -19410,7 +19608,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "surf",
@@ -19425,7 +19624,7 @@
       "effectRate": "-- %",
       "tmNum": "TM94",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -19547,7 +19746,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "A sweet scent that harshly lowers opposing PokÃƒÆ’Ã‚Â©mon's evasiveness.",
+      "battleEffect": "A sweet scent that harshly lowers opposing Pokémon's evasiveness.",
       "secondaryEffect": "Lowers opponent's Evasion two stages.",
       "detailedEffect": "Boosts Accuracy by 1 stage",
       "effectRate": "-- %",
@@ -19579,7 +19778,7 @@
       "pp": "20",
       "pwr": "60",
       "acc": "0",
-      "battleEffect": "Star-shaped rays are shot at the opposing PokÃƒÆ’Ã‚Â©mon. This attack never misses.",
+      "battleEffect": "Star-shaped rays are shot at the opposing Pokémon. This attack never misses.",
       "secondaryEffect": "Cannot miss.",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -19673,12 +19872,12 @@
       "pp": "10",
       "pwr": "120",
       "acc": "100",
-      "battleEffect": "Using an odd shock wave, the user inflicts damage on any PokÃƒÆ’Ã‚Â©mon of the same type in the area around it.",
-      "secondaryEffect": "Only damages PokÃƒÆ’Ã‚Â©mon of the same type as the user.",
+      "battleEffect": "Using an odd shock wave, the user inflicts damage on any Pokémon of the same type in the area around it.",
+      "secondaryEffect": "Only damages Pokémon of the same type as the user.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -19829,7 +20028,7 @@
       "pp": "30",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "The user wags its tail cutely, making opposing PokÃƒÆ’Ã‚Â©mon less wary and lowering their Defense stat.",
+      "battleEffect": "The user wags its tail cutely, making opposing Pokémon less wary and lowering their Defense stat.",
       "secondaryEffect": "Lowers opponent's Defense one stage.",
       "detailedEffect": "Boosts Attack by 1 stage",
       "effectRate": "-- %",
@@ -19862,7 +20061,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user whips up a turbulent whirlwind that ups the Speed stat of the user and its allies for four turns.",
-      "secondaryEffect": "Increases Speed of all user's PokÃƒÆ’Ã‚Â©mon for three turns by two stages.",
+      "secondaryEffect": "Increases Speed of all user's Pokémon for three turns by two stages.",
       "detailedEffect": "Increases Critical Hit Ratio by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -20038,7 +20237,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "teeterdance",
@@ -20048,13 +20248,13 @@
       "pp": "20",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "The user performs a wobbly dance that confuses the PokÃƒÆ’Ã‚Â©mon around it.",
-      "secondaryEffect": "Confuses all PokÃƒÆ’Ã‚Â©mon on the field.",
+      "battleEffect": "The user performs a wobbly dance that confuses the Pokémon around it.",
+      "secondaryEffect": "Confuses all Pokémon on the field.",
       "detailedEffect": "Boosts Special Attack by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
-      "target": "All Adjacent PokÃƒÆ’Ã‚Â©mon",
+      "target": "All Adjacent Pokémon",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -20112,9 +20312,9 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "Use it to flee from any wild PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Ends wild battles. Switches the opponent PokÃƒÆ’Ã‚Â©mon in a trainer battle.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "battleEffect": "Use it to flee from any wild Pokémon.",
+      "secondaryEffect": "Ends wild battles. Switches the opponent Pokémon in a trainer battle.",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -20174,7 +20374,7 @@
       "pp": "10",
       "pwr": "90",
       "acc": "100",
-      "battleEffect": "This move also hits opposing PokÃƒÆ’Ã‚Â©mon that are in the air. Those PokÃƒÆ’Ã‚Â©mon are knocked down to the ground.",
+      "battleEffect": "This move also hits opposing Pokémon that are in the air. Those Pokémon are knocked down to the ground.",
       "secondaryEffect": "Ignores Ground-type Resistance",
       "effectRate": "100 %",
       "tmNum": "None",
@@ -20609,7 +20809,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user lays a trap of poison spikes at the feet of the opposing team. The spikes will poison opposing PokÃƒÆ’Ã‚Â©mon that switch into battle.",
+      "battleEffect": "The user lays a trap of poison spikes at the feet of the opposing team. The spikes will poison opposing Pokémon that switch into battle.",
       "contact": "No",
       "soundType": "No",
       "punchType": "No",
@@ -20669,8 +20869,8 @@
       "acc": "0",
       "battleEffect": "The user transforms into a copy of the target right down to having the same move set.",
       "secondaryEffect": "User transforms to the opponent.",
-      "inDepthEffect": "Transform can change many features of the PokÃƒÆ’Ã‚Â©mon temporarily. The features are as follows; PokÃƒÆ’Ã‚Â©mon Species PokÃƒÆ’Ã‚Â©mon Cry Attack Stat Defense Stat Speed Stat Special Attack Stat Special Defense Stat Stat Changes EXP Yield PokÃƒÆ’Ã‚Â©mon MovesAs such, this means that apart from its HitPoints and Level, Ditto/Mew is essentially the other PokÃƒÆ’Ã‚Â©mon. However, due to this, its special items; Metal Powder & Quick Powder will stop working, and all other species items may work if you transform into the correct species. For example, if you had a Ditto with a Light Ball and you transformed into a Pikachu. the Light Ball would increase Ditto's Attack & Special Attack stats. Also, the EV training that you have put on Ditto becomes void for this battle. However, that said, when Critical Hits happen, it will still be based upon Ditto/Mew's stats. As the PokÃƒÆ’Ã‚Â©mon's catch rate changes, if you wish to capture a Ditto or a Mew (Level 30 in Emerald will know Transform, although it isn't too likely to use it) with greater ease, then send in a PokÃƒÆ’Ã‚Â©mon with a high capture rate such as Magikarp in battle first and then it should be very simple to capture. Its EXP Yield also changes so the EXP gained from beating a Ditto depends upon the PokÃƒÆ’Ã‚Â©mon it has transformed into.",
-      "detailedEffect": "Heals the Hit Points of this PokÃƒÆ’Ã‚Â©mon by 25%",
+      "inDepthEffect": "Transform can change many features of the Pokémon temporarily. The features are as follows; Pokémon Species Pokémon Cry Attack Stat Defense Stat Speed Stat Special Attack Stat Special Defense Stat Stat Changes EXP Yield Pokémon MovesAs such, this means that apart from its HitPoints and Level, Ditto/Mew is essentially the other Pokémon. However, due to this, its special items; Metal Powder & Quick Powder will stop working, and all other species items may work if you transform into the correct species. For example, if you had a Ditto with a Light Ball and you transformed into a Pikachu. the Light Ball would increase Ditto's Attack & Special Attack stats. Also, the EV training that you have put on Ditto becomes void for this battle. However, that said, when Critical Hits happen, it will still be based upon Ditto/Mew's stats. As the Pokémon's catch rate changes, if you wish to capture a Ditto or a Mew (Level 30 in Emerald will know Transform, although it isn't too likely to use it) with greater ease, then send in a Pokémon with a high capture rate such as Magikarp in battle first and then it should be very simple to capture. Its EXP Yield also changes so the EXP gained from beating a Ditto depends upon the Pokémon it has transformed into.",
+      "detailedEffect": "Heals the Hit Points of this Pokémon by 25%",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -20794,7 +20994,7 @@
       "pp": "5",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user creates a bizarre area in which slower PokÃƒÆ’Ã‚Â©mon get to move first for five turns.",
+      "battleEffect": "The user creates a bizarre area in which slower Pokémon get to move first for five turns.",
       "secondaryEffect": "Inverts the turn order in each Speed Priority bracked for 5 turns.",
       "detailedEffect": "Boosts Accuracy by 1 stage",
       "effectRate": "-- %",
@@ -20967,7 +21167,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "twister",
@@ -20977,7 +21178,7 @@
       "pp": "20",
       "pwr": "40",
       "acc": "100",
-      "battleEffect": "The user whips up a vicious tornado to tear at the opposing PokÃƒÆ’Ã‚Â©mon. This may also make them flinch.",
+      "battleEffect": "The user whips up a vicious tornado to tear at the opposing Pokémon. This may also make them flinch.",
       "secondaryEffect": "May cause opponent to flinch. Damage is doubled if opponent is using Fly.",
       "effectRate": "20 %",
       "tmNum": "None",
@@ -21008,8 +21209,8 @@
       "pp": "10",
       "pwr": "90",
       "acc": "100",
-      "battleEffect": "The user attacks in an uproar for three turns. During that time, no PokÃƒÆ’Ã‚Â©mon can fall asleep.",
-      "secondaryEffect": "Hits for 3 turns. No PokÃƒÆ’Ã‚Â©mon can be Asleep during that time.",
+      "battleEffect": "The user attacks in an uproar for three turns. During that time, no Pokémon can fall asleep.",
+      "secondaryEffect": "Hits for 3 turns. No Pokémon can be Asleep during that time.",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -21038,8 +21239,8 @@
       "pp": "20",
       "pwr": "70",
       "acc": "100",
-      "battleEffect": "After making its attack, the user rushes back to switch places with a party PokÃƒÆ’Ã‚Â©mon in waiting.",
-      "secondaryEffect": "PokÃƒÆ’Ã‚Â©mon switches out from battle",
+      "battleEffect": "After making its attack, the user rushes back to switch places with a party Pokémon in waiting.",
+      "secondaryEffect": "Pokémon switches out from battle",
       "effectRate": "-- %",
       "tmNum": "TM89",
       "speedPriority": "0",
@@ -21158,7 +21359,7 @@
       "pp": "20",
       "pwr": "0",
       "acc": "100",
-      "battleEffect": "Opposing PokÃƒÆ’Ã‚Â©mon are drenched in an odd poisonous liquid. This lowers the Attack, Sp. Atk, and Speed stats of a poisoned target.",
+      "battleEffect": "Opposing Pokémon are drenched in an odd poisonous liquid. This lowers the Attack, Sp. Atk, and Speed stats of a poisoned target.",
       "secondaryEffect": "Lowers opponent's Attack, Special Attack & Speed one stage if Poisoned.",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
@@ -21341,8 +21542,8 @@
       "pp": "20",
       "pwr": "70",
       "acc": "100",
-      "battleEffect": "After making its attack, the user rushes back to switch places with a party PokÃƒÆ’Ã‚Â©mon in waiting.",
-      "secondaryEffect": "PokÃƒÆ’Ã‚Â©mon switches out from battle",
+      "battleEffect": "After making its attack, the user rushes back to switch places with a party Pokémon in waiting.",
+      "secondaryEffect": "Pokémon switches out from battle",
       "effectRate": "-- %",
       "tmNum": "TM72",
       "speedPriority": "0",
@@ -21584,7 +21785,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user soaks the battlefield with water. This weakens Fire-type moves for five turns.",
-      "secondaryEffect": "Lowers the power of Fire-type moves used on this PokÃƒÆ’Ã‚Â©mon",
+      "secondaryEffect": "Lowers the power of Fire-type moves used on this Pokémon",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -21616,7 +21817,7 @@
       "pp": "5",
       "pwr": "150",
       "acc": "100",
-      "battleEffect": "The user spouts water to damage opposing PokÃƒÆ’Ã‚Â©mon. The lower the user's HP, the lower the move's power.",
+      "battleEffect": "The user spouts water to damage opposing Pokémon. The lower the user's HP, the lower the move's power.",
       "secondaryEffect": "Inflicts more damage when the user's HP is high.",
       "inDepthEffect": "Power wise, this attack has a Base Power of 150 but that completely changes all depending on the HP. This is calculated in the manner below: Base Power = (Current HP * 150) / Max HP This gives it a maximum power of 150 and a Minimum of 1.",
       "effectRate": "-- %",
@@ -21707,8 +21908,8 @@
       "pp": "20",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The target is blown away, and a different PokÃƒÆ’Ã‚Â©mon is dragged out. In the wild, this ends a battle against a single PokÃƒÆ’Ã‚Â©mon.",
-      "secondaryEffect": "Ends wild battles. Switches the opponent PokÃƒÆ’Ã‚Â©mon in a trainer battle.",
+      "battleEffect": "The target is blown away, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+      "secondaryEffect": "Ends wild battles. Switches the opponent Pokémon in a trainer battle.",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -21741,8 +21942,8 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "The user and its allies are protected from wide-ranging attacks for one turn.",
-      "secondaryEffect": "Protects all PokÃƒÆ’Ã‚Â©mon on your team from damage that'd hit both PokÃƒÆ’Ã‚Â©mon for one turn",
-      "inDepthEffect": "Wide Guard protects against specific moves, specifically moves which have more than one target such as Surf & Earthquake. In addition to protecting the user, it protects all of the user's allies in battle for that turn. This effect doesn't just correspond to moves used by the opponent, but it also protects allies from damage from moves by other allies which would inadvertantly damage them, such as Surf which hits all neighbouring PokÃƒÆ’Ã‚Â©mon. There are a few moves however, that it doesn't protect against; Clear Smog, Haze & Perish Song",
+      "secondaryEffect": "Protects all Pokémon on your team from damage that'd hit both Pokémon for one turn",
+      "inDepthEffect": "Wide Guard protects against specific moves, specifically moves which have more than one target such as Surf & Earthquake. In addition to protecting the user, it protects all of the user's allies in battle for that turn. This effect doesn't just correspond to moves used by the opponent, but it also protects allies from damage from moves by other allies which would inadvertantly damage them, such as Surf which hits all neighbouring Pokémon. There are a few moves however, that it doesn't protect against; Clear Smog, Haze & Perish Song",
       "detailedEffect": "Boosts Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -21867,7 +22068,7 @@
       "pwr": "0",
       "acc": "0",
       "battleEffect": "One turn after this move is used, the user's or its replacement's HP is restored by half the user's max HP.",
-      "secondaryEffect": "In 1 turn, it heals whatever PokÃƒÆ’Ã‚Â©mon is in this position on the field's Hit Points by 50% of the maximum Hit Points.",
+      "secondaryEffect": "In 1 turn, it heals whatever Pokémon is in this position on the field's Hit Points by 50% of the maximum Hit Points.",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -21930,8 +22131,8 @@
       "pp": "10",
       "pwr": "0",
       "acc": "0",
-      "battleEffect": "The user creates a bizarre area in which PokÃƒÆ’Ã‚Â©mon's Defense and Sp. Def stats are swapped for five turns.",
-      "secondaryEffect": "Switches Defense & Special Defense for five turns for all PokÃƒÆ’Ã‚Â©mon on the field",
+      "battleEffect": "The user creates a bizarre area in which Pokémon's Defense and Sp. Def stats are swapped for five turns.",
+      "secondaryEffect": "Switches Defense & Special Defense for five turns for all Pokémon on the field",
       "detailedEffect": "Boosts Special Defense by 1 stage",
       "effectRate": "-- %",
       "tmNum": "None",
@@ -22088,7 +22289,7 @@
       "acc": "100",
       "battleEffect": "The user powerfully wrings the target. The more HP the target has, the greater the move's power.",
       "secondaryEffect": "Increases damage the higher the target's Hit Points",
-      "inDepthEffect": "This attack's Base Power is anything from 1 up to 110 making it a fairly powerful attack to be used. The means of determining the Base Power however is set based on the Opponent's Hit Points. The higher its hit points the better. This does not refer to the Base Stats for the Hit Points but rather the opponent's HP relative to its maximum at the current point in time. With this in mind, a simple equation is made to determine the base power of the attack Base Power = 110 * (Opponent's Current HP / Opponent's Max HP) So for example if we were battling a Max IV'd, Max EV'd Torterra at Level 100 and it had just over half its HP remaining, it would be as such Base Power = 110 * (215 / 394) = 60.03 (2 d.p.) This shows that the best time to use Wring Out & Crush Grip would be at the start of a battle with any PokÃƒÆ’Ã‚Â©mon, whether it has just been switched in or the battle is just beginning, in order to get the maximum Base Power. As the battle progresses, the power behind Wring Out & Crush Grip diminshes",
+      "inDepthEffect": "This attack's Base Power is anything from 1 up to 110 making it a fairly powerful attack to be used. The means of determining the Base Power however is set based on the Opponent's Hit Points. The higher its hit points the better. This does not refer to the Base Stats for the Hit Points but rather the opponent's HP relative to its maximum at the current point in time. With this in mind, a simple equation is made to determine the base power of the attack Base Power = 110 * (Opponent's Current HP / Opponent's Max HP) So for example if we were battling a Max IV'd, Max EV'd Torterra at Level 100 and it had just over half its HP remaining, it would be as such Base Power = 110 * (215 / 394) = 60.03 (2 d.p.) This shows that the best time to use Wring Out & Crush Grip would be at the start of a battle with any Pokémon, whether it has just been switched in or the battle is just beginning, in order to get the maximum Base Power. As the battle progresses, the power behind Wring Out & Crush Grip diminshes",
       "effectRate": "-- %",
       "tmNum": "None",
       "speedPriority": "0",
@@ -22319,7 +22520,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "bodypress",
@@ -22349,7 +22551,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 90
     },
     {
       "name": "drumbeating",
@@ -22529,7 +22732,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 110
     },
     {
       "name": "snipeshot",
@@ -22709,7 +22913,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "overdrive",
@@ -23069,7 +23274,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "boltbeak",
@@ -23099,7 +23305,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "fishiousrend",
@@ -23159,7 +23366,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 130
     },
     {
       "name": "dynamaxcannon",
@@ -23189,7 +23397,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 140
     },
     {
       "name": "eternabeam",
@@ -23219,7 +23428,8 @@
       "interceptable": true,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+	  "gMovePower": 150
     },
     {
       "name": "expandingforce",
@@ -24151,7 +24361,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxflutterby",
@@ -24182,7 +24393,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxlightning",
@@ -24213,7 +24425,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxstrike",
@@ -24244,7 +24457,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxknuckle",
@@ -24275,7 +24489,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxphantasm",
@@ -24306,7 +24521,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxhailstorm",
@@ -24337,7 +24553,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxooze",
@@ -24368,7 +24585,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxgeyser",
@@ -24399,7 +24617,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxairstream",
@@ -24430,7 +24649,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxstarfall",
@@ -24461,7 +24681,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxwyrmwind",
@@ -24492,7 +24713,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxmindstorm",
@@ -24523,7 +24745,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxrockfall",
@@ -24554,7 +24777,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxquake",
@@ -24585,7 +24809,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxdarkness",
@@ -24616,7 +24841,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxovergrowth",
@@ -24647,7 +24873,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "maxsteelspike",
@@ -24678,7 +24905,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxwildfire",
@@ -24709,7 +24937,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxbefuddle",
@@ -24740,7 +24969,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxvoltcrash",
@@ -24771,7 +25001,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxgoldrush",
@@ -24802,7 +25033,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxchistrike",
@@ -24833,7 +25065,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxterror",
@@ -24864,7 +25097,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxresonance",
@@ -24895,7 +25129,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxcuddle",
@@ -24926,7 +25161,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxreplenish",
@@ -24957,7 +25193,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxmalodor",
@@ -24988,7 +25225,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxstonesurge",
@@ -25019,7 +25257,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxwindrage",
@@ -25050,7 +25289,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxstunshock",
@@ -25081,7 +25321,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxfinale",
@@ -25112,7 +25353,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxdepletion",
@@ -25143,7 +25385,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxgravitas",
@@ -25174,7 +25417,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxvolcalith",
@@ -25205,7 +25449,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxsandblast",
@@ -25236,7 +25481,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxsnooze",
@@ -25267,7 +25513,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxtartness",
@@ -25298,7 +25545,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxsweetness",
@@ -25329,7 +25577,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxsmite",
@@ -25360,7 +25609,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxsteelsurge",
@@ -25391,7 +25641,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxmeltdown",
@@ -25422,7 +25673,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxfoamburst",
@@ -25453,7 +25705,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxcentiferno",
@@ -25484,7 +25737,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxfireball",
@@ -25515,7 +25769,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxdrumsolo",
@@ -25546,7 +25801,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxhydrosnipe",
@@ -25577,7 +25833,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxoneblow",
@@ -25608,7 +25865,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxrapidflow",
@@ -25639,7 +25897,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxvinelash",
@@ -25670,7 +25929,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     },
     {
       "name": "gmaxcannonade",
@@ -25701,7 +25961,8 @@
       "interceptable": false,
       "ohko": false,
       "protectionMoves": false,
-      "extraInfo": -1
+      "extraInfo": -1,
+      "customSize": "3.0,4.0"
     }
   ]
 }

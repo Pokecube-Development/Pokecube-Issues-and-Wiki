@@ -23584,7 +23584,8 @@
             "55": "crunch",
             "66": "moonblast",
             "77": "closecombat",
-            "88": "gigaimpact"
+            "88": "gigaimpact",
+			"90": "behemothblade"
           }
         },
         "misc": {
@@ -23605,7 +23606,8 @@
             "55": "crunch",
             "66": "moonblast",
             "77": "closecombat",
-            "88": "gigaimpact"
+            "88": "gigaimpact",
+			"90": "behemothbash"
           }
         },
         "misc": {
