@@ -38,7 +38,9 @@
         "pokecube:village/common/trainers/trainer_1"
       ]
     },
-    {
+    
+	//Plains
+	{
       "name":"pokecube:village/plains/town_centers",
       "options":[
         "pokecube:village/plains/town_centers/center_1",
@@ -47,6 +49,13 @@
         "pokecube:village/plains/town_centers/center_4"
       ]
     },
+	{
+      "name":"pokecube:village/plains/small",
+      "options":[
+        "pokecube:village/plains/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/plains/terminators",
       "rigid":false,
@@ -135,39 +144,65 @@
     },
     {
       "name":"pokecube:village/the_end/streets",
+	  "target":"pokecube:village/the_end/terminators",
       "rigid":true,
       "options":[
-        "pokecube:village/the_end/streets/crossroad_01;{\"weight\":2}",
-        "pokecube:village/the_end/streets/crossroad_02;{\"weight\":2}",
+        "pokecube:village/the_end/streets/crossroad_01;{\"weight\":5}",
+        "pokecube:village/the_end/streets/crossroad_02;{\"weight\":5}",
         "pokecube:village/the_end/streets/crossroad_03;{\"weight\":3}",
-        "pokecube:village/the_end/streets/straight_1;{\"weight\":5}"
+        "pokecube:village/the_end/streets/straight_1;{\"weight\":3}"
+      ]
+    },
+	{
+      "name":"pokecube:village/the_end/terminators",
+      "rigid":true,
+      "options":[
+        "pokecube:village/the_end/terminators/terminator_01"
       ]
     },
     {
       "name":"pokecube:village/the_end/houses",
+	  "target":"pokecube:village/the_end/terminators",
       "ignoreAir":false,
       "rigid":true,
       "options":[
         "empty;{\"weight\":2}",
-        "pokecube:village/the_end/houses/house_1;{\"weight\":3}",
+        "pokecube:village/the_end/houses/house_1;{\"weight\":6}",
         "pokecube:village/the_end/houses/house_2;{\"weight\":3}",
-        "pokecube:village/the_end/houses/house_3;{\"weight\":2}",
-        "pokecube:village/the_end/houses/house_4;{\"weight\":2}",
-        "pokecube:village/the_end/houses/house_5;{\"weight\":2}",
-        "pokecube:village/the_end/houses/house_6;{\"weight\":4}",
-        "pokecube:village/the_end/houses/house_7;{\"weight\":4}",
-        "pokecube:village/the_end/houses/house_8;{\"weight\":3}"
+        "pokecube:village/the_end/houses/house_3;{\"weight\":3}",
+        "pokecube:village/the_end/houses/house_4;{\"weight\":3}",
+        "pokecube:village/the_end/houses/house_5;{\"weight\":3}",
+        "pokecube:village/the_end/houses/house_6;{\"weight\":5}",
+        "pokecube:village/the_end/houses/house_7;{\"weight\":5}",
+        "pokecube:village/the_end/houses/house_8;{\"weight\":4}",		
+		"pokecube:village/the_end/houses/house_color_a;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_b;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_c;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_d;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_e;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_f;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_g;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_h;{\"weight\":6}",
+		"pokecube:village/the_end/houses/house_color_i;{\"weight\":6}",
+		"pokecube:village/the_end/houses/ship;{\"weight\":6}"
       ]
     },
     //
     
-    //Dark Forest
+    //Dark_Forest
     {
       "name":"pokecube:village/dark_forest/town_centers",
       "options":[
         "pokecube:village/dark_forest/town_centers/center_1"
       ]
     },
+	{
+      "name":"pokecube:village/dark_forest/small",
+      "options":[
+        "pokecube:village/dark_forest/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/dark_forest/terminators",
       "rigid":false,
@@ -246,6 +281,30 @@
         "pokecube:village/badlands/town_centers/center_1"
       ]
     },
+	{
+      "name":"pokecube:village/badlands_small/small",
+      "options":[
+        "pokecube:village/badlands_small/town_centers/center_small"
+      ]
+    },
+	
+	{
+      "name":"pokecube:village/badlands_small/pokecenter/path",
+      "rigid":false,
+      "options":[
+        "pokecube:village/badlands_small/pokecenter/path"
+      ]
+    },
+	{
+      "name":"pokecube:village/badlands_small/houses",
+      "target":"pokecube:village/badlands/terminators",
+      "ignoreAir":false,
+      "rigid":true,
+      "options":[
+        "pokecube:village/badlands_small/pokecenter/center_small;{\"flag\":\"pokecenter\"}"
+      ]
+    },
+	
     {
       "name":"pokecube:village/badlands/terminators",
       "rigid":false,
@@ -357,6 +416,13 @@
       ]
     },
     {
+      "name":"pokecube:village/beach/small",
+      "options":[
+        "pokecube:village/beach/town_centers/center_small"
+      ]
+    },
+	
+    {
       "name":"pokecube:village/beach/terminators",
       "rigid":true,
       "options":[
@@ -416,6 +482,13 @@
         "pokecube:village/jungle/town_centers/center_1;{\"dy\":2}"
       ]
     },
+    {
+      "name":"pokecube:village/jungle/small",
+      "options":[
+        "pokecube:village/jungle/town_centers/center_small;{\"dy\":2}"
+      ]
+    },
+	
     {
       "name":"pokecube:village/jungle/terminators",
       "rigid":true,
@@ -479,6 +552,14 @@
         "pokecube:village/swamp/town_centers/center_1;{\"dy\":3}"
       ]
     },
+	{
+      "name":"pokecube:village/swamp/small",
+      "rigid":true,
+      "options":[
+        "pokecube:village/swamp/town_centers/center_small;{\"dy\":3}"
+      ]
+    },
+	
     {
       "name":"pokecube:village/swamp/terminators",
       "rigid":true,
@@ -546,6 +627,13 @@
         "pokecube:village/hills/town_centers/center_2"
       ]
     },
+    {
+      "name":"pokecube:village/hills/small",
+      "options":[
+        "pokecube:village/hills/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/hills/terminators",
       "rigid":false,
@@ -887,6 +975,7 @@
     },
     //
     
+	//Desert
     {
       "name":"pokecube:village/desert/town_centers",
       "options":[
@@ -896,6 +985,13 @@
         "pokecube:village/desert/town_centers/center_4"
       ]
     },
+	{
+      "name":"pokecube:village/desert/small",
+      "options":[
+        "pokecube:village/desert/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/desert/terminators",
       "rigid":false,
@@ -964,7 +1060,9 @@
         "minecraft:village/desert/houses"
       ]
     },
-    {
+    
+	//Savanna
+	{
       "name":"pokecube:village/savanna/town_centers",
       "options":[
         "pokecube:village/savanna/town_centers/center_1",
@@ -973,6 +1071,13 @@
         "pokecube:village/savanna/town_centers/center_4"
       ]
     },
+	{
+      "name":"pokecube:village/savanna/small",
+      "options":[
+        "pokecube:village/savanna/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/savanna/terminators",
       "rigid":false,
@@ -1045,7 +1150,9 @@
         "minecraft:village/savanna/houses"
       ]
     },
-    {
+    
+	//Snowy
+	{
       "name":"pokecube:village/snowy/town_centers",
       "options":[
         "pokecube:village/snowy/town_centers/center_1",
@@ -1053,6 +1160,13 @@
         "pokecube:village/snowy/town_centers/center_3"
       ]
     },
+	{
+      "name":"pokecube:village/snowy/small",
+      "options":[
+        "pokecube:village/snowy/town_centers/center_small"
+      ]
+    },
+	
     {
       "name":"pokecube:village/snowy/terminators",
       "rigid":false,
@@ -1123,13 +1237,22 @@
         "minecraft:village/snowy/houses"
       ]
     },
-    {
+    
+	//Taiga
+	{
       "name":"pokecube:village/taiga/town_centers",
       "options":[
         "pokecube:village/taiga/town_centers/center_1",
         "pokecube:village/taiga/town_centers/center_2;{\"dy\":1}"
       ]
     },
+	{
+      "name":"pokecube:village/taiga/small",
+      "options":[
+        "pokecube:village/taiga/town_centers/center_small;{\"dy\":1}"
+      ]
+    },
+	
     {
       "name":"pokecube:village/taiga/terminators",
       "rigid":false,
@@ -1234,12 +1357,14 @@
         }
       }
     },
-    {
+    
+	//Plains
+	{
       "type":"pokecube:village",
       "name":"pokecube:village/plains",
       "root":"pokecube:village/plains/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1260,6 +1385,31 @@
         }
       }
     },
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/plains_small",
+      "root":"pokecube:village/plains/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"plains",
+          "typesBlacklist":"snowy,spooky,swamp",
+          "categoryBlacklist":"forest,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
     
     //Badlands
     {
@@ -1267,7 +1417,7 @@
       "name":"pokecube:village/badlands",
       "root":"pokecube:village/badlands/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1289,14 +1439,40 @@
         }
       }
     },
+    {
+      "type":"pokecube:village",
+      "name":"pokecube:village/badlands_small",
+      "root":"pokecube:village/badlands_small/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "base_under":true,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"mesa",
+          "typesBlacklist":"snowy,spooky,swamp",
+          "categoryBlacklist":"forest,plains,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,taiga,icy"
+        }
+      }
+    },
     
-    //
+    //Beach
     {
       "type":"pokecube:village",
       "name":"pokecube:village/beach",
       "root":"pokecube:village/beach/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1317,15 +1493,39 @@
         }
       }
     },
-    //
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/beach_small",
+      "root":"pokecube:village/beach/small",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"beach",
+          "typesBlacklist":"snowy,spooky,swamp,mesa",
+          "categoryBlacklist":"plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
     
-    //
+    //Jungle
     {
       "type":"pokecube:village",
       "name":"pokecube:village/jungle",
       "root":"pokecube:village/jungle/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1346,15 +1546,39 @@
         }
       }
     },
-    //
+    {
+      "type":"pokecube:village",
+      "name":"pokecube:village/jungle_small",
+      "root":"pokecube:village/jungle/small",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"jungle",
+          "typesBlacklist":"snowy,spooky,swamp,mesa",
+          "categoryBlacklist":"plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
     
-    //
+    //Dark Forest
     {
       "type":"pokecube:village",
       "name":"pokecube:village/dark_forest",
       "root":"pokecube:village/dark_forest/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":64,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1375,16 +1599,40 @@
         }
       }
     },
-    //
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/dark_forest_small",
+      "root":"pokecube:village/dark_forest/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types": "spooky",
+          "typesBlacklist":"snowy,jungle",
+          "categoryBlacklist":"desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
     
-    //
+    //Sky
     {
       "name":"pokecube:village/sky",
       "root":"pokecube:village/sky/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
-      "size":6,
+      "size":7,
       "priority":10,
       "base_under":false,
       "biomeType":"village",
@@ -1403,15 +1651,15 @@
         }
       }
     },
-    //
     
+	//The_End
     {
       "name":"pokecube:village/the_end",
       "root":"pokecube:village/the_end/town_centers",
       "chance":1,
       "distance":32,
       "separation":12,
-      "size":6,
+      "size":5,
       "priority":10,
       "air": true,
       "height": 15,
@@ -1426,9 +1674,8 @@
         }
       }
     },
-    //
     
-    //
+    //Caves
     {
       "type":"pokecube:village",
       "name":"pokecube:village/cave",
@@ -1455,13 +1702,14 @@
         }
       }
     },
-    //
+	
+    //Hills
     {
       "type":"pokecube:village",
       "name":"pokecube:village/hills",
       "root":"pokecube:village/hills/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":5,
       "priority":10,
@@ -1480,15 +1728,37 @@
         }
       }
     },
-    //
+    {
+      "type":"pokecube:village",
+      "name":"pokecube:village/hills_small",
+      "root":"pokecube:village/hills/small",
+      "chance":1,
+      "distance":32,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"extreme_hills"
+        }
+      }
+    },
     
-    //
+    //Swamp
     {
       "type":"pokecube:village",
       "name":"pokecube:village/swamp",
       "root":"pokecube:village/swamp/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":5,
       "priority":10,
@@ -1507,8 +1777,31 @@
         }
       }
     },
-    //
+    {
+      "type":"pokecube:village",
+      "name":"pokecube:village/swamp_small",
+      "root":"pokecube:village/swamp/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category": "swamp"
+        }
+      }
+    },
     
+	//Nether
     {
       "name":"pokecube:village/nether",
       "root":"pokecube:nether",
@@ -1527,14 +1820,14 @@
         }
       }
     },
-    //
     
+	//Desert
     {
       "type":"pokecube:village",
       "name":"pokecube:village/desert",
       "root":"pokecube:village/desert/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1555,12 +1848,39 @@
         }
       }
     },
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/desert_small",
+      "root":"pokecube:village/desert/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"desert",
+          "typesBlacklist": "mesa",
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
+        }
+      }
+    },
+	
+	//Savanna
     {
       "type":"pokecube:village",
       "name":"pokecube:village/savanna",
       "root":"pokecube:village/savanna/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1580,12 +1900,38 @@
         }
       }
     },
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/savanna_small",
+      "root":"pokecube:village/savanna/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"savanna",
+          "categoryBlacklist":"mesa,ocean,river,beach,the_end,nether"
+        }
+      }
+    },
+	
+	//Snowy
     {
       "type":"pokecube:village",
       "name":"pokecube:village/snowy",
       "root":"pokecube:village/snowy/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1605,12 +1951,38 @@
         }
       }
     },
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/snowy_small",
+      "root":"pokecube:village/snowy/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "types":"snowy",
+          "categoryBlacklist":"ocean,river,beach,the_end,nether"
+        }
+      }
+    },
+	
+	//Taiga
     {
       "type":"pokecube:village",
       "name":"pokecube:village/taiga",
       "root":"pokecube:village/taiga/town_centers",
       "chance":1,
-      "distance":32,
+      "distance":48,
       "separation":12,
       "size":6,
       "priority":10,
@@ -1618,6 +1990,31 @@
       "needed_once":[
         "pokecenter",
         "gym"
+      ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
+      "spawn":{
+        "values":{
+          "category":"taiga",
+          "categoryBlacklist":"mesa,ocean,river,beach,the_end,nether",
+          "typesBlacklist":"snowy"
+        }
+      }
+    },
+	{
+      "type":"pokecube:village",
+      "name":"pokecube:village/taiga_small",
+      "root":"pokecube:village/taiga/small",
+      "chance":1,
+      "distance":28,
+      "separation":12,
+      "size":3,
+      "priority":10,
+      "biomeType":"village",
+      "needed_once":[
+        "pokecenter"
       ],
       "dimBlacklist":[
         "the_nether",
