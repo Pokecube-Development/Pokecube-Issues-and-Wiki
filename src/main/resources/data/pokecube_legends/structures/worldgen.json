@@ -1361,6 +1361,10 @@
       "size":6,
 	  "height":-30,
       "base_under":false,
+	  "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
       "spawn": {
       	"values":{
           "types":"all",
