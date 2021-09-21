@@ -581,8 +581,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.entry = newEntry;
         info.entry = newEntry;
 
-        if (this.getEntity().getCommandSenderWorld() != null) ret.setSize((float) (ret.getSize() / PokecubeCore
-                .getConfig().scalefactor));
+        if (this.getEntity().getCommandSenderWorld() != null) ret.setSize(ret.getSize());
         if (this.getEntity().getCommandSenderWorld() != null && this.getEntity().isEffectiveAi()) PacketChangeForme
                 .sendPacketToTracking(ret.getEntity(), newEntry);
         return ret;
