@@ -199,6 +199,7 @@ public class EntityPokemob extends PokemobRidable
     public void travel(final Vector3d dr)
     {
         // If we are ridden on ground, do similar stuff to horses.
+        ridden:
         if (this.isVehicle())
         {
             final LogicMountedControl controller = this.pokemobCap.getController();
@@ -215,6 +216,7 @@ public class EntityPokemob extends PokemobRidable
                 return;
             }
             final LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
+            if (livingentity == null) break ridden;
             this.pokemobCap.setHeading(livingentity.yRot);
             this.yRotO = this.yRot;
             this.xRot = livingentity.xRot * 0.5F;
