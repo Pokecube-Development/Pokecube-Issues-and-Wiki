@@ -60,6 +60,7 @@ public class Config extends ConfigData
         if (soundevent == null) throw new IllegalStateException("Invalid Sound requested: " + id);
         else return soundevent;
     }
+
     @Configure(category = Config.misc, comment = "Scaling factor for EXP yield from fighting another player's pokemobs. [Default: 0.5]")
     public double pvpExpMultiplier = 0.5;
     @Configure(category = Config.misc, comment = "Scales EXP yield from fighting non-player owned pokemobs. [Default: 1.0]")
@@ -84,6 +85,8 @@ public class Config extends ConfigData
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc, comment = "You will be prompted to choose a pokemob when creating a world, without having to look for a professor. [Default: false]")
     public boolean guiOnLogin           = false;
+    @Configure(category = Config.misc, comment = "You will be prompted to look for a professor if you have not recieved a starter. [Default: true]")
+    public boolean msgAboutProfessor    = false;
     @Configure(category = Config.misc, comment = "Defeating a player's pokemobs gives exp. [Default: false]")
     public boolean pvpExp               = false;
     @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")

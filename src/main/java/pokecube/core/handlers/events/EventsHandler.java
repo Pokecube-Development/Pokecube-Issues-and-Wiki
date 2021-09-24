@@ -728,8 +728,8 @@ public class EventsHandler
         PacketDataSync.syncData(player, "pokecube-stats");
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
-        else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(
-                "pokecube.login.find_prof_or_config"), Util.NIL_UUID);
+        else if (!PokecubeSerializer.getInstance().hasStarter(player) && PokecubeCore.getConfig().msgAboutProfessor)
+            player.sendMessage(new TranslationTextComponent("pokecube.login.find_prof_or_config"), Util.NIL_UUID);
     }
 
     public static void recallAllPokemobs(final LivingEntity user)
