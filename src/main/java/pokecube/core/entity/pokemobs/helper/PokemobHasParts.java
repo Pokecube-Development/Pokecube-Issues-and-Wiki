@@ -59,7 +59,6 @@ public abstract class PokemobHasParts extends PokemobCombat
         super(type, worldIn);
         this.update_tick = -1;
         this.effective_pose = "";
-        this.initSizes(1);
     }
 
     private PokemobPart makePart(final BodyPart part, final float size, final Set<String> names)
@@ -210,13 +209,14 @@ public abstract class PokemobHasParts extends PokemobCombat
         this.dimensions = entitysize1;
         this.eyeHeight = sizeEvent.getNewEyeHeight();
         final double d0 = entitysize1.width / 2.0D;
-        this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX()
-                + d0, this.getY() + entitysize1.height, this.getZ() + d0));
+        this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0, this
+                .getY() + entitysize1.height, this.getZ() + d0));
     }
 
     @Override
     public boolean isMultipartEntity()
     {
+        if (this.parts == null) this.initSizes(this.pokemobCap.getSize());
         return this.parts.length > 0;
     }
 
@@ -322,8 +322,7 @@ public abstract class PokemobHasParts extends PokemobCombat
 
         final Vector3d v = this.position();
         this.r.set((float) v.x(), (float) v.y(), (float) v.z());
-        final Vector3d dr = new Vector3d(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z
-                - this.zOld);
+        final Vector3d dr = new Vector3d(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z - this.zOld);
         this.rot.rotY((float) Math.toRadians(180 - this.yBodyRot));
 
         if (this.isAddedToWorld()) for (final PokemobPart p : this.parts)
@@ -350,8 +349,8 @@ public abstract class PokemobHasParts extends PokemobCombat
         super.move(typeIn, pos);
 
         final BlockPos down = this.getBlockPosBelowThatAffectsMyMovement();
-        final VoxelShape s = this.level.getBlockState(down).getCollisionShape(this.level, down).move(down.getX(),
-                down.getY(), down.getZ());
+        final VoxelShape s = this.level.getBlockState(down).getCollisionShape(this.level, down).move(down.getX(), down
+                .getY(), down.getZ());
         final double tol = -1e-3;
         final double d = s.collide(Axis.Y, this.getBoundingBox(), tol);
         if (d != tol) this.setOnGround(true);
