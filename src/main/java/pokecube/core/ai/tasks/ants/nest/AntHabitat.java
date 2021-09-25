@@ -42,6 +42,7 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.interfaces.IInhabitable;
@@ -148,6 +149,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         }
     }
 
+    private boolean removing = false;
+
     @Override
     public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
@@ -157,7 +160,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         if (this.tile instanceof NestTile)
         {
             nest = (NestTile) this.tile;
-            nest.removeForbiddenSpawningCoord();
+            this.removing = true;
+            if (this.repelled != null) SpawnHandler.removeForbiddenSpawningCoord(this.repelled.getPos(), world);
+            this.removing = false;
         }
         this.repelled = new AABBRegion(box);
         if (nest != null) nest.addForbiddenSpawningCoord();
@@ -166,7 +171,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     @Override
     public ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
-        if (this.repelled == null) this.updateRepelledRegion(tile, world);
+        if (this.repelled == null && !this.removing) this.updateRepelledRegion(tile, world);
         return this.repelled;
     }
 
@@ -452,8 +457,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
                         mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(),
-                                pos));
+                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
                         break build;
                     }
                     final Node n = this.rooms.allRooms.get(this.world.random.nextInt(this.rooms.allRooms.size()));
@@ -470,14 +474,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     if (!a.shouldBuild(time)) break build;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob
-                            .getId(), info);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(),
+                            info);
                     final CompoundNBT tag = new CompoundNBT();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(),
-                            pos));
+                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
                 }
             }
             break;
@@ -498,8 +501,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
                         mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(),
-                                pos));
+                        mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
                         break dig;
                     }
                 }
@@ -508,14 +510,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                 if (n.shouldDig(time))
                 {
                     final BlockPos pos = n.getCenter();
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob
-                            .getId(), n.type);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(),
+                            n.type);
                     final CompoundNBT tag = new CompoundNBT();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(),
-                            pos));
+                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
                     break dig;
                 }
                 else
@@ -533,14 +534,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     if (!a.shouldDig(time)) break dig;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob
-                            .getId(), info);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(),
+                            info);
                     final CompoundNBT tag = new CompoundNBT();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(),
-                            pos));
+                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), pos));
                     break dig;
                 }
             }
@@ -565,8 +565,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)
                 {
-                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), x0
-                            .getPos()));
+                    mob.getBrain().setMemory(AntTasks.WORK_POS, GlobalPos.of(this.world.dimension(), x0.getPos()));
                     break nodes;
                 }
             }
