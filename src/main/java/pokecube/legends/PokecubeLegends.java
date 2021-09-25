@@ -83,27 +83,27 @@ public class PokecubeLegends
     public static final DeferredRegister<Block>         BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Block>         DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-        Reference.ID);
+            Reference.ID);
     public static final DeferredRegister<Block>         NO_TAB         = DeferredRegister.create(ForgeRegistries.BLOCKS,
-        Reference.ID);
+            Reference.ID);
     public static final DeferredRegister<Item>          ITEMS          = DeferredRegister.create(ForgeRegistries.ITEMS,
             Reference.ID);
-	public static final DeferredRegister<Fluid>  		FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
+    public static final DeferredRegister<Fluid>         FLUIDS         = DeferredRegister.create(ForgeRegistries.FLUIDS,
             Reference.ID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(ForgeRegistries.ENTITIES,
-    		Reference.ID);
-			
-	// Barrels Inventory/Container
-    public static final DeferredRegister<TileEntityType<?>>  TILES     = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
-            Reference.ID);
-    public static final DeferredRegister<ContainerType<?>>  CONTAINER  = DeferredRegister.create(ForgeRegistries.CONTAINERS,
-            Reference.ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES       = DeferredRegister.create(
+            ForgeRegistries.ENTITIES, Reference.ID);
 
-    //Recipes
-    public static final DeferredRegister<IRecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
-    		Reference.ID);
+    // Barrels Inventory/Container
+    public static final DeferredRegister<TileEntityType<?>> TILES     = DeferredRegister.create(
+            ForgeRegistries.TILE_ENTITIES, Reference.ID);
+    public static final DeferredRegister<ContainerType<?>>  CONTAINER = DeferredRegister.create(
+            ForgeRegistries.CONTAINERS, Reference.ID);
 
-    /**Packs Textures,Tags,etc...*/
+    // Recipes
+    public static final DeferredRegister<IRecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(
+            ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
+
+    /** Packs Textures,Tags,etc... */
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
     //
 
@@ -130,8 +130,8 @@ public class PokecubeLegends
 
             WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                     .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
-                            .get().defaultBlockState(), 5)).range(32).squared().count(2),
-                    new ResourceLocation("pokecube_legends:ruby_ore"));
+                            .get().defaultBlockState(), 5)).range(32).squared().count(2), new ResourceLocation(
+                                    "pokecube_legends:ruby_ore"));
             WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                     .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
                             BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2),
@@ -146,10 +146,7 @@ public class PokecubeLegends
             RaidSpawn.TYPE = TileEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
             RingTile.TYPE = TileEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
             event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
-            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get()
-                    .getRegistryName()));
-					
-			TileEntityInit.init();
+            event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
         }
 
         @SubscribeEvent
@@ -172,7 +169,7 @@ public class PokecubeLegends
 
         PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
         PokecubeCore.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
-        
+
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::loadComplete);
@@ -182,10 +179,10 @@ public class PokecubeLegends
         PokecubeLegends.BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
         PokecubeLegends.NO_TAB.register(modEventBus);
-		PokecubeLegends.FLUIDS.register(modEventBus);
+        PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.ENTITIES.register(modEventBus);
         PokecubeLegends.LEGENDS_SERIALIZERS.register(modEventBus);
-		PokecubeLegends.TILES.register(modEventBus);
+        PokecubeLegends.TILES.register(modEventBus);
         PokecubeLegends.CONTAINER.register(modEventBus);
 
         // Biomes Dictionary
@@ -201,7 +198,9 @@ public class PokecubeLegends
         MoveRegister.init();
         EntityInit.init();
         ItemHelperEffect.init();
-		ContainerInit.init();
+        ContainerInit.init();
+
+        TileEntityInit.init();
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
@@ -259,8 +258,8 @@ public class PokecubeLegends
 
         event.behaviors.add(new DefaultPokecubeBehavior()
         {
-        	@Override
-        	public double getCaptureModifier(final IPokemob mob)
+            @Override
+            public double getCaptureModifier(final IPokemob mob)
             {
                 return helper.dyna(mob);
             }
