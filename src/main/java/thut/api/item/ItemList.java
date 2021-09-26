@@ -29,7 +29,7 @@ public class ItemList extends Items
         {
             final EntityType<?> type = (EntityType<?>) toCheck;
             final boolean tagged = EntityTypeTags.getAllTags().getTagOrEmpty(tag).contains(type);
-            if (!tagged) return type.getRegistryName().equals(tag);
+            if (!tagged && type.getRegistryName() != null) return type.getRegistryName().equals(tag);
             return tagged;
         }
         if (toCheck instanceof Item)
@@ -37,7 +37,7 @@ public class ItemList extends Items
             final Item item = (Item) toCheck;
             boolean tagged = ItemTags.getAllTags().getTagOrEmpty(tag).contains(item);
             tagged = tagged || ItemList.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(item);
-            if (!tagged) return item.getRegistryName().equals(tag);
+            if (!tagged && item.getRegistryName() != null) return item.getRegistryName().equals(tag);
             return tagged;
         }
         else if (toCheck instanceof ItemStack) return ItemList.is(tag, ((ItemStack) toCheck).getItem());
@@ -46,7 +46,7 @@ public class ItemList extends Items
 
             final Block block = (Block) toCheck;
             final boolean tagged = BlockTags.getAllTags().getTagOrEmpty(tag).contains(block);
-            if (!tagged) return block.getRegistryName().equals(tag);
+            if (!tagged && block.getRegistryName() != null) return block.getRegistryName().equals(tag);
             return tagged;
         }
         else if (toCheck instanceof BlockState) return ItemList.is(tag, ((BlockState) toCheck).getBlock());
