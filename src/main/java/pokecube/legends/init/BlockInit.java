@@ -19,7 +19,7 @@ import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.*;
 import pokecube.legends.blocks.containers.GenericBarrel;
-import pokecube.legends.blocks.containers.GenericBookshelf;
+import pokecube.legends.blocks.normalblocks.GenericBookshelf;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.blocks.customblocks.*;
 import pokecube.legends.blocks.customblocks.taputotem.BuluTotem;
