@@ -762,6 +762,10 @@ public class PokemobEventsHandler
         // If not alled to interact with the mob, exit here, this prevents
         // opening pokemob inventory while holding empty cubes, etc.
         if (ItemList.is(new ResourceLocation("pokecube", "pokemob_no_interact"), held)) return;
+        // check of other hand is holding a blackisted item as well.
+        final Hand other = Hand.values()[(hand.ordinal() + 1) % 2];
+        final ItemStack otherheld = player.getItemInHand(other);
+        if (ItemList.is(new ResourceLocation("pokecube", "pokemob_no_interact"), otherheld)) return;
 
         boolean isOwner = false;
         if (pokemob.getOwnerId() != null) isOwner = pokemob.getOwnerId().equals(player.getUUID());
