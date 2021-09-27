@@ -39,6 +39,8 @@ public class MovesParser
     static final Pattern SLPA = Pattern.compile("(induce).*(sleep)");
     static final Pattern SLPB = Pattern.compile("(may).*(sleep)");
 
+    static final Pattern HEALOTHER = Pattern.compile("(restores the target's hp)");
+
     private static void addCategory(final byte mask, final MoveEntry move)
     {
         if ((move.attackCategory & mask) == 0) move.attackCategory += mask;
@@ -265,9 +267,11 @@ public class MovesParser
     private static void parseHealing(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
-        final String var = entry.secondaryEffect.toLowerCase(Locale.ENGLISH).trim();
-        final boolean ratioHeal = var.contains("user recovers") && var.contains(" the damage inflicted.");
-        final boolean healRatio = var.contains("user recovers") && var.contains(" the maximum hp.");
+        String var = entry.secondaryEffect.toLowerCase(Locale.ENGLISH).trim();
+        if (entry.battleEffect != null) var = var + "|" + entry.battleEffect.toLowerCase(Locale.ENGLISH).trim();
+        final boolean ratioHeal = var.contains("user recovers") && var.contains(" the damage inflicted");
+        final boolean healRatio = var.contains("user recovers") && var.contains(" the maximum hp");
+        final boolean healOther = MovesParser.HEALOTHER.matcher(var).find();
         if (ratioHeal)
         {
             final Matcher number = MovesParser.NUMBER.matcher(var);
@@ -290,12 +294,19 @@ public class MovesParser
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(move.name + " set to self heal of " + move.damageHeal);
             return;
         }
+        else if (healOther)
+        {
+            final Matcher half = MovesParser.HALF.matcher(var);
+            if (half.find()) move.targetHealRatio = 0.5f;
+            else move.targetHealRatio = 0.2f;
+            // TODO fairy one heals more on grassy terrain, maybe that needs
+            // custom logic?
+        }
         if (var.contains("user restores health"))
         {
             move.selfHealRatio = 1;
             return;
         }
-        // TODO heal other moves as well.
     }
 
     static void parseNoMove(final String secondaryEffect, final MoveEntry move)

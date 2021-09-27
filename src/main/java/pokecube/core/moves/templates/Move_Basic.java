@@ -492,9 +492,14 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
 
         healRatio = this.getSelfHealRatio(attacker);
-        final boolean canHeal = attackerMob.getHealth() < attackerMob.getMaxHealth();
+        boolean canHeal = attackerMob.getHealth() < attackerMob.getMaxHealth();
         if (healRatio > 0 && canHeal) attackerMob.setHealth(Math.min(attackerMob.getMaxHealth(), attackerMob.getHealth()
                 + attackerMob.getMaxHealth() * healRatio));
+
+        healRatio = this.getTargetHealRatio(attacker);
+        canHeal = attackedHp.getHealth() < attackedHp.getMaxHealth();
+        if (healRatio > 0 && canHeal) attackedHp.setHealth(Math.min(attackedHp.getMaxHealth(), attackedHp.getHealth()
+                + attackedHp.getMaxHealth() * healRatio));
 
         packet = new MovePacket(attacker, attacked, attack, type, PWR, criticalLevel, statusChange, changeAddition,
                 false);

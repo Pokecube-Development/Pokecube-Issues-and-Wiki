@@ -289,6 +289,11 @@ public abstract class Move_Base
         return this.move.selfHealRatio;
     }
 
+    public float getTargetHealRatio(final IPokemob user)
+    {
+        return this.move.targetHealRatio;
+    }
+
     /**
      * Type getter
      *

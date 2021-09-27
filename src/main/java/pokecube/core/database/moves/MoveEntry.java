@@ -76,8 +76,10 @@ public class MoveEntry implements IMoveConstants
     public float attackerStatModProb      = 1;
     public int[] attackedStatModification = { 0, 0, 0, 0, 0, 0, 0, 0 };
     public float attackedStatModProb      = 1;
-    public float damageHeal               = 0;
-    public float selfHealRatio            = 0;
+
+    public float damageHeal      = 0;
+    public float selfHealRatio   = 0;
+    public float targetHealRatio = 0;
 
     public float[] customSize = null;
 
