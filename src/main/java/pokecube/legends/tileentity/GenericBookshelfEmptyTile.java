@@ -130,7 +130,7 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
             }
         }
         // place book
-        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == Hand.MAIN_HAND && !(number >= 9))
+        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == Hand.MAIN_HAND && number < 9)
         {
             final ItemStack stack = playerHand.copy();
             stack.setCount(1);
