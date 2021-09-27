@@ -293,8 +293,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         for (final int type : this.effects.keySet())
         {
             final Effect effect = this.effects.get(type);
-            if (this.lastTick != time) effect.duration--;
-            if (effect.duration < 0)
+            if (effect.duration < time)
             {
                 effect.duration = 0;
                 this.effects.remove(type);
