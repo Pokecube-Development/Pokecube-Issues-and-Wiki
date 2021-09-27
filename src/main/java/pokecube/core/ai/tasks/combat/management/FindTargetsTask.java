@@ -263,10 +263,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
      */
     protected void checkSwitchedMob()
     {
+        final boolean switched = this.target != null && !this.target.isAlive();
         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob? {} {}", this.target,
                 this.targetOwner);
+        if (!switched) return;
         // This means it either fainted, or died.
-        if (this.target != null && !this.target.isAlive() && this.targetOwner != null)
+        if (this.targetOwner != null)
         {
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob! {}",
                     this.switchTargetTimer);
@@ -296,7 +298,19 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             {
                 this.initiateBattle(this.targetOwner);
                 this.clear();
+                return;
             }
+        }
+
+        // Lets check if the target say was failed to capture. If this was the
+        // case, then the UUID is still the same, but the entity itself has
+        // changed.
+        final Entity newMob = this.world.getEntity(this.targetId);
+        if (newMob instanceof LivingEntity)
+        {
+            this.initiateBattle((LivingEntity) newMob);
+            this.clear();
+            return;
         }
     }
 
