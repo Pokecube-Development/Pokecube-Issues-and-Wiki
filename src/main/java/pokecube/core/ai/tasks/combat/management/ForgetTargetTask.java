@@ -124,13 +124,15 @@ public class ForgetTargetTask extends CombatTask
             deAgro = true;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Was Marked as Forgotten!");
         }
+        int giveUpTimer = 5 * FindTargetsTask.DEAGROTIMER;
+        if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
 
         agroCheck:
         if (mobB != null && !deAgro)
         {
             if (mobB.getCombatState(CombatStates.FAINTED))
             {
-                deAgro = true;
+                giveUpTimer /= 2;
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Target Fainted.");
                 break agroCheck;
             }
@@ -177,17 +179,19 @@ public class ForgetTargetTask extends CombatTask
         }
         if (mobA.getCombatState(CombatStates.FAINTED))
         {
-            deAgro = true;
+            giveUpTimer /= 2;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("we Fainted.");
         }
 
         agroCheck:
         if (!deAgro)
         {
-            if (!this.entityTarget.isAlive() || this.entityTarget.getHealth() <= 0)
+            // If health is below 0, it fainted, we give some time for other to
+            // send out a new mob before we completely deagro.
+            if (this.entityTarget.getHealth() <= 0)
             {
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("They are Dead!");
-                deAgro = true;
+                giveUpTimer /= 2;
                 break agroCheck;
             }
             if (!this.entity.isAlive() || this.entity.getHealth() <= 0)
@@ -250,9 +254,10 @@ public class ForgetTargetTask extends CombatTask
 
             if (BrainUtils.canSee(this.entity, this.entityTarget)) this.ticksSinceSeen = 0;
 
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Seen Time: {}->{}, {}", this.entity.getName().getString(),
+                    this.entityTarget.getName().getString(), this.ticksSinceSeen);
+
             // If it has been too long since last seen the target, give up.
-            int giveUpTimer = 600;
-            if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.

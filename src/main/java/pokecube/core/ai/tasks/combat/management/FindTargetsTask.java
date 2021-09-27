@@ -25,6 +25,7 @@ import pokecube.core.events.SetAttackTargetEvent;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.ITargetFinder;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -44,7 +45,11 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
     UUID targetId = null;
 
-    int forgetTimer = 0;
+    LivingEntity target      = null;
+    LivingEntity targetOwner = null;
+
+    int switchTargetTimer = 0;
+    int forgetTimer       = 0;
 
     public static boolean handleDamagedTargets = true;
     static
@@ -151,7 +156,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public void clear()
     {
         this.targetId = null;
+        this.target = null;
         this.forgetTimer = 0;
+        this.switchTargetTimer = 0;
     }
 
     /**
@@ -179,7 +186,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         else centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES)
+                .get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);
@@ -219,7 +227,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
 
         final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES)
+                .get();
         list.addAll(pokemobs);
         list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance
                 && AITools.validTargets.test(e));
@@ -229,9 +238,9 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
-        if (!list.isEmpty()) for (final LivingEntity entity : list)
+        for (final LivingEntity entity : list)
         {
-            if (oldOwner != null && entity == oldOwner) return false;
+            if (oldOwner != null && entity == oldOwner) continue;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
             if (entity instanceof MobEntity && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
             {
@@ -241,6 +250,54 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             }
         }
         return false;
+    }
+
+    /**
+     * If the pokemob is "not alive", but it didn't faint, then it is most
+     * likely that the mob has been recalled, and a new one is sent out. In this
+     * case, we will switch target to either the new pokemob, if it has been a
+     * short time, or the owner of the old pokemob, if it has been a longer
+     * time.
+     *
+     * @return if switched to a new target
+     */
+    protected void checkSwitchedMob()
+    {
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob? {} {}", this.target,
+                this.targetOwner);
+        // This means it either fainted, or died.
+        if (this.target != null && !this.target.isAlive() && this.targetOwner != null)
+        {
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Checking for swapped pokemob! {}",
+                    this.switchTargetTimer);
+            // Give some time to look for a new pokemob
+            if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
+            {
+                final List<LivingEntity> list = new ArrayList<>();
+                final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                        MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+                list.addAll(pokemobs);
+                list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance
+                        && AITools.validTargets.test(e));
+
+                for (final LivingEntity entity : list)
+                {
+                    final LivingEntity owner = OwnableCaps.getOwner(entity);
+                    if (owner == this.targetOwner)
+                    {
+                        this.initiateBattle(entity);
+                        this.clear();
+                        return;
+                    }
+                }
+            }
+            // Otherwise agro the owner
+            else
+            {
+                this.initiateBattle(this.targetOwner);
+                this.clear();
+            }
+        }
     }
 
     @Override
@@ -259,7 +316,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                     .initiateBattle((LivingEntity) mob)) this.clear();
 
             // Reset target ID here, so we don't keep looking for it.
-            if (this.forgetTimer-- <= 0) this.targetId = null;
+            if (this.forgetTimer-- <= 0) this.clear();
             return;
         }
 
@@ -326,8 +383,15 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (BrainUtils.hasAttackTarget(this.entity))
         {
             final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
-            this.targetId = target.getUUID();
             this.forgetTimer = FindTargetsTask.DEAGROTIMER;
+            if (!target.getUUID().equals(this.targetId))
+            {
+                this.target = target;
+                this.targetOwner = OwnableCaps.getOwner(target);
+                this.targetId = this.target.getUUID();
+                PokecubeCore.LOGGER.debug("Found Target {} {}", this.target, this.targetOwner);
+            }
+            this.checkSwitchedMob();
             return false;
         }
         return true;

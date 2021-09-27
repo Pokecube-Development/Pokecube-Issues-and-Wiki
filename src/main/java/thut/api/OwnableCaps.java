@@ -300,6 +300,13 @@ public class OwnableCaps
         return in.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
     }
 
+    public static LivingEntity getOwner(final LivingEntity target)
+    {
+        final IOwnable ownable = OwnableCaps.getOwnable(target);
+        if (ownable != null) return ownable.getOwner();
+        return null;
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
