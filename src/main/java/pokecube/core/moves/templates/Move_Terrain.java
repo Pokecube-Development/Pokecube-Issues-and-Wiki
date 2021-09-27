@@ -1,12 +1,14 @@
 package pokecube.core.moves.templates;
 
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -54,9 +56,9 @@ public class Move_Terrain extends Move_Basic
         // TODO check if effect already exists, and send message if so.
         // Otherwise send the it starts to effect messaged
 
-        teffect.setEffectDuration(this.effect, this.duration + world.getGameTime(), attacker);
-        if (attacker.getEntity().isEffectiveAi()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
-                segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
+        teffect.setEffectDuration(this.effect, this.duration + Tracker.instance().getTick(), attacker);
+        if (world instanceof ServerWorld) PacketSyncTerrain.sendTerrainEffects((ServerWorld) world, segment.chunkX,
+                segment.chunkY, segment.chunkZ, teffect);
 
     }
 

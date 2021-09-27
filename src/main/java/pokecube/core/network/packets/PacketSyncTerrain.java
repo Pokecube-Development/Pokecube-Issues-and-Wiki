@@ -1,10 +1,10 @@
 package pokecube.core.network.packets;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.animations.MoveAnimationHelper;
@@ -23,7 +23,7 @@ public class PacketSyncTerrain extends Packet
 
     CompoundNBT data = new CompoundNBT();
 
-    public static void sendTerrainEffects(final Entity player, final int x, final int y, final int z,
+    public static void sendTerrainEffects(final ServerWorld world, final int x, final int y, final int z,
             final PokemobTerrainEffects terrain)
     {
         final PacketSyncTerrain packet = new PacketSyncTerrain();
@@ -38,8 +38,7 @@ public class PacketSyncTerrain extends Packet
         PacketSyncTerrain.encodeActiveEffect(packet.entryEffects, PokemobTerrainEffects.EntryEffectType.values(),
                 terrain);
 
-        PokecubeCore.packets.sendToTracking(packet, player.getCommandSenderWorld().getChunk(new BlockPos(x * 16, y * 16, z
-                * 16)));
+        PokecubeCore.packets.sendToTracking(packet, world.getChunk(new BlockPos(x * 16, y * 16, z * 16)));
     }
 
     private static void encodeActiveEffect(final long[][] data, final PokemobTerrainEffects.EffectType[] effectTypes,
@@ -80,8 +79,8 @@ public class PacketSyncTerrain extends Packet
     {
         PlayerEntity player;
         player = PokecubeCore.proxy.getPlayer();
-        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getCommandSenderWorld(), this.x * 16, this.y
-                * 16, this.z * 16);
+        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getCommandSenderWorld(), this.x * 16,
+                this.y * 16, this.z * 16);
         final PokemobTerrainEffects effects = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
 
         boolean empty = this.decodeEffectTypes(this.weatherEffects, PokemobTerrainEffects.WeatherEffectType.values(),
@@ -95,7 +94,8 @@ public class PacketSyncTerrain extends Packet
             MoveAnimationHelper.Instance().addEffect();
             MoveAnimationHelper.Instance().terrainMap.put(t.getChunkCoords(), t);
         }
-        else {
+        else
+        {
             MoveAnimationHelper.Instance().clearEffect();
             MoveAnimationHelper.Instance().terrainMap.remove(t.getChunkCoords());
         }

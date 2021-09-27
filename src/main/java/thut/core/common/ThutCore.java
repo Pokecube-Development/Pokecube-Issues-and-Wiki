@@ -73,6 +73,7 @@ import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.PacketHandler;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
+import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.proxy.ClientProxy;
@@ -301,6 +302,7 @@ public class ThutCore
 
         // Register capabilities.
 
+        CapabilityTerrainAffected.init();
         // Register genetics
         CapabilityManager.INSTANCE.register(IMobGenetics.class, new DefaultGeneStorage(), DefaultGenetics::new);
         // Register colourable
