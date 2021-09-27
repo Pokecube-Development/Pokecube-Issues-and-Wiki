@@ -331,14 +331,12 @@ public class PokemobTerrainEffects implements ITerrainEffect
         final Vector3 temp = Vector3.getNewVector();
         final Vector3 temp2 = Vector3.getNewVector();
         final Vector3 dir = direction.scalarMult(8);
-
-        final Random rand = new Random(Minecraft.getInstance().player.tickCount / 200);
+        final int time = Minecraft.getInstance().player.tickCount;
+        final Random rand = new Random(time / 200);
 
         final double dx = direction.x * 1;
         final double dy = direction.y * 1;
         final double dz = direction.z * 1;
-
-        // System.out.println(r+" "+g+" "+b+" "+a);
 
         final int num = Minecraft.getInstance().options.particles == ParticleStatus.ALL ? 10000
                 : Minecraft.getInstance().options.particles == ParticleStatus.DECREASED ? 1000 : 100;
@@ -380,22 +378,22 @@ public class PokemobTerrainEffects implements ITerrainEffect
             // Other face
             x = (float) (temp.x + dx);
             y = (float) (temp.y + dy);
-            z = (float) (temp.z + dz);
-            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
-
-            x = (float) (temp.x - size + dx);
-            y = (float) (temp.y + dy);
-            z = (float) (temp.z + dz);
-            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
-
-            x = (float) (temp.x - size + dx);
-            y = (float) (temp.y + dy);
             z = (float) (temp.z - size + dz);
             builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
-            y = (float) (temp.y + dy);
+            y = (float) (temp.y - size + dy);
             z = (float) (temp.z - size + dz);
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
+
+            x = (float) (temp.x + dx);
+            y = (float) (temp.y - size + dy);
+            z = (float) (temp.z + dz);
+            builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
+
+            x = (float) (temp.x + dx);
+            y = (float) (temp.y + dy);
+            z = (float) (temp.z + dz);
             builder.vertex(pos, x, y, z).color(r, g, b, a).endVertex();
 
         }
