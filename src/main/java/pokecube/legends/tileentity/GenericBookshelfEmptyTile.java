@@ -109,17 +109,16 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
         return 1;
     }
 
-    public ActionResultType interact(final PlayerEntity player, final Hand hand, final BlockState state,
-            final BlockPos pos, final World world)
+    public ActionResultType interact(final PlayerEntity player, final Hand hand, final World world)
     {
         final ItemStack playerHand = player.getItemInHand(hand);
         int number = 0;
         for (final ItemStack stack : this.getItems())
             if (!stack.isEmpty()) number++;
-        final int slot = number - 1;
         // remove book
         if (playerHand.isEmpty() && hand == Hand.MAIN_HAND)
         {
+            final int slot = number - 1;
             final ItemStack stack = this.removeItemNoUpdate(slot);
             if (!world.isClientSide() && number > 0)
             {
@@ -131,7 +130,7 @@ public class GenericBookshelfEmptyTile extends LockableLootTileEntity implements
             }
         }
         // place book
-        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == Hand.MAIN_HAND)
+        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == Hand.MAIN_HAND && number < 9)
         {
             final ItemStack stack = playerHand.copy();
             stack.setCount(1);

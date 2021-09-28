@@ -188,8 +188,7 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
         final TileEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand,
-                state, pos, world);
+        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
         return ActionResultType.PASS;
     }
 
