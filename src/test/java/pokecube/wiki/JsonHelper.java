@@ -150,7 +150,7 @@ public class JsonHelper
         final ResourceLocation key = new ResourceLocation(entry.getModId(), entry.getTrimmedName());
         String loot_table = "{\"type\": \"minecraft:entity\",\"pools\": [{\"name\": \"main\",\"rolls\": 1.0,\"entries\": [" +
             "{\"type\": \"minecraft:item\",\"functions\": [{\"function\": \"minecraft:set_count\",\"count\": " +
-            "{\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 2.0},\"add\": false},{\"function\": " +
+            "{\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0},\"add\": false},{\"function\": " +
             "\"minecraft:looting_enchant\",\"count\": {\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0}}]," +
             "\"name\": \"trofers:small_plate\"}],\"conditions\": [{\"condition\": \"trofers:random_trophy_chance\"}]," +
             "\"functions\": [{\"function\": \"minecraft:set_nbt\",\"tag\":\"{BlockEntityTag:{Trophy:" +
