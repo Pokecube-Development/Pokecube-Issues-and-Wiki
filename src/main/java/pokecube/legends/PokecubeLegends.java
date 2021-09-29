@@ -57,6 +57,7 @@ import pokecube.legends.init.Config;
 import pokecube.legends.init.ContainerInit;
 import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
+import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
@@ -199,6 +200,7 @@ public class PokecubeLegends
         EntityInit.init();
         ItemHelperEffect.init();
         ContainerInit.init();
+        FluidInit.init();
 
         TileEntityInit.init();
 
