@@ -466,8 +466,8 @@ public class CapabilityHasPokemobs
             if (this.getTarget() == null || this.aiStates.getAIState(AIState.THROWING) || this.getOutMob() != null
                     || !this.getNextPokemob().isEmpty()) return;
             this.aiStates.setAIState(AIState.INBATTLE, false);
-            if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) if (this.getCooldown() <= Tracker
-                    .instance().getTick())
+            if (this.getOutMob() == null && !this.aiStates.getAIState(AIState.THROWING)) if (this
+                    .getCooldown() <= Tracker.instance().getTick())
             {
                 this.onLose(this.getTarget());
                 this.setNextSlot(0);

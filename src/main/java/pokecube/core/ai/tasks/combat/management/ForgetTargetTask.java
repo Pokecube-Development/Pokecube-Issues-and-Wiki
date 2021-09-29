@@ -124,7 +124,7 @@ public class ForgetTargetTask extends CombatTask
             deAgro = true;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Was Marked as Forgotten!");
         }
-        int giveUpTimer = 5 * FindTargetsTask.DEAGROTIMER;
+        int giveUpTimer = Battle.BATTLE_END_TIMER;
         if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
 
         agroCheck:

@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.RegistryKey;
@@ -25,6 +27,8 @@ import thut.api.world.WorldTickManager;
 
 public class Battle
 {
+    public static int BATTLE_END_TIMER = 600;
+
     public static void register()
     {
         WorldTickManager.registerStaticData(BattleManager::new, p -> true);
@@ -106,6 +110,8 @@ public class Battle
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
 
+        final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
+
         if (existingA != null && existingB != null)
         {
             // This only occurs if the mob had de-agroed quickly before
@@ -116,7 +122,6 @@ public class Battle
                 existingA.addToBattle(mobA, mobB);
                 return true;
             }
-            final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
             existingA.mergeFrom(mobA, mobB, existingB, world);
             return false;
         }
@@ -124,9 +129,8 @@ public class Battle
         else if (existingB != null) existingB.addToBattle(mobA, mobB);
         else
         {
-            final Battle battle = new Battle();
-            final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
             final BattleManager manager = BattleManager.managers.get(world.dimension());
+            final Battle battle = new Battle(world, manager);
             battle.addToBattle(mobA, mobB);
             manager.addBattle(battle);
             battle.start();
@@ -142,8 +146,20 @@ public class Battle
 
     private final UUID battleID = UUID.randomUUID();
 
+    private final ServerWorld   world;
+    private final BattleManager manager;
+
+    private final Object2IntArrayMap<LivingEntity> aliveTracker = new Object2IntArrayMap<>();
+
     boolean valid = false;
     boolean ended = false;
+
+    public Battle(final ServerWorld world, final BattleManager manager)
+    {
+        this.aliveTracker.defaultReturnValue(0);
+        this.manager = manager;
+        this.world = world;
+    }
 
     private void addToSide(final Map<UUID, LivingEntity> side, final Set<String> teams, final LivingEntity mob,
             final String team, final LivingEntity target)
@@ -169,7 +185,6 @@ public class Battle
     private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other,
             final ServerWorld world)
     {
-        final BattleManager manager = BattleManager.managers.get(world.dimension());
         final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
         final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
 
@@ -182,12 +197,12 @@ public class Battle
         sideBThem.forEach((id, mob) ->
         {
             sideBUs.put(id, mob);
-            manager.battlesById.put(id, this);
+            this.manager.battlesById.put(id, this);
         });
         sideAThem.forEach((id, mob) ->
         {
             sideAUs.put(id, mob);
-            manager.battlesById.put(id, this);
+            this.manager.battlesById.put(id, this);
         });
 
         other.side1.clear();
@@ -235,6 +250,8 @@ public class Battle
     public void removeFromBattle(final LivingEntity mob)
     {
         final UUID id = mob.getUUID();
+        this.aliveTracker.removeInt(mob);
+        this.manager.battlesById.remove(mob.getUUID());
         if (this.side1.containsKey(id))
         {
             this.side1.remove(id);
@@ -247,7 +264,6 @@ public class Battle
             final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
-
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
     }
 
@@ -256,16 +272,37 @@ public class Battle
         if (this.ended) return;
         this.valid = true;
         final Set<LivingEntity> stale = Sets.newHashSet();
+        final int tooLong = Battle.BATTLE_END_TIMER;
         for (final LivingEntity mob1 : this.side1.values())
             if (!mob1.isAlive())
             {
-                stale.add(mob1);
+                final int tick = this.aliveTracker.getInt(mob1) + 1;
+                this.aliveTracker.put(mob1, tick);
+                final UUID id = mob1.getUUID();
+                final Entity mob = this.world.getEntity(id);
+                if (mob != null && mob != mob1)
+                {
+                    this.aliveTracker.removeInt(mob1);
+                    if (mob instanceof LivingEntity) this.side1.put(id, (LivingEntity) mob);
+                    continue;
+                }
+                if (tick > tooLong) stale.add(mob1);
                 continue;
             }
         for (final LivingEntity mob2 : this.side2.values())
             if (!mob2.isAlive())
             {
-                stale.add(mob2);
+                final int tick = this.aliveTracker.getInt(mob2) + 1;
+                final UUID id = mob2.getUUID();
+                final Entity mob = this.world.getEntity(id);
+                if (mob != null && mob != mob2)
+                {
+                    this.aliveTracker.removeInt(mob2);
+                    if (mob instanceof LivingEntity) this.side2.put(id, (LivingEntity) mob);
+                    continue;
+                }
+                this.aliveTracker.put(mob2, tick);
+                if (tick > tooLong) stale.add(mob2);
                 continue;
             }
         stale.forEach(mob ->
