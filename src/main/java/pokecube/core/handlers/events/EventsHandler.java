@@ -277,6 +277,13 @@ public class EventsHandler
         EventsHandler.scheduledTasks.put(dim, tasks);
     }
 
+    /**
+     * If this is false, then the effects occur on every valid tick. Only set
+     * this false if you have something else to manage the TerrainEffectEvent
+     * and the OngoingTickEvent!
+     */
+    public static boolean COOLDOWN_BASED = true;
+
     static int count = 0;
 
     static int     countAbove = 0;
@@ -609,7 +616,7 @@ public class EventsHandler
         if (evt.getEntity().getCommandSenderWorld().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
-        if (evt.getEntity().tickCount % tick == 0)
+        if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
         {
             final IOngoingAffected affected = CapabilityAffected.getAffected(evt.getEntity());
             if (affected != null) affected.tick();

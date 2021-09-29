@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -197,7 +198,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void doEffect(final LivingEntity entity)
     {
-        if (Tracker.instance().getTick() % (2 * PokecubeCore.getConfig().attackCooldown) != 0) return;
+        if (EventsHandler.COOLDOWN_BASED && Tracker.instance().getTick() % (2 * PokecubeCore
+                .getConfig().attackCooldown) != 0) return;
         if (!AITools.validTargets.test(entity) || !(entity.getCommandSenderWorld() instanceof ServerWorld)) return;
 
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
