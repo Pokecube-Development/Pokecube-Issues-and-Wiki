@@ -373,7 +373,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 && targetPokemob != null && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0) targetPokemob
                         .healStatus();
 
-        if (!((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0)
+        if (!((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0
+                && !attacked.isInvulnerable())
         {
             // Apply attack damage to players.
             if (attacked instanceof PlayerEntity)

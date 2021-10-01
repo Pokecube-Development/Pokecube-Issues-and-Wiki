@@ -21,7 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -33,7 +33,7 @@ import thut.api.terrain.TerrainManager;
 public class InterestingMobs extends Sensor<LivingEntity>
 {
     private static final EntityPredicate VISIBLE = new EntityPredicate().range(16.0D).allowSameTeam()
-            .allowNonAttackable();
+            .allowNonAttackable().allowInvulnerable();
 
     public static boolean canPokemobMate(final IPokemob pokemob)
     {
@@ -65,11 +65,11 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final double s = 16;
         if (!TerrainManager.isAreaLoaded(entityIn.getCommandSenderWorld(), entityIn.blockPosition(), 8 + s)) return;
 
-        if (TaskBase.doLoadThrottling)
+        if (RootTask.doLoadThrottling)
         {
             final Random rng = new Random(entityIn.getUUID().hashCode());
-            final int tick = rng.nextInt(TaskBase.runRate);
-            if (entityIn.tickCount % TaskBase.runRate != tick) return;
+            final int tick = rng.nextInt(RootTask.runRate);
+            if (entityIn.tickCount % RootTask.runRate != tick) return;
         }
 
         final List<AgeableEntity> mates = Lists.newArrayList();
@@ -116,8 +116,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return ImmutableSet.of(MemoryModuleType.LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES, MemoryModules.HERD_MEMBERS,
-                MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModules.VISIBLE_ITEMS);
+        return ImmutableSet.of(MemoryModuleType.LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES,
+                MemoryModules.HERD_MEMBERS, MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModules.VISIBLE_ITEMS);
     }
 
 }

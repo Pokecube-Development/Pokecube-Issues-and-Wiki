@@ -210,7 +210,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             if (this.delayTime <= 0 && this.entity.inChunk)
             {
                 this.delayTime = this.pokemob.getAttackCooldown();
-                delay = canUseMove;
+                delay = true;
             }
             shouldPath = false;
             if (!self) this.setUseMove();

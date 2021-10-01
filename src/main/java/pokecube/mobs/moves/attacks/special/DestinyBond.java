@@ -39,6 +39,7 @@ public class DestinyBond extends Move_Basic
     {
         final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = this.usedOn.remove(killed);
+        System.out.println(targets);
         if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerWorld)
         {
             final ServerWorld world = (ServerWorld) event.killed.getEntity().getCommandSenderWorld();
@@ -48,7 +49,7 @@ public class DestinyBond extends Move_Basic
             for (final UUID id : targets)
             {
                 final Entity mob = world.getEntity(id);
-                if (mob != null) mob.hurt(source, Float.MAX_VALUE);
+                if (mob != null && !mob.isInvulnerable()) mob.hurt(source, Float.MAX_VALUE);
             }
         }
     }

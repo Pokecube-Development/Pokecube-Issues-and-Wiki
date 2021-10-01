@@ -111,7 +111,7 @@ public class ExplosionCustom extends Explosion
         final EntitySize size = e.getDimensions(e.getPose());
         final float area = size.width * size.height;
         final float damage = area * power;
-        e.hurt(DamageSource.explosion(boom), damage);
+        if (!e.isInvulnerable()) e.hurt(DamageSource.explosion(boom), damage);
     };
 
     int currentIndex = 0;

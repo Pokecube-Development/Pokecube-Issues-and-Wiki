@@ -403,7 +403,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 this.target = target;
                 this.targetOwner = OwnableCaps.getOwner(target);
                 this.targetId = this.target.getUUID();
-                PokecubeCore.LOGGER.debug("Found Target {} {}", this.target, this.targetOwner);
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Found Target {} {}", this.target,
+                        this.targetOwner);
             }
             this.checkSwitchedMob();
             return false;
