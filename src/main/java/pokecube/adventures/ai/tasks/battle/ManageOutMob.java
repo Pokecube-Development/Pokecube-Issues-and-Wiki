@@ -135,8 +135,7 @@ public class ManageOutMob extends BaseBattleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return super.checkExtraStartConditions(worldIn, entityIn);
     }

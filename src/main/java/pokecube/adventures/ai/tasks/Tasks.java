@@ -11,7 +11,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.sensor.DummySensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.Task;
@@ -80,9 +79,9 @@ public class Tasks
         brain.addActivityWithConditions(Activities.BATTLE, ImmutableList.copyOf(battle_list), ImmutableSet.of(Pair.of(
                 MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT)));
 
-        BrainUtils.addToActivity(brain, Activity.CORE, other_list);
-        BrainUtils.addToActivity(brain, Activity.IDLE, other_list);
-        BrainUtils.addToActivity(brain, Activities.STATIONARY, other_list);
-
+        brain.activeActivities.forEach(a ->
+        {
+            BrainUtils.addToActivity(brain, a, other_list);
+        });
     }
 }

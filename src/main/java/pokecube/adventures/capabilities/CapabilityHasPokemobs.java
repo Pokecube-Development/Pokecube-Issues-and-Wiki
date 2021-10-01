@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.task.PanicTask;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -1200,6 +1201,9 @@ public class CapabilityHasPokemobs
 
         default void onTick()
         {
+            final boolean serverSide = this.getTrainer().level instanceof ServerWorld;
+            if (!serverSide) return;
+
             // Every so often check if we have an out mob, and respond
             // accodingly
             mobcheck:
@@ -1209,6 +1213,22 @@ public class CapabilityHasPokemobs
                 final List<Entity> mobs = PCEventsHandler.getOutMobs(this.getTrainer(), false);
                 if (mobs.isEmpty()) break mobcheck;
                 PCEventsHandler.recallAll(mobs, true);
+            }
+
+            // Check if we are still angry at something, or otherwise should be
+            targetCheck:
+            {
+                final boolean hasTarget = this.getTargetRaw() != null;
+                final boolean shouldHaveTarget = PanicTask.hasHostile(this.getTrainer());
+
+                if (!(hasTarget || shouldHaveTarget)) break targetCheck;
+                // This means we should have a target, but it isn't kept.
+                if (!hasTarget)
+                {
+                    final LivingEntity hostile = this.getTrainer().getBrain().getMemory(
+                            MemoryModuleType.NEAREST_HOSTILE).get();
+                    this.onSetTarget(hostile, true);
+                }
             }
             this.lowerCooldowns();
         }
