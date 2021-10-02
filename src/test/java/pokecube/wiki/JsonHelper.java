@@ -1,10 +1,7 @@
 package pokecube.wiki;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import com.google.gson.*;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -21,20 +18,175 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
+import pokecube.core.client.gui.AnimationGui;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
+import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.pokedex.PokemobsJson;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
 public class JsonHelper
 {
+    public static class TrofersGenerator
+    {
+        static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+
+        public static JsonObject fromInfo(final PokedexEntry entry)
+        {
+            final JsonObject name = new JsonObject();
+            final JsonArray item = new JsonArray();
+            final JsonObject pokemobName = new JsonObject();
+            name.addProperty("color", "#D30000");
+            name.addProperty("translate", "trophy.trofers.composed");
+            pokemobName.addProperty("translate", entry.getUnlocalizedName());
+            item.add(pokemobName);
+            name.add("with", item);
+            return name;
+        }
+
+        public static JsonObject fromEffects(final PokedexEntry entry)
+        {
+            final JsonObject effects = new JsonObject();
+            final JsonObject sound = new JsonObject();
+            final JsonObject rewards = new JsonObject();
+            effects.add("sound", sound);
+            effects.add("rewards", rewards);
+            sound.addProperty("soundEvent", "" + entry.sound);
+            rewards.addProperty("lootTable", "" + entry.lootTable);
+            rewards.addProperty("cooldown", 9600);
+            return effects;
+        }
+
+        public static String makeJson(final PokedexEntry entry, final String id)
+        {
+            float mobScale = 1;
+            float scale = 1;
+            final thut.api.maths.vecmath.Vector3f dimensions = entry.getModelSize();
+            mobScale = Math.max(dimensions.z, Math.max(dimensions.y, dimensions.x));
+            if (dimensions.x > 1 || dimensions.y > 1 || dimensions.z > 1)
+            {
+                scale = 1 / (mobScale * 2);
+            }
+            else if (dimensions.x > 0.5 || dimensions.y > 0.5 || dimensions.z > 0.5)
+            {
+                scale = mobScale / (mobScale * 2);
+            }
+            else scale = 1.0f;
+
+            final JsonObject json = new JsonObject();
+            final JsonObject display = new JsonObject();
+            final JsonObject entity = new JsonObject();
+            final JsonObject colors = new JsonObject();
+            json.add("name", TrofersGenerator.fromInfo(entry));
+            json.add("effects", TrofersGenerator.fromEffects(entry));
+            json.add("display", display);
+            json.add("entity", entity);
+            json.add("colors", colors);
+            display.addProperty("scale", scale);
+            entity.addProperty("type", "pokecube:" + entry.getTrimmedName());
+            colors.addProperty("base", "#606060");
+            colors.addProperty("accent", "#D30000");
+            return TrofersGenerator.GSON.toJson(json);
+        }
+
+        public static JsonObject fromAllPokemobs(final PokedexEntry entry)
+        {
+            final JsonObject name = new JsonObject();
+            final JsonObject stats = new JsonObject();
+            name.addProperty("name", entry.getTrimmedName());
+            name.add("stats", stats);
+            stats.addProperty("lootTable", "pokecube:entities/" + entry.getTrimmedName());
+            return name;
+        }
+
+        public static String makeDrops(final PokedexEntry entry, final String id)
+        {
+            final JsonObject json = new JsonObject();
+            final JsonArray item = new JsonArray();
+            for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
+            {
+                item.add(TrofersGenerator.fromAllPokemobs(e));
+            }
+            json.add("pokemon", item);
+            return TrofersGenerator.GSON.toJson(json);
+        }
+
+        public static String[][] makeRequirements(final PokedexEntry entry)
+        {
+            return new String[][] { { entry.getTrimmedName() } };
+        }
+    }
+
+    protected static void makeTrofers(final PokedexEntry entry, final String id, final String path)
+    {
+        final ResourceLocation key = new ResourceLocation(entry.getModId(), entry.getTrimmedName());
+        String json = JsonHelper.TrofersGenerator.makeJson(entry, id);
+        final File dir = new File("./mods/" + path + "/");
+        if (!dir.exists()) dir.mkdirs();
+        final File file = new File(dir, key.getPath() + ".json");
+        FileWriter write;
+        try {
+            write = new FileWriter(file);
+            write.write(json);
+            write.close();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected static void makeLootTable(final PokedexEntry entry, final String id, final String path)
+    {
+        final ResourceLocation key = new ResourceLocation(entry.getModId(), entry.getTrimmedName());
+        String loot_table = "{\"type\": \"minecraft:entity\",\"pools\": [{\"name\": \"main\",\"rolls\": 1.0,\"entries\": [" +
+            "{\"type\": \"minecraft:item\",\"functions\": [{\"function\": \"minecraft:set_count\",\"count\": " +
+            "{\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0},\"add\": false},{\"function\": " +
+            "\"minecraft:looting_enchant\",\"count\": {\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0}}]," +
+            "\"name\": \"trofers:small_plate\"}],\"conditions\": [{\"condition\": \"trofers:random_trophy_chance\"}]," +
+            "\"functions\": [{\"function\": \"minecraft:set_nbt\",\"tag\":\"{BlockEntityTag:{Trophy:" +
+            "\\\"pokecube:" + entry.getTrimmedName() + "\\\"}}\"}]},{\"name\": \"pool\",\"rolls\": 1,\"entries\": [{" +
+            "\"type\": \"loot_table\",\"name\": \"" + entry.lootTable + "\",\"weight\": 1}]}]}";
+        final JsonObject obj = JsonHelper.TrofersGenerator.GSON.fromJson(loot_table, JsonObject.class);
+        loot_table = JsonHelper.TrofersGenerator.GSON.toJson(obj);
+        final File dir = new File("./mods/" + path + "/");
+        if (!dir.exists()) dir.mkdirs();
+        final File file = new File(dir, key.getPath() + ".json");
+        FileWriter write;
+        try {
+            write = new FileWriter(file);
+            write.write(loot_table);
+            write.close();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected static void makePokemobDrops(final PokedexEntry entry, final String id, final String path)
+    {
+        final ResourceLocation key = new ResourceLocation(entry.getModId(), "pokemobs_drops");
+        String json = JsonHelper.TrofersGenerator.makeDrops(entry, id);
+        final File dir = new File("./mods/" + path + "/");
+        if (!dir.exists()) dir.mkdirs();
+        final File file = new File(dir, key.getPath() + ".json");
+        FileWriter write;
+        try {
+            write = new FileWriter(file);
+            write.write(json);
+            write.close();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Merge "source" into "target". If fields have equal name, merge them
      * recursively.
@@ -168,6 +320,13 @@ public class JsonHelper
 
     public static void load(final ResourceLocation location)
     {
+        final List<PokedexEntry> pokedexEntries = Database.getSortedFormes();
+        for (final PokedexEntry entry : pokedexEntries)
+        {
+            JsonHelper.makeTrofers(entry, "pokecube", "trofers");
+            JsonHelper.makeLootTable(entry, "pokecube", "loot_tables/entities");
+            JsonHelper.makePokemobDrops(entry, "pokecube", "loot_tables/drops");
+        }
 
         final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("json_tests");
         path.toFile().mkdirs();
