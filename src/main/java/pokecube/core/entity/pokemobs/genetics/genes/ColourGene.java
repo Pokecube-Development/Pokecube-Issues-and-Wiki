@@ -14,11 +14,11 @@ public class ColourGene extends GeneIntArray
      * The higher this value, the more likely for mobs to range in colour. It
      * is very sensitive to the size of this number.
      */
-    private static final double colourDiffFactor = 0.25;
+    private static final double colourDiffFactor = 4;
 
     public ColourGene()
     {
-        this.value = new int[] { 127, 127, 127, 255 };
+        this.value = new int[] { 255, 255, 255, 255 };
         this.setRandomColour();
     }
 
@@ -49,6 +49,7 @@ public class ColourGene extends GeneIntArray
     public Gene<int[]> mutate()
     {
         final ColourGene mutate = new ColourGene();
+        mutate.value = this.value.clone();
         mutate.setRandomColour();
         return mutate;
     }
@@ -57,13 +58,14 @@ public class ColourGene extends GeneIntArray
     {
         final Random r = ThutCore.newRandom();
         final int first = r.nextInt(3);
-        byte red = 127, green = 127, blue = 127;
+        int red = this.value[0] - 128, green = this.value[1] - 128, blue = this.value[2] - 128;
 
-        final double shift = 4;
+        final double shift = ColourGene.colourDiffFactor;
+        final double scale = 128;
 
-        final double dr = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
-        final double dg = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
-        final double db = Math.min((shift - Math.abs(ColourGene.colourDiffFactor * r.nextGaussian())) * 32, 127);
+        final double dr = Math.min(r.nextGaussian() * shift + scale, 127);
+        final double dg = Math.min(r.nextGaussian() * shift + scale, 127);
+        final double db = Math.min(r.nextGaussian() * shift + scale, 127);
 
         if (first == 0)
         {

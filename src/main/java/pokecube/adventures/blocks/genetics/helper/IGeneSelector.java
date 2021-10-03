@@ -8,6 +8,7 @@ import pokecube.core.PokecubeCore;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
 
 public interface IGeneSelector
@@ -44,17 +45,22 @@ public interface IGeneSelector
         return new Alleles(geneSource, geneDest);
     }
 
-    default <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final Alleles<T, GENE> source,
-            final Alleles<T, GENE> destination)
+    @SuppressWarnings("unchecked")
+    default <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final IMobGenetics p1, final IMobGenetics p2,
+            final Alleles<T, GENE> source, final Alleles<T, GENE> destination)
     {
         final Random rand = ThutCore.newRandom();
         GENE geneSource = source.getExpressed();
         GENE geneDest = destination.getExpressed();
-        if (geneSource.getEpigeneticRate() < rand.nextFloat())
-        {
-            geneSource = source.getAllele(rand.nextInt(2));
-            geneDest = destination.getAllele(rand.nextInt(2));
-        }
+
+        // Applie epigenetics if needed
+        if (geneSource.getEpigeneticRate() < rand.nextFloat()) geneSource = source.getAllele(rand.nextInt(2));
+        if (geneDest.getEpigeneticRate() < rand.nextFloat()) geneDest = destination.getAllele(rand.nextInt(2));
+
+        // Apply mutations if needed.
+        if (geneSource.getMutationRate() > rand.nextFloat()) geneSource = (GENE) geneSource.mutate(p1, p2);
+        if (geneDest.getMutationRate() > rand.nextFloat()) geneDest = (GENE) geneDest.mutate(p1, p2);
+
         return this.fromGenes(geneSource, geneDest);
     }
 }

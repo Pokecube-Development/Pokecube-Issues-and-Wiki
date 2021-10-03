@@ -204,7 +204,7 @@ public class ClonerHelper
     {
         final Alleles<T, GENE> alleles = source.getAlleles(loc);
         Alleles<T, GENE> eggsAllele = destination.getAlleles(loc);
-        eggsAllele = selector.merge(alleles, eggsAllele);
+        eggsAllele = selector.merge(source, destination, alleles, eggsAllele);
         if (eggsAllele != null) destination.getAlleles().put(loc, eggsAllele);
     }
 
@@ -242,7 +242,7 @@ public class ClonerHelper
     {
         Alleles<T, GENE> alleles = source.getAlleles(loc);
         final Alleles<T, GENE> eggsAllele = destination.getAlleles(loc);
-        alleles = selector.merge(alleles, eggsAllele);
+        alleles = selector.merge(source, destination, alleles, eggsAllele);
         if (alleles != null)
         {
             final Random rand = ThutCore.newRandom();

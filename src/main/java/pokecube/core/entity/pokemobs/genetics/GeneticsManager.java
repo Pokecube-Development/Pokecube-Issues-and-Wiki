@@ -92,7 +92,7 @@ public class GeneticsManager
     static
     {
         GeneticsManager.mutationRates.put(GeneticsManager.ABILITYGENE, 0.1f);
-        GeneticsManager.mutationRates.put(GeneticsManager.COLOURGENE, 0.01f);
+        GeneticsManager.mutationRates.put(GeneticsManager.COLOURGENE, 0.25f);
         GeneticsManager.mutationRates.put(GeneticsManager.SIZEGENE, 0.1f);
         GeneticsManager.mutationRates.put(GeneticsManager.NATUREGENE, 0.05f);
         GeneticsManager.mutationRates.put(GeneticsManager.SHINYGENE, 1 / 96f);

@@ -23,6 +23,7 @@ import pokecube.adventures.blocks.genetics.helper.IGeneSelector;
 import pokecube.adventures.utils.RecipePokeAdv;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
+import thut.api.entity.genetics.IMobGenetics;
 
 public class RecipeSelector extends SpecialRecipe
 {
@@ -50,14 +51,14 @@ public class RecipeSelector extends SpecialRecipe
         }
 
         @Override
-        public <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final Alleles<T, GENE> source,
-                final Alleles<T, GENE> destination)
+        public <T, GENE extends Gene<T>> Alleles<T, GENE> merge(final IMobGenetics sourceG,
+                final IMobGenetics destinationG, final Alleles<T, GENE> source, final Alleles<T, GENE> destination)
         {
             final Set<Class<? extends Gene<?>>> selected = ClonerHelper.getGeneSelectors(this.selector);
             if (selected.contains(source.getExpressed().getClass()))
             {
                 if (destination == null) return source;
-                return IGeneSelector.super.merge(source, destination);
+                return IGeneSelector.super.merge(sourceG, destinationG, source, destination);
             }
             return null;
         }
