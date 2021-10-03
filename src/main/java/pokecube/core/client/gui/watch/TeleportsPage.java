@@ -91,6 +91,7 @@ public class TeleportsPage extends ListPage<TeleOption>
                     {
                         PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
                         this.dest.setName(this.text.getValue());
+                        this.text.setFocused(false);
                         return true;
                     }
                     return false;
@@ -109,6 +110,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             {
                 PacketPokedex.sendRenameTelePacket(this.text.getValue(), this.dest.index);
                 this.dest.setName(this.text.getValue());
+                this.text.setFocused(false);
                 return true;
             }
             return super.charTyped(typedChar, keyCode);
@@ -118,11 +120,11 @@ public class TeleportsPage extends ListPage<TeleOption>
         public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseEvent)
         {
             boolean fits = true;
-            fits = this.text.y >= this.offsetY;
             fits = fits && mouseX - this.text.x >= 0;
             fits = fits && mouseX - this.text.x <= this.text.getWidth();
-            fits = fits && this.text.y + this.text.getHeight() <= this.offsetY + this.guiHeight;
             this.text.setFocused(fits);
+            if (fits) for (final TeleOption o : this.parent.list.children())
+                if (o != this) o.text.setFocused(false);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
                 this.delete.playDownSound(this.mc.getSoundManager());
@@ -197,9 +199,12 @@ public class TeleportsPage extends ListPage<TeleOption>
                 TeleportsPage.TEX_NM);
     }
 
+    protected double scroll = 0;
+
     @Override
     public void initList()
     {
+        if (this.list != null) this.scroll = this.list.getScrollAmount();
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getStringUUID());
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
@@ -214,5 +219,6 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }
         this.children.add(this.list);
+        this.list.setScrollAmount(this.scroll);
     }
 }
