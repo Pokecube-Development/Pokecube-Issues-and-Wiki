@@ -1,10 +1,12 @@
 package pokecube.core.moves;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -292,7 +294,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         final long time = Tracker.instance().getTick();
         boolean send = false;
-        for (final int type : this.effects.keySet())
+        final List<Integer> effectKeys = Lists.newArrayList(this.effects.keySet());
+        for (final int type : effectKeys)
         {
             final Effect effect = this.effects.get(type);
             if (effect.duration < time)
