@@ -5,13 +5,13 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
@@ -58,7 +58,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingContainer inv)
     {
         if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
@@ -77,7 +77,7 @@ public class RecipeSplice extends PoweredRecipe
             PokedexEntry entry = ClonerHelper.getFromGenes(dna);
             if (entry == null) entry = ClonerHelper.getFromGenes(egg);
             egg = egg.copy();
-            if (egg.getTag() == null) egg.setTag(new CompoundNBT());
+            if (egg.getTag() == null) egg.setTag(new CompoundTag());
             ClonerHelper.spliceGenes(ClonerHelper.getGenes(dna), egg, new ItemBasedSelector(selector));
             egg.setCount(1);
             output = egg;
@@ -92,7 +92,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
+    public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
@@ -128,7 +128,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
+    public RecipeSerializer<?> getSerializer()
     {
         return RecipePokeAdv.SPLICE.get();
     }

@@ -2,8 +2,8 @@ package pokecube.adventures.ai.brain;
 
 import java.util.Optional;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.adventures.PokecubeAdv;
 

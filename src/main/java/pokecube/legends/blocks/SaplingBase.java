@@ -3,51 +3,51 @@ package pokecube.legends.blocks;
 import java.util.Random;
 import java.util.function.Supplier;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BushBlock;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.trees.Tree;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public class SaplingBase extends BushBlock implements IGrowable
+public class SaplingBase extends BushBlock implements BonemealableBlock
 {
 
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
     protected static final VoxelShape   SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
-    private final Supplier<Tree>        tree;
+    private final Supplier<AbstractTreeGrower>        tree;
 
-    public SaplingBase(final Supplier<Tree> treeIn, final Properties properties)
+    public SaplingBase(final Supplier<AbstractTreeGrower> treeIn, final Properties properties)
     {
         super(properties.randomTicks());
         this.tree = treeIn;
     }
 
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         return SaplingBase.SHAPE;
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random rand)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random rand)
     {
         if (!worldIn.isAreaLoaded(pos, 1)) return;
         if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
                 rand, pos, state);
     }
 
-    public void grow(final ServerWorld serverWorld, final BlockPos pos, final BlockState state, final Random rand)
+    public void grow(final ServerLevel serverWorld, final BlockPos pos, final BlockState state, final Random rand)
     {
         if (state.getValue(SaplingBase.STAGE) == 0) serverWorld.setBlock(pos, state.cycle(SaplingBase.STAGE), 4);
         else
@@ -58,21 +58,21 @@ public class SaplingBase extends BushBlock implements IGrowable
     }
 
     @Override
-    public void performBonemeal(final ServerWorld serverWorld, final Random rand, final BlockPos pos,
+    public void performBonemeal(final ServerLevel serverWorld, final Random rand, final BlockPos pos,
             final BlockState state)
     {
         this.grow(serverWorld, pos, state, rand);
     }
 
     @Override
-    public boolean isValidBonemealTarget(final IBlockReader worldIn, final BlockPos pos, final BlockState state,
+    public boolean isValidBonemealTarget(final BlockGetter worldIn, final BlockPos pos, final BlockState state,
             final boolean isClient)
     {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(final World worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level worldIn, final Random rand, final BlockPos pos, final BlockState state)
     {
         return worldIn.random.nextFloat() < 0.45D;
     }

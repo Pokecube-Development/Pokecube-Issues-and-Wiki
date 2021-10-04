@@ -1,15 +1,15 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.WorldWorkerManager;
 import net.minecraftforge.common.WorldWorkerManager.IWorker;
 import pokecube.core.PokecubeCore;
@@ -31,7 +31,7 @@ import thut.api.maths.Vector3;
  */
 public class LogicFloatFlySwim extends LogicBase
 {
-    private static class WalkController extends MovementController
+    private static class WalkController extends MoveControl
     {
 
         public WalkController(final IPokemob mob)
@@ -53,7 +53,7 @@ public class LogicFloatFlySwim extends LogicBase
 
     }
 
-    private static class SwimController extends MovementController
+    private static class SwimController extends MoveControl
     {
         final IPokemob pokemob;
 
@@ -74,9 +74,9 @@ public class LogicFloatFlySwim extends LogicBase
         {
             this.mob.setNoGravity(this.mob.isInWater());
 
-            if (this.operation == MovementController.Action.MOVE_TO && !this.mob.getNavigation().isDone())
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
             {
-                this.operation = MovementController.Action.WAIT;
+                this.operation = MoveControl.Operation.WAIT;
 
                 final double dx = this.wantedX - this.mob.getX();
                 final double dy = this.wantedY - this.mob.getY();
@@ -91,21 +91,21 @@ public class LogicFloatFlySwim extends LogicBase
                     return;
                 }
                 // Horizontal distance
-                final float dh = MathHelper.sqrt(dx * dx + dz * dz);
-                final float ds = MathHelper.sqrt(ds2);
+                final float dh = Mth.sqrt(dx * dx + dz * dz);
+                final float ds = Mth.sqrt(ds2);
 
-                final float f = (float) (MathHelper.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
+                final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
 
                 float angleDiff = this.mob.yRot - f;
                 angleDiff /= 180F / (float) Math.PI;
 
-                final float dot = MathHelper.cos(angleDiff);
+                final float dot = Mth.cos(angleDiff);
                 float f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
                 this.mob.setSpeed(f1 * dot);
                 this.mob.flyingSpeed = (float) (f1 * 0.05);
-                final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
+                final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
 
@@ -116,9 +116,9 @@ public class LogicFloatFlySwim extends LogicBase
 
                 // dampen the velocity so they don't orbit their destination
                 // points.
-                final float dh_hat = MathHelper.abs(dh / ds);
+                final float dh_hat = Mth.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
-                final Vector3d v = this.mob.getDeltaMovement();
+                final Vec3 v = this.mob.getDeltaMovement();
                 this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else this.mob.setSpeed(0.0F);
@@ -126,7 +126,7 @@ public class LogicFloatFlySwim extends LogicBase
 
     }
 
-    private static class FlyController extends FlyingMovementController
+    private static class FlyController extends FlyingMoveControl
     {
         final IPokemob pokemob;
 
@@ -147,9 +147,9 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (this.operation == MovementController.Action.MOVE_TO)
+            if (this.operation == MoveControl.Operation.MOVE_TO)
             {
-                this.operation = MovementController.Action.WAIT;
+                this.operation = MoveControl.Operation.WAIT;
                 this.mob.setNoGravity(true);
                 final double dx = this.wantedX - this.mob.getX();
                 final double dy = this.wantedY - this.mob.getY();
@@ -163,24 +163,24 @@ public class LogicFloatFlySwim extends LogicBase
                     return;
                 }
                 // Horizontal distance
-                final float dh = MathHelper.sqrt(dx * dx + dz * dz);
+                final float dh = Mth.sqrt(dx * dx + dz * dz);
                 // Total distance
-                final float ds = MathHelper.sqrt(ds2);
+                final float ds = Mth.sqrt(ds2);
 
-                final float f = (float) (MathHelper.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
+                final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
 
                 float angleDiff = this.mob.yRot - f;
                 angleDiff /= 180F / (float) Math.PI;
 
-                final float dot = MathHelper.cos(angleDiff);
+                final float dot = Mth.cos(angleDiff);
 
                 float f1;
                 f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
                 this.mob.setSpeed(f1 * dot);
                 this.mob.flyingSpeed = (float) (f1 * 0.05);
-                final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
+                final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
 
@@ -191,9 +191,9 @@ public class LogicFloatFlySwim extends LogicBase
 
                 // dampen the velocity so they don't orbit their destination
                 // points.
-                final float dh_hat = MathHelper.abs(dh / ds);
+                final float dh_hat = Mth.abs(dh / ds);
                 final float dy_hat = (float) Math.abs(dy / ds);
-                final Vector3d v = this.mob.getDeltaMovement();
+                final Vec3 v = this.mob.getDeltaMovement();
                 this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else
@@ -213,11 +213,11 @@ public class LogicFloatFlySwim extends LogicBase
      */
     private static class NaviUpdate implements IWorker
     {
-        private final ServerWorld   world;
-        private final PathNavigator oldNavi;
-        private final PathNavigator newNavi;
+        private final ServerLevel   world;
+        private final PathNavigation oldNavi;
+        private final PathNavigation newNavi;
 
-        public NaviUpdate(final ServerWorld world, final PathNavigator oldNavi, final PathNavigator newNavi)
+        public NaviUpdate(final ServerLevel world, final PathNavigation oldNavi, final PathNavigation newNavi)
         {
             this.world = world;
             this.oldNavi = oldNavi;
@@ -256,16 +256,16 @@ public class LogicFloatFlySwim extends LogicBase
     Vector3 here = Vector3.getNewVector();
 
     // Navigators
-    private final FlyingPathNavigator flyPather;
+    private final FlyingPathNavigation flyPather;
 
     private final WalkPathNavi  walkPather;
     private final ClimbPathNavi climbPather;
     private final SwimPathNavi  swimPather;
 
     // Movement controllers
-    private final MovementController flyController;
-    private final MovementController walkController;
-    private final MovementController swimController;
+    private final MoveControl flyController;
+    private final MoveControl walkController;
+    private final MoveControl swimController;
 
     // Path validators
     Vector3 lastPos     = Vector3.getNewVector();
@@ -303,7 +303,7 @@ public class LogicFloatFlySwim extends LogicBase
     }
 
     @Override
-    public void tick(final World world)
+    public void tick(final Level world)
     {
         super.tick(world);
 
@@ -334,7 +334,7 @@ public class LogicFloatFlySwim extends LogicBase
                     .setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
 
-        final PathNavigator oldNavi = this.entity.getNavigation();
+        final PathNavigation oldNavi = this.entity.getNavigation();
 
         final boolean air = this.pokemob.floats() || this.pokemob.flys();
         final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
@@ -371,10 +371,10 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.WALK;
         }
-        final PathNavigator newNavi = this.entity.getNavigation();
+        final PathNavigation newNavi = this.entity.getNavigation();
         // If the navigator has switched, schedule the switching world side as
         // well, if this is not done, you get major memory leaks.
-        if (world instanceof ServerWorld && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate(
-                (ServerWorld) world, oldNavi, newNavi));
+        if (world instanceof ServerLevel && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate(
+                (ServerLevel) world, oldNavi, newNavi));
     }
 }

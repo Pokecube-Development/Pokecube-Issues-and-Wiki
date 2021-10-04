@@ -10,37 +10,37 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.handler.codec.EncoderException;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTSizeTracker;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.Tag;
 
 public class NBTHelper
 {
 
-    public static Map<String, INBT> getMap(CompoundNBT tag)
+    public static Map<String, Tag> getMap(CompoundTag tag)
     {
         return tag.tags;
     }
 
-    public static INBT getTagAt(ListNBT tag, int index)
+    public static Tag getTagAt(ListTag tag, int index)
     {
-        final List<INBT> list = tag.list;
+        final List<Tag> list = tag.list;
         return list.get(index);
     }
 
-    public static CompoundNBT nbtRead(DataInputStream in) throws IOException
+    public static CompoundTag nbtRead(DataInputStream in) throws IOException
     {
-        return CompressedStreamTools.read(in);
+        return NbtIo.read(in);
     }
 
-    public static void nbtWrite(CompoundNBT compound, DataOutput out) throws IOException
+    public static void nbtWrite(CompoundTag compound, DataOutput out) throws IOException
     {
-        CompressedStreamTools.write(compound, out);
+        NbtIo.write(compound, out);
     }
 
-    public static CompoundNBT readNbtFromBuffer(ByteBuf buf)
+    public static CompoundTag readNbtFromBuffer(ByteBuf buf)
     {
         final int index = buf.readerIndex();
         final byte isNull = buf.readByte();
@@ -50,7 +50,7 @@ public class NBTHelper
         buf.readerIndex(index);
         try
         {
-            return CompressedStreamTools.read(new ByteBufInputStream(buf), new NBTSizeTracker(2097152L));
+            return NbtIo.read(new ByteBufInputStream(buf), new NbtAccounter(2097152L));
         }
         catch (final IOException ioexception)
         {
@@ -58,12 +58,12 @@ public class NBTHelper
         }
     }
 
-    public static void writeToBuffer(CompoundNBT nbt, ByteBuf buf)
+    public static void writeToBuffer(CompoundTag nbt, ByteBuf buf)
     {
         if (nbt == null) buf.writeByte(0);
         else try
         {
-            CompressedStreamTools.write(nbt, new ByteBufOutputStream(buf));
+            NbtIo.write(nbt, new ByteBufOutputStream(buf));
         }
         catch (final IOException e)
         {

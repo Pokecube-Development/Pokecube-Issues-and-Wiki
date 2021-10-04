@@ -1,9 +1,9 @@
 package pokecube.core.inventory.tms;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -16,7 +16,7 @@ import pokecube.core.inventory.InvHelper;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.item.ItemList;
 
-public class TMInventory extends Inventory implements ICapabilitySerializable<CompoundNBT>
+public class TMInventory extends SimpleContainer implements ICapabilitySerializable<CompoundTag>
 {
     private final LazyOptional<IItemHandler> holder;
 
@@ -34,7 +34,7 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
     }
 
     @Override
-    public void deserializeNBT(final CompoundNBT nbt)
+    public void deserializeNBT(final CompoundTag nbt)
     {
         InvHelper.load(this, nbt);
     }
@@ -59,9 +59,9 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         InvHelper.save(this, tag);
         return tag;
     }

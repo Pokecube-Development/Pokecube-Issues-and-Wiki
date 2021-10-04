@@ -5,45 +5,45 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.BlockInit;
 
-public class VictiniBlock extends Rotates implements IWaterLoggable
+public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
 {
     private static final EnumProperty<VictiniBlockPart> HALF           = EnumProperty.create("half",
             VictiniBlockPart.class);
     private static final Map<Direction, VoxelShape>     VICTINI_TOP    = new HashMap<>();
     private static final Map<Direction, VoxelShape>     VICTINI_BOTTOM = new HashMap<>();
     private static final BooleanProperty                WATERLOGGED    = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty              FACING         = HorizontalBlock.FACING;
+    private static final DirectionProperty              FACING         = HorizontalDirectionalBlock.FACING;
 
     // Precise selection box
     static
     {
-        VictiniBlock.VICTINI_TOP.put(Direction.NORTH, VoxelShapes.or(
+        VictiniBlock.VICTINI_TOP.put(Direction.NORTH, Shapes.or(
             Block.box(13, 3, 3.5, 16, 4, 4),
             Block.box(12, 2, 3.5, 15, 3, 4),
             Block.box(11, 1, 3.5, 14, 2, 4),
@@ -52,7 +52,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(2, 1, 3.5, 5, 2, 4),
             Block.box(1, 2, 3.5, 4, 3, 4),
             Block.box(0, 3, 3.5, 3, 4, 4)).optimize());
-        VictiniBlock.VICTINI_TOP.put(Direction.EAST, VoxelShapes.or(
+        VictiniBlock.VICTINI_TOP.put(Direction.EAST, Shapes.or(
             Block.box(12, 3, 13, 12.5, 4, 16),
             Block.box(12, 2, 12, 12.5, 3, 15),
             Block.box(12, 1, 11, 12.5, 2, 14),
@@ -61,7 +61,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(12, 1, 2, 12.5, 2, 5),
             Block.box(12, 2, 1, 12.5, 3, 4),
             Block.box(12, 3, 0, 12.5, 4, 3)).optimize());
-        VictiniBlock.VICTINI_TOP.put(Direction.SOUTH, VoxelShapes.or(
+        VictiniBlock.VICTINI_TOP.put(Direction.SOUTH, Shapes.or(
             Block.box(0, 3, 12, 3, 4, 12.5),
             Block.box(1, 2, 12, 4, 3, 12.5),
             Block.box(2, 1, 12, 5, 2, 12.5),
@@ -70,7 +70,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(11, 1, 12, 14, 2, 12.5),
             Block.box(12, 2, 12, 15, 3, 12.5),
             Block.box(13, 3, 12, 16, 4, 12.5)).optimize());
-        VictiniBlock.VICTINI_TOP.put(Direction.WEST, VoxelShapes.or(
+        VictiniBlock.VICTINI_TOP.put(Direction.WEST, Shapes.or(
             Block.box(3.5, 3, 0, 4, 4, 3),
             Block.box(3.5, 2, 1, 4, 3, 4),
             Block.box(3.5, 1, 2, 4, 2, 5),
@@ -79,7 +79,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(3.5, 1, 11, 4, 2, 14),
             Block.box(3.5, 2, 12, 4, 3, 15),
             Block.box(3.5, 3, 13, 4, 4, 16)).optimize());
-        VictiniBlock.VICTINI_BOTTOM.put(Direction.NORTH, VoxelShapes.or(
+        VictiniBlock.VICTINI_BOTTOM.put(Direction.NORTH, Shapes.or(
             Block.box(13.5, 7, 7, 15.5, 15, 9),
             Block.box(12, 13, 7, 13.5, 15, 9),
             Block.box(2.5, 13, 7, 4, 15, 9),
@@ -99,7 +99,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(0.5, 7, 7, 2.5, 15, 9),
             Block.box(2.5, 7, 7, 4, 9, 9),
             Block.box(12, 7, 7, 13.5, 9, 9)).optimize());
-        VictiniBlock.VICTINI_BOTTOM.put(Direction.EAST, VoxelShapes.or(
+        VictiniBlock.VICTINI_BOTTOM.put(Direction.EAST, Shapes.or(
             Block.box(7, 7, 13.5, 9, 15, 15.5),
             Block.box(7, 13, 12, 9, 15, 13.5),
             Block.box(7, 13, 2.5, 9, 15, 4),
@@ -119,7 +119,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(7, 7, 0.5, 9, 15, 2.5),
             Block.box(7, 7, 2.5, 9, 9, 4),
             Block.box(7, 7, 12, 9, 9, 13.5)).optimize());
-        VictiniBlock.VICTINI_BOTTOM.put(Direction.SOUTH, VoxelShapes.or(
+        VictiniBlock.VICTINI_BOTTOM.put(Direction.SOUTH, Shapes.or(
             Block.box(0.5, 7, 7, 2.5, 15, 9),
             Block.box(2.5, 13, 7, 4, 15, 9),
             Block.box(12, 13, 7, 13.5, 15, 9),
@@ -139,7 +139,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
             Block.box(13.5, 7, 7, 15.5, 15, 9),
             Block.box(12, 7, 7, 13.5, 9, 9),
             Block.box(2.5, 7, 7, 4, 9, 9)).optimize());
-        VictiniBlock.VICTINI_BOTTOM.put(Direction.WEST, VoxelShapes.or(
+        VictiniBlock.VICTINI_BOTTOM.put(Direction.WEST, Shapes.or(
             Block.box(7, 7, 0.5, 9, 15, 2.5),
             Block.box(7, 13, 2.5, 9, 15, 4),
             Block.box(7, 13, 12, 9, 15, 13.5),
@@ -163,8 +163,8 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         final VictiniBlockPart half = state.getValue(VictiniBlock.HALF);
         if (half == VictiniBlockPart.BOTTOM) return VictiniBlock.VICTINI_BOTTOM.get(state.getValue(VictiniBlock.FACING));
@@ -180,7 +180,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
 
     // Places Victini Spawner with both top and bottom pieces
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
@@ -193,8 +193,8 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
 
     // Breaking Victini Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
-            final PlayerEntity player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+            final Player player)
     {
         final Direction facing = state.getValue(VictiniBlock.FACING);
         final BlockPos victiniPos = this.getVictiniPos(pos, state.getValue(VictiniBlock.HALF), facing);
@@ -228,7 +228,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Victini Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, Player player)
     {
         BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
@@ -243,7 +243,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     // Prevents the Victini Spawner from replacing blocks above it and checks
     // for water
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
@@ -257,7 +257,7 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(VictiniBlock.HALF, VictiniBlock.FACING, VictiniBlock.WATERLOGGED);
     }

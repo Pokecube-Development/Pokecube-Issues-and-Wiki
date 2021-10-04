@@ -4,34 +4,34 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.state.properties.StructureMode;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.math.SectionPos;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.template.Template;
-import net.minecraft.world.gen.feature.template.Template.BlockInfo;
-import net.minecraft.world.gen.feature.template.Template.Palette;
-import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.gen.settings.DimensionStructuresSettings;
-import net.minecraft.world.gen.settings.StructureSeparationSettings;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.SectionPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.StructureMode;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.StructureSettings;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.Palette;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -40,7 +40,7 @@ import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
 
-public class CustomJigsawStructure extends Structure<JigsawConfig>
+public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
 {
     public int priority = 100;
 
@@ -52,7 +52,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
     }
 
     @Override
-    public IStartFactory<JigsawConfig> getStartFactory()
+    public StructureStartFactory<JigsawConfig> getStartFactory()
     {
         return Start::new;
     }
@@ -74,8 +74,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
     }
 
     @Override
-    protected boolean isFeatureChunk(final ChunkGenerator generator, final BiomeProvider biomes, final long seed,
-            final SharedSeedRandom rand, final int x, final int z, final Biome biome, final ChunkPos pos,
+    protected boolean isFeatureChunk(final ChunkGenerator generator, final BiomeSource biomes, final long seed,
+            final WorldgenRandom rand, final int x, final int z, final Biome biome, final ChunkPos pos,
             final JigsawConfig config)
     {
         if (!config.struct_config.allow_void)
@@ -89,23 +89,23 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
 
         // Here we check if there are any conflicting structures around.
         final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());
-        final Decoration stage0 = Structure.STEP.get(this.getStructure());
+        final Decoration stage0 = StructureFeature.STEP.get(this.getStructure());
 
-        final ServerWorld world = JigsawAssmbler.getForGen(generator);
-        final StructureManager manager = world.structureFeatureManager();
-        final DimensionStructuresSettings settings = generator.getSettings();
-        for (final Structure<?> s : WorldgenHandler.getSortedList())
+        final ServerLevel world = JigsawAssmbler.getForGen(generator);
+        final StructureFeatureManager manager = world.structureFeatureManager();
+        final StructureSettings settings = generator.getSettings();
+        for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
         {
             if (s == this.getStructure()) break;
             if (!biomes.canGenerateStructure(s)) continue;
             final int ds1 = WorldgenHandler.getNeededSpace(s);
             final int ds = Math.max(ds0, ds1);
 
-            final StructureSeparationSettings structureseparationsettings = settings.getConfig(s);
+            final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
             // This means it doesn't spawn in this world, so we skip.
             if (structureseparationsettings == null) continue;
 
-            final Decoration stage1 = Structure.STEP.get(s);
+            final Decoration stage1 = StructureFeature.STEP.get(s);
             // Only care about things that are of same stage!
             if (stage1 != stage0) continue;
 
@@ -114,7 +114,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                 {
                     // We ask for EMPTY chunk, and allow it to be null, so that
                     // we don't cause issues if the chunk doesn't exist yet.
-                    final IChunk ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
+                    final ChunkAccess ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
                     // We then only care about chunks which have already reached
                     // at least this stage of loading.
                     if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
@@ -136,10 +136,10 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
     {
         final int k = (chunkX << 4) + 7;
         final int l = (chunkZ << 4) + 7;
-        final int i1 = generatorIn.getFirstOccupiedHeight(k + 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int j1 = generatorIn.getFirstOccupiedHeight(k + 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int k1 = generatorIn.getFirstOccupiedHeight(k - 5, l + 5, Heightmap.Type.WORLD_SURFACE_WG);
-        final int l1 = generatorIn.getFirstOccupiedHeight(k - 5, l - 5, Heightmap.Type.WORLD_SURFACE_WG);
+        final int i1 = generatorIn.getFirstOccupiedHeight(k + 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG);
+        final int j1 = generatorIn.getFirstOccupiedHeight(k + 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG);
+        final int k1 = generatorIn.getFirstOccupiedHeight(k - 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG);
+        final int l1 = generatorIn.getFirstOccupiedHeight(k - 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 
@@ -149,15 +149,15 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
      */
     public static class Start extends StructureStart<JigsawConfig>
     {
-        public Start(final Structure<JigsawConfig> structureIn, final int chunkX, final int chunkZ,
-                final MutableBoundingBox mutableBoundingBox, final int referenceIn, final long seedIn)
+        public Start(final StructureFeature<JigsawConfig> structureIn, final int chunkX, final int chunkZ,
+                final BoundingBox mutableBoundingBox, final int referenceIn, final long seedIn)
         {
             super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
         }
 
         @Override
-        public void generatePieces(final DynamicRegistries dynamicRegistryManager, final ChunkGenerator chunkGenerator,
-                final TemplateManager templateManagerIn, final int chunkX, final int chunkZ, final Biome biomeIn,
+        public void generatePieces(final RegistryAccess dynamicRegistryManager, final ChunkGenerator chunkGenerator,
+                final StructureManager templateManagerIn, final int chunkX, final int chunkZ, final Biome biomeIn,
                 final JigsawConfig config)
         {
             // Turns the chunk coordinates into actual coordinates we can use.
@@ -171,7 +171,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             {
                 final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
                 boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
-                        config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
+                        config.struct_config.size, PoolElementStructurePiece::new, chunkGenerator, templateManagerIn,
                         blockpos, this.pieces, this.random, biomeIn, c -> true);
 
                 int n = 0;
@@ -180,7 +180,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                     this.pieces.clear();
                     final Random newRand = new Random(this.random.nextLong());
                     built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
-                            config.struct_config.size, AbstractVillagePiece::new, chunkGenerator, templateManagerIn,
+                            config.struct_config.size, PoolElementStructurePiece::new, chunkGenerator, templateManagerIn,
                             blockpos, this.pieces, newRand, biomeIn, c -> true);
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.pieces.size());
                 }
@@ -202,9 +202,9 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
             // spawned flag
 
             for (final StructurePiece part : this.pieces)
-                if (part instanceof AbstractVillagePiece)
+                if (part instanceof PoolElementStructurePiece)
                 {
-                    final AbstractVillagePiece p = (AbstractVillagePiece) part;
+                    final PoolElementStructurePiece p = (PoolElementStructurePiece) part;
                     if (p.getElement() instanceof CustomJigsawPiece)
                     {
                         final CustomJigsawPiece piece = (CustomJigsawPiece) p.getElement();
@@ -217,7 +217,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                         if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore
                                 .getConfig().doSpawnBuilding)
                         {
-                            final Template t = piece.getTemplate(templateManagerIn);
+                            final StructureTemplate t = piece.getTemplate(templateManagerIn);
                             if (piece.toUse == null) piece.getSettings(part.getRotation(), part.getBoundingBox(),
                                     false);
                             components:
@@ -226,7 +226,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                 boolean foundWorldspawn = false;
                                 String tradeString = "";
                                 BlockPos pos = null;
-                                for (final BlockInfo i : list.blocks())
+                                for (final StructureBlockInfo i : list.blocks())
                                     if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                     {
                                         final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
@@ -242,8 +242,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                     }
                                 if (!tradeString.isEmpty() && foundWorldspawn)
                                 {
-                                    final ServerWorld sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, pos).offset(
+                                    final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
+                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, pos).offset(
                                             blockpos).offset(0, part.getBoundingBox().y0, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
                                     sworld.getServer().execute(() ->
@@ -253,7 +253,7 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                     PokecubeSerializer.getInstance().setPlacedSpawn();
                                     piece.isSpawn = true;
                                     piece.spawnReplace = tradeString;
-                                    piece.mask = new MutableBoundingBox(part.getBoundingBox());
+                                    piece.mask = new BoundingBox(part.getBoundingBox());
                                     break components;
                                 }
                             }

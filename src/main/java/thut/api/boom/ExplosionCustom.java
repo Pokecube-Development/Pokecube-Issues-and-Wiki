@@ -8,21 +8,21 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -108,7 +108,7 @@ public class ExplosionCustom extends Explosion
 
     public IEntityHitter hitter = (e, power, boom) ->
     {
-        final EntitySize size = e.getDimensions(e.getPose());
+        final EntityDimensions size = e.getDimensions(e.getPose());
         final float area = size.width * size.height;
         final float damage = area * power;
         if (!e.isInvulnerable()) e.hurt(DamageSource.explosion(boom), damage);
@@ -133,7 +133,7 @@ public class ExplosionCustom extends Explosion
 
     public int maxPerTick;
 
-    public World world;
+    public Level world;
 
     Vector3 centre;
 
@@ -147,7 +147,7 @@ public class ExplosionCustom extends Explosion
     {
     };
 
-    public PlayerEntity owner = null;
+    public Player owner = null;
 
     List<Entity> targets = new ArrayList<>();
 
@@ -187,16 +187,16 @@ public class ExplosionCustom extends Explosion
     Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(), rTest = Vector3
             .getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
 
-    public ExplosionCustom(final World world, final Entity par2Entity, final double x, final double y, final double z,
+    public ExplosionCustom(final Level world, final Entity par2Entity, final double x, final double y, final double z,
             final float power)
     {
         this(world, par2Entity, Vector3.getNewVector().set(x, y, z), power);
     }
 
-    public ExplosionCustom(final World world, final Entity par2Entity, final Vector3 center, final float power)
+    public ExplosionCustom(final Level world, final Entity par2Entity, final Vector3 center, final float power)
     {
         // TODO replace the 2 nulls here with damage source and context!
-        super(world, par2Entity, null, null, center.x, center.y, center.z, power, false, Mode.DESTROY);
+        super(world, par2Entity, null, null, center.x, center.y, center.z, power, false, BlockInteraction.DESTROY);
         this.world = world;
         this.exploder = par2Entity;
         this.explosionX = center.x;
@@ -214,7 +214,7 @@ public class ExplosionCustom extends Explosion
         this.resists = new ResistMap();
         this.resists = this.cubes;
 
-        this.lastBoundCheck = center.intY() - world.getHeight(Type.MOTION_BLOCKING, center.intX(), center.intZ()) + 10;
+        this.lastBoundCheck = center.intY() - world.getHeight(Types.MOTION_BLOCKING, center.intX(), center.intZ()) + 10;
         this.lastBoundCheck = Math.max(this.lastBoundCheck, 10);
     }
 
@@ -260,8 +260,8 @@ public class ExplosionCustom extends Explosion
 
     public void doExplosion()
     {
-        this.world.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat()
+        this.world.playSound((Player) null, this.explosionX, this.explosionY, this.explosionZ,
+                SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat()
                         - this.world.random.nextFloat()) * 0.2F) * 0.7F);
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
@@ -283,7 +283,7 @@ public class ExplosionCustom extends Explosion
     }
 
     // TODO Revisit this to make blast energy more conserved
-    public void doKineticImpactor(final World world, final Vector3 velocity, Vector3 hitLocation, Vector3 acceleration,
+    public void doKineticImpactor(final Level world, final Vector3 velocity, Vector3 hitLocation, Vector3 acceleration,
             float density, float energy)
     {
         if (density < 0 || energy <= 0) return;

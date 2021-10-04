@@ -2,15 +2,15 @@ package pokecube.core.network.packets;
 
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.inventory.pc.PCContainer;
@@ -30,7 +30,7 @@ public class PacketPC extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendInitialSyncMessage(final PlayerEntity sendTo)
+    public static void sendInitialSyncMessage(final Player sendTo)
     {
         final PCInventory inv = PCInventory.getPC(sendTo.getUUID());
         final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUUID());
@@ -40,15 +40,15 @@ public class PacketPC extends Packet
         packet.data.putInt("C", inv.getPage());
         for (int i = 0; i < inv.boxes.length; i++)
             packet.data.putString("N" + i, inv.boxes[i]);
-        PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
+        PokecubeCore.packets.sendTo(packet, (ServerPlayer) sendTo);
     }
 
-    public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner, final BlockPos pcPos)
+    public static void sendOpenPacket(final Player sendTo, final UUID owner, final BlockPos pcPos)
     {
-        final ServerPlayerEntity player = (ServerPlayerEntity) sendTo;
+        final ServerPlayer player = (ServerPlayer) sendTo;
         final PCInventory inv = PCManager.INSTANCE.get(owner);
-        final PacketBuffer clt = inv.makeBuffer();
-        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new PCContainer(i,
+        final FriendlyByteBuf clt = inv.makeBuffer();
+        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PCContainer(i,
                 p, inv), sendTo.getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
@@ -57,7 +57,7 @@ public class PacketPC extends Packet
     }
 
     byte               message;
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketPC()
     {
@@ -74,10 +74,10 @@ public class PacketPC extends Packet
         this.data.putUUID(PacketPC.OWNER, owner);
     }
 
-    public PacketPC(final PacketBuffer buf)
+    public PacketPC(final FriendlyByteBuf buf)
     {
         this.message = buf.readByte();
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         this.data = buffer.readNbt();
     }
 
@@ -112,7 +112,7 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
 
         PCContainer container = null;
@@ -125,7 +125,7 @@ public class PacketPC extends Packet
         case BIND:
             if (container != null && container.pcPos != null)
             {
-                final TileEntity tile = player.getCommandSenderWorld().getBlockEntity(container.pcPos);
+                final BlockEntity tile = player.getCommandSenderWorld().getBlockEntity(container.pcPos);
                 if (tile instanceof PCTile)
                 {
                     final PCTile pcTile = (PCTile) tile;
@@ -174,10 +174,10 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
         buf.writeByte(this.message);
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         buffer.writeNbt(this.data);
     }
 

@@ -10,20 +10,20 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
@@ -45,7 +45,7 @@ import thut.api.Tracker;
 import thut.api.world.IWorldTickListener;
 import thut.core.common.ThutCore;
 
-public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, IWorldTickListener
+public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, IWorldTickListener
 {
     public static BurrowHab makeFor(final IPokemob pokemob, final BlockPos pos)
     {
@@ -53,10 +53,10 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         hab.setMaker(pokemob.getPokedexEntry());
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
-        final Predicate<MobEntity> filter = mob -> hab.canEnterHabitat(mob);
-        final List<MobEntity> mobs = pokemob.getEntity().getCommandSenderWorld().getEntitiesOfClass(MobEntity.class,
+        final Predicate<Mob> filter = mob -> hab.canEnterHabitat(mob);
+        final List<Mob> mobs = pokemob.getEntity().getCommandSenderWorld().getEntitiesOfClass(Mob.class,
                 hab.burrow.getOutBounds().inflate(10), filter);
-        for (final MobEntity mob : mobs)
+        for (final Mob mob : mobs)
             if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
         return hab;
     }
@@ -85,14 +85,14 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
+    public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
-        final AxisAlignedBB box = this.burrow.getOutBounds().inflate(16, 0, 16);
+        final AABB box = this.burrow.getOutBounds().inflate(16, 0, 16);
         this.repelled = new AABBRegion(box);
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
+    public ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         if (this.repelled == null) this.updateRepelledRegion(tile, world);
         return this.repelled;
@@ -139,56 +139,56 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        final CompoundNBT nbt = new CompoundNBT();
+        final CompoundTag nbt = new CompoundTag();
         nbt.putString("maker", this.maker.getTrimmedName());
         nbt.put("burrow", this.burrow.serializeNBT());
-        final ListNBT eggs = new ListNBT();
+        final ListTag eggs = new ListTag();
         this.eggs.forEach(uuid ->
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             eggs.add(tag);
         });
         nbt.put("eggs", eggs);
-        final ListNBT mobs = new ListNBT();
+        final ListTag mobs = new ListTag();
         this.mobs.forEach(uuid ->
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             mobs.add(tag);
         });
         nbt.put("mobs", mobs);
-        final ListNBT muts = new ListNBT();
+        final ListTag muts = new ListTag();
         this.mutations.forEach(entry ->
         {
-            muts.add(StringNBT.valueOf(entry.getTrimmedName()));
+            muts.add(StringTag.valueOf(entry.getTrimmedName()));
         });
         nbt.put("mutated", muts);
         return nbt;
     }
 
     @Override
-    public void onTickEnd(final ServerWorld world)
+    public void onTickEnd(final ServerLevel world)
     {
         IWorldTickListener.super.onTickEnd(world);
     }
 
     @Override
-    public void onBroken(final ServerWorld world)
+    public void onBroken(final ServerLevel world)
     {
         IInhabitable.super.onBroken(world);
     }
 
-    private List<IPokemob> cleanAndCollectMobs(final ServerWorld world)
+    private List<IPokemob> cleanAndCollectMobs(final ServerLevel world)
     {
         final List<IPokemob> pokemobs = Lists.newArrayList();
         this.mobs.removeIf(uuid ->
         {
             final Entity mob = world.getEntity(uuid);
-            if (mob == null || !(mob instanceof MobEntity)) return true;
-            if (!this.canEnterHabitat((MobEntity) mob)) return true;
+            if (mob == null || !(mob instanceof Mob)) return true;
+            if (!this.canEnterHabitat((Mob) mob)) return true;
             pokemobs.add(CapabilityPokemob.getPokemobFor(mob));
             return false;
         });
@@ -196,7 +196,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public void onTick(final ServerWorld world)
+    public void onTick(final ServerLevel world)
     {
         final long time = Tracker.instance().getTick();
 
@@ -228,7 +228,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
             final List<IPokemob> pokemobs = this.cleanAndCollectMobs(world);
             if (this.burrow.shouldDig(time))
             {
-                final CompoundNBT tag = new CompoundNBT();
+                final CompoundTag tag = new CompoundTag();
                 tag.putBoolean("dig", true);
                 for (final IPokemob pokemob : pokemobs)
                 {
@@ -237,7 +237,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 }
             }
 
-            final TileEntity tile = world.getBlockEntity(this.burrow.getCenter());
+            final BlockEntity tile = world.getBlockEntity(this.burrow.getCenter());
 
             if (tile instanceof NestTile)
             {
@@ -245,7 +245,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
                 {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
-                    if (!p.getEntity().inChunk) return true;
+                    if (!p.getEntity().isAddedToWorld()) return true;
                     return false;
                 });
                 ((NestTile) tile).residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
@@ -323,7 +323,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public void deserializeNBT(final CompoundNBT nbt)
+    public void deserializeNBT(final CompoundTag nbt)
     {
         this.setMaker(Database.getEntry(nbt.getString("maker")));
         this.burrow = new Room();
@@ -332,31 +332,31 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
         this.mobs.clear();
         this.mutations.clear();
         final int compoundId = 10;
-        final ListNBT eggs = nbt.getList("eggs", compoundId);
+        final ListTag eggs = nbt.getList("eggs", compoundId);
         for (int i = 0; i < eggs.size(); ++i)
         {
-            final CompoundNBT tag = eggs.getCompound(i);
+            final CompoundTag tag = eggs.getCompound(i);
             this.eggs.add(tag.getUUID("id"));
         }
-        final ListNBT mobs = nbt.getList("mobs", compoundId);
+        final ListTag mobs = nbt.getList("mobs", compoundId);
         for (int i = 0; i < mobs.size(); ++i)
         {
-            final CompoundNBT tag = mobs.getCompound(i);
+            final CompoundTag tag = mobs.getCompound(i);
             this.mobs.add(tag.getUUID("id"));
         }
         final int stringId = 8;
-        final ListNBT muts = nbt.getList("mutated", stringId);
+        final ListTag muts = nbt.getList("mutated", stringId);
         for (int i = 0; i < muts.size(); ++i)
             this.mutations.add(Database.getEntry(muts.getString(i)));
     }
 
     @Override
-    public void onExitHabitat(final MobEntity mob)
+    public void onExitHabitat(final Mob mob)
     {
     }
 
     @Override
-    public boolean onEnterHabitat(final MobEntity mob)
+    public boolean onEnterHabitat(final Mob mob)
     {
         if (this.canEnterHabitat(mob))
         {
@@ -367,7 +367,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundNBT>, I
     }
 
     @Override
-    public boolean canEnterHabitat(final MobEntity mob)
+    public boolean canEnterHabitat(final Mob mob)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return false;

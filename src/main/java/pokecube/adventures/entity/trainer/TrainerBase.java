@@ -3,17 +3,18 @@ package pokecube.adventures.entity.trainer;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
@@ -48,7 +49,7 @@ public abstract class TrainerBase extends NpcMob
     int     despawncounter = 0;
     boolean fixedMobs      = false;
 
-    protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
+    protected TrainerBase(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
         super(type, worldIn);
         this.pokemobsCap = (DefaultPokemobs) this.getCapability(TrainerCaps.HASPOKEMOBS_CAP).orElse(null);
@@ -58,7 +59,7 @@ public abstract class TrainerBase extends NpcMob
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
     }
 
-    public boolean canTrade(final PlayerEntity player)
+    public boolean canTrade(final Player player)
     {
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);
@@ -69,10 +70,10 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public ActionResultType mobInteract(final PlayerEntity player, final Hand hand)
+    public InteractionResult mobInteract(final Player player, final InteractionHand hand)
     {
         final ItemStack stack = player.getItemInHand(hand);
-        if (player.abilities.instabuild && player.isCrouching())
+        if (player.getAbilities().instabuild && player.isCrouching())
         {
             if (this.pokemobsCap.getType() != null && !this.getCommandSenderWorld().isClientSide && stack.isEmpty())
             {
@@ -83,11 +84,11 @@ public abstract class TrainerBase extends NpcMob
                     final ItemStack i = this.pokemobsCap.getPokemob(ind);
                     if (!i.isEmpty()) message += i.getHoverName() + " ";
                 }
-                player.sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+                player.sendMessage(new TextComponent(message), Util.NIL_UUID);
             }
             else if (!this.getCommandSenderWorld().isClientSide && player.isCrouching() && player.getMainHandItem()
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
-            return ActionResultType.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
         else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
                 .isEmpty())
@@ -99,12 +100,12 @@ public abstract class TrainerBase extends NpcMob
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
             this.playCelebrateSound();
-            return ActionResultType.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
         else if (this.canTrade(player))
         {
             final boolean customer = player == this.getTradingPlayer();
-            if (customer) return ActionResultType.sidedSuccess(this.level.isClientSide);
+            if (customer) return InteractionResult.sidedSuccess(this.level.isClientSide);
             this.setTradingPlayer(player);
             if (!this.fixedTrades)
             {
@@ -118,12 +119,12 @@ public abstract class TrainerBase extends NpcMob
             }
             if (!this.getOffers().isEmpty()) this.openTradingScreen(player, this.getDisplayName(), 0);
             else this.setTradingPlayer(null);
-            return ActionResultType.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
         else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.onSetTarget(
                 player);
 
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -132,7 +133,7 @@ public abstract class TrainerBase extends NpcMob
         this.invuln = true;
         if (PokecubeAdv.config.trainerAIPause)
         {
-            final PlayerEntity near = this.getCommandSenderWorld().getNearestPlayer(this, -1);
+            final Player near = this.getCommandSenderWorld().getNearestPlayer(this, -1);
             if (near != null)
             {
                 final float dist = near.distanceTo(this);
@@ -173,8 +174,8 @@ public abstract class TrainerBase extends NpcMob
             cube = ItemStack.EMPTY;
             reward = ItemStack.EMPTY;
         }
-        this.setItemInHand(Hand.MAIN_HAND, cube);
-        this.setItemInHand(Hand.OFF_HAND, reward);
+        this.setItemInHand(InteractionHand.MAIN_HAND, cube);
+        this.setItemInHand(InteractionHand.OFF_HAND, reward);
 
         if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
@@ -192,7 +193,7 @@ public abstract class TrainerBase extends NpcMob
                 // Do not despawn if there is a player nearby.
                 if (Tools.isAnyPlayerInRange(10, this)) return;
                 this.despawncounter++;
-                if (this.despawncounter > 200) this.remove();
+                if (this.despawncounter > 200) this.remove(Entity.RemovalReason.DISCARDED);
                 return;
             }
         }
@@ -200,10 +201,10 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void remove()
+    public void remove(final Entity.RemovalReason removalReason)
     {
         EventsHandler.recallAllPokemobs(this);
-        super.remove();
+        super.remove(removalReason);
     }
 
     @Override
@@ -221,7 +222,7 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void setTradingPlayer(final PlayerEntity player)
+    public void setTradingPlayer(final Player player)
     {
         this.trades.setCustomer(player);
         super.setTradingPlayer(player);
@@ -236,7 +237,7 @@ public abstract class TrainerBase extends NpcMob
 
     public abstract void initTeam(int level);
 
-    protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
+    protected abstract void addMobTrades(final Player player, final ItemStack stack);
 
     @Override
     protected void onSetOffers()

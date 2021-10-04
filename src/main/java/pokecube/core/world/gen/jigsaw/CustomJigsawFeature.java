@@ -4,10 +4,10 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 public class CustomJigsawFeature extends Feature<JigsawConfig>
 {
@@ -18,7 +18,7 @@ public class CustomJigsawFeature extends Feature<JigsawConfig>
     }
 
     @Override
-    public boolean place(final ISeedReader reader, final ChunkGenerator generator, final Random rand, final BlockPos pos,
+    public boolean place(final WorldGenLevel reader, final ChunkGenerator generator, final Random rand, final BlockPos pos,
             final JigsawConfig config)
     {
         return false;

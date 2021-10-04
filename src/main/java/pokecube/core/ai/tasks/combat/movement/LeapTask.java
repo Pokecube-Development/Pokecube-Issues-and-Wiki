@@ -4,12 +4,12 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.IPosWrapper;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -28,18 +28,18 @@ import thut.core.common.ThutCore;
  */
 public class LeapTask extends TaskBase implements IAICombat
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+        LeapTask.MEMS.put(MemoryModules.LEAP_TARGET, MemoryStatus.VALUE_PRESENT);
     }
 
     int leapTick = -1;
 
     double leapSpeed = 1;
 
-    IPosWrapper pos = null;
+    PositionTracker pos = null;
 
     Vector3 leapTarget = Vector3.getNewVector();
     Vector3 leapOrigin = Vector3.getNewVector();
@@ -118,7 +118,7 @@ public class LeapTask extends TaskBase implements IAICombat
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
 
         new PlaySound(this.entity.getCommandSenderWorld().dimension(), Vector3.getNewVector().set(this.entity), this
-                .getLeapSound(), SoundCategory.HOSTILE, 1, 1).run(this.world);
+                .getLeapSound(), SoundSource.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }
 

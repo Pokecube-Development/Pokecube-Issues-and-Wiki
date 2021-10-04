@@ -12,11 +12,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ITag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -115,7 +115,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
+            final Tag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
             for (final Item i : itemtag.getValues())
             {
                 final ItemStack stack = new ItemStack(i);
@@ -148,7 +148,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final ITag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
+            final Tag<Item> itemtag = ItemTags.getAllTags().getTagOrEmpty(tag);
             if (itemtag != null) for (final Item i : itemtag.getValues())
             {
                 final ItemStack stack = new ItemStack(i);

@@ -1,7 +1,7 @@
 package pokecube.adventures.utils;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -17,7 +17,7 @@ public class InventoryHandler
     private static final ResourceLocation DAYCARETAG = new ResourceLocation("pokecube_adventures:daycare_fuel");
 
     @SubscribeEvent
-    public static void onTileCapabilityAttach(final AttachCapabilitiesEvent<TileEntity> event)
+    public static void onTileCapabilityAttach(final AttachCapabilitiesEvent<BlockEntity> event)
     {
         if (event.getCapabilities().containsKey(InventoryHandler.CAPID)) return;
         if (event.getObject() instanceof DaycareTile) event.addCapability(InventoryHandler.CAPID, new ItemCap(1, 64,

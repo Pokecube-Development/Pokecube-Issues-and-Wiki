@@ -5,13 +5,13 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -33,11 +33,11 @@ public class CapabilityInhabitable
         // capability, etc.
         private IInhabitable wrapped;
 
-        final TileEntity tile;
+        final BlockEntity tile;
 
         public final LazyOptional<IInhabitable> cap_holder;
 
-        public HabitatProvider(final TileEntity tile, final IInhabitable toWrap)
+        public HabitatProvider(final BlockEntity tile, final IInhabitable toWrap)
         {
             this.tile = tile;
             this.setWrapped(toWrap);
@@ -51,35 +51,35 @@ public class CapabilityInhabitable
         }
 
         @Override
-        public void onExitHabitat(final MobEntity mob)
+        public void onExitHabitat(final Mob mob)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onExitHabitat(mob);
         }
 
         @Override
-        public boolean onEnterHabitat(final MobEntity mob)
+        public boolean onEnterHabitat(final Mob mob)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             return this.getWrapped().onEnterHabitat(mob);
         }
 
         @Override
-        public boolean canEnterHabitat(final MobEntity mob)
+        public boolean canEnterHabitat(final Mob mob)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             return this.getWrapped().canEnterHabitat(mob);
         }
 
         @Override
-        public void onTick(final ServerWorld world)
+        public void onTick(final ServerLevel world)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onTick(world);
         }
 
         @Override
-        public void onBroken(final ServerWorld world)
+        public void onBroken(final ServerLevel world)
         {
             this.getWrapped().onBroken(world);
         }
@@ -107,18 +107,18 @@ public class CapabilityInhabitable
         return CapabilityInhabitable.REGISTRY.getOrDefault(key, () -> null).get();
     }
 
-    public static class SaveableHabitatProvider extends HabitatProvider implements ICapabilitySerializable<CompoundNBT>
+    public static class SaveableHabitatProvider extends HabitatProvider implements ICapabilitySerializable<CompoundTag>
     {
 
-        public SaveableHabitatProvider(final TileEntity tile)
+        public SaveableHabitatProvider(final BlockEntity tile)
         {
             super(tile, new NotHabitat());
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT nbt = new CompoundNBT();
+            final CompoundTag nbt = new CompoundTag();
             if (this.getWrapped() instanceof INBTSerializable) nbt.put(this.getWrapped().getKey().toString(),
                     ((INBTSerializable<?>) this.getWrapped()).serializeNBT());
             return nbt;
@@ -126,7 +126,7 @@ public class CapabilityInhabitable
 
         @SuppressWarnings("unchecked")
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             try
             {
@@ -148,7 +148,7 @@ public class CapabilityInhabitable
                     if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc)) this.setWrapped(
                             CapabilityInhabitable.REGISTRY.get(keyLoc).get());
                 }
-                if (this.getWrapped() instanceof INBTSerializable) ((INBTSerializable<INBT>) this.getWrapped())
+                if (this.getWrapped() instanceof INBTSerializable) ((INBTSerializable<Tag>) this.getWrapped())
                         .deserializeNBT(nbt.get(key));
             }
             catch (final Exception e)
@@ -164,18 +164,18 @@ public class CapabilityInhabitable
     public static class NotHabitat implements IInhabitable
     {
         @Override
-        public void onExitHabitat(final MobEntity mob)
+        public void onExitHabitat(final Mob mob)
         {
         }
 
         @Override
-        public boolean onEnterHabitat(final MobEntity mob)
+        public boolean onEnterHabitat(final Mob mob)
         {
             return false;
         }
 
         @Override
-        public boolean canEnterHabitat(final MobEntity mob)
+        public boolean canEnterHabitat(final Mob mob)
         {
             return false;
         }
@@ -187,14 +187,14 @@ public class CapabilityInhabitable
         @SuppressWarnings({ "unchecked" })
         @Override
         public void readNBT(final Capability<IInhabitable> capability, final IInhabitable instance,
-                final Direction side, final INBT nbt)
+                final Direction side, final Tag nbt)
         {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<INBT>) instance).deserializeNBT(
+            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<Tag>) instance).deserializeNBT(
                     nbt);
         }
 
         @Override
-        public INBT writeNBT(final Capability<IInhabitable> capability, final IInhabitable instance,
+        public Tag writeNBT(final Capability<IInhabitable> capability, final IInhabitable instance,
                 final Direction side)
         {
             if (instance instanceof ICapabilitySerializable) return ((ICapabilitySerializable<?>) instance)

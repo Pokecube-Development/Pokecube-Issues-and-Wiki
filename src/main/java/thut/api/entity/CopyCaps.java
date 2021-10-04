@@ -4,15 +4,15 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -27,13 +27,13 @@ import thut.core.common.network.CapabilitySync;
 
 public class CopyCaps
 {
-    public static class Impl implements ICopyMob, ICapabilitySerializable<CompoundNBT>
+    public static class Impl implements ICopyMob, ICapabilitySerializable<CompoundTag>
     {
         private final LazyOptional<ICopyMob> holder = LazyOptional.of(() -> this);
 
         public ResourceLocation copiedID  = null;
         public LivingEntity     copiedMob = null;
-        public CompoundNBT      copiedNBT = new CompoundNBT();
+        public CompoundTag      copiedNBT = new CompoundTag();
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -54,7 +54,7 @@ public class CopyCaps
         }
 
         @Override
-        public CompoundNBT getCopiedNBT()
+        public CompoundTag getCopiedNBT()
         {
             return this.copiedNBT;
         }
@@ -72,7 +72,7 @@ public class CopyCaps
         }
 
         @Override
-        public void setCopiedNBT(final CompoundNBT tag)
+        public void setCopiedNBT(final CompoundTag tag)
         {
             this.copiedNBT = tag;
         }
@@ -83,13 +83,13 @@ public class CopyCaps
         @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public void readNBT(final Capability<ICopyMob> capability, final ICopyMob instance, final Direction side,
-                final INBT nbt)
+                final Tag nbt)
         {
             if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
         }
 
         @Override
-        public INBT writeNBT(final Capability<ICopyMob> capability, final ICopyMob instance, final Direction side)
+        public Tag writeNBT(final Capability<ICopyMob> capability, final ICopyMob instance, final Direction side)
         {
             if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
                     .serializeNBT();
@@ -121,12 +121,12 @@ public class CopyCaps
         if (copyMob == null || copyMob.getCopiedMob() == null) return;
         final LivingEntity copied = copyMob.getCopiedMob();
         final Pose pose = event.getEntity().getPose();
-        final EntitySize dims = copied.getDimensions(pose);
+        final EntityDimensions dims = copied.getDimensions(pose);
         final float height = dims.height;
         final float width = dims.width;
         final float eye = copied.getEyeHeight(pose, dims);
         event.setNewEyeHeight(eye);
-        event.setNewSize(EntitySize.fixed(width, height));
+        event.setNewSize(EntityDimensions.fixed(width, height));
     }
 
     private static void onLivingUpdate(final LivingUpdateEvent event)

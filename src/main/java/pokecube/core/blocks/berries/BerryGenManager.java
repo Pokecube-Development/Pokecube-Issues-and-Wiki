@@ -20,35 +20,35 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage.Decoration;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
-import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraft.world.gen.feature.template.RuleEntry;
-import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
-import net.minecraft.world.gen.feature.template.Template;
-import net.minecraft.world.gen.feature.template.Template.BlockInfo;
-import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
@@ -93,7 +93,7 @@ public class BerryGenManager
 
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
-    public static final RuleEntry REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE, new TagMatchRuleTest(
+    public static final ProcessorRule REPLACEABLEONLY = new ProcessorRule(AlwaysTrueTest.INSTANCE, new TagMatchTest(
             BlockTags.getAllTags().getTagOrEmpty(BerryGenManager.REPLACETAG)), Blocks.STRUCTURE_VOID
                     .defaultBlockState());
 
@@ -122,7 +122,7 @@ public class BerryGenManager
         this.defaults = PokedexEntryLoader.gson.fromJson(reader, Berries.class);
     }
 
-    public void processStructures(final RegistryEvent.Register<Structure<?>> event)
+    public void processStructures(final RegistryEvent.Register<StructureFeature<?>> event)
     {
         try
         {
@@ -181,7 +181,7 @@ public class BerryGenManager
         public String          berry;
     }
 
-    public static class JigsawGrower extends Structure<JigsawConfig> implements TreeGrower
+    public static class JigsawGrower extends StructureFeature<JigsawConfig> implements TreeGrower
     {
         final BerryJigsaw jigsaw;
 
@@ -198,15 +198,15 @@ public class BerryGenManager
         }
 
         @Override
-        public IStartFactory<JigsawConfig> getStartFactory()
+        public StructureStartFactory<JigsawConfig> getStartFactory()
         {
             return Start::new;
         }
 
         @Override
-        public void growTree(final ServerWorld world, final BlockPos cropPos, final int berryId)
+        public void growTree(final ServerLevel world, final BlockPos cropPos, final int berryId)
         {
-            Structure.bootstrap();
+            StructureFeature.bootstrap();
             final int chunkX = cropPos.getX() >> 4;
             final int chunkZ = cropPos.getZ() >> 4;
             final Biome biome = world.getBiome(cropPos);
@@ -221,7 +221,7 @@ public class BerryGenManager
             for (int i = -2; i <= 2; i++)
                 for (int j = -2; j <= 2; j++)
                     world.getChunk(i + chunkX, j + chunkZ);
-            final MutableBoundingBox bounds = new MutableBoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
+            final BoundingBox bounds = new BoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
             final Start make = new Start(null, chunkX, chunkZ, bounds, 0, cropPos.asLong() + world.getSeed() + world
                     .getGameTime());
             make.berryType = BerryManager.berryNames.get(berryId);
@@ -233,23 +233,23 @@ public class BerryGenManager
                 boolean valid = true;
                 parts:
                 for (final StructurePiece part : make.getPieces())
-                    if (part instanceof AbstractVillagePiece)
+                    if (part instanceof PoolElementStructurePiece)
                     {
-                        final AbstractVillagePiece p = (AbstractVillagePiece) part;
+                        final PoolElementStructurePiece p = (PoolElementStructurePiece) part;
                         if (p.getElement() instanceof CustomJigsawPiece)
                         {
                             final BlockPos pos = p.getPosition();
                             final CustomJigsawPiece piece = (CustomJigsawPiece) p.getElement();
                             parts.add(piece);
-                            final Template t = piece.getTemplate(world.getStructureManager());
+                            final StructureTemplate t = piece.getTemplate(world.getStructureManager());
                             valid = true;
                             piece.overrideList = WorldgenFeatures.BERRYLIST;
                             // TODO find out why this sometimes fails
-                            final PlacementSettings settings = piece.getSettings(p.getRotation(), bounds, false);
+                            final StructurePlaceSettings settings = piece.getSettings(p.getRotation(), bounds, false);
                             // DOLATER find out what the second block pos is
-                            final List<BlockInfo> list = Template.processBlockInfos(world, pos, pos, settings, settings
+                            final List<StructureBlockInfo> list = StructureTemplate.processBlockInfos(world, pos, pos, settings, settings
                                     .getRandomPalette(t.palettes, pos).blocks(), t);
-                            for (final BlockInfo i : list)
+                            for (final StructureBlockInfo i : list)
                                 if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW || i.state
                                         .getBlock() == Blocks.STRUCTURE_VOID))
                                 {
@@ -274,41 +274,41 @@ public class BerryGenManager
         {
             public String berryType = "";
 
-            public Start(final Structure<JigsawConfig> structure, final int x, final int z,
-                    final MutableBoundingBox box, final int refs, final long seed)
+            public Start(final StructureFeature<JigsawConfig> structure, final int x, final int z,
+                    final BoundingBox box, final int refs, final long seed)
             {
                 super(structure, x, z, box, refs, seed);
             }
 
             @Override
-            public void generatePieces(final DynamicRegistries p_230364_1_, final ChunkGenerator p_230364_2_,
-                    final TemplateManager p_230364_3_, final int p_230364_4_, final int p_230364_5_,
+            public void generatePieces(final RegistryAccess p_230364_1_, final ChunkGenerator p_230364_2_,
+                    final StructureManager p_230364_3_, final int p_230364_4_, final int p_230364_5_,
                     final Biome p_230364_6_, final JigsawConfig p_230364_7_)
             {
                 // We do nothing, we do our own thing seperately.
             }
 
-            public void reallyBuild(final ServerWorld world, final ChunkGenerator generator, final BlockPos pos)
+            public void reallyBuild(final ServerLevel world, final ChunkGenerator generator, final BlockPos pos)
             {
-                this.placeInChunk(world, world.structureFeatureManager(), generator, this.random, MutableBoundingBox
+                this.placeInChunk(world, world.structureFeatureManager(), generator, this.random, BoundingBox
                         .infinite(), new ChunkPos(pos));
             }
 
-            public Random build(final ServerWorld world, final Biome biome, final JigsawGrower grower,
+            public Random build(final ServerLevel world, final Biome biome, final JigsawGrower grower,
                     final BlockPos pos, final BerryJigsaw jigsaw)
             {
                 final ChunkGenerator chunkGenerator = world.getChunkSource().generator;
-                final TemplateManager manager = world.getStructureManager();
+                final StructureManager manager = world.getStructureManager();
                 final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
                 final boolean built = assembler.build(world.registryAccess(), new ResourceLocation(jigsaw.root),
-                        jigsaw.size, AbstractVillagePiece::new, chunkGenerator, manager, pos, this.pieces, this.random,
+                        jigsaw.size, PoolElementStructurePiece::new, chunkGenerator, manager, pos, this.pieces, this.random,
                         biome, this.isValid(jigsaw), pos.getY());
                 if (!built) return null;
                 this.calculateBoundingBox();
                 return this.random;
             }
 
-            private Predicate<JigsawPiece> isValid(final BerryJigsaw jigsaw)
+            private Predicate<StructurePoolElement> isValid(final BerryJigsaw jigsaw)
             {
                 return (j) ->
                 {
@@ -332,7 +332,7 @@ public class BerryGenManager
         }
 
         @Override
-        public void growTree(final ServerWorld world, final BlockPos pos, final int berryId)
+        public void growTree(final ServerLevel world, final BlockPos pos, final int berryId)
         {
             final int l = world.random.nextInt(1) + 6;
             boolean flag = true;
@@ -440,7 +440,7 @@ public class BerryGenManager
         }
 
         @Override
-        public void growTree(final ServerWorld world, final BlockPos pos, final int berryId)
+        public void growTree(final ServerLevel world, final BlockPos pos, final int berryId)
         {
             final int l = world.random.nextInt(1) + 5;
             BlockPos temp;
@@ -542,7 +542,7 @@ public class BerryGenManager
 
     public static interface TreeGrower
     {
-        void growTree(ServerWorld world, BlockPos cropPos, int berryId);
+        void growTree(ServerLevel world, BlockPos cropPos, int berryId);
     }
 
     public static HashMap<Integer, TreeGrower> trees = Maps.newHashMap();
@@ -566,7 +566,7 @@ public class BerryGenManager
         return p1.compareTo(p2);
     };
 
-    public static ItemStack getRandomBerryForBiome(final World world, final BlockPos location)
+    public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
         if (BerryGenManager.berryLocations.isEmpty()) BerryGenManager.parseConfig();
         SpawnBiomeMatcher toMatch = null;
@@ -649,7 +649,7 @@ public class BerryGenManager
         if (!BerryGenManager.matchers.isEmpty()) BerryGenManager.matchers.sort(BerryGenManager.COMPARE);
     }
 
-    public static void placeBerryLeaf(final World world, final BlockPos pos, final int berryId)
+    public static void placeBerryLeaf(final Level world, final BlockPos pos, final int berryId)
     {
         final String id = BerryManager.berryNames.get(berryId);
         Block leaves = ItemGenerator.leaves.get(id);

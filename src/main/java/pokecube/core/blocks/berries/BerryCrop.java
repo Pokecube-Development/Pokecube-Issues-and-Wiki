@@ -2,15 +2,15 @@ package pokecube.core.blocks.berries;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.berries.BerryGenManager.TreeGrower;
 import pokecube.core.items.berries.BerryManager;
 
-public class BerryCrop extends CropsBlock
+public class BerryCrop extends CropBlock
 {
     final int index;
 
@@ -21,7 +21,7 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    protected IItemProvider getBaseSeedId()
+    protected ItemLike getBaseSeedId()
     {
         return BerryManager.berryItems.get(this.index);
     }
@@ -34,7 +34,7 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         super.randomTick(state, worldIn, pos, random);
         if (!worldIn.isAreaLoaded(pos, 1)) return;
@@ -50,7 +50,7 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    public void performBonemeal(final ServerWorld worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    public void performBonemeal(final ServerLevel worldIn, final Random rand, final BlockPos pos, final BlockState state)
     {
         super.performBonemeal(worldIn, rand, pos, state);
         final int age = this.getAge(worldIn.getBlockState(pos));

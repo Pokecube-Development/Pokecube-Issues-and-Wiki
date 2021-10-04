@@ -2,9 +2,9 @@ package thut.api.block;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public interface IViscousFluid
 {
@@ -13,5 +13,5 @@ public interface IViscousFluid
      * 
      * @return
      */
-    public int getFlowDifferential(World world, BlockPos pos, BlockState state, Random rand);
+    public int getFlowDifferential(Level world, BlockPos pos, BlockState state, Random rand);
 }

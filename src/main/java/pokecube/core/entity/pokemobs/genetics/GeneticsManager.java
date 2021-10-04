@@ -8,12 +8,12 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -39,15 +39,15 @@ import thut.api.item.ItemList;
 
 public class GeneticsManager
 {
-    public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT>
+    public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
         public final IMobGenetics                wrapped = GeneRegistry.GENETICS_CAP.getDefaultInstance();
         private final LazyOptional<IMobGenetics> holder  = LazyOptional.of(() -> this.wrapped);
 
         @Override
-        public void deserializeNBT(final CompoundNBT tag)
+        public void deserializeNBT(final CompoundTag tag)
         {
-            final INBT nbt = tag.get("V");
+            final Tag nbt = tag.get("V");
             GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, this.holder.orElse(null), null,
                     nbt);
         }
@@ -59,11 +59,11 @@ public class GeneticsManager
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final INBT nbt = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, this.holder
+            final Tag nbt = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, this.holder
                     .orElse(null), null);
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.put("V", nbt);
             return tag;
         }

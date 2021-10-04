@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
@@ -26,7 +26,7 @@ public class GuiInfoMessages
     static long       time   = 0;
     static public int offset = 0;
 
-    public static void addMessage(final ITextComponent message)
+    public static void addMessage(final Component message)
     {
         if (message == null)
         {
@@ -129,14 +129,14 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
-            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
+            final TextComponent mess2 = new TextComponent(toUse.get(index));
+            final List<MutableComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                GuiComponent.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
                 minecraft.font.draw(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }

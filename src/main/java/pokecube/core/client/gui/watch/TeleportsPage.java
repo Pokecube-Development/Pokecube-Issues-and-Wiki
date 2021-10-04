@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
@@ -23,20 +23,20 @@ import thut.api.entity.ThutTeleporter.TeleDest;
 
 public class TeleportsPage extends ListPage<TeleOption>
 {
-    public static class TeleOption extends AbstractList.AbstractListEntry<TeleOption>
+    public static class TeleOption extends AbstractSelectionList.Entry<TeleOption>
     {
         final TeleportsPage   parent;
         final int             offsetY;
         final Minecraft       mc;
         final TeleDest        dest;
-        final TextFieldWidget text;
+        final EditBox text;
         final Button          delete;
         final Button          confirm;
         final Button          moveUp;
         final Button          moveDown;
         final int             guiHeight;
 
-        public TeleOption(final Minecraft mc, final int offsetY, final TeleDest dest, final TextFieldWidget text,
+        public TeleOption(final Minecraft mc, final int offsetY, final TeleDest dest, final EditBox text,
                 final int height, final TeleportsPage parent)
         {
             this.dest = dest;
@@ -45,7 +45,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
+            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
@@ -55,21 +55,21 @@ public class TeleportsPage extends ListPage<TeleOption>
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
+            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b ->
+            this.moveUp = new Button(0, 0, 10, 10, new TextComponent("\u21e7"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                 // Update the list for the page.
                 this.parent.initList();
             });
-            this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b ->
+            this.moveDown = new Button(0, 0, 10, 10, new TextComponent("\u21e9"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
@@ -158,7 +158,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
@@ -195,7 +195,7 @@ public class TeleportsPage extends ListPage<TeleOption>
 
     public TeleportsPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
+        super(new TranslatableComponent("pokewatch.title.teleports"), watch, TeleportsPage.TEX_DM,
                 TeleportsPage.TEX_NM);
     }
 
@@ -214,7 +214,7 @@ public class TeleportsPage extends ListPage<TeleOption>
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
-            final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, new StringTextComponent(""));
+            final EditBox name = new EditBox(this.font, 0, 0, 104, 10, new TextComponent(""));
             name.setValue(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }

@@ -1,15 +1,15 @@
 package thut.api.entity.ai;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.IPosWrapper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.phys.Vec3;
 import thut.api.maths.Vector3;
 
-public class VectorPosWrapper implements IPosWrapper
+public class VectorPosWrapper implements PositionTracker
 {
     final BlockPos bpos;
-    final Vector3d vpos;
+    final Vec3 vpos;
     final Vector3  pos;
 
     public VectorPosWrapper(final Vector3 pos)
@@ -26,7 +26,7 @@ public class VectorPosWrapper implements IPosWrapper
     }
 
     @Override
-    public Vector3d currentPosition()
+    public Vec3 currentPosition()
     {
         return this.vpos;
     }

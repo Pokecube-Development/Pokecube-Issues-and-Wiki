@@ -6,17 +6,17 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootTable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
@@ -61,7 +61,7 @@ public class MaxRaidFunction
         return ret;
     }
 
-    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
+    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerLevel world)
     {
         if (state.getBlock() != BlockInit.RAID_SPAWN.get()) return;
 
@@ -70,14 +70,14 @@ public class MaxRaidFunction
         // Raid Battle We will move legendaries to the rare raids.
         if (entry != null && entry != Database.missingno)
         {
-            final MobEntity entity = PokecubeCore.createPokemob(entry, world);
+            final Mob entity = PokecubeCore.createPokemob(entry, world);
             final Vector3 v = Vector3.getNewVector().set(pos);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
             final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables().get(
                     MaxRaidFunction.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob.getEntity()
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) pokemob.getEntity()
                     .getCommandSenderWorld()).withRandom(poke.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
@@ -118,7 +118,7 @@ public class MaxRaidFunction
                 else new InventoryChange(entity, 2, itemstack, true).run(world);
                 if (i++ >= n) break;
             }
-            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1,
+            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1,
                     false);
 
         }

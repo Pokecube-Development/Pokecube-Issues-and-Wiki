@@ -1,7 +1,7 @@
 package thut.core.common.world.mobs.data;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -34,6 +34,6 @@ public class SyncHandler
         if (event.getTarget().getCommandSenderWorld().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
         if (data == null) return;
-        PacketDataSync.sync((ServerPlayerEntity) event.getEntity(), data, event.getTarget().getId(), true);
+        PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);
     }
 }

@@ -3,8 +3,8 @@ package pokecube.core.entity.pokemobs.genetics.genes;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.genes.Mutations.Mutation;
@@ -40,15 +40,15 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             return this.value == info.value && (this.entry == null ? true : this.entry.equals(info.entry));
         }
 
-        void load(final CompoundNBT tag)
+        void load(final CompoundTag tag)
         {
             this.value = tag.getByte("G");
             this.entry = Database.getEntry(tag.getString("E"));
         }
 
-        CompoundNBT save()
+        CompoundTag save()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putByte("G", this.value);
             if (this.entry != null) tag.putString("E", this.entry.getName());
             return tag;
@@ -161,7 +161,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     }
 
     @Override
-    public void load(final CompoundNBT tag)
+    public void load(final CompoundTag tag)
     {
         this.info.load(tag.getCompound("V"));
     }
@@ -179,9 +179,9 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     }
 
     @Override
-    public CompoundNBT save()
+    public CompoundTag save()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         tag.put("V", this.info.save());
         return tag;
     }

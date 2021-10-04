@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -132,7 +132,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
+    public void onCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
     {
         if (!event.getObject().getLevel().isClientSide) return;
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP))
@@ -153,16 +153,16 @@ public class MoveAnimationHelper
         try
         {
             if (this.index == -1) return;
-            final PlayerEntity player = Minecraft.getInstance().player;
+            final Player player = Minecraft.getInstance().player;
             this.source.set(player);
             final int range = 4;
 
             final Minecraft mc = Minecraft.getInstance();
-            final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
-            final MatrixStack mat = event.getMatrixStack();
+            final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
+            final PoseStack mat = event.getMatrixStack();
             mat.pushPose();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-            final BlockPos.Mutable pos = new BlockPos.Mutable();
+            final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)

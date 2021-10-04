@@ -4,9 +4,9 @@
 package pokecube.core.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +19,7 @@ import pokecube.core.network.pokemobs.PacketTeleport;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.ThutTeleporter.TeleDest;
 
-public class GuiTeleport extends AbstractGui
+public class GuiTeleport extends GuiComponent
 {
     protected static int      lightGrey = 0xDDDDDD;
     /**
@@ -45,7 +45,7 @@ public class GuiTeleport extends AbstractGui
         return GuiTeleport.instance;
     }
 
-    protected FontRenderer fontRenderer;
+    protected Font fontRenderer;
 
     protected Minecraft minecraft;
 
@@ -82,7 +82,7 @@ public class GuiTeleport extends AbstractGui
         final int yOffset = 0;
         final int dir = GuiTeleport.direction;
         // bind texture
-        this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+        this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
         this.blit(event.mat, xOffset + w, yOffset + h, 44, 0, 90, 13);
         this.fontRenderer.draw(event.mat, I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
                 GuiTeleport.lightGrey);
@@ -95,7 +95,7 @@ public class GuiTeleport extends AbstractGui
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
             // bind texture
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             this.blit(event.mat, xOffset + w, shift, 44, 22, 91, 12);
             this.fontRenderer.draw(event.mat, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }

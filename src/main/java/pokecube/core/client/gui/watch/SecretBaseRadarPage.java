@@ -7,21 +7,21 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -48,49 +48,49 @@ public class SecretBaseRadarPage extends WatchPage
 
         RadarMode(final String string, final float scale)
         {
-            this.key = new TranslationTextComponent("pokewatch.title." + string + "radar");
+            this.key = new TranslatableComponent("pokewatch.title." + string + "radar");
             this.rangeScale = scale;
             SecretBaseRadarPage.radar_hits.put(this, Sets.newHashSet());
         }
 
-        final TranslationTextComponent key;
+        final TranslatableComponent key;
 
         final float rangeScale;
     }
 
-    public static void updateRadar(final CompoundNBT data)
+    public static void updateRadar(final CompoundTag data)
     {
-        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListNBT)
+        if (data.contains("_meteors_") && data.get("_meteors_") instanceof ListTag)
         {
-            final ListNBT list = (ListNBT) data.get("_meteors_");
+            final ListTag list = (ListTag) data.get("_meteors_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).clear();
             for (int i = 0; i < list.size(); i++)
             {
-                final CompoundNBT tag = list.getCompound(i);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).add(NBTUtil
+                final CompoundTag tag = list.getCompound(i);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.METEOR).add(NbtUtils
                         .readBlockPos(tag));
             }
         }
-        if (data.contains("_bases_") && data.get("_bases_") instanceof ListNBT)
+        if (data.contains("_bases_") && data.get("_bases_") instanceof ListTag)
         {
-            final ListNBT list = (ListNBT) data.get("_bases_");
+            final ListTag list = (ListTag) data.get("_bases_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).clear();
             for (int i = 0; i < list.size(); i++)
             {
-                final CompoundNBT tag = list.getCompound(i);
-                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).add(NBTUtil
+                final CompoundTag tag = list.getCompound(i);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SECRET_BASE).add(NbtUtils
                         .readBlockPos(tag));
             }
         }
-        if (data.contains("_repels_") && data.get("_repels_") instanceof ListNBT)
+        if (data.contains("_repels_") && data.get("_repels_") instanceof ListTag)
         {
-            final ListNBT list = (ListNBT) data.get("_repels_");
+            final ListTag list = (ListTag) data.get("_repels_");
             pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).clear();
             for (int i = 0; i < list.size(); i++)
             {
-                final CompoundNBT tag = list.getCompound(i);
+                final CompoundTag tag = list.getCompound(i);
                 pokecube.core.client.gui.watch.SecretBaseRadarPage.radar_hits.get(RadarMode.SPAWN_INHIBITORS).add(
-                        NBTUtil.readBlockPos(tag));
+                        NbtUtils.readBlockPos(tag));
             }
         }
         pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange = data.getInt("R");
@@ -102,11 +102,11 @@ public class SecretBaseRadarPage extends WatchPage
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
+        super(new TranslatableComponent(""), watch, SecretBaseRadarPage.TEX_DM, SecretBaseRadarPage.TEX_NM);
     }
 
     @Override
-    public ITextComponent getTitle()
+    public Component getTitle()
     {
         return SecretBaseRadarPage.mode.key;
     }
@@ -117,14 +117,14 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addButton(new TexButton(x + 95, y - 70, 12, 12, new StringTextComponent(""),
+        this.addRenderableWidget(new TexButton(x + 95, y - 70, 12, 12, new TextComponent(""),
                 b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1) % RadarMode
                         .values().length]).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12,
                                 12)));
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         GL11.glPushMatrix();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
@@ -143,7 +143,7 @@ public class SecretBaseRadarPage extends WatchPage
         final float b = 0;
         float a = 1;
         GlStateManager._disableTexture();
-        final Tessellator tessellator = Tessellator.getInstance();
+        final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder vertexbuffer = tessellator.getBuilder();
         r = 1;
         g = 0;
@@ -175,7 +175,7 @@ public class SecretBaseRadarPage extends WatchPage
             xCoord = v.x;
             yCoord = v.z;
 
-            vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+            vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR);
             vertexbuffer.vertex(xCoord + minU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(xCoord + maxU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
@@ -184,7 +184,7 @@ public class SecretBaseRadarPage extends WatchPage
             GL11.glPopMatrix();
         }
         GL11.glPopMatrix();
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
+        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
 
         super.render(mat, mouseX, mouseY, partialTicks);
     }

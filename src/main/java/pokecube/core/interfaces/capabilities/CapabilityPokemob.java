@@ -1,8 +1,8 @@
 package pokecube.core.interfaces.capabilities;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -17,13 +17,13 @@ public class CapabilityPokemob
         @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public void readNBT(final Capability<IPokemob> capability, final IPokemob instance, final Direction side,
-                final INBT nbt)
+                final Tag nbt)
         {
             if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
         }
 
         @Override
-        public INBT writeNBT(final Capability<IPokemob> capability, final IPokemob instance, final Direction side)
+        public Tag writeNBT(final Capability<IPokemob> capability, final IPokemob instance, final Direction side)
         {
             if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
             return null;

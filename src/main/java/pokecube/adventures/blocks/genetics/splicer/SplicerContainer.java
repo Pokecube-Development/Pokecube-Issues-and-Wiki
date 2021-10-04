@@ -1,10 +1,10 @@
 package pokecube.adventures.blocks.genetics.splicer;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
@@ -12,18 +12,18 @@ import pokecube.core.inventory.TexturedSlot;
 
 public class SplicerContainer extends PoweredContainer<SplicerTile>
 {
-    public SplicerContainer(final int id, final PlayerInventory invIn)
+    public SplicerContainer(final int id, final Inventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.NULL);
+        this(id, invIn, ContainerLevelAccess.NULL);
     }
 
-    public SplicerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
+    public SplicerContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
         super(PokecubeAdv.SPLICER_CONT.get(), id, (c) ->
         {
             pos.execute((w, p) ->
             {
-                final TileEntity temp = w.getBlockEntity(p);
+                final BlockEntity temp = w.getBlockEntity(p);
                 // Server side
                 if (temp instanceof SplicerTile) c.tile = (SplicerTile) temp;
             });

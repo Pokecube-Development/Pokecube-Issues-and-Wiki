@@ -1,10 +1,10 @@
 package pokecube.adventures.blocks.daycare;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class DaycareBlock extends InteractableHorizontalBlock
@@ -16,7 +16,7 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
     {
         return new DaycareTile();
     }
@@ -34,20 +34,20 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public int getSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos, final Direction side)
+    public int getSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos, final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getBlockEntity(pos);
+        final BlockEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }
 
     @Override
-    public int getDirectSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos,
+    public int getDirectSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos,
             final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getBlockEntity(pos);
+        final BlockEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }

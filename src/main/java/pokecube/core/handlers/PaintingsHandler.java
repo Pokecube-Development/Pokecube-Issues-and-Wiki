@@ -1,22 +1,22 @@
 package pokecube.core.handlers;
 
-import net.minecraft.entity.item.PaintingType;
+import net.minecraft.world.entity.decoration.Motive;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 
 public class PaintingsHandler {
 
-    public static PaintingType createPainting(String id, int width, int height)
+    public static Motive createPainting(String id, int width, int height)
     {
-        final PaintingType painting = new PaintingType(width, height);
+        final Motive painting = new Motive(width, height);
         painting.setRegistryName(PokecubeCore.MODID, id);
         return painting;
     }
 
-    public static void registerPaintings(Register<PaintingType> event)
+    public static void registerPaintings(Register<Motive> event)
     {
-        final IForgeRegistry<PaintingType> paintings = event.getRegistry();
+        final IForgeRegistry<Motive> paintings = event.getRegistry();
 
         paintings.register(createPainting("pokecube", 16, 16));
     }

@@ -5,20 +5,20 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerListener;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-public class InvWrapper implements IInventory
+public class InvWrapper implements Container
 {
     final IItemHandlerModifiable  wrapped;
-    final Predicate<PlayerEntity> usable;
+    final Predicate<Player> usable;
 
-    private List<IInventoryChangedListener> listeners;
+    private List<ContainerListener> listeners;
 
-    public InvWrapper(final IItemHandlerModifiable wrapped, final Predicate<PlayerEntity> usable)
+    public InvWrapper(final IItemHandlerModifiable wrapped, final Predicate<Player> usable)
     {
         this.wrapped = wrapped;
         this.usable = usable;
@@ -33,7 +33,7 @@ public class InvWrapper implements IInventory
      * Add a listener that will be notified when any item in this inventory
      * is modified.
      */
-    public void addListener(final IInventoryChangedListener listener)
+    public void addListener(final ContainerListener listener)
     {
         if (this.listeners == null) this.listeners = Lists.newArrayList();
         this.listeners.add(listener);
@@ -42,7 +42,7 @@ public class InvWrapper implements IInventory
     /**
      * removes the specified IInvBasic from receiving further change notices
      */
-    public void removeListener(final IInventoryChangedListener listener)
+    public void removeListener(final ContainerListener listener)
     {
         this.listeners.remove(listener);
     }
@@ -96,12 +96,12 @@ public class InvWrapper implements IInventory
     @Override
     public void setChanged()
     {
-        if (this.listeners != null) for (final IInventoryChangedListener iinventorychangedlistener : this.listeners)
+        if (this.listeners != null) for (final ContainerListener iinventorychangedlistener : this.listeners)
             iinventorychangedlistener.containerChanged(this);
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity player)
+    public boolean stillValid(final Player player)
     {
         return this.usable.test(player);
     }

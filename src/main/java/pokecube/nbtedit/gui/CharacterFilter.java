@@ -1,6 +1,6 @@
 package pokecube.nbtedit.gui;
 
-import net.minecraft.util.SharedConstants;
+import net.minecraft.SharedConstants;
 import pokecube.nbtedit.NBTStringHelper;
 
 public class CharacterFilter

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
@@ -44,13 +44,13 @@ public class CallForHelpTask extends CombatTask
     protected boolean checkForHelp(final LivingEntity from)
     {
         // No need to get help against null
-        if (from == null || !this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
+        if (from == null || !this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
 
         // Not social. doesn't do this.
         if (!this.pokemob.getPokedexEntry().isSocial) return false;
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // We check for whether it is the same species and, has the same owner
         // (including null) or is on the team.
@@ -76,13 +76,13 @@ public class CallForHelpTask extends CombatTask
 
         for (final LivingEntity mob : ret)
         {
-            if (!(mob instanceof MobEntity)) continue;
+            if (!(mob instanceof Mob)) continue;
             // Only agress mobs that can see you are really under attack.
             if (!mob.canSee(this.entity)) continue;
             // Only agress if not currently in combat.
             if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.
-            BrainUtils.initiateCombat((MobEntity) mob, from);
+            BrainUtils.initiateCombat((Mob) mob, from);
         }
         return false;
     }
@@ -100,7 +100,7 @@ public class CallForHelpTask extends CombatTask
     public boolean shouldRun()
     {
         this.target = BrainUtils.getAttackTarget(this.entity);
-        return this.target != null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES);
+        return this.target != null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }
 
 }

@@ -1,14 +1,21 @@
 package pokecube.legends.init;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemTiers;
 import pokecube.core.interfaces.Nature;
@@ -30,8 +37,8 @@ import pokecube.legends.items.zmove.ItemZCrystal;
 public class ItemInit
 {	
     // Materials
-    public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
-    public static final IItemTier MATERIAL_JUSTISE = ItemTier.DIAMOND;
+    public static final Tier MATERIAL_RAINBOW = Tiers.DIAMOND;
+    public static final Tier MATERIAL_JUSTISE = Tiers.DIAMOND;
     
     // Keys   
     // Orbs
@@ -313,11 +320,11 @@ public class ItemInit
             3, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
             2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
-        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemTier.NETHERITE,
+        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(Tiers.NETHERITE,
             3, -2.4F, new Item.Properties().fireResistant(), PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
         
         //Shields
-        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem(ItemTier.NETHERITE,"zamazenta_shield",
+        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem(Tiers.NETHERITE,"zamazenta_shield",
         		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB).fireResistant()));
         
         
@@ -335,13 +342,13 @@ public class ItemInit
         FRACTAL_SHARD 	= PokecubeLegends.ITEMS.register("fractal_shard", () -> new ItemBase(64, PokecubeItems.POKECUBEITEMS));
         
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
-                ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlot.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlot.CHEST, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlot.LEGS, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(
-                ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlot.FEET, new Item.Properties().tab(PokecubeLegends.TAB)));
 
         //Distortic World
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror", () -> new DistortedMirror("giratina_mirror", 1));
@@ -350,7 +357,7 @@ public class ItemInit
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
         
         // Torch
-        INFECTED_TORCH = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.INFECTED_TORCH
+        INFECTED_TORCH = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
                 .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
         
         // Plants
@@ -379,16 +386,16 @@ public class ItemInit
               
     }
 
-    public static final IArmorMaterial armormaterial = new IArmorMaterial()
+    public static final ArmorMaterial armormaterial = new ArmorMaterial()
     {
         @Override
-        public int getDurabilityForSlot(final EquipmentSlotType slot)
+        public int getDurabilityForSlot(final EquipmentSlot slot)
         {
             return new int[] { 13, 15, 16, 11 }[slot.getIndex()] * 25;
         }
 
         @Override
-        public int getDefenseForSlot(final EquipmentSlotType slot)
+        public int getDefenseForSlot(final EquipmentSlot slot)
         {
             return new int[] { 2, 5, 6, 2 }[slot.getIndex()];
         }
@@ -400,7 +407,7 @@ public class ItemInit
         }
 
         @Override
-        public net.minecraft.util.SoundEvent getEquipSound()
+        public net.minecraft.sounds.SoundEvent getEquipSound()
         {
             return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
         }
@@ -435,7 +442,7 @@ public class ItemInit
     //Properties
     @OnlyIn(Dist.CLIENT)
     public static void addItemModelProperties() {
-    	ItemModelsProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world, entity) ->
+    	ItemProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world, entity) ->
     	entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
     

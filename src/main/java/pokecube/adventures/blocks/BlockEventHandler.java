@@ -2,15 +2,15 @@ package pokecube.adventures.blocks;
 
 import java.util.UUID;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
@@ -64,14 +64,14 @@ public class BlockEventHandler
             this.tile.getDest().shift(0.5, 0, 0.5);
             if (!user.getCommandSenderWorld().isClientSide)
             {
-                if (user instanceof PlayerEntity)
+                if (user instanceof Player)
                 {
-                    final PlayerEntity player = (PlayerEntity) user;
-                    player.displayClientMessage(new TranslationTextComponent(
+                    final Player player = (Player) user;
+                    player.displayClientMessage(new TranslatableComponent(
                         "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), true);
                 } else
                 {
-                    user.sendMessage(new TranslationTextComponent(
+                    user.sendMessage(new TranslatableComponent(
                         "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
@@ -111,7 +111,7 @@ public class BlockEventHandler
         {
             this.tile = tile;
             this.pos = new PosStorage();
-            this.pos.setLinkedPos(GlobalPos.of(World.OVERWORLD, this.tile.getBlockPos()), null);
+            this.pos.setLinkedPos(GlobalPos.of(Level.OVERWORLD, this.tile.getBlockPos()), null);
         }
 
         @Override
@@ -132,7 +132,7 @@ public class BlockEventHandler
     protected static final ResourceLocation LINKABLECAP     = new ResourceLocation(PokecubeAdv.MODID, "linkable");
 
     @SubscribeEvent
-    public static void attachCaps(final AttachCapabilitiesEvent<TileEntity> event)
+    public static void attachCaps(final AttachCapabilitiesEvent<BlockEntity> event)
     {
         if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(

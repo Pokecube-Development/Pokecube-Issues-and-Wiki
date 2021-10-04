@@ -8,9 +8,9 @@ import java.util.function.Supplier;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -22,14 +22,14 @@ public class WorldTickManager
     {
         private final List<IWorldTickListener> data = Lists.newArrayList();
 
-        private final ServerWorld world;
+        private final ServerLevel world;
 
         private final List<IWorldTickListener> pendingRemove = Lists.newArrayList();
         private final List<IWorldTickListener> pendingAdd    = Lists.newArrayList();
 
         private boolean ticking = false;
 
-        public WorldData(final ServerWorld world)
+        public WorldData(final ServerLevel world)
         {
             this.world = world;
         }
@@ -89,11 +89,11 @@ public class WorldTickManager
 
     public static class StaticData
     {
-        public final Predicate<RegistryKey<World>> valid;
+        public final Predicate<ResourceKey<Level>> valid;
 
         public final Supplier<IWorldTickListener> data;
 
-        public StaticData(final Supplier<IWorldTickListener> data, final Predicate<RegistryKey<World>> valid)
+        public StaticData(final Supplier<IWorldTickListener> data, final Predicate<ResourceKey<Level>> valid)
         {
             this.data = data;
             this.valid = valid;
@@ -102,17 +102,17 @@ public class WorldTickManager
 
     public static List<StaticData> staticData = Lists.newArrayList();
 
-    static Map<RegistryKey<World>, WorldData> dataMap = Maps.newHashMap();
+    static Map<ResourceKey<Level>, WorldData> dataMap = Maps.newHashMap();
 
-    public static Map<RegistryKey<World>, List<IPathHelper>> pathHelpers = Maps.newHashMap();
+    public static Map<ResourceKey<Level>, List<IPathHelper>> pathHelpers = Maps.newHashMap();
 
     public static void registerStaticData(final Supplier<IWorldTickListener> data,
-            final Predicate<RegistryKey<World>> valid)
+            final Predicate<ResourceKey<Level>> valid)
     {
         WorldTickManager.staticData.add(new StaticData(data, valid));
     }
 
-    public static void addWorldData(final RegistryKey<World> key, final IWorldTickListener data)
+    public static void addWorldData(final ResourceKey<Level> key, final IWorldTickListener data)
     {
         final WorldData holder = WorldTickManager.dataMap.get(key);
         if (holder == null)
@@ -123,7 +123,7 @@ public class WorldTickManager
         holder.addData(data);
     }
 
-    public static void removeWorldData(final RegistryKey<World> key, final IWorldTickListener data)
+    public static void removeWorldData(final ResourceKey<Level> key, final IWorldTickListener data)
     {
         final WorldData holder = WorldTickManager.dataMap.get(key);
         if (holder == null)
@@ -137,9 +137,9 @@ public class WorldTickManager
     public static void onWorldLoad(final WorldEvent.Load event)
     {
         if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerWorld)) return;
-        final ServerWorld world = (ServerWorld) event.getWorld();
-        final RegistryKey<World> key = world.dimension();
+        if (!(event.getWorld() instanceof ServerLevel)) return;
+        final ServerLevel world = (ServerLevel) event.getWorld();
+        final ResourceKey<Level> key = world.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.get(key).detach();
         final WorldData data = new WorldData(world);
         WorldTickManager.dataMap.put(key, data);
@@ -153,18 +153,18 @@ public class WorldTickManager
     public static void onWorldUnload(final WorldEvent.Unload event)
     {
         if (event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerWorld)) return;
-        final ServerWorld world = (ServerWorld) event.getWorld();
-        final RegistryKey<World> key = world.dimension();
+        if (!(event.getWorld() instanceof ServerLevel)) return;
+        final ServerLevel world = (ServerLevel) event.getWorld();
+        final ResourceKey<Level> key = world.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
         WorldTickManager.pathHelpers.remove(key);
     }
 
     public static void onWorldTick(final WorldTickEvent event)
     {
-        if (event.world instanceof ServerWorld)
+        if (event.world instanceof ServerLevel)
         {
-            final RegistryKey<World> key = event.world.dimension();
+            final ResourceKey<Level> key = event.world.dimension();
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {

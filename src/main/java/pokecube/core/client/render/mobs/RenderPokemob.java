@@ -12,19 +12,19 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -54,7 +54,7 @@ import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
-public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity>>
+public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
     public static class PokemobTexHelper extends TextureHelper
     {
@@ -134,9 +134,9 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         }
     }
 
-    public static class Holder extends ModelHolder implements IModelRenderer<MobEntity>
+    public static class Holder extends ModelHolder implements IModelRenderer<Mob>
     {
-        public ModelWrapper<MobEntity>          wrapper;
+        public ModelWrapper<Mob>          wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -193,7 +193,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public String getAnimation(final Entity entityIn)
         {
             if (this.overrideAnim) return this.anim;
-            final String phase = this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
+            final String phase = this.getPhase((Mob) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
             return phase;
         }
 
@@ -223,7 +223,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             this.wrapper.imodel.setAnimationHolder(holder);
         }
 
-        private String getPhase(final MobEntity entity, final IPokemob pokemob)
+        private String getPhase(final Mob entity, final IPokemob pokemob)
         {
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             final String phase = "idle";
@@ -290,7 +290,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             this.initModel(new ModelWrapper<>(this, this));
         }
 
-        public void initModel(final ModelWrapper<MobEntity> model)
+        public void initModel(final ModelWrapper<Mob> model)
         {
             this.wrapper = model;
             model.imodel = ModelFactory.create(model.model, m ->
@@ -310,7 +310,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         }
 
         @Override
-        public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
+        public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             float s = 1;
@@ -404,7 +404,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     final Holder holder;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
+    public RenderPokemob(final PokedexEntry entry, final EntityRenderDispatcher p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
@@ -416,14 +416,14 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     }
 
     @Override
-    protected float getFlipDegrees(final MobEntity entityLivingBaseIn)
+    protected float getFlipDegrees(final Mob entityLivingBaseIn)
     {
         return 85.0f;
     }
 
     @Override
-    public void render(final MobEntity entity, final float entityYaw, final float partialTicks,
-            final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
+    public void render(final Mob entity, final float entityYaw, final float partialTicks,
+            final PoseStack matrixStackIn, final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return;
@@ -473,28 +473,28 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
     }
 
     @Override
-    protected RenderType getRenderType(final MobEntity entity, final boolean bool_a, final boolean bool_b,
+    protected RenderType getRenderType(final Mob entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
-                new RenderState.TextureState(this.getTextureLocation(entity), false, false)).setTransparencyState(
-                        new RenderState.TransparencyState("translucent_transparency", () ->
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
+                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false)).setTransparencyState(
+                        new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
                         {
                             RenderSystem.enableBlend();
                             RenderSystem.defaultBlendFunc();
                         }, () ->
                         {
                             RenderSystem.disableBlend();
-                        })).setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
-                                new RenderState.AlphaState(0.003921569F)).setCullState(new RenderState.CullState(false))
-                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(
+                        })).setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true)).setAlphaState(
+                                new RenderStateShard.AlphaStateShard(0.003921569F)).setCullState(new RenderStateShard.CullStateShard(false))
+                .setLightmapState(new RenderStateShard.LightmapStateShard(true)).setOverlayState(new RenderStateShard.OverlayStateShard(
                         true)).createCompositeState(false);
-        return RenderType.create("pokecube:pokemob", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
+        return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(final MobEntity entity)
+    public ResourceLocation getTextureLocation(final Mob entity)
     {
         final ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;

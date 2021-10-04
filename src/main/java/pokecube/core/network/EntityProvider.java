@@ -1,7 +1,7 @@
 package pokecube.core.network;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IEntityProvider;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -16,7 +16,7 @@ public class EntityProvider implements IEntityProvider
     }
 
     @Override
-    public Entity getEntity(final World world, int id, final boolean expectsPokemob)
+    public Entity getEntity(final Level world, int id, final boolean expectsPokemob)
     {
         // In this case, we want to find for a copied mob instead!
         if (id <= -100)

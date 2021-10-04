@@ -9,14 +9,14 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -99,12 +99,12 @@ public class ForgetTargetTask extends CombatTask
         final IPokemob mobB = this.pokemobTarget;
 
         LivingEntity mate = null;
-        if (this.entity instanceof AgeableEntity)
+        if (this.entity instanceof AgeableMob)
         {
-            mate = BrainUtils.getMateTarget((AgeableEntity) this.entity);
+            mate = BrainUtils.getMateTarget((AgeableMob) this.entity);
             if (mate != null && !mate.isAlive())
             {
-                BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+                BrainUtils.setMateTarget((AgeableMob) this.entity, null);
                 mate = null;
             }
         }
@@ -166,10 +166,10 @@ public class ForgetTargetTask extends CombatTask
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
                     if (weHealth < 0.5) if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
-                            MemoryModuleStatus.REGISTERED)) mobA.getEntity().getBrain().setMemory(
+                            MemoryStatus.REGISTERED)) mobA.getEntity().getBrain().setMemory(
                                     MemoryModules.HUNTED_BY, mobB.getEntity());
                     if (theyHealth < 0.5) if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
-                            MemoryModuleStatus.REGISTERED)) mobB.getEntity().getBrain().setMemory(
+                            MemoryStatus.REGISTERED)) mobB.getEntity().getBrain().setMemory(
                                     MemoryModules.HUNTED_BY, mobA.getEntity());
 
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("No want to fight, too weak!");
@@ -261,7 +261,7 @@ public class ForgetTargetTask extends CombatTask
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
-                final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
+                final Component message = new TranslatableComponent("pokemob.deagress.timeout", this.pokemob
                         .getDisplayName().getString());
                 try
                 {
@@ -280,7 +280,7 @@ public class ForgetTargetTask extends CombatTask
             if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
-                final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
+                final Component message = new TranslatableComponent("pokemob.deagress.timeout", this.pokemob
                         .getDisplayName().getString());
                 try
                 {

@@ -2,13 +2,13 @@ package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import java.util.List;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 
-public interface IPoweredProgress extends IInventory, IEnergyStorage
+public interface IPoweredProgress extends Container, IEnergyStorage
 {
     PoweredCraftingInventory getCraftMatrix();
 
@@ -18,7 +18,7 @@ public interface IPoweredProgress extends IInventory, IEnergyStorage
 
     PoweredProcess getProcess();
 
-    PlayerEntity getUser();
+    Player getUser();
 
     boolean isValid(Class<? extends PoweredRecipe> recipe);
 

@@ -4,24 +4,24 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
@@ -90,18 +90,18 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(final ItemStack stack, @Nullable final World playerIn,
-            final List<ITextComponent> tooltip, final ITooltipFlag advanced)
+    public void appendHoverText(final ItemStack stack, @Nullable final Level playerIn,
+            final List<Component> tooltip, final TooltipFlag advanced)
     {
-        ITextComponent info = null;
-        if (advanced.isAdvanced()) tooltip.add(new StringTextComponent("ID: " + this.type.index));
-        tooltip.add(new TranslationTextComponent("item.pokecube.berry.desc"));
+        Component info = null;
+        if (advanced.isAdvanced()) tooltip.add(new TextComponent("ID: " + this.type.index));
+        tooltip.add(new TranslatableComponent("item.pokecube.berry.desc"));
         final String berryName = this.type.name;
-        info = new TranslationTextComponent("item.pokecube.berry_" + berryName + ".desc");
+        info = new TranslatableComponent("item.pokecube.berry_" + berryName + ".desc");
         tooltip.add(info);
         if (BerryGenManager.trees.containsKey(this.type.index))
         {
-            info = new TranslationTextComponent("item.berry.istree.desc");
+            info = new TranslatableComponent("item.berry.istree.desc");
             tooltip.add(info);
         }
         if (PokecubeCore.proxy.getPlayer() == null) return;
@@ -115,63 +115,63 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             if (fav == this.type.index)
             {
                 final String tooltips = I18n.get("item.berry.favourite.desc",
-                    TextFormatting.GOLD, TextFormatting.RESET, pokemob.getDisplayName().getString());
-                info = new TranslationTextComponent(tooltips);
+                    ChatFormatting.GOLD, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+                info = new TranslatableComponent(tooltips);
                 tooltip.add(info);
                 info = null;
             }
             final int weight = Nature.getBerryWeight(this.type.index, nature);
             String tooltips = I18n.get("item.berry.nomind.desc",
-                TextFormatting.YELLOW, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight == 0) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.YELLOW, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight == 0) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.like1.desc",
-                TextFormatting.GREEN, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight >= 10) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.GREEN, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight >= 10) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.like2.desc",
-                TextFormatting.DARK_GREEN, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight >= 20) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.DARK_GREEN, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight >= 20) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.like3.desc",
-                TextFormatting.DARK_GREEN, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight >= 30) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.DARK_GREEN, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight >= 30) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.hate1.desc",
-                TextFormatting.RED, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight <= -10) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.RED, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight <= -10) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.hate2.desc",
-                TextFormatting.RED, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight <= -20) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.RED, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight <= -20) info = new TranslatableComponent(tooltips);
 
             tooltips = I18n.get("item.berry.hate3.desc",
-                TextFormatting.DARK_RED, TextFormatting.RESET, pokemob.getDisplayName().getString());
-            if (weight <= -30) info = new TranslationTextComponent(tooltips);
+                ChatFormatting.DARK_RED, ChatFormatting.RESET, pokemob.getDisplayName().getString());
+            if (weight <= -30) info = new TranslatableComponent(tooltips);
 
             if (info != null) tooltip.add(info);
         }
     }
 
     @Override
-    public BlockState getPlant(final IBlockReader world, final BlockPos pos)
+    public BlockState getPlant(final BlockGetter world, final BlockPos pos)
     {
         return BerryManager.getCrop(this).defaultBlockState();
     }
 
     @Override
-    public PlantType getPlantType(final IBlockReader world, final BlockPos pos)
+    public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
     {
         return PlantType.CROP;
     }
 
     @Override
-    public ActionResultType useOn(final ItemUseContext context)
+    public InteractionResult useOn(final UseOnContext context)
     {
-        final PlayerEntity playerIn = context.getPlayer();
-        final World worldIn = context.getLevel();
+        final Player playerIn = context.getPlayer();
+        final Level worldIn = context.getLevel();
         final BlockPos pos = context.getClickedPos();
-        final Hand hand = context.getHand();
+        final InteractionHand hand = context.getHand();
         final Direction side = context.getClickedFace();
 
         final ItemStack stack = playerIn.getItemInHand(hand);
@@ -182,8 +182,8 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
         {
             worldIn.setBlockAndUpdate(pos.above(), BerryManager.getCrop(this).defaultBlockState());
             stack.split(1);
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return ActionResultType.FAIL;
+        return InteractionResult.FAIL;
     }
 }

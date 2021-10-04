@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -36,7 +36,7 @@ public class BurrowTasks
     public static final MemoryModuleType<Boolean>   GOING_HOME    = MemoryModules.GOING_HOME;
     public static final MemoryModuleType<Integer>   NO_HOME_TIMER = MemoryModules.NO_NEST_TIMER;
 
-    public static final MemoryModuleType<CompoundNBT> JOB_INFO = MemoryModules.JOB_INFO;
+    public static final MemoryModuleType<CompoundTag> JOB_INFO = MemoryModules.JOB_INFO;
 
     public static final SensorType<BurrowSensor> NEST_SENSOR = new SensorType<>(BurrowSensor::new);
 
@@ -78,7 +78,7 @@ public class BurrowTasks
         return pokemob.isRoutineEnabled(AIRoutine.BURROWS);
     }
 
-    public static boolean shouldBeInside(final ServerWorld world, final Burrow burrow)
+    public static boolean shouldBeInside(final ServerLevel world, final Burrow burrow)
     {
 
         return false;

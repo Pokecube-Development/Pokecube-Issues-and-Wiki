@@ -2,20 +2,20 @@ package thut.core.client.render.particle;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
@@ -27,17 +27,17 @@ import thut.api.particle.ThutParticles;
 @OnlyIn(value = Dist.CLIENT)
 public class ParticleFactories
 {
-    public static class RenderType implements IParticleRenderType
+    public static class RenderType implements ParticleRenderType
     {
         @Override
         public void begin(final BufferBuilder builder, final TextureManager textures)
         {
-            textures.bind(ParticleBase.TEXTUREMAP);
-            builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP);
+            textures.bindForSetup(ParticleBase.TEXTUREMAP);
+            builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         @Override
-        public void end(final Tessellator tes)
+        public void end(final Tesselator tes)
         {
             tes.end();
         }
@@ -47,11 +47,11 @@ public class ParticleFactories
     public static class ThutParticle extends Particle
     {
         final ParticleBase particle;
-        final World        world;
+        final Level        world;
 
-        protected ThutParticle(final World worldIn, final ParticleBase particleIn)
+        protected ThutParticle(final Level worldIn, final ParticleBase particleIn)
         {
-            super((ClientWorld) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
+            super((ClientLevel) worldIn, particleIn.position.x, particleIn.position.y, particleIn.position.z);
             this.particle = particleIn;
             this.world = worldIn;
             if (this.particle instanceof ParticleNoGravity) this.gravity = 0;
@@ -68,7 +68,7 @@ public class ParticleFactories
         }
 
         @Override
-        public IParticleRenderType getRenderType()
+        public ParticleRenderType getRenderType()
         {
             return ParticleFactories.TYPE;
         }
@@ -80,13 +80,13 @@ public class ParticleFactories
         }
 
         @Override
-        public void render(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
+        public void render(final VertexConsumer buffer, final Camera renderInfo,
                 final float partialTicks)
         {
-            final Vector3d vec3d = renderInfo.getPosition();
-            final float x = (float) (MathHelper.lerp(partialTicks, this.xo, this.x) - vec3d.x);
-            final float y = (float) (MathHelper.lerp(partialTicks, this.yo, this.y) - vec3d.y);
-            final float z = (float) (MathHelper.lerp(partialTicks, this.zo, this.z) - vec3d.z);
+            final Vec3 vec3d = renderInfo.getPosition();
+            final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x);
+            final float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3d.y);
+            final float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3d.z);
             final Vector3f source = new Vector3f(x, y, z);
             this.particle.renderParticle(buffer, renderInfo, partialTicks, source);
         }
@@ -109,7 +109,7 @@ public class ParticleFactories
 
     public static final RenderType TYPE = new RenderType();
 
-    public static final IParticleFactory<ParticleBase> GENERICFACTORY = (type, world, x, y, z, vx, vy, vz) ->
+    public static final ParticleProvider<ParticleBase> GENERICFACTORY = (type, world, x, y, z, vx, vy, vz) ->
     {
         type = ThutParticles.clone(type);
         type.setVelocity(Vector3.getNewVector().set(vx, vy, vz));

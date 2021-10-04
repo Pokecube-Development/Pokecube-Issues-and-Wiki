@@ -1,27 +1,27 @@
 package thut.api.entity.blockentity.world;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.palette.UpgradeData;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.ProtoChunk;
+import net.minecraft.world.level.chunk.UpgradeData;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public class EntityChunk extends Chunk
+public class EntityChunk extends LevelChunk
 {
-    public static class EntityChunkPrimer extends ChunkPrimer
+    public static class EntityChunkPrimer extends ProtoChunk
     {
 
         public EntityChunkPrimer(final ChunkPos pos)
         {
-            super(pos, new UpgradeData(new CompoundNBT()));
+            super(pos, new UpgradeData(new CompoundTag()));
         }
 
     }
@@ -30,7 +30,7 @@ public class EntityChunk extends Chunk
 
     public EntityChunk(final IBlockEntityWorld worldIn_, final ChunkPos pos)
     {
-        super((World) worldIn_, new EntityChunkPrimer(pos));
+        super((Level) worldIn_, new EntityChunkPrimer(pos));
         this.worldE = worldIn_;
     }
 
@@ -40,9 +40,9 @@ public class EntityChunk extends Chunk
         if (!this.worldE.inBounds(pos)) return Blocks.AIR.defaultBlockState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getX());
-        final int j = pos.getY() - MathHelper.floor(entity.getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
+        final int i = pos.getX() - Mth.floor(entity.getX());
+        final int j = pos.getY() - Mth.floor(entity.getY());
+        final int k = pos.getZ() - Mth.floor(entity.getZ());
         return mob.getBlocks()[i][j][k];
     }
 
@@ -52,26 +52,26 @@ public class EntityChunk extends Chunk
         if (!this.worldE.inBounds(pos)) return Blocks.AIR.defaultBlockState();
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getX());
-        final int j = pos.getY() - MathHelper.floor(entity.getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
+        final int i = pos.getX() - Mth.floor(entity.getX());
+        final int j = pos.getY() - Mth.floor(entity.getY());
+        final int k = pos.getZ() - Mth.floor(entity.getZ());
         mob.getBlocks()[i][j][k] = state;
         return state;
     }
 
     @Override
-    public void setBlockEntity(final BlockPos pos, final TileEntity tile)
+    public void setBlockEntity(final BlockPos pos, final BlockEntity tile)
     {
         if (!this.worldE.inBounds(pos)) return;
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - MathHelper.floor(entity.getX());
-        final int j = pos.getY() - MathHelper.floor(entity.getY());
-        final int k = pos.getZ() - MathHelper.floor(entity.getZ());
+        final int i = pos.getX() - Mth.floor(entity.getX());
+        final int j = pos.getY() - Mth.floor(entity.getY());
+        final int k = pos.getZ() - Mth.floor(entity.getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {
-            tile.setLevelAndPosition((World) this.worldE, pos.immutable());
+            tile.setLevelAndPosition((Level) this.worldE, pos.immutable());
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.setRemoved();
             tile.clearRemoved();
@@ -80,7 +80,7 @@ public class EntityChunk extends Chunk
     }
 
     @Override
-    public TileEntity getBlockEntity(final BlockPos pos)
+    public BlockEntity getBlockEntity(final BlockPos pos)
     {
         return super.getBlockEntity(pos);
     }

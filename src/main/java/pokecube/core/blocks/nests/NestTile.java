@@ -3,26 +3,26 @@ package pokecube.core.blocks.nests;
 import java.util.HashSet;
 import java.util.Random;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ChestContainer;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -42,16 +42,16 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.core.common.ThutCore;
 
-public class NestTile extends InteractableTile implements ITickableTileEntity
+public class NestTile extends InteractableTile implements TickingBlockEntity
 {
     public static int NESTSPAWNTYPES = 1;
 
-    public static EntityPokemobEgg spawnEgg(final PokedexEntry entry, final BlockPos pos, final ServerWorld world,
+    public static EntityPokemobEgg spawnEgg(final PokedexEntry entry, final BlockPos pos, final ServerLevel world,
             final boolean spawnNow)
     {
         final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry);
-        final CompoundNBT nbt = eggItem.getTag();
-        final CompoundNBT nest = NBTUtil.writeBlockPos(pos);
+        final CompoundTag nbt = eggItem.getTag();
+        final CompoundTag nest = NbtUtils.writeBlockPos(pos);
         nbt.put("nestLoc", nest);
         eggItem.setTag(nbt);
         final Random rand = ThutCore.newRandom();
@@ -71,7 +71,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public HashSet<IPokemob> residents = new HashSet<>();
 
-    public CompoundNBT tag = new CompoundNBT();
+    public CompoundTag tag = new CompoundTag();
 
     private final IInhabitable habitat;
 
@@ -82,7 +82,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         this(PokecubeItems.NEST_TYPE.get());
     }
 
-    public NestTile(final TileEntityType<?> tileEntityTypeIn)
+    public NestTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
         this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
@@ -116,12 +116,12 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean addForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerWorld)) return false;
+        if (!(this.level instanceof ServerLevel)) return false;
         final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return false;
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.level);
+        final ForbidRegion region = hab.getRepelledRegion(this, (ServerLevel) this.level);
         if (region == null) return false;
         return SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
     }
@@ -132,29 +132,29 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
         final IItemHandler handler = this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
         if (handler instanceof IItemHandlerModifiable)
         {
-            if (player instanceof ServerPlayerEntity)
+            if (player instanceof ServerPlayer)
             {
-                final ServerPlayerEntity sendTo = (ServerPlayerEntity) player;
-                final IInventory wrapper = new InvWrapper((IItemHandlerModifiable) handler);
-                final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
-                        e) -> ChestContainer.sixRows(i, p, wrapper), new TranslationTextComponent(
+                final ServerPlayer sendTo = (ServerPlayer) player;
+                final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
+                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
+                        e) -> ChestMenu.sixRows(i, p, wrapper), new TranslatableComponent(
                                 "block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.onInteract(pos, player, hand, hit);
     }
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void load(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundTag nbt)
     {
         super.load(state, nbt);
         this.time = nbt.getInt("time");
@@ -172,12 +172,12 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
 
     public boolean removeForbiddenSpawningCoord()
     {
-        if (!(this.level instanceof ServerWorld)) return false;
+        if (!(this.level instanceof ServerLevel)) return false;
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null || this.level.isClientSide()) return false;
         final BlockPos pos = this.getBlockPos();
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, (ServerWorld) this.level);
+        final ForbidRegion region = hab.getRepelledRegion(this, (ServerLevel) this.level);
         if (region == null) return false;
         return SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
     }
@@ -190,14 +190,14 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (this.habitat != null && this.level instanceof ServerWorld) this.habitat.onTick((ServerWorld) this.level);
+        if (this.habitat != null && this.level instanceof ServerLevel) this.habitat.onTick((ServerLevel) this.level);
         this.time++;
     }
 
     @Override
     public void onBroken()
     {
-        if (this.habitat != null && this.level instanceof ServerWorld) this.habitat.onBroken((ServerWorld) this.level);
+        if (this.habitat != null && this.level instanceof ServerLevel) this.habitat.onBroken((ServerLevel) this.level);
     }
 
     @Override
@@ -213,7 +213,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
      * @return
      */
     @Override
-    public CompoundNBT save(final CompoundNBT nbt)
+    public CompoundTag save(final CompoundTag nbt)
     {
         super.save(nbt);
         nbt.putInt("time", this.time);

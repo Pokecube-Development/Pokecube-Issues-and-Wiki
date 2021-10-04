@@ -5,15 +5,15 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.phys.BlockHitResult;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.PokedexEntry;
@@ -28,7 +28,7 @@ public class TMTile extends InteractableTile
         this(PokecubeItems.TM_TYPE.get());
     }
 
-    public TMTile(final TileEntityType<?> tileEntityTypeIn)
+    public TMTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
@@ -57,11 +57,11 @@ public class TMTile extends InteractableTile
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
-        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new TMContainer(id,
-                playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), player.getDisplayName()));
-        return ActionResultType.SUCCESS;
+        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new TMContainer(id,
+                playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), player.getDisplayName()));
+        return InteractionResult.SUCCESS;
     }
 }

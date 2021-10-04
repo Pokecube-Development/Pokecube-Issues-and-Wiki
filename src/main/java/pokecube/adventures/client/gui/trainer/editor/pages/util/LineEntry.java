@@ -1,38 +1,38 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.network.chat.Component;
 import pokecube.core.client.gui.helper.ScrollGui;
 
-public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
+public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
 {
     public static interface IClickListener
     {
-        default boolean handleClick(final ITextComponent component)
+        default boolean handleClick(final Component component)
         {
             return false;
         }
 
-        default void handleHovor(final ITextComponent component, final int x, final int y)
+        default void handleHovor(final Component component, final int x, final int y)
         {
 
         }
 
     }
 
-    final FontRenderer          fontRender;
+    final Font          fontRender;
     final int                   colour;
-    public final ITextComponent line;
+    public final Component line;
     private IClickListener      listener = new IClickListener()
                                          {
                                          };
 
     @SuppressWarnings("deprecation")
-    public LineEntry(final ScrollGui<LineEntry> parent, final int x0, final int y0, final FontRenderer fontRender,
-            final ITextComponent line, final int default_colour)
+    public LineEntry(final ScrollGui<LineEntry> parent, final int x0, final int y0, final Font fontRender,
+            final Component line, final int default_colour)
     {
         this.list = parent;
         this.fontRender = fontRender;
@@ -53,7 +53,7 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
     }
 
     @Override
-    public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
+    public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
         this.fontRender.draw(mat, this.line.getString(), x, y, this.colour);

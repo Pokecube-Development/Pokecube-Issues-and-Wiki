@@ -8,30 +8,29 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeTileEntity;
 import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
 import pokecube.core.interfaces.IMoveConstants;
@@ -42,12 +41,12 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.maths.Vector3;
 
-public class EntityMoveUse extends ThrowableEntity
+public class EntityMoveUse extends ThrowableProjectile
 {
     public static EntityType<EntityMoveUse> TYPE;
     static
     {
-        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, EntityClassification.MISC).noSummon()
+        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, MobCategory.MISC).noSummon()
                 .fireImmune().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).sized(
                         0.5f, 0.5f).setCustomClientFactory((spawnEntity, world) ->
                         {
@@ -95,30 +94,30 @@ public class EntityMoveUse extends ThrowableEntity
         }
     }
 
-    static final DataParameter<String>  MOVENAME  = EntityDataManager.<String> defineId(EntityMoveUse.class,
-            DataSerializers.STRING);
-    static final DataParameter<Float>   ENDX      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Float>   ENDY      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Float>   ENDZ      = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTX    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTY    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Float>   STARTZ    = EntityDataManager.<Float> defineId(EntityMoveUse.class,
-            DataSerializers.FLOAT);
-    static final DataParameter<Integer> USER      = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
-            DataSerializers.INT);
-    static final DataParameter<Integer> TARGET    = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
-            DataSerializers.INT);
-    static final DataParameter<Integer> TICK      = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
-            DataSerializers.INT);
-    static final DataParameter<Integer> STARTTICK = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
-            DataSerializers.INT);
-    static final DataParameter<Integer> APPLYTICK = EntityDataManager.<Integer> defineId(EntityMoveUse.class,
-            DataSerializers.INT);
+    static final EntityDataAccessor<String>  MOVENAME  = SynchedEntityData.<String> defineId(EntityMoveUse.class,
+            EntityDataSerializers.STRING);
+    static final EntityDataAccessor<Float>   ENDX      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Float>   ENDY      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Float>   ENDZ      = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Float>   STARTX    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Float>   STARTY    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Float>   STARTZ    = SynchedEntityData.<Float> defineId(EntityMoveUse.class,
+            EntityDataSerializers.FLOAT);
+    static final EntityDataAccessor<Integer> USER      = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+            EntityDataSerializers.INT);
+    static final EntityDataAccessor<Integer> TARGET    = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+            EntityDataSerializers.INT);
+    static final EntityDataAccessor<Integer> TICK      = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+            EntityDataSerializers.INT);
+    static final EntityDataAccessor<Integer> STARTTICK = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+            EntityDataSerializers.INT);
+    static final EntityDataAccessor<Integer> APPLYTICK = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
+            EntityDataSerializers.INT);
 
     Vector3 end   = Vector3.getNewVector();
     Vector3 start = Vector3.getNewVector();
@@ -155,7 +154,7 @@ public class EntityMoveUse extends ThrowableEntity
         return !this.alreadyHit.contains(targetID);
     };
 
-    public EntityMoveUse(final EntityType<EntityMoveUse> type, final World worldIn)
+    public EntityMoveUse(final EntityType<EntityMoveUse> type, final Level worldIn)
     {
         super(type, worldIn);
         this.noCulling = true;
@@ -169,7 +168,7 @@ public class EntityMoveUse extends ThrowableEntity
             // If we timed out, it means our user died before the move could
             // finish (ie it died on the same tick it used the attack), in this
             // case, we just remove the attack.
-            this.remove();
+            this.remove(Entity.RemovalReason.DISCARDED);
             return;
         }
 
@@ -214,16 +213,16 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
-    public EntitySize getDimensions(final Pose poseIn)
+    public EntityDimensions getDimensions(final Pose poseIn)
     {
-        final EntitySize size = super.getDimensions(poseIn);
+        final EntityDimensions size = super.getDimensions(poseIn);
         this.getMove();
         if (this.move == null) return size;
         return size;
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -295,7 +294,7 @@ public class EntityMoveUse extends ThrowableEntity
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public AxisAlignedBB getBoundingBoxForCulling()
+    public AABB getBoundingBoxForCulling()
     {
         return IForgeTileEntity.INFINITE_EXTENT_AABB;
     }
@@ -332,14 +331,14 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
-    protected void onHit(final RayTraceResult result)
+    protected void onHit(final HitResult result)
     {
         // We don't do anything, as we are a "fake" projectile, damage is
         // handled by whatever threw us instead.
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundNBT compound)
+    public void readAdditionalSaveData(final CompoundTag compound)
     {
         // Do nothing, if it needs to load/save, it should delete itself
         // instead.
@@ -455,15 +454,15 @@ public class EntityMoveUse extends ThrowableEntity
         // Finished, or is invalid
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
-            this.remove();
+            this.remove(Entity.RemovalReason.DISCARDED);
             return;
         }
 
         this.prev.set(this.here);
-        AxisAlignedBB testBox = this.getBoundingBox();
+        AABB testBox = this.getBoundingBox();
         final Move_Base attack = this.getMove();
 
-        final List<AxisAlignedBB> hitboxes = Lists.newArrayList();
+        final List<AABB> hitboxes = Lists.newArrayList();
 
         // These are divided by 2, as inflate applies to both directions!
         final float sh = (float) Math.max(this.size.x, this.size.z) / 2;
@@ -489,7 +488,7 @@ public class EntityMoveUse extends ThrowableEntity
                 testBox = null;
                 for (final PartEntity<?> part : user.getParts())
                 {
-                    final AxisAlignedBB box = part.getBoundingBox().inflate(sh, sv, sh);
+                    final AABB box = part.getBoundingBox().inflate(sh, sv, sh);
                     if (testBox == null) testBox = box;
                     else testBox = box.minmax(testBox);
                     hitboxes.add(box);
@@ -518,14 +517,14 @@ public class EntityMoveUse extends ThrowableEntity
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
-        final Vector3d v = this.getDeltaMovement();
+        final Vec3 v = this.getDeltaMovement();
         testBox = testBox.expandTowards(v.x, v.y, v.z);
         final List<Entity> hits = this.getCommandSenderWorld().getEntities(this, testBox, this.valid);
-        final AxisAlignedBB hitBox = testBox;
+        final AABB hitBox = testBox;
         hits.removeIf(e ->
         {
             boolean hit = hitboxes.size() > 1;
-            if (!hit) for (final AxisAlignedBB box : hitboxes)
+            if (!hit) for (final AABB box : hitboxes)
                 if (box.intersects(e.getBoundingBox()))
                 {
                     hit = true;
@@ -549,12 +548,12 @@ public class EntityMoveUse extends ThrowableEntity
             if (this.contact)
             {
                 final double range = userMob.inCombat() ? 0.5 : 4;
-                final AxisAlignedBB endPos = new AxisAlignedBB(this.end.getPos()).inflate(range);
+                final AABB endPos = new AABB(this.end.getPos()).inflate(range);
                 canApply = endPos.intersects(this.getBoundingBox());
             }
             else
             {
-                final EntityRayTraceResult hit = ProjectileHelper.getEntityHitResult(this.getCommandSenderWorld(), this,
+                final EntityHitResult hit = ProjectileUtil.getEntityHitResult(this.getCommandSenderWorld(), this,
                         this.here.toVec3d(), this.end.toVec3d(), this.getBoundingBox(), this.valid);
                 canApply = hit == null || hit.getType() == Type.MISS;
             }
@@ -569,7 +568,7 @@ public class EntityMoveUse extends ThrowableEntity
     }
 
     @Override
-    public void addAdditionalSaveData(final CompoundNBT compound)
+    public void addAdditionalSaveData(final CompoundTag compound)
     {
     }
 }

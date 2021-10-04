@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.a;
 
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
@@ -27,10 +27,10 @@ public class ArenaTrap extends Ability
     @Override
     public void onUpdate(final IPokemob mob)
     {
-        if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
+        if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerLevel)) return;
         if (mob.getEntity().tickCount % 20 == 0)
         {
-            final ServerWorld world = (ServerWorld) mob.getEntity().getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) mob.getEntity().getCommandSenderWorld();
             PokecubeCore.spawner.doSpawnForPoint(Vector3.getNewVector().set(mob.getEntity()), world, 0, this.range);
         }
     }

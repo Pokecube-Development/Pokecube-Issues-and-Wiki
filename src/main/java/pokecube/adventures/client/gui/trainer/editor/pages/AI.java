@@ -5,16 +5,16 @@ import java.util.function.Predicate;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.Button.IPressable;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
@@ -30,21 +30,21 @@ public class AI extends Page
 {
     ScrollGui<GuardEntry> guardList;
 
-    TextFieldWidget resetTimeLose;
-    TextFieldWidget resetTimeWin;
-    TextFieldWidget battleCooldown;
-    TextFieldWidget faceDirection;
+    EditBox resetTimeLose;
+    EditBox resetTimeWin;
+    EditBox battleCooldown;
+    EditBox faceDirection;
 
     public AI(final EditorGui parent)
     {
-        super(new StringTextComponent(""), parent);
+        super(new TextComponent(""), parent);
     }
 
     @Override
     public void onPageOpened()
     {
         this.children.clear();
-        this.buttons.clear();
+        this.renderables.clear();
         super.onPageOpened();
 
         final int x = this.width / 2;
@@ -52,7 +52,7 @@ public class AI extends Page
 
         this.guardList = new ScrollGui<>(this, this.minecraft, 92, 120, 35, x + 30, y - 65);
 
-        final Function<CompoundNBT, CompoundNBT> function = t ->
+        final Function<CompoundTag, CompoundTag> function = t ->
         {
             PacketSyncRoutes.sendServerPacket(this.parent.entity, t);
             this.onPageOpened();
@@ -69,13 +69,13 @@ public class AI extends Page
         final int sy = 12;
         int i = 0;
 
-        this.resetTimeLose = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
                 ""));
-        this.resetTimeWin = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
                 ""));
-        this.battleCooldown = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 50, 10, new StringTextComponent(
+        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
                 ""));
-        this.faceDirection = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 30, 10, new StringTextComponent(
+        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, new TextComponent(
                 ""));
 
         final Predicate<String> intValid = input ->
@@ -109,7 +109,7 @@ public class AI extends Page
         this.faceDirection.setFilter(floatValid);
 
         this.faceDirection.setValue(this.parent.aiStates.getDirection() + "");
-        this.addButton(this.faceDirection);
+        this.addRenderableWidget(this.faceDirection);
 
         if (this.parent.trainer instanceof DefaultPokemobs)
         {
@@ -119,9 +119,9 @@ public class AI extends Page
             this.resetTimeWin.setValue(trainer.resetTimeWin + "");
             this.battleCooldown.setValue(trainer.battleCooldown + "");
 
-            this.addButton(this.resetTimeLose);
-            this.addButton(this.resetTimeWin);
-            this.addButton(this.battleCooldown);
+            this.addRenderableWidget(this.resetTimeLose);
+            this.addRenderableWidget(this.resetTimeWin);
+            this.addRenderableWidget(this.battleCooldown);
         }
 
         int index = 0;
@@ -129,20 +129,20 @@ public class AI extends Page
         {
             if (state.isTemporary()) continue;
             index++;
-            final IPressable action = b ->
+            final OnPress action = b ->
             {
                 final boolean flag = !this.parent.aiStates.getAIState(state);
                 this.parent.aiStates.setAIState(state, flag);
                 b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
                 this.onChanged();
             };
-            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new StringTextComponent(state
+            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new TextComponent(state
                     .name()), action);
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
-            this.addButton(press);
+            this.addRenderableWidget(press);
         }
 
-        this.addButton(new Button(x + 73, y + 64, 50, 12, new TranslationTextComponent("traineredit.button.home"), b ->
+        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
         {
             this.closeCallback.run();
         }));
@@ -161,7 +161,7 @@ public class AI extends Page
     }
 
     @Override
-    public void render(final MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.guardList.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -182,8 +182,8 @@ public class AI extends Page
     {
         if (this.parent.aiStates instanceof ICapabilitySerializable)
         {
-            final ICapabilitySerializable<? extends INBT> ser = (ICapabilitySerializable<?>) this.parent.aiStates;
-            final INBT tag = ser.serializeNBT();
+            final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.parent.aiStates;
+            final Tag tag = ser.serializeNBT();
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             message.getTag().putInt("I", this.parent.entity.getId());
             message.getTag().put("__ai__", tag);

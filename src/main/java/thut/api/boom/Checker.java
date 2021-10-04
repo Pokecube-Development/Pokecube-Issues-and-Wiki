@@ -11,13 +11,13 @@ import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.HitEntity;
 import thut.api.maths.Cruncher;
@@ -568,9 +568,9 @@ public class Checker
                     final float phi_k = (float) (k > 1 && k < N ? (phi_k_1 + C / (sqrtN * sin_theta)) % (2 * Math.PI)
                             : 0);
                     this.boom.last_phi = phi_k_1 = phi_k;
-                    final double x = sin_theta * MathHelper.cos(phi_k) * radius;
+                    final double x = sin_theta * Mth.cos(phi_k) * radius;
                     final double y = h_k * radius;
-                    final double z = sin_theta * MathHelper.sin(phi_k) * radius;
+                    final double z = sin_theta * Mth.sin(phi_k) * radius;
                     this.boom.rTest.set(x, y, z);
                     this.boom.r.set(this.boom.rTest.intX(), this.boom.rTest.intY(), this.boom.rTest.intZ());
                     done = this.run(radSq, num, seen, ret, entityAffected);
@@ -590,7 +590,7 @@ public class Checker
                 N = (float) Math.ceil(area / grid);
                 k_start = this.yToKMin(this.boom.min.y, N);
                 this.boom.currentIndex = k_start;
-                this.boom.currentRadius = MathHelper.ceil(radius);
+                this.boom.currentRadius = Mth.ceil(radius);
             }
             this.boom.last_rad = radius;
         }
@@ -615,7 +615,7 @@ public class Checker
 
     int yToKMax(final float y, final float N)
     {
-        int k = MathHelper.ceil(1 + (y + 1) * (N - 1) / 2);
+        int k = Mth.ceil(1 + (y + 1) * (N - 1) / 2);
         k = (int) Math.min(N, k);
         return k;
     }

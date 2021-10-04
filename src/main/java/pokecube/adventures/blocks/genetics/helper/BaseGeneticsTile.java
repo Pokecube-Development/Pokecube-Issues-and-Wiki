@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.nfunk.jep.JEP;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -27,8 +27,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.InvHelper;
 
-public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, ITickableTileEntity,
-        ISidedInventory
+public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, TickingBlockEntity,
+        WorldlyContainer
 {
 
     public static JEP parser;
@@ -51,7 +51,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     private final NonNullList<ItemStack> inventory;
     protected BlockState                 loaded = null;
 
-    public final IIntArray syncValues = new IIntArray()
+    public final ContainerData syncValues = new ContainerData()
     {
 
         @Override
@@ -94,12 +94,12 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public int                                           total          = 0;
     private PoweredProcess                               currentProcess = null;
     protected PoweredCraftingInventory                   craftMatrix;
-    private PlayerEntity                                 user;
+    private Player                                 user;
     private final LazyOptional<? extends IItemHandler>[] wrappers       = SidedInvWrapper.create(this, Direction
             .values());
     int[]                                                slots;
 
-    public BaseGeneticsTile(final TileEntityType<?> tileEntityTypeIn, final int size, final int output)
+    public BaseGeneticsTile(final BlockEntityType<?> tileEntityTypeIn, final int size, final int output)
     {
         super(tileEntityTypeIn);
         this.inventory = NonNullList.<ItemStack> withSize(size, ItemStack.EMPTY);
@@ -217,7 +217,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public void stopOpen(final PlayerEntity player)
+    public void stopOpen(final Player player)
     {
         if (this.user == player) this.user = null;
     }
@@ -292,7 +292,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public PlayerEntity getUser()
+    public Player getUser()
     {
         return this.user;
     }
@@ -304,33 +304,33 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity player)
+    public boolean stillValid(final Player player)
     {
         return this.user == null || this.user == player;
     }
 
     @Override
-    public void startOpen(final PlayerEntity player)
+    public void startOpen(final Player player)
     {
         if (this.user == null) this.user = player;
     }
 
     @Override
-    public void load(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundTag nbt)
     {
         this.loaded = state;
         super.load(state, nbt);
         if (nbt.contains("Items")) InvHelper.load(this, nbt);
         if (nbt.contains("progress"))
         {
-            final CompoundNBT tag = nbt.getCompound("progress");
+            final CompoundTag tag = nbt.getCompound("progress");
             this.setProcess(PoweredProcess.load(tag, this));
             if (this.getProcess() != null) this.total = this.getProcess().recipe.getEnergyCost(this);
         }
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT nbt)
+    public CompoundTag save(CompoundTag nbt)
     {
         nbt = super.save(nbt);
 

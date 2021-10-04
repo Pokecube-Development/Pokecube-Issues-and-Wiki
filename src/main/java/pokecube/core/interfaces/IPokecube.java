@@ -2,11 +2,11 @@ package pokecube.core.interfaces;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -150,7 +150,7 @@ public interface IPokecube
      * @param power
      * @return
      */
-    EntityPokecubeBase throwPokecube(World world, LivingEntity thrower, ItemStack cube, Vector3 direction, float power);
+    EntityPokecubeBase throwPokecube(Level world, LivingEntity thrower, ItemStack cube, Vector3 direction, float power);
 
     /**
      * Used to throw the pokecube at a specific target
@@ -162,7 +162,7 @@ public interface IPokecube
      * @param target
      * @return
      */
-    EntityPokecubeBase throwPokecubeAt(World world, LivingEntity thrower, ItemStack cube,
+    EntityPokecubeBase throwPokecubeAt(Level world, LivingEntity thrower, ItemStack cube,
             @Nullable Vector3 targetLocation, @Nullable Entity target);
 
 }

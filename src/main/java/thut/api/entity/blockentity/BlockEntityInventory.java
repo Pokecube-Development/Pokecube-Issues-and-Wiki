@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -51,7 +51,7 @@ public class BlockEntityInventory implements IItemHandlerModifiable, ICapability
                 for (int k = 0; k < sizeY; k++)
                     for (int j = 0; j < sizeZ; j++)
                     {
-                        final TileEntity tile = this.base.getTiles()[i][j][k];
+                        final BlockEntity tile = this.base.getTiles()[i][j][k];
                         LazyOptional<IItemHandler> opt;
                         if (tile != null && (opt = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY))
                                 .isPresent() && opt.orElse(null) instanceof IItemHandlerModifiable)

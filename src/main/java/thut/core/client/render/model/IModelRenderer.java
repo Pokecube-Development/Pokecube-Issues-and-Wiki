@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import thut.api.ModelHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -84,7 +84,7 @@ public interface IModelRenderer<T extends Entity>
 
     boolean hasAnimation(String phase, Entity entity);
 
-    void scaleEntity(MatrixStack mat, Entity entity, IModel model, float partialTick);
+    void scaleEntity(PoseStack mat, Entity entity, IModel model, float partialTick);
 
     default void setAnimation(final Entity entity, final float partialTick)
     {

@@ -5,15 +5,15 @@ import java.util.Optional;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.IPosWrapper;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -27,8 +27,8 @@ public class MemoryModules
     // Used for combat
     public static final MemoryModuleType<LivingEntity> ATTACKTARGET = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<LivingEntity> HUNTTARGET   = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<IPosWrapper>  MOVE_TARGET  = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<IPosWrapper>  LEAP_TARGET  = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<PositionTracker>  MOVE_TARGET  = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<PositionTracker>  LEAP_TARGET  = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<LivingEntity> HUNTED_BY    = new MemoryModuleType<>(Optional.empty());
 
     // Used for idle tasks
@@ -41,7 +41,7 @@ public class MemoryModules
 
     public static final MemoryModuleType<Integer> JOB_TYPE = new MemoryModuleType<>(Optional.of(Codec.INT));
 
-    public static final MemoryModuleType<CompoundNBT> JOB_INFO = new MemoryModuleType<>(Optional.of(CompoundNBT.CODEC));
+    public static final MemoryModuleType<CompoundTag> JOB_INFO = new MemoryModuleType<>(Optional.of(CompoundTag.CODEC));
 
     public static final MemoryModuleType<Boolean> GOING_HOME = new MemoryModuleType<>(Optional.of(Codec.BOOL));
 
@@ -51,15 +51,15 @@ public class MemoryModules
     public static final MemoryModuleType<Long>       NOT_FOUND_PATH = MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE;
 
     // Misc
-    public static final MemoryModuleType<IPosWrapper> LOOK_TARGET = MemoryModuleType.LOOK_TARGET;
+    public static final MemoryModuleType<PositionTracker> LOOK_TARGET = MemoryModuleType.LOOK_TARGET;
 
     public static final MemoryModuleType<EntityPokemobEgg> EGG = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<NearBlock>>  VISIBLE_BLOCKS = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<List<ItemEntity>> VISIBLE_ITEMS  = new MemoryModuleType<>(Optional.empty());
 
-    public static final MemoryModuleType<List<AgeableEntity>> POSSIBLE_MATES = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<AgeableEntity>       MATE_TARGET    = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<List<AgeableMob>> POSSIBLE_MATES = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<AgeableMob>       MATE_TARGET    = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<LivingEntity>> HERD_MEMBERS = new MemoryModuleType<>(Optional.empty());
 

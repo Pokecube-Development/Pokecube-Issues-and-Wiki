@@ -8,7 +8,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.utils.PokeType;

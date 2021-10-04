@@ -2,15 +2,15 @@ package pokecube.core.client.gui.pokemob;
 
 import java.util.function.Function;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
@@ -23,15 +23,15 @@ import pokecube.core.utils.CapHolders;
 
 public class GuiPokemobRoutes extends GuiPokemobBase
 {
-    final PlayerInventory    playerInventory;
-    final IInventory         pokeInventory;
+    final Inventory    playerInventory;
+    final Container         pokeInventory;
     final IPokemob           pokemob;
     final Entity             entity;
     final IGuardAICapability guard;
     ScrollGui<GuardEntry>    list;
     int                      num;
 
-    public GuiPokemobRoutes(final ContainerPokemob container, final PlayerInventory inv)
+    public GuiPokemobRoutes(final ContainerPokemob container, final Inventory inv)
     {
         super(container, inv);
         this.pokemob = container.pokemob;
@@ -43,7 +43,7 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     }
 
     @Override
-    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
         super.renderBg(mat, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.imageWidth) / 2;
@@ -56,18 +56,18 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     public void init()
     {
         super.init();
-        this.buttons.clear();
+        this.renderables.clear();
         final int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
-        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.storage"),
+        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.storage"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getId())));
-        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.ai"),
+        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.ai"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
 
         this.list = new ScrollGui<>(this, this.minecraft, 92, 50, 50, xOffset, yOffset + 10);
-        final Function<CompoundNBT, CompoundNBT> function = t ->
+        final Function<CompoundTag, CompoundTag> function = t ->
         {
             PacketSyncRoutes.sendServerPacket(GuiPokemobRoutes.this.entity, t);
             return t;
@@ -77,12 +77,12 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         RouteEditHelper.getGuiList(this.list, this.guard, function, this.entity, this, 60, dx, dy, 50);
 
         this.list.smoothScroll = false;
-        this.addButton(new Button(xOffset + 45, yOffset + 54, 30, 10, new StringTextComponent("\u21e7"), b ->
+        this.addRenderableWidget(new Button(xOffset + 45, yOffset + 54, 30, 10, new TextComponent("\u21e7"), b ->
         {
             this.list.scroll(-50);
             this.num = (int) (this.list.getScrollAmount() / 50);
         }));
-        this.addButton(new Button(xOffset + 15, yOffset + 54, 30, 10, new StringTextComponent("\u21e9"), b ->
+        this.addRenderableWidget(new Button(xOffset + 15, yOffset + 54, 30, 10, new TextComponent("\u21e9"), b ->
         {
             this.list.scroll(50);
             this.num = (int) (this.list.getScrollAmount() / 50);
@@ -99,7 +99,7 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     }
 
     @Override
-    public void render(final MatrixStack mat, final int i, final int j, final float f)
+    public void render(final PoseStack mat, final int i, final int j, final float f)
     {
         super.render(mat, i, j, f);
         this.list.render(mat, i, j, f);

@@ -1,8 +1,8 @@
 package pokecube.compat.cct.modules;
 
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.entity.ThutTeleporter.TeleDest;
 

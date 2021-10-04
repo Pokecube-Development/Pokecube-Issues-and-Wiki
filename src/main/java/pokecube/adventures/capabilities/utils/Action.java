@@ -1,7 +1,7 @@
 package pokecube.adventures.capabilities.utils;
 
-import net.minecraft.command.Commands;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.commands.Commands;
+import net.minecraft.world.entity.LivingEntity;
 
 public class Action
 {

@@ -1,15 +1,15 @@
 package pokecube.core.client.gui.watch.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 
-public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> extends WatchPage
+public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends WatchPage
 {
     protected ScrollGui<T> list;
     /**
@@ -17,17 +17,17 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
      */
     protected boolean      handlesList = false;
 
-    public ListPage(final ITextComponent title, final GuiPokeWatch watch, final ResourceLocation day, final ResourceLocation night)
+    public ListPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day, final ResourceLocation night)
     {
         super(title, watch, day, night);
     }
 
-    public void drawTitle(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void drawTitle(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
         final int colour = 0xFF78C850;
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, colour);
+        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, colour);
     }
 
     @Override
@@ -52,7 +52,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         this.drawTitle(mat, mouseX, mouseY, partialTicks);
         super.render(mat, mouseX, mouseY, partialTicks);

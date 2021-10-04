@@ -1,18 +1,18 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraftforge.common.IForgeShearable;
 
 public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
@@ -29,7 +29,7 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, IWorld world, BlockPos pos, BlockPos pos1)
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1)
     {
         int i = getDistanceAt(state1) + 1;
         if (i != 1 || (Integer)state.getValue(DISTANCE) != i) {
@@ -48,7 +48,7 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context)
+    public BlockState getStateForPlacement(BlockPlaceContext context)
     {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
 //      return (BlockState)this.defaultBlockState().setValue(SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SNOW));
@@ -59,9 +59,9 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
 
     }
 
-    public static BlockState updateDistance(BlockState state, IWorld world, BlockPos pos) {
+    public static BlockState updateDistance(BlockState state, LevelAccessor world, BlockPos pos) {
         int i = 7;
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         Direction[] var5 = Direction.values();
         int var6 = var5.length;
 
@@ -78,7 +78,7 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(DISTANCE, PERSISTENT, SNOWY);
     }

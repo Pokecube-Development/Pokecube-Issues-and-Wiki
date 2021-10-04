@@ -10,18 +10,18 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.inventory.big.BigInventory.LoadFactory;
 import thut.api.inventory.big.BigInventory.NewFactory;
 import thut.core.common.ThutCore;
@@ -56,7 +56,7 @@ public abstract class Manager<T extends BigInventory>
             if (file != null && file.exists())
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
-                final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
+                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
                 fileinputstream.close();
                 this.loadNBT(CompoundNBT.getCompound("Data"));
             }
@@ -69,15 +69,15 @@ public abstract class Manager<T extends BigInventory>
         }
     }
 
-    protected void loadNBT(final CompoundNBT nbt)
+    protected void loadNBT(final CompoundTag nbt)
     {
-        final INBT temp = nbt.get(this.tagID());
-        if (temp instanceof ListNBT)
+        final Tag temp = nbt.get(this.tagID());
+        if (temp instanceof ListTag)
         {
-            final ListNBT tagListPC = (ListNBT) temp;
+            final ListTag tagListPC = (ListTag) temp;
             for (int i = 0; i < tagListPC.size(); i++)
             {
-                final CompoundNBT items = tagListPC.getCompound(i);
+                final CompoundTag items = tagListPC.getCompound(i);
                 final T load = this.load_factory.create(this, items);
                 this._map.put(load.id, load);
             }
@@ -96,12 +96,12 @@ public abstract class Manager<T extends BigInventory>
             final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), this.fileName());
             if (file != null)
             {
-                final CompoundNBT CompoundNBT = new CompoundNBT();
+                final CompoundTag CompoundNBT = new CompoundTag();
                 this.writeToNBT(CompoundNBT, save);
-                final CompoundNBT CompoundNBT1 = new CompoundNBT();
+                final CompoundTag CompoundNBT1 = new CompoundTag();
                 CompoundNBT1.put("Data", CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
-                CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
+                NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
                 fileoutputstream.close();
                 // Do not retain these if the owner is not actually a logged in
                 // player.
@@ -118,10 +118,10 @@ public abstract class Manager<T extends BigInventory>
         }
     }
 
-    public void writeToNBT(final CompoundNBT nbt, final T save)
+    public void writeToNBT(final CompoundTag nbt, final T save)
     {
-        final ListNBT nbttag = new ListNBT();
-        final CompoundNBT items = save.serializeNBT();
+        final ListTag nbttag = new ListTag();
+        final CompoundTag items = save.serializeNBT();
         nbttag.add(items);
         nbt.put(this.tagID(), nbttag);
     }

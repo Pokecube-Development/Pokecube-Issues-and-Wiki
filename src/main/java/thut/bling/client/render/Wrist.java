@@ -1,17 +1,17 @@
 package thut.bling.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.IModel;
 
 public class Wrist
 {
-    public static void renderWrist(final MatrixStack mat, final IRenderTypeBuffer buff, final LivingEntity wearer,
+    public static void renderWrist(final PoseStack mat, final MultiBufferSource buff, final LivingEntity wearer,
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
@@ -26,8 +26,8 @@ public class Wrist
         sz = s / 2;
         final Vector3f dr = new Vector3f(dx, dy, dz);
         final Vector3f ds = new Vector3f(sx, sy, sz);
-        mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
-        mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+        mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
+        mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
         Util.renderStandardModelWithGem(mat, buff, stack, "main", "gem", model, textures, dr, ds, brightness, overlay);
     }
 

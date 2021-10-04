@@ -8,14 +8,14 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureStart;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -33,7 +33,7 @@ public class StructureManager
         {
         }
 
-        public StructureInfo(final Entry<Structure<?>, StructureStart<?>> entry)
+        public StructureInfo(final Entry<StructureFeature<?>, StructureStart<?>> entry)
         {
             this.name = entry.getKey().getFeatureName();
             this.start = entry.getValue();
@@ -49,7 +49,7 @@ public class StructureManager
             return false;
         }
 
-        private boolean isIn(final MutableBoundingBox b, BlockPos pos)
+        private boolean isIn(final BoundingBox b, BlockPos pos)
         {
             final int x1 = pos.getX();
             final int y1 = pos.getY();
@@ -99,7 +99,7 @@ public class StructureManager
         return set;
     }
 
-    public static Set<StructureInfo> getFor(final RegistryKey<World> dim, final BlockPos loc)
+    public static Set<StructureInfo> getFor(final ResourceKey<Level> dim, final BlockPos loc)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
         final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
@@ -114,15 +114,15 @@ public class StructureManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getWorld() instanceof World) || evt.getWorld().isClientSide()) return;
-        final World w = (World) evt.getWorld();
-        final RegistryKey<World> dim = w.dimension();
-        for (final Entry<Structure<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
+        if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
+        final Level w = (Level) evt.getWorld();
+        final ResourceKey<Level> dim = w.dimension();
+        for (final Entry<StructureFeature<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
-            final MutableBoundingBox b = info.start.getBoundingBox();
-            for (int x = b.x0 >> 4; x <= b.x1 >> 4; x++)
-                for (int z = b.z0 >> 4; z <= b.z1 >> 4; z++)
+            final BoundingBox b = info.start.getBoundingBox();
+            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
+                for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
                 {
                     final ChunkPos p = new ChunkPos(x, z);
                     final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
@@ -135,9 +135,9 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!(evt.getWorld() instanceof World) || evt.getWorld().isClientSide()) return;
-        final World w = (World) evt.getWorld();
-        final RegistryKey<World> dim = w.dimension();
+        if (!(evt.getWorld() instanceof Level) || evt.getWorld().isClientSide()) return;
+        final Level w = (Level) evt.getWorld();
+        final ResourceKey<Level> dim = w.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
     }

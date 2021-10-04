@@ -1,36 +1,36 @@
 package pokecube.legends.tileentity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.DoubleSidedInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.LockableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.CompoundContainer;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.init.TileEntityInit;
 
-public class GenericBarrelTile extends LockableLootTileEntity {
+public class GenericBarrelTile extends RandomizableContainerBlockEntity {
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
-	private ITextComponent name;
+	private Component name;
 	private int openCount;
 
-	private GenericBarrelTile(final TileEntityType<?> tileEntityType) {
+	private GenericBarrelTile(final BlockEntityType<?> tileEntityType) {
 		super(tileEntityType);
 	}
 
@@ -54,33 +54,33 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 	}
 
 	@Override
-    protected Container createMenu(final int index, final PlayerInventory playerInventory) {
+    protected AbstractContainerMenu createMenu(final int index, final Inventory playerInventory) {
 		return CustomBarrelContainer.threeRows(index, playerInventory, this);
 	}
 
 	@Override
-    protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("container." + Reference.ID + ".generic_barrel");
+    protected Component getDefaultName() {
+		return new TranslatableComponent("container." + Reference.ID + ".generic_barrel");
 	}
 
 	@Override
-    public CompoundNBT save(final CompoundNBT saveCompoundNBT) {
+    public CompoundTag save(final CompoundTag saveCompoundNBT) {
 		super.save(saveCompoundNBT);
-		if (!this.trySaveLootTable(saveCompoundNBT)) ItemStackHelper.saveAllItems(saveCompoundNBT, this.items);
-		if (this.name != null) saveCompoundNBT.putString("CustomName", ITextComponent.Serializer.toJson(this.name));
+		if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.items);
+		if (this.name != null) saveCompoundNBT.putString("CustomName", Component.Serializer.toJson(this.name));
 		return saveCompoundNBT;
 	}
 
 	@Override
-    public void load(final BlockState state, final CompoundNBT loadCompoundNBT) {
+    public void load(final BlockState state, final CompoundTag loadCompoundNBT) {
 		super.load(state, loadCompoundNBT);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(loadCompoundNBT)) ItemStackHelper.loadAllItems(loadCompoundNBT, this.items);
-		if (loadCompoundNBT.contains("CustomName", 8)) this.name = ITextComponent.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
+		if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.items);
+		if (loadCompoundNBT.contains("CustomName", 8)) this.name = Component.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
 	}
 
 	@Override
-    public void startOpen(final PlayerEntity player) {
+    public void startOpen(final Player player) {
 		if (!player.isSpectator()) {
 			if (this.openCount < 0) this.openCount = 0;
 
@@ -122,7 +122,7 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 	}
 
 	@Override
-    public void stopOpen(final PlayerEntity entity) {
+    public void stopOpen(final Player entity) {
 		if (!entity.isSpectator()) --this.openCount;
 	}
 
@@ -131,26 +131,26 @@ public class GenericBarrelTile extends LockableLootTileEntity {
 	}
 
 	private void playSound(final BlockState state, final SoundEvent sound) {
-		final Vector3i vector3i = state.getValue(GenericBarrel.FACING).getNormal();
+		final Vec3i vector3i = state.getValue(GenericBarrel.FACING).getNormal();
 		final double d0 = this.worldPosition.getX() + 0.5D + vector3i.getX() / 2.0D;
 		final double d1 = this.worldPosition.getY() + 0.5D + vector3i.getY() / 2.0D;
 		final double d2 = this.worldPosition.getZ() + 0.5D + vector3i.getZ() / 2.0D;
-		this.level.playSound((PlayerEntity) null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F,
+		this.level.playSound((Player) null, d0, d1, d2, sound, SoundSource.BLOCKS, 0.5F,
 				this.level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
-	public static int getOpenCount(final World world, final LockableTileEntity lockableTileEntity, final int i, final int j, final int k, final int l, int r) {
+	public static int getOpenCount(final Level world, final BaseContainerBlockEntity lockableTileEntity, final int i, final int j, final int k, final int l, int r) {
       if (!world.isClientSide && r != 0 && (i + j + k + l) % 200 == 0) r = GenericBarrelTile.getOpenCount(world, lockableTileEntity, j, k, l);
 
       return r;
    }
 
-   public static int getOpenCount(final World world, final LockableTileEntity lockableTileEntity, final int j, final int k, final int l) {
+   public static int getOpenCount(final Level world, final BaseContainerBlockEntity lockableTileEntity, final int j, final int k, final int l) {
       int i = 0;
-      for(final PlayerEntity player : world.getEntitiesOfClass(PlayerEntity.class, new AxisAlignedBB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
+      for(final Player player : world.getEntitiesOfClass(Player.class, new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
         if (player.containerMenu instanceof CustomBarrelContainer) {
-            final IInventory iinventory = ((CustomBarrelContainer)player.containerMenu).getContainer();
-            if (iinventory == lockableTileEntity || iinventory instanceof DoubleSidedInventory && ((DoubleSidedInventory)iinventory).contains(lockableTileEntity)) ++i;
+            final Container iinventory = ((CustomBarrelContainer)player.containerMenu).getContainer();
+            if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer && ((CompoundContainer)iinventory).contains(lockableTileEntity)) ++i;
          }
       return i;
    }

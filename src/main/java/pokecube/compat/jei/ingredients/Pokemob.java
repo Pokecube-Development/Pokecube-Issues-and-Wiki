@@ -7,15 +7,15 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -75,16 +75,16 @@ public class Pokemob implements IIngredientType<PokedexEntry>
     public static class IngredientRenderer implements IIngredientRenderer<Pokemob>
     {
         @Override
-        public List<ITextComponent> getTooltip(final Pokemob pokemob, final ITooltipFlag flag)
+        public List<Component> getTooltip(final Pokemob pokemob, final TooltipFlag flag)
         {
-            final List<ITextComponent> list = Lists.newArrayList(new TranslationTextComponent(pokemob.entry
+            final List<Component> list = Lists.newArrayList(new TranslatableComponent(pokemob.entry
                     .getUnlocalizedName()));
-            if (pokemob.holder != null) list.add(new StringTextComponent(pokemob.holder.name));
+            if (pokemob.holder != null) list.add(new TextComponent(pokemob.holder.name));
             return list;
         }
 
         @Override
-        public void render(final MatrixStack stack, final int x, final int y, final Pokemob pokemob)
+        public void render(final PoseStack stack, final int x, final int y, final Pokemob pokemob)
         {
             if (pokemob != null)
             {

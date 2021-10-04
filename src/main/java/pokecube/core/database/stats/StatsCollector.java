@@ -3,8 +3,8 @@ package pokecube.core.database.stats;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -21,10 +21,10 @@ public class StatsCollector
     public static void addCapture(final IPokemob captured)
     {
         String owner;
-        if (captured.getOwner() instanceof ServerPlayerEntity && !(captured
+        if (captured.getOwner() instanceof ServerPlayer && !(captured
                 .getOwner() instanceof FakePlayer))
         {
-            final ServerPlayerEntity player = (ServerPlayerEntity) captured.getOwner();
+            final ServerPlayer player = (ServerPlayer) captured.getOwner();
             owner = captured.getOwner().getStringUUID();
             final PokedexEntry dbe = Database.getEntry(captured);
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
@@ -42,7 +42,7 @@ public class StatsCollector
     {
         String owner;
         IPokemob mob = null;
-        if (hatched.getEggOwner() instanceof PlayerEntity && !(hatched.getEggOwner() instanceof FakePlayer))
+        if (hatched.getEggOwner() instanceof Player && !(hatched.getEggOwner() instanceof FakePlayer))
         {
             owner = hatched.getEggOwner().getStringUUID();
             mob = hatched.getPokemob(true);
@@ -56,8 +56,8 @@ public class StatsCollector
                     PokecubePlayerStats.class);
             stats.addHatch(dbe);
             PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
-            Triggers.HATCHPOKEMOB.trigger((ServerPlayerEntity) hatched.getEggOwner(), mob);
-            PacketDataSync.syncData((ServerPlayerEntity) hatched.getEggOwner(), stats.getIdentifier());
+            Triggers.HATCHPOKEMOB.trigger((ServerPlayer) hatched.getEggOwner(), mob);
+            PacketDataSync.syncData((ServerPlayer) hatched.getEggOwner(), stats.getIdentifier());
         }
     }
 
@@ -65,7 +65,7 @@ public class StatsCollector
     {
         if (killer == null || killed == null || killer.getOwner() instanceof FakePlayer) return;
         String owner;
-        if (killer.getOwner() instanceof PlayerEntity)
+        if (killer.getOwner() instanceof Player)
         {
             owner = killer.getOwner().getStringUUID();
             final PokedexEntry dbe = Database.getEntry(killed);
@@ -73,12 +73,12 @@ public class StatsCollector
                     PokecubePlayerStats.class);
             stats.addKill(dbe);
             PlayerDataHandler.getInstance().save(owner, stats.getIdentifier());
-            Triggers.KILLPOKEMOB.trigger((ServerPlayerEntity) killer.getOwner(), killed);
-            PacketDataSync.syncData((ServerPlayerEntity) killer.getOwner(), stats.getIdentifier());
+            Triggers.KILLPOKEMOB.trigger((ServerPlayer) killer.getOwner(), killed);
+            PacketDataSync.syncData((ServerPlayer) killer.getOwner(), stats.getIdentifier());
         }
     }
 
-    public static int getCaptured(final PokedexEntry dbe, final PlayerEntity player)
+    public static int getCaptured(final PokedexEntry dbe, final Player player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getCaptures().get(dbe);
@@ -90,7 +90,7 @@ public class StatsCollector
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerStats.class).getCaptures();
     }
 
-    public static int getHatched(final PokedexEntry dbe, final PlayerEntity player)
+    public static int getHatched(final PokedexEntry dbe, final Player player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getHatches().get(dbe);
@@ -102,7 +102,7 @@ public class StatsCollector
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerStats.class).getHatches();
     }
 
-    public static int getKilled(final PokedexEntry dbe, final PlayerEntity player)
+    public static int getKilled(final PokedexEntry dbe, final Player player)
     {
         final Integer n = PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerStats.class)
                 .getKills().get(dbe);

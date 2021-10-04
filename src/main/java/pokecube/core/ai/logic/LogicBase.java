@@ -1,15 +1,15 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IPokemob;
 
 public abstract class LogicBase implements Logic
 {
     protected final IPokemob  pokemob;
-    protected final MobEntity entity;
-    protected IBlockReader    world;
+    protected final Mob entity;
+    protected BlockGetter    world;
 
     public LogicBase(final IPokemob pokemob_)
     {
@@ -24,7 +24,7 @@ public abstract class LogicBase implements Logic
     }
 
     @Override
-    public void tick(final World world)
+    public void tick(final Level world)
     {
         this.world = world;
     }

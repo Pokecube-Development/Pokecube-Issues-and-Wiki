@@ -2,9 +2,9 @@ package thut.wearables.network;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import thut.core.common.ThutCore;
 
 public abstract class Packet
@@ -13,7 +13,7 @@ public abstract class Packet
     {
     }
 
-    public Packet(PacketBuffer buffer)
+    public Packet(FriendlyByteBuf buffer)
     {
     }
 
@@ -21,7 +21,7 @@ public abstract class Packet
     {
         ctx.get().enqueueWork(() ->
         {
-            final ServerPlayerEntity player = ctx.get().getSender();
+            final ServerPlayer player = ctx.get().getSender();
             if (ThutCore.proxy.isClientSide()) this.handleClient();
             else this.handleServer(player);
         });
@@ -39,7 +39,7 @@ public abstract class Packet
     /*
      * Handles Server side interaction.
      */
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(ServerPlayer player)
     {
 
     }
@@ -49,5 +49,5 @@ public abstract class Packet
      * 
      * @param buffer
      */
-    public abstract void write(PacketBuffer buffer);
+    public abstract void write(FriendlyByteBuf buffer);
 }

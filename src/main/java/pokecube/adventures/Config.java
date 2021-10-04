@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.INPC;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Npc;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
@@ -211,7 +211,7 @@ public class Config extends ConfigData
     public boolean shouldBeCustomTrainer(final LivingEntity mob)
     {
         if (!this.npcsAreTrainers) return false;
-        if (mob instanceof INPC) return true;
+        if (mob instanceof Npc) return true;
         return this.customTrainerTypes.contains(mob.getType().getRegistryName());
     }
 

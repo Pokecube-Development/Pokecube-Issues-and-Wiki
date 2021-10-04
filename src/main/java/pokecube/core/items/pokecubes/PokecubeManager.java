@@ -5,19 +5,19 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -47,9 +47,9 @@ public class PokecubeManager
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
         final ResourceLocation id = mob.getType().getRegistryName();
-        if (!cube.hasTag()) cube.setTag(new CompoundNBT());
+        if (!cube.hasTag()) cube.setTag(new CompoundTag());
         cube.getTag().putString(TagNames.MOBID, id.toString());
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         mob.saveWithoutId(tag);
         cube.getTag().putFloat("CHP", mob.getHealth());
         cube.getTag().putFloat("MHP", mob.getMaxHealth());
@@ -61,7 +61,7 @@ public class PokecubeManager
         PokedexEntry ret = null;
         if (PokecubeManager.isFilled(cube))
         {
-            final CompoundNBT poketag = cube.getTag().getCompound(TagNames.POKEMOB);
+            final CompoundTag poketag = cube.getTag().getCompound(TagNames.POKEMOB);
             if (poketag != null)
             {
                 final String forme = poketag.getString("forme");
@@ -76,7 +76,7 @@ public class PokecubeManager
         if (!PokecubeManager.isFilled(stack)) return ItemStack.EMPTY;
         try
         {
-            final ListNBT equipmentTags = (ListNBT) TagNames.getPokecubePokemobTag(stack.getTag()).getCompound(
+            final ListTag equipmentTags = (ListTag) TagNames.getPokecubePokemobTag(stack.getTag()).getCompound(
                     TagNames.INVENTORYTAG).get(TagNames.ITEMS);
             for (int i = 0; i < equipmentTags.size(); i++)
             {
@@ -103,19 +103,19 @@ public class PokecubeManager
         if (itemStack.isEmpty() || !itemStack.hasTag()) return null;
 
         // First try reading the ownership from the mob's data directly:
-        INBT owner = itemStack.getTag().getCompound(TagNames.POKEMOB).get("Owner");
+        Tag owner = itemStack.getTag().getCompound(TagNames.POKEMOB).get("Owner");
 
         if (owner == null)
         {
             // Otherwise try looking in the pokemob's ownership tag
-            final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+            final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
             if (!poketag.contains(TagNames.OWNERSHIPTAG)) return null;
             owner = poketag.getCompound(TagNames.OWNERSHIPTAG).get(TagNames.OWNER);
         }
 
         if (owner != null) try
         {
-            final UUID id = NBTUtil.loadUUID(owner);
+            final UUID id = NbtUtils.loadUUID(owner);
             return id;
         }
         catch (final Exception e)
@@ -128,14 +128,14 @@ public class PokecubeManager
     public static PokedexEntry getPokedexEntry(final ItemStack itemStack)
     {
         if (itemStack.isEmpty() || !itemStack.hasTag()) return null;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+        final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
         if (!poketag.contains(TagNames.VISUALSTAG)) return null;
         final String forme = poketag.getCompound(TagNames.VISUALSTAG).getString(TagNames.FORME);
         final PokedexEntry entry = Database.getEntry(forme);
         return entry == null ? Database.missingno : entry;
     }
 
-    public static CompoundNBT getSealTag(final Entity pokemob)
+    public static CompoundTag getSealTag(final Entity pokemob)
     {
         final IPokemob poke = CapabilityPokemob.getPokemobFor(pokemob);
         ItemStack cube;
@@ -143,7 +143,7 @@ public class PokecubeManager
         return cube.getTagElement(TagNames.POKESEAL);
     }
 
-    public static CompoundNBT getSealTag(final ItemStack stack)
+    public static CompoundTag getSealTag(final ItemStack stack)
     {
         if (PokecubeManager.isFilled(stack)) return stack.getTag().getCompound(TagNames.POKEMOB).getCompound(
                 TagNames.VISUALSTAG).getCompound(TagNames.POKECUBE).getCompound("tag").getCompound(TagNames.POKESEAL);
@@ -154,7 +154,7 @@ public class PokecubeManager
     public static byte getStatus(final ItemStack itemStack)
     {
         if (!itemStack.hasTag()) return 0;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+        final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
         return poketag.getCompound(TagNames.STATSTAG).getByte(TagNames.STATUS);
     }
 
@@ -166,14 +166,14 @@ public class PokecubeManager
     public static Integer getUID(final ItemStack stack)
     {
         if (!PokecubeManager.isFilled(stack)) return null;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(stack.getTag());
+        final CompoundTag poketag = TagNames.getPokecubePokemobTag(stack.getTag());
         return poketag.getCompound(TagNames.MISCTAG).getInt(TagNames.UID);
     }
 
     public static UUID getUUID(final ItemStack stack)
     {
         if (!PokecubeManager.isFilled(stack)) return null;
-        final CompoundNBT pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
+        final CompoundTag pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
         try
         {
             return pokeTag.getUUID("UUID");
@@ -199,7 +199,7 @@ public class PokecubeManager
         mob.setHealth(maxHP);
     }
 
-    public static void heal(final ItemStack stack, final World world)
+    public static void heal(final ItemStack stack, final Level world)
     {
         if (PokecubeManager.isFilled(stack))
         {
@@ -213,7 +213,7 @@ public class PokecubeManager
             {
                 e.printStackTrace();
             }
-            final CompoundNBT poketag = TagNames.getPokecubePokemobTag(stack.getTag());
+            final CompoundTag poketag = TagNames.getPokecubePokemobTag(stack.getTag());
             poketag.getCompound(TagNames.AITAG).putInt(TagNames.HUNGER, -PokecubeCore.getConfig().pokemobLifeSpan / 4);
             PokecubeManager.setStatus(stack, IMoveConstants.STATUS_NON);
         }
@@ -224,7 +224,7 @@ public class PokecubeManager
         return stack.hasTag() && stack.getTag().contains(TagNames.MOBID);
     }
 
-    public static LivingEntity itemToMob(final ItemStack stack, World world)
+    public static LivingEntity itemToMob(final ItemStack stack, Level world)
     {
         if (!stack.hasTag()) return null;
         final String id = stack.getTag().getString(TagNames.MOBID);
@@ -243,7 +243,7 @@ public class PokecubeManager
         final LivingEntity mob = (LivingEntity) type.create(world);
         try
         {
-            final CompoundNBT tag = stack.getTag().getCompound(TagNames.POKEMOB);
+            final CompoundTag tag = stack.getTag().getCompound(TagNames.POKEMOB);
             for (final String key : PokecubeManager.TAGSTOREMOVE)
                 tag.getCompound("ForgeData").remove(key);
             EntityUpdate.readMob(mob, tag);
@@ -251,7 +251,7 @@ public class PokecubeManager
         catch (final Exception e)
         {
             // Nope, some mobs can't read from this on clients.
-            if (world instanceof ServerWorld)
+            if (world instanceof ServerLevel)
             {
                 PokecubeCore.LOGGER.error("Error reading cube: {}", stack.getTag());
                 PokecubeCore.LOGGER.error(e);
@@ -260,7 +260,7 @@ public class PokecubeManager
         return mob;
     }
 
-    public static IPokemob itemToPokemob(final ItemStack itemStack, final World world)
+    public static IPokemob itemToPokemob(final ItemStack itemStack, final Level world)
     {
         final Entity mob = PokecubeManager.itemToMob(itemStack, world);
         if (mob == null) return null;
@@ -288,13 +288,13 @@ public class PokecubeManager
         PokecubeManager.setColor(itemStack);
         final int status = pokemob.getStatus();
         PokecubeManager.setStatus(itemStack, pokemob.getStatus());
-        ITextComponent name = pokemob.getDisplayName();
-        if (status == IMoveConstants.STATUS_BRN) name = new TranslationTextComponent("pokecube.filled.brn", name);
-        else if (status == IMoveConstants.STATUS_FRZ) name = new TranslationTextComponent("pokecube.filled.frz", name);
-        else if (status == IMoveConstants.STATUS_PAR) name = new TranslationTextComponent("pokecube.filled.par", name);
-        else if (status == IMoveConstants.STATUS_SLP) name = new TranslationTextComponent("pokecube.filled.slp", name);
+        Component name = pokemob.getDisplayName();
+        if (status == IMoveConstants.STATUS_BRN) name = new TranslatableComponent("pokecube.filled.brn", name);
+        else if (status == IMoveConstants.STATUS_FRZ) name = new TranslatableComponent("pokecube.filled.frz", name);
+        else if (status == IMoveConstants.STATUS_PAR) name = new TranslatableComponent("pokecube.filled.par", name);
+        else if (status == IMoveConstants.STATUS_SLP) name = new TranslatableComponent("pokecube.filled.slp", name);
         else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
-            name = new TranslationTextComponent("pokecube.filled.psn", name);
+            name = new TranslatableComponent("pokecube.filled.psn", name);
         itemStack.setHoverName(name);
         return itemStack;
     }
@@ -311,15 +311,15 @@ public class PokecubeManager
         else if (id.getPath().equals("ultra")) color = 0xDCA937;
         else if (id.getPath().equals("master")) color = 0x332F6A;
 
-        CompoundNBT var3 = itemStack.getTag();
+        CompoundTag var3 = itemStack.getTag();
 
         if (var3 == null)
         {
-            var3 = new CompoundNBT();
+            var3 = new CompoundTag();
             itemStack.setTag(var3);
         }
 
-        final CompoundNBT var4 = var3.getCompound("display");
+        final CompoundTag var4 = var3.getCompound("display");
 
         if (!var3.contains("display")) var3.put("display", var4);
 
@@ -330,7 +330,7 @@ public class PokecubeManager
     public static void setOwner(final ItemStack itemStack, final UUID owner)
     {
         if (!itemStack.hasTag()) return;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+        final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
         if (owner == null) poketag.getCompound(TagNames.OWNERSHIPTAG).remove(TagNames.OWNER);
         else poketag.getCompound(TagNames.OWNERSHIPTAG).putString(TagNames.OWNER, owner.toString());
     }
@@ -338,13 +338,13 @@ public class PokecubeManager
     public static void setStatus(final ItemStack itemStack, final byte status)
     {
         if (!itemStack.hasTag()) return;
-        final CompoundNBT poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
+        final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
         poketag.getCompound(TagNames.STATSTAG).putByte(TagNames.STATUS, status);
     }
 
     public static void setTilt(final ItemStack itemStack, final int number)
     {
-        if (!itemStack.hasTag()) itemStack.setTag(new CompoundNBT());
+        if (!itemStack.hasTag()) itemStack.setTag(new CompoundTag());
         itemStack.getTag().putInt("tilt", number);
     }
 }

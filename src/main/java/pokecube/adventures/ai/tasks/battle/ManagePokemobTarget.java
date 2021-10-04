@@ -2,11 +2,11 @@ package pokecube.adventures.ai.tasks.battle;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.util.math.EntityPosWrapper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.brain.BrainUtils;
@@ -24,7 +24,7 @@ public class ManagePokemobTarget extends BaseBattleTask
     }
 
     @Override
-    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
         if (other != null) other.onSetTarget(this.entity, true);
@@ -50,7 +50,7 @@ public class ManagePokemobTarget extends BaseBattleTask
             if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
             else
             {
-                final WalkTarget walk = new WalkTarget(new EntityPosWrapper(newTarget, false), 1.5f, 0);
+                final WalkTarget walk = new WalkTarget(new EntityTracker(newTarget, false), 1.5f, 0);
                 mob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, walk);
             }
         }
@@ -58,14 +58,14 @@ public class ManagePokemobTarget extends BaseBattleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         return super.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.getOutMob() != null;

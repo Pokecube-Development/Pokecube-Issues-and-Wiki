@@ -1,11 +1,10 @@
 package thut.api.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -19,9 +18,9 @@ public class ShearableCaps
 {
     public static class Sheep extends Impl
     {
-        final SheepEntity sheep;
+        final Sheep sheep;
 
-        public Sheep(final SheepEntity sheep)
+        public Sheep(final Sheep sheep)
         {
             this.sheep = sheep;
         }
@@ -96,13 +95,13 @@ public class ShearableCaps
         @SuppressWarnings({ "rawtypes", "unchecked" })
         @Override
         public void readNBT(final Capability<IShearable> capability, final IShearable instance, final Direction side,
-                final INBT nbt)
+                final Tag nbt)
         {
             if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
         }
 
         @Override
-        public INBT writeNBT(final Capability<IShearable> capability, final IShearable instance, final Direction side)
+        public Tag writeNBT(final Capability<IShearable> capability, final IShearable instance, final Direction side)
         {
             if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
                     .serializeNBT();
@@ -122,8 +121,8 @@ public class ShearableCaps
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(ShearableCaps.LOC)) return;
-        if (event.getObject() instanceof SheepEntity) event.addCapability(ShearableCaps.LOC, new Sheep(
-                (SheepEntity) event.getObject()));
+        if (event.getObject() instanceof Sheep) event.addCapability(ShearableCaps.LOC, new Sheep(
+                (Sheep) event.getObject()));
     }
 
     public static void setup()

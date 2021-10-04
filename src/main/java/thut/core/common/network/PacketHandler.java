@@ -2,15 +2,14 @@ package thut.core.common.network;
 
 import com.google.common.base.Function;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
 public class PacketHandler
 {
@@ -44,12 +43,12 @@ public class PacketHandler
         return this.ID++;
     }
 
-    public <MSG extends Packet> void registerMessage(final Class<MSG> clazz, final Function<PacketBuffer, MSG> decoder)
+    public <MSG extends Packet> void registerMessage(final Class<MSG> clazz, final Function<FriendlyByteBuf, MSG> decoder)
     {
         this.INSTANCE.registerMessage(this.nextID(), clazz, Packet::write, decoder, Packet::handle);
     }
 
-    public void sendTo(final Packet message, final ServerPlayerEntity target)
+    public void sendTo(final Packet message, final ServerPlayer target)
     {
         this.channel().send(PacketDistributor.PLAYER.with(() -> target), message);
     }
@@ -64,9 +63,9 @@ public class PacketHandler
         this.channel().send(PacketDistributor.TRACKING_ENTITY.with(() -> tracked), message);
     }
 
-    public void sendToTracking(final Packet message, final IChunk tracked)
+    public void sendToTracking(final Packet message, final ChunkAccess tracked)
     {
-        if (tracked instanceof Chunk) this.channel().send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) tracked),
+        if (tracked instanceof LevelChunk) this.channel().send(PacketDistributor.TRACKING_CHUNK.with(() -> (LevelChunk) tracked),
                 message);
     }
 

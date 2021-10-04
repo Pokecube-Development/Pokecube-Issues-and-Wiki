@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 import pokecube.nbtedit.NBTEdit;
 
 // This save format can definitely be improved. Also, this can be extended to
@@ -18,12 +18,12 @@ public class SaveStates
     public static final class SaveState
     {
         public String      name;
-        public CompoundNBT tag;
+        public CompoundTag tag;
 
         public SaveState(String name)
         {
             this.name = name;
-            this.tag = new CompoundNBT();
+            this.tag = new CompoundTag();
         }
     }
 
@@ -62,7 +62,7 @@ public class SaveStates
     {
         if (this.file.exists() && this.file.canRead())
         {
-            final CompoundNBT root = CompressedStreamTools.read(this.file);
+            final CompoundTag root = NbtIo.read(this.file);
             for (int i = 0; i < 7; ++i)
             {
                 final String name = "slot" + (i + 1);
@@ -88,12 +88,12 @@ public class SaveStates
 
     public void write() throws IOException
     {
-        final CompoundNBT root = new CompoundNBT();
+        final CompoundTag root = new CompoundTag();
         for (int i = 0; i < 7; ++i)
         {
             root.put("slot" + (i + 1), this.tags[i].tag);
             root.putString("slot" + (i + 1) + "Name", this.tags[i].name);
         }
-        CompressedStreamTools.write(root, this.file);
+        NbtIo.write(root, this.file);
     }
 }

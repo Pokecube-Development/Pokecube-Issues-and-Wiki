@@ -2,8 +2,8 @@ package pokecube.legends.items.zmove;
 
 import java.util.Locale;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.Reference;

@@ -11,25 +11,25 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CactusBlock;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.server.ChunkManager;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
@@ -43,14 +43,14 @@ public class ActionNaturePower implements IMoveAction
 {
     public static class DesertChanger implements IBiomeChanger
     {
-        static final RegistryKey<Biome> DESERT = Biomes.DESERT;
+        static final ResourceKey<Biome> DESERT = Biomes.DESERT;
 
         public DesertChanger()
         {
         }
 
         @Override
-        public boolean apply(final BlockPos pos, final ServerWorld world)
+        public boolean apply(final BlockPos pos, final ServerLevel world)
         {// TODO biome changers
          // This is the predicate we will use for checking whether something
          // is a valid spot.
@@ -60,7 +60,7 @@ public class ActionNaturePower implements IMoveAction
                 final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
                 final Block blockUp = stateUp.getBlock();
-                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                final ResourceKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
                 // If already desert biome, this isn't valid, so
                 // we can return false.
                 if (here == DesertChanger.DESERT) return false;
@@ -96,14 +96,14 @@ public class ActionNaturePower implements IMoveAction
 
     public static class ForestChanger implements IBiomeChanger
     {
-        static final RegistryKey<Biome> FOREST = Biomes.FOREST;
+        static final ResourceKey<Biome> FOREST = Biomes.FOREST;
 
         public ForestChanger()
         {
         }
 
         @Override
-        public boolean apply(final BlockPos pos, final ServerWorld world)
+        public boolean apply(final BlockPos pos, final ServerLevel world)
         {// TODO biome changers
          // This is the predicate we will use for checking whether
          // something
@@ -115,7 +115,7 @@ public class ActionNaturePower implements IMoveAction
                 final Block blockHere = stateHere.getBlock();
                 final Block blockUp = stateUp.getBlock();
 
-                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                final ResourceKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
                 if (here == ForestChanger.FOREST) return false;
 
                 final boolean validHere = blockHere == Blocks.GRASS || blockHere == Blocks.DIRT;
@@ -144,14 +144,14 @@ public class ActionNaturePower implements IMoveAction
 
     public static class HillsChanger implements IBiomeChanger
     {
-        static final RegistryKey<Biome> HILLS = Biomes.MOUNTAINS;
+        static final ResourceKey<Biome> HILLS = Biomes.MOUNTAINS;
 
         public HillsChanger()
         {
         }
 
         @Override
-        public boolean apply(final BlockPos pos, final ServerWorld world)
+        public boolean apply(final BlockPos pos, final ServerLevel world)
         {// TODO biome changers
          // Ensure that this is actually a "high" spot.
             if (pos.getY() < world.getMaxBuildHeight() / 2) return false;
@@ -162,7 +162,7 @@ public class ActionNaturePower implements IMoveAction
             {
                 final BlockState stateHere = world.getBlockState(t);
                 final Block blockHere = stateHere.getBlock();
-                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                final ResourceKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
                 if (here == HillsChanger.HILLS) return false;
                 // Only valid surface blocks are stone
                 final boolean validHere = blockHere == Blocks.STONE;
@@ -199,10 +199,10 @@ public class ActionNaturePower implements IMoveAction
          * return true will be used, so if you need to re-order things, reorder
          * ActionNaturePower.changer_classes accordingly.
          */
-        public boolean apply(BlockPos pos, ServerWorld world);
+        public boolean apply(BlockPos pos, ServerLevel world);
     }
 
-    public static void updateChunks(final ChunkManager chunkMap, final Set<Chunk> affected, final int minY, final int maxY)
+    public static void updateChunks(final ChunkMap chunkMap, final Set<LevelChunk> affected, final int minY, final int maxY)
     {
         // Send updates about the chunk having changed. If this is not done,
         // the player will need to leave area and return to see the changes
@@ -242,14 +242,14 @@ public class ActionNaturePower implements IMoveAction
 
     public static class PlainsChanger implements IBiomeChanger
     {
-        static final RegistryKey<Biome> PLAINS = Biomes.PLAINS;
+        static final ResourceKey<Biome> PLAINS = Biomes.PLAINS;
 
         public PlainsChanger()
         {
         }
 
         @Override
-        public boolean apply(final BlockPos pos, final ServerWorld world)
+        public boolean apply(final BlockPos pos, final ServerLevel world)
         {// TODO biome changers
          // // This is the predicate we will use for checking whether
          // something
@@ -260,7 +260,7 @@ public class ActionNaturePower implements IMoveAction
                 final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
 
-                final RegistryKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
+                final ResourceKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
                 if (here == PlainsChanger.PLAINS) return false;
                 // Only valid surface blocks are grass
                 // for this.
@@ -291,7 +291,7 @@ public class ActionNaturePower implements IMoveAction
      */
     public static class PointChecker
     {
-        World   world;
+        Level   world;
         Vector3 centre;
         // we use lists here for faster iteration, sets are faster lookups for
         // contains, but lists iterate more GC friendly.
@@ -302,7 +302,7 @@ public class ActionNaturePower implements IMoveAction
         boolean                   yaxis   = false;
         int                       maxRSq  = 8 * 8;
 
-        public PointChecker(final World world, final Vector3 pos, final Predicate<BlockPos> validator)
+        public PointChecker(final Level world, final Vector3 pos, final Predicate<BlockPos> validator)
         {
             this.world = world;
             this.centre = pos;
@@ -386,11 +386,11 @@ public class ActionNaturePower implements IMoveAction
         }
 
         @Override
-        public boolean apply(final BlockPos pos, final ServerWorld world)
+        public boolean apply(final BlockPos pos, final ServerLevel world)
         {
             if (world.getBlockState(pos).getBlock() != Blocks.DIAMOND_BLOCK) return false;
             boolean mod = false;
-            final Set<IChunk> affected = Sets.newHashSet();
+            final Set<ChunkAccess> affected = Sets.newHashSet();
             final Vector3 vec = Vector3.getNewVector().set(pos);
             for (int i = -8; i <= 8; i++)
                 for (int j = -8; j <= 8; j++)
@@ -406,7 +406,7 @@ public class ActionNaturePower implements IMoveAction
                         mod = true;
                     }
                 }
-            final ServerWorld sWorld = world;
+            final ServerLevel sWorld = world;
             sWorld.getChunkSource().blockChanged(pos);
             return mod;
         }
@@ -424,14 +424,14 @@ public class ActionNaturePower implements IMoveAction
         ActionNaturePower.changer_classes.add(ResetChanger.class);
     }
 
-    public static boolean applyChecker(final PointChecker checker, final World world, final RegistryKey<Biome> key)
+    public static boolean applyChecker(final PointChecker checker, final Level world, final ResourceKey<Biome> key)
     {
         // Check if > 1 as it will always at least contain the center.
         if (checker.blocks.size() > 1)
         {
-            final Set<IChunk> affected = Sets.newHashSet();
+            final Set<ChunkAccess> affected = Sets.newHashSet();
             final Biome biome = BiomeDatabase.getBiome(key);
-            final ServerWorld sWorld = (ServerWorld) world;
+            final ServerLevel sWorld = (ServerLevel) world;
             sWorld.getServer().getPlayerList();
             // This needs to use the chunk manager and send the chunkto watching
             // players.
@@ -455,13 +455,13 @@ public class ActionNaturePower implements IMoveAction
         return false;
     }
 
-    private static BlockPos getTopSolidOrLiquidBlock(final IWorldReader p_208498_0_,
+    private static BlockPos getTopSolidOrLiquidBlock(final LevelReader p_208498_0_,
             @Nullable final EntityType<?> p_208498_1_, final int p_208498_2_, final int p_208498_3_)
     {
-        final BlockPos blockpos = new BlockPos(p_208498_2_, p_208498_0_.getHeight(EntitySpawnPlacementRegistry
+        final BlockPos blockpos = new BlockPos(p_208498_2_, p_208498_0_.getHeight(SpawnPlacements
                 .getHeightmapType(p_208498_1_), p_208498_2_, p_208498_3_), p_208498_3_);
         final BlockPos blockpos1 = blockpos.below();
-        return p_208498_0_.getBlockState(blockpos1).isPathfindable(p_208498_0_, blockpos1, PathType.LAND) ? blockpos1
+        return p_208498_0_.getBlockState(blockpos1).isPathfindable(p_208498_0_, blockpos1, PathComputationType.LAND) ? blockpos1
                 : blockpos;
     }
 
@@ -480,7 +480,7 @@ public class ActionNaturePower implements IMoveAction
     public boolean applyEffect(final IPokemob attacker, final Vector3 location)
     {
         if (attacker.inCombat()) return false;
-        if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
+        if (!(attacker.getOwner() instanceof ServerPlayer)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         final long now = Tracker.instance().getTick();

@@ -1,17 +1,17 @@
 package thut.wearables.impl;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -54,7 +54,7 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
 
     @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+    public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
             final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
             final int brightness, final int overlay)
     {
@@ -70,7 +70,7 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
 
             if (stack.getTag().contains("winfo"))
             {
-                final CompoundNBT info = stack.getTag().getCompound("winfo");
+                final CompoundTag info = stack.getTag().getCompound("winfo");
                 if (info.contains("scale"))
                 {
                     final float scale = info.getFloat("scale");
@@ -110,12 +110,12 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
             }
 
             mat.translate(-0.25f, 0, 0);
-            Minecraft.getInstance().textureManager.bind(PlayerContainer.BLOCK_ATLAS);
+            Minecraft.getInstance().textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            final IBakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(),
+            final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(),
                     null);
             // TODO check lighting/etc in this call!
-            itemRenderer.render(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED,
+            itemRenderer.render(stack, net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.FIXED,
                     true, mat, buff, 0, 0,
                     ibakedmodel);
             mat.popPose();

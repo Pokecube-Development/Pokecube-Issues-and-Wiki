@@ -5,19 +5,19 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -78,7 +78,7 @@ public class PokecubeMobs
         }
 
         @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<Structure<?>> event)
+        public static void registerFeatures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
             new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
@@ -215,7 +215,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -226,11 +226,11 @@ public class PokecubeMobs
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
 
-                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof PlayerEntity)
+                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player)
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;
@@ -242,15 +242,15 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob,
-                (PlayerEntity) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayer) this.makeShedinja(evt.mob,
+                (Player) owner);
     }
 
-    void makeShedinja(final IPokemob evo, final PlayerEntity player)
+    void makeShedinja(final IPokemob evo, final Player player)
     {
         if (evo.getPokedexEntry() == Database.getEntry("ninjask"))
         {
-            final PlayerInventory inv = player.inventory;
+            final Inventory inv = player.getInventory();
             boolean hasCube = false;
             boolean hasSpace = false;
             ItemStack cube = ItemStack.EMPTY;
@@ -659,10 +659,10 @@ public class PokecubeMobs
                     cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
-                    evt.getCaught().getEntity().remove();
+                    evt.getCaught().getEntity().remove(Entity.RemovalReason.DISCARDED);
                     cube.setDeltaMovement(0, 0.1, 0);
                     cube.getCommandSenderWorld().addFreshEntity(cube.copy());
-                    evt.pokecube.remove();
+                    evt.pokecube.remove(Entity.RemovalReason.DISCARDED);
                 }
                 evt.setCanceled(true);
             }
@@ -703,11 +703,11 @@ public class PokecubeMobs
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
-                evt.getCaught().getEntity().remove();
+                evt.getCaught().getEntity().remove(Entity.RemovalReason.DISCARDED);
                 cube.setDeltaMovement(0, 0.1, 0);
                 cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                 evt.setCanceled(true);
-                evt.pokecube.remove();
+                evt.pokecube.remove(Entity.RemovalReason.DISCARDED);
             }
 
         };

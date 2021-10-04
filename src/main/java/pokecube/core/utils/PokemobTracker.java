@@ -13,13 +13,13 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -111,24 +111,24 @@ public class PokemobTracker
 
     private static PokemobTracker getFor(final Entity mob)
     {
-        return mob.getCommandSenderWorld() instanceof ServerWorld ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
+        return mob.getCommandSenderWorld() instanceof ServerLevel ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
     }
 
-    private static PokemobTracker getFor(final IWorld mob)
+    private static PokemobTracker getFor(final LevelAccessor mob)
     {
         return mob.isClientSide() ? PokemobTracker.CLIENT : PokemobTracker.SERVER;
     }
 
-    private final Map<RegistryKey<World>, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
+    private final Map<ResourceKey<Level>, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
 
     private final Map<UUID, Set<MobEntry>>  ownerMap   = new ConcurrentHashMap<>();
     private final Map<UUID, Set<CubeEntry>> ownedCubes = new ConcurrentHashMap<>();
 
     private final Map<UUID, MobEntry> entries = Maps.newConcurrentMap();
 
-    private RegistryKey<World> defaults = World.OVERWORLD;
+    private ResourceKey<Level> defaults = Level.OVERWORLD;
 
-    private void setDim(final RegistryKey<World> dim)
+    private void setDim(final ResourceKey<Level> dim)
     {
         this.defaults = dim;
     }
@@ -139,7 +139,7 @@ public class PokemobTracker
         this._removePokemob(pokemob);
         if (pokemob.getAbility() != null) pokemob.getAbility().init(pokemob);
         final MobEntry e = new MobEntry(pokemob);
-        RegistryKey<World> dim = pokemob.getEntity().getCommandSenderWorld().dimension();
+        ResourceKey<Level> dim = pokemob.getEntity().getCommandSenderWorld().dimension();
         if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
@@ -201,13 +201,13 @@ public class PokemobTracker
         return e;
     }
 
-    public static MobEntry getMobEntry(final UUID id, final IWorld world)
+    public static MobEntry getMobEntry(final UUID id, final LevelAccessor world)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
         return tracker.entries.get(id);
     }
 
-    public static void removeMobEntry(final UUID id, final IWorld world)
+    public static void removeMobEntry(final UUID id, final LevelAccessor world)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
         tracker._removeMobEntry(id);
@@ -237,11 +237,11 @@ public class PokemobTracker
         return tracker._removePokecube(cube);
     }
 
-    public static int countPokemobs(final IWorld world, final AxisAlignedBB box, final Predicate<IPokemob> matches)
+    public static int countPokemobs(final LevelAccessor world, final AABB box, final Predicate<IPokemob> matches)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(world);
-        RegistryKey<World> key = World.OVERWORLD;
-        if (world instanceof World) key = ((World) world).dimension();
+        ResourceKey<Level> key = Level.OVERWORLD;
+        if (world instanceof Level) key = ((Level) world).dimension();
         final MobEntry[] mobList = tracker.liveMobs.getOrDefault(key, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
         for (final MobEntry e : mobList)
@@ -250,28 +250,28 @@ public class PokemobTracker
         return num;
     }
 
-    public static int countPokemobs(final IWorld world, final AxisAlignedBB box)
+    public static int countPokemobs(final LevelAccessor world, final AABB box)
     {
         return PokemobTracker.countPokemobs(world, box, e -> true);
     }
 
-    public static int countPokemobs(final Vector3 location, final IWorld world, final double distance,
+    public static int countPokemobs(final Vector3 location, final LevelAccessor world, final double distance,
             final PokedexEntry entry)
     {
-        final AxisAlignedBB box = location.getAABB().inflate(distance, distance, distance);
+        final AABB box = location.getAABB().inflate(distance, distance, distance);
         return PokemobTracker.countPokemobs(world, box, e -> e.getPokedexEntry() == entry);
     }
 
-    public static int countPokemobs(final Vector3 location, final IWorld world, final double distance,
+    public static int countPokemobs(final Vector3 location, final LevelAccessor world, final double distance,
             final PokeType type)
     {
-        final AxisAlignedBB box = location.getAABB().inflate(distance, distance, distance);
+        final AABB box = location.getAABB().inflate(distance, distance, distance);
         return PokemobTracker.countPokemobs(world, box, e -> e.isType(type));
     }
 
-    public static int countPokemobs(final IWorld world, final Vector3 location, final double radius)
+    public static int countPokemobs(final LevelAccessor world, final Vector3 location, final double radius)
     {
-        final AxisAlignedBB box = location.getAABB().inflate(radius, radius, radius);
+        final AABB box = location.getAABB().inflate(radius, radius, radius);
         return PokemobTracker.countPokemobs(world, box);
     }
 
@@ -302,8 +302,8 @@ public class PokemobTracker
             tracker.ownedCubes.clear();
             tracker.ownerMap.clear();
         }
-        RegistryKey<World> key = World.OVERWORLD;
-        if (evt.getWorld() instanceof World) key = ((World) evt.getWorld()).dimension();
+        ResourceKey<Level> key = Level.OVERWORLD;
+        if (evt.getWorld() instanceof Level) key = ((Level) evt.getWorld()).dimension();
         // Reset the tracked map for this world
         tracker.liveMobs.put(key, new ArrayList<>());
         if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);

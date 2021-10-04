@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
@@ -20,12 +20,12 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
 
     @Override
     public void readNBT(final Capability<IMobGenetics> capability, final IMobGenetics instance, final Direction side,
-            final INBT nbt)
+            final Tag nbt)
     {
-        final ListNBT list = (ListNBT) nbt;
+        final ListTag list = (ListTag) nbt;
         for (int i = 0; i < list.size(); i++)
         {
-            final CompoundNBT tag = list.getCompound(i);
+            final CompoundTag tag = list.getCompound(i);
             final Alleles<?, ?> alleles = new Alleles<>();
             final ResourceLocation key = new ResourceLocation(tag.getString("K"));
             try
@@ -41,16 +41,16 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
     }
 
     @Override
-    public INBT writeNBT(final Capability<IMobGenetics> capability, final IMobGenetics instance, final Direction side)
+    public Tag writeNBT(final Capability<IMobGenetics> capability, final IMobGenetics instance, final Direction side)
     {
-        final ListNBT genes = new ListNBT();
+        final ListTag genes = new ListTag();
 
         final List<ResourceLocation> keys = Lists.newArrayList(instance.getKeys());
         Collections.sort(keys);
 
         for (final ResourceLocation key : keys)
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             final Alleles<?, ?> gene = instance.getAlleles(key);
             tag.putString("K", key.toString());
             tag.put("V", gene.save());

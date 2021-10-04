@@ -6,17 +6,17 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -35,7 +35,7 @@ import pokecube.core.utils.Permissions;
  */
 public class LogicMountedControl extends LogicBase
 {
-    public static Set<RegistryKey<World>> BLACKLISTED = Sets.newHashSet();
+    public static Set<ResourceKey<Level>> BLACKLISTED = Sets.newHashSet();
 
     public boolean leftInputDown    = false;
     public boolean rightInputDown   = false;
@@ -69,7 +69,7 @@ public class LogicMountedControl extends LogicBase
 
         final Entity rider = this.entity.getControllingPassenger();
 
-        ServerPlayerEntity player = null;
+        ServerPlayer player = null;
 
         this.inFluid = this.entity.isInWater() || this.entity.isInLava();
 
@@ -79,9 +79,9 @@ public class LogicMountedControl extends LogicBase
 
         final Config config = PokecubeCore.getConfig();
 
-        if (rider instanceof ServerPlayerEntity)
+        if (rider instanceof ServerPlayer)
         {
-            player = (ServerPlayerEntity) rider;
+            player = (ServerPlayer) rider;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             final PokedexEntry entry = this.pokemob.getPokedexEntry();
@@ -108,7 +108,7 @@ public class LogicMountedControl extends LogicBase
     }
 
     @Override
-    public void tick(final World world)
+    public void tick(final Level world)
     {
         final Entity rider = this.entity.getControllingPassenger();
         this.entity.maxUpStep = 1.1f;
@@ -146,12 +146,12 @@ public class LogicMountedControl extends LogicBase
 
         final Entity controller = rider;
         final ItemStack stack = new ItemStack(Blocks.BARRIER);
-        final List<EffectInstance> buffs = Lists.newArrayList();
+        final List<MobEffectInstance> buffs = Lists.newArrayList();
 
         if (waterSpeed && this.pokemob.getPokedexEntry().shouldDive)
         {
-            final EffectInstance vision = new EffectInstance(Effects.NIGHT_VISION, 300, 1, true, false);
-            final EffectInstance breathing = new EffectInstance(Effects.WATER_BREATHING, 300, 1, true, false);
+            final MobEffectInstance vision = new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 1, true, false);
+            final MobEffectInstance breathing = new MobEffectInstance(MobEffects.WATER_BREATHING, 300, 1, true, false);
             vision.setCurativeItems(Lists.newArrayList(stack));
             breathing.setCurativeItems(Lists.newArrayList(stack));
             buffs.add(vision);
@@ -160,7 +160,7 @@ public class LogicMountedControl extends LogicBase
 
         if (this.entity.isInLava() && this.entity.fireImmune())
         {
-            final EffectInstance no_burning = new EffectInstance(Effects.FIRE_RESISTANCE, 60, 1, true, false);
+            final MobEffectInstance no_burning = new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 60, 1, true, false);
             shouldControl = true;
             verticalControl = true;
             no_burning.setCurativeItems(Lists.newArrayList(stack));
@@ -177,7 +177,7 @@ public class LogicMountedControl extends LogicBase
             if (e instanceof LivingEntity)
             {
                 final boolean doBuffs = !buffs.isEmpty();
-                if (doBuffs) for (final EffectInstance buff : buffs)
+                if (doBuffs) for (final MobEffectInstance buff : buffs)
                     ((LivingEntity) e).addEffect(buff);
                 else((LivingEntity) e).curePotionEffects(stack);
             }
@@ -225,8 +225,8 @@ public class LogicMountedControl extends LogicBase
             if (fluidRestricted) f *= 0.1;
             if (shouldControl)
             {
-                vx += MathHelper.sin(-this.entity.yRot * 0.017453292F) * f;
-                vz += MathHelper.cos(this.entity.yRot * 0.017453292F) * f;
+                vx += Mth.sin(-this.entity.yRot * 0.017453292F) * f;
+                vz += Mth.cos(this.entity.yRot * 0.017453292F) * f;
             }
         }
         if ((goUp || goDown) && verticalControl)
@@ -262,14 +262,14 @@ public class LogicMountedControl extends LogicBase
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
-                    vx += MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz += MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
+                    vx += Mth.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz += Mth.sin(this.entity.yRot * 0.017453292F) * f;
                 }
                 else if (this.inFluid)
                 {
                     f *= 0.1;
-                    vx += MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz += MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
+                    vx += Mth.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz += Mth.sin(this.entity.yRot * 0.017453292F) * f;
                 }
             }
             if (this.rightInputDown)
@@ -280,14 +280,14 @@ public class LogicMountedControl extends LogicBase
                     if (airSpeed) f *= config.flySpeedFactor;
                     else if (waterSpeed) f *= config.surfSpeedFactor;
                     else f *= config.groundSpeedFactor;
-                    vx -= MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz -= MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
+                    vx -= Mth.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz -= Mth.sin(this.entity.yRot * 0.017453292F) * f;
                 }
                 else if (this.inFluid)
                 {
                     f *= 0.1;
-                    vx -= MathHelper.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz -= MathHelper.sin(this.entity.yRot * 0.017453292F) * f;
+                    vx -= Mth.cos(-this.entity.yRot * 0.017453292F) * f;
+                    vz -= Mth.sin(this.entity.yRot * 0.017453292F) * f;
                 }
             }
         }

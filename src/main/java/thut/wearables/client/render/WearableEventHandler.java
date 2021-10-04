@@ -7,20 +7,19 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.platform.InputConstants;
 
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
@@ -28,14 +27,14 @@ import thut.wearables.network.PacketGui;
 
 public class WearableEventHandler
 {
-    private final Set<IEntityRenderer<?, ?>> addedLayers = Sets.newHashSet();
+    private final Set<RenderLayerParent<?, ?>> addedLayers = Sets.newHashSet();
 
-    KeyBinding   toggleGui;
-    KeyBinding[] keys = new KeyBinding[13];
+    KeyMapping   toggleGui;
+    KeyMapping[] keys = new KeyMapping[13];
 
     public WearableEventHandler()
     {
-        this.toggleGui = new KeyBinding("Toggle Wearables Gui", InputMappings.UNKNOWN.getValue(), "Wearables");
+        this.toggleGui = new KeyMapping("Toggle Wearables Gui", InputConstants.UNKNOWN.getValue(), "Wearables");
         ClientRegistry.registerKeyBinding(this.toggleGui);
 
         final Map<Integer, Integer> defaults = Maps.newHashMap();
@@ -54,10 +53,10 @@ public class WearableEventHandler
             else name = name + " " + slot + " " + subIndex;
 
             final boolean defaulted = defaults.containsKey(i);
-            final int key = defaulted ? defaults.get(i) : InputMappings.UNKNOWN.getValue();
-            if (defaulted) this.keys[i] = new KeyBinding(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                    InputMappings.Type.KEYSYM.getOrCreate(key), "Wearables");
-            else this.keys[i] = new KeyBinding(name, key, "Wearables");
+            final int key = defaulted ? defaults.get(i) : InputConstants.UNKNOWN.getValue();
+            if (defaulted) this.keys[i] = new KeyMapping(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
+                    InputConstants.Type.KEYSYM.getOrCreate(key), "Wearables");
+            else this.keys[i] = new KeyMapping(name, key, "Wearables");
             ClientRegistry.registerKeyBinding(this.keys[i]);
         }
     }
@@ -67,7 +66,7 @@ public class WearableEventHandler
     public void addWearableRenderLayer(final RenderLivingEvent.Post<?, ?> event)
     {
         // Only apply to model bipeds.
-        if (!(event.getRenderer().getModel() instanceof BipedModel<?>)) return;
+        if (!(event.getRenderer().getModel() instanceof HumanoidModel<?>)) return;
         // Only one layer per renderer.
         if (this.addedLayers.contains(event.getRenderer())) return;
 
@@ -81,7 +80,7 @@ public class WearableEventHandler
     {
         for (byte i = 0; i < 13; i++)
         {
-            final KeyBinding key = this.keys[i];
+            final KeyMapping key = this.keys[i];
             if (key.consumeClick())
             {
                 final PacketGui packet = new PacketGui();
@@ -111,14 +110,14 @@ public class WearableEventHandler
             {
             case 2:
                 message = I18n.get("wearables.keyuse.left", key);
-                evt.getToolTip().add(new StringTextComponent(message));
+                evt.getToolTip().add(new TextComponent(message));
                 key = this.keys[slot.index + 1].getTranslatedKeyMessage().getString();
                 message = I18n.get("wearables.keyuse.right", key);
-                evt.getToolTip().add(new StringTextComponent(message));
+                evt.getToolTip().add(new TextComponent(message));
                 break;
             default:
                 message = I18n.get("wearables.keyuse.single", key);
-                evt.getToolTip().add(new StringTextComponent(message));
+                evt.getToolTip().add(new TextComponent(message));
                 break;
             }
         }

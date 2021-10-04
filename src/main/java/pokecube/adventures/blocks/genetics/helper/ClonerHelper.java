@@ -7,13 +7,13 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
@@ -106,17 +106,17 @@ public class ClonerHelper
     public static IMobGenetics getGenes(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return null;
-        final CompoundNBT nbt = stack.getTag();
+        final CompoundTag nbt = stack.getTag();
         if (!nbt.contains(GeneticsManager.GENES))
         {
             if (PokecubeManager.isFilled(stack))
             {
-                final CompoundNBT poketag = nbt.getCompound(TagNames.POKEMOB);
+                final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
                 if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString()))
                     return null;
                 if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString()).contains(
                         "V")) return null;
-                final INBT genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS
+                final Tag genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS
                         .toString()).get("V");
                 final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
                 GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
@@ -124,7 +124,7 @@ public class ClonerHelper
             }
             return null;
         }
-        final INBT genes = nbt.get(GeneticsManager.GENES);
+        final Tag genes = nbt.get(GeneticsManager.GENES);
         final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
         GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
         if (eggs.getAlleles().isEmpty()) return null;
@@ -135,12 +135,12 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene<?>>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
         {
-            final ListNBT pages = (ListNBT) stack.getTag().get("pages");
+            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL"))
@@ -163,12 +163,12 @@ public class ClonerHelper
     public static int getIndex(final ItemStack stack)
     {
         if (stack.isEmpty() || !stack.hasTag()) return -1;
-        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
+        if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
         {
-            final ListNBT pages = (ListNBT) stack.getTag().get("pages");
+            final ListTag pages = (ListTag) stack.getTag().get("pages");
             try
             {
-                final ITextComponent comp = ITextComponent.Serializer.fromJson(pages.getString(0));
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
                 for (final String line : comp.getString().split("\n"))
                 {
                     if (line.equalsIgnoreCase("ALL")) return -1;
@@ -188,7 +188,7 @@ public class ClonerHelper
     {
         final SelectorValue def = RecipeSelector.getSelectorValue(selector);
         if (selector.isEmpty() || !selector.hasTag()) return def;
-        final CompoundNBT selectorTag = selector.getTag().getCompound(ClonerHelper.SELECTORTAG);
+        final CompoundTag selectorTag = selector.getTag().getCompound(ClonerHelper.SELECTORTAG);
         return SelectorValue.load(selectorTag);
     }
 
@@ -227,11 +227,11 @@ public class ClonerHelper
     {
         if (stack.isEmpty() || !stack.hasTag()) return;
         MinecraftForge.EVENT_BUS.post(new GeneEditEvent(genes, reason));
-        final CompoundNBT nbt = stack.getTag();
-        final INBT geneTag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, genes, null);
+        final CompoundTag nbt = stack.getTag();
+        final Tag geneTag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, genes, null);
         if (PokecubeManager.isFilled(stack))
         {
-            final CompoundNBT poketag = nbt.getCompound(TagNames.POKEMOB);
+            final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
             poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString()).put("V", geneTag);
         }
         else nbt.put(GeneticsManager.GENES, geneTag);

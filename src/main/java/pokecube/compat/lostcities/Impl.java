@@ -9,11 +9,11 @@ import mcjty.lostcities.setup.Registration;
 import mcjty.lostcities.worldgen.IDimensionInfo;
 import mcjty.lostcities.worldgen.lost.BuildingInfo;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.server.ServerChunkProvider;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -42,7 +42,7 @@ public class Impl
     public static void buildStructure(final PickLocation event)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final ServerWorld world = server.getLevel(event.getDimensionKey());
+        final ServerLevel world = server.getLevel(event.getDimensionKey());
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
         {
@@ -76,13 +76,13 @@ public class Impl
         }
 
         @Override
-        public BiomeType getSubBiome(final IWorld world_in, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final LevelAccessor world_in, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
             check:
-            if (caveAdjusted) if (world_in.getChunkSource() instanceof ServerChunkProvider)
+            if (caveAdjusted) if (world_in.getChunkSource() instanceof ServerChunkCache)
             {
-                final ServerWorld world = ((ServerChunkProvider) world_in.getChunkSource()).level;
+                final ServerLevel world = ((ServerChunkCache) world_in.getChunkSource()).level;
                 final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
                 if (dimInfo == null) break check;
                 final BlockPos pos = v.getPos();

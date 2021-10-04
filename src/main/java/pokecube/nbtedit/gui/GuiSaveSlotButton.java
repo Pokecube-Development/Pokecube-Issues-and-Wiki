@@ -3,15 +3,15 @@ package pokecube.nbtedit.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import pokecube.nbtedit.nbt.SaveStates;
 
 public class GuiSaveSlotButton extends Button
@@ -28,9 +28,9 @@ public class GuiSaveSlotButton extends Button
     int                                  rightX;
     private int                          tickCount;
 
-    public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final IPressable onClick)
+    public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final OnPress onClick)
     {
-        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, new StringTextComponent((save.tag.isEmpty() ? "Save " : "Load ")
+        super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, new TextComponent((save.tag.isEmpty() ? "Save " : "Load ")
                 + save.name), onClick);
         this.save = save;
         this.x = this.rightX = x;
@@ -70,12 +70,12 @@ public class GuiSaveSlotButton extends Button
         return false;
     }
 
-    public void draw(final MatrixStack mat, final int mx, final int my)
+    public void draw(final PoseStack mat, final int mx, final int my)
     {
 
         int textColor = this.isHovered() ? 16777120 : 0xffffff;
         this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
-        AbstractGui.drawCenteredString(mat, this.mc.font, this.getMessage(), this.x + this.width / 2, this.y + 6,
+        GuiComponent.drawCenteredString(mat, this.mc.font, this.getMessage(), this.x + this.width / 2, this.y + 6,
                 textColor);
         if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.font.drawShadow(mat, "_", this.x
                 + (this.width + this.mc.font.width(this.getMessage().getString())) / 2 + 1, this.y + 6, 0xffffff);
@@ -85,7 +85,7 @@ public class GuiSaveSlotButton extends Button
             textColor = this.inBoundsOfX(mx, my) ? 16777120 : 0xffffff;
             this.renderVanillaButton(mat, this.leftBoundOfX(), this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE,
                     GuiSaveSlotButton.X_SIZE);
-            AbstractGui.drawCenteredString(mat, this.mc.font, "x", this.x - GuiSaveSlotButton.GAP
+            GuiComponent.drawCenteredString(mat, this.mc.font, "x", this.x - GuiSaveSlotButton.GAP
                     - GuiSaveSlotButton.X_SIZE / 2, this.y + 6, textColor);
         }
     }
@@ -103,11 +103,11 @@ public class GuiSaveSlotButton extends Button
         return this.x - GuiSaveSlotButton.X_SIZE - GuiSaveSlotButton.GAP;
     }
 
-    private void renderVanillaButton(final MatrixStack mat, final int x, final int y, final int u, final int v, final int width,
+    private void renderVanillaButton(final PoseStack mat, final int x, final int y, final int u, final int v, final int width,
             final int height)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bind(GuiSaveSlotButton.TEXTURE);
+        this.mc.getTextureManager().bindForSetup(GuiSaveSlotButton.TEXTURE);
 
         // Top Left
         this.blit(mat, x, y, u, v, width / 2, height / 2);
@@ -122,7 +122,7 @@ public class GuiSaveSlotButton extends Button
     public void reset()
     {
         this.xVisible = false;
-        this.save.tag = new CompoundNBT();
+        this.save.tag = new CompoundTag();
         this.setMessage("Save " + this.save.name);
         this.updatePosition();
     }
@@ -136,7 +136,7 @@ public class GuiSaveSlotButton extends Button
 
     private void setMessage(final String string)
     {
-        this.setMessage(new StringTextComponent(string));
+        this.setMessage(new TextComponent(string));
     }
 
     public void startEditing()
@@ -163,7 +163,7 @@ public class GuiSaveSlotButton extends Button
     {
         this.width = this.mc.font.width(this.getMessage().getString()) + 24;
         if (this.width % 2 == 1) ++this.width;
-        this.width = MathHelper.clamp(this.width, GuiSaveSlotButton.MIN_WIDTH, GuiSaveSlotButton.MAX_WIDTH);
+        this.width = Mth.clamp(this.width, GuiSaveSlotButton.MIN_WIDTH, GuiSaveSlotButton.MAX_WIDTH);
         this.x = this.rightX - this.width;
     }
 

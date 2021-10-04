@@ -2,10 +2,10 @@ package pokecube.core.blocks.pc;
 
 import java.util.UUID;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.PokecubeMod;
@@ -21,20 +21,20 @@ public class PCTile extends InteractableTile
         this(PokecubeItems.PC_TYPE.get());
     }
 
-    public PCTile(final TileEntityType<?> tileEntityTypeIn)
+    public PCTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT compound)
+    public CompoundTag save(final CompoundTag compound)
     {
         if (this.isBound()) compound.putString("boundid", this.boundId.toString());
         return super.save(compound);
     }
 
     @Override
-    public void load(final BlockState state, final CompoundNBT compound)
+    public void load(final BlockState state, final CompoundTag compound)
     {
         super.load(state, compound);
         if (compound.contains("boundid")) this.boundId = UUID.fromString(compound.getString("boundid"));
@@ -45,7 +45,7 @@ public class PCTile extends InteractableTile
         return this.boundId != PokecubeMod.fakeUUID;
     }
 
-    public void bind(final ServerPlayerEntity player)
+    public void bind(final ServerPlayer player)
     {
         if (player == null) this.boundId = PokecubeMod.fakeUUID;
         else this.boundId = player.getUUID();

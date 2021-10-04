@@ -7,10 +7,10 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
@@ -40,9 +40,9 @@ public class DestinyBond extends Move_Basic
         final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = this.usedOn.remove(killed);
         System.out.println(targets);
-        if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerWorld)
+        if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerLevel)
         {
-            final ServerWorld world = (ServerWorld) event.killed.getEntity().getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) event.killed.getEntity().getCommandSenderWorld();
             final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), this);
             source.bypassMagic();
             source.bypassArmor();

@@ -2,10 +2,9 @@ package thut.crafts.network;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import thut.core.common.network.Packet;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
@@ -47,7 +46,7 @@ public class PacketCraftControl extends Packet
         super(null);
     }
 
-    public PacketCraftControl(PacketBuffer buffer)
+    public PacketCraftControl(FriendlyByteBuf buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -59,7 +58,7 @@ public class PacketCraftControl extends Packet
     {
         ctx.get().enqueueWork(() ->
         {
-            final PlayerEntity player = ctx.get().getSender();
+            final Player player = ctx.get().getSender();
             final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
             if (mob != null && mob instanceof EntityCraft)
             {
@@ -78,7 +77,7 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buffer)
+    public void write(FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeShort(this.message);

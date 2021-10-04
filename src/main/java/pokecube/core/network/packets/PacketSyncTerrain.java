@@ -1,10 +1,10 @@
 package pokecube.core.network.packets;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.animations.MoveAnimationHelper;
@@ -21,9 +21,9 @@ public class PacketSyncTerrain extends Packet
     long[][] terrainEffects = new long[PokemobTerrainEffects.TerrainEffectType.values().length][2];
     long[][] entryEffects   = new long[PokemobTerrainEffects.EntryEffectType.values().length][2];
 
-    CompoundNBT data = new CompoundNBT();
+    CompoundTag data = new CompoundTag();
 
-    public static void sendTerrainEffects(final ServerWorld world, final int x, final int y, final int z,
+    public static void sendTerrainEffects(final ServerLevel world, final int x, final int y, final int z,
             final PokemobTerrainEffects terrain)
     {
         final PacketSyncTerrain packet = new PacketSyncTerrain();
@@ -62,7 +62,7 @@ public class PacketSyncTerrain extends Packet
         super(null);
     }
 
-    public PacketSyncTerrain(final PacketBuffer buf)
+    public PacketSyncTerrain(final FriendlyByteBuf buf)
     {
         super(buf);
         this.x = buf.readInt();
@@ -77,7 +77,7 @@ public class PacketSyncTerrain extends Packet
     @Override
     public void handleClient()
     {
-        PlayerEntity player;
+        Player player;
         player = PokecubeCore.proxy.getPlayer();
         final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getCommandSenderWorld(), this.x * 16,
                 this.y * 16, this.z * 16);
@@ -116,7 +116,7 @@ public class PacketSyncTerrain extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
         buf.writeInt(this.x);
         buf.writeInt(this.y);
@@ -126,14 +126,14 @@ public class PacketSyncTerrain extends Packet
         this.writeLongArray(this.entryEffects, buf);
     }
 
-    private void writeLongArray(final long[][] array, final PacketBuffer buf)
+    private void writeLongArray(final long[][] array, final FriendlyByteBuf buf)
     {
         for (final long[] effect : array)
             for (int s = 0; s < 2; s++)
                 buf.writeLong(effect[s]);
     }
 
-    private void readLongArray(final long[][] array, final PacketBuffer buf)
+    private void readLongArray(final long[][] array, final FriendlyByteBuf buf)
     {
         for (final long[] effect : array)
             for (int s = 0; s < 2; s++)

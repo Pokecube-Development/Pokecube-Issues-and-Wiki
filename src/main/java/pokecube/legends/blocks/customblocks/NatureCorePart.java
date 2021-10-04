@@ -1,8 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum NatureCorePart implements IStringSerializable
+public enum NatureCorePart implements StringRepresentable
 {
     TOP("top"), BOTTOM("bottom");
 

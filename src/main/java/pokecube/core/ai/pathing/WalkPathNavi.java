@@ -1,15 +1,15 @@
 package pokecube.core.ai.pathing;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathFinder;
-import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.level.pathfinder.TurtleNodeEvaluator;
 
-public class WalkPathNavi extends GroundPathNavigator
+public class WalkPathNavi extends GroundPathNavigation
 {
 
-    public WalkPathNavi(final MobEntity entitylivingIn, final World worldIn)
+    public WalkPathNavi(final Mob entitylivingIn, final Level worldIn)
     {
         super(entitylivingIn, worldIn);
     }
@@ -17,7 +17,7 @@ public class WalkPathNavi extends GroundPathNavigator
     @Override
     protected PathFinder createPathFinder(final int range)
     {
-        this.nodeEvaluator = new WalkAndSwimNodeProcessor();
+        this.nodeEvaluator = new TurtleNodeEvaluator();
         this.nodeEvaluator.setCanPassDoors(true);
         return new PathFinder(this.nodeEvaluator, range);
     }

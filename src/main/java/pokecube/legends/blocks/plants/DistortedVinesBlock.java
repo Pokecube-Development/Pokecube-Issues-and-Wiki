@@ -1,22 +1,22 @@
 package pokecube.legends.blocks.plants;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractBodyPlantBlock;
-import net.minecraft.block.AbstractTopPlantBlock;
-import net.minecraft.block.Block;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrowingPlantBodyBlock;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.BlockInit;
 
-public class DistortedVinesBlock extends AbstractBodyPlantBlock 
+public class DistortedVinesBlock extends GrowingPlantBodyBlock 
 {
    public static final VoxelShape SHAPE = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 
-   public DistortedVinesBlock(AbstractBlock.Properties properties) {
+   public DistortedVinesBlock(BlockBehaviour.Properties properties) {
 	   super(properties, Direction.UP, SHAPE, false);
    }
 
-   protected AbstractTopPlantBlock getHeadBlock() {
-      return (AbstractTopPlantBlock)BlockInit.DISTORTIC_VINES.get();
+   protected GrowingPlantHeadBlock getHeadBlock() {
+      return (GrowingPlantHeadBlock)BlockInit.DISTORTIC_VINES.get();
    }
 }

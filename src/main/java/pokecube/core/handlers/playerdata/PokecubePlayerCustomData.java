@@ -1,6 +1,6 @@
 package pokecube.core.handlers.playerdata;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /**
@@ -9,7 +9,7 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerData;
  */
 public class PokecubePlayerCustomData extends PlayerData
 {
-    public CompoundNBT tag = new CompoundNBT();
+    public CompoundTag tag = new CompoundTag();
 
     public PokecubePlayerCustomData()
     {
@@ -28,7 +28,7 @@ public class PokecubePlayerCustomData extends PlayerData
     }
 
     @Override
-    public void readFromNBT(CompoundNBT tag)
+    public void readFromNBT(CompoundTag tag)
     {
         this.tag = tag.getCompound("data");
     }
@@ -40,7 +40,7 @@ public class PokecubePlayerCustomData extends PlayerData
     }
 
     @Override
-    public void writeToNBT(CompoundNBT tag)
+    public void writeToNBT(CompoundTag tag)
     {
         tag.put("data", this.tag);
     }

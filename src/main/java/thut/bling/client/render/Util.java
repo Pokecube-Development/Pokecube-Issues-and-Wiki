@@ -6,18 +6,18 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import thut.api.ModelHolder;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -30,17 +30,19 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
-                true, false, RenderType.State.builder().setTextureState(new RenderState.TextureState(loc, true, false))
-                        .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(new RenderState.AlphaState(
-                                0.003921569F)).setCullState(new RenderState.CullState(false)).setLightmapState(
-                                        new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(true))
+        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
+                true, false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
+                        .setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true)).setAlphaState(
+                                new RenderStateShard.AlphaStateShard(
+                                0.003921569F)).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(new RenderStateShard.OverlayStateShard(true))
                         .createCompositeState(false))
-                : RenderType.create("thutbling:bling_b", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
-                        false, RenderType.State.builder().setTextureState(new RenderState.TextureState(loc, true, false))
-                                .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setCullState(
-                                        new RenderState.CullState(false)).setLightmapState(new RenderState.LightmapState(true))
-                                .setOverlayState(new RenderState.OverlayState(true)).createCompositeState(false));
+                : RenderType.create("thutbling:bling_b", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
+                        false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
+                                .setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true))
+                                .setCullState(
+                                        new RenderStateShard.CullStateShard(false)).setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false));
     }
 
     static Map<String, IModel>             customModels   = Maps.newHashMap();
@@ -89,18 +91,18 @@ public class Util
         return null;
     }
 
-    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
+    public static VertexConsumer makeBuilder(final MultiBufferSource buff, final ResourceLocation loc)
     {
         return buff.getBuffer(Util.getType(loc, true));
     }
 
-    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc,
+    public static VertexConsumer makeBuilder(final MultiBufferSource buff, final ResourceLocation loc,
             final boolean alpha)
     {
         return buff.getBuffer(Util.getType(loc, alpha));
     }
 
-    public static void renderStandardModelWithGem(final MatrixStack mat, final IRenderTypeBuffer buff,
+    public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
             final ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
     {
@@ -115,7 +117,7 @@ public class Util
             final int damage = stack.getTag().getInt("dyeColour");
             ret = DyeColor.byId(damage);
         }
-        final Color colour = new Color(ret.getColorValue() + 0xFF000000);
+        final Color colour = new Color(ret.getTextColor() + 0xFF000000);
         IExtendedModelPart part = model.getParts().get(colorpart);
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
@@ -133,19 +135,19 @@ public class Util
         if (part != null)
         {
             part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-            final IVertexBuilder buf1 = Util.makeBuilder(buff, tex1);
+            final VertexConsumer buf1 = Util.makeBuilder(buff, tex1);
             renderable.renderPart(mat, buf1, colorpart);
         }
         part = model.getParts().get(itempart);
         if (part != null && tex0 != null)
         {
-            final IVertexBuilder buf0 = Util.makeBuilder(buff, tex0);
+            final VertexConsumer buf0 = Util.makeBuilder(buff, tex0);
             renderable.renderPart(mat, buf0, itempart);
         }
         else if (part != null && !gem.isEmpty())
         {
             // TODO confirm this works
-            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.getRenderType(gem, false));
+            final VertexConsumer buf0 = buff.getBuffer(ItemBlockRenderTypes.getRenderType(gem, false));
             renderable.renderPart(mat, buf0, itempart);
         }
         mat.popPose();

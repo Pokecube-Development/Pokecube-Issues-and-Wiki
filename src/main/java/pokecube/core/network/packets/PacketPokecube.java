@@ -1,19 +1,19 @@
 package pokecube.core.network.packets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import thut.core.common.network.Packet;
 
 public class PacketPokecube extends Packet
 {
-    public static void sendMessage(PlayerEntity player, int id, long renderTime)
+    public static void sendMessage(Player player, int id, long renderTime)
     {
         final PacketPokecube toSend = new PacketPokecube(id, renderTime);
-        PokecubeCore.packets.sendTo(toSend, (ServerPlayerEntity) player);
+        PokecubeCore.packets.sendTo(toSend, (ServerPlayer) player);
     }
 
     int  id;
@@ -29,7 +29,7 @@ public class PacketPokecube extends Packet
         this.id = id;
     }
 
-    public PacketPokecube(PacketBuffer buf)
+    public PacketPokecube(FriendlyByteBuf buf)
     {
         this.time = buf.readLong();
         this.id = buf.readInt();
@@ -43,7 +43,7 @@ public class PacketPokecube extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(FriendlyByteBuf buf)
     {
         buf.writeLong(this.time);
         buf.writeInt(this.id);

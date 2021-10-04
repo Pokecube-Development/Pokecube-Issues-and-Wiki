@@ -5,19 +5,19 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.utils.TimePeriod;
 
@@ -30,7 +30,7 @@ public class GuardAICapability implements IGuardAICapability
 
         private AttributeModifier executingGuardTask = null;
 
-        private Vector3d lastPos;
+        private Vec3 lastPos;
 
         int path_fails = 0;
 
@@ -49,9 +49,9 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void continueTask(final MobEntity entity)
+        public void continueTask(final Mob entity)
         {
-            final Vector3d newPos = entity.position();
+            final Vec3 newPos = entity.position();
             if (this.getPos().closerThan(newPos, this.getRoamDistance())) return;
 
             // Ensure we are not stuck riding something when trying to path
@@ -77,7 +77,7 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void endTask(final MobEntity entity)
+        public void endTask(final Mob entity)
         {
             entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             this.path_fails = 0;
@@ -121,7 +121,7 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void startTask(final MobEntity entity)
+        public void startTask(final Mob entity)
         {
             entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             entity.getAttribute(Attributes.FOLLOW_RANGE).addTransientModifier(this.executingGuardTask);
@@ -129,11 +129,11 @@ public class GuardAICapability implements IGuardAICapability
             if (!this.path(entity, speed)) this.pathFail(entity);
         }
 
-        private void pathFail(final MobEntity entity)
+        private void pathFail(final Mob entity)
         {
             if (this.path_fails++ > 100)
             {
-                final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
 
                 final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.
@@ -149,15 +149,15 @@ public class GuardAICapability implements IGuardAICapability
             }
         }
 
-        private boolean path(final MobEntity entity, final double speed)
+        private boolean path(final Mob entity, final double speed)
         {
-            final Vector3d pos = new Vector3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
+            final Vec3 pos = new Vec3(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
                     + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }
 
-        protected void setWalkTo(final MobEntity entity, final Vector3d pos, final double speed, final int dist)
+        protected void setWalkTo(final Mob entity, final Vec3 pos, final double speed, final int dist)
         {
             entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
         }
@@ -221,10 +221,10 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public void loadTasks(final ListNBT list)
+    public void loadTasks(final ListTag list)
     {
         this.tasks.clear();
-        for (final INBT element : list)
+        for (final Tag element : list)
         {
             final GuardTask task = new GuardTask();
             task.load(element);
@@ -234,9 +234,9 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public ListNBT serializeTasks()
+    public ListTag serializeTasks()
     {
-        final ListNBT list = new ListNBT();
+        final ListTag list = new ListTag();
         for (final IGuardTask task : this.tasks)
             list.add(task.serialze());
         return list;

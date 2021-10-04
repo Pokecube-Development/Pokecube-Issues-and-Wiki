@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
@@ -73,7 +73,7 @@ public class ConditionLoader implements IResourceData
         try
         {
             final List<Conditions> loaded = Lists.newArrayList();
-            for (final IResource resource : PackFinder.getResources(l))
+            for (final Resource resource : PackFinder.getResources(l))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

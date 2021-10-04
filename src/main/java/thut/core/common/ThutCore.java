@@ -13,22 +13,22 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 // The value here should match an entry in the META-INF/mods.toml file
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -40,9 +40,9 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
@@ -98,19 +98,19 @@ public class ThutCore
             event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
         }
 
-        public static EntityRayTraceResult rayTraceEntities(final Entity shooter, final Vector3d startVec,
-                final Vector3d endVec, final AxisAlignedBB boundingBox, final Predicate<Entity> filter,
+        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec,
+                final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter,
                 final double distance)
         {
-            final World world = shooter.level;
+            final Level world = shooter.level;
             double d0 = distance;
             Entity entity = null;
-            Vector3d vector3d = null;
+            Vec3 vector3d = null;
 
             for (final Entity entity1 : world.getEntities(shooter, boundingBox, filter))
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
-                final Optional<Vector3d> optional = axisalignedbb.clip(startVec, endVec);
+                final AABB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
+                final Optional<Vec3> optional = axisalignedbb.clip(startVec, endVec);
                 if (axisalignedbb.contains(startVec))
                 {
                     if (d0 >= 0.0D)
@@ -122,7 +122,7 @@ public class ThutCore
                 }
                 else if (optional.isPresent())
                 {
-                    final Vector3d vector3d1 = optional.get();
+                    final Vec3 vector3d1 = optional.get();
                     final double d1 = startVec.distanceToSqr(vector3d1);
                     if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1
                             .canRiderInteract())
@@ -141,7 +141,7 @@ public class ThutCore
                     }
                 }
             }
-            return entity == null ? null : new EntityRayTraceResult(entity, vector3d);
+            return entity == null ? null : new EntityHitResult(entity, vector3d);
         }
 
         @SubscribeEvent
@@ -150,23 +150,23 @@ public class ThutCore
             // Probably a block entity to interact with here.
             if (event.getWorld().isEmptyBlock(event.getPos()))
             {
-                final PlayerEntity player = event.getPlayer();
-                final Vector3d face = event.getPlayer().getEyePosition(0);
-                final Vector3d look = event.getPlayer().getLookAngle();
-                final AxisAlignedBB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
-                final EntityRayTraceResult var = MobEvents.rayTraceEntities(player, face, look, box,
+                final Player player = event.getPlayer();
+                final Vec3 face = event.getPlayer().getEyePosition(0);
+                final Vec3 look = event.getPlayer().getLookAngle();
+                final AABB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
+                final EntityHitResult var = MobEvents.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
-                if (var != null && var.getType() == RayTraceResult.Type.ENTITY)
+                if (var != null && var.getType() == HitResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
                     if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
-                            .getHand()) != ActionResultType.PASS)
+                            .getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
                     }
                     if (entity.getInteractor().interactInternal(event.getPlayer(), event.getPos(), event.getItemStack(),
-                            event.getHand()) != ActionResultType.PASS)
+                            event.getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
@@ -211,7 +211,7 @@ public class ThutCore
 
     public static ItemStack THUTICON = ItemStack.EMPTY;
 
-    public static final ItemGroup THUTITEMS = new ItemGroup("thut")
+    public static final CreativeModeTab THUTITEMS = new CreativeModeTab("thut")
     {
         @Override
         public ItemStack makeIcon()
@@ -327,12 +327,12 @@ public class ThutCore
         {
             @Override
             public void readNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side,
-                    final INBT nbt)
+                    final Tag nbt)
             {
             }
 
             @Override
-            public INBT writeNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side)
+            public Tag writeNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side)
             {
                 return null;
             }
@@ -344,9 +344,9 @@ public class ThutCore
         {
             // Register the mob serializers
             // for seats
-            DataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
+            EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
-            DataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
+            EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
         });
     }
 }

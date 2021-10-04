@@ -3,16 +3,16 @@ package pokecube.adventures.client.gui.trainer.editor;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
@@ -40,16 +40,16 @@ public class EditorGui extends Screen
 
         public MissingPage(final EditorGui watch)
         {
-            super(new TranslationTextComponent("pokewatch.title.blank"), watch);
+            super(new TranslatableComponent("pokewatch.title.blank"), watch);
             this.font = Minecraft.getInstance().font;
         }
 
         @Override
-        public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+        public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.parent.width - 160) / 2 + 80;
             final int y = (this.parent.height - 160) / 2 + 70;
-            AbstractGui.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
+            GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y, 0xFFFFFFFF);
             super.render(mat, mouseX, mouseY, partialTicks);
         }
 
@@ -99,7 +99,7 @@ public class EditorGui extends Screen
 
     public EditorGui(final Entity mob)
     {
-        super(new StringTextComponent(""));
+        super(new TextComponent(""));
         this.entity = mob;
         this.trainer = TrainerCaps.getHasPokemobs(mob);
         this.rewards = TrainerCaps.getHasRewards(mob);
@@ -114,7 +114,7 @@ public class EditorGui extends Screen
     public void init(final Minecraft mc, final int width, final int height)
     {
         this.children.clear();
-        this.buttons.clear();
+        this.renderables.clear();
         super.init(mc, width, height);
         EditorGui.lastPage = 0;
         // Here we just init current, it will then decide on what to do.
@@ -124,11 +124,12 @@ public class EditorGui extends Screen
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(mat, mouseX, mouseY, partialTicks);
 
-        this.minecraft.textureManager.bind(new ResourceLocation(PokecubeAdv.MODID,
+        this.minecraft.textureManager.bindForSetup(new ResourceLocation(
+                PokecubeAdv.MODID,
                 "textures/gui/traineredit.png"));
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;

@@ -2,22 +2,23 @@ package pokecube.adventures.init;
 
 import java.util.Set;
 
+import com.mojang.blaze3d.platform.InputConstants;
+
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,7 +26,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -61,12 +61,12 @@ public class ClientSetupHandler
         {
             if (ClientSetupHandler.trainerEditKey.consumeClick())
             {
-                final RayTraceResult pos = Minecraft.getInstance().hitResult;
+                final HitResult pos = Minecraft.getInstance().hitResult;
                 Entity target = null;
                 switch (pos.getType())
                 {
                 case ENTITY:
-                    target = ((EntityRayTraceResult) pos).getEntity();
+                    target = ((EntityHitResult) pos).getEntity();
                     break;
                 default:
                     break;
@@ -78,18 +78,18 @@ public class ClientSetupHandler
         @SubscribeEvent
         public static void onToolTip(final ItemTooltipEvent evt)
         {
-            final PlayerEntity player = evt.getPlayer();
+            final Player player = evt.getPlayer();
             final ItemStack stack = evt.getItemStack();
             if (stack.isEmpty()) return;
-            final CompoundNBT tag = stack.hasTag() ? stack.getTag() : new CompoundNBT();
-            if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
+            final CompoundTag tag = stack.hasTag() ? stack.getTag() : new CompoundTag();
+            if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID
                     + ".tooltip.bag"));
             if (tag.contains("dyeColour"))
             {
-                final ITextComponent colour = new TranslationTextComponent(DyeColor.byId(tag.getInt("dyeColour"))
+                final Component colour = new TranslatableComponent(DyeColor.byId(tag.getInt("dyeColour"))
                         .getName());
                 boolean has = false;
-                for (final ITextComponent s : evt.getToolTip())
+                for (final Component s : evt.getToolTip())
                 {
                     has = s.equals(colour);
                     if (has) break;
@@ -104,19 +104,19 @@ public class ClientSetupHandler
                 final int index = ClonerHelper.getIndex(stack);
                 if (genes != null) for (final Alleles<?, ?> a : genes.getAlleles().values())
                 {
-                    TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.MODID
+                    TranslatableComponent comp = new TranslatableComponent(PokecubeAdv.MODID
                             + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(), a.getExpressed());
                     evt.getToolTip().add(comp);
                     if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                     {
-                        comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a
+                        comp = new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a
                                 .getExpressed().getKey().getPath(), a.getAllele(0), a.getAllele(1));
                         evt.getToolTip().add(comp);
                     }
                 }
                 if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown())) evt.getToolTip()
-                        .add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
-                if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
+                        .add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                if (index != -1) evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID
                         + ".tooltip.gene.array.index", index));
                 Set<Class<? extends Gene<?>>> genesSet;
                 if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty()) if (Screen.hasControlDown())
@@ -124,14 +124,14 @@ public class ClientSetupHandler
                     try
                     {
                         final Gene<?> gene = geneC.newInstance();
-                        evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.selector.gene."
+                        evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.selector.gene."
                                 + gene.getKey().getPath()));
                     }
                     catch (InstantiationException | IllegalAccessException e)
                     {
 
                     }
-                else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                else evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
                 if (RecipeSelector.isSelector(stack))
                 {
                     final SelectorValue value = ClonerHelper.getSelectorValue(stack);
@@ -141,7 +141,7 @@ public class ClientSetupHandler
         }
     }
 
-    public static KeyBinding trainerEditKey;
+    public static KeyMapping trainerEditKey;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
@@ -152,23 +152,23 @@ public class ClientSetupHandler
         RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, RenderNPC::new);
 
         // Register container guis.
-        ScreenManager.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
-        ScreenManager.register(PokecubeAdv.SPLICER_CONT.get(), Splicer::new);
-        ScreenManager.register(PokecubeAdv.EXTRACTOR_CONT.get(), Extractor::new);
-        ScreenManager.register(PokecubeAdv.AFA_CONT.get(), AFA::new);
-        ScreenManager.register(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
-        ScreenManager.register(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
+        MenuScreens.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
+        MenuScreens.register(PokecubeAdv.SPLICER_CONT.get(), Splicer::new);
+        MenuScreens.register(PokecubeAdv.EXTRACTOR_CONT.get(), Extractor::new);
+        MenuScreens.register(PokecubeAdv.AFA_CONT.get(), AFA::new);
+        MenuScreens.register(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
+        MenuScreens.register(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.translucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.translucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
 
-        ClientSetupHandler.trainerEditKey = new KeyBinding("EditTrainer", InputMappings.UNKNOWN.getValue(), "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(), "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 

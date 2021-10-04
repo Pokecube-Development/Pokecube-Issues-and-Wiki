@@ -3,45 +3,45 @@ package pokecube.core.blocks.healer;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.inventory.healer.HealerContainer;
 
-public class HealerBlock extends HorizontalBlock implements IWaterLoggable
+public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock
 {
 	private static final Map<Direction, VoxelShape> POKECENTER  = new HashMap<>();
-    public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
     {
-    	HealerBlock.POKECENTER.put(Direction.NORTH, VoxelShapes.or(
+    	HealerBlock.POKECENTER.put(Direction.NORTH, Shapes.or(
             Block.box(1, 0, 0, 15, 13, 16),
             Block.box(2, 13, 0, 14, 15, 1),
             Block.box(7, 13, 1, 9, 14, 15),
@@ -52,7 +52,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
             Block.box(3, 13, 6.5, 6, 14, 9.5),
             Block.box(10, 13, 2, 13, 14, 5),
             Block.box(3, 13, 2, 6, 14, 5)).optimize());
-    	HealerBlock.POKECENTER.put(Direction.EAST, VoxelShapes.or(
+    	HealerBlock.POKECENTER.put(Direction.EAST, Shapes.or(
             Block.box(0, 0, 1, 16, 13, 15),
             Block.box(15, 13, 2, 16, 15, 14),
             Block.box(1, 13, 7, 15, 14, 9),
@@ -63,7 +63,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
             Block.box(6.5, 13, 3, 9.5, 14, 6),
             Block.box(11, 13, 10, 14, 14, 13),
             Block.box(11, 13, 3, 14, 14, 6)).optimize());
-    	HealerBlock.POKECENTER.put(Direction.SOUTH, VoxelShapes.or(
+    	HealerBlock.POKECENTER.put(Direction.SOUTH, Shapes.or(
 		    Block.box(1, 0, 0, 15, 13, 16),
             Block.box(2, 13, 0, 14, 15, 1),
             Block.box(7, 13, 1, 9, 14, 15),
@@ -74,7 +74,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
             Block.box(3, 13, 6.5, 6, 14, 9.5),
             Block.box(10, 13, 2, 13, 14, 5),
             Block.box(3, 13, 2, 6, 14, 5)).optimize());
-    	HealerBlock.POKECENTER.put(Direction.WEST, VoxelShapes.or(
+    	HealerBlock.POKECENTER.put(Direction.WEST, Shapes.or(
 		    Block.box(0, 0, 1, 16, 13, 15),
             Block.box(15, 13, 2, 16, 15, 14),
             Block.box(1, 13, 7, 15, 14, 9),
@@ -89,8 +89,8 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-           final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+           final CollisionContext context)
     {
         return HealerBlock.POKECENTER.get(state.getValue(HealerBlock.FACING));
     }
@@ -103,13 +103,13 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
     {
         return new HealerTile();
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(HealerBlock.FACING);
         builder.add(HealerBlock.FIXED);
@@ -117,7 +117,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     }
 
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
         return this.defaultBlockState().setValue(HealerBlock.FACING, context.getHorizontalDirection().getOpposite())
@@ -126,7 +126,7 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
             final BlockPos facingPos)
     {
         if (state.getValue(HealerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -147,12 +147,12 @@ public class HealerBlock extends HorizontalBlock implements IWaterLoggable
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
-            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
+            final Player player, final InteractionHand hand, final BlockHitResult hit)
     {
-        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
-                playerInventory, IWorldPosCallable.create(world, pos)), player.getDisplayName()));
-        return ActionResultType.SUCCESS;
+        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
+                playerInventory, ContainerLevelAccess.create(world, pos)), player.getDisplayName()));
+        return InteractionResult.SUCCESS;
     }
 
 }

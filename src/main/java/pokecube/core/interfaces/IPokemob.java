@@ -8,23 +8,23 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.passive.ShoulderRidingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -57,7 +57,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 {
     public static class FormeHolder extends ModelHolder
     {
-        public static FormeHolder load(final CompoundNBT nbt)
+        public static FormeHolder load(final CompoundTag nbt)
         {
             final String name = nbt.getString("key");
             final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
@@ -125,9 +125,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             return this.icons[i][j];
         }
 
-        public CompoundNBT save()
+        public CompoundTag save()
         {
-            final CompoundNBT ret = new CompoundNBT();
+            final CompoundTag ret = new CompoundTag();
             ret.putString("key", this.key.toString());
             if (this.model != null) ret.putString("model", this.model.toString());
             if (this.animation != null) ret.putString("anim", this.animation.toString());
@@ -281,10 +281,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      *
      * @return the name to display
      */
-    default ITextComponent getDisplayName()
+    default Component getDisplayName()
     {
         if (this.getPokemonNickname().isEmpty()) return this.getPokedexEntry().getTranslatedName();
-        return new StringTextComponent(this.getPokemonNickname());
+        return new TextComponent(this.getPokemonNickname());
     }
 
     /**
@@ -350,13 +350,13 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     float getHomeDistance();
 
-    IInventory getInventory();
+    Container getInventory();
 
     Vector3 getMobSizes();
 
     default double getMovementSpeed()
     {
-        final ModifiableAttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
+        final AttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater() || this.getEntity().isInLava() && this.getEntity()
                 .fireImmune();
         final boolean flying = !swimming && !this.getEntity().isOnGround();
@@ -449,10 +449,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     @Nullable
     FormeHolder getCustomHolder();
 
-    default boolean moveToShoulder(final PlayerEntity player)
+    default boolean moveToShoulder(final Player player)
     {
-        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayerEntity)
-            return ((ShoulderRidingEntity) this.getEntity()).setEntityOnShoulder((ServerPlayerEntity) player);
+        if (this.getEntity() instanceof ShoulderRidingEntity) if (player instanceof ServerPlayer)
+            return ((ShoulderRidingEntity) this.getEntity()).setEntityOnShoulder((ServerPlayer) player);
         return false;
     }
 
@@ -481,7 +481,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /** Called to init the mob after it went out of its pokecube. */
     void onSendOut();
 
-    void read(CompoundNBT tag);
+    void read(CompoundTag tag);
 
     /** Sets the value obtained by getAttackCooldown() */
     @Override
@@ -523,7 +523,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void setHeldItem(final ItemStack stack)
     {
-        this.getEntity().setItemInHand(Hand.MAIN_HAND, stack);
+        this.getEntity().setItemInHand(InteractionHand.MAIN_HAND, stack);
     }
 
     /**
@@ -598,7 +598,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * @param mob
      * @return
      */
-    default ItemStack wildHeldItem(final MobEntity mob)
+    default ItemStack wildHeldItem(final Mob mob)
     {
         return this.getPokedexEntry().getRandomHeldItem(mob);
     }
@@ -611,13 +611,13 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         this.onSetTarget(null, true);
         this.healStatus();
         this.healChanges();
-        final MobEntity mob = this.getEntity();
+        final Mob mob = this.getEntity();
         mob.setHealth(this.getOwnerId() == null ? this.getStat(Stats.HP, false) : 1);
         mob.hurtTime = 0;
         mob.deathTime = 0;
     }
 
-    CompoundNBT write();
+    CompoundTag write();
 
     public Battle getBattle();
 
@@ -629,7 +629,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     ICopyMob getCopy();
 
-    ServerBossInfo getBossInfo();
+    ServerBossEvent getBossInfo();
 
-    void setBossInfo(ServerBossInfo event);
+    void setBossInfo(ServerBossEvent event);
 }

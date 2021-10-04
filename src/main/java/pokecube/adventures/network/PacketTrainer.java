@@ -2,20 +2,20 @@ package pokecube.adventures.network;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -96,18 +96,18 @@ public class PacketTrainer extends NBTPacket
         PacketTrainer.ASSEMBLER.sendToServer(packet);
     }
 
-    public static void sendEditOpenPacket(final Entity target, final ServerPlayerEntity editor)
+    public static void sendEditOpenPacket(final Entity target, final ServerPlayer editor)
     {
         final String node = target == editor || target == null ? editor.isCrouching() ? PacketTrainer.EDITSELF
                 : PacketTrainer.SPAWNTRAINER
-                : target instanceof ServerPlayerEntity ? PacketTrainer.EDITOTHER
+                : target instanceof ServerPlayer ? PacketTrainer.EDITOTHER
                         : TrainerCaps.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
                                 : PacketTrainer.EDITMOB;
         final boolean canEdit = !editor.getServer().isDedicatedServer() || PermissionAPI.hasPermission(editor, node);
 
         if (!canEdit)
         {
-            editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+            editor.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                     Util.NIL_UUID);
             return;
         }
@@ -117,7 +117,7 @@ public class PacketTrainer extends NBTPacket
 
         if (target != null)
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(target);
             final IGuardAICapability guard = target.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
             final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
@@ -148,7 +148,7 @@ public class PacketTrainer extends NBTPacket
         this.getTag().putByte("__message__", message);
     }
 
-    public PacketTrainer(final PacketBuffer buffer)
+    public PacketTrainer(final FriendlyByteBuf buffer)
     {
         super(buffer);
     }
@@ -157,7 +157,7 @@ public class PacketTrainer extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        final Player player = PokecubeCore.proxy.getPlayer();
         this.message = this.getTag().getByte("__message__");
         switch (this.message)
         {
@@ -169,7 +169,7 @@ public class PacketTrainer extends NBTPacket
                 final Entity mob = player.getCommandSenderWorld().getEntity(id);
                 if (mob != null && this.getTag().contains("C"))
                 {
-                    final CompoundNBT nbt = this.getTag().getCompound("C");
+                    final CompoundTag nbt = this.getTag().getCompound("C");
                     final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(mob);
                     final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
                     final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(mob);
@@ -195,10 +195,10 @@ public class PacketTrainer extends NBTPacket
     }
 
     @Override
-    protected void onCompleteServer(final ServerPlayerEntity player)
+    protected void onCompleteServer(final ServerPlayer player)
     {
         this.message = this.getTag().getByte("__message__");
-        final World world = player.getCommandSenderWorld();
+        final Level world = player.getCommandSenderWorld();
         String type;
         String name;
         boolean male;
@@ -218,7 +218,7 @@ public class PacketTrainer extends NBTPacket
         case SPAWN:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
                 return;
             }
@@ -254,14 +254,14 @@ public class PacketTrainer extends NBTPacket
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
-                    (ServerWorld) player.getCommandSenderWorld(), player.getRandom(), MutableBoundingBox
+                    (ServerLevel) player.getCommandSenderWorld(), player.getRandom(), BoundingBox
                             .getUnknownBox());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
                 return;
             }
@@ -273,9 +273,9 @@ public class PacketTrainer extends NBTPacket
                 if (rewards instanceof ICapabilitySerializable) try
                 {
                     @SuppressWarnings("unchecked")
-                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) rewards;
+                    final ICapabilitySerializable<Tag> ser = (ICapabilitySerializable<Tag>) rewards;
                     ser.deserializeNBT(this.getTag().get("__rewards__"));
-                    player.displayClientMessage(new StringTextComponent("Updated rewards list"), true);
+                    player.displayClientMessage(new TextComponent("Updated rewards list"), true);
                 }
                 catch (final Exception e)
                 {
@@ -290,10 +290,10 @@ public class PacketTrainer extends NBTPacket
                 if (aiStates instanceof ICapabilitySerializable) try
                 {
                     @SuppressWarnings("unchecked")
-                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) aiStates;
+                    final ICapabilitySerializable<Tag> ser = (ICapabilitySerializable<Tag>) aiStates;
                     ser.deserializeNBT(this.getTag().get("__ai__"));
                     mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
-                    player.displayClientMessage(new StringTextComponent("Updated AI Setting"), true);
+                    player.displayClientMessage(new TextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -309,9 +309,9 @@ public class PacketTrainer extends NBTPacket
                 if (messages instanceof ICapabilitySerializable) try
                 {
                     @SuppressWarnings("unchecked")
-                    final ICapabilitySerializable<INBT> ser = (ICapabilitySerializable<INBT>) messages;
+                    final ICapabilitySerializable<Tag> ser = (ICapabilitySerializable<Tag>) messages;
                     ser.deserializeNBT(this.getTag().get("__messages__"));
-                    player.displayClientMessage(new StringTextComponent("Updated AI Setting"), true);
+                    player.displayClientMessage(new TextComponent("Updated AI Setting"), true);
                 }
                 catch (final Exception e)
                 {
@@ -350,17 +350,17 @@ public class PacketTrainer extends NBTPacket
         case KILLTRAINER:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
                 return;
             }
             mob = player.getCommandSenderWorld().getEntity(id);
-            if (mob != null) mob.remove();
+            if (mob != null) mob.remove(Entity.RemovalReason.DISCARDED);
             break;
         case UPDATEMOB:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITMOB))
             {
-                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."),
+                player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
                 return;
             }
@@ -373,7 +373,7 @@ public class PacketTrainer extends NBTPacket
                 ItemStack cube = ItemStack.EMPTY;
                 if (this.getTag().contains("__pokemob__"))
                 {
-                    final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
+                    final CompoundTag mobtag = this.getTag().getCompound("__pokemob__");
                     cube = ItemStack.of(mobtag);
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, world);
                     // Load out the moves, since those don't send properly...
@@ -390,7 +390,7 @@ public class PacketTrainer extends NBTPacket
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                 if (pokemob != null)
                 {
-                    final CompoundNBT mobtag = this.getTag().getCompound("__pokemob__");
+                    final CompoundTag mobtag = this.getTag().getCompound("__pokemob__");
                     this.readPokemob(pokemob, mobtag);
                     EntityUpdate.sendEntityUpdate(mob);
                 }
@@ -399,7 +399,7 @@ public class PacketTrainer extends NBTPacket
         }
     }
 
-    private void readPokemob(final IPokemob pokemob, final CompoundNBT mobtag)
+    private void readPokemob(final IPokemob pokemob, final CompoundTag mobtag)
     {
         for (int i = 0; i < 4; i++)
         {

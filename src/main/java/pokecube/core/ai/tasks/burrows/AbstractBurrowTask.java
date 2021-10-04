@@ -5,12 +5,12 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
@@ -24,12 +24,12 @@ import thut.api.maths.Vector3;
 
 public abstract class AbstractBurrowTask extends TaskBase
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractBurrowTask.mems.put(BurrowTasks.BURROW, MemoryModuleStatus.VALUE_PRESENT);
+        AbstractBurrowTask.mems.put(BurrowTasks.BURROW, MemoryStatus.VALUE_PRESENT);
     }
 
     protected Burrow burrow;
@@ -41,7 +41,7 @@ public abstract class AbstractBurrowTask extends TaskBase
         super(pokemob, AbstractBurrowTask.mems);
     }
 
-    public AbstractBurrowTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
+    public AbstractBurrowTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
     {
         super(pokemob, RootTask.merge(AbstractBurrowTask.mems, neededMems));
     }

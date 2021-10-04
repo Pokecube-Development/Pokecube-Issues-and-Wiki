@@ -2,13 +2,13 @@ package pokecube.core.client.render.mobs.overlays;
 
 import java.util.Random;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.DyeColor;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.IPokemob;
@@ -19,12 +19,12 @@ import thut.core.common.ThutCore;
 
 public class ExitCube
 {
-    public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
+    public static void render(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource iRenderTypeBuffer,
             final float partialTick)
     {
         if (!pokemob.getGeneralState(GeneralStates.EXITINGCUBE)) return;
         final Entity entity = pokemob.getEntity();
-        final CompoundNBT sealTag = PokecubeManager.getSealTag(entity);
+        final CompoundTag sealTag = PokecubeManager.getSealTag(entity);
         Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {

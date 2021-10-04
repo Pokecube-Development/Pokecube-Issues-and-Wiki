@@ -1,19 +1,19 @@
 package pokecube.nbtedit.nbt;
 
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.Tag;
 
 public class NamedNBT
 {
 
     protected String name;
-    protected INBT   nbt;
+    protected Tag   nbt;
 
-    public NamedNBT(INBT nbt)
+    public NamedNBT(Tag nbt)
     {
         this("", nbt);
     }
 
-    public NamedNBT(String name, INBT nbt)
+    public NamedNBT(String name, Tag nbt)
     {
         this.name = name;
         this.nbt = nbt;
@@ -29,7 +29,7 @@ public class NamedNBT
         return this.name;
     }
 
-    public INBT getNBT()
+    public Tag getNBT()
     {
         return this.nbt;
     }
@@ -39,7 +39,7 @@ public class NamedNBT
         this.name = name;
     }
 
-    public void setNBT(INBT nbt)
+    public void setNBT(Tag nbt)
     {
         this.nbt = nbt;
     }

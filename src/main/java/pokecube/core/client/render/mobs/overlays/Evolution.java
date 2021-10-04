@@ -3,19 +3,19 @@ package pokecube.core.client.render.mobs.overlays;
 import java.awt.Color;
 import java.util.Random;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderState.TransparencyState;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -23,7 +23,7 @@ import pokecube.core.utils.PokeType;
 
 public class Evolution
 {
-    private static final TransparencyState TRANSP = new RenderState.TransparencyState("lightning_transparency", () ->
+    private static final TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard("lightning_transparency", () ->
     {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
@@ -35,21 +35,21 @@ public class Evolution
 
     private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
     private static final RenderType EFFECT  = RenderType.create("pokemob:evo_effect",
-            DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.builder().setWriteMaskState(
-                    new RenderState.WriteMaskState(true, false)).setTransparencyState(Evolution.TRANSP).setShadeModelState(
-                            new RenderState.ShadeModelState(true)).createCompositeState(false));
+            DefaultVertexFormat.POSITION_COLOR, 7, 256, false, true, RenderType.CompositeState.builder().setWriteMaskState(
+                    new RenderStateShard.WriteMaskStateShard(true, false)).setTransparencyState(Evolution.TRANSP).setShadeModelState(
+                            new RenderStateShard.ShadeModelStateShard(true)).createCompositeState(false));
 
-    public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
+    public static void render(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource iRenderTypeBuffer,
             final float partialTick)
     {
         if (pokemob.isEvolving()) Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, PokecubeCore
                 .getConfig().evolutionTicks, true);
     }
 
-    public static void renderEffect(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
+    public static void renderEffect(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource bufferIn,
             final float partialTick, final int duration, final boolean scaleMob)
     {
-        if (!pokemob.getEntity().inChunk) return;
+        if (!pokemob.getEntity().isAddedToWorld()) return;
         int ticks = pokemob.getEvolutionTicks();
         final PokedexEntry entry = pokemob.getPokedexEntry();
         final int color1 = entry.getType1().colour;
@@ -67,7 +67,7 @@ public class Evolution
         float f7 = 0.0F;
         if (f5 > 0.8F) f7 = (f5 - 0.8F) / 0.2F;
 
-        final IVertexBuilder ivertexbuilder2 = Utils.makeBuilder(Evolution.EFFECT, bufferIn);
+        final VertexConsumer ivertexbuilder2 = Utils.makeBuilder(Evolution.EFFECT, bufferIn);
         mat.pushPose();
         if (scaleMob)
         {
@@ -112,7 +112,7 @@ public class Evolution
         mat.popPose();
     }
 
-    private static void white_points(final IVertexBuilder builder, final Matrix4f posmat, final int alpha,
+    private static void white_points(final VertexConsumer builder, final Matrix4f posmat, final int alpha,
             final Color col)
     {
         if (builder instanceof BufferBuilder)
@@ -124,7 +124,7 @@ public class Evolution
         builder.vertex(posmat, 0.0F, 0.0F, 0.0F).color(col.getRed(), col.getGreen(), col.getBlue(), alpha).endVertex();
     }
 
-    private static void transp_point_a(final IVertexBuilder builder, final Matrix4f posmat, final float dy,
+    private static void transp_point_a(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
         if (builder instanceof BufferBuilder)
@@ -136,7 +136,7 @@ public class Evolution
                 .getBlue(), 0).endVertex();
     }
 
-    private static void transp_point_b(final IVertexBuilder builder, final Matrix4f posmat, final float dy,
+    private static void transp_point_b(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
         if (builder instanceof BufferBuilder)
@@ -148,7 +148,7 @@ public class Evolution
                 0).endVertex();
     }
 
-    private static void transp_point_c(final IVertexBuilder builder, final Matrix4f posmat, final float dy,
+    private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dz, final Color col)
     {
         if (builder instanceof BufferBuilder)

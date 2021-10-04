@@ -1,9 +1,9 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -11,26 +11,26 @@ import thut.core.common.network.Packet;
 
 public class PacketPokemobMessage extends Packet
 {
-    public static void sendMessage(final PlayerEntity sendTo, final ITextComponent message)
+    public static void sendMessage(final Player sendTo, final Component message)
     {
         final PacketPokemobMessage toSend = new PacketPokemobMessage(message);
-        PokecubeCore.packets.sendTo(toSend, (ServerPlayerEntity) sendTo);
+        PokecubeCore.packets.sendTo(toSend, (ServerPlayer) sendTo);
     }
 
-    ITextComponent message;
+    Component message;
 
     public PacketPokemobMessage()
     {
     }
 
-    public PacketPokemobMessage(final ITextComponent message)
+    public PacketPokemobMessage(final Component message)
     {
         this.message = message;
     }
 
-    public PacketPokemobMessage(final PacketBuffer buf)
+    public PacketPokemobMessage(final FriendlyByteBuf buf)
     {
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         this.message = buffer.readComponent();
     }
 
@@ -38,14 +38,14 @@ public class PacketPokemobMessage extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        final ITextComponent component = this.message;
+        final Component component = this.message;
         pokecube.core.client.gui.GuiInfoMessages.addMessage(component);
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         buffer.writeComponent(this.message);
     }
 }

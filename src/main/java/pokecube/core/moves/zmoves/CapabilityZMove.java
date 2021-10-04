@@ -1,7 +1,7 @@
 package pokecube.core.moves.zmoves;
 
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -15,14 +15,14 @@ public class CapabilityZMove
     public static class Storage implements Capability.IStorage<ZPower>
     {
         @Override
-        public INBT writeNBT(final Capability<ZPower> capability, final ZPower instance, final Direction side)
+        public Tag writeNBT(final Capability<ZPower> capability, final ZPower instance, final Direction side)
         {
             return null;
         }
 
         @Override
         public void readNBT(final Capability<ZPower> capability, final ZPower instance, final Direction side,
-                final INBT nbt)
+                final Tag nbt)
         {
         }
     }

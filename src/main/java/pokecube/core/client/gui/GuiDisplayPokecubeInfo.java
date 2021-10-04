@@ -11,19 +11,19 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicate;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -64,7 +64,7 @@ import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
-public class GuiDisplayPokecubeInfo extends AbstractGui
+public class GuiDisplayPokecubeInfo extends GuiComponent
 {
     protected static int                 lightGrey  = 0xDDDDDD;
     public static int[]                  guiDims    = { 147, 42 };
@@ -72,12 +72,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public static int[]                  teleDims   = { 147, 42 };
     public static GuiDisplayPokecubeInfo instance;
 
-    public static int[] applyTransform(final MatrixStack mat, final String ref, final List<Integer> offsets,
+    public static int[] applyTransform(final PoseStack mat, final String ref, final List<Integer> offsets,
             final int[] dims, final float targetSize)
     {
         final Minecraft minecraft = Minecraft.getInstance();
 
-        final MainWindow res = minecraft.getWindow();
+        final Window res = minecraft.getWindow();
         int w = offsets.get(0);
         int h = offsets.get(1);
         int x = 0;
@@ -157,7 +157,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
     private static final IPokemob[] EMPTY = new IPokemob[0];
 
-    protected FontRenderer fontRenderer;
+    protected Font fontRenderer;
 
     protected Minecraft minecraft;
 
@@ -224,7 +224,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore
                     .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = pokemob.getMaxHealth();
             float ratio = pokemob.getHealth() / total;
@@ -276,11 +276,11 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             // Render Name
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
-                final List<IFormattableTextComponent> list = ListHelper.splitText(new StringTextComponent(displayName),
+                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName),
                         70, this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }
@@ -292,7 +292,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                     + level), nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             final int n = this.getPokemobsToDisplay().length;
             final int num = this.fontRenderer.width("" + n);
             this.blit(evt.mat, nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
@@ -319,7 +319,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                     // bind texture
                     evt.mat.pushPose();
 
-                    this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+                    this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
                     this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
@@ -359,7 +359,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
 
             // Render Mob
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobOffsetX = 0;
             final int mobOffsetY = 0;
@@ -393,7 +393,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                     .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
                             .getConfig().targetSize);
             // Render HP
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
@@ -425,7 +425,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
 
             // Render Name
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
             if (this.fontRenderer.width(displayName) > 70)
@@ -436,7 +436,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Box behind Mob
-            this.minecraft.getTextureManager().bind(Resources.GUI_BATTLE);
+            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobBoxOffsetX = 0;
             final int mobBoxOffsetY = 0;
@@ -461,7 +461,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (this.refreshCounter++ > 5) this.refreshCounter = 0;
         if (this.refreshCounter > 0) return this.pokemobsCache;
 
-        final PlayerEntity player = this.minecraft.player;
+        final Player player = this.minecraft.player;
 
         if (player == null || player.getCommandSenderWorld() == null) return GuiDisplayPokecubeInfo.EMPTY;
 
@@ -552,7 +552,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public void pokemobAttack()
     {
         if (this.getCurrentPokemob() == null) return;
-        final PlayerEntity player = this.minecraft.player;
+        final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input ->
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
@@ -611,7 +611,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (pokemob != null) pokemob.onRecall();
         else
         {
-            final PlayerEntity player = this.minecraft.player;
+            final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && player.getUUID().equals(targetMob.getOwnerId())) targetMob.onRecall();
@@ -645,7 +645,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         }
         else
         {
-            final PlayerEntity player = this.minecraft.player;
+            final Player player = this.minecraft.player;
             final Entity target = Tools.getPointedEntity(player, 32);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,

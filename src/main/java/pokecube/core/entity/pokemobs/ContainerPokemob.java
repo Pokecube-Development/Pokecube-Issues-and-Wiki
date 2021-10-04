@@ -1,16 +1,16 @@
 package pokecube.core.entity.pokemobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.IContainerFactory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.fmllegacy.network.IContainerFactory;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -20,17 +20,17 @@ import thut.core.common.ThutCore;
 
 public class ContainerPokemob extends BaseContainer
 {
-    public static final ContainerType<ContainerPokemob> TYPE = new ContainerType<>(
+    public static final MenuType<ContainerPokemob> TYPE = new MenuType<>(
             (IContainerFactory<ContainerPokemob>) ContainerPokemob::new);
 
-    public final IInventory pokemobInv;
-    public final IPokemob   pokemob;
+    public final Container pokemobInv;
+    public final IPokemob  pokemob;
 
-    public byte         mode;
-    public PacketBuffer data;
-    PlayerInventory     playerInv;
+    public byte            mode;
+    public FriendlyByteBuf data;
+    Inventory              playerInv;
 
-    public ContainerPokemob(final int id, final PlayerInventory playerInv, final PacketBuffer data)
+    public ContainerPokemob(final int id, final Inventory playerInv, final FriendlyByteBuf data)
     {
         super(ContainerPokemob.TYPE, id);
         LivingEntity entity = playerInv.player;
@@ -94,12 +94,12 @@ public class ContainerPokemob extends BaseContainer
                 }
 
                 @Override
-                public ItemStack onTake(final PlayerEntity playerIn, final ItemStack stack)
+                public void onTake(final Player playerIn, final ItemStack stack)
                 {
                     final ItemStack old = this.getItem();
                     if (ThutCore.proxy.isServerSide()) ContainerPokemob.this.pokemob.getPokedexEntry().onHeldItemChange(
                             stack, old, ContainerPokemob.this.pokemob);
-                    return super.onTake(playerIn, stack);
+                    super.onTake(playerIn, stack);
                 }
 
                 /** Helper method to put a stack in the slot. */
@@ -130,14 +130,14 @@ public class ContainerPokemob extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity p_75145_1_)
+    public boolean stillValid(final Player p_75145_1_)
     {
-        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive() && this.pokemob
-                .getEntity().distanceTo(p_75145_1_) < 8.0F;
+        return this.pokemobInv.stillValid(p_75145_1_) && this.pokemob.getEntity().isAlive() && this.pokemob.getEntity()
+                .distanceTo(p_75145_1_) < 8.0F;
     }
 
     @Override
-    public IInventory getInv()
+    public Container getInv()
     {
         return this.pokemobInv;
     }
@@ -155,7 +155,7 @@ public class ContainerPokemob extends BaseContainer
 
     /** Called when the container is closed. */
     @Override
-    public void removed(final PlayerEntity p_75134_1_)
+    public void removed(final Player p_75134_1_)
     {
         super.removed(p_75134_1_);
         this.pokemobInv.stopOpen(p_75134_1_);

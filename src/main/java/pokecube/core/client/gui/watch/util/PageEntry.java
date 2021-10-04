@@ -1,13 +1,13 @@
 package pokecube.core.client.gui.watch.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.Button;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.TexButton;
 
-public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> implements INotifiedEntry
+public class PageEntry extends AbstractSelectionList.Entry<PageEntry> implements INotifiedEntry
 {
     public final Button button;
     final int           top;
@@ -18,7 +18,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
         this.button = button;
         this.button.visible = false;
         this.button.active = false;
-        parent.addButton(this.button);
+        parent.addRenderableWidget(this.button);
     }
 
     public PageEntry(final WatchPage parent, final WatchPage page, final int index, final int offsetX,
@@ -28,7 +28,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
         this.button = new TexButton(offsetX, offsetY, 130, 20, page.getTitle(), b -> parent.watch.changePage(index));
         this.button.visible = false;
         this.button.active = false;
-        parent.addButton(this.button);
+        parent.addRenderableWidget(this.button);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> impleme
     }
 
     @Override
-    public void render(final MatrixStack mat, final int slotIndex, final int x, final int y, final int listWidth,
+    public void render(final PoseStack mat, final int slotIndex, final int x, final int y, final int listWidth,
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {

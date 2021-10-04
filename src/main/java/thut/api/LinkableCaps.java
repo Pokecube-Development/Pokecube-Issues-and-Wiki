@@ -5,11 +5,10 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.INBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.GlobalPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -167,41 +166,10 @@ public class LinkableCaps
 
     }
 
-    private static class LinkStore implements Capability.IStorage<ILinkable>
-    {
-        @Override
-        public void readNBT(final Capability<ILinkable> capability, final ILinkable instance, final Direction side,
-                final INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<ILinkable> capability, final ILinkable instance, final Direction side)
-        {
-            return null;
-        }
-    }
-
-    private static class StoreStore implements Capability.IStorage<ILinkStorage>
-    {
-        @Override
-        public void readNBT(final Capability<ILinkStorage> capability, final ILinkStorage instance,
-                final Direction side, final INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<ILinkStorage> capability, final ILinkStorage instance,
-                final Direction side)
-        {
-            return null;
-        }
-    }
-
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(ILinkable.class, new LinkStore(), Linkable::new);
-        CapabilityManager.INSTANCE.register(ILinkStorage.class, new StoreStore(), LinkStorage::new);
+        CapabilityManager.INSTANCE.register(ILinkable.class);
+        CapabilityManager.INSTANCE.register(ILinkStorage.class);
         MinecraftForge.EVENT_BUS.addListener(LinkableCaps::linkBlock);
     }
 
@@ -213,7 +181,7 @@ public class LinkableCaps
         final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE);
         if (!test_stack.isPresent()) return;
         final ILinkStorage storage = test_stack.orElse(null);
-        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
         final LazyOptional<ILinkable> test_tile;
         // Only run for tile entities
         if (tile != null && (test_tile = tile.getCapability(ThutCaps.LINK, event.getFace())).isPresent())

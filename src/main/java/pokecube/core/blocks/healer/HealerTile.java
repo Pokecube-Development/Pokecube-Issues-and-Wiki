@@ -1,12 +1,12 @@
 package pokecube.core.blocks.healer;
 
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 
-public class HealerTile extends TileEntity implements ITickableTileEntity
+public class HealerTile extends BlockEntity implements TickingBlockEntity
 {
     public static SoundEvent MUSICLOOP;
 

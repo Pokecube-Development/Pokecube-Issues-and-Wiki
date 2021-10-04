@@ -7,10 +7,10 @@ import com.google.common.collect.Maps;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.abilities.AbilityManager;
@@ -26,7 +26,7 @@ public class PokemakeOptions
     private static final Map<String, PokemakeOptions.OptionHandler> REGISTRY = Maps.newHashMap();
 
     public static void register(final String id, final IFilter handler, final Predicate<PokemakeOptions> canHandle,
-            final ITextComponent tooltip)
+            final Component tooltip)
     {
         PokemakeOptions.REGISTRY.put(id, new PokemakeOptions.OptionHandler(handler, canHandle, tooltip));
     }
@@ -39,7 +39,7 @@ public class PokemakeOptions
         }, (options) ->
         {
             return !options.locks[PokemakeOptions.NAME];
-        }, new TranslationTextComponent("argument.entity.options.name.description"));
+        }, new TranslatableComponent("argument.entity.options.name.description"));
     }
 
     static final int COLOUR   = 0;
@@ -134,10 +134,10 @@ public class PokemakeOptions
     {
         public final IFilter                    handler;
         public final Predicate<PokemakeOptions> canHandle;
-        public final ITextComponent             tooltip;
+        public final Component             tooltip;
 
         private OptionHandler(final IFilter handlerIn, final Predicate<PokemakeOptions> canHandle,
-                final ITextComponent tooltipIn)
+                final Component tooltipIn)
         {
             this.handler = handlerIn;
             this.canHandle = canHandle;

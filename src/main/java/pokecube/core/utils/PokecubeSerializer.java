@@ -15,22 +15,23 @@ import java.util.Vector;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.FolderName;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
@@ -55,7 +56,7 @@ public class PokecubeSerializer
     public static int MeteorDistance = 3000 * 3000;
 
     private static PokecubeSerializer instance;
-    private static PokecubeSerializer client = new PokecubeSerializer((ServerWorld) null);
+    private static PokecubeSerializer client = new PokecubeSerializer((ServerLevel) null);
 
     public static double distSq(final GlobalPos location, final GlobalPos meteor)
     {
@@ -73,7 +74,7 @@ public class PokecubeSerializer
         return PokecubeSerializer.client;
     }
 
-    public static void newInstance(final ServerWorld world)
+    public static void newInstance(final ServerLevel world)
     {
         if (world.isClientSide()) return;
         PokecubeSerializer.clearInstance();
@@ -87,10 +88,10 @@ public class PokecubeSerializer
 
     private int lastId = 1;
 
-    public ServerWorld myWorld;
-    public CompoundNBT customData = new CompoundNBT();
+    public ServerLevel myWorld;
+    public CompoundTag customData = new CompoundTag();
 
-    private PokecubeSerializer(final ServerWorld world)
+    private PokecubeSerializer(final ServerLevel world)
     {
         /** This data is saved to surface world's folder. */
         this.myWorld = world;
@@ -107,7 +108,7 @@ public class PokecubeSerializer
         this.save();
     }
 
-    public boolean shouldPlace(final String struct, final BlockPos pos, final RegistryKey<World> dim,
+    public boolean shouldPlace(final String struct, final BlockPos pos, final ResourceKey<Level> dim,
             final int seperation)
     {
         final List<GlobalPos> locs = this.structs.get(struct);
@@ -121,7 +122,7 @@ public class PokecubeSerializer
         return true;
     }
 
-    public void place(final String struct, final BlockPos pos, final RegistryKey<World> dim)
+    public void place(final String struct, final BlockPos pos, final ResourceKey<Level> dim)
     {
         final GlobalPos check = GlobalPos.of(dim, pos);
         final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
@@ -168,7 +169,7 @@ public class PokecubeSerializer
         return this.hasPlacedSpawn() || this.hasPlacedCenter();
     }
 
-    public boolean canMeteorLand(final GlobalPos location, final ServerWorld world)
+    public boolean canMeteorLand(final GlobalPos location, final ServerLevel world)
     {
         for (final GlobalPos v : this.meteors)
             if (this.tooClose(location, v)) return false;
@@ -177,7 +178,7 @@ public class PokecubeSerializer
 
     public static void clearInstance()
     {
-        PokecubeSerializer.client = new PokecubeSerializer((ServerWorld) null);
+        PokecubeSerializer.client = new PokecubeSerializer((ServerLevel) null);
         if (PokecubeSerializer.instance == null) return;
         PokecubeSerializer.instance.save();
         PokecubeItems.times = new Vector<>();
@@ -189,7 +190,7 @@ public class PokecubeSerializer
         return this.lastId++;
     }
 
-    public boolean hasStarter(final PlayerEntity player)
+    public boolean hasStarter(final Player player)
     {
         if (player == null)
         {
@@ -202,7 +203,7 @@ public class PokecubeSerializer
     public static File getSafeFile()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.getWorldPath(new FolderName(PokecubeSerializer.POKECUBE));
+        Path path = server.getWorldPath(new LevelResource(PokecubeSerializer.POKECUBE));
         // The directory the file is in
         final File dir = path.toFile();
         path = path.resolve("global.dat");
@@ -219,7 +220,7 @@ public class PokecubeSerializer
             if (file != null && file.exists())
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
-                final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
+                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
                 fileinputstream.close();
                 this.readFromNBT(CompoundNBT.getCompound(PokecubeSerializer.DATA));
             }
@@ -230,22 +231,22 @@ public class PokecubeSerializer
         }
     }
 
-    public void readFromNBT(final CompoundNBT tag)
+    public void readFromNBT(final CompoundTag tag)
     {
         this.lastId = tag.getInt(PokecubeSerializer.LASTUID);
         this.customData = tag.getCompound("data");
-        INBT temp;
+        Tag temp;
         temp = tag.get(PokecubeSerializer.METEORS);
-        if (temp instanceof ListNBT)
+        if (temp instanceof ListTag)
         {
-            final ListNBT tagListMeteors = (ListNBT) temp;
+            final ListTag tagListMeteors = (ListTag) temp;
             if (tagListMeteors.size() > 0) meteors:
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
-                final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
+                final CompoundTag pokemobData = tagListMeteors.getCompound(i);
                 if (pokemobData != null)
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
                             .get().getFirst();
                     for (final GlobalPos v : this.meteors)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
@@ -254,16 +255,16 @@ public class PokecubeSerializer
             }
         }
         temp = tag.get(PokecubeSerializer.BASES);
-        if (temp instanceof ListNBT)
+        if (temp instanceof ListTag)
         {
-            final ListNBT tagListBases = (ListNBT) temp;
+            final ListTag tagListBases = (ListTag) temp;
             if (tagListBases.size() > 0) meteors:
             for (int i = 0; i < tagListBases.size(); i++)
             {
-                final CompoundNBT pokemobData = tagListBases.getCompound(i);
+                final CompoundTag pokemobData = tagListBases.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
                             .get().getFirst();
                     for (final GlobalPos v : this.bases)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
@@ -277,15 +278,15 @@ public class PokecubeSerializer
         }
 
         temp = tag.get(PokecubeSerializer.STRUCTS);
-        if (temp instanceof ListNBT)
+        if (temp instanceof ListTag)
         {
-            final ListNBT tagListStructs = (ListNBT) temp;
+            final ListTag tagListStructs = (ListTag) temp;
             if (tagListStructs.size() > 0) for (int i = 0; i < tagListStructs.size(); i++)
             {
-                final CompoundNBT pokemobData = tagListStructs.getCompound(i);
+                final CompoundTag pokemobData = tagListStructs.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, pokemobData).result()
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
                             .get().getFirst();
                     final String struct = pokemobData.getString("type");
                     final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
@@ -300,7 +301,7 @@ public class PokecubeSerializer
         }
 
         temp = tag.get("tmtags");
-        if (temp instanceof CompoundNBT) PokecubeItems.loadTime((CompoundNBT) temp);
+        if (temp instanceof CompoundTag) PokecubeItems.loadTime((CompoundTag) temp);
     }
 
     public void save()
@@ -315,12 +316,12 @@ public class PokecubeSerializer
             final File file = PokecubeSerializer.getSafeFile();
             if (file != null)
             {
-                final CompoundNBT CompoundNBT = new CompoundNBT();
+                final CompoundTag CompoundNBT = new CompoundTag();
                 this.writeToNBT(CompoundNBT);
-                final CompoundNBT CompoundNBT1 = new CompoundNBT();
+                final CompoundTag CompoundNBT1 = new CompoundTag();
                 CompoundNBT1.put(PokecubeSerializer.DATA, CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
-                CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
+                NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
                 fileoutputstream.close();
             }
         }
@@ -330,12 +331,12 @@ public class PokecubeSerializer
         }
     }
 
-    public void setHasStarter(final PlayerEntity player)
+    public void setHasStarter(final Player player)
     {
         this.setHasStarter(player, true);
     }
 
-    public void setHasStarter(final PlayerEntity player, final boolean value)
+    public void setHasStarter(final Player player, final boolean value)
     {
         try
         {
@@ -349,9 +350,9 @@ public class PokecubeSerializer
         if (ThutCore.proxy.isServerSide()) PlayerDataHandler.getInstance().save(player.getStringUUID());
     }
 
-    public ItemStack starter(final PokedexEntry entry, final PlayerEntity owner)
+    public ItemStack starter(final PokedexEntry entry, final Player owner)
     {
-        final World worldObj = owner.getCommandSenderWorld();
+        final Level worldObj = owner.getCommandSenderWorld();
         final IPokemob entity = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
@@ -362,7 +363,7 @@ public class PokecubeSerializer
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
             PokecubeManager.heal(item, owner.getCommandSenderWorld());
-            entity.getEntity().remove();
+            entity.getEntity().remove(Entity.RemovalReason.DISCARDED);
             return item;
         }
         return ItemStack.EMPTY;
@@ -374,38 +375,38 @@ public class PokecubeSerializer
         return PokecubeSerializer.distSq(location, meteor) < PokecubeSerializer.MeteorDistance;
     }
 
-    public void writeToNBT(final CompoundNBT tag)
+    public void writeToNBT(final CompoundTag tag)
     {
         tag.putInt(PokecubeSerializer.LASTUID, this.lastId);
         tag.put("data", this.customData);
-        final ListNBT tagListMeteors = new ListNBT();
+        final ListTag tagListMeteors = new ListTag();
         for (final GlobalPos v : this.meteors)
         {
-            final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
+            final Tag nbt = GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, v).get().left().get();
             tagListMeteors.add(nbt);
         }
         tag.put(PokecubeSerializer.METEORS, tagListMeteors);
-        final ListNBT tagListStructs = new ListNBT();
+        final ListTag tagListStructs = new ListTag();
         for (final String s : this.structs.keySet())
         {
             final List<GlobalPos> list = this.structs.get(s);
             for (final GlobalPos v : list)
             {
-                final CompoundNBT nbt = (CompoundNBT) GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get()
+                final CompoundTag nbt = (CompoundTag) GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, v).get()
                         .left().get();
                 nbt.putString("type", s);
                 tagListStructs.add(nbt);
             }
         }
         tag.put(PokecubeSerializer.STRUCTS, tagListStructs);
-        final ListNBT tagListBases = new ListNBT();
+        final ListTag tagListBases = new ListTag();
         for (final GlobalPos v : this.bases)
         {
-            final INBT nbt = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, v).get().left().get();
+            final Tag nbt = GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, v).get().left().get();
             tagListBases.add(nbt);
         }
         tag.put(PokecubeSerializer.BASES, tagListBases);
-        final CompoundNBT tms = new CompoundNBT();
+        final CompoundTag tms = new CompoundTag();
         PokecubeItems.saveTime(tms);
         tag.put("tmtags", tms);
     }

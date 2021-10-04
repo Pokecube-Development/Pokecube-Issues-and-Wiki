@@ -12,18 +12,18 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -33,7 +33,7 @@ public class TerrainSegment
     public static class DefaultChecker implements ISubBiomeChecker
     {
         @Override
-        public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
             if (caveAdjusted)
@@ -89,10 +89,10 @@ public class TerrainSegment
                     }
                 }
                 // Check nearby villages, and if in one, define as village type.
-                if (world instanceof ServerWorld)
+                if (world instanceof ServerLevel)
                 {
                     final BlockPos pos = v.getPos();
-                    final ServerWorld server = (ServerWorld) world;
+                    final ServerLevel server = (ServerLevel) world;
                     if (server.isVillage(pos)) biome = BiomeType.VILLAGE;
                 }
 
@@ -115,7 +115,7 @@ public class TerrainSegment
          * @param caveAdjusted
          * @return
          */
-        BiomeType getSubBiome(IWorld world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
+        BiomeType getSubBiome(LevelAccessor world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
 
         default boolean isWatery(final Biome b)
         {
@@ -148,10 +148,10 @@ public class TerrainSegment
         String getIdentifier();
 
         // TODO call this
-        void readFromNBT(CompoundNBT nbt);
+        void readFromNBT(CompoundTag nbt);
 
         // TODO call this
-        void writeToNBT(CompoundNBT nbt);
+        void writeToNBT(CompoundTag nbt);
     }
 
     public static final int GRIDSIZE = 4;
@@ -171,7 +171,7 @@ public class TerrainSegment
     public static Predicate<BiomeType> saveChecker = (i) -> i.shouldSave();
     //@formatter:on
 
-    public static int count(final IWorld world, final Block b, final Vector3 v, final int range)
+    public static int count(final LevelAccessor world, final Block b, final Vector3 v, final int range)
     {
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
@@ -182,8 +182,8 @@ public class TerrainSegment
                 {
 
                     boolean bool = true;
-                    final int i1 = MathHelper.floor(v.intX() + i) >> 4;
-                    final int k1 = MathHelper.floor(v.intZ() + i) >> 4;
+                    final int i1 = Mth.floor(v.intX() + i) >> 4;
+                    final int k1 = Mth.floor(v.intZ() + i) >> 4;
 
                     bool = i1 == v.intX() >> 4 && k1 == v.intZ() >> 4;
 
@@ -230,7 +230,7 @@ public class TerrainSegment
         return ret;
     }
 
-    public static void readFromNBT(final TerrainSegment t, final CompoundNBT nbt)
+    public static void readFromNBT(final TerrainSegment t, final CompoundTag nbt)
     {
         if (TerrainSegment.noLoad) return;
         final int[] biomes = nbt.getIntArray("biomes");
@@ -258,7 +258,7 @@ public class TerrainSegment
 
     public final BlockPos pos;
 
-    public IChunk chunk;
+    public ChunkAccess chunk;
 
     public boolean toSave = false;
 
@@ -319,12 +319,12 @@ public class TerrainSegment
         this.effects.put(name, effect);
     }
 
-    public BiomeType adjustedCaveBiome(final IWorld world, final Vector3 v)
+    public BiomeType adjustedCaveBiome(final LevelAccessor world, final Vector3 v)
     {
         return this.getBiome(world, v, true);
     }
 
-    public BiomeType adjustedNonCaveBiome(final IWorld world, final Vector3 v)
+    public BiomeType adjustedNonCaveBiome(final LevelAccessor world, final Vector3 v)
     {
         return this.getBiome(world, v, false);
     }
@@ -349,7 +349,7 @@ public class TerrainSegment
         return ret;
     }
 
-    public double getAverageSlope(final World world, final Vector3 point, final int range)
+    public double getAverageSlope(final Level world, final Vector3 point, final int range)
     {
         double slope = 0;
 
@@ -391,7 +391,7 @@ public class TerrainSegment
         return this.getBiome(v.intX(), v.intY(), v.intZ());
     }
 
-    private BiomeType getBiome(final IWorld world, final Vector3 v, final boolean caveAdjust)
+    private BiomeType getBiome(final LevelAccessor world, final Vector3 v, final boolean caveAdjust)
     {
         if (!this.real) return BiomeType.NONE;
         if (this.chunk == null)
@@ -433,9 +433,9 @@ public class TerrainSegment
         return this.chunkX + this.chunkZ << 8 << 8 + this.chunkY;
     }
 
-    public void initBiomes(final IWorld world)
+    public void initBiomes(final LevelAccessor world)
     {
-        if (this.init && world instanceof ServerWorld)
+        if (this.init && world instanceof ServerLevel)
         {
             this.init = false;
             this.refresh(world);
@@ -445,14 +445,14 @@ public class TerrainSegment
     public boolean isInTerrainSegment(final double x, final double y, final double z)
     {
         boolean ret = true;
-        final int i = MathHelper.floor(x) >> 4;
-        final int j = MathHelper.floor(y) >> 4;
-        final int k = MathHelper.floor(z) >> 4;
+        final int i = Mth.floor(x) >> 4;
+        final int j = Mth.floor(y) >> 4;
+        final int k = Mth.floor(z) >> 4;
         ret = i == this.chunkX && k == this.chunkZ && j == this.chunkY;
         return ret;
     }
 
-    public void refresh(final IWorld world)
+    public void refresh(final LevelAccessor world)
     {
         final long time = System.nanoTime();
         if (!this.real)
@@ -493,7 +493,7 @@ public class TerrainSegment
         if (dt > 0.001) ThutCore.LOGGER.debug("subBiome refresh took " + dt);
     }
 
-    public void saveToNBT(final CompoundNBT nbt)
+    public void saveToNBT(final CompoundTag nbt)
     {
         if (!this.toSave) return;
         nbt.putIntArray("biomes", this.biomes);

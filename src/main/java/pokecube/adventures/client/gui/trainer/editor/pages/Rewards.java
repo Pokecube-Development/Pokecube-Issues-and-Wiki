@@ -2,19 +2,19 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Predicate;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.brigadier.StringReader;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.command.arguments.NBTTagArgument;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.commands.arguments.NbtTagArgument;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
@@ -27,7 +27,7 @@ import pokecube.core.client.gui.helper.ScrollGui;
 
 public class Rewards extends ListPage<RewardOption>
 {
-    public static class RewardOption extends AbstractList.AbstractListEntry<RewardOption> implements INotifiedEntry
+    public static class RewardOption extends AbstractSelectionList.Entry<RewardOption> implements INotifiedEntry
     {
 
         final Rewards parent;
@@ -43,8 +43,8 @@ public class Rewards extends ListPage<RewardOption>
 
         final Button apply;
 
-        final TextFieldWidget reward;
-        final TextFieldWidget chance;
+        final EditBox reward;
+        final EditBox chance;
 
         final IHasRewards rewards;
 
@@ -60,8 +60,8 @@ public class Rewards extends ListPage<RewardOption>
 
             this.index = index;
 
-            this.reward = new TextFieldWidget(parent.font, 0, 0, 150, 10, new StringTextComponent(""));
-            this.chance = new TextFieldWidget(parent.font, 0, 0, 25, 10, new StringTextComponent(""));
+            this.reward = new EditBox(parent.font, 0, 0, 150, 10, new TextComponent(""));
+            this.chance = new EditBox(parent.font, 0, 0, 25, 10, new TextComponent(""));
 
             this.chance.setValue("1.0");
 
@@ -84,18 +84,18 @@ public class Rewards extends ListPage<RewardOption>
             if (index < this.rewards.getRewards().size())
             {
                 final Reward r = this.rewards.getRewards().get(index);
-                final CompoundNBT tag = r.stack.serializeNBT();
+                final CompoundTag tag = r.stack.serializeNBT();
                 this.reward.setValue(tag + "");
                 this.chance.setValue(r.chance + "");
             }
 
-            this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b ->
+            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.reward.setValue("");
                 this.onUpdated();
             });
-            this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b ->
+            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
@@ -104,17 +104,17 @@ public class Rewards extends ListPage<RewardOption>
             if (index == this.rewards.getRewards().size()) this.delete.active = false;
             this.confirm.active = false;
 
-            this.apply = new Button(0, 0, 45, 10, new StringTextComponent("Apply"), b ->
+            this.apply = new Button(0, 0, 45, 10, new TextComponent("Apply"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
 
-            parent.addButton(this.delete);
-            parent.addButton(this.confirm);
-            parent.addButton(this.apply);
-            parent.addButton(this.reward);
-            parent.addButton(this.chance);
+            parent.addRenderableWidget(this.delete);
+            parent.addRenderableWidget(this.confirm);
+            parent.addRenderableWidget(this.apply);
+            parent.addRenderableWidget(this.reward);
+            parent.addRenderableWidget(this.chance);
 
             this.chance.moveCursorTo(-this.chance.getCursorPosition());
             this.reward.moveCursorTo(-this.reward.getCursorPosition());
@@ -138,7 +138,7 @@ public class Rewards extends ListPage<RewardOption>
         }
 
         @Override
-        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
@@ -182,8 +182,8 @@ public class Rewards extends ListPage<RewardOption>
             // We are editing or adding it
             else try
             {
-                final NBTTagArgument arg = NBTTagArgument.nbtTag();
-                final CompoundNBT tag = (CompoundNBT) arg.parse(new StringReader(this.reward.getValue()));
+                final NbtTagArgument arg = NbtTagArgument.nbtTag();
+                final CompoundTag tag = (CompoundTag) arg.parse(new StringReader(this.reward.getValue()));
                 System.out.println(tag);
                 final float chance = Float.parseFloat(this.chance.getValue());
                 final Reward r = new Reward(ItemStack.of(tag), chance);
@@ -197,15 +197,15 @@ public class Rewards extends ListPage<RewardOption>
             }
             catch (final Exception e)
             {
-                Minecraft.getInstance().player.displayClientMessage(new StringTextComponent("Errored format for reward!"),
+                Minecraft.getInstance().player.displayClientMessage(new TextComponent("Errored format for reward!"),
                         true);
             }
             if (this.rewards instanceof ICapabilitySerializable)
             {
-                final ICapabilitySerializable<? extends INBT> ser = (ICapabilitySerializable<?>) this.rewards;
-                final INBT tag = ser.serializeNBT();
+                final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.rewards;
+                final Tag tag = ser.serializeNBT();
                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-                final CompoundNBT nbt = message.getTag();
+                final CompoundTag nbt = message.getTag();
                 nbt.put("__rewards__", tag);
                 nbt.putInt("I", this.parent.parent.entity.getId());
                 PacketTrainer.ASSEMBLER.sendToServer(message);
@@ -216,14 +216,14 @@ public class Rewards extends ListPage<RewardOption>
 
     public Rewards(final EditorGui parent)
     {
-        super(new StringTextComponent(""), parent);
+        super(new TextComponent(""), parent);
     }
 
     @Override
     public void initList()
     {
         this.children.clear();
-        this.buttons.clear();
+        this.renderables.clear();
         super.initList();
         int x = (this.parent.width - 256) / 2;
         int y = (this.parent.height - 160) / 2;
@@ -235,7 +235,7 @@ public class Rewards extends ListPage<RewardOption>
 
         x = this.width / 2;
         y = this.height / 2;
-        this.addButton(new Button(x + 73, y + 64, 50, 12, new TranslationTextComponent("traineredit.button.home"), b ->
+        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
         {
             this.closeCallback.run();
         }));

@@ -2,11 +2,11 @@ package pokecube.core.ai.tasks.idle.hunger;
 
 import java.util.function.Predicate;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.fluid.WaterFluid;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.WaterFluid;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.interfaces.IPokemob;
@@ -22,14 +22,14 @@ public class EatWater extends EatBlockBase
     {
         if (!pokemob.filterFeeder()) return EatResult.NOEAT;
 
-        final MobEntity entity = pokemob.getEntity();
+        final Mob entity = pokemob.getEntity();
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
         final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
 
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;

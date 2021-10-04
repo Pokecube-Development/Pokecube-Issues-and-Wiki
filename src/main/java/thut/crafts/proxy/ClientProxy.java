@@ -5,25 +5,25 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -31,7 +31,6 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -44,10 +43,10 @@ import thut.crafts.network.PacketCraftControl;
 
 public class ClientProxy extends CommonProxy
 {
-    KeyBinding UP;
-    KeyBinding DOWN;
-    KeyBinding ROTATERIGHT;
-    KeyBinding ROTATELEFT;
+    KeyMapping UP;
+    KeyMapping DOWN;
+    KeyMapping ROTATERIGHT;
+    KeyMapping ROTATELEFT;
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -60,7 +59,7 @@ public class ClientProxy extends CommonProxy
             final Entity e = event.player.getVehicle();
             if (e instanceof EntityCraft)
             {
-                final ClientPlayerEntity player = (ClientPlayerEntity) event.player;
+                final LocalPlayer player = (LocalPlayer) event.player;
                 final CraftController controller = ((EntityCraft) e).controller;
                 if (controller == null) break control;
                 controller.backInputDown = player.input.down;
@@ -85,26 +84,26 @@ public class ClientProxy extends CommonProxy
     public void RenderBounds(final RenderWorldLastEvent event)
     {
         ItemStack held;
-        final PlayerEntity player = Minecraft.getInstance().player;
+        final Player player = Minecraft.getInstance().player;
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             if (held.getItem() != ThutCrafts.CRAFTMAKER) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
-                final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
+                final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player
                         .getViewVector(event.getPartialTicks()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
-                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.hitResult;
-                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
+                    final BlockHitResult result = (BlockHitResult) mc.hitResult;
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
 
-                final AxisAlignedBB one = new AxisAlignedBB(v.getPos());
-                final AxisAlignedBB two = new AxisAlignedBB(new BlockPos(pointed));
+                final AABB one = new AABB(v.getPos());
+                final AABB two = new AABB(new BlockPos(pointed));
 
                 final double minX = Math.min(one.minX, two.minX);
                 final double minY = Math.min(one.minY, two.minY);
@@ -113,7 +112,7 @@ public class ClientProxy extends CommonProxy
                 final double maxY = Math.max(one.maxY, two.maxY);
                 final double maxZ = Math.max(one.maxZ, two.maxZ);
 
-                final MatrixStack mat = event.getMatrixStack();
+                final PoseStack mat = event.getMatrixStack();
                 mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
                 final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();
@@ -149,8 +148,8 @@ public class ClientProxy extends CommonProxy
 
                 final Matrix4f positionMatrix = mat.last().pose();
 
-                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
+                final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                final VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
                     thut.core.proxy.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
                             1f);
@@ -168,15 +167,15 @@ public class ClientProxy extends CommonProxy
     @Override
     public void setupClient(final FMLClientSetupEvent event)
     {
-        this.UP = new KeyBinding("crafts.key.up", InputMappings.UNKNOWN.getValue(), "keys.crafts");
-        this.DOWN = new KeyBinding("crafts.key.down", InputMappings.UNKNOWN.getValue(), "keys.crafts");
+        this.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        this.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
 
         final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
         this.UP.setKeyConflictContext(inGame);
         this.DOWN.setKeyConflictContext(inGame);
 
-        this.ROTATERIGHT = new KeyBinding("crafts.key.left", InputMappings.UNKNOWN.getValue(), "keys.crafts");
-        this.ROTATELEFT = new KeyBinding("crafts.key.right", InputMappings.UNKNOWN.getValue(), "keys.crafts");
+        this.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        this.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
         this.ROTATELEFT.setKeyConflictContext(inGame);
         this.ROTATERIGHT.setKeyConflictContext(inGame);
 

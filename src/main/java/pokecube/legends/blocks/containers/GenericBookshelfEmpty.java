@@ -5,76 +5,76 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
-public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLoggable
+public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWaterloggedBlock
 {
     public static final IntegerProperty             BOOKS       = IntegerProperty.create("books", 0, 9);
     private static final Map<Direction, VoxelShape> EMPTY       = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
+    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box @formatter:off
     static
     {
-    	GenericBookshelfEmpty.EMPTY.put(Direction.NORTH, VoxelShapes.or(
+    	GenericBookshelfEmpty.EMPTY.put(Direction.NORTH, Shapes.or(
             Block.box(0, 0, 0, 16, 1, 16),
             Block.box(1, 7, 0, 15, 9, 16),
             Block.box(0, 1, 0, 1, 15, 16),
             Block.box(15, 1, 0, 16, 15, 16),
             Block.box(1, 1, 7, 15, 15, 9),
             Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.EAST, VoxelShapes.or(
+    	GenericBookshelfEmpty.EMPTY.put(Direction.EAST, Shapes.or(
 		    Block.box(0, 0, 0, 16, 1, 16),
             Block.box(0, 7, 1, 16, 9, 15),
             Block.box(0, 1, 15, 16, 15, 16),
             Block.box(0, 1, 0, 16, 15, 1),
             Block.box(7, 1, 1, 9, 15, 15),
             Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.SOUTH, VoxelShapes.or(
+    	GenericBookshelfEmpty.EMPTY.put(Direction.SOUTH, Shapes.or(
 			Block.box(0, 0, 0, 16, 1, 16),
             Block.box(1, 7, 0, 15, 9, 16),
             Block.box(0, 1, 0, 1, 15, 16),
             Block.box(15, 1, 0, 16, 15, 16),
             Block.box(1, 1, 7, 15, 15, 9),
             Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.WEST, VoxelShapes.or(
+    	GenericBookshelfEmpty.EMPTY.put(Direction.WEST, Shapes.or(
 			Block.box(0, 0, 0, 16, 1, 16),
             Block.box(0, 7, 1, 16, 9, 15),
             Block.box(0, 1, 15, 16, 15, 16),
@@ -85,8 +85,8 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
 
     // Precise selection box @formatter:on
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader world, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
+            final CollisionContext context)
     {
         final Direction direction = state.getValue(GenericBookshelfEmpty.FACING);
         return GenericBookshelfEmpty.EMPTY.get(direction);
@@ -100,7 +100,7 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         return this.defaultBlockState().setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection()
@@ -112,7 +112,7 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
-            final IWorld world, final BlockPos currentPos, final BlockPos facingPos)
+            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
         if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos,
                 Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -120,10 +120,10 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
-        final TileEntity tile = world.getBlockEntity(pos);
+        final BlockEntity tile = world.getBlockEntity(pos);
         if (stack.hasCustomHoverName()) if (tile instanceof GenericBookshelfEmptyTile)
             ((GenericBookshelfEmptyTile) tile).setCustomName(stack.getHoverName());
     }
@@ -152,7 +152,7 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(GenericBookshelfEmpty.BOOKS, GenericBookshelfEmpty.FACING, GenericBookshelfEmpty.WATERLOGGED);
     }
@@ -164,14 +164,14 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public int getAnalogOutputSignal(final BlockState state, final World world, final BlockPos pos)
+    public int getAnalogOutputSignal(final BlockState state, final Level world, final BlockPos pos)
     {
         final int books = this.getBooks(state);
         return books;
     }
 
     @Override
-    public float getEnchantPowerBonus(final BlockState state, final IWorldReader world, final BlockPos pos)
+    public float getEnchantPowerBonus(final BlockState state, final LevelReader world, final BlockPos pos)
     {
         final int books = this.getBooks(state);
         return books / 3f;
@@ -184,12 +184,12 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
-            final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
+            final Player entity, final InteractionHand hand, final BlockHitResult hit)
     {
-        final TileEntity tile = world.getBlockEntity(pos);
+        final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -199,41 +199,41 @@ public class GenericBookshelfEmpty extends ContainerBlock implements IWaterLogga
     }
 
     @Override
-    public TileEntity newBlockEntity(final IBlockReader block)
+    public BlockEntity newBlockEntity(final BlockGetter block)
     {
         return new GenericBookshelfEmptyTile();
     }
 
     @Override
-    public BlockRenderType getRenderShape(final BlockState state)
+    public RenderShape getRenderShape(final BlockState state)
     {
-        return BlockRenderType.MODEL;
+        return RenderShape.MODEL;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getShadeBrightness(final BlockState state, final IBlockReader world, final BlockPos pos)
+    public float getShadeBrightness(final BlockState state, final BlockGetter world, final BlockPos pos)
     {
         return 1.0F;
     }
 
     @Override
-    public boolean propagatesSkylightDown(final BlockState state, final IBlockReader reader, final BlockPos pos)
+    public boolean propagatesSkylightDown(final BlockState state, final BlockGetter reader, final BlockPos pos)
     {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(final BlockState state, final World world, final BlockPos pos, final BlockState state1,
+    public void onRemove(final BlockState state, final Level world, final BlockPos pos, final BlockState state1,
             final boolean b)
     {
         if (!state.is(state1.getBlock()))
         {
-            final TileEntity tile = world.getBlockEntity(pos);
+            final BlockEntity tile = world.getBlockEntity(pos);
             if (tile instanceof GenericBookshelfEmptyTile)
             {
-                InventoryHelper.dropContents(world, pos, ((GenericBookshelfEmptyTile) tile).getItems());
+                Containers.dropContents(world, pos, ((GenericBookshelfEmptyTile) tile).getItems());
                 world.updateNeighbourForOutputSignal(pos, this);
             }
             super.onRemove(state, world, pos, state1, b);

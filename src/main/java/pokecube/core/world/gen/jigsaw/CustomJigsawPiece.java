@@ -12,35 +12,35 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.StructureMode;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
-import net.minecraft.world.gen.feature.template.GravityStructureProcessor;
-import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
-import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraft.world.gen.feature.template.StructureProcessorList;
-import net.minecraft.world.gen.feature.template.Template;
-import net.minecraft.world.gen.feature.template.Template.BlockInfo;
-import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.StructureMode;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.levelgen.feature.structures.SinglePoolElement;
+import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
+import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElementType;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -53,15 +53,15 @@ import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.MarkerToAirProcessor;
 
-public class CustomJigsawPiece extends SingleJigsawPiece
+public class CustomJigsawPiece extends SinglePoolElement
 {
-    public static IJigsawDeserializer<CustomJigsawPiece> TYPE;
+    public static StructurePoolElementType<CustomJigsawPiece> TYPE;
 
     public static Codec<CustomJigsawPiece> makeCodec()
     {
         return RecordCodecBuilder.create((instance) ->
         {
-            return instance.group(SingleJigsawPiece.templateCodec(), SingleJigsawPiece.processorsCodec(), JigsawPiece
+            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(), StructurePoolElement
                     .projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config()).apply(instance,
                             CustomJigsawPiece::new);
         });
@@ -83,16 +83,16 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         });
     }
 
-    public static final Map<RegistryKey<World>, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
+    public static final Map<ResourceKey<Level>, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
 
-    private static boolean shouldApply(final BlockPos pos, final World worldIn)
+    private static boolean shouldApply(final BlockPos pos, final Level worldIn)
     {
         final Set<BlockPos> poses = CustomJigsawPiece.sent_events.get(worldIn.dimension());
         if (poses == null) return true;
         return !poses.contains(pos.immutable());
     }
 
-    private static void apply(final BlockPos pos, final World worldIn)
+    private static void apply(final BlockPos pos, final Level worldIn)
     {
         Set<BlockPos> poses = CustomJigsawPiece.sent_events.get(worldIn.dimension());
         if (poses == null) CustomJigsawPiece.sent_events.put(worldIn.dimension(), poses = Sets.newHashSet());
@@ -104,20 +104,20 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     // This gets re-set by the assembler
     public JigSawConfig config;
 
-    public World world;
+    public Level world;
 
     public boolean            isSpawn;
     public String             spawnReplace;
-    public MutableBoundingBox mask;
+    public BoundingBox mask;
 
-    public PlacementSettings toUse;
+    public StructurePlaceSettings toUse;
 
     public StructureProcessorList overrideList = null;
 
     boolean maskCheck;
 
-    public CustomJigsawPiece(final Either<ResourceLocation, Template> template,
-            final Supplier<StructureProcessorList> processors, final JigsawPattern.PlacementBehaviour behaviour,
+    public CustomJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
+            final Supplier<StructureProcessorList> processors, final StructureTemplatePool.Projection behaviour,
             final Options opts, final JigSawConfig config)
     {
         super(template, processors, behaviour);
@@ -126,25 +126,25 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     }
 
     @Override
-    public PlacementSettings getSettings(final Rotation direction, final MutableBoundingBox box,
+    public StructurePlaceSettings getSettings(final Rotation direction, final BoundingBox box,
             final boolean notJigsaw)
     {
-        final PlacementSettings placementsettings = new PlacementSettings();
+        final StructurePlaceSettings placementsettings = new StructurePlaceSettings();
         placementsettings.setBoundingBox(box);
         placementsettings.setRotation(direction);
         placementsettings.setKnownShape(true);
         placementsettings.setIgnoreEntities(false);
         placementsettings.setFinalizeEntities(true);
 
-        if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
+        if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementProcessor.INSTANCE);
         if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(
                 MarkerToAirProcessor.PROCESSOR);
         if (this.opts.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
 
         final boolean shouldIgnoreAire = this.opts.ignoreAir || !this.opts.rigid;
 
-        if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_AND_AIR);
-        else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+        if (shouldIgnoreAire) placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_AND_AIR);
+        else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         final boolean wasNull = this.overrideList == null;
         if (wasNull && !this.opts.proc_list.isEmpty()) this.overrideList = WorldgenFeatures.getProcList(
@@ -158,21 +158,21 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         }
 
         final boolean water_terrain_match = !this.opts.rigid && this.opts.water;
-        if (water_terrain_match) placementsettings.addProcessor(new GravityStructureProcessor(Type.OCEAN_FLOOR_WG, -1));
+        if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
 
     @Override
-    public boolean place(final TemplateManager templates, final ISeedReader seedReader,
-            final StructureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
-            final BlockPos pos2, final Rotation rotation, final MutableBoundingBox box, final Random rng,
+    public boolean place(final StructureManager templates, final WorldGenLevel seedReader,
+            final StructureFeatureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
+            final BlockPos pos2, final Rotation rotation, final BoundingBox box, final Random rng,
             final boolean notJigsaw)
     {
 
-        final Template template = this.getTemplate(templates);
-        final PlacementSettings placementsettings = this.getSettings(rotation, box, notJigsaw);
+        final StructureTemplate template = this.getTemplate(templates);
+        final StructurePlaceSettings placementsettings = this.getSettings(rotation, box, notJigsaw);
         final int placeFlags = 18;
         if (!template.placeInWorld(seedReader, pos1, pos2, placementsettings, rng, placeFlags)) return false;
         else
@@ -192,21 +192,21 @@ public class CustomJigsawPiece extends SingleJigsawPiece
             // loop later, as this operation is expensive enough anyway.
             if (this.opts.extra.containsKey("markers_to_air"))
             {
-                final List<Template.BlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
+                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
                         .blocks();
-                for (final BlockInfo info : list)
+                for (final StructureBlockInfo info : list)
                 {
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
                             && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos)
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
                                 .offset(pos1);
                         this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                     }
                     else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos)
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
                                 .offset(pos1);
                         final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
                                 seedReader, blockpos, placementsettings.getRotation());
@@ -218,10 +218,10 @@ public class CustomJigsawPiece extends SingleJigsawPiece
             else
             {
                 // The false is if to return transformed position
-                final List<BlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
-                for (final BlockInfo info : data)
+                final List<StructureBlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
+                for (final StructureBlockInfo info : data)
                 {
-                    final BlockPos blockpos = Template.calculateRelativePosition(placementsettings, info.pos).offset(
+                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos).offset(
                             pos1);
                     this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                 }
@@ -231,8 +231,8 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     }
 
     @Override
-    public void handleDataMarker(final IWorld worldIn, final BlockInfo info, final BlockPos pos,
-            final Rotation rotationIn, final Random rand, final MutableBoundingBox box)
+    public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
+            final Rotation rotationIn, final Random rand, final BoundingBox box)
     {
         String function = info.nbt != null ? info.nbt.getString("metadata") : "";
 
@@ -248,17 +248,17 @@ public class CustomJigsawPiece extends SingleJigsawPiece
         {
             final BlockPos blockpos = pos.below();
             final ResourceLocation key = new ResourceLocation(function.replaceFirst("pokecube:chest:", ""));
-            if (box.isInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
+            if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
         }
         else if (function.startsWith("Chest "))
         {
             final BlockPos blockpos = pos.below();
             final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
-            if (box.isInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
+            if (box.isInside(blockpos)) RandomizableContainerBlockEntity.setLootTable(worldIn, rand, blockpos, key);
         }
         else if (CustomJigsawPiece.shouldApply(pos, this.world))
         {
-            final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerWorld) this.world,
+            final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
                     rand, box);
             MinecraftForge.EVENT_BUS.post(event);
             if (event.getResult() == Result.ALLOW) CustomJigsawPiece.apply(pos, this.world);
@@ -267,7 +267,7 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     }
 
     @Override
-    public IJigsawDeserializer<?> getType()
+    public StructurePoolElementType<?> getType()
     {
         return CustomJigsawPiece.TYPE;
     }

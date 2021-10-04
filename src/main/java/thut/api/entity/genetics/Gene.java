@@ -1,8 +1,8 @@
 package thut.api.entity.genetics;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
 public interface Gene<T>
 {
@@ -42,7 +42,7 @@ public interface Gene<T>
      *
      * @param tag
      */
-    void load(CompoundNBT tag);
+    void load(CompoundTag tag);
 
     /** This method should return a mutated gene. */
     Gene<T> mutate();
@@ -69,7 +69,7 @@ public interface Gene<T>
     }
 
     /** @return nbttag compount for saving. */
-    CompoundNBT save();
+    CompoundTag save();
 
     /**
      * @param value

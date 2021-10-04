@@ -2,12 +2,12 @@ package pokecube.core.network.packets;
 
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
@@ -22,13 +22,13 @@ import thut.core.common.network.Packet;
 
 public class PacketTrade extends Packet
 {
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketTrade()
     {
     }
 
-    public PacketTrade(final PacketBuffer buf)
+    public PacketTrade(final FriendlyByteBuf buf)
     {
         this.data = buf.readNbt();
     }
@@ -36,8 +36,8 @@ public class PacketTrade extends Packet
     @Override
     public void handleClient()
     {
-        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
-        final Container cont = player.containerMenu;
+        final Player player = PokecubeCore.proxy.getPlayer();
+        final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer)) return;
         final TradeContainer container = (TradeContainer) cont;
         if (this.data.contains("r"))
@@ -60,9 +60,9 @@ public class PacketTrade extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
-        final Container cont = player.containerMenu;
+        final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer)) return;
         final TradeContainer container = (TradeContainer) cont;
 
@@ -94,7 +94,7 @@ public class PacketTrade extends Packet
                 container.tile.confirmed[1] = false;
                 for (final UUID id : container.tile.users)
                 {
-                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
+                    final ServerPlayer user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
                 }
                 return;
@@ -135,7 +135,7 @@ public class PacketTrade extends Packet
                     container.tile.confirmed[1] = false;
                     for (final UUID id : container.tile.users)
                     {
-                        final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
+                        final ServerPlayer user = player.getServer().getPlayerList().getPlayer(id);
                         if (user != null) PokecubeCore.packets.sendTo(trade, user);
                     }
                     return;
@@ -213,7 +213,7 @@ public class PacketTrade extends Packet
                 container.tile.confirmed[1] = false;
                 for (final UUID id : container.tile.users)
                 {
-                    final ServerPlayerEntity user = player.getServer().getPlayerList().getPlayer(id);
+                    final ServerPlayer user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
                     container.clearContainer(user, user.getCommandSenderWorld(), inv.getInv());
                 }
@@ -230,9 +230,9 @@ public class PacketTrade extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         buffer.writeNbt(this.data);
     }
 }

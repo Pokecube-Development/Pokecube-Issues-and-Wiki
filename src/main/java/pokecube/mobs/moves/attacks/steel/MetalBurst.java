@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.steel;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.damage.PokemobDamageSource;

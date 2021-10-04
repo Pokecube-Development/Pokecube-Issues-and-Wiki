@@ -2,15 +2,15 @@ package thut.bling.client.render;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -18,7 +18,7 @@ import thut.core.client.render.model.IModelCustom;
 public class Neck
 {
 
-    public static void renderNeck(final MatrixStack mat, final IRenderTypeBuffer buff, final LivingEntity wearer,
+    public static void renderNeck(final PoseStack mat, final MultiBufferSource buff, final LivingEntity wearer,
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
@@ -45,13 +45,13 @@ public class Neck
             final int damage = stack.getTag().getInt("dyeColour");
             ret = DyeColor.byId(damage);
         }
-        colour = new Color(ret.getColorValue() + 0xFF000000);
+        colour = new Color(ret.getTextColor() + 0xFF000000);
         IExtendedModelPart part = model.getParts().get(colorpart);
         if (part != null)
         {
             part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
             mat.scale(1, 1, .1f);
-            final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
+            final VertexConsumer buf1 = Util.makeBuilder(buff, tex[1]);
             renderable.renderPart(mat, buf1, colorpart);
         }
         part = model.getParts().get(itempart);
@@ -60,7 +60,7 @@ public class Neck
         else tex[0] = null;
         if (part != null && tex[0] != null)
         {
-            final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
+            final VertexConsumer buf0 = Util.makeBuilder(buff, tex[0]);
             mat.scale(1, 1, 10);
             mat.translate(0, 0.01, -0.075);
             renderable.renderPart(mat, buf0, itempart);

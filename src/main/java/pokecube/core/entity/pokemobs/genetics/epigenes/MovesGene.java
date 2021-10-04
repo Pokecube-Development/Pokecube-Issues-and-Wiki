@@ -3,8 +3,8 @@ package pokecube.core.entity.pokemobs.genetics.epigenes;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
 
@@ -78,7 +78,7 @@ public class MovesGene implements Gene<String[]>
     }
 
     @Override
-    public void load(final CompoundNBT tag)
+    public void load(final CompoundTag tag)
     {
         for (int i = 0; i < this.moves.length; i++)
             if (tag.contains("" + i)) this.moves[i] = tag.getString("" + i);
@@ -94,9 +94,9 @@ public class MovesGene implements Gene<String[]>
     }
 
     @Override
-    public CompoundNBT save()
+    public CompoundTag save()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         MovesGene.cleanup(this.moves);
         for (int i = 0; i < this.moves.length; i++)
             if (this.moves[i] != null) tag.putString("" + i, this.moves[i]);

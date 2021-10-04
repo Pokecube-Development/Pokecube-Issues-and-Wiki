@@ -2,13 +2,13 @@ package pokecube.nbtedit.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
@@ -31,7 +31,7 @@ public class GuiNBTNode extends Button
 
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
     {
-        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new StringTextComponent(node.toString()), b -> tree.nodeClicked(
+        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new TextComponent(node.toString()), b -> tree.nodeClicked(
                 (GuiNBTNode) b));
         this.tree = tree;
         this.node = node;
@@ -70,7 +70,7 @@ public class GuiNBTNode extends Button
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mx, final int my, final float m)
+    public void render(final PoseStack mat, final int mx, final int my, final float m)
     {
         if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return;
 
@@ -83,12 +83,12 @@ public class GuiNBTNode extends Button
         final int dx = this.node.hasChildren() ? 10 : 0;
         final int x = this.x + dx;
 
-        this.mc.getTextureManager().bind(GuiNBTNode.WIDGET_TEXTURE);
+        this.mc.getTextureManager().bindForSetup(GuiNBTNode.WIDGET_TEXTURE);
 
         if (selected)
         {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            AbstractGui.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
+            GuiComponent.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
         }
         if (this.node.hasChildren())
         {
@@ -98,7 +98,7 @@ public class GuiNBTNode extends Button
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.blit(mat, x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
-        AbstractGui.drawString(mat, this.mc.font, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
+        GuiComponent.drawString(mat, this.mc.font, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
     }
 
     public void shift(final int dy)

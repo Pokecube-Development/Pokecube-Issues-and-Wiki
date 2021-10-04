@@ -11,10 +11,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -170,22 +169,6 @@ public class CapabilityAnimation
         void postRun();
     }
 
-    private static class Storage implements Capability.IStorage<IAnimationHolder>
-    {
-        @Override
-        public void readNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
-                final Direction side, final INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
-                final Direction side)
-        {
-            return null;
-        }
-    }
-
     private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
     private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
 
@@ -206,7 +189,7 @@ public class CapabilityAnimation
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IAnimationHolder.class, new Storage(), DefaultImpl::new);
+        CapabilityManager.INSTANCE.register(IAnimationHolder.class);
         MinecraftForge.EVENT_BUS.register(CapabilityAnimation.class);
     }
 }

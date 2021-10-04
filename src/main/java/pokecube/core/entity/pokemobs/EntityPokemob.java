@@ -10,44 +10,44 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.ShoulderRidingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.potion.Effects;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.PokedexEntry;
@@ -81,10 +81,10 @@ public class EntityPokemob extends PokemobRidable
 {
     static ResourceLocation WALL_CLIMBERS = new ResourceLocation(PokecubeMod.ID, "wall_climbing");
 
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.defineId(EntityPokemob.class,
-            DataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntityPokemob.class,
+            EntityDataSerializers.BYTE);
 
-    public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
+    public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final Level world)
     {
         super(type, world);
     }
@@ -97,9 +97,9 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean setEntityOnShoulder(final ServerPlayerEntity p_213439_1_)
+    public boolean setEntityOnShoulder(final ServerPlayer p_213439_1_)
     {
-        final CompoundNBT compoundnbt = new CompoundNBT();
+        final CompoundTag compoundnbt = new CompoundTag();
         compoundnbt.putString("id", this.getEncodeId());
         compoundnbt.putInt("pokemob:uid", this.pokemobCap.getPokemonUID());
         this.saveWithoutId(compoundnbt);
@@ -112,7 +112,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity ageable)
+    public AgeableMob getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;
@@ -135,7 +135,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -153,7 +153,7 @@ public class EntityPokemob extends PokemobRidable
     protected void tickDeath()
     {
         ++this.deathTime;
-        if (!(this.getCommandSenderWorld() instanceof ServerWorld)) return;
+        if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
 
         if (this.isVehicle()) this.ejectPassengers();
 
@@ -196,7 +196,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void travel(final Vector3d dr)
+    public void travel(final Vec3 dr)
     {
         // If we are ridden on ground, do similar stuff to horses.
         ridden:
@@ -211,7 +211,7 @@ public class EntityPokemob extends PokemobRidable
                 this.jumpPower = 0.0f;
                 this.setJumping(false);
                 super.travel(dr);
-                final Vector3d motion = this.getDeltaMovement();
+                final Vec3 motion = this.getDeltaMovement();
                 this.setDeltaMovement(motion.x * 0.5, motion.y, motion.z * 0.5);
                 return;
             }
@@ -237,19 +237,19 @@ public class EntityPokemob extends PokemobRidable
                 final double jumpStrength = 1.7;
                 final double preBoostJump = jumpStrength * this.jumpPower * this.getBlockJumpFactor();
                 double jumpAmount;
-                if (this.hasEffect(Effects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(Effects.JUMP)
+                if (this.hasEffect(MobEffects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(MobEffects.JUMP)
                         .getAmplifier() + 1) * 0.1F;
                 else jumpAmount = preBoostJump;
 
-                final Vector3d vector3d = this.getDeltaMovement();
+                final Vec3 vector3d = this.getDeltaMovement();
                 this.setDeltaMovement(vector3d.x, jumpAmount, vector3d.z);
                 this.setJumping(true);
                 this.hasImpulse = true;
                 net.minecraftforge.common.ForgeHooks.onLivingJump(this);
                 if (forwards > 0.0F)
                 {
-                    final float sinYaw = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
-                    final float cosYaw = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
+                    final float sinYaw = Mth.sin(this.yRot * ((float) Math.PI / 180F));
+                    final float cosYaw = Mth.cos(this.yRot * ((float) Math.PI / 180F));
                     this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F
                             * cosYaw * this.jumpPower));
                 }
@@ -263,9 +263,9 @@ public class EntityPokemob extends PokemobRidable
                 final Config config = PokecubeCore.getConfig();
                 final float moveSpeed = (float) (config.groundSpeedFactor * speed * speedFactor);
                 this.setSpeed(moveSpeed);
-                super.travel(new Vector3d(strafe, dr.y, forwards));
+                super.travel(new Vec3(strafe, dr.y, forwards));
             }
-            else if (livingentity instanceof PlayerEntity) this.setDeltaMovement(Vector3d.ZERO);
+            else if (livingentity instanceof Player) this.setDeltaMovement(Vec3.ZERO);
 
             if (this.onGround)
             {
@@ -298,17 +298,17 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public ItemStack getPickedResult(final RayTraceResult target)
+    public ItemStack getPickedResult(final HitResult target)
     {
         return ItemPokemobEgg.getEggStack(this.pokemobCap);
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
-            final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
+    public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,
+            final MobSpawnType reason, final SpawnGroupData spawnDataIn, final CompoundTag dataTag)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
-        if (pokemob == null || !(worldIn instanceof World)) return super.finalizeSpawn(worldIn, difficultyIn, reason,
+        if (pokemob == null || !(worldIn instanceof Level)) return super.finalizeSpawn(worldIn, difficultyIn, reason,
                 spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
@@ -348,7 +348,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void readSpawnData(final PacketBuffer data)
+    public void readSpawnData(final FriendlyByteBuf data)
     {
         // Read the datasync stuff
         final List<Data<?>> data_list = Lists.newArrayList();
@@ -372,11 +372,11 @@ public class EntityPokemob extends PokemobRidable
             this.pokemobCap.dataSync().update(data_list);
         }
         this.seatCount = data.readInt();
-        final PacketBuffer buffer = new PacketBuffer(data);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         try
         {
-            CompoundNBT tag = buffer.readNbt();
-            final ListNBT list = (ListNBT) tag.get("g");
+            CompoundTag tag = buffer.readNbt();
+            final ListTag list = (ListTag) tag.get("g");
             final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
             GeneRegistry.GENETICS_CAP.readNBT(genes, null, list);
             this.pokemobCap.read(tag.getCompound("p"));
@@ -396,7 +396,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    protected void jumpInLiquid(final ITag<Fluid> fluidTag)
+    protected void jumpInLiquid(final Tag<Fluid> fluidTag)
     {
         this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.04F * this.getAttribute(
                 net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
@@ -420,9 +420,9 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public SoundCategory getSoundSource()
+    public SoundSource getSoundSource()
     {
-        return SoundCategory.HOSTILE;
+        return SoundSource.HOSTILE;
     }
 
     @Override
@@ -453,7 +453,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void writeSpawnData(final PacketBuffer data)
+    public void writeSpawnData(final FriendlyByteBuf data)
     {
         // Write the dataSync stuff
         final List<Data<?>> data_list = this.pokemobCap.dataSync().getAll();
@@ -470,9 +470,9 @@ public class EntityPokemob extends PokemobRidable
         this.pokemobCap.updateHealth();
         this.pokemobCap.onGenesChanged();
         final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
-        final PacketBuffer buffer = new PacketBuffer(data);
-        final ListNBT list = (ListNBT) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
-        CompoundNBT nbt = new CompoundNBT();
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
+        final ListTag list = (ListTag) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
+        CompoundTag nbt = new CompoundTag();
         nbt.put("p", this.pokemobCap.write());
         nbt.put("g", list);
         buffer.writeNbt(nbt);
@@ -506,7 +506,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean checkSpawnRules(final IWorld worldIn, final SpawnReason spawnReasonIn)
+    public boolean checkSpawnRules(final LevelAccessor worldIn, final MobSpawnType spawnReasonIn)
     {
         return true;
     }
@@ -549,7 +549,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundNBT compound)
+    public void readAdditionalSaveData(final CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
         if (compound.contains("OwnerUUID")) try

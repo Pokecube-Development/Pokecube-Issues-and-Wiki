@@ -6,16 +6,16 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.INPC;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Npc;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.StatusEvent;
 import pokecube.core.interfaces.IMoveConstants;
@@ -64,10 +64,10 @@ public class PersistantStatusEffect extends BaseEffect
                 source.bypassMagic();
                 source.bypassArmor();
             }
-            else if (entity instanceof PlayerEntity) scale = (float) (user != null && user.isPlayerOwned()
+            else if (entity instanceof Player) scale = (float) (user != null && user.isPlayerOwned()
                     ? PokecubeCore.getConfig().ownedPlayerDamageRatio
                     : PokecubeCore.getConfig().wildPlayerDamageRatio);
-            else scale = (float) (entity instanceof INPC ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
+            else scale = (float) (entity instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
                     : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
             if (scale <= 0) toRemove = true;
 
@@ -94,8 +94,8 @@ public class PersistantStatusEffect extends BaseEffect
                 break;
             case FREEZE:
                 if (Math.random() > 0.9) toRemove = true;
-                entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, duration, 100));
-                entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
+                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
                 break;
             case PARALYSIS:
                 break;
@@ -107,9 +107,9 @@ public class PersistantStatusEffect extends BaseEffect
                 if (Math.random() > 0.9) toRemove = true;
                 else
                 {
-                    entity.addEffect(new EffectInstance(Effects.BLINDNESS, duration, 100));
-                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, duration, 100));
-                    entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration, 100));
+                    entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration, 100));
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
+                    entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
                     this.spawnSleepParticle(entity);
                 }
                 break;
@@ -247,7 +247,7 @@ public class PersistantStatusEffect extends BaseEffect
     }
 
     @Override
-    public void deserializeNBT(final CompoundNBT nbt)
+    public void deserializeNBT(final CompoundTag nbt)
     {
         super.deserializeNBT(nbt);
         if (nbt.contains("S")) this.status = Status.values()[nbt.getByte("S")];
@@ -255,9 +255,9 @@ public class PersistantStatusEffect extends BaseEffect
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        final CompoundNBT tag = super.serializeNBT();
+        final CompoundTag tag = super.serializeNBT();
         if (this.status != null) tag.putByte("S", (byte) this.status.ordinal());
         return tag;
     }

@@ -6,23 +6,23 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -61,7 +61,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         final LivingEntity thisEntity;
         final LivingEntity evolution;
-        final World        world;
+        final Level        world;
         boolean            done = false;
 
         public EvoTicker(final LivingEntity thisEntity, final LivingEntity evolution)
@@ -80,7 +80,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             if (this.done) return;
             this.done = true;
-            final ServerWorld world = (ServerWorld) this.thisEntity.getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) this.thisEntity.getCommandSenderWorld();
             final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
@@ -105,11 +105,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 this.evolution.getCommandSenderWorld().addFreshEntity(this.evolution);
 
                 this.evolution.refreshDimensions();
-                final AxisAlignedBB oldBox = this.thisEntity.getBoundingBox();
-                final AxisAlignedBB newBox = this.evolution.getBoundingBox();
+                final AABB oldBox = this.thisEntity.getBoundingBox();
+                final AABB newBox = this.evolution.getBoundingBox();
 
                 // Take the larger of the boxes, collide off that.
-                final AxisAlignedBB biggerBox = oldBox.minmax(newBox);
+                final AABB biggerBox = oldBox.minmax(newBox);
 
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
@@ -124,16 +124,16 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // collidedw
                 if (hits.size() > 0)
                 {
-                    VoxelShape total = VoxelShapes.empty();
+                    VoxelShape total = Shapes.empty();
                     // Merge the found shapes into a single one
                     for (final VoxelShape s : hits)
-                        total = VoxelShapes.joinUnoptimized(total, s, IBooleanFunction.OR);
-                    final List<AxisAlignedBB> aabbs = Lists.newArrayList();
+                        total = Shapes.joinUnoptimized(total, s, BooleanOp.OR);
+                    final List<AABB> aabbs = Lists.newArrayList();
                     // Convert to colliding AABBs
                     BlockEntityUpdater.fill(aabbs, biggerBox, total);
                     // Push off the AABBS if needed
                     final boolean col = BlockEntityUpdater.applyEntityCollision(this.evolution, biggerBox, aabbs,
-                            Vector3d.ZERO);
+                            Vec3.ZERO);
 
                     // This gives us an indication if if we did actually
                     // collide, if this occured, then we need to do some extra
@@ -160,7 +160,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
         static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution, final boolean immediate)
         {
-            if (!(thisEntity.level instanceof ServerWorld)) return;
+            if (!(thisEntity.level instanceof ServerLevel)) return;
             final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
             if (!immediate) ticker.init();
             else ticker.tick();
@@ -170,16 +170,16 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     /** Simlar to EvoTicker, but for more general form changing. */
     static class MegaEvoTicker
     {
-        final World          world;
+        final Level          world;
         final Entity         mob;
         IPokemob             pokemob;
         final PokedexEntry   mega;
-        final ITextComponent message;
+        final Component message;
         final long           evoTime;
         boolean              dynamaxing = false;
         boolean              set        = false;
 
-        MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver, final ITextComponent message,
+        MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver, final Component message,
                 final boolean dynamaxing)
         {
             this.mob = evolver.getEntity();
@@ -202,7 +202,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         public void tick(final WorldTickEvent evt)
         {
             if (evt.world != this.world || evt.phase != Phase.END) return;
-            if (!this.mob.inChunk || !this.mob.isAlive() || this.set)
+            if (!this.mob.isAddedToWorld() || !this.mob.isAlive() || this.set)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 return;
@@ -211,8 +211,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             {
                 this.set = true;
                 if (this.pokemob.getCombatState(CombatStates.MEGAFORME) && this.pokemob
-                        .getOwner() instanceof ServerPlayerEntity) Triggers.MEGAEVOLVEPOKEMOB.trigger(
-                                (ServerPlayerEntity) this.pokemob.getOwner(), this.pokemob);
+                        .getOwner() instanceof ServerPlayer) Triggers.MEGAEVOLVEPOKEMOB.trigger(
+                                (ServerPlayer) this.pokemob.getOwner(), this.pokemob);
                 final int evoTicks = this.pokemob.getEvolutionTicks();
                 final float hp = this.pokemob.getHealth();
                 this.pokemob = this.pokemob.megaEvolve(this.mega, true);
@@ -233,7 +233,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (dyna)
                     {
                         this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
-                        final Long time = evt.world.getServer().getLevel(World.OVERWORLD).getGameTime();
+                        final Long time = evt.world.getServer().getLevel(Level.OVERWORLD).getGameTime();
                         this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
                         if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
                                 .getOwnerId()).putLong("pokecube:dynatime", time);
@@ -261,7 +261,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      *            the message to send on completion
      */
     public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
-            final ITextComponent message)
+            final Component message)
     {
         ICanEvolve.setDelayedMegaEvolve(evolver, newForm, message, false);
     }
@@ -279,9 +279,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      *            tif true, will set dynamax flag when completed.
      */
     public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
-            final ITextComponent message, final boolean dynamaxing)
+            final Component message, final boolean dynamaxing)
     {
-        if (!(evolver.getEntity().level instanceof ServerWorld)) return;
+        if (!(evolver.getEntity().level instanceof ServerLevel)) return;
         new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
     }
 
@@ -301,7 +301,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         }
         this.setEvolutionTicks(-1);
         this.setGeneralState(GeneralStates.EVOLVING, false);
-        this.displayMessageToOwner(new TranslationTextComponent("pokemob.evolution.cancel", CapabilityPokemob
+        this.displayMessageToOwner(new TranslatableComponent("pokemob.evolution.cancel", CapabilityPokemob
                 .getPokemobFor(entity).getDisplayName()));
     }
 
@@ -428,7 +428,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     this.setEvolvingEffects(evol);
                     this.setGeneralState(GeneralStates.EVOLVING, true);
                     // Send the message about evolving, to let user cancel.
-                    this.displayMessageToOwner(new TranslationTextComponent("pokemob.evolution.start", thisMob
+                    this.displayMessageToOwner(new TranslatableComponent("pokemob.evolution.start", thisMob
                             .getDisplayName()));
                     return thisMob;
                 }
@@ -498,7 +498,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         Collections.shuffle(moves);
         if (!theEntity.getCommandSenderWorld().isClientSide)
         {
-            final ITextComponent mess = new TranslationTextComponent("pokemob.info.levelup", theMob.getDisplayName(),
+            final Component mess = new TranslatableComponent("pokemob.info.levelup", theMob.getDisplayName(),
                     level + "");
             theMob.displayMessageToOwner(mess);
         }
@@ -522,8 +522,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     }
                     for (final String s : moves)
                     {
-                        final ITextComponent move = new TranslationTextComponent(MovesUtils.getUnlocalizedMove(s));
-                        final ITextComponent mess = new TranslationTextComponent("pokemob.move.notify.learn", theMob
+                        final Component move = new TranslatableComponent(MovesUtils.getUnlocalizedMove(s));
+                        final Component mess = new TranslatableComponent("pokemob.move.notify.learn", theMob
                                 .getDisplayName(), move);
                         theMob.displayMessageToOwner(mess);
                         if (!theMob.getMoveStats().newMoves.contains(s))
@@ -544,9 +544,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default IPokemob megaEvolve(final PokedexEntry newEntry)
     {
-        if (this.getEntity().getCommandSenderWorld() instanceof ServerWorld)
+        if (this.getEntity().getCommandSenderWorld() instanceof ServerLevel)
         {
-            final ServerWorld world = (ServerWorld) this.getEntity().getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) this.getEntity().getCommandSenderWorld();
             return this.megaEvolve(newEntry, !world.tickingEntities);
         }
         return this.megaEvolve(newEntry, true);
@@ -603,7 +603,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (this.getPokemonNickname().equals(oldEntry.getName())) this.setPokemonNickname("");
 
             // Copy NBT data over
-            evolution.load(thisEntity.saveWithoutId(new CompoundNBT()));
+            evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
 
             // Copy transforms over.
             EntityTools.copyEntityTransforms(evolution, thisEntity);
@@ -653,7 +653,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
             PokecubeCore.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
-            if (!evt.isCanceled() && thisEntity.inChunk) EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
+            if (!evt.isCanceled() && thisEntity.isAddedToWorld()) EvoTicker.scheduleEvolve(thisEntity, evolution, immediate);
         }
         return evoMob;
     }

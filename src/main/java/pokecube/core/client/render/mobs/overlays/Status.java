@@ -1,16 +1,16 @@
 package pokecube.core.client.render.mobs.overlays;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
 import pokecube.core.client.Resources;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -78,13 +78,13 @@ public class Status
     public static final StatusTexturer FRZTEX = new StatusTexturer(Status.FRZ);
     public static final StatusTexturer PARTEX = new StatusTexturer(Status.PAR);
 
-    public static void render(final LivingRenderer<MobEntity, EntityModel<MobEntity>> renderer, final MatrixStack mat,
-            final IRenderTypeBuffer buf, final IPokemob pokemob, final float partialTicks, final int light)
+    public static void render(final LivingEntityRenderer<Mob, EntityModel<Mob>> renderer, final PoseStack mat,
+            final MultiBufferSource buf, final IPokemob pokemob, final float partialTicks, final int light)
     {
         byte status = pokemob.getStatus();
         if (status == IMoveConstants.STATUS_NON) return;
 
-        final MobEntity mob = pokemob.getEntity();
+        final Mob mob = pokemob.getEntity();
 
         status = (status & IMoveConstants.STATUS_PAR) > 0 ? IMoveConstants.STATUS_PAR
                 : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
@@ -95,17 +95,17 @@ public class Status
 
         mat.pushPose();
 
-        final float f = MathHelper.rotLerp(partialTicks, mob.yBodyRotO, mob.yBodyRot);
-        final float f1 = MathHelper.rotLerp(partialTicks, mob.yHeadRotO, mob.yHeadRot);
+        final float f = Mth.rotLerp(partialTicks, mob.yBodyRotO, mob.yBodyRot);
+        final float f1 = Mth.rotLerp(partialTicks, mob.yHeadRotO, mob.yHeadRot);
         final float f2 = f1 - f;
 
-        final float f6 = MathHelper.lerp(partialTicks, mob.xRotO, mob.xRot);
+        final float f6 = Mth.lerp(partialTicks, mob.xRotO, mob.xRot);
 
         final float f7 = mob.tickCount + partialTicks;
         float f8 = 0.0F;
         float f5 = 0.0F;
         {
-            f8 = MathHelper.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
+            f8 = Mth.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
             f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
 
             if (f8 > 1.0F) f8 = 1.0F;

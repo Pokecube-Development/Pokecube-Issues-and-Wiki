@@ -10,25 +10,25 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.spawner.WorldEntitySpawner;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.SpawnPlacements.Type;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -76,7 +76,7 @@ public class TrainerSpawnHandler
     {
         SpawnEventsHandler.processors.add((mob, thing) ->
         {
-            final World world = mob.getCommandSenderWorld();
+            final Level world = mob.getCommandSenderWorld();
             // Then apply trainer specific stuff.
             int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(mob), Database.missingno);
             if (thing.has("level")) level = thing.get("level").getAsInt();
@@ -141,7 +141,7 @@ public class TrainerSpawnHandler
     }
 
     /** Given a player, find a random position near it. */
-    public static Vector3 getRandomSpawningPointNearEntity(final World world, final Entity player, final int maxRange)
+    public static Vector3 getRandomSpawningPointNearEntity(final Level world, final Entity player, final int maxRange)
     {
         if (player == null) return null;
 
@@ -170,7 +170,7 @@ public class TrainerSpawnHandler
         if (temp1 != null)
         {
             int y_Test;
-            if (temp1.y > (y_Test = world.getHeight(Type.MOTION_BLOCKING_NO_LEAVES, temp1.intX(), temp1.intY())))
+            if (temp1.y > (y_Test = world.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, temp1.intX(), temp1.intY())))
                 temp1.y = y_Test;
             temp1.y++;
 
@@ -182,7 +182,7 @@ public class TrainerSpawnHandler
         return null;
     }
 
-    public static TrainerNpc getTrainer(Vector3 v, final World w)
+    public static TrainerNpc getTrainer(Vector3 v, final Level w)
     {
         TypeTrainer ttype = null;
         final Material m = v.getBlockMaterial(w);
@@ -232,7 +232,7 @@ public class TrainerSpawnHandler
                 final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
-                ((LeaderNpc) trainer).setItemInHand(Hand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
+                ((LeaderNpc) trainer).setItemInHand(InteractionHand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
             }
         }
         // Randomize team.
@@ -250,13 +250,13 @@ public class TrainerSpawnHandler
                 .getCommandSenderWorld());
     }
 
-    public static void tick(final ServerWorld w)
+    public static void tick(final ServerLevel w)
     {
         if (w.isClientSide) return;
         if (!SpawnHandler.canSpawnInWorld(w)) return;
-        final List<ServerPlayerEntity> players = w.players();
+        final List<ServerPlayer> players = w.players();
         if (players.size() < 1) return;
-        final PlayerEntity p = players.get(w.random.nextInt(players.size()));
+        final Player p = players.get(w.random.nextInt(players.size()));
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, Config.instance.trainerBox);
         if (v == null) return;
         if (v.y <= 0) v.y = v.getMaxY(w);
@@ -276,7 +276,7 @@ public class TrainerSpawnHandler
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
             if (t == null) return;
             final IHasPokemobs cap = TrainerCaps.getHasPokemobs(t);
-            final NpcSpawn event = new NpcSpawn.Spawn(t, v.getPos(), w, SpawnReason.NATURAL);
+            final NpcSpawn event = new NpcSpawn.Spawn(t, v.getPos(), w, MobSpawnType.NATURAL);
             if (MinecraftForge.EVENT_BUS.post(event))
             {
                 t.remove();
@@ -287,8 +287,8 @@ public class TrainerSpawnHandler
             v.offsetBy(Direction.UP).moveEntity(t);
 
             // Not valid spawning spot, so deny the spawn here.
-            if (!(WorldEntitySpawner.isSpawnPositionOk(PlacementType.ON_GROUND, w, v.getPos(), t.getType())
-                    || WorldEntitySpawner.isSpawnPositionOk(PlacementType.IN_WATER, w, v.getPos(), t.getType())))
+            if (!(NaturalSpawner.isSpawnPositionOk(Type.ON_GROUND, w, v.getPos(), t.getType())
+                    || NaturalSpawner.isSpawnPositionOk(Type.IN_WATER, w, v.getPos(), t.getType())))
                 return;
 
             if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
@@ -305,11 +305,11 @@ public class TrainerSpawnHandler
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
-        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerWorld && evt.world
+        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel && evt.world
                 .getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
             final long time = System.nanoTime();
-            TrainerSpawnHandler.tick((ServerWorld) evt.world);
+            TrainerSpawnHandler.tick((ServerLevel) evt.world);
             final double dt = (System.nanoTime() - time) / 1000000D;
             if (dt > 50) PokecubeCore.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
         }
@@ -335,8 +335,8 @@ public class TrainerSpawnHandler
                     : TrainerNpc.TYPE.create(event.worldActual);
             mob.setPersistenceRequired();
             mob.moveTo(event.pos, 0.0F, 0.0F);
-            mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
-                    SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+            mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
+                    MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
@@ -354,7 +354,7 @@ public class TrainerSpawnHandler
             }
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
-                    SpawnReason.STRUCTURE, thing)))
+                    MobSpawnType.STRUCTURE, thing)))
             {
                 event.setResult(Result.ALLOW);
                 final JsonObject apply = thing;

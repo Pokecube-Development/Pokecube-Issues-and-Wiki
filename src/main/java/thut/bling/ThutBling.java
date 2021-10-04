@@ -1,15 +1,15 @@
 package thut.bling;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.inventory.ChestScreen;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -17,11 +17,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
 import thut.bling.bag.large.LargeContainer;
 import thut.bling.bag.small.SmallContainer;
 import thut.bling.client.BlingRender;
@@ -63,13 +63,13 @@ public class ThutBling
         @Override
         public void setupClient(final FMLClientSetupEvent event)
         {
-            ScreenManager.register(LargeContainer.TYPE, Bag<LargeContainer>::new);
-            ScreenManager.register(SmallContainer.TYPE, ChestScreen::new);
+            MenuScreens.register(LargeContainer.TYPE, Bag<LargeContainer>::new);
+            MenuScreens.register(SmallContainer.TYPE, ContainerScreen::new);
         }
 
         @Override
         @OnlyIn(value = Dist.CLIENT)
-        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+        public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
@@ -104,7 +104,7 @@ public class ThutBling
 
         }
 
-        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+        public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
@@ -122,7 +122,7 @@ public class ThutBling
         }
 
         @SubscribeEvent
-        public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)
+        public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
         {
             // Register Containers
             event.getRegistry().register(LargeContainer.TYPE.setRegistryName(ThutBling.MODID, "bling_bag_ender_large"));

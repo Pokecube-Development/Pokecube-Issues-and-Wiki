@@ -3,17 +3,17 @@ package pokecube.legends.recipes;
 import java.util.Collections;
 import java.util.Map;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.items.ItemHandlerHelper;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.recipes.LegendsDistorticRecipeSerializer.SerializerDistortic;
@@ -21,19 +21,19 @@ import pokecube.legends.recipes.LegendsDistorticRecipeSerializer.SerializerDisto
 public class LegendsDistorticRecipeManager 
 {	
 	private static final ResourceLocation ID_DISTORTIC = new ResourceLocation("pokecube_legends:legends_recipe");
-    public static final IRecipeType<LegendsDistorticRecipeSerializer> LEGENDS_DISTORTIC_RECIPE_TYPE = IRecipeType.register(LegendsDistorticRecipeManager.ID_DISTORTIC.toString());
+    public static final RecipeType<LegendsDistorticRecipeSerializer> LEGENDS_DISTORTIC_RECIPE_TYPE = RecipeType.register(LegendsDistorticRecipeManager.ID_DISTORTIC.toString());
     public static final RegistryObject<SerializerDistortic> LEGENDS_DISTORTIC_RECIPE = PokecubeLegends.LEGENDS_SERIALIZERS.register("legends_recipe", () ->
     	new SerializerDistortic());
     
     public static void onPlayerClickBlock (PlayerInteractEvent.RightClickBlock event) {
         
-    	final RegistryKey<World> dim = event.getWorld().dimension();
+    	final ResourceKey<Level> dim = event.getWorld().dimension();
     	
         if (!event.getWorld().isClientSide && event.getPlayer() != null) {
             
             final ItemStack heldItem = event.getPlayer().getItemInHand(event.getHand());
             
-            for (final IRecipe<?> recipe : getRecipes(LEGENDS_DISTORTIC_RECIPE_TYPE, event.getWorld().getRecipeManager()).values()) {
+            for (final Recipe<?> recipe : getRecipes(LEGENDS_DISTORTIC_RECIPE_TYPE, event.getWorld().getRecipeManager()).values()) {
 
                 if (recipe instanceof LegendsDistorticRecipeSerializer) {
                     
@@ -53,9 +53,9 @@ public class LegendsDistorticRecipeManager
         }
     }
 
-	private static Map<ResourceLocation, IRecipe<?>> getRecipes (IRecipeType<?> recipeType, RecipeManager manager) {
+	private static Map<ResourceLocation, Recipe<?>> getRecipes (RecipeType<?> recipeType, RecipeManager manager) {
         
-        final Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
+        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
         	return recipesMap.getOrDefault(recipeType, Collections.emptyMap());
     }
     

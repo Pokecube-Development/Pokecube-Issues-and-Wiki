@@ -1,32 +1,32 @@
 package pokecube.legends.tileentity;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class CustomBarrelContainer extends Container {
-	private final IInventory container;
+public class CustomBarrelContainer extends AbstractContainerMenu {
+	private final Container container;
 	private final int containerRows;
 
-	private CustomBarrelContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory, int slot) {
-	    this(containerType, windowId, playerInventory, new Inventory(9 * slot), slot);
+	private CustomBarrelContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, int slot) {
+	    this(containerType, windowId, playerInventory, new SimpleContainer(9 * slot), slot);
 	}
 
-	public static CustomBarrelContainer threeRows(int slots, PlayerInventory playerInventory) {
-		return new CustomBarrelContainer(ContainerType.GENERIC_9x3, slots, playerInventory, 3);
+	public static CustomBarrelContainer threeRows(int slots, Inventory playerInventory) {
+		return new CustomBarrelContainer(MenuType.GENERIC_9x3, slots, playerInventory, 3);
 	}
 
-	public static CustomBarrelContainer threeRows(int slots, PlayerInventory playerInventory, IInventory inventory) {
-		return new CustomBarrelContainer(ContainerType.GENERIC_9x3, slots, playerInventory, inventory, 3);
+	public static CustomBarrelContainer threeRows(int slots, Inventory playerInventory, Container inventory) {
+		return new CustomBarrelContainer(MenuType.GENERIC_9x3, slots, playerInventory, inventory, 3);
 	}
-	public CustomBarrelContainer(ContainerType<?> containerType, int windowId, PlayerInventory playerInventory, IInventory inventory, int slot) {
+	public CustomBarrelContainer(MenuType<?> containerType, int windowId, Inventory playerInventory, Container inventory, int slot) {
 	      super(containerType, windowId);
 	      checkContainerSize(inventory, slot * 9);
 	      this.container = inventory;
@@ -52,11 +52,11 @@ public class CustomBarrelContainer extends Container {
 
 	   }
 
-	public boolean stillValid(PlayerEntity playerEntity) {
+	public boolean stillValid(Player playerEntity) {
 		return this.container.stillValid(playerEntity);
 	}
 
-	public ItemStack quickMoveStack(PlayerEntity playerEntity, int index) {
+	public ItemStack quickMoveStack(Player playerEntity, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {
@@ -80,12 +80,12 @@ public class CustomBarrelContainer extends Container {
 		return itemstack;
 	}
 
-	public void removed(PlayerEntity playerEntity) {
+	public void removed(Player playerEntity) {
 		super.removed(playerEntity);
 		this.container.stopOpen(playerEntity);
 	}
 
-	public IInventory getContainer() {
+	public Container getContainer() {
 		return this.container;
 	}
 

@@ -2,13 +2,13 @@ package pokecube.mobs.moves.world;
 
 import java.util.List;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootTable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
@@ -28,7 +28,7 @@ public class ActionPayDay implements IMoveAction
         final LivingEntity poke = user.getEntity();
         final LootTable loottable = poke.getCommandSenderWorld().getServer().getLootTables().get(
                 ActionPayDay.lootTable);
-        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) poke.getCommandSenderWorld())
+        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getCommandSenderWorld())
                 .withRandom(poke.getRandom());
         // Generate the loot list.
         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));

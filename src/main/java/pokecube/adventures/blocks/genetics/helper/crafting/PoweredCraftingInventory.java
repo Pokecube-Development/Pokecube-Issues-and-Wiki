@@ -1,20 +1,20 @@
 package pokecube.adventures.blocks.genetics.helper.crafting;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.RecipeItemHelper;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 
-public class PoweredCraftingInventory extends CraftingInventory
+public class PoweredCraftingInventory extends CraftingContainer
 {
-    public final Container        eventHandler;
+    public final AbstractContainerMenu        eventHandler;
     public final IPoweredProgress inventory;
     private int                   energy = 0;
 
-    public PoweredCraftingInventory(final Container container, final IPoweredProgress inventory, final int x,
+    public PoweredCraftingInventory(final AbstractContainerMenu container, final IPoweredProgress inventory, final int x,
             final int y)
     {
         super(container, x, y);
@@ -37,7 +37,7 @@ public class PoweredCraftingInventory extends CraftingInventory
     }
 
     @Override
-    public void fillStackedContents(final RecipeItemHelper helper)
+    public void fillStackedContents(final StackedContents helper)
     {
         for (final ItemStack itemstack : this.inventory.getList())
             helper.accountSimpleStack(itemstack);
@@ -72,7 +72,7 @@ public class PoweredCraftingInventory extends CraftingInventory
      * Container
      */
     @Override
-    public boolean stillValid(final PlayerEntity player)
+    public boolean stillValid(final Player player)
     {
         return true;
     }
@@ -93,7 +93,7 @@ public class PoweredCraftingInventory extends CraftingInventory
     @Override
     public ItemStack removeItemNoUpdate(final int index)
     {
-        return ItemStackHelper.takeItem(this.inventory.getList(), index);
+        return ContainerHelper.takeItem(this.inventory.getList(), index);
     }
 
     public void setEnergy(final int in)

@@ -2,33 +2,33 @@ package pokecube.legends.client.render.block;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import pokecube.legends.tileentity.RaidSpawn;
 
-public class Raid extends TileEntityRenderer<RaidSpawn>
+public class Raid extends BlockEntityRenderer<RaidSpawn>
 {
     public static final ResourceLocation TEXTURE_BEACON_BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
 
-    public Raid(final TileEntityRendererDispatcher rendererDispatcherIn)
+    public Raid(final BlockEntityRenderDispatcher rendererDispatcherIn)
     {
         super(rendererDispatcherIn);
     }
 
     @Override
-    public void render(final RaidSpawn tileEntityIn, final float partialTicks, final MatrixStack matrixStackIn,
-            final IRenderTypeBuffer bufferIn, final int combinedLightIn, final int combinedOverlayIn)
+    public void render(final RaidSpawn tileEntityIn, final float partialTicks, final PoseStack matrixStackIn,
+            final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
         final long i = tileEntityIn.getLevel().getGameTime();
         final List<RaidSpawn.BeamSegment> list = tileEntityIn.getBeamSegments();
@@ -44,7 +44,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
 
     }
 
-    private static void renderBeamSegment(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
+    private static void renderBeamSegment(final PoseStack matrixStackIn, final MultiBufferSource bufferIn,
             final float partialTicks, final long totalWorldTime, final int yOffset, final int height,
             final float[] colors)
     {
@@ -52,7 +52,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
                 yOffset, height, colors, 0.2F, 0.25F);
     }
 
-    public static void renderBeamSegment(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
+    public static void renderBeamSegment(final PoseStack matrixStackIn, final MultiBufferSource bufferIn,
             final ResourceLocation textureLocation, final float partialTicks, final float textureScale,
             final long totalWorldTime, final int yOffset, final int height, final float[] colors,
             final float beamRadius, final float glowRadius)
@@ -62,7 +62,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         matrixStackIn.translate(0.5D, 0.0D, 0.5D);
         final float f = Math.floorMod(totalWorldTime, 40L) + partialTicks;
         final float f1 = height < 0 ? f : -f;
-        final float f2 = MathHelper.frac(f1 * 0.2F - MathHelper.floor(f1 * 0.1F));
+        final float f2 = Mth.frac(f1 * 0.2F - Mth.floor(f1 * 0.1F));
         final float f3 = colors[0];
         final float f4 = colors[1];
         final float f5 = colors[2];
@@ -89,13 +89,13 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         matrixStackIn.popPose();
     }
 
-    private static void renderPart(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final float red,
+    private static void renderPart(final PoseStack matrixStackIn, final VertexConsumer bufferIn, final float red,
             final float green, final float blue, final float alpha, final int yMin, final int yMax,
             final float p_228840_8_, final float p_228840_9_, final float p_228840_10_, final float p_228840_11_,
             final float p_228840_12_, final float p_228840_13_, final float p_228840_14_, final float p_228840_15_,
             final float u1, final float u2, final float v1, final float v2)
     {
-        final MatrixStack.Entry matrixstack$entry = matrixStackIn.last();
+        final PoseStack.Pose matrixstack$entry = matrixStackIn.last();
         final Matrix4f matrix4f = matrixstack$entry.pose();
         final Matrix3f matrix3f = matrixstack$entry.normal();
         Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_8_, p_228840_9_,
@@ -108,7 +108,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
                 p_228840_8_, p_228840_9_, u1, u2, v1, v2);
     }
 
-    private static void addQuad(final Matrix4f matrixPos, final Matrix3f matrixNormal, final IVertexBuilder bufferIn,
+    private static void addQuad(final Matrix4f matrixPos, final Matrix3f matrixNormal, final VertexConsumer bufferIn,
             final float red, final float green, final float blue, final float alpha, final int yMin, final int yMax,
             final float x1, final float z1, final float x2, final float z2, final float u1, final float u2,
             final float v1, final float v2)
@@ -119,7 +119,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, u1, v1);
     }
 
-    private static void addVertex(final Matrix4f matrixPos, final Matrix3f matrixNormal, final IVertexBuilder bufferIn,
+    private static void addVertex(final Matrix4f matrixPos, final Matrix3f matrixNormal, final VertexConsumer bufferIn,
             final float red, final float green, final float blue, final float alpha, final int y, final float x,
             final float z, final float texU, final float texV)
     {

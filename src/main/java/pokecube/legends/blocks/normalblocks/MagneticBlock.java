@@ -1,20 +1,21 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
+import com.minecolonies.api.util.constant.ToolType;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.BlockHitResult;
 import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
@@ -26,8 +27,8 @@ public class MagneticBlock extends BlockBase
 	}
 
 	@Override
-	public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity entity, final Hand hand,
-			final BlockRayTraceResult hit) {
+	public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
+			final BlockHitResult hit) {
 		final int x = pos.getX();
 		final int y = pos.getY();
 		final int z = pos.getZ();
@@ -40,7 +41,7 @@ public class MagneticBlock extends BlockBase
 			$_dependencies.put("world", world);
 			MagneticBlock.executeProcedure($_dependencies);
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
     public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
@@ -54,12 +55,12 @@ public class MagneticBlock extends BlockBase
 		final int y = (int) dependencies.get("y");
 		final int z = (int) dependencies.get("z");
 
-        final World world = (World) dependencies.get("world");
+        final Level world = (Level) dependencies.get("world");
         final Entity entity = (Entity) dependencies.get("entity");
-        if (entity instanceof ServerPlayerEntity) {
-        	if (!world.isClientSide) world.explode(null, x, y, z, 3, Explosion.Mode.BREAK);
+        if (entity instanceof ServerPlayer) {
+        	if (!world.isClientSide) world.explode(null, x, y, z, 3, Explosion.BlockInteraction.BREAK);
 
-        	if (world instanceof ServerWorld) {
+        	if (world instanceof ServerLevel) {
 				//((ServerWorld) world).addEntity(new LightningBoltEntity(null, world));
         	}
         }

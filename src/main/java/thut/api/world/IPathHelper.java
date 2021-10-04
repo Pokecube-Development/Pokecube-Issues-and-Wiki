@@ -1,12 +1,12 @@
 package thut.api.world;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.pathfinding.Path;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.level.pathfinder.Path;
 
 public interface IPathHelper
 {
-    Path getPath(final MobEntity mob, final WalkTarget target);
+    Path getPath(final Mob mob, final WalkTarget target);
 
-    boolean shouldHelpPath(final MobEntity mob, final WalkTarget target);
+    boolean shouldHelpPath(final Mob mob, final WalkTarget target);
 }

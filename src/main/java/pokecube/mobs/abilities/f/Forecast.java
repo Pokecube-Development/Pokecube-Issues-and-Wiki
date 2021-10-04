@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.f;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;

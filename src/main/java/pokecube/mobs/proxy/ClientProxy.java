@@ -2,16 +2,16 @@ package pokecube.mobs.proxy;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -44,7 +44,7 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -55,7 +55,7 @@ public class ClientProxy extends CommonProxy
                 final float dx = -0.0f, dy = 0.25f, dz = -0.25f;
                 mat.mulPose(Vector3f.XP.rotationDegrees(-90));
                 mat.translate(dx, dy, dz);
-                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.BLUE;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -85,7 +85,7 @@ public class ClientProxy extends CommonProxy
                     "textures/worn/megaankletzinnia_2.png");
 
             @Override
-            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -98,11 +98,11 @@ public class ClientProxy extends CommonProxy
                 dy = .06f;
                 dz = 0.f;
                 s = 1.f;
-                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
-                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
-                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.CYAN;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -132,7 +132,7 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -147,7 +147,7 @@ public class ClientProxy extends CommonProxy
                 mat.mulPose(Vector3f.XP.rotationDegrees(90));
                 mat.mulPose(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -178,7 +178,7 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -191,12 +191,12 @@ public class ClientProxy extends CommonProxy
                 dx = 0.0f;
                 dy = index == 0 ? 0.01f : -0.01f;
                 dz = -0.25f;
-                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
 
-                minecraft.getTextureManager().bind(this.loop);
+                minecraft.getTextureManager().bindForSetup(this.loop);
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
@@ -226,7 +226,7 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -239,7 +239,7 @@ public class ClientProxy extends CommonProxy
                 mat.mulPose(Vector3f.XP.rotationDegrees(90));
                 mat.mulPose(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))

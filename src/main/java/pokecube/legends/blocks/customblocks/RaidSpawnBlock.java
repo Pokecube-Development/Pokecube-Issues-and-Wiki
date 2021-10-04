@@ -4,40 +4,40 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.blocks.InteractableHorizontalBlock;
@@ -45,12 +45,12 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
-public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWaterLoggable
+public class RaidSpawnBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock
 {
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
 
-    public static enum State implements IStringSerializable
+    public static enum State implements StringRepresentable
     {
         EMPTY("empty"), NORMAL("normal"), RARE("rare");
 
@@ -78,7 +78,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     boolean hasTextInfo = true;
 
     // Precise selection box
-    private static final VoxelShape RAID_SPOT = VoxelShapes.or(
+    private static final VoxelShape RAID_SPOT = Shapes.or(
             Block.box(2, 0, 2, 14, 3, 14),
             Block.box(3, 3, 3, 13, 9, 13)).optimize();
     
@@ -86,13 +86,13 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(RaidSpawnBlock.ACTIVE, State.EMPTY)
-                .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
+                .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH).setValue(RaidSpawnBlock.WATERLOGGED, false));
     }
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-                               final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+                               final CollisionContext context)
     {
         return RAID_SPOT;
     }
@@ -104,7 +104,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
         builder.add(RaidSpawnBlock.ACTIVE, RaidSpawnBlock.WATERLOGGED);
@@ -112,17 +112,17 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
 
     // Waterlogging on placement
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(HorizontalBlock.FACING, context
+        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(HorizontalDirectionalBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(RaidSpawnBlock.WATERLOGGED, ifluidstate.is(
                 FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
                                   final BlockPos facingPos)
     {
         if (state.getValue(RaidSpawnBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -138,7 +138,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
     {
         return new RaidSpawn();
     }
@@ -157,34 +157,34 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
-            final ITooltipFlag flagIn)
+    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
+            final TooltipFlag flagIn)
     {
         String message;
         if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslationTextComponent(message));
+        tooltip.add(new TranslatableComponent(message));
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World worldIn, final BlockPos pos,
-            final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos,
+            final Player entity, final InteractionHand hand, final BlockHitResult hit)
     {
-        if (worldIn instanceof ServerWorld)
+        if (worldIn instanceof ServerLevel)
         {
             final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
             if (active)
             {
-                MaxRaidFunction.executeProcedure(pos, state, (ServerWorld) worldIn);
+                MaxRaidFunction.executeProcedure(pos, state, (ServerLevel) worldIn);
                 worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
 
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
@@ -198,7 +198,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements IWate
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(final BlockState state, final World world, final BlockPos pos, final Random random)
+    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final Random random)
     {
         if (!state.getValue(RaidSpawnBlock.ACTIVE).active()) return;
 

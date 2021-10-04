@@ -7,18 +7,18 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -148,7 +148,7 @@ public class EnergyHandler
     {
         if (tile.getLevel() == null || power == 0) return 0;
         final Vector3 v = Vector3.getNewVector().set(tile);
-        final AxisAlignedBB box = tile.box != null ? tile.box : (tile.box = v.getAABB().inflate(10, 10, 10));
+        final AABB box = tile.box != null ? tile.box : (tile.box = v.getAABB().inflate(10, 10, 10));
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
@@ -159,7 +159,7 @@ public class EnergyHandler
         int ret = 0;
         power = Math.min(power, PokecubeAdv.config.maxOutput);
         for (final Entity entity : l)
-            if (entity != null && entity.inChunk && entity.isAlive())
+            if (entity != null && entity.isAddedToWorld() && entity.isAlive())
             {
                 final IEnergyStorage producer = entity.getCapability(CapabilityEnergy.ENERGY).orElse(null);
                 if (producer != null)
@@ -183,8 +183,8 @@ public class EnergyHandler
     @SubscribeEvent
     public static void SiphonEvent(final SiphonTickEvent event)
     {
-        if (!(event.getTile().getLevel() instanceof ServerWorld)) return;
-        final ServerWorld world = (ServerWorld) event.getTile().getLevel();
+        if (!(event.getTile().getLevel() instanceof ServerLevel)) return;
+        final ServerLevel world = (ServerLevel) event.getTile().getLevel();
 
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Integer output = (int) EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
@@ -195,7 +195,7 @@ public class EnergyHandler
         final Vector3 v = Vector3.getNewVector().set(event.getTile());
         for (final Direction side : Direction.values())
         {
-            final TileEntity te = v.getTileEntity(world, side);
+            final BlockEntity te = v.getTileEntity(world, side);
             IEnergyStorage cap;
             if (te != null && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(
                     null)) != null)
@@ -208,11 +208,11 @@ public class EnergyHandler
         if (PokecubeAdv.config.wirelessSiphons) for (final GlobalPos pos : event.getTile().wirelessLinks)
         {
             final BlockPos bpos = pos.pos();
-            final RegistryKey<World> dim = pos.dimension();
+            final ResourceKey<Level> dim = pos.dimension();
             if (dim != world.dimension()) continue;
             final ChunkPos cpos = new ChunkPos(bpos);
             if (!world.hasChunk(cpos.x, cpos.z)) continue;
-            final TileEntity te = world.getBlockEntity(bpos);
+            final BlockEntity te = world.getBlockEntity(bpos);
             if (te == null) continue;
             IEnergyStorage cap;
             sides:
@@ -254,7 +254,7 @@ public class EnergyHandler
     }
 
     @SubscribeEvent
-    public static void onTileCapabilityAttach(final AttachCapabilitiesEvent<TileEntity> event)
+    public static void onTileCapabilityAttach(final AttachCapabilitiesEvent<BlockEntity> event)
     {
         if (event.getCapabilities().containsKey(EnergyHandler.ENERGYCAP)) return;
 
@@ -314,7 +314,7 @@ public class EnergyHandler
             // Not electric type, no energy to extract.
             if (!this.pokemob.isType(PokeType.getType("electric"))) return false;
 
-            final MobEntity living = this.pokemob.getEntity();
+            final Mob living = this.pokemob.getEntity();
             // We will update our energy when this is called, as that
             if (living.getCommandSenderWorld().getGameTime() != this.lastTickCheck)
             {

@@ -1,7 +1,7 @@
 package pokecube.core.init;
 
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,12 +59,12 @@ public class SetupHandler
         {
             @Override
             public void readNBT(final Capability<IMegaCapability> capability, final IMegaCapability instance,
-                    final Direction side, final INBT nbt)
+                    final Direction side, final Tag nbt)
             {
             }
 
             @Override
-            public INBT writeNBT(final Capability<IMegaCapability> capability, final IMegaCapability instance,
+            public Tag writeNBT(final Capability<IMegaCapability> capability, final IMegaCapability instance,
                     final Direction side)
             {
                 return null;

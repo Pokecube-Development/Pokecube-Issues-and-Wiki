@@ -2,17 +2,17 @@ package pokecube.core.client.gui.blocks;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.interfaces.IPokemob;
@@ -22,20 +22,20 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.packets.PacketTrade;
 
-public class Trade<T extends TradeContainer> extends ContainerScreen<T>
+public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 {
-    public Trade(final T container, final PlayerInventory inventory, final ITextComponent name)
+    public Trade(final T container, final Inventory inventory, final Component name)
     {
         super(container, inventory, name);
     }
 
     @Override
-    protected void renderBg(final MatrixStack mat, final float f, final int i, final int j)
+    protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
         this.minecraft.getTextureManager()
-                .bind(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
+                .bindForSetup(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
@@ -45,7 +45,7 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     /** Draw the foreground layer for the ContainerScreen (everything in front
      * of the items) */
     @Override
-    protected void renderLabels(final MatrixStack mat, final int p_146979_1_, final int p_146979_2_)
+    protected void renderLabels(final PoseStack mat, final int p_146979_1_, final int p_146979_2_)
     {
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
@@ -61,14 +61,14 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     public void init()
     {
         super.init();
-        final ITextComponent trade = new TranslationTextComponent("block.trade_machine.trade");
-        this.addButton(new Button(this.width / 2 - 70, this.height / 2 - 22, 40, 20, trade, b ->
+        final Component trade = new TranslatableComponent("block.trade_machine.trade");
+        this.addRenderableWidget(new Button(this.width / 2 - 70, this.height / 2 - 22, 40, 20, trade, b ->
         {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 0);
             PokecubeCore.packets.sendToServer(packet);
         }));
-        this.addButton(new Button(this.width / 2 + 30, this.height / 2 - 22, 40, 20, trade, b ->
+        this.addRenderableWidget(new Button(this.width / 2 + 30, this.height / 2 - 22, 40, 20, trade, b ->
         {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 1);
@@ -86,15 +86,15 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public void render(final MatrixStack mat, final int i, final int j, final float f)
+    public void render(final PoseStack mat, final int i, final int j, final float f)
     {
         this.renderBackground(mat);
         super.render(mat,i, j, f);
-        if (this.menu.tile.confirmed[0]) this.buttons.get(0).setFGColor(0xFF88FF00);
-        else this.buttons.get(0).setFGColor(0xFFFFFFFF);
+        if (this.menu.tile.confirmed[0]) this.renderables.get(0).setFGColor(0xFF88FF00);
+        else this.renderables.get(0).setFGColor(0xFFFFFFFF);
 
-        if (this.menu.tile.confirmed[1]) this.buttons.get(1).setFGColor(0xFF88FF00);
-        else this.buttons.get(1).setFGColor(0xFFFFFFFF);
+        if (this.menu.tile.confirmed[1]) this.renderables.get(1).setFGColor(0xFF88FF00);
+        else this.renderables.get(1).setFGColor(0xFFFFFFFF);
         this.renderTooltip(mat,i, j);
     }
 
@@ -145,7 +145,7 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
             break;
         }
 
-        if (poke != null && poke.getOwner() instanceof PlayerEntity)
+        if (poke != null && poke.getOwner() instanceof Player)
             GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size);
     }
 

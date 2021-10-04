@@ -1,6 +1,6 @@
 package thut.api.entity;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface IShearable
 {

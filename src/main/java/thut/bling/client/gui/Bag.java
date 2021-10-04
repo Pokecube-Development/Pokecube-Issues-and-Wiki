@@ -3,34 +3,34 @@ package thut.bling.client.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
 import thut.core.common.ThutCore;
 
-public class Bag<T extends LargeContainer> extends ContainerScreen<T>
+public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
 {
 
-    String          page;
-    TextFieldWidget textFieldSelectedBox;
-    TextFieldWidget textFieldBoxName;
-    TextFieldWidget textFieldSearch;
+    String  page;
+    EditBox textFieldSelectedBox;
+    EditBox textFieldBoxName;
+    EditBox textFieldSearch;
 
     private String boxName = "1";
     boolean        release = false;
 
-    public Bag(final T container, final PlayerInventory ivplay, final ITextComponent name)
+    public Bag(final T container, final Inventory ivplay, final Component name)
     {
         super(container, ivplay, name);
         this.imageWidth = 175;
@@ -67,11 +67,12 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void renderBg(final MatrixStack mat, final float f, final int i, final int j)
+    protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
     {
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
-        this.minecraft.getTextureManager().bind(new ResourceLocation(ThutBling.MODID,
+        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(
+                ThutBling.MODID,
                 "textures/gui/large_bag.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
@@ -79,7 +80,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    protected void renderLabels(final MatrixStack mat, final int par1, final int par2)
+    protected void renderLabels(final PoseStack mat, final int par1, final int par2)
     {
 
     }
@@ -90,37 +91,40 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
-        final ITextComponent next = new TranslationTextComponent("block.pc.next");
-        this.addButton(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
-        {
-            this.menu.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
-        }));
-        final ITextComponent prev = new TranslationTextComponent("block.pc.previous");
-        this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
-        {
-            this.menu.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
-        }));
-        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
-                - yOffset - 121, 25, 10, new StringTextComponent(this.page));
+        final Component next = new TranslatableComponent("block.pc.next");
+        this.addRenderableWidget(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10,
+                next, b ->
+                {
+                    this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
+                    this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+                }));
+        final Component prev = new TranslatableComponent("block.pc.previous");
+        this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10,
+                prev, b ->
+                {
+                    this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
+                    this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+                }));
+        this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70, this.height / 2 - yOffset
+                - 121, 25, 10, new TextComponent(this.page));
 
-        final ITextComponent rename = new TranslationTextComponent("block.pc.rename");
-        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
-        {
-            final String box = this.textFieldBoxName.getValue();
-            if (!box.equals(this.boxName)) this.menu.changeName(box);
-            this.boxName = box;
-        }));
+        final Component rename = new TranslatableComponent("block.pc.rename");
+        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10,
+                rename, b ->
+                {
+                    final String box = this.textFieldBoxName.getValue();
+                    if (!box.equals(this.boxName)) this.menu.changeName(box);
+                    this.boxName = box;
+                }));
 
-        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
-                + 0, 100, 10, new StringTextComponent(this.boxName));
-        this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
-                - 121, 90, 10, new StringTextComponent(""));
+        this.textFieldBoxName = new EditBox(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset + 0,
+                100, 10, new TextComponent(this.boxName));
+        this.textFieldSearch = new EditBox(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset - 121,
+                90, 10, new TextComponent(""));
 
-        this.addButton(this.textFieldSelectedBox);
-        this.addButton(this.textFieldBoxName);
-        this.addButton(this.textFieldSearch);
+        this.addRenderableWidget(this.textFieldSelectedBox);
+        this.addRenderableWidget(this.textFieldBoxName);
+        this.addRenderableWidget(this.textFieldSearch);
 
         this.textFieldSelectedBox.value = this.page;
         this.textFieldBoxName.value = this.boxName;
@@ -137,7 +141,7 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float f)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float f)
     {
         this.renderBackground(mat);
         super.render(mat, mouseX, mouseY, f);
@@ -152,15 +156,15 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {
                     final int slotColor = 0x55FF0000;
-                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
+                    GuiComponent.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
                     final int slotColor = 0x5500FF00;
-                    AbstractGui.fill(mat, x, y, x + 16, y + 16, slotColor);
+                    GuiComponent.fill(mat, x, y, x + 16, y + 16, slotColor);
                 }
             }
-        this.renderTooltip(mat,mouseX, mouseY);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 
 }

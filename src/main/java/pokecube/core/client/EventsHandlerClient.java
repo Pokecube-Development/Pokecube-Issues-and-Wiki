@@ -9,30 +9,30 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.world.World;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
@@ -163,7 +163,7 @@ public class EventsHandlerClient
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().inChunk && event.player.distanceTo(mob
+            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToWorld() && event.player.distanceTo(mob
                     .getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
         }
         control:
@@ -175,10 +175,10 @@ public class EventsHandlerClient
             {
                 final LogicMountedControl controller = pokemob.getController();
                 if (controller == null) break control;
-                controller.backInputDown = ((ClientPlayerEntity) event.player).input.down;
-                controller.forwardInputDown = ((ClientPlayerEntity) event.player).input.up;
-                controller.leftInputDown = ((ClientPlayerEntity) event.player).input.left;
-                controller.rightInputDown = ((ClientPlayerEntity) event.player).input.right;
+                controller.backInputDown = ((LocalPlayer) event.player).input.down;
+                controller.forwardInputDown = ((LocalPlayer) event.player).input.up;
+                controller.leftInputDown = ((LocalPlayer) event.player).input.left;
+                controller.rightInputDown = ((LocalPlayer) event.player).input.right;
 
                 final boolean up = ClientSetupHandler.mobUp.isDown();
                 final boolean down = ClientSetupHandler.mobDown.isDown();
@@ -207,7 +207,7 @@ public class EventsHandlerClient
     {
         IPokemob mount;
 
-        if (evt.getInfo().getEntity() instanceof PlayerEntity && evt.getInfo().getEntity().getVehicle() != null
+        if (evt.getInfo().getEntity() instanceof Player && evt.getInfo().getEntity().getVehicle() != null
                 && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo().getEntity().getVehicle())) != null) if (evt
                         .getInfo().getEntity().isInWater() && mount.canUseDive())
         {
@@ -218,7 +218,7 @@ public class EventsHandlerClient
 
     public static void onMouseInput(final RawMouseEvent evt)
     {
-        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        final LocalPlayer player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
         //
@@ -227,8 +227,8 @@ public class EventsHandlerClient
         {
             final Entity entity = Tools.getPointedEntity(player, 6);
             if (entity != null) hands:
-            for (final Hand hand : Hand.values())
-                if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == ActionResultType.SUCCESS)
+            for (final InteractionHand hand : InteractionHand.values())
+                if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == InteractionResult.SUCCESS)
                 {
                     evt.setCanceled(true);
                     break hands;
@@ -238,10 +238,10 @@ public class EventsHandlerClient
 
     public static void onKeyInput(final KeyInputEvent evt)
     {
-        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        final LocalPlayer player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        if (InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt.getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
+        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt.getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
 
         if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
                 .getInstance().screen instanceof AnimationGui)
@@ -308,17 +308,17 @@ public class EventsHandlerClient
 
     public static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof PlayerEntity) event.addCapability(new ResourceLocation(
-                "pokecube:shouldermobs"), new ShoulderHolder((PlayerEntity) event.getObject()));
+        if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation(
+                "pokecube:shouldermobs"), new ShoulderHolder((Player) event.getObject()));
     }
 
     public static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
     {
         try
         {
-            if (!(event.getGui() instanceof ContainerScreen)) return;
+            if (!(event.getGui() instanceof AbstractContainerScreen)) return;
             if (!Screen.hasAltDown()) return;
-            final ContainerScreen<?> gui = (ContainerScreen<?>) event.getGui();
+            final AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) event.getGui();
             final List<Slot> slots = gui.getMenu().slots;
             for (final Slot slot : slots)
                 if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
@@ -353,7 +353,7 @@ public class EventsHandlerClient
         if (event.getType() == ElementType.HOTBAR)
         {
             if (!Screen.hasAltDown()) return;
-            final PlayerEntity player = Minecraft.getInstance().player;
+            final Player player = Minecraft.getInstance().player;
             final int w = event.getWindow().getGuiScaledWidth();
             final int h = event.getWindow().getGuiScaledHeight();
             int i, j;
@@ -361,7 +361,7 @@ public class EventsHandlerClient
             j = -9;
             for (int l = 0; l < 9; l++)
             {
-                final ItemStack stack = player.inventory.items.get(l);
+                final ItemStack stack = player.getInventory().items.get(l);
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
                     final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player
@@ -384,7 +384,7 @@ public class EventsHandlerClient
         }
     }
 
-    public static IPokemob getPokemobForRender(final ItemStack itemStack, final World world)
+    public static IPokemob getPokemobForRender(final ItemStack itemStack, final Level world)
     {
         if (!itemStack.hasTag()) return null;
         final PokedexEntry entry = PokecubeManager.getPokedexEntry(itemStack);
@@ -392,7 +392,7 @@ public class EventsHandlerClient
         {
             final IPokemob pokemob = EventsHandlerClient.getRenderMob(entry, world);
             if (pokemob == null) return null;
-            final CompoundNBT pokeTag = itemStack.getTag();
+            final CompoundTag pokeTag = itemStack.getTag();
             EventsHandlerClient.setFromNBT(pokemob, pokeTag);
             pokemob.setPokecube(itemStack);
             pokemob.setStatus(PokecubeManager.getStatus(itemStack));
@@ -402,7 +402,7 @@ public class EventsHandlerClient
         return null;
     }
 
-    public static IPokemob getRenderMob(final PokedexEntry entry, final World world)
+    public static IPokemob getRenderMob(final PokedexEntry entry, final Level world)
     {
         IPokemob pokemob = EventsHandlerClient.renderMobs.get(entry);
         if (pokemob != null) pokemob = pokemob.setPokedexEntry(entry);
@@ -450,7 +450,7 @@ public class EventsHandlerClient
         RenderSystem.pushMatrix();
 
 
-        Minecraft.getInstance().getTextureManager().bind(icon);
+        Minecraft.getInstance().getTextureManager().bindForSetup(icon);
         Minecraft.getInstance().getTextureManager().getTexture(icon).setFilter(false, false);
 
         RenderSystem.enableRescaleNormal();
@@ -458,13 +458,13 @@ public class EventsHandlerClient
         RenderSystem.defaultAlphaFunc();
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderHelper.setupForFlatItems();
+        Lighting.setupForFlatItems();
 
-        final Tessellator tessellator = Tessellator.getInstance();
+        final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
 
         final int zLevel = 300;
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.vertex(left, bottom, zLevel).uv(0, 0).endVertex();
         bufferbuilder.vertex(right, bottom, zLevel).uv(1, 0).endVertex();
         bufferbuilder.vertex(right, top, zLevel).uv(1, 1).endVertex();
@@ -472,7 +472,7 @@ public class EventsHandlerClient
         tessellator.end();
 
         RenderSystem.enableDepthTest();
-        RenderHelper.setupFor3DItems();
+        Lighting.setupFor3DItems();
 
         RenderSystem.disableAlphaTest();
         RenderSystem.disableRescaleNormal();
@@ -497,10 +497,10 @@ public class EventsHandlerClient
 //        return EventsHandlerClient.cache.get(icon);
 //    }
 
-    public static void setFromNBT(final IPokemob pokemob, final CompoundNBT tag)
+    public static void setFromNBT(final IPokemob pokemob, final CompoundTag tag)
     {
-        final CompoundNBT pokemobTag = TagNames.getPokecubePokemobTag(tag);
-        final INBT genesTag = TagNames.getPokecubeGenesTag(tag);
+        final CompoundTag pokemobTag = TagNames.getPokecubePokemobTag(tag);
+        final Tag genesTag = TagNames.getPokecubeGenesTag(tag);
         pokemobTag.remove(TagNames.AITAG);
         pokemobTag.remove(TagNames.MOVESTAG);
         pokemob.setHealth(tag.getFloat("CHP"));

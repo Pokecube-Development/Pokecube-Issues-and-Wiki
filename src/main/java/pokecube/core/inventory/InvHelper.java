@@ -2,12 +2,12 @@ package pokecube.core.inventory;
 
 import java.util.function.Predicate;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -18,7 +18,7 @@ import thut.api.item.ItemList;
 
 public class InvHelper
 {
-    public static class ItemCap extends ItemStackHandler implements ICapabilitySerializable<CompoundNBT>
+    public static class ItemCap extends ItemStackHandler implements ICapabilitySerializable<CompoundTag>
     {
         private final int                        stackSize;
         private final LazyOptional<IItemHandler> holder     = LazyOptional.of(() -> this);
@@ -57,26 +57,26 @@ public class InvHelper
         }
     }
 
-    public static void load(final IInventory inven, final CompoundNBT tag)
+    public static void load(final Container inven, final CompoundTag tag)
     {
-        final ListNBT listnbt = tag.getList("Items", 10);
+        final ListTag listnbt = tag.getList("Items", 10);
         for (int i = 0; i < listnbt.size(); ++i)
         {
-            final CompoundNBT compoundnbt = listnbt.getCompound(i);
+            final CompoundTag compoundnbt = listnbt.getCompound(i);
             final int j = compoundnbt.getByte("Slot") & 255;
             if (j >= 0 && j < inven.getContainerSize()) inven.setItem(j, ItemStack.of(compoundnbt));
         }
     }
 
-    public static void save(final IInventory inven, final CompoundNBT tag)
+    public static void save(final Container inven, final CompoundTag tag)
     {
-        final ListNBT listnbt = new ListNBT();
+        final ListTag listnbt = new ListTag();
         for (int i = 0; i < inven.getContainerSize(); ++i)
         {
             final ItemStack itemstack = inven.getItem(i);
             if (!itemstack.isEmpty())
             {
-                final CompoundNBT compoundnbt = new CompoundNBT();
+                final CompoundTag compoundnbt = new CompoundTag();
                 compoundnbt.putByte("Slot", (byte) i);
                 itemstack.save(compoundnbt);
                 listnbt.add(compoundnbt);

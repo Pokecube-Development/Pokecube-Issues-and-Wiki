@@ -3,30 +3,30 @@ package pokecube.legends.blocks.customblocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class HeatranBlock extends Rotates implements IWaterLoggable
+public class HeatranBlock extends Rotates implements SimpleWaterloggedBlock
 {
     private static final Map<Direction, VoxelShape> HEATRAN  = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
+    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
     {// @formatter:off
-    	HeatranBlock.HEATRAN.put(Direction.NORTH, VoxelShapes.or(
+    	HeatranBlock.HEATRAN.put(Direction.NORTH, Shapes.or(
 			Block.box(3, 6, 3, 13, 10, 13),
 			Block.box(2, 10, 2, 14, 12, 14),
 			Block.box(2, 4, 2, 14, 6, 14),
@@ -34,7 +34,7 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 			Block.box(1, 2, 1, 15, 4, 15),
 			Block.box(0, 14, 0, 16, 16, 16),
 			Block.box(0, 0, 0, 16, 2, 16)).optimize());
-    	HeatranBlock.HEATRAN.put(Direction.EAST, VoxelShapes.or(
+    	HeatranBlock.HEATRAN.put(Direction.EAST, Shapes.or(
 			Block.box(3, 6, 3, 13, 10, 13),
 			Block.box(2, 10, 2, 14, 12, 14),
 			Block.box(2, 4, 2, 14, 6, 14),
@@ -42,7 +42,7 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 			Block.box(1, 2, 1, 15, 4, 15),
 			Block.box(0, 14, 0, 16, 16, 16),
 			Block.box(0, 0, 0, 16, 2, 16)).optimize());
-    	HeatranBlock.HEATRAN.put(Direction.SOUTH, VoxelShapes.or(
+    	HeatranBlock.HEATRAN.put(Direction.SOUTH, Shapes.or(
 			Block.box(3, 6, 3, 13, 10, 13),
 			Block.box(2, 10, 2, 14, 12, 14),
 			Block.box(2, 4, 2, 14, 6, 14),
@@ -50,7 +50,7 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 			Block.box(1, 2, 1, 15, 4, 15),
 			Block.box(0, 14, 0, 16, 16, 16),
 			Block.box(0, 0, 0, 16, 2, 16)).optimize());
-    	HeatranBlock.HEATRAN.put(Direction.WEST, VoxelShapes.or(
+    	HeatranBlock.HEATRAN.put(Direction.WEST, Shapes.or(
 			Block.box(3, 6, 3, 13, 10, 13),
 			Block.box(2, 10, 2, 14, 12, 14),
 			Block.box(2, 4, 2, 14, 6, 14),
@@ -62,8 +62,8 @@ public class HeatranBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         return HeatranBlock.HEATRAN.get(state.getValue(HeatranBlock.FACING));
     }

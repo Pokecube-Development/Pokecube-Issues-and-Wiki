@@ -27,18 +27,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.item.ItemStack;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IFutureReloadListener;
-import net.minecraft.resources.IReloadableResourceManager;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackList;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.resources.SimpleReloadableResourceManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -140,14 +140,14 @@ public class Database
         private final List<Drop> drops = Lists.newArrayList();
     }
 
-    public static class ReloadListener implements IFutureReloadListener
+    public static class ReloadListener implements PreparableReloadListener
     {
-        public static final IFutureReloadListener INSTANCE = new ReloadListener();
+        public static final PreparableReloadListener INSTANCE = new ReloadListener();
 
         @Override
-        public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
-                final IResourceManager resourceManager, final IProfiler preparationsProfiler,
-                final IProfiler reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
+        public final CompletableFuture<Void> reload(final PreparableReloadListener.PreparationBarrier stage,
+                final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
+                final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
         {
             return CompletableFuture.supplyAsync(() ->
             {
@@ -161,13 +161,13 @@ public class Database
         /**
          * Performs any reloading that can be done off-thread, such as file IO
          */
-        protected Object prepare(final IResourceManager resourceManagerIn, final IProfiler profilerIn)
+        protected Object prepare(final ResourceManager resourceManagerIn, final ProfilerFiller profilerIn)
         {
             return null;
         }
 
-        protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
-                final IProfiler profilerIn)
+        protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
+                final ProfilerFiller profilerIn)
         {
             Database.listener.add(resourceManagerIn);
             Database.onResourcesReloaded();
@@ -225,8 +225,8 @@ public class Database
 
     static int lastCount = -1;
 
-    public static IReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
-            ResourcePackType.SERVER_DATA);
+    public static ReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
+            PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -914,7 +914,7 @@ public class Database
         DefaultFormeHolder._main_init_ = true;
     }
 
-    public static Set<IResourcePack> customPacks = Sets.newHashSet();
+    public static Set<PackResources> customPacks = Sets.newHashSet();
 
     public static PackListener listener = new PackListener();
 
@@ -922,11 +922,11 @@ public class Database
     {
         Database.customPacks.clear();
         @SuppressWarnings("deprecation")
-        final ResourcePackList resourcePacks = new ResourcePackList(ResourcePackInfo::new);
+        final PackRepository resourcePacks = new PackRepository(Pack::new);
         @SuppressWarnings("deprecation")
-        final PackFinder finder = new PackFinder(ResourcePackInfo::new);
+        final PackFinder finder = new PackFinder(Pack::new);
         resourcePacks.addPackFinder(finder);
-        for (final IResourcePack info : finder.allPacks)
+        for (final PackResources info : finder.allPacks)
             try
             {
                 if (applyToManager)

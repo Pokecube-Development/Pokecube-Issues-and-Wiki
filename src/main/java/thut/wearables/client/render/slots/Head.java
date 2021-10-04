@@ -1,19 +1,19 @@
 package thut.wearables.client.render.slots;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.model.IHasHead;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.model.HeadedModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
 public class Head
 {
-    public static void preOffset(final MatrixStack mat, final boolean childModel, final boolean sneaking)
+    public static void preOffset(final PoseStack mat, final boolean childModel, final boolean sneaking)
     {
         float[] offsetArr = new float[3];
         if (sneaking && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat.translate(
@@ -28,7 +28,7 @@ public class Head
         }
     }
 
-    public static boolean postOffset(final MatrixStack mat, final int index, final EnumWearable slot)
+    public static boolean postOffset(final PoseStack mat, final int index, final EnumWearable slot)
     {
         float[] offsetArr = new float[3];
         mat.translate(0, -0.25f, 0);
@@ -77,10 +77,10 @@ public class Head
         return render;
     }
 
-    public static void render(final MatrixStack mat, final IRenderTypeBuffer buff, final IWearable wearable,
+    public static void render(final PoseStack mat, final MultiBufferSource buff, final IWearable wearable,
             final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
             final float partialTicks, final boolean thinArms, final int brightness, final int overlay,
-            final IHasHead theModel)
+            final HeadedModel theModel)
     {
         if (wearable == null) return;
 

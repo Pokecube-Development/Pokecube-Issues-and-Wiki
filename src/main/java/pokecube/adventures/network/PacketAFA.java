@@ -1,47 +1,47 @@
 package pokecube.adventures.network;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
 import thut.core.common.network.Packet;
 
 public class PacketAFA extends Packet
 {
-    public static void openGui(final ServerPlayerEntity player, final AfaTile tile)
+    public static void openGui(final ServerPlayer player, final AfaTile tile)
     {
-        final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.afa");
-        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new AfaContainer(i,
-                p, IWorldPosCallable.create(tile.getLevel(), tile.getBlockPos())), name);
+        final TranslatableComponent name = new TranslatableComponent("block.pokecube_adventures.afa");
+        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new AfaContainer(i,
+                p, ContainerLevelAccess.create(tile.getLevel(), tile.getBlockPos())), name);
         player.openMenu(provider);
     }
 
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketAFA()
     {
     }
 
-    public PacketAFA(final PacketBuffer buf)
+    public PacketAFA(final FriendlyByteBuf buf)
     {
         this.data = buf.readNbt();
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void write(final FriendlyByteBuf buffer)
     {
         buffer.writeNbt(this.data);
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
-        final Container cont = player.containerMenu;
+        final AbstractContainerMenu cont = player.containerMenu;
         if (cont instanceof AfaContainer)
         {
             final AfaTile tile = ((AfaContainer) cont).tile;

@@ -12,15 +12,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.ByteArrayNBT;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTSizeTracker;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
+import net.minecraft.nbt.ByteArrayTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.fmllegacy.network.PacketDistributor.PacketTarget;
 import thut.core.common.ThutCore;
 
 /**
@@ -61,7 +61,7 @@ public final class PacketAssembly<T extends NBTPacket>
         this.handler = handler;
     }
 
-    public void sendTo(final T packet, final ServerPlayerEntity player)
+    public void sendTo(final T packet, final ServerPlayer player)
     {
         this.sendTo(packet, PacketDistributor.PLAYER.with(() -> player));
     }
@@ -74,8 +74,8 @@ public final class PacketAssembly<T extends NBTPacket>
     public void sendTo(final T packet, final PacketTarget target)
     {
         final UUID id = UUID.randomUUID();
-        final List<CompoundNBT> tags = this.splitPacket(id, packet.getTag());
-        for (final CompoundNBT tag : tags)
+        final List<CompoundTag> tags = this.splitPacket(id, packet.getTag());
+        for (final CompoundTag tag : tags)
         {
             final T newPacket = this.factory.create();
             newPacket.setTag(tag);
@@ -86,8 +86,8 @@ public final class PacketAssembly<T extends NBTPacket>
     public void sendToServer(final T packet)
     {
         final UUID id = UUID.randomUUID();
-        final List<CompoundNBT> tags = this.splitPacket(id, packet.getTag());
-        for (final CompoundNBT tag : tags)
+        final List<CompoundTag> tags = this.splitPacket(id, packet.getTag());
+        for (final CompoundTag tag : tags)
         {
             final T newPacket = this.factory.create();
             newPacket.setTag(tag);
@@ -95,30 +95,30 @@ public final class PacketAssembly<T extends NBTPacket>
         }
     }
 
-    protected CompoundNBT onRead(final CompoundNBT tag)
+    protected CompoundTag onRead(final CompoundTag tag)
     {
         final UUID id = tag.getUUID("id");
-        final CompoundNBT made = this.assemblePacket(id, tag);
+        final CompoundTag made = this.assemblePacket(id, tag);
         return made;
     }
 
-    private List<CompoundNBT> splitPacket(final UUID id, final CompoundNBT tags)
+    private List<CompoundTag> splitPacket(final UUID id, final CompoundTag tags)
     {
         try
         {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            CompressedStreamTools.writeCompressed(tags, baos);
+            NbtIo.writeCompressed(tags, baos);
             baos.flush();
             final byte[] data = baos.toByteArray();
             baos.close();
-            final int req = MathHelper.ceil(data.length / (float) PacketAssembly.bufSize);
-            final List<CompoundNBT> pkts = new ArrayList<>(req);
+            final int req = Mth.ceil(data.length / (float) PacketAssembly.bufSize);
+            final List<CompoundTag> pkts = new ArrayList<>(req);
 
             for (int p = 0; p < req; p++)
             {
                 final int idx = p * PacketAssembly.bufSize;
                 final int s = Math.min(data.length - idx, PacketAssembly.bufSize);
-                final CompoundNBT container = new CompoundNBT();
+                final CompoundTag container = new CompoundTag();
                 final byte[] part = new byte[s];
                 System.arraycopy(data, idx, part, 0, s);
                 // If the buffer isn't yet created, how big is it
@@ -127,7 +127,7 @@ public final class PacketAssembly<T extends NBTPacket>
                 container.putInt("start", idx);
                 container.putBoolean("end", p == req - 1);
                 // The raw byte data to write
-                container.put("data", new ByteArrayNBT(part));
+                container.put("data", new ByteArrayTag(part));
                 // Include who's packet we go to
                 container.putUUID("id", id);
                 pkts.add(container);
@@ -146,7 +146,7 @@ public final class PacketAssembly<T extends NBTPacket>
      * Appends a packet onto the buffer and returns an assembled NBTTagCompound
      * when complete
      */
-    private CompoundNBT assemblePacket(final UUID id, final CompoundNBT tags)
+    private CompoundTag assemblePacket(final UUID id, final CompoundTag tags)
     {
         final int size = tags.getInt("size");
         final int index = tags.getInt("start");
@@ -177,7 +177,7 @@ public final class PacketAssembly<T extends NBTPacket>
             {
                 final DataInputStream dis = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
                         new ByteArrayInputStream(tmp))));
-                final CompoundNBT tag = CompressedStreamTools.read(dis, NBTSizeTracker.UNLIMITED);
+                final CompoundTag tag = NbtIo.read(dis, NbtAccounter.UNLIMITED);
                 dis.close();
                 return tag;
             }

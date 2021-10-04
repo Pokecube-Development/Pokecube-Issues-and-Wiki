@@ -1,22 +1,22 @@
 package thut.crafts.proxy;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
 import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -31,18 +31,18 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
+        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
                 .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
-        final PlayerEntity playerIn = evt.getPlayer();
-        final World worldIn = evt.getWorld();
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
-            final CompoundNBT minTag = itemstack.getTag().getCompound("min");
+            final CompoundTag minTag = itemstack.getTag().getCompound("min");
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            final AxisAlignedBB box = new AxisAlignedBB(min, max);
+            final AABB box = new AABB(min, max);
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
             final BlockPos mid = min;
@@ -52,7 +52,7 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 10 || dw > 2 * 5 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
+                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
                 return;
             }
             if (!worldIn.isClientSide)
@@ -60,19 +60,19 @@ public class CommonProxy implements Proxy
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
+                playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
             evt.setCanceled(true);
         }
         else
         {
-            if (!itemstack.hasTag()) itemstack.setTag(new CompoundNBT());
-            final CompoundNBT min = new CompoundNBT();
+            if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
+            final CompoundTag min = new CompoundTag();
             Vector3.getNewVector().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.craft.setcorner";
-            if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message, pos), Util.NIL_UUID);
+            if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, pos), Util.NIL_UUID);
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", Tracker.instance().getTick());
         }
@@ -81,22 +81,22 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
+        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || !evt
                 .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
-        final PlayerEntity playerIn = evt.getPlayer();
-        final World worldIn = evt.getWorld();
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
         final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
                 .getLong("time") != now)
         {
-            final CompoundNBT minTag = itemstack.getTag().getCompound("min");
-            final Vector3d loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
+            final CompoundTag minTag = itemstack.getTag().getCompound("min");
+            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
                     .scale(2));
             final BlockPos pos = new BlockPos(loc);
             BlockPos min = pos;
             BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            final AxisAlignedBB box = new AxisAlignedBB(min, max);
+            final AABB box = new AABB(min, max);
             min = new BlockPos(box.minX, box.minY, box.minZ);
             max = new BlockPos(box.maxX, box.maxY, box.maxZ);
             final BlockPos mid = min;
@@ -106,7 +106,7 @@ public class CommonProxy implements Proxy
             if (max.getY() - min.getY() > 15 || dw > 2 * 10 + 1)
             {
                 final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
+                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
                 return;
             }
             if (!worldIn.isClientSide)
@@ -114,7 +114,7 @@ public class CommonProxy implements Proxy
                 final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
                         EntityCraft.CRAFTTYPE);
                 final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                playerIn.sendMessage(new TranslationTextComponent(message), Util.NIL_UUID);
+                playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
             }
             itemstack.getTag().remove("min");
         }

@@ -5,24 +5,24 @@ import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.trade.TradeContainer;
 
 public class TraderTile extends InteractableTile
 {
-    public final IIntArray syncValues = new IIntArray()
+    public final ContainerData syncValues = new ContainerData()
     {
         @Override
         public int getCount()
@@ -51,31 +51,31 @@ public class TraderTile extends InteractableTile
         this(PokecubeItems.TRADE_TYPE.get());
     }
 
-    public TraderTile(final TileEntityType<?> tileEntityTypeIn)
+    public TraderTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
 
     @Override
-    public CompoundNBT getUpdateTag()
+    public CompoundTag getUpdateTag()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         return this.save(tag);
     }
 
     @Override
-    public void handleUpdateTag(final BlockState state, final CompoundNBT tag)
+    public void handleUpdateTag(final BlockState state, final CompoundTag tag)
     {
         this.load(state, tag);
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
-        if (this.users.size() < 2) player.openMenu(new SimpleNamedContainerProvider((id, playerInventory,
-                playerIn) -> new TradeContainer(id, playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), player
+        if (this.users.size() < 2) player.openMenu(new SimpleMenuProvider((id, playerInventory,
+                playerIn) -> new TradeContainer(id, playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), player
                         .getDisplayName()));
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 }

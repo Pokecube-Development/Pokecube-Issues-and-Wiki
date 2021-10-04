@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -40,21 +39,6 @@ public class AnimatedCaps
         }
     }
 
-    public static class Storage implements Capability.IStorage<IAnimated>
-    {
-        @Override
-        public void readNBT(final Capability<IAnimated> capability, final IAnimated instance, final Direction side,
-                final INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IAnimated> capability, final IAnimated instance, final Direction side)
-        {
-            return null;
-        }
-    }
-
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:animated_mob");
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -74,7 +58,7 @@ public class AnimatedCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IAnimated.class, new Storage(), Impl::new);
+        CapabilityManager.INSTANCE.register(IAnimated.class);
         MinecraftForge.EVENT_BUS.register(AnimatedCaps.class);
     }
 

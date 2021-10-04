@@ -3,7 +3,7 @@ package pokecube.core.moves.templates;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.interfaces.IPokemob;

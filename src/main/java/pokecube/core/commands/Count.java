@@ -13,13 +13,13 @@ import com.google.common.collect.Sets;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -33,11 +33,11 @@ import pokecube.core.utils.Tools;
 public class Count
 {
 
-    public static int execute(final CommandSource source) throws CommandSyntaxException
+    public static int execute(final CommandSourceStack source) throws CommandSyntaxException
     {
-        final ServerWorld world = source.getLevel();
+        final ServerLevel world = source.getLevel();
         final Stream<Entity> mobs = world.getEntities();
-        final Vector3d pos = source.getPosition();
+        final Vec3 pos = source.getPosition();
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
@@ -58,14 +58,14 @@ public class Count
         }
         final List<Map.Entry<PokedexEntry, Integer>> entries = Lists.newArrayList(counts.entrySet());
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
-        source.sendSuccess(new TranslationTextComponent("pokecube.command.count", count1, count2), true);
-        source.sendSuccess(new StringTextComponent(entries.toString()), true);
-        if (RootTask.doLoadThrottling) source.sendSuccess(new StringTextComponent("Load Factor: " + RootTask.runRate),
+        source.sendSuccess(new TranslatableComponent("pokecube.command.count", count1, count2), true);
+        source.sendSuccess(new TextComponent(entries.toString()), true);
+        if (RootTask.doLoadThrottling) source.sendSuccess(new TextComponent("Load Factor: " + RootTask.runRate),
                 true);
         return 0;
     }
 
-    public static void register(final LiteralArgumentBuilder<CommandSource> command)
+    public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.count";
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,

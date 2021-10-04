@@ -6,13 +6,13 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -111,14 +111,14 @@ public class Splicer extends BasePeripheral<SplicerTile>
                 values.add(s);
             if (values.isEmpty()) throw new LuaException("You need to specify some genes");
             final ItemStack newSelector = new ItemStack(Items.WRITTEN_BOOK);
-            newSelector.setTag(new CompoundNBT());
-            final ListNBT pages = new ListNBT();
+            newSelector.setTag(new CompoundTag());
+            final ListTag pages = new ListTag();
             for (final String s : values)
-                pages.add(StringNBT.valueOf(String.format("{\"text\":\"%s\"}", s)));
+                pages.add(StringTag.valueOf(String.format("{\"text\":\"%s\"}", s)));
             newSelector.getTag().put("pages", pages);
             value = RecipeSelector.getSelectorValue(this.tile.getItem(1));
             newSelector.getTag().put(ClonerHelper.SELECTORTAG, value.save());
-            newSelector.setHoverName(new StringTextComponent("Selector"));
+            newSelector.setHoverName(new TextComponent("Selector"));
             this.tile.override_selector = newSelector;
             return true;
         }

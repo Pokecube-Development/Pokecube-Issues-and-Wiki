@@ -2,13 +2,13 @@ package pokecube.core.ai.tasks.misc;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.entity.MobEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Mob;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IPokemob;
 
-public class SwimTask extends RootTask<MobEntity>
+public class SwimTask extends RootTask<Mob>
 {
     private final float jumpChance;
 
@@ -33,7 +33,7 @@ public class SwimTask extends RootTask<MobEntity>
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final MobEntity owner)
+    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
     {
         if (this.pokemob != null && this.pokemob.swims()) return false;
         final boolean belowDepth = owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold();
@@ -41,14 +41,14 @@ public class SwimTask extends RootTask<MobEntity>
     }
 
     @Override
-    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
             final long gameTimeIn)
     {
         return this.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerLevel worldIn, final Mob owner, final long gameTime)
     {
         if (owner.getRandom().nextFloat() < this.jumpChance) owner.getJumpControl().jump();
     }

@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -25,7 +25,7 @@ import thut.api.entity.ai.ITask;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
-public abstract class TaskBase extends RootTask<MobEntity> implements ITask
+public abstract class TaskBase extends RootTask<Mob> implements ITask
 {
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
@@ -52,7 +52,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         }
 
         @Override
-        public boolean run(final World world)
+        public boolean run(final Level world)
         {
             final Entity e = world.getEntity(this.entity);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
@@ -68,15 +68,15 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     /** Thread safe sound playing. */
     public static class PlaySound implements IRunnable
     {
-        final RegistryKey<World> dim;
+        final ResourceKey<Level> dim;
         final Vector3            loc;
         final SoundEvent         sound;
-        final SoundCategory      cat;
+        final SoundSource      cat;
         final float              volume;
         final float              pitch;
 
-        public PlaySound(final RegistryKey<World> registryKey, final Vector3 loc, final SoundEvent sound,
-                final SoundCategory cat, final float volume, final float pitch)
+        public PlaySound(final ResourceKey<Level> registryKey, final Vector3 loc, final SoundEvent sound,
+                final SoundSource cat, final float volume, final float pitch)
         {
             this.dim = registryKey;
             this.sound = sound;
@@ -87,7 +87,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         }
 
         @Override
-        public boolean run(final World world)
+        public boolean run(final Level world)
         {
             if (this.dim != world.dimension()) return false;
             world.playSound(null, this.loc.x, this.loc.y, this.loc.z, this.sound, this.cat, this.volume, this.pitch);
@@ -111,7 +111,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
 
     protected final IPokemob pokemob;
 
-    protected final ServerWorld world;
+    protected final ServerLevel world;
 
     int priority = 0;
 
@@ -123,11 +123,11 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
         this(pokemob, ImmutableMap.of());
     }
 
-    public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
+    public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
     {
         super(pokemob.getEntity(), neededMems);
         this.pokemob = pokemob;
-        if (this.entity.getCommandSenderWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
+        if (this.entity.getCommandSenderWorld() instanceof ServerLevel) this.world = (ServerLevel) this.entity
                 .getCommandSenderWorld();
         else this.world = null;
     }
@@ -164,14 +164,14 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final MobEntity owner)
+    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
     {
         if (this.isPaused(owner)) return this.tempRun;
         return this.tempRun = this.shouldRun();
     }
 
     @Override
-    protected void stop(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
         // Incase this is called when paused, we don't want to accept it, so
         // return early.
@@ -180,7 +180,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
             final long gameTimeIn)
     {
         if (this.isPaused(entityIn)) return this.tempCont;
@@ -188,7 +188,7 @@ public abstract class TaskBase extends RootTask<MobEntity> implements ITask
     }
 
     @Override
-    protected void tick(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
+    protected void tick(final ServerLevel worldIn, final Mob owner, final long gameTime)
     {
         if (this.isPaused(owner)) return;
         this.run();

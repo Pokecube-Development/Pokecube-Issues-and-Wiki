@@ -1,8 +1,8 @@
 package pokecube.core.entity.pokemobs;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.ShoulderRidingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * This class is copied by ByteClassLoader to make seperate classes for each
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
  */
 public class GenericPokemob extends EntityPokemob
 {
-    public GenericPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
+    public GenericPokemob(final EntityType<? extends ShoulderRidingEntity> type, final Level world)
     {
         super(type, world);
     }

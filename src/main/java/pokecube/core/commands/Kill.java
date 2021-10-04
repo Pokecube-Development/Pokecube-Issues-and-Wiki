@@ -5,12 +5,12 @@ import java.util.stream.Stream;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -36,10 +36,10 @@ public class Kill
         }
     }
 
-    public static int execute(final CommandSource source, final boolean tame, final boolean cull)
+    public static int execute(final CommandSourceStack source, final boolean tame, final boolean cull)
             throws CommandSyntaxException
     {
-        final ServerWorld world = source.getLevel();
+        final ServerLevel world = source.getLevel();
         final Stream<Entity> mobs = world.getEntities();
         int count1 = 0;
         for (final Object o : mobs.toArray())
@@ -56,11 +56,11 @@ public class Kill
                 count1++;
             }
         }
-        source.sendSuccess(new TranslationTextComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
+        source.sendSuccess(new TranslatableComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
         return 0;
     }
 
-    public static void register(final LiteralArgumentBuilder<CommandSource> command)
+    public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String killPerm = "command.pokecube.kill";
         final String killAllPerm = "command.pokecube.kill_all";

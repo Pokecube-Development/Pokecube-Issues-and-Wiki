@@ -8,18 +8,18 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.BookCloningRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.BookCloningRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import pokecube.adventures.PokecubeAdv;
@@ -96,12 +96,12 @@ public class RecipeHandlers
             @Override
             public boolean complete(final IPoweredProgress tile)
             {
-                final World world = ((TileEntity) tile).getLevel();
-                final BlockPos pos = ((TileEntity) tile).getBlockPos();
+                final Level world = ((BlockEntity) tile).getLevel();
+                final BlockPos pos = ((BlockEntity) tile).getBlockPos();
                 final PokedexEntry entry = RecipeClone.getEntry(this, tile);
                 if (entry == Database.missingno) return false;
                 final boolean tame = !entry.isLegendary() && this.tame;
-                MobEntity entity = PokecubeCore.createPokemob(entry, world);
+                Mob entity = PokecubeCore.createPokemob(entry, world);
                 if (entity != null)
                 {
                     ItemStack dnaSource = tile.getItem(0);
@@ -114,7 +114,7 @@ public class RecipeHandlers
                     // You can give him more XP if you want
                     entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
                     if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
-                    final Direction dir = world.getBlockState(pos).getValue(HorizontalBlock.FACING);
+                    final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
                     entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
                             world.random.nextFloat() * 360F, 0.0F);
                     entity.getPersistentData().putBoolean("cloned", true);
@@ -132,7 +132,7 @@ public class RecipeHandlers
             }
 
             @Override
-            public PokedexEntry getEntry(final CraftingInventory inventory)
+            public PokedexEntry getEntry(final CraftingContainer inventory)
             {
                 if (inventory.getItem(1).isEmpty()) return Database.missingno;
                 boolean valid = false;
@@ -332,8 +332,8 @@ public class RecipeHandlers
 
     private static void onCrafted(final ItemCraftedEvent event)
     {
-        if (!(event.getInventory() instanceof CraftingInventory)) return;
-        final CraftingInventory inv = (CraftingInventory) event.getInventory();
+        if (!(event.getInventory() instanceof CraftingContainer)) return;
+        final CraftingContainer inv = (CraftingContainer) event.getInventory();
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
         if (!test.matches(inv, event.getEntity().getCommandSenderWorld())) return;

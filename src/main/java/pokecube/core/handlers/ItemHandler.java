@@ -1,11 +1,11 @@
 package pokecube.core.handlers;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -30,7 +30,7 @@ public class ItemHandler
         ItemGenerator.registerItems(registry);
     }
 
-    private static void addMiscTiles(final IForgeRegistry<TileEntityType<?>> registry)
+    private static void addMiscTiles(final IForgeRegistry<BlockEntityType<?>> registry)
     {
         // Register classes for ownable caps
         OwnableCaps.TILES.add(PokecubeItems.TRADE_TYPE.get());
@@ -98,7 +98,7 @@ public class ItemHandler
         ItemHandler.registerItemBlocks(iForgeRegistry);
     }
 
-    public static void registerTiles(final IForgeRegistry<TileEntityType<?>> iForgeRegistry)
+    public static void registerTiles(final IForgeRegistry<BlockEntityType<?>> iForgeRegistry)
     {
         ItemHandler.addMiscTiles(iForgeRegistry);
     }

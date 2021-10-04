@@ -9,21 +9,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.SectionPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.LakesFeature;
-import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.LakeFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import pokecube.core.PokecubeCore;
 
-@Mixin(LakesFeature.class)
-public abstract class MixinLakesFeature extends Feature<BlockStateFeatureConfig>
+@Mixin(LakeFeature.class)
+public abstract class MixinLakesFeature extends Feature<BlockStateConfiguration>
 {
 
-    public MixinLakesFeature(final Codec<BlockStateFeatureConfig> codec)
+    public MixinLakesFeature(final Codec<BlockStateConfiguration> codec)
     {
         super(codec);
     }
@@ -40,11 +40,11 @@ public abstract class MixinLakesFeature extends Feature<BlockStateFeatureConfig>
             // the stock behaviour returns true only for standard villages
             cancellable = true
             )//@formatter:on
-    private void checkForRSVillages(final ISeedReader world, final ChunkGenerator chunkGen, final Random random,
-            final BlockPos blockPos, final BlockStateFeatureConfig config, final CallbackInfoReturnable<Boolean> cir)
+    private void checkForRSVillages(final WorldGenLevel world, final ChunkGenerator chunkGen, final Random random,
+            final BlockPos blockPos, final BlockStateConfiguration config, final CallbackInfoReturnable<Boolean> cir)
     {
         if (!PokecubeCore.getConfig().lakeFeatureMixin) return;
-        for (final Structure<?> village : Structure.NOISE_AFFECTING_FEATURES)
+        for (final StructureFeature<?> village : StructureFeature.NOISE_AFFECTING_FEATURES)
             if (world.startsForFeature(SectionPos.of(blockPos), village).findAny().isPresent())
             {
                 cir.setReturnValue(false);

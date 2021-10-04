@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -74,7 +74,7 @@ public class NBTEdit
         NBTEdit.LOGGER.log(l, s);
     }
 
-    public static void logTag(final CompoundNBT tag)
+    public static void logTag(final CompoundTag tag)
     {
         final NBTTree tree = new NBTTree(tag);
         String sb = "";

@@ -5,13 +5,13 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.TeamManager;
@@ -55,9 +55,9 @@ public class AITools
                 if (input.getTags().contains(tag)) return false;
 
             // Then check if is a valid player.
-            if (input instanceof ServerPlayerEntity)
+            if (input instanceof ServerPlayer)
             {
-                final ServerPlayerEntity player = (ServerPlayerEntity) input;
+                final ServerPlayer player = (ServerPlayer) input;
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
@@ -66,7 +66,7 @@ public class AITools
             }
             // Confirm is not an egg or a pokecube as well
             if (input instanceof EntityPokemobEgg) return false;
-            return input instanceof MobEntity;
+            return input instanceof Mob;
         }
     }
 

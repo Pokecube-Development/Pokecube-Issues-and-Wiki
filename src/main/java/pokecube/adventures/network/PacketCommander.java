@@ -1,13 +1,13 @@
 package pokecube.adventures.network;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
@@ -20,12 +20,12 @@ import thut.core.common.network.TileUpdate;
 
 public class PacketCommander extends Packet
 {
-    public static void sendOpenPacket(final BlockPos pos, final ServerPlayerEntity player)
+    public static void sendOpenPacket(final BlockPos pos, final ServerPlayer player)
     {
         PokecubeAdv.packets.sendTo(new PacketCommander(pos), player);
     }
 
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketCommander()
     {
@@ -38,13 +38,13 @@ public class PacketCommander extends Packet
         this.data.putInt("z", pos.getZ());
     }
 
-    public PacketCommander(final PacketBuffer buf)
+    public PacketCommander(final FriendlyByteBuf buf)
     {
         this.data = buf.readNbt();
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void write(final FriendlyByteBuf buffer)
     {
         buffer.writeNbt(this.data);
     }
@@ -54,19 +54,19 @@ public class PacketCommander extends Packet
     public void handleClient()
     {
         // Open the gui.
-        final World world = PokecubeCore.proxy.getWorld();
+        final Level world = PokecubeCore.proxy.getWorld();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
-        final TileEntity te = world.getBlockEntity(pos);
+        final BlockEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile)) return;
         net.minecraft.client.Minecraft.getInstance().setScreen(new Commander(pos));
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
-        final World world = player.getCommandSenderWorld();
+        final Level world = player.getCommandSenderWorld();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
-        final TileEntity te = world.getBlockEntity(pos);
+        final BlockEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile)) return;
         final CommanderTile tile = (CommanderTile) te;
         final String command = this.data.getString("C");
@@ -81,7 +81,7 @@ public class PacketCommander extends Packet
         {
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.warn("Invalid Commander Block use at " + tile
                     .getBlockPos(), e);
-            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS,
+            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS,
                     1, 1);
         }
         TileUpdate.sendUpdate(tile);

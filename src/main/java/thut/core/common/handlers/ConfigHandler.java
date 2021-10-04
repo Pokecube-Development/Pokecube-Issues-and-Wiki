@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import thut.api.boom.ExplosionCustom;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.blockentity.IBlockEntity;

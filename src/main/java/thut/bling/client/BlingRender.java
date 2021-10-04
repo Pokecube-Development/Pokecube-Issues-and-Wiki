@@ -1,6 +1,6 @@
 package thut.bling.client;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.core.client.render.model.IModel;

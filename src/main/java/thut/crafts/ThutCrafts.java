@@ -1,10 +1,10 @@
 package thut.crafts;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -78,7 +78,7 @@ public class ThutCrafts
         }
 
         @SubscribeEvent
-        public static void registerTileEntity(final RegistryEvent.Register<TileEntityType<?>> event)
+        public static void registerTileEntity(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
             // register tile entities
             event.getRegistry().register(ThutCrafts.CRAFTTE);
@@ -94,7 +94,7 @@ public class ThutCrafts
 
     public static Block CRAFTBLOCK;
 
-    public static TileEntityType<TempTile> CRAFTTE;
+    public static BlockEntityType<TempTile> CRAFTTE;
 
     public static CraftsConfig conf = new CraftsConfig();
 
@@ -102,7 +102,7 @@ public class ThutCrafts
     {
         ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
         ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
-        ThutCrafts.CRAFTTE = TileEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
+        ThutCrafts.CRAFTTE = BlockEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
         ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
         TempTile.TYPE = ThutCrafts.CRAFTTE;
         BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;

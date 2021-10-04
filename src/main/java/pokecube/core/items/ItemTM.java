@@ -4,12 +4,12 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -41,7 +41,7 @@ public class ItemTM extends Item
     {
         if (stack.getItem() instanceof ItemTM)
         {
-            final CompoundNBT nbt = stack.getTag();
+            final CompoundTag nbt = stack.getTag();
             if (nbt == null) return null;
             final String name = nbt.getString("move");
             if (!name.contentEquals("")) return name;
@@ -59,10 +59,10 @@ public class ItemTM extends Item
             return stack;
         }
         stack = new ItemStack(ItemTM.tms.get(attack.move.type));
-        final CompoundNBT nbt = stack.getTag() == null ? new CompoundNBT() : stack.getTag();
+        final CompoundTag nbt = stack.getTag() == null ? new CompoundTag() : stack.getTag();
         nbt.putString("move", move.trim());
         stack.setTag(nbt);
-        final ITextComponent name = MovesUtils.getMoveName(move.trim());
+        final Component name = MovesUtils.getMoveName(move.trim());
         stack.setHoverName(name);
         return stack;
     }
@@ -71,7 +71,7 @@ public class ItemTM extends Item
     {
         if (tm.getItem() instanceof ItemTM)
         {
-            final CompoundNBT nbt = tm.getTag();
+            final CompoundTag nbt = tm.getTag();
             if (nbt == null) return false;
             final String name = nbt.getString("move");
             if (name.contentEquals("")) return false;

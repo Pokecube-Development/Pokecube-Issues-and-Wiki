@@ -2,23 +2,23 @@ package pokecube.legends.tileentity;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.PortalWarpPart;
 import pokecube.legends.init.BlockInit;
 import thut.core.common.ThutCore;
 
-public class RingTile extends TileEntity implements ITickableTileEntity
+public class RingTile extends BlockEntity implements TickingBlockEntity
 {
-    public static TileEntityType<RingTile> TYPE;
+    public static BlockEntityType<RingTile> TYPE;
 
     public int timer = 0;
 
@@ -60,7 +60,7 @@ public class RingTile extends TileEntity implements ITickableTileEntity
             warp.remove(this.level, this.worldPosition, state);
             this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
             this.level.playLocalSound(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5,
-                    SoundEvents.ENDERMAN_STARE, SoundCategory.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
+                    SoundEvents.ENDERMAN_STARE, SoundSource.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
                             * 0.4F + 0.8F, false);
         }
         else if (!active && this.timer-- < 0)
@@ -72,7 +72,7 @@ public class RingTile extends TileEntity implements ITickableTileEntity
     }
 
     @Override
-    public void load(final BlockState state, final CompoundNBT nbt)
+    public void load(final BlockState state, final CompoundTag nbt)
     {
         super.load(state, nbt);
         this.despawns = nbt.getBoolean("despawns");
@@ -80,7 +80,7 @@ public class RingTile extends TileEntity implements ITickableTileEntity
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT compound)
+    public CompoundTag save(final CompoundTag compound)
     {
         compound.putInt("timer", this.timer);
         compound.putBoolean("despawns", this.despawns);

@@ -1,11 +1,11 @@
 package pokecube.core.network.pokemobs;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -24,7 +24,7 @@ public class PokemobPacketHandler
         public static final byte RETURN       = 0;
         public static final byte CANCELEVOLVE = 12;
 
-        PacketBuffer buffer;;
+        FriendlyByteBuf buffer;;
 
         public MessageServer()
         {
@@ -32,14 +32,14 @@ public class PokemobPacketHandler
 
         public MessageServer(final byte messageid, final int entityId)
         {
-            this.buffer = new PacketBuffer(Unpooled.buffer(9));
+            this.buffer = new FriendlyByteBuf(Unpooled.buffer(9));
             this.buffer.writeByte(messageid);
             this.buffer.writeInt(entityId);
         }
 
-        public MessageServer(final byte channel, final int id, final CompoundNBT nbt)
+        public MessageServer(final byte channel, final int id, final CompoundTag nbt)
         {
-            this.buffer = new PacketBuffer(Unpooled.buffer(9));
+            this.buffer = new FriendlyByteBuf(Unpooled.buffer(9));
             this.buffer.writeByte(channel);
             this.buffer.writeInt(id);
             this.buffer.writeNbt(nbt);
@@ -47,20 +47,20 @@ public class PokemobPacketHandler
 
         public MessageServer(final byte[] data)
         {
-            this.buffer = new PacketBuffer(Unpooled.copiedBuffer(data));
+            this.buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(data));
         }
 
-        public MessageServer(final PacketBuffer buffer)
+        public MessageServer(final FriendlyByteBuf buffer)
         {
             this.buffer = buffer;
         }
 
         @Override
-        public void handleServer(final ServerPlayerEntity player)
+        public void handleServer(final ServerPlayer player)
         {
             final byte channel = this.buffer.readByte();
             final int id = this.buffer.readInt();
-            final ServerWorld world = player.getLevel();
+            final ServerLevel world = player.getLevel();
             final Entity entity = PokecubeCore.getEntityProvider().getEntity(world, id, true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             if (pokemob == null || !player.getUUID().equals(pokemob.getOwnerId())) return;
@@ -69,9 +69,9 @@ public class PokemobPacketHandler
         }
 
         @Override
-        public void write(final PacketBuffer buf)
+        public void write(final FriendlyByteBuf buf)
         {
-            if (this.buffer == null) this.buffer = new PacketBuffer(Unpooled.buffer());
+            if (this.buffer == null) this.buffer = new FriendlyByteBuf(Unpooled.buffer());
             buf.writeBytes(this.buffer);
         }
     }

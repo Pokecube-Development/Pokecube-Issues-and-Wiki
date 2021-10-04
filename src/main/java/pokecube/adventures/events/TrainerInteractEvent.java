@@ -2,7 +2,7 @@ package pokecube.adventures.events;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import pokecube.adventures.capabilities.utils.ActionContext;
 

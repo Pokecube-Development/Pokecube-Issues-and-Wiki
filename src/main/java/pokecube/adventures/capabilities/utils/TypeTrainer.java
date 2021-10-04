@@ -14,26 +14,26 @@ import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.brain.schedule.Schedule;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffer;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.village.PointOfInterestManager;
-import net.minecraft.village.PointOfInterestManager.Status;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.entity.schedule.Schedule;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.Config;
@@ -86,7 +86,7 @@ public class TypeTrainer extends NpcType
 
     public static interface AIAdder
     {
-        List<Pair<Integer, Task<? super LivingEntity>>> process(MobEntity mob);
+        List<Pair<Integer, Behavior<? super LivingEntity>>> process(Mob mob);
     }
 
     private static final List<ITypeMapper> mappers  = Lists.newArrayList();
@@ -102,9 +102,9 @@ public class TypeTrainer extends NpcType
         TypeTrainer.aiAdders.add(adder);
     }
 
-    public static void addAI(final MobEntity mob)
+    public static void addAI(final Mob mob)
     {
-        final List<Pair<Integer, Task<? super LivingEntity>>> tasks = Lists.newArrayList();
+        final List<Pair<Integer, Behavior<? super LivingEntity>>> tasks = Lists.newArrayList();
         for (final AIAdder adder : TypeTrainer.aiAdders)
             tasks.addAll(adder.process(mob));
         Tasks.addBattleTasks(mob, tasks);
@@ -139,9 +139,9 @@ public class TypeTrainer extends NpcType
                 return TypeTrainer.merchant;
             }
             else if (mob instanceof NpcMob) return TypeTrainer.merchant;
-            else if (mob instanceof VillagerEntity && Config.instance.npcsAreTrainers)
+            else if (mob instanceof Villager && Config.instance.npcsAreTrainers)
             {
-                final VillagerEntity villager = (VillagerEntity) mob;
+                final Villager villager = (Villager) mob;
                 final String type = villager.getVillagerData().getProfession().toString();
                 return TypeTrainer.getTrainer(type, true);
             }
@@ -162,9 +162,9 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> noRunWhileRest = e ->
             {
-                if (e instanceof VillagerEntity)
+                if (e instanceof Villager)
                 {
-                    final VillagerEntity villager = (VillagerEntity) e;
+                    final Villager villager = (Villager) e;
                     final Schedule s = villager.getBrain().getSchedule();
                     final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.REST) return false;
@@ -173,9 +173,9 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> noRunWhileMeet = e ->
             {
-                if (e instanceof VillagerEntity)
+                if (e instanceof Villager)
                 {
-                    final VillagerEntity villager = (VillagerEntity) e;
+                    final Villager villager = (Villager) e;
                     final Schedule s = villager.getBrain().getSchedule();
                     final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
                     if (a == Activity.MEET) return false;
@@ -193,25 +193,25 @@ public class TypeTrainer extends NpcType
             final Predicate<LivingEntity> notNearHealer = e ->
             {
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
-                final ServerWorld world = (ServerWorld) npc.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) npc.getCommandSenderWorld();
                 final BlockPos blockpos = e.blockPosition();
-                final PointOfInterestManager pois = world.getPoiManager();
+                final PoiManager pois = world.getPoiManager();
                 final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
-                        PokecubeAdv.config.pokecenter_radius, Status.ANY);
+                        PokecubeAdv.config.pokecenter_radius, Occupancy.ANY);
                 return num == 0;
             };
 
-            final List<Pair<Integer, Task<? super LivingEntity>>> list = Lists.newArrayList();
-            Task<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof ZombieEntity);
-            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+            final List<Pair<Integer, Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+            Behavior<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof Zombie);
+            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
-                final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof PlayerEntity);
+                final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof Player);
                 final Predicate<LivingEntity> shouldRun = noRunWhileRest;
                 task = new AgroTargets(npc, 1, 0, validPlayer.and(notNearHealer)).setRunCondition(shouldRun);
-                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+                list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
@@ -219,9 +219,9 @@ public class TypeTrainer extends NpcType
             {
                 task = new AgroTargets(npc, 0.005f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
                         .setRunCondition(noRunWhileRest);
-                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+                list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
-                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+                list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             }
             // 1% chance of battling another of same class if seen
             // Also this will stop the battle after 1200 ticks.
@@ -230,7 +230,7 @@ public class TypeTrainer extends NpcType
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
                 task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
                         shouldRun);
-                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+                list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             }
             return list;
         });
@@ -299,7 +299,7 @@ public class TypeTrainer extends NpcType
     }
 
     public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level,
-            final IWorld world, final List<PokedexEntry> values)
+            final LevelAccessor world, final List<PokedexEntry> values)
     {
         for (int i = 0; i < 6; i++)
             trainer.setPokemob(i, ItemStack.EMPTY);
@@ -321,7 +321,7 @@ public class TypeTrainer extends NpcType
     }
 
     public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level,
-            final IWorld world)
+            final LevelAccessor world)
     {
         final TypeTrainer type = trainer.getType();
         final List<PokedexEntry> values = Lists.newArrayList();
@@ -365,7 +365,7 @@ public class TypeTrainer extends NpcType
             }
     }
 
-    public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final IWorld world,
+    public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final LevelAccessor world,
             final int level)
     {
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
@@ -547,7 +547,7 @@ public class TypeTrainer extends NpcType
         this.initLoot();
         for (int i = 1; i < 5; i++)
         {
-            final EquipmentSlotType slotIn = EquipmentSlotType.values()[i];
+            final EquipmentSlot slotIn = EquipmentSlot.values()[i];
             trainer.setItemSlot(slotIn, this.loot[i - 1]);
         }
     }
@@ -557,7 +557,7 @@ public class TypeTrainer extends NpcType
     {
         try
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(texture);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(texture);
             res.close();
             return true;
         }

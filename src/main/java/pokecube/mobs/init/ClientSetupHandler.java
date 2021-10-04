@@ -1,9 +1,9 @@
 package pokecube.mobs.init;
 
-import net.minecraft.client.resources.ReloadListener;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +29,7 @@ public class ClientSetupHandler
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT)
-    public static class Listener extends ReloadListener<Object>
+    public static class Listener extends SimplePreparableReloadListener<Object>
     {
         @SubscribeEvent
         public static void resourcesLoaded(final AddReloadListenerEvent event)
@@ -38,14 +38,14 @@ public class ClientSetupHandler
         }
 
         @Override
-        protected Object prepare(final IResourceManager resourceManagerIn, final IProfiler profilerIn)
+        protected Object prepare(final ResourceManager resourceManagerIn, final ProfilerFiller profilerIn)
         {
             return null;
         }
 
         @Override
-        protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
-                final IProfiler profilerIn)
+        protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
+                final ProfilerFiller profilerIn)
         {
             GuiPokemobBase.initSizeMap();
         }

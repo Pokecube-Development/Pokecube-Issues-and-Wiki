@@ -1,8 +1,8 @@
 package pokecube.core.interfaces.capabilities;
 
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.GlobalPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -66,14 +66,14 @@ public class CapabilityInhabitor
         @SuppressWarnings({ "unchecked" })
         @Override
         public void readNBT(final Capability<IInhabitor> capability, final IInhabitor instance,
-                final Direction side, final INBT nbt)
+                final Direction side, final Tag nbt)
         {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<INBT>) instance).deserializeNBT(
+            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<Tag>) instance).deserializeNBT(
                     nbt);
         }
 
         @Override
-        public INBT writeNBT(final Capability<IInhabitor> capability, final IInhabitor instance,
+        public Tag writeNBT(final Capability<IInhabitor> capability, final IInhabitor instance,
                 final Direction side)
         {
             if (instance instanceof ICapabilitySerializable) return ((ICapabilitySerializable<?>) instance)

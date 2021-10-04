@@ -1,9 +1,9 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -13,12 +13,12 @@ public class PacketSyncMoveUse extends Packet
 {
     public static void sendUpdate(IPokemob pokemob)
     {
-        if (pokemob.getEntity().getCommandSenderWorld().isClientSide || !(pokemob.getOwner() instanceof PlayerEntity))
+        if (pokemob.getEntity().getCommandSenderWorld().isClientSide || !(pokemob.getOwner() instanceof Player))
             return;
         final PacketSyncMoveUse packet = new PacketSyncMoveUse();
         packet.entityId = pokemob.getEntity().getId();
         packet.index = pokemob.getMoveIndex();
-        PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) pokemob.getOwner());
+        PokecubeCore.packets.sendTo(packet, (ServerPlayer) pokemob.getOwner());
     }
 
     int entityId;
@@ -28,7 +28,7 @@ public class PacketSyncMoveUse extends Packet
     {
     }
 
-    public PacketSyncMoveUse(PacketBuffer buf)
+    public PacketSyncMoveUse(FriendlyByteBuf buf)
     {
         this.entityId = buf.readInt();
         this.index = buf.readInt();
@@ -37,7 +37,7 @@ public class PacketSyncMoveUse extends Packet
     @Override
     public void handleClient()
     {
-        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final int index = this.index;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
@@ -46,7 +46,7 @@ public class PacketSyncMoveUse extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(FriendlyByteBuf buf)
     {
         buf.writeInt(this.entityId);
         buf.writeInt(this.index);

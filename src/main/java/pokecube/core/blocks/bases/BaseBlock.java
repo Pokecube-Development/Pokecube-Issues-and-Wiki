@@ -1,8 +1,8 @@
 package pokecube.core.blocks.bases;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableBlock;
 
 public class BaseBlock extends InteractableBlock
@@ -14,7 +14,7 @@ public class BaseBlock extends InteractableBlock
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
     {
         return new BaseTile();
     }

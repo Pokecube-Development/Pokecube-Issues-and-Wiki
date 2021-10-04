@@ -8,27 +8,27 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
@@ -66,23 +66,23 @@ public class Pokecube extends Item implements IPokecube
     };
 
     @OnlyIn(Dist.CLIENT)
-    public static void displayInformation(final CompoundNBT nbt, final List<ITextComponent> list)
+    public static void displayInformation(final CompoundTag nbt, final List<Component> list)
     {
         final boolean flag2 = nbt.getBoolean("Flames");
 
-        if (flag2) list.add(new TranslationTextComponent("item.pokecube.flames"));
+        if (flag2) list.add(new TranslatableComponent("item.pokecube.flames"));
 
         final boolean flag3 = nbt.getBoolean("Bubbles");
 
-        if (flag3) list.add(new TranslationTextComponent("item.pokecube.bubbles"));
+        if (flag3) list.add(new TranslatableComponent("item.pokecube.bubbles"));
 
         final boolean flag4 = nbt.getBoolean("Leaves");
 
-        if (flag4) list.add(new TranslationTextComponent("item.pokecube.leaves"));
+        if (flag4) list.add(new TranslatableComponent("item.pokecube.leaves"));
 
         final boolean flag5 = nbt.contains("dye");
 
-        if (flag5) list.add(new TranslationTextComponent(DyeColor.byId(nbt.getInt("dye")).getName()));
+        if (flag5) list.add(new TranslatableComponent(DyeColor.byId(nbt.getInt("dye")).getName()));
     }
 
     public Pokecube(final Properties properties)
@@ -96,31 +96,31 @@ public class Pokecube extends Item implements IPokecube
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack item, @Nullable final World world, final List<ITextComponent> list,
-            final ITooltipFlag advanced)
+    public void appendHoverText(final ItemStack item, @Nullable final Level world, final List<Component> list,
+            final TooltipFlag advanced)
     {
         if (PokecubeManager.isFilled(item))
         {
             final Entity mob = PokecubeManager.itemToMob(item, world);
             if (mob == null)
             {
-                list.add(new TranslationTextComponent("pokecube.filled.error"));
+                list.add(new TranslatableComponent("pokecube.filled.error"));
                 return;
             }
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob == null) return;
             list.add(pokemob.getDisplayName());
 
-            final CompoundNBT pokeTag = item.getTag().getCompound(TagNames.POKEMOB);
+            final CompoundTag pokeTag = item.getTag().getCompound(TagNames.POKEMOB);
 
             final float health = pokeTag.getFloat("Health");
             final float maxHealth = pokemob.getStat(Stats.HP, false);
             final int lvlexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             final int exp = pokemob.getExp() - lvlexp;
             final int neededexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - lvlexp;
-            list.add(new TranslationTextComponent("pokecube.tooltip.level", pokemob.getLevel()));
-            list.add(new TranslationTextComponent("pokecube.tooltip.health", health, maxHealth));
-            list.add(new TranslationTextComponent("pokecube.tooltip.xp", exp, neededexp));
+            list.add(new TranslatableComponent("pokecube.tooltip.level", pokemob.getLevel()));
+            list.add(new TranslatableComponent("pokecube.tooltip.health", health, maxHealth));
+            list.add(new TranslatableComponent("pokecube.tooltip.xp", exp, neededexp));
 
             if (Screen.hasShiftDown())
             {
@@ -128,12 +128,12 @@ public class Pokecube extends Item implements IPokecube
                 for (final String s : pokemob.getMoves())
                     if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslationTextComponent("pokecube.tooltip.moves", arg));
+                list.add(new TranslatableComponent("pokecube.tooltip.moves", arg));
                 arg = "";
                 for (final Byte b : pokemob.getIVs())
                     arg += b + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslationTextComponent("pokecube.tooltip.ivs", arg));
+                list.add(new TranslatableComponent("pokecube.tooltip.ivs", arg));
                 arg = "";
                 for (final Byte b : pokemob.getEVs())
                 {
@@ -141,21 +141,21 @@ public class Pokecube extends Item implements IPokecube
                     arg += n + ", ";
                 }
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
-                list.add(new TranslationTextComponent("pokecube.tooltip.evs", arg));
-                list.add(new TranslationTextComponent("pokecube.tooltip.nature", pokemob.getNature()));
-                list.add(new TranslationTextComponent("pokecube.tooltip.ability", pokemob.getAbility()));
+                list.add(new TranslatableComponent("pokecube.tooltip.evs", arg));
+                list.add(new TranslatableComponent("pokecube.tooltip.nature", pokemob.getNature()));
+                list.add(new TranslatableComponent("pokecube.tooltip.ability", pokemob.getAbility()));
             }
-            else list.add(new TranslationTextComponent("pokecube.tooltip.advanced"));
+            else list.add(new TranslatableComponent("pokecube.tooltip.advanced"));
         }
         else
         {
             final ResourceLocation name = item.getItem().getRegistryName();
-            list.add(new TranslationTextComponent("item.pokecube." + name.getPath() + ".desc"));
+            list.add(new TranslatableComponent("item.pokecube." + name.getPath() + ".desc"));
         }
 
         if (item.hasTag())
         {
-            final CompoundNBT CompoundNBT = PokecubeManager.getSealTag(item);
+            final CompoundTag CompoundNBT = PokecubeManager.getSealTag(item);
             Pokecube.displayInformation(CompoundNBT, list);
         }
     }
@@ -187,7 +187,7 @@ public class Pokecube extends Item implements IPokecube
      * @return A new Entity object to spawn or null
      */
     @Override
-    public Entity createEntity(final World world, final Entity oldItem, final ItemStack itemstack)
+    public Entity createEntity(final Level world, final Entity oldItem, final ItemStack itemstack)
     {
         if (this.hasCustomEntity(itemstack))
         {
@@ -243,9 +243,9 @@ public class Pokecube extends Item implements IPokecube
      * returns the action that specifies what animation to play when the items
      * is being used
      */
-    public UseAction getUseAnimation(final ItemStack stack)
+    public UseAnim getUseAnimation(final ItemStack stack)
     {
-        return UseAction.BOW;
+        return UseAnim.BOW;
     }
 
     @Override
@@ -275,10 +275,10 @@ public class Pokecube extends Item implements IPokecube
     // Pokeseal stuff
 
     @Override
-    public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand)
+    public InteractionResultHolder<ItemStack> use(final Level world, final Player player, final InteractionHand hand)
     {
         player.startUsingItem(hand);
-        return new ActionResult<>(ActionResultType.SUCCESS, player.getItemInHand(hand));
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS, player.getItemInHand(hand));
     }
 
     @Override
@@ -286,12 +286,12 @@ public class Pokecube extends Item implements IPokecube
      * Called when the player stops using an Item (stops holding the right
      * mouse button).
      */
-    public void releaseUsing(final ItemStack stack, final World worldIn, final LivingEntity MobEntity,
+    public void releaseUsing(final ItemStack stack, final Level worldIn, final LivingEntity MobEntity,
             final int timeLeft)
     {
-        if (MobEntity instanceof PlayerEntity && !worldIn.isClientSide)
+        if (MobEntity instanceof Player && !worldIn.isClientSide)
         {
-            final PlayerEntity player = (PlayerEntity) MobEntity;
+            final Player player = (Player) MobEntity;
             final Predicate<Entity> selector = input ->
             {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
@@ -327,10 +327,10 @@ public class Pokecube extends Item implements IPokecube
             if (used)
             {
                 if (PokecubeManager.isFilled(stack) || !player.isCreative()) stack.split(1);
-                if (stack.isEmpty()) for (int i = 0; i < player.inventory.getContainerSize(); i++)
-                    if (player.inventory.getItem(i) == stack)
+                if (stack.isEmpty()) for (int i = 0; i < player.getInventory().getContainerSize(); i++)
+                    if (player.getInventory().getItem(i) == stack)
                     {
-                        player.inventory.setItem(i, ItemStack.EMPTY);
+                        player.getInventory().setItem(i, ItemStack.EMPTY);
                         break;
                     }
             }
@@ -360,7 +360,7 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public EntityPokecubeBase throwPokecube(final World world, final LivingEntity thrower, final ItemStack cube,
+    public EntityPokecubeBase throwPokecube(final Level world, final LivingEntity thrower, final ItemStack cube,
             final Vector3 direction, final float power)
     {
         EntityPokecube entity = null;
@@ -370,10 +370,10 @@ public class Pokecube extends Item implements IPokecube
         final boolean hasMob = PokecubeManager.isFilled(stack);
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (hasMob && (config.permsSendOut || config.permsSendOutSpecific) && thrower instanceof PlayerEntity)
+        if (hasMob && (config.permsSendOut || config.permsSendOutSpecific) && thrower instanceof Player)
         {
             final PokedexEntry entry = PokecubeManager.getPokedexEntry(stack);
-            final PlayerEntity player = (PlayerEntity) thrower;
+            final Player player = (Player) thrower;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             if (config.permsSendOut && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB,
@@ -390,11 +390,11 @@ public class Pokecube extends Item implements IPokecube
         entity.setItem(stack);
 
         final Vector3 temp = Vector3.getNewVector().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
-        if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
+        if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
         {
-            final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
-            final Hand hand = player.getUsedItemHand();
-            final Vector3d tmp = thrower.getLookAngle();
+            final ServerPlayer player = (ServerPlayer) thrower;
+            final InteractionHand hand = player.getUsedItemHand();
+            final Vec3 tmp = thrower.getLookAngle();
             final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
             final Vector3f shift = new Vector3f();
             shift.cross(look, new Vector3f(0, 1, 0));
@@ -423,13 +423,13 @@ public class Pokecube extends Item implements IPokecube
         {
             thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
             world.addFreshEntity(entity);
-            if (hasMob && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(stack, false, false);
+            if (hasMob && thrower instanceof Player) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
         return entity;
     }
 
     @Override
-    public EntityPokecubeBase throwPokecubeAt(final World world, final LivingEntity thrower, final ItemStack cube,
+    public EntityPokecubeBase throwPokecubeAt(final Level world, final LivingEntity thrower, final ItemStack cube,
             Vector3 targetLocation, Entity target)
     {
         EntityPokecube entity = null;
@@ -454,11 +454,11 @@ public class Pokecube extends Item implements IPokecube
             entity.targetLocation.set(targetLocation);
             final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
             temp.moveEntity(entity);
-            if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
+            if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
             {
-                final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
-                final Hand hand = player.getUsedItemHand();
-                final Vector3d tmp = thrower.getLookAngle();
+                final ServerPlayer player = (ServerPlayer) thrower;
+                final InteractionHand hand = player.getUsedItemHand();
+                final Vec3 tmp = thrower.getLookAngle();
                 final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
                 final Vector3f shift = new Vector3f();
                 shift.cross(look, new Vector3f(0, 1, 0));
@@ -485,7 +485,7 @@ public class Pokecube extends Item implements IPokecube
             {
                 thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
                 world.addFreshEntity(entity);
-                if (PokecubeManager.isFilled(stack) && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(
+                if (PokecubeManager.isFilled(stack) && thrower instanceof Player) PlayerPokemobCache.UpdateCache(
                         stack, false, false);
             }
         }

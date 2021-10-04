@@ -6,48 +6,49 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
+import com.minecolonies.api.util.constant.ToolType;
 
-public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBlock
 {
     private static final EnumProperty<TimeSpaceCorePart> HALF           = EnumProperty.create("half",
             TimeSpaceCorePart.class);
     private static final Map<Direction, VoxelShape>      TIME_SPACE_TOP = new HashMap<>();
     private static final BooleanProperty                 WATERLOGGED    = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty               FACING         = HorizontalBlock.FACING;
+    private static final DirectionProperty               FACING         = HorizontalDirectionalBlock.FACING;
 
     // Precise selection box
-    private static final VoxelShape TIME_SPACE_BOTTOM = VoxelShapes.or(
+    private static final VoxelShape TIME_SPACE_BOTTOM = Shapes.or(
             Block.box(4, 0, 4, 12, 16, 12),
             Block.box(0, 0, 4, 4, 2, 12),
             Block.box(2, 2, 4, 4, 4, 12),
@@ -60,7 +61,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 
     static
     {
-        TIME_SPACE_TOP.put(Direction.NORTH, VoxelShapes.or(
+        TIME_SPACE_TOP.put(Direction.NORTH, Shapes.or(
                 Block.box(7, 1, 7.5, 9, 2, 8.5),
                 Block.box(5, 2, 7.5, 11, 3, 8.5),
                 Block.box(4, 3, 7.5, 12, 4, 8.5),
@@ -70,7 +71,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
                 Block.box(4, 13, 7.5, 12, 14, 8.5),
                 Block.box(5, 14, 7.5, 11, 15, 8.5),
                 Block.box(7, 15, 7.5, 9, 16, 8.5)).optimize());
-        TIME_SPACE_TOP.put(Direction.EAST, VoxelShapes.or(
+        TIME_SPACE_TOP.put(Direction.EAST, Shapes.or(
                 Block.box(7.5, 1, 7, 8.5, 2, 9),
                 Block.box(7.5, 2, 5, 8.5, 3, 11),
                 Block.box(7.5, 3, 4, 8.5, 4, 12),
@@ -80,7 +81,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
                 Block.box(7.5, 13, 4, 8.5, 14, 12),
                 Block.box(7.5, 14, 5, 8.5, 15, 11),
                 Block.box(7.5, 15, 7, 8.5, 16, 9)).optimize());
-        TIME_SPACE_TOP.put(Direction.SOUTH, VoxelShapes.or(
+        TIME_SPACE_TOP.put(Direction.SOUTH, Shapes.or(
                 Block.box(7, 1, 7.5, 9, 2, 8.5),
                 Block.box(5, 2, 7.5, 11, 3, 8.5),
                 Block.box(4, 3, 7.5, 12, 4, 8.5),
@@ -90,7 +91,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
                 Block.box(4, 13, 7.5, 12, 14, 8.5),
                 Block.box(5, 14, 7.5, 11, 15, 8.5),
                 Block.box(7, 15, 7.5, 9, 16, 8.5)).optimize());
-        TIME_SPACE_TOP.put(Direction.WEST, VoxelShapes.or(
+        TIME_SPACE_TOP.put(Direction.WEST, Shapes.or(
                 Block.box(7.5, 1, 7, 8.5, 2, 9),
                 Block.box(7.5, 2, 5, 8.5, 3, 11),
                 Block.box(7.5, 3, 4, 8.5, 4, 12),
@@ -104,8 +105,8 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         final TimeSpaceCorePart half = state.getValue(TimeSpaceCoreBlock.HALF);
         if (half == TimeSpaceCorePart.BOTTOM) return TimeSpaceCoreBlock.TIME_SPACE_BOTTOM;
@@ -123,7 +124,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 
     // Places Time & Space Spawner with both top and bottom pieces
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
@@ -136,8 +137,8 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
 
     // Breaking Time & Space Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
-            final PlayerEntity player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+            final Player player)
     {
         final Direction facing = state.getValue(TimeSpaceCoreBlock.FACING);
         final BlockPos timeSpacePos = this.getTimeSpacePos(pos, state.getValue(TimeSpaceCoreBlock.HALF), facing);
@@ -171,7 +172,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Time & Space Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, Player player)
     {
         BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
@@ -186,7 +187,7 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
     // Prevents the Time & Space Spawner from replacing blocks above it and
     // checks for water
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
@@ -202,9 +203,9 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(TimeSpaceCoreBlock.HALF, HorizontalBlock.FACING, TimeSpaceCoreBlock.WATERLOGGED);
+        builder.add(TimeSpaceCoreBlock.HALF, HorizontalDirectionalBlock.FACING, TimeSpaceCoreBlock.WATERLOGGED);
     }
 
     public TimeSpaceCoreBlock(final Properties props)
@@ -213,10 +214,10 @@ public class TimeSpaceCoreBlock extends Rotates implements IWaterLoggable
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.END_PORTAL_SPAWN, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F,
+                SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F,
                 false);
     }
 }

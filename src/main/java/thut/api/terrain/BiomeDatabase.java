@@ -6,11 +6,10 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.MutableRegistry;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import thut.core.common.ThutCore;
 
@@ -20,15 +19,15 @@ public class BiomeDatabase
 
     private static Set<String> notTypes = Sets.newHashSet();
 
-    public static RegistryKey<Biome> getKey(final Biome b)
+    public static ResourceKey<Biome> getKey(final Biome b)
     {
-        return RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName());
+        return ResourceKey.create(Registry.BIOME_REGISTRY, b.getRegistryName());
     }
 
-    public static Biome getBiome(final RegistryKey<Biome> key)
+    public static Biome getBiome(final ResourceKey<Biome> key)
     {
-        final DynamicRegistries REG = ThutCore.proxy.getRegistries();
-        final MutableRegistry<Biome> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY);
+        final RegistryAccess REG = ThutCore.proxy.getRegistries();
+        final Registry<Biome> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY);
         return biomes.get(key.location());
     }
 
@@ -51,7 +50,7 @@ public class BiomeDatabase
         return BiomeDatabase.contains(BiomeDatabase.getKey(b), type);
     }
 
-    public static boolean contains(final RegistryKey<Biome> b, final String type)
+    public static boolean contains(final ResourceKey<Biome> b, final String type)
     {
         if (!BiomeDatabase.isAType(type)) return false;
         final BiomeDictionary.Type t = BiomeDatabase.TYPES.get(type);

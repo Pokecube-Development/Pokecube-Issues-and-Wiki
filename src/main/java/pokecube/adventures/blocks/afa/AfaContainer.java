@@ -1,10 +1,10 @@
 package pokecube.adventures.blocks.afa;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
@@ -23,22 +23,22 @@ public class AfaContainer extends BaseContainer
         }
     }
 
-    IInventory inv;
+    Container inv;
     IOwnableTE ownable;
 
     public AfaTile tile;
 
-    public AfaContainer(final int id, final PlayerInventory invIn)
+    public AfaContainer(final int id, final Inventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.NULL);
+        this(id, invIn, ContainerLevelAccess.NULL);
     }
 
-    public AfaContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
+    public AfaContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
         super(PokecubeAdv.AFA_CONT.get(), id);
         pos.execute((w, p) ->
         {
-            final TileEntity tile = w.getBlockEntity(p);
+            final BlockEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof AfaTile)
             {
@@ -67,7 +67,7 @@ public class AfaContainer extends BaseContainer
     }
 
     @Override
-    public IInventory getInv()
+    public Container getInv()
     {
         return this.inv;
     }
@@ -79,7 +79,7 @@ public class AfaContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity playerIn)
+    public boolean stillValid(final Player playerIn)
     {
         return this.ownable.canEdit(playerIn);
     }

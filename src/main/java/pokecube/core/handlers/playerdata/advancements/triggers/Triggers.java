@@ -1,7 +1,7 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.advancements.ICriterionTrigger;
+import net.minecraft.advancements.CriterionTrigger;
 
 public class Triggers
 {
@@ -20,7 +20,7 @@ public class Triggers
     }
 
     @SuppressWarnings({ "rawtypes" })
-    public static <T extends ICriterionTrigger> T register(T criterion)
+    public static <T extends CriterionTrigger> T register(T criterion)
     {
         return CriteriaTriggers.register(criterion);
     }

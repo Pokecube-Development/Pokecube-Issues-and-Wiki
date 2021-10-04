@@ -6,19 +6,19 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tileentity.BeehiveTileEntity;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -98,9 +98,9 @@ public class BeeTasks
 
     public static class BeeInhabitor implements IInhabitor
     {
-        final MobEntity bee;
+        final Mob bee;
 
-        public BeeInhabitor(final MobEntity bee)
+        public BeeInhabitor(final Mob bee)
         {
             this.bee = bee;
         }
@@ -145,15 +145,15 @@ public class BeeTasks
     public static class BeeHabitat implements IInhabitable
     {
 
-        final BeehiveTileEntity hive;
+        final BeehiveBlockEntity hive;
 
-        public BeeHabitat(final BeehiveTileEntity tile)
+        public BeeHabitat(final BeehiveBlockEntity tile)
         {
             this.hive = tile;
         }
 
         @Override
-        public void onExitHabitat(final MobEntity mob)
+        public void onExitHabitat(final Mob mob)
         {
             final Brain<?> brain = mob.getBrain();
             if (!brain.hasMemoryValue(BeeTasks.HAS_NECTAR)) return;
@@ -161,11 +161,11 @@ public class BeeTasks
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             if (nectar)
             {
-                final World world = mob.getCommandSenderWorld();
+                final Level world = mob.getCommandSenderWorld();
                 final BlockState state = world.getBlockState(this.hive.getBlockPos());
                 if (state.getBlock().is(BlockTags.BEEHIVES))
                 {
-                    final int i = BeehiveTileEntity.getHoneyLevel(state);
+                    final int i = BeehiveBlockEntity.getHoneyLevel(state);
                     if (i < 5)
                     {
                         int j = world.random.nextInt(100) == 0 ? 2 : 1;
@@ -178,7 +178,7 @@ public class BeeTasks
         }
 
         @Override
-        public boolean onEnterHabitat(final MobEntity mob)
+        public boolean onEnterHabitat(final Mob mob)
         {
             final int num = this.hive.stored.size();
             final Brain<?> brain = mob.getBrain();
@@ -195,7 +195,7 @@ public class BeeTasks
         }
 
         @Override
-        public boolean canEnterHabitat(final MobEntity mob)
+        public boolean canEnterHabitat(final Mob mob)
         {
             if (!BeeTasks.isValid(mob)) return false;
             return !this.hive.isFull();

@@ -6,27 +6,27 @@ import java.util.Locale;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -57,7 +57,7 @@ import thut.core.common.ThutCore;
 public class ClientProxy extends CommonProxy
 {
 
-    public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix, final float dx1,
+    public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final float dx1,
             final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
             final float g, final float b, final float a)
     {
@@ -65,7 +65,7 @@ public class ClientProxy extends CommonProxy
         builder.vertex(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).endVertex();
     }
 
-    public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix, final Vector3f start,
+    public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final Vector3f start,
             final Vector3f end, final float r, final float g, final float b, final float a)
     {
         ClientProxy.line(builder, positionMatrix, start.x(), start.y(), start.z(), end.x(), end.y(), end.z(), r, g, b,
@@ -75,7 +75,7 @@ public class ClientProxy extends CommonProxy
     private boolean initParticles = false;
 
     @Override
-    public DynamicRegistries getRegistries()
+    public RegistryAccess getRegistries()
     {
         // This is null on single player, so we have an integrated server
         if (Minecraft.getInstance().getCurrentServer() == null) return super.getRegistries();
@@ -135,7 +135,7 @@ public class ClientProxy extends CommonProxy
         {
             event.getLeft().add("");
             final Biome b = v.getBiome(Minecraft.getInstance().level);
-            final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+            final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
             event.getLeft().add(key.location() + ": " + BiomeDictionary.getTypes(key) + ", " + b.getBiomeCategory());
         }
     }
@@ -171,7 +171,7 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderHand(final RenderHandEvent event)
     {
-        final PlayerEntity player = Minecraft.getInstance().player;
+        final Player player = Minecraft.getInstance().player;
         final ICopyMob copied = CopyCaps.get(player);
         if (copied != null && copied.getCopiedMob() != null) event.setCanceled(true);
     }
@@ -180,27 +180,27 @@ public class ClientProxy extends CommonProxy
     public void RenderBounds(final RenderWorldLastEvent event)
     {
         ItemStack held;
-        final PlayerEntity player = Minecraft.getInstance().player;
+        final Player player = Minecraft.getInstance().player;
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             if (this.getSubbiome(held) == null) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
                 final Minecraft mc = Minecraft.getInstance();
-                final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vector3d pointed = new Vector3d(projectedView.x, projectedView.y, projectedView.z).add(mc.player
+                final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player
                         .getViewVector(event.getPartialTicks()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
-                    final BlockRayTraceResult result = (BlockRayTraceResult) mc.hitResult;
-                    pointed = new Vector3d(result.getBlockPos().getX(), result.getBlockPos().getY(), result
+                    final BlockHitResult result = (BlockHitResult) mc.hitResult;
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result
                             .getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
 
-                final AxisAlignedBB one = new AxisAlignedBB(v.getPos());
-                final AxisAlignedBB two = new AxisAlignedBB(new BlockPos(pointed));
+                final AABB one = new AABB(v.getPos());
+                final AABB two = new AABB(new BlockPos(pointed));
 
                 final double minX = Math.min(one.minX, two.minX);
                 final double minY = Math.min(one.minY, two.minY);
@@ -209,7 +209,7 @@ public class ClientProxy extends CommonProxy
                 final double maxY = Math.max(one.maxY, two.maxY);
                 final double maxZ = Math.max(one.maxZ, two.maxZ);
 
-                final MatrixStack mat = event.getMatrixStack();
+                final PoseStack mat = event.getMatrixStack();
                 mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
                 final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();
@@ -245,8 +245,8 @@ public class ClientProxy extends CommonProxy
 
                 final Matrix4f positionMatrix = mat.last().pose();
 
-                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
+                final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                final VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
                     ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0, 1f);
                 mat.popPose();

@@ -6,16 +6,16 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
@@ -26,8 +26,8 @@ import thut.api.maths.Vector3;
 
 public class WarppadTile extends InteractableTile implements IEnergyStorage
 {
-    public static List<RegistryKey<World>> invalidDests   = Lists.newArrayList();
-    public static List<RegistryKey<World>> invalidSources = Lists.newArrayList();
+    public static List<ResourceKey<Level>> invalidDests   = Lists.newArrayList();
+    public static List<ResourceKey<Level>> invalidSources = Lists.newArrayList();
     public static JEP                      parser;
 
     public static void initParser(final String function)
@@ -66,7 +66,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         super(PokecubeAdv.WARPPAD_TYPE.get());
     }
 
-    public WarppadTile(final TileEntityType<?> tileEntityTypeIn)
+    public WarppadTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
@@ -74,7 +74,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public TeleDest getDest()
     {
         if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getLevel() != null ? this
-                .getLevel().dimension() : World.OVERWORLD, this.getBlockPos().above(4)));
+                .getLevel().dimension() : Level.OVERWORLD, this.getBlockPos().above(4)));
         return this.dest;
     }
 
@@ -106,24 +106,24 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
             if (!this.noEnergyNeed && this.energy < cost)
             {
                 this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
-                        .getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1, 1);
+                        .getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1, 1);
                 return;
             }
             else this.energy -= cost;
         }
         this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ()
-                + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
+                + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         this.getLevel().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
-                SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
+                SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         WarppadTile.warp(entityIn, dest, true);
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundNBT compound)
+    public void load(final BlockState stateIn, final CompoundTag compound)
     {
         if (compound.contains("dest"))
         {
-            final CompoundNBT tag = compound.getCompound("dest");
+            final CompoundTag tag = compound.getCompound("dest");
             this.dest = TeleDest.readFromNBT(tag);
         }
         this.energy = compound.getInt("energy");
@@ -132,9 +132,9 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT compound)
+    public CompoundTag save(final CompoundTag compound)
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         this.getDest().writeToNBT(tag);
         compound.put("dest", tag);
         compound.putInt("energy", this.energy);

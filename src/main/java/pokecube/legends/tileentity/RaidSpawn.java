@@ -5,9 +5,9 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeTileEntity;
@@ -17,7 +17,7 @@ import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
 
 public class RaidSpawn extends MaxTile
 {
-    public static TileEntityType<RaidSpawn> TYPE;
+    public static BlockEntityType<RaidSpawn> TYPE;
 
     private static final List<BeamSegment> empty = ImmutableList.of();
 
@@ -35,7 +35,7 @@ public class RaidSpawn extends MaxTile
         this.rare.add(seg);
     }
 
-    public RaidSpawn(final TileEntityType<?> tileEntityTypeIn)
+    public RaidSpawn(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
@@ -62,7 +62,7 @@ public class RaidSpawn extends MaxTile
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox()
+    public AABB getRenderBoundingBox()
     {
         return IForgeTileEntity.INFINITE_EXTENT_AABB;
     }

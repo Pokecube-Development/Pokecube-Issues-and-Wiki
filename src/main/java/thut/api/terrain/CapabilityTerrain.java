@@ -4,14 +4,13 @@ import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.Mutable;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -20,45 +19,45 @@ import thut.api.ThutCaps;
 
 public class CapabilityTerrain
 {
-    public static class DefaultProvider implements ITerrainProvider, ICapabilityProvider, INBTSerializable<CompoundNBT>
+    public static class DefaultProvider implements ITerrainProvider, ICapabilityProvider, INBTSerializable<CompoundTag>
     {
         private final LazyOptional<ITerrainProvider> holder   = LazyOptional.of(() -> this);
         private BlockPos                             pos;
-        private IChunk                               chunk;
+        private ChunkAccess                               chunk;
         private final TerrainSegment[]               segments = new TerrainSegment[16];
 
         private final boolean[] real = new boolean[16];
 
-        Mutable mutable = new Mutable();
+        MutableBlockPos mutable = new MutableBlockPos();
 
         public DefaultProvider()
         {
             this.chunk = null;
         }
 
-        public DefaultProvider(final IChunk chunk)
+        public DefaultProvider(final ChunkAccess chunk)
         {
             this.chunk = chunk;
         }
 
         @Override
-        public ITerrainProvider setChunk(final IChunk chunk)
+        public ITerrainProvider setChunk(final ChunkAccess chunk)
         {
             if (this.chunk == null) this.chunk = chunk;
             return this;
         }
 
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             final BlockPos pos = this.getChunkPos();
             final int x = pos.getX();
             final int z = pos.getZ();
             final Int2IntMap toUpdate = new Int2IntOpenHashMap();
-            final ListNBT tags = (ListNBT) nbt.get("ids");
+            final ListTag tags = (ListTag) nbt.get("ids");
             for (int i = 0; i < tags.size(); i++)
             {
-                final CompoundNBT tag = tags.getCompound(i);
+                final CompoundTag tag = tags.getCompound(i);
                 final String name = tag.getString("name");
                 final int id = tag.getInt("id");
                 final BiomeType type = BiomeType.getBiome(name, true);
@@ -68,7 +67,7 @@ public class CapabilityTerrain
             final boolean hasReplacements = !toUpdate.isEmpty();
             for (int i = 0; i < 16; i++)
             {
-                CompoundNBT terrainTag = null;
+                CompoundTag terrainTag = null;
                 terrainTag = nbt.getCompound(i + "");
                 TerrainSegment t = null;
                 if (!terrainTag.isEmpty() && !TerrainSegment.noLoad)
@@ -122,7 +121,7 @@ public class CapabilityTerrain
             // Try to pull it from our array
             TerrainSegment ret = this.segments[chunkY];
             // try to find any cached variants if they exist
-            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(((World) this.chunk
+            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(((Level) this.chunk
                     .getWorldForge()).dimension(), this.chunk.getPos(), chunkY);
 
             // If not found, make a new one, or use cached
@@ -145,9 +144,9 @@ public class CapabilityTerrain
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT nbt = new CompoundNBT();
+            final CompoundTag nbt = new CompoundTag();
             final IntSet ids = new IntOpenHashSet();
             for (int i = 0; i < 16; i++)
             {
@@ -156,15 +155,15 @@ public class CapabilityTerrain
                 if (!t.toSave) continue;
                 for (final int id : t.biomes)
                     ids.add(id);
-                final CompoundNBT terrainTag = new CompoundNBT();
+                final CompoundTag terrainTag = new CompoundTag();
                 t.saveToNBT(terrainTag);
                 nbt.put("" + i, terrainTag);
             }
-            final ListNBT biomeList = new ListNBT();
+            final ListTag biomeList = new ListTag();
             for (final BiomeType t : BiomeType.values())
             {
                 if (!ids.contains(t.getType())) continue;
-                final CompoundNBT tag = new CompoundNBT();
+                final CompoundTag tag = new CompoundTag();
                 tag.putString("name", t.name);
                 tag.putInt("id", t.getType());
                 biomeList.add(tag);
@@ -192,26 +191,6 @@ public class CapabilityTerrain
 
         void setTerrainSegment(TerrainSegment segment, int chunkY);
 
-        ITerrainProvider setChunk(final IChunk chunk);
-    }
-
-    public static class Storage implements Capability.IStorage<ITerrainProvider>
-    {
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        @Override
-        public void readNBT(final Capability<ITerrainProvider> capability, final ITerrainProvider instance,
-                final Direction side, final INBT base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<ITerrainProvider> capability, final ITerrainProvider instance,
-                final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
+        ITerrainProvider setChunk(final ChunkAccess chunk);
     }
 }

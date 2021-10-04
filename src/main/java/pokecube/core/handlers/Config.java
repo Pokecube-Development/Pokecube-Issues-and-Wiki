@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -707,14 +707,14 @@ public class Config extends ConfigData
         PokecubeTerrainChecker.initStructMap();
         WorldgenHandler.SOFTBLACKLIST.clear();
         for (final String s : this.softWorldgenDimBlacklist)
-            WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
-        WorldgenHandler.SOFTBLACKLIST.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
+            WorldgenHandler.SOFTBLACKLIST.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
+        WorldgenHandler.SOFTBLACKLIST.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
                 "pokecube:secret_base")));
 
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            final RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name));
+            final ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name));
             SpawnBiomeMatcher.SOFTBLACKLIST.add(key);
         }
 
@@ -830,19 +830,19 @@ public class Config extends ConfigData
         for (final String i : this.spawnDimBlacklist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionBlacklist.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
+            SpawnHandler.dimensionBlacklist.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
         }
         SpawnHandler.dimensionWhitelist.clear();
         for (final String i : this.spawnDimWhitelist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionWhitelist.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
+            SpawnHandler.dimensionWhitelist.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
         }
         LogicMountedControl.BLACKLISTED.clear();
         for (final String i : this.blackListedFlyDims)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            LogicMountedControl.BLACKLISTED.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, key));
+            LogicMountedControl.BLACKLISTED.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
         }
 
         boolean failed = false;

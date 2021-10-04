@@ -4,11 +4,11 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
@@ -50,13 +50,13 @@ public enum PokeType implements IExtensibleEnum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static IFormattableTextComponent getTranslatedName(final PokeType type)
+    public static MutableComponent getTranslatedName(final PokeType type)
     {
-        IFormattableTextComponent ret = new StringTextComponent(type.name);
+        MutableComponent ret = new TextComponent(type.name);
         final String translated = I18n.get(PokeType.getUnlocalizedName(type));
-        if (translated != null && !translated.startsWith("type.")) ret = new TranslationTextComponent(PokeType
+        if (translated != null && !translated.startsWith("type.")) ret = new TranslatableComponent(PokeType
                 .getUnlocalizedName(type));
-        ret.setStyle(ret.getStyle().withColor(Color.fromRgb(type.colour)));
+        ret.setStyle(ret.getStyle().withColor(TextColor.fromRgb(type.colour)));
         return ret;
     }
 

@@ -5,12 +5,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,7 +45,7 @@ public class PokedexInspector
             this.tagString = tagString;
         }
 
-        private boolean check(final Entity entity, final String configArg, final CompoundNBT tag,
+        private boolean check(final Entity entity, final String configArg, final CompoundTag tag,
                 final ItemStack reward, final int num, final boolean giveReward)
         {
             if (reward == null || tag.getBoolean(this.tagString)) return false;
@@ -54,8 +54,8 @@ public class PokedexInspector
                 if (giveReward)
                 {
                     tag.putBoolean(this.tagString, true);
-                    entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
-                    final PlayerEntity PlayerEntity = (PlayerEntity) entity;
+                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
+                    final Player PlayerEntity = (Player) entity;
                     Tools.giveItem(PlayerEntity, reward);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
@@ -96,7 +96,7 @@ public class PokedexInspector
 
     public static Set<IInspectReward> rewards = Sets.newHashSet();
 
-    public static boolean inspect(final PlayerEntity player, final boolean reward)
+    public static boolean inspect(final Player player, final boolean reward)
     {
         PokedexInspectEvent evt;
         MinecraftForge.EVENT_BUS.post(evt = new PokedexInspectEvent(player, reward));

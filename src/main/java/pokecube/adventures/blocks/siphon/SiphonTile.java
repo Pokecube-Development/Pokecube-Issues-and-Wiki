@@ -4,24 +4,24 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.NBTDynamicOps;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickingBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -33,9 +33,9 @@ import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.entity.ThutTeleporter;
 
-public class SiphonTile extends InteractableTile implements ITickableTileEntity
+public class SiphonTile extends InteractableTile implements TickingBlockEntity
 {
-    public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundNBT>
+    public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundTag>
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
         public int                                 currentOutput;
@@ -48,16 +48,16 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putInt("cO", this.currentOutput);
             tag.putInt("tO", this.theoreticalOutput);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             this.currentOutput = nbt.getInt("cO");
             this.theoreticalOutput = nbt.getInt("yO");
@@ -103,7 +103,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
 
     }
 
-    public AxisAlignedBB box;
+    public AABB box;
 
     public List<Entity> mobs = Lists.newArrayList();
 
@@ -118,19 +118,19 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         super(PokecubeAdv.SIPHON_TYPE.get());
     }
 
-    public SiphonTile(final TileEntityType<?> tileEntityTypeIn)
+    public SiphonTile(final BlockEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
-        if (hand == Hand.MAIN_HAND && this.energy != null && player instanceof ServerPlayerEntity)
+        if (hand == InteractionHand.MAIN_HAND && this.energy != null && player instanceof ServerPlayer)
         {
-            ITextComponent message = null;
-            message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
+            Component message = null;
+            message = new TranslatableComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
             player.displayClientMessage(message, true);
         }
@@ -144,28 +144,28 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundNBT compound)
+    public void load(final BlockState stateIn, final CompoundTag compound)
     {
         this.wirelessLinks.clear();
-        final CompoundNBT wireless = compound.getCompound("links");
+        final CompoundTag wireless = compound.getCompound("links");
         final int n = wireless.getInt("n");
         for (int i = 0; i < n; i++)
         {
-            final INBT tag = wireless.get("" + i);
-            this.wirelessLinks.add(GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, tag).result().get().getFirst());
+            final Tag tag = wireless.get("" + i);
+            this.wirelessLinks.add(GlobalPos.CODEC.decode(NbtOps.INSTANCE, tag).result().get().getFirst());
         }
         super.load(stateIn, compound);
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT compound)
+    public CompoundTag save(final CompoundTag compound)
     {
-        final CompoundNBT wireless = new CompoundNBT();
+        final CompoundTag wireless = new CompoundTag();
         wireless.putInt("n", this.wirelessLinks.size());
         int n = 0;
         for (final GlobalPos pos : this.wirelessLinks)
         {
-            final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, pos).get().left().get();
+            final Tag tag = GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).get().left().get();
             wireless.put("" + n++, tag);
         }
         compound.put("links", wireless);
@@ -180,19 +180,19 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayerEntity)
+                if (user != null && user instanceof ServerPlayer)
                 {
-                    final PlayerEntity player = (PlayerEntity) user;
-                    player.displayClientMessage(new TranslationTextComponent(
+                    final Player player = (Player) user;
+                    player.displayClientMessage(new TranslatableComponent(
                         "block.pokecube_adventures.siphon.unlink",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayerEntity)
+            if (user != null && user instanceof ServerPlayer)
             {
-                final PlayerEntity player = (PlayerEntity) user;
-                player.displayClientMessage(new TranslationTextComponent(
+                final Player player = (Player) user;
+                player.displayClientMessage(new TranslatableComponent(
                     "block.pokecube_adventures.siphon.link",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;

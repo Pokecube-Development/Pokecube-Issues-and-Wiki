@@ -1,9 +1,9 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
 public interface IEntityProvider
 {
-    Entity getEntity(World world, int id, boolean expectsPokemob);
+    Entity getEntity(Level world, int id, boolean expectsPokemob);
 }

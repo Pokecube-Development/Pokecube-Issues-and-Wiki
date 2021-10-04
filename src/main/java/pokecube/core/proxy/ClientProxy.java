@@ -1,27 +1,33 @@
 package pokecube.core.proxy;
 
+import java.io.File;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.commons.io.FilenameUtils;
+
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DownloadingTexture;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.texture.HttpTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.tileentity.SkullTileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.FoliageColors;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeColors;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import org.apache.commons.io.FilenameUtils;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
@@ -29,10 +35,6 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
-
-import java.io.File;
-import java.util.Map;
-import java.util.UUID;
 
 public class ClientProxy extends CommonProxy
 {
@@ -50,7 +52,7 @@ public class ClientProxy extends CommonProxy
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
-                    : FoliageColors.getDefaultColor();
+                    : FoliageColor.getDefaultColor();
         }, qualotLeaves);
     }
 
@@ -75,7 +77,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public PlayerEntity getPlayer(final UUID uuid)
+    public Player getPlayer(final UUID uuid)
     {
         // This is null on single player, so we have an integrated server
         if (Minecraft.getInstance().getCurrentServer() == null) return super.getPlayer(uuid);
@@ -84,13 +86,13 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public PlayerEntity getPlayer()
+    public Player getPlayer()
     {
         return Minecraft.getInstance().player;
     }
 
     @Override
-    public World getWorld()
+    public Level getWorld()
     {
         return Minecraft.getInstance().level;
     }
@@ -101,7 +103,7 @@ public class ClientProxy extends CommonProxy
         if (ClientProxy.players.containsKey(name)) return ClientProxy.players.get(name);
         final Minecraft minecraft = Minecraft.getInstance();
         GameProfile profile = new GameProfile((UUID) null, name);
-        profile = SkullTileEntity.updateGameprofile(profile);
+        profile = SkullBlockEntity.updateGameprofile(profile);
         final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
                 .getInsecureSkinInformation(profile);
         ResourceLocation resourcelocation;
@@ -109,7 +111,7 @@ public class ClientProxy extends CommonProxy
                 map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
         else
         {
-            final UUID uuid = PlayerEntity.createPlayerUUID(profile);
+            final UUID uuid = Player.createPlayerUUID(profile);
             resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
         }
         ClientProxy.players.put(name, resourcelocation);
@@ -129,7 +131,7 @@ public class ClientProxy extends CommonProxy
             final File file1 = new File(new File(file0, "skins"), s.length() > 2 ? s.substring(0, 2) : "xx");
             file1.mkdirs();
             final File file2 = new File(file1, s);
-            final DownloadingTexture downloadingtexture = new DownloadingTexture(file2, urlSkin, DefaultPlayerSkin
+            final HttpTexture downloadingtexture = new HttpTexture(file2, urlSkin, DefaultPlayerSkin
                     .getDefaultSkin(), true, () ->
                     {
                     });

@@ -2,19 +2,19 @@ package pokecube.core.proxy;
 
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import pokecube.core.blocks.healer.HealerTile;
 
 public class CommonProxy
 {
 
-    public PlayerEntity getPlayer(final UUID uuid)
+    public Player getPlayer(final UUID uuid)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         return server.getPlayerList().getPlayer(uuid);
@@ -30,13 +30,13 @@ public class CommonProxy
         return null;
     }
 
-    public World getWorld()
+    public Level getWorld()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getLevel(World.OVERWORLD);
+        return server.getLevel(Level.OVERWORLD);
     }
 
-    public PlayerEntity getPlayer()
+    public Player getPlayer()
     {
         return null;
     }

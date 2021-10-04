@@ -1,7 +1,7 @@
 package pokecube.core.moves.animations.presets;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.interfaces.Move_Base;
@@ -32,9 +32,9 @@ public class Thunder extends MoveAnimationBase
     @OnlyIn(value = Dist.CLIENT)
     public void spawnClientEntities(final MovePacketInfo info)
     {
-        final net.minecraft.client.world.ClientWorld theRealWorld = (net.minecraft.client.world.ClientWorld) info.attacker
+        final net.minecraft.client.multiplayer.ClientLevel theRealWorld = (net.minecraft.client.multiplayer.ClientLevel) info.attacker
                 .getCommandSenderWorld();
-        final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, theRealWorld);
+        final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, theRealWorld);
         info.target.moveEntity(lightning);
         lightning.setVisualOnly(false);
         theRealWorld.addFreshEntity(lightning);

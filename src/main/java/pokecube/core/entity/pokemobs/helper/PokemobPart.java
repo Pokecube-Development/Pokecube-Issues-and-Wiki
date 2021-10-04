@@ -1,17 +1,17 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.PartEntity;
@@ -46,14 +46,14 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
 
         this.id = id;
 
-        this.dimensions = EntitySize.scalable(width, height);
+        this.dimensions = EntityDimensions.scalable(width, height);
         this.pokemob = base.pokemobCap;
         this.base = base;
         this.r0 = new Vector3f(x + width / 2, y, z + width / 2);
         this.r = new Vector3f(x, y, z);
     }
 
-    public void update(final Matrix3f rot, final Vector3f r, final Vector3d dr)
+    public void update(final Matrix3f rot, final Vector3f r, final Vec3 dr)
     {
         this.r.set(this.r0.getX(), this.r0.getY(), this.r0.getZ());
         rot.transform(this.r);
@@ -70,12 +70,12 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     }
 
     @Override
-    protected void readAdditionalSaveData(final CompoundNBT compound)
+    protected void readAdditionalSaveData(final CompoundTag compound)
     {
     }
 
     @Override
-    protected void addAdditionalSaveData(final CompoundNBT compound)
+    protected void addAdditionalSaveData(final CompoundTag compound)
     {
     }
 
@@ -85,7 +85,7 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
-        if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof PlayerEntity)
+        if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof Player)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), source.getDirectEntity()
                     .isShiftKeyDown());
@@ -104,13 +104,13 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     }
 
     @Override
-    public EntitySize getDimensions(final Pose poseIn)
+    public EntityDimensions getDimensions(final Pose poseIn)
     {
         return this.dimensions;
     }
 
     @Override
-    public ActionResultType interactAt(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
         if (this.getCommandSenderWorld().isClientSide)
         {
@@ -122,7 +122,7 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     }
 
     @Override
-    public ActionResultType interact(final PlayerEntity player, final Hand hand)
+    public InteractionResult interact(final Player player, final InteractionHand hand)
     {
         if (this.getCommandSenderWorld().isClientSide)
         {
@@ -160,28 +160,28 @@ public class PokemobPart extends PartEntity<PokemobHasParts>
     @Override
     public void refreshDimensions()
     {
-        final EntitySize entitysize = this.dimensions;
+        final EntityDimensions entitysize = this.dimensions;
         final Pose pose = this.getPose();
         final net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory
                 .getEntitySizeForge(this, pose, this.getDimensions(pose), this.getEyeHeight(pose, entitysize));
-        final EntitySize entitysize1 = sizeEvent.getNewSize();
+        final EntityDimensions entitysize1 = sizeEvent.getNewSize();
         this.dimensions = entitysize1;
         if (entitysize1.width < entitysize.width)
         {
             final double d0 = entitysize1.width / 2.0D;
-            this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
+            this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
                     this.getY() + entitysize1.height, this.getZ() + d0));
         }
         else
         {
-            final AxisAlignedBB axisalignedbb = this.getBoundingBox();
-            this.setBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
+            final AABB axisalignedbb = this.getBoundingBox();
+            this.setBoundingBox(new AABB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
                     axisalignedbb.minX + entitysize1.width, axisalignedbb.minY + entitysize1.height, axisalignedbb.minZ
                             + entitysize1.width));
             if (entitysize1.width > entitysize.width && !this.firstTick && !this.level.isClientSide)
             {
                 final float f = entitysize.width - entitysize1.width;
-                this.move(MoverType.SELF, new Vector3d(f, 0.0D, f));
+                this.move(MoverType.SELF, new Vec3(f, 0.0D, f));
             }
         }
     }

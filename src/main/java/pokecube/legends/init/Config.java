@@ -8,10 +8,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -140,7 +140,7 @@ public class Config extends ConfigData
         WormholeEntity.WEIGHTED_DIM_MAP.clear();
         WormholeEntity.NO_HOLES.clear();
 
-        this.wormhole_destination_blacklist.forEach(s -> WormholeEntity.NO_HOLES.add(RegistryKey.create(
+        this.wormhole_destination_blacklist.forEach(s -> WormholeEntity.NO_HOLES.add(ResourceKey.create(
                 Registry.DIMENSION_REGISTRY, new ResourceLocation(s))));
         this.wormhole_destination_weights.forEach(s ->
         {
@@ -155,7 +155,7 @@ public class Config extends ConfigData
                 PokecubeCore.LOGGER.error("Formatting error for {}, it should be of form \"<dimid>-><weight>\"");
                 return;
             }
-            final RegistryKey<World> key = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
+            final ResourceKey<Level> key = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
                     args[0]));
             final Float value = Float.valueOf(args[1]);
             WormholeEntity.WEIGHTED_DIM_MAP.put(key, value);

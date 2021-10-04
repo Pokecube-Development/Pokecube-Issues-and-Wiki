@@ -7,11 +7,11 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -24,7 +24,7 @@ public class MoveQueue
 {
     public static class MoveQueuer implements IWorldTickListener
     {
-        private static final Map<RegistryKey<World>, MoveQueue> queues = Maps.newHashMap();
+        private static final Map<ResourceKey<Level>, MoveQueue> queues = Maps.newHashMap();
 
         static MoveQueuer INSTANCE = new MoveQueuer();
 
@@ -34,7 +34,7 @@ public class MoveQueue
         }
 
         @Override
-        public void onTickEnd(final ServerWorld world)
+        public void onTickEnd(final ServerLevel world)
         {
             final MoveQueue queue = MoveQueuer.queues.get(world.dimension());
             if (queue == null)
@@ -52,13 +52,13 @@ public class MoveQueue
         }
 
         @Override
-        public void onDetach(final ServerWorld world)
+        public void onDetach(final ServerLevel world)
         {
             MoveQueuer.queues.remove(world.dimension());
         }
 
         @Override
-        public void onAttach(final ServerWorld world)
+        public void onAttach(final ServerLevel world)
         {
             MoveQueuer.queues.put(world.dimension(), new MoveQueue(world));
         }
@@ -72,9 +72,9 @@ public class MoveQueue
     }
 
     public List<EntityMoveUse> moves = Lists.newArrayList();
-    final IWorld               world;
+    final LevelAccessor               world;
 
-    public MoveQueue(final IWorld iWorld)
+    public MoveQueue(final LevelAccessor iWorld)
     {
         this.world = iWorld;
     }

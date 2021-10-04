@@ -10,23 +10,23 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.pathfinding.NodeProcessor;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathFinder;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Region;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.level.PathNavigationRegion;
+import net.minecraft.world.level.pathfinder.NodeEvaluator;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.ai.pathing.processors.SwimAndWalkNodeProcessor;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import thut.api.world.IPathHelper;
 
-public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
+public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 {
     public Map<AntRoom, List<Node>> rooms = Maps.newHashMap();
 
@@ -36,14 +36,14 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     public List<Node> allRooms = Lists.newArrayList();
     public Set<Edge>  allEdges = Sets.newHashSet();
 
-    public AxisAlignedBB bounds;
+    public AABB bounds;
 
-    NodeProcessor pather;
+    NodeEvaluator pather;
     PathFinder    finder;
 
     long regionSetTimer = 0;
 
-    Region r = null;
+    PathNavigationRegion r = null;
 
     Map<Edge, Path> edgePaths = Maps.newHashMap();
 
@@ -59,7 +59,7 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     }
 
     @Override
-    public boolean shouldHelpPath(final MobEntity mob, final WalkTarget target)
+    public boolean shouldHelpPath(final Mob mob, final WalkTarget target)
     {
         final BlockPos from = mob.blockPosition();
         final BlockPos to = target.getTarget().currentBlockPosition();
@@ -73,9 +73,9 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     }
 
     @Override
-    public Path getPath(final MobEntity mob, final WalkTarget target)
+    public Path getPath(final Mob mob, final WalkTarget target)
     {
-        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
         final BlockPos to = target.getTarget().currentBlockPosition();
         this.pather = new SwimAndWalkNodeProcessor();
         this.pather.setCanPassDoors(true);
@@ -89,20 +89,20 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
         {
             final BlockPos min = new BlockPos(this.bounds.minX, this.bounds.minY, this.bounds.minZ);
             final BlockPos max = new BlockPos(this.bounds.maxX, this.bounds.maxY, this.bounds.maxZ);
-            this.r = new Region(world, min, max);
+            this.r = new PathNavigationRegion(world, min, max);
             this.regionSetTimer = world.getGameTime() + 20;
         }
         return this.finder.findPath(this.r, mob, ImmutableSet.of(to), 128, target.getCloseEnoughDist(), 10);
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        final CompoundNBT tag = new CompoundNBT();
-        final ListNBT list = new ListNBT();
+        final CompoundTag tag = new CompoundTag();
+        final ListTag list = new ListTag();
         this.allRooms.forEach(n ->
         {
-            final CompoundNBT nbt = n.serializeNBT();
+            final CompoundTag nbt = n.serializeNBT();
             list.add(nbt);
         });
         tag.put("map", list);
@@ -110,7 +110,7 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
     }
 
     @Override
-    public void deserializeNBT(final CompoundNBT tag)
+    public void deserializeNBT(final CompoundTag tag)
     {
         for (final AntRoom room : AntRoom.values())
             this.rooms.put(room, Lists.newArrayList());
@@ -121,10 +121,10 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
         // First we de-serialize the nodes, and stuff them in
         // loadedNodes, After we will need to sort through this, and
         // re-connect the edges accordingly
-        final ListNBT list = tag.getList("map", 10);
+        final ListTag list = tag.getList("map", 10);
         for (int i = 0; i < list.size(); ++i)
         {
-            final CompoundNBT nbt = list.getCompound(i);
+            final CompoundTag nbt = list.getCompound(i);
             Node n = new Node();
             n.setTree(this);
             n.deserializeNBT(nbt);
@@ -219,9 +219,9 @@ public class Tree implements INBTSerializable<CompoundNBT>, IPathHelper
         else this.bounds = this.bounds.minmax(node.getOutBounds());
     }
 
-    public AxisAlignedBB getBounds()
+    public AABB getBounds()
     {
-        if (this.bounds == null) return AxisAlignedBB.ofSize(0, 0, 0);
+        if (this.bounds == null) return AABB.ofSize(0, 0, 0);
         return this.bounds;
     }
 

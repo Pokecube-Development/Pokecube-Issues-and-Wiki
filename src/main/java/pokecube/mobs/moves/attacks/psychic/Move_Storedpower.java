@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.psychic;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;

@@ -6,37 +6,36 @@ import java.util.UUID;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.datasync.IDataSerializer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
@@ -48,42 +47,42 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
 
-        public BlockEntityType(final EntityType.IFactory<T> factory)
+        public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
-            super(factory, EntityClassification.MISC, true, false, true, true, ImmutableSet.of(), new EntitySize(1, 1,
+            super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(), new EntityDimensions(1, 1,
                     true), 64, 1);
         }
 
         @Override
-        public T customClientSpawn(final SpawnEntity packet, final World world)
+        public T customClientSpawn(final SpawnEntity packet, final Level world)
         {
             return this.create(world);
         }
 
     }
 
-    private static class VecSer implements IDataSerializer<Vector3d>
+    private static class VecSer implements EntityDataSerializer<Vec3>
     {
         @Override
-        public Vector3d copy(final Vector3d value)
+        public Vec3 copy(final Vec3 value)
         {
-            return new Vector3d(value.x, value.y, value.z);
+            return new Vec3(value.x, value.y, value.z);
         }
 
         @Override
-        public DataParameter<Vector3d> createAccessor(final int id)
+        public EntityDataAccessor<Vec3> createAccessor(final int id)
         {
-            return new DataParameter<>(id, this);
+            return new EntityDataAccessor<>(id, this);
         }
 
         @Override
-        public Vector3d read(final PacketBuffer buf)
+        public Vec3 read(final FriendlyByteBuf buf)
         {
-            return new Vector3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
         }
 
         @Override
-        public void write(final PacketBuffer buf, final Vector3d value)
+        public void write(final FriendlyByteBuf buf, final Vec3 value)
         {
             buf.writeDouble(value.x);
             buf.writeDouble(value.y);
@@ -91,13 +90,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         }
     }
 
-    public static final IDataSerializer<Vector3d> VEC3DSER = new VecSer();
+    public static final EntityDataSerializer<Vec3> VEC3DSER = new VecSer();
 
     public static Block FAKEBLOCK = null;
 
-    static final DataParameter<Vector3d> velocity = EntityDataManager.<Vector3d> defineId(BlockEntityBase.class,
+    static final EntityDataAccessor<Vec3> velocity = SynchedEntityData.<Vec3> defineId(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
-    static final DataParameter<Vector3d> position = EntityDataManager.<Vector3d> defineId(BlockEntityBase.class,
+    static final EntityDataAccessor<Vec3> position = SynchedEntityData.<Vec3> defineId(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
 
     public BlockPos boundMin = BlockPos.ZERO;
@@ -118,9 +117,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public UUID owner;
 
-    public List<AxisAlignedBB> blockBoxes = Lists.newArrayList();
+    public List<AABB> blockBoxes = Lists.newArrayList();
     public BlockState[][][]    blocks     = null;
-    public TileEntity[][][]    tiles      = null;
+    public BlockEntity[][][]    tiles      = null;
 
     public BlockEntityUpdater  collider;
     BlockEntityInteractHandler interacter;
@@ -128,7 +127,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     BlockPos originalPos = null;
     Vector3  lastSyncPos = Vector3.getNewVector();
 
-    public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
+    public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
     {
         super(type, par1World);
         this.noCulling = true;
@@ -166,13 +165,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     @Override
     /** Applies the given player interaction to this Entity. */
-    public ActionResultType interactAt(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
         return super.interactAt(player, vec, hand);
     }
 
     /** Applies the given player interaction to this Entity. */
-    public ActionResultType interactAtFromTile(final PlayerEntity player, final Vector3d vec, final Hand hand)
+    public InteractionResult interactAtFromTile(final Player player, final Vec3 vec, final InteractionHand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         try
@@ -240,11 +239,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         BlockPos.betweenClosedStream(this.getBoundingBox().inflate(1)).forEach(p ->
         {
-            final World world = this.getCommandSenderWorld();
+            final Level world = this.getCommandSenderWorld();
             final BlockState block = world.getBlockState(p);
             if (world.isEmptyBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK) world.setBlockAndUpdate(p,
                     BlockEntityBase.FAKEBLOCK.defaultBlockState());
-            final TileEntity te = world.getBlockEntity(p);
+            final BlockEntity te = world.getBlockEntity(p);
             if (te instanceof TempTile)
             {
                 final TempTile tile = (TempTile) te;
@@ -257,14 +256,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
     @Override
-    public IPacket<?> getAddEntityPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public final void doMotion()
     {
-        final Vector3d v = this.getDeltaMovement();
+        final Vec3 v = this.getDeltaMovement();
         this.move(MoverType.SELF, v);
     }
 
@@ -320,7 +319,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public Vector3d getDeltaMovement()
+    public Vec3 getDeltaMovement()
     {
         return this.getEntityData().get(BlockEntityBase.velocity);
     }
@@ -365,7 +364,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public TileEntity[][][] getTiles()
+    public BlockEntity[][][] getTiles()
     {
         return this.tiles;
     }
@@ -383,18 +382,18 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     /** First layer of player interaction */
     @Override
-    public ActionResultType interact(final PlayerEntity player, final Hand hand)
+    public InteractionResult interact(final Player player, final InteractionHand hand)
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         return this.interacter.processInitialInteract(player, player.getItemInHand(hand), hand);
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundTag nbt)
     {
         if (nbt.contains("bounds"))
         {
-            final CompoundNBT bounds = nbt.getCompound("bounds");
+            final CompoundTag bounds = nbt.getCompound("bounds");
             this.boundMin = new BlockPos(bounds.getDouble("minx"), bounds.getDouble("miny"), bounds.getDouble("minz"));
             this.boundMax = new BlockPos(bounds.getDouble("maxx"), bounds.getDouble("maxy"), bounds.getDouble("maxz"));
             if (bounds.contains("orix")) this.originalPos = new BlockPos(bounds.getDouble("orix"), bounds.getDouble(
@@ -403,30 +402,30 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.readBlocks(nbt);
     }
 
-    public void readBlocks(final CompoundNBT nbt)
+    public void readBlocks(final CompoundTag nbt)
     {
         if (nbt.contains("Blocks"))
         {
-            final CompoundNBT blockTag = nbt.getCompound("Blocks");
+            final CompoundTag blockTag = nbt.getCompound("Blocks");
             int sizeX = blockTag.getInt("BlocksLengthX");
             int sizeZ = blockTag.getInt("BlocksLengthZ");
             int sizeY = blockTag.getInt("BlocksLengthY");
             if (sizeX == 0 || sizeZ == 0) sizeX = sizeZ = nbt.getInt("BlocksLength");
             if (sizeY == 0) sizeY = 1;
             this.blocks = new BlockState[sizeX][sizeY][sizeZ];
-            this.tiles = new TileEntity[sizeX][sizeY][sizeZ];
+            this.tiles = new BlockEntity[sizeX][sizeY][sizeZ];
             for (int i = 0; i < sizeX; i++)
                 for (int k = 0; k < sizeY; k++)
                     for (int j = 0; j < sizeZ; j++)
                     {
                         final String name = "B" + i + "," + k + "," + j;
                         if (!blockTag.contains(name)) continue;
-                        final BlockState state = NBTUtil.readBlockState(blockTag.getCompound(name));
+                        final BlockState state = NbtUtils.readBlockState(blockTag.getCompound(name));
                         this.blocks[i][k][j] = state;
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
-                            final CompoundNBT tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                            this.tiles[i][k][j] = TileEntity.loadStatic(state, tag);
+                            final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
+                            this.tiles[i][k][j] = BlockEntity.loadStatic(state, tag);
                         }
                         catch (final Exception e)
                         {
@@ -447,9 +446,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox()
+    public AABB getBoundingBox()
     {
-        AxisAlignedBB box = super.getBoundingBox();
+        AABB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
         if (this.collider != null && (box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1 || box
                 .getZsize() != size.getZ() + 1)) box = this.collider.getBoundingBox();
@@ -457,13 +456,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    protected AxisAlignedBB getBoundingBoxForPose(final Pose pose)
+    protected AABB getBoundingBoxForPose(final Pose pose)
     {
         return this.getBoundingBox();
     }
 
     @Override
-    public void readSpawnData(final PacketBuffer data)
+    public void readSpawnData(final FriendlyByteBuf data)
     {
         this.readAdditionalSaveData(data.readNbt());
     }
@@ -471,8 +470,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void defineSynchedData()
     {
-        this.getEntityData().define(BlockEntityBase.velocity, Vector3d.ZERO);
-        this.getEntityData().define(BlockEntityBase.position, Vector3d.ZERO);
+        this.getEntityData().define(BlockEntityBase.velocity, Vec3.ZERO);
+        this.getEntityData().define(BlockEntityBase.position, Vec3.ZERO);
     }
 
     /** Will get destroyed next tick. */
@@ -516,7 +515,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void setDeltaMovement(final Vector3d vec)
+    public void setDeltaMovement(final Vec3 vec)
     {
         this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
@@ -524,8 +523,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void setPosRaw(final double x, final double y, final double z)
     {
-        final Vector3d pos = new Vector3d(x, y, z);
-        Vector3d vec = pos;
+        final Vec3 pos = new Vec3(x, y, z);
+        Vec3 vec = pos;
         if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
         final double ds2 = vec.distanceToSqr(pos);
         super.setPosRaw(x, y, z);
@@ -538,18 +537,18 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (!this.isServerWorld())
         {
             vec = this.getEntityData().get(BlockEntityBase.position);
-            if (!vec.equals(Vector3d.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
+            if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
         }
     }
 
     @Override
     public void setLocationFromBoundingbox()
     {
-        final AxisAlignedBB box = this.getBoundingBox();
+        final AABB box = this.getBoundingBox();
         this.setPosRaw(box.minX, box.minY, box.minZ);
         // Forge - Process chunk registration after moving.
-        if (this.isAddedToWorld() && !this.level.isClientSide && this.level instanceof ServerWorld)
-            ((ServerWorld) this.level).updateChunkPos(this);
+        if (this.isAddedToWorld() && !this.level.isClientSide && this.level instanceof ServerLevel)
+            ((ServerLevel) this.level).updateChunkPos(this);
     }
 
     @Override
@@ -559,7 +558,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void setTiles(final TileEntity[][][] tiles)
+    public void setTiles(final BlockEntity[][][] tiles)
     {
         this.tiles = tiles;
     }
@@ -578,8 +577,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         if (this.isServerWorld())
         {
-            final Vector3d orig = this.getDeltaMovement();
-            final Vector3d motion = new Vector3d(orig.x, orig.y, orig.z);
+            final Vec3 orig = this.getDeltaMovement();
+            final Vec3 motion = new Vec3(orig.x, orig.y, orig.z);
             this.setDeltaMovement(motion);
         }
 
@@ -603,9 +602,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void addAdditionalSaveData(final CompoundNBT nbt)
+    public void addAdditionalSaveData(final CompoundTag nbt)
     {
-        final CompoundNBT vector = new CompoundNBT();
+        final CompoundTag vector = new CompoundTag();
         vector.putDouble("minx", this.boundMin.getX());
         vector.putDouble("miny", this.boundMin.getY());
         vector.putDouble("minz", this.boundMin.getZ());
@@ -626,11 +625,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         }
     }
 
-    public void writeBlocks(final CompoundNBT nbt)
+    public void writeBlocks(final CompoundTag nbt)
     {
         if (this.blocks != null)
         {
-            final CompoundNBT blocksTag = new CompoundNBT();
+            final CompoundTag blocksTag = new CompoundTag();
             blocksTag.putInt("BlocksLengthX", this.blocks.length);
             blocksTag.putInt("BlocksLengthY", this.blocks[0].length);
             blocksTag.putInt("BlocksLengthZ", this.blocks[0][0].length);
@@ -643,12 +642,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                     {
                         final BlockState b = this.blocks[i][k][j];
                         if (b == null) continue;
-                        blocksTag.put("B" + i + "," + k + "," + j, NBTUtil.writeBlockState(b));
+                        blocksTag.put("B" + i + "," + k + "," + j, NbtUtils.writeBlockState(b));
                         try
                         {
                             if (this.tiles[i][k][j] != null)
                             {
-                                CompoundNBT tag = new CompoundNBT();
+                                CompoundTag tag = new CompoundTag();
                                 tag = this.tiles[i][k][j].save(tag);
                                 blocksTag.put("T" + i + "," + k + "," + j, tag);
                             }
@@ -683,9 +682,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void writeSpawnData(final PacketBuffer data)
+    public void writeSpawnData(final FriendlyByteBuf data)
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         this.addAdditionalSaveData(tag);
         data.writeNbt(tag);
     }

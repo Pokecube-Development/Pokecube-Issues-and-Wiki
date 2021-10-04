@@ -1,13 +1,13 @@
 package pokecube.core.network.pokemobs;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
@@ -24,12 +24,12 @@ public class PacketPokemobGui extends Packet
     public static final byte STORAGE = 2;
     public static final byte ROUTES  = 3;
 
-    public static void sendOpenPacket(final Entity target, final ServerPlayerEntity player)
+    public static void sendOpenPacket(final Entity target, final ServerPlayer player)
     {
-        final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(target.getId());
         buffer.writeByte(PacketPokemobGui.MAIN);
-        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
+        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
                 e) -> new ContainerPokemob(i, p, buffer), target.getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
@@ -58,28 +58,28 @@ public class PacketPokemobGui extends Packet
         this.id = id;
     }
 
-    public PacketPokemobGui(final PacketBuffer buf)
+    public PacketPokemobGui(final FriendlyByteBuf buf)
     {
         this.message = buf.readByte();
         this.id = buf.readInt();
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
         final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.id, true);
-        final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(entity.getId());
         buffer.writeByte(this.message);
         final byte mode = this.message;
-        SimpleNamedContainerProvider provider;
+        SimpleMenuProvider provider;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return;
 
         switch (this.message)
         {
         case ROUTES:
-            provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
+            provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
                     .getDisplayName());
             PacketSyncRoutes.sendUpdateClientPacket(entity, player, true);
             NetworkHooks.openGui(player, provider, buf ->
@@ -94,7 +94,7 @@ public class PacketPokemobGui extends Packet
                 if (run instanceof StoreTask) ai = (StoreTask) run;
             final StoreTask toSend = ai;
             buffer.writeNbt(toSend.serializeNBT());
-            provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
+            provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
                     .getDisplayName());
             NetworkHooks.openGui(player, provider, buf ->
             {
@@ -104,7 +104,7 @@ public class PacketPokemobGui extends Packet
             });
             return;
         }
-        provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
+        provider = new SimpleMenuProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
                 .getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
@@ -114,7 +114,7 @@ public class PacketPokemobGui extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
         buf.writeByte(this.message);
         buf.writeInt(this.id);

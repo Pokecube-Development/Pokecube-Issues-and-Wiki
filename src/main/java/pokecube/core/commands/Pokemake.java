@@ -14,17 +14,17 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.command.arguments.ItemArgument;
-import net.minecraft.command.arguments.ItemInput;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.commands.arguments.item.ItemInput;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
@@ -217,7 +217,7 @@ public class Pokemake
             }
     }
 
-    private static int execute(final CommandSource source, final String name, final List<Object> args)
+    private static int execute(final CommandSourceStack source, final String name, final List<Object> args)
     {
         PokedexEntry entry = Database.getEntry(name);
         if (name.startsWith("random_"))
@@ -276,26 +276,26 @@ public class Pokemake
         GeneticsManager.initMob(mob);
         mob.getCommandSenderWorld().addFreshEntity(mob);
 
-        final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
-        final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
+        final String text = ChatFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
+        final Component message = Component.Serializer.fromJson("[\"" + text + "\"]");
         source.sendSuccess(message, true);
         return 0;
     }
 
-    private static SuggestionProvider<CommandSource> SUGGEST_OTHERS = (ctx,
-            sb) -> net.minecraft.command.ISuggestionProvider.suggest(Lists.newArrayList("random_normal", "random_all",
+    private static SuggestionProvider<CommandSourceStack> SUGGEST_OTHERS = (ctx,
+            sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(Lists.newArrayList("random_normal", "random_all",
                     "random_legend"), sb);
 
-    private static SuggestionProvider<CommandSource> SUGGEST_POKEMOB = (ctx,
-            sb) -> net.minecraft.command.ISuggestionProvider.suggest(Database.getSortedFormNames(), sb);
+    private static SuggestionProvider<CommandSourceStack> SUGGEST_POKEMOB = (ctx,
+            sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(Database.getSortedFormNames(), sb);
 
-    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.pokemake";
         // Normal pokemake
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
 
-        LiteralArgumentBuilder<CommandSource> command;
+        LiteralArgumentBuilder<CommandSourceStack> command;
         // Set a permission
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.

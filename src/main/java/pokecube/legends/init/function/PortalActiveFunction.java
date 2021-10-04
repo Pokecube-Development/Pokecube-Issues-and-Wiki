@@ -7,14 +7,14 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -74,14 +74,14 @@ public class PortalActiveFunction
         return ret;
     }
 
-    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
+    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerLevel world)
     {
         if (state.getBlock() != BlockInit.PORTAL.get()) return;
 
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
-        final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
+        final Mob entity = PokecubeCore.createPokemob(entityToSpawn, world);
         final Vector3 v = Vector3.getNewVector().set(pos);
-        final RegistryKey<World> key = world.dimension();
+        final ResourceKey<Level> key = world.dimension();
 
         // // Normal Worlds
         if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega()
@@ -102,7 +102,7 @@ public class PortalActiveFunction
             world.addFreshEntity(entity);
         }
         world.setBlockAndUpdate(pos, state.setValue(PortalWarp.ACTIVE, false));
-        world.playLocalSound(v.x, v.y, v.z, SoundEvents.WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
+        world.playLocalSound(v.x, v.y, v.z, SoundEvents.WITHER_DEATH, SoundSource.NEUTRAL, 1, 1, false);
 
     }
 }

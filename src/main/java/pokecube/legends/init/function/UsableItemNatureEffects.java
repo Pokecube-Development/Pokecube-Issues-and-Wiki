@@ -1,11 +1,11 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Nature;
@@ -36,16 +36,16 @@ public class UsableItemNatureEffects
          */
 
         @Override
-        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
-            if (user != pokemob.getOwner()) return new ActionResult<>(ActionResultType.FAIL, stack);
+            if (user != pokemob.getOwner()) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             final boolean used = pokemob.getNature() != this.nature;
             if (used)
             {
                 pokemob.setNature(this.nature);
                 stack.split(1);
             }
-            return new ActionResult<>(used ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);
+            return new InteractionResultHolder<>(used ? InteractionResult.SUCCESS : InteractionResult.FAIL, stack);
         }
     }
 

@@ -6,14 +6,14 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -97,11 +97,11 @@ public class PCEventsHandler
      */
     private static void onPlayerJoinWorld(final EntityJoinWorldEvent evt)
     {
-        if (!(evt.getEntity() instanceof ServerPlayerEntity)) return;
+        if (!(evt.getEntity() instanceof ServerPlayer)) return;
 
-        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
+        final ServerPlayer player = (ServerPlayer) evt.getEntity();
 
-        if (player.getUUID().equals(PCEventsHandler.THUTMOSE)) for (final ServerPlayerEntity entity : player
+        if (player.getUUID().equals(PCEventsHandler.THUTMOSE)) for (final ServerPlayer entity : player
                 .getServer().getPlayerList().getPlayers())
         {
             final PacketPC packet = new PacketPC(PacketPC.PCINIT, entity.getUUID());
@@ -117,7 +117,7 @@ public class PCEventsHandler
      */
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
         PacketPC.sendInitialSyncMessage(evt.getPlayer());
     }
 
@@ -129,8 +129,8 @@ public class PCEventsHandler
      */
     private static void onItemPickup(final EntityItemPickupEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
-        final PlayerInventory inv = evt.getPlayer().inventory;
+        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
+        final Inventory inv = evt.getPlayer().getInventory();
         final int num = inv.getFreeSlot();
         if (!PokecubeManager.isFilled(evt.getItem().getItem())) return;
         final String owner = PokecubeManager.getOwner(evt.getItem().getItem());
@@ -139,13 +139,13 @@ public class PCEventsHandler
             if (num == -1)
             {
                 PCInventory.addPokecubeToPC(evt.getItem().getItem(), evt.getPlayer().getCommandSenderWorld());
-                evt.getItem().remove();
+                evt.getItem().remove(Entity.RemovalReason.DISCARDED);
             }
         }
         else
         {
             PCInventory.addPokecubeToPC(evt.getItem().getItem(), evt.getPlayer().getCommandSenderWorld());
-            evt.getItem().remove();
+            evt.getItem().remove(Entity.RemovalReason.DISCARDED);
             evt.setCanceled(true);
         }
     }
@@ -157,12 +157,12 @@ public class PCEventsHandler
      */
     private static void onItemTossed(final ItemTossEvent evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
         if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
         {
             if (PokecubeManager.getOwner(evt.getEntityItem().getItem()).isEmpty()) return;
             PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getCommandSenderWorld());
-            evt.getEntity().remove();
+            evt.getEntity().remove(Entity.RemovalReason.DISCARDED);
             evt.setCanceled(true);
         }
     }
@@ -186,9 +186,9 @@ public class PCEventsHandler
     // @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
     private static void onPlayerDeath(final LivingDeathEvent evt)
     {
-        if (evt.getEntity() instanceof ServerPlayerEntity)
+        if (evt.getEntity() instanceof ServerPlayer)
         {
-            final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
+            final ServerPlayer player = (ServerPlayer) evt.getEntity();
             EventsHandler.recallAllPokemobsExcluding(player, null, false);
         }
     }
@@ -200,7 +200,7 @@ public class PCEventsHandler
      */
     private static void onPlayerDrops(final LivingDropsEvent evt)
     {
-        if (!(evt.getEntity() instanceof PlayerEntity) || !PokecubeCore.getConfig().pcOnDrop) return;
+        if (!(evt.getEntity() instanceof Player) || !PokecubeCore.getConfig().pcOnDrop) return;
         if (evt.getEntity().getCommandSenderWorld().isClientSide) return;
         final UUID id = evt.getEntity().getUUID();
         final List<ItemEntity> toRemove = Lists.newArrayList();
@@ -229,14 +229,14 @@ public class PCEventsHandler
         }
         final Entity catcher = evt.getCaught().getOwner();
         if (evt.getCaught().isShadow()) return;
-        if (catcher instanceof ServerPlayerEntity && PokecubeManager.isFilled(evt.getFilledCube()))
+        if (catcher instanceof ServerPlayer && PokecubeManager.isFilled(evt.getFilledCube()))
         {
-            final PlayerEntity player = (PlayerEntity) catcher;
+            final Player player = (Player) catcher;
             if (player instanceof FakePlayer) return;
             // Cancel it to stop the cube from processing itself.
             evt.setCanceled(true);
 
-            final PlayerInventory inv = player.inventory;
+            final Inventory inv = player.getInventory();
             final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.getFilledCube()));
             final PCInventory pc = PCInventory.getPC(id);
             final int num = inv.getFreeSlot();
@@ -245,8 +245,8 @@ public class PCEventsHandler
                     .addPokecubeToPC(evt.getFilledCube(), catcher.getCommandSenderWorld());
             else
             {
-                player.inventory.add(evt.getFilledCube());
-                if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).refreshContainer(
+                player.getInventory().add(evt.getFilledCube());
+                if (player instanceof ServerPlayer) ((ServerPlayer) player).refreshContainer(
                         player.inventoryMenu, player.inventoryMenu.getItems());
             }
 
@@ -265,8 +265,8 @@ public class PCEventsHandler
     public static void recallAll(final List<Entity> mobs, final boolean cubesToPC)
     {
         if (mobs.isEmpty()) return;
-        if (!(mobs.get(0).getCommandSenderWorld() instanceof ServerWorld)) return;
-        final ServerWorld world = (ServerWorld) mobs.get(0).getCommandSenderWorld();
+        if (!(mobs.get(0).getCommandSenderWorld() instanceof ServerLevel)) return;
+        final ServerLevel world = (ServerLevel) mobs.get(0).getCommandSenderWorld();
         EventsHandler.Schedule(world, w ->
         {
             for (final Entity o : mobs)

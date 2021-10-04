@@ -13,8 +13,8 @@ public interface IParticle
     long lastTick();
 
     @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final com.mojang.blaze3d.vertex.IVertexBuilder buffer,
-            final net.minecraft.client.renderer.ActiveRenderInfo entityIn, final float partialTicks, Vector3f offset);
+    public void renderParticle(final com.mojang.blaze3d.vertex.VertexConsumer buffer,
+            final net.minecraft.client.Camera entityIn, final float partialTicks, Vector3f offset);
 
     void setColour(int colour);
 

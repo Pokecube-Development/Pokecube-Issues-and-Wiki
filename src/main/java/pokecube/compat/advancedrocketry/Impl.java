@@ -1,9 +1,9 @@
 package pokecube.compat.advancedrocketry;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,10 +41,10 @@ public class Impl
     @SubscribeEvent
     public static void toOrbit(final PlayerTickEvent event)
     {
-        final World tworld = event.player.getCommandSenderWorld();
-        if (!(tworld instanceof ServerWorld)) return;
+        final Level tworld = event.player.getCommandSenderWorld();
+        if (!(tworld instanceof ServerLevel)) return;
 
-        final ServerWorld world = (ServerWorld) tworld;
+        final ServerLevel world = (ServerLevel) tworld;
         final Entity riding = event.player.getRootVehicle();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(riding);
         if (pokemob == null || pokemob.getPokedexEntry() != Impl.megaray) return;

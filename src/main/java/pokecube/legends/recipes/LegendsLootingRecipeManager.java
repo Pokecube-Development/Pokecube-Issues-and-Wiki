@@ -4,18 +4,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootTable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.items.ItemHandlerHelper;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.recipes.LegendsLootingRecipeSerializer.SerializerLooting;
@@ -23,7 +23,7 @@ import pokecube.legends.recipes.LegendsLootingRecipeSerializer.SerializerLooting
 public class LegendsLootingRecipeManager 
 {	
   	private static final ResourceLocation ID_LOOTING = new ResourceLocation("pokecube_legends:legends_looting");
-	public static final IRecipeType<LegendsLootingRecipeSerializer> LEGENDS_LOOTING_RECIPE_TYPE = IRecipeType.register(LegendsLootingRecipeManager.ID_LOOTING.toString());
+	public static final RecipeType<LegendsLootingRecipeSerializer> LEGENDS_LOOTING_RECIPE_TYPE = RecipeType.register(LegendsLootingRecipeManager.ID_LOOTING.toString());
 	public static final RegistryObject<SerializerLooting> LEGENDS_LOOTING_RECIPE = PokecubeLegends.LEGENDS_SERIALIZERS.register("legends_looting", () ->
 	    new SerializerLooting());
     
@@ -33,7 +33,7 @@ public class LegendsLootingRecipeManager
             
             final ItemStack heldItem = event.getPlayer().getItemInHand(event.getHand());
             
-            for (final IRecipe<?> recipe : getRecipes(LEGENDS_LOOTING_RECIPE_TYPE, event.getWorld().getRecipeManager()).values()) {
+            for (final Recipe<?> recipe : getRecipes(LEGENDS_LOOTING_RECIPE_TYPE, event.getWorld().getRecipeManager()).values()) {
 
                 if (recipe instanceof LegendsLootingRecipeSerializer) {
                                     	
@@ -42,7 +42,7 @@ public class LegendsLootingRecipeManager
                     if (blockRecipe.isValid(heldItem, event.getWorld().getBlockState(event.getPos()).getBlock())) {
                         
                     	final LootTable loottable = event.getEntity().getServer().getLootTables().get(blockRecipe.output);
-                        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) event.getEntity()
+                        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) event.getEntity()
                                 .getCommandSenderWorld()).withRandom(event.getEntityLiving().getRandom());
                         
                         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
@@ -64,9 +64,9 @@ public class LegendsLootingRecipeManager
         }
     }
 
-	private static Map<ResourceLocation, IRecipe<?>> getRecipes (IRecipeType<?> recipeType, RecipeManager manager) {
+	private static Map<ResourceLocation, Recipe<?>> getRecipes (RecipeType<?> recipeType, RecipeManager manager) {
         
-        final Map<IRecipeType<?>, Map<ResourceLocation, IRecipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
+        final Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipesMap = ObfuscationReflectionHelper.getPrivateValue(RecipeManager.class, manager, "field_199522_d");
         	return recipesMap.getOrDefault(recipeType, Collections.emptyMap());
     }
     

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;

@@ -1,17 +1,17 @@
 package thut.api.particle;
 
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.math.Quaternion;
 import com.mojang.serialization.Codec;
 
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.item.DyeColor;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.client.Camera;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,10 +19,10 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 
-public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, IParticleData
+public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
 {
     @SuppressWarnings("deprecation")
-    private static final IParticleData.IDeserializer<ParticleBase> DESERIALIZER = new IParticleData.IDeserializer<ParticleBase>()
+    private static final ParticleOptions.Deserializer<ParticleBase> DESERIALIZER = new ParticleOptions.Deserializer<ParticleBase>()
     {
         @Override
         public ParticleBase fromCommand(
@@ -37,7 +37,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         @Override
         public ParticleBase fromNetwork(
                 final ParticleType<ParticleBase> particleTypeIn,
-                final PacketBuffer buffer)
+                final FriendlyByteBuf buffer)
         {
             return ((ParticleBase) particleTypeIn)
                     .read(buffer);
@@ -99,7 +99,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this.lastTick;
     }
 
-    public ParticleBase read(final PacketBuffer buffer)
+    public ParticleBase read(final FriendlyByteBuf buffer)
     {
         this.duration = buffer.readInt();
         this.lifetime = buffer.readInt();
@@ -122,20 +122,20 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this;
     }
 
-    protected void render(final IVertexBuilder buffer, final Quaternion quaternion, final Vector3f offset)
+    protected void render(final VertexConsumer buffer, final Quaternion quaternion, final Vector3f offset)
     {
-        final net.minecraft.util.math.vector.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
+        final com.mojang.math.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
         vector3f1.transform(quaternion);
-        final net.minecraft.util.math.vector.Vector3f[] verts = new net.minecraft.util.math.vector.Vector3f[] {
-                new net.minecraft.util.math.vector.Vector3f(-1.0F, -1.0F, 0.0F),
-                new net.minecraft.util.math.vector.Vector3f(-1.0F, 1.0F, 0.0F),
-                new net.minecraft.util.math.vector.Vector3f(1.0F, 1.0F, 0.0F),
-                new net.minecraft.util.math.vector.Vector3f(1.0F, -1.0F, 0.0F) };
+        final com.mojang.math.Vector3f[] verts = new com.mojang.math.Vector3f[] {
+                new com.mojang.math.Vector3f(-1.0F, -1.0F, 0.0F),
+                new com.mojang.math.Vector3f(-1.0F, 1.0F, 0.0F),
+                new com.mojang.math.Vector3f(1.0F, 1.0F, 0.0F),
+                new com.mojang.math.Vector3f(1.0F, -1.0F, 0.0F) };
         final float f4 = this.size;
 
         for (int i = 0; i < 4; ++i)
         {
-            final net.minecraft.util.math.vector.Vector3f vector3f = verts[i];
+            final com.mojang.math.Vector3f vector3f = verts[i];
             vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
@@ -166,7 +166,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo, final float partialTicks,
+    public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
             final Vector3f offset)
     {
         Quaternion quaternion;
@@ -244,7 +244,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     @Override
-    public void writeToNetwork(final PacketBuffer buffer)
+    public void writeToNetwork(final FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.duration);
         buffer.writeInt(this.lifetime);

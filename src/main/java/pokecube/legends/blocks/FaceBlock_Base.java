@@ -1,22 +1,23 @@
 package pokecube.legends.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraftforge.common.ToolType;
+import com.minecolonies.api.util.constant.ToolType;
+
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
 public class FaceBlock_Base extends BlockBase {
 
-	public static final DirectionProperty FACING = HorizontalBlock.FACING;
+	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 	public FaceBlock_Base(final String name, final Material material, final MaterialColor color, 
 			final float hardness, final float resistance, final SoundType sound, final ToolType tool, final int harvest, final boolean hasDrop) {
@@ -31,7 +32,7 @@ public class FaceBlock_Base extends BlockBase {
 	}
 
 	@Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FaceBlock_Base.FACING);
 	}
 
@@ -47,7 +48,7 @@ public class FaceBlock_Base extends BlockBase {
 	}
 
 	@Override
-	public BlockState getStateForPlacement(final BlockItemUseContext context) {
+	public BlockState getStateForPlacement(final BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FaceBlock_Base.FACING, context.getHorizontalDirection().getOpposite());
 	}
 }

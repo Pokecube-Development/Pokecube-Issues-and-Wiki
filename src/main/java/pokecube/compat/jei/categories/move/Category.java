@@ -12,9 +12,9 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
@@ -75,9 +75,9 @@ public class Category implements IRecipeCategory<MoveRecipe>
     }
 
     @Override
-    public List<ITextComponent> getTooltipStrings(final MoveRecipe recipe, final double mouseX, final double mouseY)
+    public List<Component> getTooltipStrings(final MoveRecipe recipe, final double mouseX, final double mouseY)
     {
-        final List<ITextComponent> tooltips = Lists.newArrayList();
+        final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
 
