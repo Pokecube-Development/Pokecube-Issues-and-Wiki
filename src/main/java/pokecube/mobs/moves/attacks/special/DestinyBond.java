@@ -39,7 +39,7 @@ public class DestinyBond extends Move_Basic
     {
         final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = this.usedOn.remove(killed);
-        System.out.println(targets);
+
         if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerLevel)
         {
             final ServerLevel world = (ServerLevel) event.killed.getEntity().getCommandSenderWorld();
