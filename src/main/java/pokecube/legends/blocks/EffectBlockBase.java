@@ -13,7 +13,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.init.ItemInit;
 
 public class EffectBlockBase extends BlockBase
