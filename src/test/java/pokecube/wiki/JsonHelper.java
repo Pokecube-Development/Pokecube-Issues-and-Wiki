@@ -1,7 +1,11 @@
 package pokecube.wiki;
 
-import com.google.gson.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -14,16 +18,14 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
-import pokecube.core.client.gui.AnimationGui;
-import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -32,7 +34,6 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.pokedex.PokemobsJson;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
@@ -74,14 +75,8 @@ public class JsonHelper
             float scale = 1;
             final thut.api.maths.vecmath.Vector3f dimensions = entry.getModelSize();
             mobScale = Math.max(dimensions.z, Math.max(dimensions.y, dimensions.x));
-            if (dimensions.x > 1 || dimensions.y > 1 || dimensions.z > 1)
-            {
-                scale = 1 / (mobScale * 2);
-            }
-            else if (dimensions.x > 0.5 || dimensions.y > 0.5 || dimensions.z > 0.5)
-            {
-                scale = mobScale / (mobScale * 2);
-            }
+            if (dimensions.x > 1 || dimensions.y > 1 || dimensions.z > 1) scale = 1 / (mobScale * 2);
+            else if (dimensions.x > 0.5 || dimensions.y > 0.5 || dimensions.z > 0.5) scale = mobScale / (mobScale * 2);
             else scale = 1.0f;
 
             final JsonObject json = new JsonObject();
@@ -115,9 +110,7 @@ public class JsonHelper
             final JsonObject json = new JsonObject();
             final JsonArray item = new JsonArray();
             for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
-            {
                 item.add(TrofersGenerator.fromAllPokemobs(e));
-            }
             json.add("pokemon", item);
             return TrofersGenerator.GSON.toJson(json);
         }
@@ -131,7 +124,7 @@ public class JsonHelper
     protected static void makeTrofers(final PokedexEntry entry, final String id, final String path)
     {
         final ResourceLocation key = new ResourceLocation(entry.getModId(), entry.getTrimmedName());
-        String json = JsonHelper.TrofersGenerator.makeJson(entry, id);
+        final String json = JsonHelper.TrofersGenerator.makeJson(entry, id);
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
@@ -174,7 +167,7 @@ public class JsonHelper
     protected static void makePokemobDrops(final PokedexEntry entry, final String id, final String path)
     {
         final ResourceLocation key = new ResourceLocation(entry.getModId(), "pokemobs_drops");
-        String json = JsonHelper.TrofersGenerator.makeDrops(entry, id);
+        final String json = JsonHelper.TrofersGenerator.makeDrops(entry, id);
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");

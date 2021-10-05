@@ -32,8 +32,8 @@ public class AITools
         {
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             boolean wildAgress = !tame;
-            if (PokecubeCore.getConfig().mobAgroRate > 0) wildAgress = wildAgress && ThutCore.newRandom().nextInt(PokecubeCore
-                    .getConfig().mobAgroRate) == 0;
+            if (PokecubeCore.getConfig().mobAgroRate > 0) wildAgress = wildAgress && ThutCore.newRandom().nextInt(
+                    PokecubeCore.getConfig().mobAgroRate) == 0;
             else wildAgress = false;
             // Check if the mob should always be agressive.
             if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0) wildAgress = input.getEntity()

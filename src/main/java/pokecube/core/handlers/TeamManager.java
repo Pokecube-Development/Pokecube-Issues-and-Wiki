@@ -18,7 +18,7 @@ public class TeamManager
         public String getTeam(final Entity entityIn)
         {
             final Team team = entityIn.getTeam();
-            String name = team == null ? "" : team.getName();
+            String name = team == null ? entityIn.getStringUUID() : team.getName();
             final IOwnable ownable = OwnableCaps.getOwnable(entityIn);
             if (ownable != null)
             {
