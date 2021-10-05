@@ -26,8 +26,8 @@ import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fmllegacy.packs.ModFileResourcePack;
+import net.minecraftforge.forgespi.locating.IModFile;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
@@ -58,9 +58,9 @@ public class PackFinder implements RepositorySource
         return Database.resourceManager.getResources(l);
     }
 
-    private Map<ModFile, PackResources> modResourcePacks = Maps.newHashMap();
-    public final List<PackResources>    allPacks         = Lists.newArrayList();
-    public Set<PackResources>           folderPacks      = Sets.newHashSet();
+    private Map<IModFile, ModFileResourcePack> modResourcePacks = Maps.newHashMap();
+    public final List<PackResources>           allPacks         = Lists.newArrayList();
+    public Set<PackResources>                  folderPacks      = Sets.newHashSet();
 
     private final FolderRepositorySource folderFinder_old;
     private final FolderRepositorySource folderFinder_new;

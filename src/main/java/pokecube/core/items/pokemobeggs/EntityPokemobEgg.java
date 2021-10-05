@@ -146,7 +146,7 @@ public class EntityPokemobEgg extends AgeableMob
             }
             this.sounds = ItemPokemobEgg.getFakePokemob(this.getCommandSenderWorld(), this.here, this.getMainHandItem());
             if (this.sounds == null) return null;
-            this.sounds.getEntity().setLevel(this.getCommandSenderWorld());
+            this.sounds.getEntity().level = this.getCommandSenderWorld();
             return this.sounds;
         }
 

@@ -104,7 +104,7 @@ public class PokecubeHelper
             final List<FishingHook> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(
                     FishingHook.class, bb);
             if (!hooks.isEmpty()) for (final FishingHook hook : hooks)
-                if (hook.hookedIn == entity) return 5;
+                if (hook.getHookedIn() == entity) return 5;
         }
         return 1;
     }

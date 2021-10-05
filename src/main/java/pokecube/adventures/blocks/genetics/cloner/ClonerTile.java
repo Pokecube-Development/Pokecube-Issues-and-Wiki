@@ -24,14 +24,14 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
 {
     public static final ResourceLocation EGGS = new ResourceLocation("forge", "eggs");
 
-    public ClonerTile()
+    public ClonerTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeAdv.CLONER_TYPE.get());
+        this(PokecubeAdv.CLONER_TYPE.get(), pos, state);
     }
 
-    public ClonerTile(final BlockEntityType<?> tileEntityTypeIn)
+    public ClonerTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn, 10, 9);
+        super(tileEntityTypeIn, pos, state, 10, 9);
     }
 
     @Override

@@ -28,7 +28,8 @@ public class ClonerContainer extends PoweredContainer<ClonerTile>
                 if (temp instanceof ClonerTile) c.tile = (ClonerTile) temp;
             });
             // Client side
-            if (c.tile == null) c.tile = new ClonerTile();
+            if (c.tile == null) c.tile = new ClonerTile(invIn.player.blockPosition(), PokecubeAdv.CLONER.get()
+                    .defaultBlockState());
             return c.tile;
         });
 

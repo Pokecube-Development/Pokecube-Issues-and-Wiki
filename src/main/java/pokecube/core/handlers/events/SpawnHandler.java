@@ -294,20 +294,10 @@ public final class SpawnHandler
         final BaseSpawner spawner = new BaseSpawner()
         {
             @Override
-            public void broadcastEvent(final int id)
+            public void broadcastEvent(final Level world, final BlockPos pos, final int i)
             {
-            }
+                // TODO Auto-generated method stub
 
-            @Override
-            public BlockPos getPos()
-            {
-                return spawnPoint.getPos();
-            }
-
-            @Override
-            public Level getLevel()
-            {
-                return world;
             }
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,

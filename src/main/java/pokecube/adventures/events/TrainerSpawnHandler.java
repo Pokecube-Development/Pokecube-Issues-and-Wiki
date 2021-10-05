@@ -20,6 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.SpawnPlacements.Type;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -279,7 +280,7 @@ public class TrainerSpawnHandler
             final NpcSpawn event = new NpcSpawn.Spawn(t, v.getPos(), w, MobSpawnType.NATURAL);
             if (MinecraftForge.EVENT_BUS.post(event))
             {
-                t.remove();
+                t.remove(RemovalReason.DISCARDED);
                 return;
             }
             final double dt = (System.nanoTime() - time) / 1000000D;
@@ -298,7 +299,7 @@ public class TrainerSpawnHandler
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
                 PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
             }
-            else t.remove();
+            else t.remove(RemovalReason.DISCARDED);
         }
     }
 

@@ -160,8 +160,8 @@ public class JigsawAssmbler
                         rotation));
 
         final BoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
-        final int i = (mutableboundingbox.x1 + mutableboundingbox.x0) / 2;
-        final int j = (mutableboundingbox.z1 + mutableboundingbox.z0) / 2;
+        final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
+        final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
         int k = default_k;
         // If we have not been provided with a default value, determine where to
         // place the ground for the structure
@@ -188,7 +188,8 @@ public class JigsawAssmbler
             k = this.rand.nextInt(k + 1);
         }
         final int dy = -this.config.height;
-        abstractvillagepiece.move(0, k - (mutableboundingbox.y0 + abstractvillagepiece.getGroundLevelDelta() + dy), 0);
+        abstractvillagepiece.move(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
+                0);
         parts.add(abstractvillagepiece);
         if (depth > 0)
         {
@@ -252,7 +253,7 @@ public class JigsawAssmbler
         final boolean root_rigid = placmenet == StructureTemplatePool.Projection.RIGID;
         final AtomicReference<VoxelShape> atomicreference = new AtomicReference<>();
         final BoundingBox part_box = villagePieceIn.getBoundingBox();
-        final int part_min_y = part_box.y0;
+        final int part_min_y = part_box.minY;
 
         int k0 = default_k;
 
@@ -349,7 +350,7 @@ public class JigsawAssmbler
                                         .getY() - next_pos.getY(), jig_target.getZ() - next_pos.getZ());
                                 final BoundingBox box_1 = next_part.getBoundingBox(this.templateManager, dr_0,
                                         dir);
-                                final int next_min_y = box_1.y0;
+                                final int next_min_y = box_1.minY;
                                 final StructureTemplatePool.Projection placementRule = next_part.getProjection();
                                 final boolean rigid = placementRule == StructureTemplatePool.Projection.RIGID;
                                 final int target_y = next_pos.getY();
@@ -369,8 +370,8 @@ public class JigsawAssmbler
                                 final BlockPos dr_1 = dr_0.offset(0, next_rel_y, 0);
                                 if (i1 > 0)
                                 {
-                                    final int k2 = Math.max(i1 + 1, box_2.y1 - box_2.y0);
-                                    box_2.y1 = box_2.y0 + k2;
+                                    final int k2 = Math.max(i1 + 1, box_2.maxY - box_2.minY);
+                                    box_2.maxY = box_2.minY + k2;
                                 }
 
                                 if (!Shapes.joinIsNotEmpty(atomicreference1.get(), Shapes.create(AABB

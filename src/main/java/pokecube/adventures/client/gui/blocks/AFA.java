@@ -43,7 +43,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     {
         String text = this.getTitle().getString();
         this.font.draw(mat, text, 172 - this.font.width(text), 6, 4210752);
-        this.font.draw(mat, this.inventory.getName().getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        this.font.draw(mat, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(
                 this.menu.tile.ability.getName())) : I18n.get("block.afa.ability.none");

@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -39,35 +40,35 @@ import pokecube.nbtedit.nbt.SaveStates;
 public class GuiNBTTree extends Screen
 {
 
-    private final Minecraft           mc      = Minecraft.getInstance();
+    private final Minecraft mc = Minecraft.getInstance();
 
     private final NBTTree             tree;
     private final List<GuiNBTNode>    nodes;
     private final GuiSaveSlotButton[] saves;
     private final GuiNBTButton[]      nbtButtons;
 
-    private final int                 X_GAP   = 10, START_X = 10;
+    private final int X_GAP = 10, START_X = 10;
 
-    final int                         START_Y = 30;
-    private final int                 Y_GAP   = Minecraft.getInstance().font.lineHeight + 2;
+    final int         START_Y = 30;
+    private final int Y_GAP   = Minecraft.getInstance().font.lineHeight + 2;
 
-    private int                       y, yClick;
+    private int y, yClick;
 
-    int                               bottom;
+    int bottom;
 
-    int                               width;
+    int width;
 
-    int                               height;
+    int height;
 
-    private int                       heightDiff;
+    private int heightDiff;
 
-    private int                       offset;
+    private int offset;
 
-    private Node<NamedNBT>            focused;
-    private int                       focusedSlotIndex;
-    public boolean                    reInit  = false;
+    private Node<NamedNBT> focused;
+    private int            focusedSlotIndex;
+    public boolean         reInit = false;
 
-    private GuiEditNBT                window;
+    private GuiEditNBT window;
 
     public GuiNBTTree(final NBTTree tree)
     {
@@ -203,8 +204,8 @@ public class GuiNBTTree extends Screen
 
     private boolean canPaste()
     {
-        return NBTEdit.clipboard != null && this.focused != null
-                && this.canAddToParent(this.focused.getObject().getNBT(), NBTEdit.clipboard.getNBT());
+        return NBTEdit.clipboard != null && this.focused != null && this.canAddToParent(this.focused.getObject()
+                .getNBT(), NBTEdit.clipboard.getNBT());
     }
 
     @Override
@@ -306,8 +307,8 @@ public class GuiNBTTree extends Screen
                     int height = this.getHeightDifference();
 
                     if (height < 1) height = 1;
-                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
-                            / this.getContentHeight();
+                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
+                            .getContentHeight();
                     if (length < 32) length = 32;
                     if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
 
@@ -321,8 +322,8 @@ public class GuiNBTTree extends Screen
 
             GuiComponent.fill(mat, this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
-            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
-                    / this.getContentHeight();
+            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
+                    .getContentHeight();
             if (length < 32) length = 32;
             if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
             int y = -this.offset * (this.bottom - (this.START_Y - 1) - length) / this.heightDiff + this.START_Y - 1;
@@ -536,7 +537,7 @@ public class GuiNBTTree extends Screen
         final BufferBuilder worldRenderer = tessellator.getBuilder();
         this.mc.getTextureManager().bindForSetup(GuiComponent.BACKGROUND_LOCATION);
         final float var6 = 32.0F;
-        worldRenderer.begin(7, DefaultVertexFormat.POSITION_COLOR_TEX);
+        worldRenderer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
         final int r = color.getRed();
         final int g = color.getRed();
@@ -591,7 +592,7 @@ public class GuiNBTTree extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat,final int mx, final int my, final float ticks)
+    public void render(final PoseStack mat, final int mx, final int my, final float ticks)
     {
         int cmx = mx, cmy = my;
         if (this.window != null)
@@ -601,11 +602,11 @@ public class GuiNBTTree extends Screen
         }
         this.overlayBackground(0, this.START_Y - 1, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
-        super.render(mat,mx, my, ticks);
+        super.render(mat, mx, my, ticks);
         // Render the tooltips after, so they don't get hidden by other buttond
         for (final GuiNBTButton button : this.nbtButtons)
-            button.renderToolTip(mat,my, my);
-        this.drawScrollBar(mat,cmx, cmy);
+            button.renderToolTip(mat, my, my);
+        this.drawScrollBar(mat, cmx, cmy);
     }
 
     public boolean rightClick(final double x, final double y2, final int t)
@@ -638,8 +639,8 @@ public class GuiNBTTree extends Screen
             for (final GuiNBTButton b : this.nbtButtons)
                 b.active = true;
             this.nbtButtons[12].active = toFocus != this.tree.getRoot();
-            this.nbtButtons[11].active = toFocus.hasParent()
-                    && !(toFocus.getParent().getObject().getNBT() instanceof ListTag);
+            this.nbtButtons[11].active = toFocus.hasParent() && !(toFocus.getParent().getObject()
+                    .getNBT() instanceof ListTag);
             this.nbtButtons[13].active = true;
             this.nbtButtons[14].active = toFocus != this.tree.getRoot();
             this.nbtButtons[15].active = NBTEdit.clipboard != null;

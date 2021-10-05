@@ -259,7 +259,7 @@ public class GuiChooseFirstPokemob extends Screen
         if (item.getItem() instanceof IPokecube)
         {
             final BakedModel model = Minecraft.getInstance().getItemRenderer().getModel(item, null,
-                    null);
+                    null, 0);
 
             final PoseStack matrixstack = new PoseStack();
             final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()

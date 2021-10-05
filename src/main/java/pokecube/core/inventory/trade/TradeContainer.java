@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
@@ -21,9 +22,9 @@ public class TradeContainer extends BaseContainer
 {
 
     public static final MenuType<TradeContainer> TYPE = new MenuType<>(TradeContainer::new);
-    private Container                                inv;
-    private final ContainerLevelAccess                   pos;
-    public TraderTile                                 tile;
+    private Container                            inv;
+    private final ContainerLevelAccess           pos;
+    public TraderTile                            tile;
 
     public TradeContainer(final int id, final Inventory inv)
     {
@@ -50,7 +51,7 @@ public class TradeContainer extends BaseContainer
         // Client side
         if (this.inv == null)
         {
-            this.tile = new TraderTile();
+            this.tile = new TraderTile(inv.player.blockPosition(), PokecubeItems.TRADER.get().defaultBlockState());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();

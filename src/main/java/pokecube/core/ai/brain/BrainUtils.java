@@ -40,7 +40,7 @@ public class BrainUtils
     {
         final boolean brainMemory = mobIn.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
         boolean canSee = brainMemory && BehaviorUtils.entityIsVisible(mobIn.getBrain(), target);
-        if (!brainMemory) canSee = mobIn.canSee(target);
+        if (!brainMemory) canSee = mobIn.hasLineOfSight(target);
         return canSee;
     }
 

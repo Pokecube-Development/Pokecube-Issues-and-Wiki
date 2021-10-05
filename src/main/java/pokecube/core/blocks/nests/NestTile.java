@@ -18,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,9 +39,10 @@ import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvid
 import pokecube.core.inventory.InvWrapper;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.api.block.ITickTile;
 import thut.core.common.ThutCore;
 
-public class NestTile extends InteractableTile implements TickingBlockEntity
+public class NestTile extends InteractableTile implements ITickTile
 {
     public static int NESTSPAWNTYPES = 1;
 
@@ -77,14 +77,14 @@ public class NestTile extends InteractableTile implements TickingBlockEntity
 
     int time = 0;
 
-    public NestTile()
+    public NestTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.NEST_TYPE.get());
+        this(PokecubeItems.NEST_TYPE.get(), pos, state);
     }
 
-    public NestTile(final BlockEntityType<?> tileEntityTypeIn)
+    public NestTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
         this.habitat = this.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
     }
 
@@ -142,9 +142,8 @@ public class NestTile extends InteractableTile implements TickingBlockEntity
             {
                 final ServerPlayer sendTo = (ServerPlayer) player;
                 final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
-                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                        e) -> ChestMenu.sixRows(i, p, wrapper), new TranslatableComponent(
-                                "block.pokecube.nest"));
+                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> ChestMenu.sixRows(i, p,
+                        wrapper), new TranslatableComponent("block.pokecube.nest"));
                 NetworkHooks.openGui(sendTo, provider);
             }
             return InteractionResult.SUCCESS;
@@ -154,9 +153,9 @@ public class NestTile extends InteractableTile implements TickingBlockEntity
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(state, nbt);
+        super.load(nbt);
         this.time = nbt.getInt("time");
         this.tag = nbt.getCompound("_data_");
         // Ensure the repel range resets properly.

@@ -88,10 +88,10 @@ public class Splicer extends BasePeripheral<SplicerTile>
             for (final Class<? extends Gene<?>> geneC : getSelectors)
                 try
                 {
-                    final Gene<?> gene = geneC.newInstance();
+                    final Gene<?> gene = geneC.getConstructor().newInstance();
                     values.add(gene.getKey().getNamespace());
                 }
-                catch (InstantiationException | IllegalAccessException e)
+                catch (final Exception e)
                 {
                 }
             values.add(value.toString());

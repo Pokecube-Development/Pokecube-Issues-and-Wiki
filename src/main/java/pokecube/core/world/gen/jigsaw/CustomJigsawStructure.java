@@ -244,7 +244,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                                 {
                                     final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
                                     final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, pos).offset(
-                                            blockpos).offset(0, part.getBoundingBox().y0, 0);
+                                            blockpos).offset(0, part.getBoundingBox().minY, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
                                     sworld.getServer().execute(() ->
                                     {

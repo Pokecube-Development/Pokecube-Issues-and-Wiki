@@ -67,7 +67,7 @@ public class ActionNaturePower implements IMoveAction
                 // Only valid surface blocks are sand
                 final boolean validHere = blockHere == Blocks.SAND;
                 // Only counts as desert if air or cactus on top
-                final boolean validUp = blockUp.isAir(stateUp, world, t.above()) || blockUp instanceof CactusBlock;
+                final boolean validUp = stateUp.isAir() || blockUp instanceof CactusBlock;
                 return validHere && validUp;
             };
             // Used on a sand block, will only apply and return true if there is
@@ -122,7 +122,7 @@ public class ActionNaturePower implements IMoveAction
                 // If it is dirt, it must be under a tree,
                 // otherwise it can be under air or a plant.
                 final boolean validUp = blockHere == Blocks.DIRT ? PokecubeTerrainChecker.isWood(stateUp)
-                        : blockUp.isAir(stateUp, world, t.above()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
+                        : stateUp.isAir() || PokecubeTerrainChecker.isCutablePlant(stateUp);
                 return validHere && validUp;
             };
             // Used on a tree, spreads outwards from tree along dirt and

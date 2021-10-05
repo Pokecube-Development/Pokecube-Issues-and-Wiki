@@ -40,7 +40,7 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
     protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
     {
         this.font.draw(mat, this.getTitle().getString(), 8, 6, 4210752);
-        this.font.draw(mat, this.inventory.getName().getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        this.font.draw(mat, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
         final Component warning0 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_0");
         final Component warning1 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_1");

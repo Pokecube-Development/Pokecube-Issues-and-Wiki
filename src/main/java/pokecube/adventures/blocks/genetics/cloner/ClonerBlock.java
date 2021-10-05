@@ -15,9 +15,12 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,8 +33,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+import thut.api.block.ITickTile;
 
-public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock
+public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
     public static final EnumProperty<ClonerBlockPart> HALF        = EnumProperty.create("half", ClonerBlockPart.class);
     public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -75,30 +79,21 @@ public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWa
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(ClonerBlock.HALF, ClonerBlockPart.TOP).setValue(
                     ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
-            final BlockEntity tile = world.getBlockEntity(pos.above());
-            if (tile != null)
-            {
-                // Refresh the block state for the tile, incase it wasn't set
-                // properly and is needed.
-                tile.clearCache();
-                tile.getBlockState();
-            }
 
         }
         super.setPlacedBy(world, pos, state, placer, stack);
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         return super.use(state, world, pos, player, hand, hit);
     }
 
     // Breaking Cloner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
-            final Player player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
         final BlockPos clonerPos = this.getClonerPos(pos, state.getValue(ClonerBlock.HALF), facing);
@@ -184,16 +179,16 @@ public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWa
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new ClonerTile();
+        return new ClonerTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
     {
-        return true;// state.getValue(ClonerBlock.HALF) ==
-                    // ClonerBlockPart.BOTTOM;
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override

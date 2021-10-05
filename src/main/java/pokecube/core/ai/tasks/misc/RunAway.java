@@ -7,7 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.util.RandomPos;
+import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.ai.brain.RootTask;
 
@@ -44,7 +44,7 @@ public class RunAway extends RootTask<PathfinderMob>
         for (int i = 0; i < 10; ++i)
         {
             final Vec3 vec3d = new Vec3(runFrom.getX(), runFrom.getY(), runFrom.getZ());
-            final Vec3 vec3d1 = RandomPos.getLandPosAvoid(mob, 16, 7, vec3d);
+            final Vec3 vec3d1 = LandRandomPos.getPosAway(mob, 16, 7, vec3d);
             if (vec3d1 != null)
             {
                 this.setWalkTo(vec3d1, speedIn, 0);

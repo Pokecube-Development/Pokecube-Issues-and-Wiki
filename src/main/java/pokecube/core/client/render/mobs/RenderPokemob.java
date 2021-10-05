@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -404,7 +405,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     final Holder holder;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RenderPokemob(final PokedexEntry entry, final EntityRenderDispatcher p_i50961_1_)
+    public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);

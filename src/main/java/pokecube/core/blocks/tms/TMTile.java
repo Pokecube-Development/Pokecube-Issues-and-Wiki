@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
@@ -23,14 +24,14 @@ import pokecube.core.items.ItemTM;
 
 public class TMTile extends InteractableTile
 {
-    public TMTile()
+    public TMTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.TM_TYPE.get());
+        this(PokecubeItems.TM_TYPE.get(), pos, state);
     }
 
-    public TMTile(final BlockEntityType<?> tileEntityTypeIn)
+    public TMTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public ItemStack addMoveToTM(final String move, final ItemStack tmIn)

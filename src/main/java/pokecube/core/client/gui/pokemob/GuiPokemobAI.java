@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -124,7 +125,7 @@ public class GuiPokemobAI extends GuiPokemobBase
     {
         super.render(mat, x, y, f);
         for (int i = 3; i < this.renderables.size(); i++)
-            this.renderables.get(i).visible = false;
+            ((AbstractWidget) this.renderables.get(i)).visible = false;
         this.list.render(mat, x, y, f);
         this.renderTooltip(mat, x, y);
     }

@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.DoubleTag;
@@ -251,6 +252,13 @@ public class GuiEditNBT extends AbstractWidget
             if (base != this.nbt && node.getObject().getName().equals(this.key.getValue())) return false;
         }
         return true;
+    }
+
+    @Override
+    public void updateNarration(final NarrationElementOutput p_169152_)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

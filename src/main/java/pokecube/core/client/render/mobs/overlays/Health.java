@@ -130,7 +130,7 @@ public class Health
         if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return;
         final Camera viewer = renderManager.camera;
 
-        final boolean background = config.drawBackground && entity.canSee(viewer.getEntity());
+        final boolean background = config.drawBackground && entity.hasLineOfSight(viewer.getEntity());
 
         if (entity.getPassengers().contains(viewer.getEntity())) return;
 
@@ -334,7 +334,7 @@ public class Health
             mat.scale(20, -20, -1);
             Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
                     net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY);
+                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY, 0);
         }
         catch (final Exception e)
         {

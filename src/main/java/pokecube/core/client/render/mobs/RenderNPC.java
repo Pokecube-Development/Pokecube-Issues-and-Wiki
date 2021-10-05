@@ -5,14 +5,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
+import net.minecraft.client.renderer.entity.layers.BeeStingerLayer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.layers.ParrotOnShoulderLayer;
+import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
 import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
@@ -26,22 +29,30 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     final PlayerModel<T> slim;
     final PlayerModel<T> normal;
 
-    public RenderNPC(final EntityRenderDispatcher renderManager)
+    public RenderNPC(final EntityRendererProvider.Context context)
     {
-        super(renderManager, new PlayerModel<>(0.0F, false), 0.5F);
+        super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
         this.normal = this.getModel();
-        this.slim = new PlayerModel<>(0.0f, true);
-        this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(0.5F), new HumanoidModel<>(1.0F)));
-        this.addLayer(new ItemInHandLayer<>(this));
-        this.addLayer(new ArrowLayer<>(this));
-        this.addLayer(new CustomHeadLayer<>(this));
-        this.addLayer(new ElytraLayer<>(this));
-        this.addLayer(new SpinAttackEffectLayer<>(this));
+        this.slim = new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER_SLIM), true);
+
+        this.addLayer(new HumanoidArmorLayer(this, new HumanoidModel(context.bakeLayer(true
+                ? ModelLayers.PLAYER_SLIM_INNER_ARMOR
+                : ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel(context.bakeLayer(true
+                        ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR
+                        : ModelLayers.PLAYER_OUTER_ARMOR))));
+
+        this.addLayer(new PlayerItemInHandLayer(this));
+        this.addLayer(new ArrowLayer(context, this));
+        this.addLayer(new CustomHeadLayer(this, context.getModelSet()));
+        this.addLayer(new ElytraLayer(this, context.getModelSet()));
+        this.addLayer(new ParrotOnShoulderLayer(this, context.getModelSet()));
+        this.addLayer(new SpinAttackEffectLayer(this, context.getModelSet()));
+        this.addLayer(new BeeStingerLayer<>(this));
     }
 
     @Override
-    public void render(final T entityIn, final float entityYaw, final float partialTicks,
-            final PoseStack matrixStackIn, final MultiBufferSource bufferIn, final int packedLightIn)
+    public void render(final T entityIn, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
+            final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap<?>) this.model = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
@@ -60,7 +71,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     protected boolean shouldShowName(final T entity)
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        return PokecubeCore.getConfig().npcNameTags && entity.canSee(minecraft.getCameraEntity())
+        return PokecubeCore.getConfig().npcNameTags && entity.hasLineOfSight(minecraft.getCameraEntity())
                 && super.shouldShowName(entity);
     }
 

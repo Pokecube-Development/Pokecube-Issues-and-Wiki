@@ -61,14 +61,14 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public int       energy       = 0;
     boolean          noEnergyNeed = false;
 
-    public WarppadTile()
+    public WarppadTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.WARPPAD_TYPE.get());
+        this(PokecubeAdv.WARPPAD_TYPE.get(), pos, state);
     }
 
-    public WarppadTile(final BlockEntityType<?> tileEntityTypeIn)
+    public WarppadTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public TeleDest getDest()
@@ -119,7 +119,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundTag compound)
+    public void load(final CompoundTag compound)
     {
         if (compound.contains("dest"))
         {
@@ -128,7 +128,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         }
         this.energy = compound.getInt("energy");
         this.noEnergyNeed = compound.getBoolean("noEnergyNeed");
-        super.load(stateIn, compound);
+        super.load(compound);
     }
 
     @Override

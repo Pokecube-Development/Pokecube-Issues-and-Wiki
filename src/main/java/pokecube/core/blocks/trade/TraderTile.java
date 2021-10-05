@@ -46,14 +46,14 @@ public class TraderTile extends InteractableTile
     public final boolean[] confirmed = new boolean[2];
     public final Set<UUID> users     = Sets.newHashSet();
 
-    public TraderTile()
+    public TraderTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.TRADE_TYPE.get());
+        this(PokecubeItems.TRADE_TYPE.get(), pos, state);
     }
 
-    public TraderTile(final BlockEntityType<?> tileEntityTypeIn)
+    public TraderTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     @Override
@@ -64,9 +64,9 @@ public class TraderTile extends InteractableTile
     }
 
     @Override
-    public void handleUpdateTag(final BlockState state, final CompoundTag tag)
+    public void handleUpdateTag(final CompoundTag tag)
     {
-        this.load(state, tag);
+        this.load(tag);
     }
 
     @Override

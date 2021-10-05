@@ -12,6 +12,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.BlockPos;
@@ -175,7 +176,7 @@ public class SecretBaseRadarPage extends WatchPage
             xCoord = v.x;
             yCoord = v.z;
 
-            vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR);
+            vertexbuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             vertexbuffer.vertex(xCoord + minU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(xCoord + maxU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();

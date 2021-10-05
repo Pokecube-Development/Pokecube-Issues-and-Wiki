@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -123,7 +124,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.level.isClientSide)
         {
             player.sendMessage(new TranslatableComponent("msg.craft.killed"), Util.NIL_UUID);
-            this.craft.remove();
+            this.craft.remove(RemovalReason.KILLED);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

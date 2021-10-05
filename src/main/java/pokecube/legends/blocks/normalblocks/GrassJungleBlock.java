@@ -50,17 +50,18 @@ public class GrassJungleBlock extends GrassBlock implements BonemealableBlock
             if (!world.isAreaLoaded(pos, 3)) return;
 
             world.setBlockAndUpdate(pos, BlockInit.JUNGLE_DIRT.get().defaultBlockState());
-        } else if (world.getMaxLocalRawBrightness(pos.above()) >= 9)
+        }
+        else if (world.getMaxLocalRawBrightness(pos.above()) >= 9)
         {
             final BlockState blockstate = this.defaultBlockState();
 
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
             {
-                final BlockPos blockpos = pos.offset(random.nextInt(3) - 1,
-                    random.nextInt(5) - 3, random.nextInt(3) - 1);
-                if (world.getBlockState(blockpos).is(BlockInit.JUNGLE_DIRT.get()) &&
-                    GrassJungleBlock.canPropagate(blockstate, world, blockpos)) world.setBlockAndUpdate(blockpos, blockstate
-                    .setValue(SnowyDirtBlock.SNOWY, world.getBlockState(blockpos.above()).is(Blocks.SNOW)));
+                final BlockPos blockpos = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3)
+                        - 1);
+                if (world.getBlockState(blockpos).is(BlockInit.JUNGLE_DIRT.get()) && GrassJungleBlock.canPropagate(
+                        blockstate, world, blockpos)) world.setBlockAndUpdate(blockpos, blockstate.setValue(
+                                SnowyDirtBlock.SNOWY, world.getBlockState(blockpos.above()).is(Blocks.SNOW)));
             }
         }
     }
@@ -77,35 +78,30 @@ public class GrassJungleBlock extends GrassBlock implements BonemealableBlock
         final BlockState blockstate = world.getBlockState(blockpos);
         if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1) return true;
         else if (blockstate.getFluidState().getAmount() == 8) return false;
-        else {
+        else
+        {
             final int i = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
-                blockstate.getLightBlock(world, blockpos));
+                    blockstate.getLightBlock(world, blockpos));
             return i < world.getMaxLightLevel();
         }
     }
 
     @Override
-    public void stepOn(final Level world, final BlockPos pos, final Entity entity)
+    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
         super.stepOn(world, pos, entity);
-        {
-            final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
-            $_dependencies.put("entity", entity);
-            GrassJungleBlock.executeProcedure($_dependencies);
-        }
+        GrassJungleBlock.executeProcedure(entity);
     }
 
-    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
+    public static void executeProcedure(final Entity entity)
     {
-        if (dependencies.get("entity") == null)
-        {
-            System.err.println("Failed to WalkGrassEffect!");
-            return;
-        }
-        final Entity entity = (Entity) dependencies.get("entity");
-        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() ||
-                ((Player) entity).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem() ||
-                ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || 
-                ((Player) entity).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem()) ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, 120, 1));
+        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
+                .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
+                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
+                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
+                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
+                                                .getInventory().armor.get(0).getItem() != new ItemStack(
+                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, 120, 1));
     }
 }

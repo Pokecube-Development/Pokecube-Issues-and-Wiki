@@ -28,7 +28,8 @@ public class SplicerContainer extends PoweredContainer<SplicerTile>
                 if (temp instanceof SplicerTile) c.tile = (SplicerTile) temp;
             });
             // Client side
-            if (c.tile == null) c.tile = new SplicerTile();
+            if (c.tile == null) c.tile = new SplicerTile(invIn.player.blockPosition(), PokecubeAdv.SPLICER.get()
+                    .defaultBlockState());
             return c.tile;
         });
 

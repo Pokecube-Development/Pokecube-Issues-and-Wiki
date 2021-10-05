@@ -26,9 +26,9 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
-import thut.crafts.Reference;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
+import thut.wearables.Reference;
 import thut.wearables.ThutWearables;
 import thut.wearables.network.PacketGui;
 
@@ -45,7 +45,8 @@ public class WearableEventHandler
         @SubscribeEvent
         public static void registerLayers(final RegisterLayerDefinitions event)
         {
-            final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "wearables");
+            final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("minecraft:player"),
+                    "wearables");
             // TODO layer adding in here...
         }
     }

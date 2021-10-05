@@ -19,28 +19,27 @@ import net.minecraft.nbt.Tag;
 public class NBTHelper
 {
 
-    public static Map<String, Tag> getMap(CompoundTag tag)
+    public static Map<String, Tag> getMap(final CompoundTag tag)
     {
         return tag.tags;
     }
 
-    public static Tag getTagAt(ListTag tag, int index)
+    public static Tag getTagAt(final ListTag tag, final int index)
     {
-        final List<Tag> list = tag.list;
-        return list.get(index);
+        return tag.get(index);
     }
 
-    public static CompoundTag nbtRead(DataInputStream in) throws IOException
+    public static CompoundTag nbtRead(final DataInputStream in) throws IOException
     {
         return NbtIo.read(in);
     }
 
-    public static void nbtWrite(CompoundTag compound, DataOutput out) throws IOException
+    public static void nbtWrite(final CompoundTag compound, final DataOutput out) throws IOException
     {
         NbtIo.write(compound, out);
     }
 
-    public static CompoundTag readNbtFromBuffer(ByteBuf buf)
+    public static CompoundTag readNbtFromBuffer(final ByteBuf buf)
     {
         final int index = buf.readerIndex();
         final byte isNull = buf.readByte();
@@ -58,7 +57,7 @@ public class NBTHelper
         }
     }
 
-    public static void writeToBuffer(CompoundTag nbt, ByteBuf buf)
+    public static void writeToBuffer(final CompoundTag nbt, final ByteBuf buf)
     {
         if (nbt == null) buf.writeByte(0);
         else try

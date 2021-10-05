@@ -1,7 +1,5 @@
 package pokecube.core.blocks;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -9,7 +7,6 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -29,28 +26,14 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     public InteractableHorizontalBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING,
+                Direction.NORTH));
     }
 
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(HorizontalDirectionalBlock.FACING);
-    }
-
-    @Override
-    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
-            @Nullable final LivingEntity entity, final ItemStack stack)
-    {
-        final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile != null)
-        {
-            // Refresh the block state for the tile, incase it wasn't set
-            // properly and is needed.
-            tile.clearCache();
-            tile.getBlockState();
-        }
-        super.setPlacedBy(world, pos, state, entity, stack);
     }
 
     @Override
@@ -61,8 +44,8 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
@@ -70,7 +53,7 @@ public abstract class InteractableHorizontalBlock extends HorizontalDirectionalB
     }
 
     @Override
-    public void stepOn(final Level worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);

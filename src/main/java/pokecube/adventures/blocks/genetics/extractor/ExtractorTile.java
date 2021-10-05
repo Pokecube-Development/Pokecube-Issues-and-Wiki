@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
@@ -23,14 +24,14 @@ public class ExtractorTile extends BaseGeneticsTile
 {
     public ItemStack override_selector = ItemStack.EMPTY;
 
-    public ExtractorTile()
+    public ExtractorTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeAdv.EXTRACTOR_TYPE.get());
+        this(PokecubeAdv.EXTRACTOR_TYPE.get(), pos, state);
     }
 
-    public ExtractorTile(final BlockEntityType<?> tileEntityTypeIn)
+    public ExtractorTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn, 4, 3);
+        super(tileEntityTypeIn, pos, state, 4, 3);
     }
 
     @Override

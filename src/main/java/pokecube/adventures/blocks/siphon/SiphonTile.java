@@ -18,7 +18,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -31,9 +30,10 @@ import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
+import thut.api.block.ITickTile;
 import thut.api.entity.ThutTeleporter;
 
-public class SiphonTile extends InteractableTile implements TickingBlockEntity
+public class SiphonTile extends InteractableTile implements ITickTile
 {
     public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundTag>
     {
@@ -113,14 +113,14 @@ public class SiphonTile extends InteractableTile implements TickingBlockEntity
 
     public List<GlobalPos> wirelessLinks = Lists.newArrayList();
 
-    public SiphonTile()
+    public SiphonTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.SIPHON_TYPE.get());
+        this(PokecubeAdv.SIPHON_TYPE.get(), pos, state);
     }
 
-    public SiphonTile(final BlockEntityType<?> tileEntityTypeIn)
+    public SiphonTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class SiphonTile extends InteractableTile implements TickingBlockEntity
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundTag compound)
+    public void load(final CompoundTag compound)
     {
         this.wirelessLinks.clear();
         final CompoundTag wireless = compound.getCompound("links");
@@ -154,7 +154,7 @@ public class SiphonTile extends InteractableTile implements TickingBlockEntity
             final Tag tag = wireless.get("" + i);
             this.wirelessLinks.add(GlobalPos.CODEC.decode(NbtOps.INSTANCE, tag).result().get().getFirst());
         }
-        super.load(stateIn, compound);
+        super.load(compound);
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -34,16 +35,18 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager()
-                .bindForSetup(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
+        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(PokecubeMod.ID,
+                "textures/gui/trade_machine.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
         GL11.glPopMatrix();
     }
 
-    /** Draw the foreground layer for the ContainerScreen (everything in front
-     * of the items) */
+    /**
+     * Draw the foreground layer for the ContainerScreen (everything in front
+     * of the items)
+     */
     @Override
     protected void renderLabels(final PoseStack mat, final int p_146979_1_, final int p_146979_2_)
     {
@@ -89,19 +92,19 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     public void render(final PoseStack mat, final int i, final int j, final float f)
     {
         this.renderBackground(mat);
-        super.render(mat,i, j, f);
-        if (this.menu.tile.confirmed[0]) this.renderables.get(0).setFGColor(0xFF88FF00);
-        else this.renderables.get(0).setFGColor(0xFFFFFFFF);
+        super.render(mat, i, j, f);
+        if (this.menu.tile.confirmed[0]) ((AbstractWidget) this.renderables.get(0)).setFGColor(0xFF88FF00);
+        else((AbstractWidget) this.renderables.get(0)).setFGColor(0xFFFFFFFF);
 
-        if (this.menu.tile.confirmed[1]) this.renderables.get(1).setFGColor(0xFF88FF00);
-        else this.renderables.get(1).setFGColor(0xFFFFFFFF);
-        this.renderTooltip(mat,i, j);
+        if (this.menu.tile.confirmed[1]) ((AbstractWidget) this.renderables.get(1)).setFGColor(0xFF88FF00);
+        else((AbstractWidget) this.renderables.get(1)).setFGColor(0xFFFFFFFF);
+        this.renderTooltip(mat, i, j);
     }
 
     protected void renderMob(final int index)
     {
-        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index),
-                PokecubeCore.proxy.getWorld());
+        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index), PokecubeCore.proxy
+                .getWorld());
         int dx = 0;
         float rotX = 0;
         float rotY = 50;
@@ -145,8 +148,8 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             break;
         }
 
-        if (poke != null && poke.getOwner() instanceof Player)
-            GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size);
+        if (poke != null && poke.getOwner() instanceof Player) GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0,
+                rotX, rotY, rotZ, size);
     }
 
 }

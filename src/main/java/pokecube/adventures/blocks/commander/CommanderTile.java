@@ -38,14 +38,14 @@ public class CommanderTile extends InteractableTile
     private String            prev_args      = "";
     protected int             power          = 0;
 
-    public CommanderTile()
+    public CommanderTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.COMMANDER_TYPE.get());
+        this(PokecubeAdv.COMMANDER_TYPE.get(), pos, state);
     }
 
-    public CommanderTile(final BlockEntityType<?> tileEntityTypeIn)
+    public CommanderTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public void setCommand(final Command command, final String args) throws Exception
@@ -63,15 +63,15 @@ public class CommanderTile extends InteractableTile
     }
 
     @Override
-    public void handleUpdateTag(final BlockState stateIn, final CompoundTag tag)
+    public void handleUpdateTag(final CompoundTag tag)
     {
-        this.load(stateIn, tag);
+        this.load(tag);
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(stateIn, nbt);
+        super.load(nbt);
         if (nbt.hasUUID("pokeID")) this.pokeID = nbt.getUUID("pokeID");
         if (nbt.contains("cmd")) this.command = Command.valueOf(nbt.getString("cmd"));
         this.args = nbt.getString("args");
@@ -175,7 +175,7 @@ public class CommanderTile extends InteractableTile
         if (this.handler != null && clazz == this.handler.getClass() && this.prev_args.equals(this.args)) return;
         if (args == null)
         {
-            this.handler = clazz.newInstance();
+            this.handler = clazz.getConstructor().newInstance();
             return;
         }
         final Class<?>[] argTypes = new Class<?>[args.length];
@@ -220,6 +220,6 @@ public class CommanderTile extends InteractableTile
         }
         else if (!player.isCrouching() && player instanceof ServerPlayer) PacketCommander.sendOpenPacket(pos,
                 (ServerPlayer) player);
-        return !player.isCrouching()? InteractionResult.SUCCESS : InteractionResult.PASS;
+        return !player.isCrouching() ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 }

@@ -69,7 +69,7 @@ public class EntityNBTPacket extends NBTPacket
               // receive entity edit events and provide
               // feedback/send packets as necessary.
 
-                player.refreshContainer(player.inventoryMenu);
+                player.inventoryMenu.sendAllDataToRemote();
                 final GameType type = player.gameMode.getGameModeForPlayer();
                 if (preGameType != type) player.setGameMode(type);
                 player.connection.send(new ClientboundSetHealthPacket(player.getHealth(), player.getFoodData()

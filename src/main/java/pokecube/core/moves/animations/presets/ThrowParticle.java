@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.Minecraft;
@@ -37,7 +38,7 @@ public class ThrowParticle extends MoveAnimationBase
         final Vector3 source = info.source;
         final Vector3 target = info.target;
         final ResourceLocation texture = new ResourceLocation("pokecube", "textures/blank.png");
-        Minecraft.getInstance().textureManager.bind(texture);
+        Minecraft.getInstance().textureManager.bindForSetup(texture);
         final double dist = source.distanceTo(target);
         final Vector3 temp = Vector3.getNewVector().set(source).subtractFrom(target);
 
@@ -61,7 +62,7 @@ public class ThrowParticle extends MoveAnimationBase
         final long hash = (long) (temp.x * 1000000l + temp.z * 1000000000000l);
         final Random rand = new Random(hash);
         factor = this.width * 0.2;
-        tez.begin(6, DefaultVertexFormat.POSITION_COLOR);
+        tez.begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
         final Matrix4f pos = mat.last().pose();
 
         float x1, x2, y1, y2, z1, z2;

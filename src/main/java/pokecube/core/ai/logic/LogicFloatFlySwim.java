@@ -1,17 +1,13 @@
 package pokecube.core.ai.logic;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.WorldWorkerManager;
-import net.minecraftforge.common.WorldWorkerManager.IWorker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
@@ -91,8 +87,8 @@ public class LogicFloatFlySwim extends LogicBase
                     return;
                 }
                 // Horizontal distance
-                final float dh = Mth.sqrt(dx * dx + dz * dz);
-                final float ds = Mth.sqrt(ds2);
+                final float dh = Mth.sqrt((float) (dx * dx + dz * dz));
+                final float ds = Mth.sqrt((float) ds2);
 
                 final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
@@ -163,9 +159,9 @@ public class LogicFloatFlySwim extends LogicBase
                     return;
                 }
                 // Horizontal distance
-                final float dh = Mth.sqrt(dx * dx + dz * dz);
+                final float dh = Mth.sqrt((float) (dx * dx + dz * dz));
                 // Total distance
-                final float ds = Mth.sqrt(ds2);
+                final float ds = Mth.sqrt((float) ds2);
 
                 final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
@@ -203,47 +199,6 @@ public class LogicFloatFlySwim extends LogicBase
                 this.mob.setZza(0.0F);
             }
         }
-    }
-
-    /**
-     * This class will swap out the PathNavigator stored in the ServerWorld for
-     * treating door use properly when multiple mobs may be pathing through a
-     * single spot. If this is not done, you get random cmod exceptions when
-     * pathing.
-     */
-    private static class NaviUpdate implements IWorker
-    {
-        private final ServerLevel   world;
-        private final PathNavigation oldNavi;
-        private final PathNavigation newNavi;
-
-        public NaviUpdate(final ServerLevel world, final PathNavigation oldNavi, final PathNavigation newNavi)
-        {
-            this.world = world;
-            this.oldNavi = oldNavi;
-            this.newNavi = newNavi;
-        }
-
-        @Override
-        public boolean hasWork()
-        {
-            // We do not do things multiple times, so return false here.
-            return false;
-        }
-
-        @Override
-        public boolean doWork()
-        {
-            synchronized (this.world.navigations)
-            {
-                // Switch out the navigators
-                this.world.navigations.remove(this.oldNavi);
-                this.world.navigations.add(this.newNavi);
-            }
-            // We do not do things multiple times, so return false here as well
-            return false;
-        }
-
     }
 
     private static enum NaviState
@@ -334,8 +289,6 @@ public class LogicFloatFlySwim extends LogicBase
                     .setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
 
-        final PathNavigation oldNavi = this.entity.getNavigation();
-
         final boolean air = this.pokemob.floats() || this.pokemob.flys();
         final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
@@ -371,10 +324,5 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.WALK;
         }
-        final PathNavigation newNavi = this.entity.getNavigation();
-        // If the navigator has switched, schedule the switching world side as
-        // well, if this is not done, you get major memory leaks.
-        if (world instanceof ServerLevel && newNavi != oldNavi) WorldWorkerManager.addWorker(new NaviUpdate(
-                (ServerLevel) world, oldNavi, newNavi));
     }
 }

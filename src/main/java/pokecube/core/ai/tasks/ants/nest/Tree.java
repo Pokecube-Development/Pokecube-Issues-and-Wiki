@@ -21,6 +21,7 @@ import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.ai.pathing.processors.SwimAndWalkNodeProcessor;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
@@ -221,7 +222,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
 
     public AABB getBounds()
     {
-        if (this.bounds == null) return AABB.ofSize(0, 0, 0);
+        if (this.bounds == null) return AABB.ofSize(Vec3.ZERO, 0, 0, 0);
         return this.bounds;
     }
 

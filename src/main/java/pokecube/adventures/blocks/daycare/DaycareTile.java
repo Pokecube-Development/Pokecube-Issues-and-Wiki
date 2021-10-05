@@ -6,13 +6,13 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -22,8 +22,9 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
+import thut.api.block.ITickTile;
 
-public class DaycareTile extends InteractableTile implements TickingBlockEntity
+public class DaycareTile extends InteractableTile implements ITickTile
 {
     public static JEP expToGive;
     public static JEP pwrPerExp;
@@ -69,16 +70,16 @@ public class DaycareTile extends InteractableTile implements TickingBlockEntity
 
     public int redstonePower = 0;
 
-    public DaycareTile()
+    public DaycareTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.DAYCARE_TYPE.get());
+        this(PokecubeAdv.DAYCARE_TYPE.get(), pos, state);
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
     }
 
-    public DaycareTile(final BlockEntityType<?> tileEntityTypeIn)
+    public DaycareTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     private void checkPower(final int target)
@@ -155,10 +156,10 @@ public class DaycareTile extends InteractableTile implements TickingBlockEntity
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag compound)
+    public void load(final CompoundTag compound)
     {
         this.power = compound.getInt("fuel_cache");
-        super.load(state, compound);
+        super.load(compound);
     }
 
     @Override

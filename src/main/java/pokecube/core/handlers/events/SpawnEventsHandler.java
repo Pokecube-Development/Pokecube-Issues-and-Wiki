@@ -221,8 +221,8 @@ public class SpawnEventsHandler
             if (entity instanceof Mob) ((Mob) entity).setPersistenceRequired();
             entity.moveTo(event.pos, 0.0F, 0.0F);
             if (entity instanceof Mob) ((Mob) entity).finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
-                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE,
-                    (SpawnGroupData) null, (CompoundTag) null);
+                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null,
+                    (CompoundTag) null);
 
             if (entity instanceof NpcMob) SpawnEventsHandler.spawnNpc(event, (NpcMob) entity, thing);
             else if (entity instanceof Mob) SpawnEventsHandler.spawnMob(event, (Mob) entity, thing);
@@ -257,7 +257,8 @@ public class SpawnEventsHandler
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxY,
+                    box.maxY, box.maxZ);
             EventsHandler.Schedule((ServerLevel) event.getWorld(), world ->
             {
                 poses.forEach((p) ->
@@ -272,7 +273,8 @@ public class SpawnEventsHandler
             PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxY,
+                    box.maxY, box.maxZ);
             final LevelAccessor world = event.getWorld();
             poses.forEach((p) ->
             {

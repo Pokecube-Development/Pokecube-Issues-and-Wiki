@@ -17,6 +17,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -33,7 +34,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.network.packets.PacketPC;
 
-public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock
+public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
 
     private static final Map<Direction, VoxelShape> PC_TOP      = new HashMap<>();
@@ -44,16 +45,16 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
     final boolean                         top;
     final boolean                         needsBase;
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     static
     {
-        PC_TOP.put(Direction.NORTH,
+        PCBlock.PC_TOP.put(Direction.NORTH,
                 Block.box(0, 0, 8, 16, 16, 16));
-        PC_TOP.put(Direction.EAST,
+        PCBlock.PC_TOP.put(Direction.EAST,
                 Block.box(0, 0, 0, 8, 16, 16));
-        PC_TOP.put(Direction.SOUTH,
+        PCBlock.PC_TOP.put(Direction.SOUTH,
                 Block.box(0, 0, 0, 16, 16, 8));
-        PC_TOP.put(Direction.WEST,
+        PCBlock.PC_TOP.put(Direction.WEST,
                 Block.box(8, 0, 0, 16, 16, 16));
         PCBlock.PC_BASE.put(Direction.NORTH, Shapes.or(
                 Block.box(0, 0, 8, 16, 16, 16),
@@ -69,7 +70,7 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
                 Block.box(4, 0, 1, 8, 16, 15)).optimize());
     }
 
-    // Precise selection box
+    // Precise selection box @formatter:on
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
@@ -94,9 +95,9 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new PCTile();
+        return new PCTile(pos, state);
     }
 
     @Override
@@ -122,12 +123,6 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
     {
         if (state.getValue(PCBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
     }
 
     @Override

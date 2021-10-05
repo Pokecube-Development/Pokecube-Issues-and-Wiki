@@ -201,7 +201,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     @Override
     protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
     {
-        this.font.draw(mat, this.inventory.getDisplayName().getString(), 8.0F, this.imageHeight - 96 + 2,
+        this.font.draw(mat, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2,
                 4210752);
     }
 

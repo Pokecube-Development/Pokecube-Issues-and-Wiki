@@ -3,8 +3,8 @@ package pokecube.core.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
@@ -16,7 +16,7 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
 {
     private static final ResourceLocation EMPTY = new ResourceLocation("");
 
-    public RenderMoves(final EntityRenderDispatcher renderManager)
+    public RenderMoves(final EntityRendererProvider.Context renderManager)
     {
         super(renderManager);
     }

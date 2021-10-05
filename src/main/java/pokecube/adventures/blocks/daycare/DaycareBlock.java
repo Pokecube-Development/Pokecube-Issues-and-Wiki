@@ -3,11 +3,16 @@ package pokecube.adventures.blocks.daycare;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+import thut.api.block.ITickTile;
 
-public class DaycareBlock extends InteractableHorizontalBlock
+public class DaycareBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
     public DaycareBlock(final Properties properties)
@@ -16,15 +21,16 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new DaycareTile();
+        return new DaycareTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
     {
-        return true;
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override

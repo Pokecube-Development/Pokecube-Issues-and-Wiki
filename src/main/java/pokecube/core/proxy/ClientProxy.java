@@ -47,8 +47,8 @@ public class ClientProxy extends CommonProxy
     public void colourBlocks(final ColorHandlerEvent.Block event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-//      System.out.println(pechaLeaves);
-//      System.out.println(qualotLeaves);
+        // System.out.println(pechaLeaves);
+        // System.out.println(qualotLeaves);
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
@@ -102,20 +102,21 @@ public class ClientProxy extends CommonProxy
     {
         if (ClientProxy.players.containsKey(name)) return ClientProxy.players.get(name);
         final Minecraft minecraft = Minecraft.getInstance();
-        GameProfile profile = new GameProfile((UUID) null, name);
-        profile = SkullBlockEntity.updateGameprofile(profile);
-        final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
-                .getInsecureSkinInformation(profile);
-        ResourceLocation resourcelocation;
-        if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager().registerTexture(
-                map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
-        else
+        SkullBlockEntity.updateGameprofile(new GameProfile((UUID) null, name), (profile) ->
         {
-            final UUID uuid = Player.createPlayerUUID(profile);
-            resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
-        }
-        ClientProxy.players.put(name, resourcelocation);
-        return resourcelocation;
+            final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
+                    .getInsecureSkinInformation(profile);
+            ResourceLocation resourcelocation;
+            if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager()
+                    .registerTexture(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+            else
+            {
+                final UUID uuid = Player.createPlayerUUID(profile);
+                resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
+            }
+            ClientProxy.players.put(name, resourcelocation);
+        });
+        return DefaultPlayerSkin.getDefaultSkin();
     }
 
     @Override
@@ -131,8 +132,8 @@ public class ClientProxy extends CommonProxy
             final File file1 = new File(new File(file0, "skins"), s.length() > 2 ? s.substring(0, 2) : "xx");
             file1.mkdirs();
             final File file2 = new File(file1, s);
-            final HttpTexture downloadingtexture = new HttpTexture(file2, urlSkin, DefaultPlayerSkin
-                    .getDefaultSkin(), true, () ->
+            final HttpTexture downloadingtexture = new HttpTexture(file2, urlSkin, DefaultPlayerSkin.getDefaultSkin(),
+                    true, () ->
                     {
                     });
             texturemanager.register(resourcelocation, downloadingtexture);

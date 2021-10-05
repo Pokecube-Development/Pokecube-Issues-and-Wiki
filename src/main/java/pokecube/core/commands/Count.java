@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Stream;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -19,6 +17,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -36,14 +35,14 @@ public class Count
     public static int execute(final CommandSourceStack source) throws CommandSyntaxException
     {
         final ServerLevel world = source.getLevel();
-        final Stream<Entity> mobs = world.getEntities();
+        final LevelEntityGetter<Entity> mobs = world.getEntities();
         final Vec3 pos = source.getPosition();
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
         final double threshold = PokecubeCore.getConfig().maxSpawnRadius * PokecubeCore.getConfig().maxSpawnRadius;
         final Set<UUID> found = Sets.newHashSet();
-        for (final Object o : mobs.toArray())
+        for (final Object o : mobs.getAll())
         {
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)

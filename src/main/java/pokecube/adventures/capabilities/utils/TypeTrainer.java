@@ -374,7 +374,7 @@ public class TypeTrainer extends NpcType
             final double x = trainer.getX();
             final double y = trainer.getY();
             final double z = trainer.getZ();
-            pokemob.getEntity().setPosAndOldPos(x, y, z);
+            pokemob.getEntity().setPosRaw(x, y, z);
             for (int i = 1; i < level; i++)
                 if (pokemob.getPokedexEntry().canEvolve(i)) for (final EvolutionData d : pokemob.getPokedexEntry()
                         .getEvolutions())

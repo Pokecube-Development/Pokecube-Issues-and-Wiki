@@ -16,10 +16,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.maths.Vector3;
 
-public class TempTile extends BlockEntity
+public class TempTile extends BlockEntity implements ITickTile
 {
     public static BlockEntityType<TempTile> TYPE;
 
@@ -38,6 +39,7 @@ public class TempTile extends BlockEntity
         this.blockEntity = blockEntity;
     }
 
+    @Override
     public void tick()
     {
         if (this.blockEntity != null && !this.blockEntity.isAddedToWorld()) this.shape = null;

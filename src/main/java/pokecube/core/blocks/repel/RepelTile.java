@@ -25,14 +25,14 @@ public class RepelTile extends InteractableTile
     public int     range   = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 
-    public RepelTile()
+    public RepelTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeItems.REPEL_TYPE.get());
+        this(PokecubeItems.REPEL_TYPE.get(), pos, state);
     }
 
-    public RepelTile(final BlockEntityType<?> tileEntityTypeIn)
+    public RepelTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public boolean addForbiddenSpawningCoord()
@@ -70,9 +70,9 @@ public class RepelTile extends InteractableTile
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(state, nbt);
+        super.load(nbt);
         this.removeForbiddenSpawningCoord();
         this.range = nbt.getInt("range");
         this.addForbiddenSpawningCoord();

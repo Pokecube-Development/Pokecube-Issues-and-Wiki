@@ -1,15 +1,15 @@
 package pokecube.adventures.blocks.commander;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.core.interfaces.PokecubeMod;
 
-public class CommanderBlock extends InteractableHorizontalBlock
+public class CommanderBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
     public CommanderBlock(final Properties properties)
@@ -18,15 +18,9 @@ public class CommanderBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new CommanderTile();
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
+        return new CommanderTile(pos, state);
     }
 
     @Override

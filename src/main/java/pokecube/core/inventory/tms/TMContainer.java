@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -49,8 +50,8 @@ public class TMContainer extends BaseContainer
         // Client side
         if (this.inv == null)
         {
-            this.tile = new TMTile();
-            this.tile.setLevelAndPosition(PokecubeCore.proxy.getWorld(), inv.player.blockPosition());
+            this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TMMACHINE.get().defaultBlockState());
+            this.tile.setLevel(PokecubeCore.proxy.getWorld());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();

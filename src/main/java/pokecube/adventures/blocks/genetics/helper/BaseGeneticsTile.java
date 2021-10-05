@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.nfunk.jep.JEP;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -11,9 +12,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,9 +25,9 @@ import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.InvHelper;
+import thut.api.block.ITickTile;
 
-public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, TickingBlockEntity,
-        WorldlyContainer
+public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, ITickTile, WorldlyContainer
 {
 
     public static JEP parser;
@@ -49,7 +48,6 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     private final NonNullList<ItemStack> inventory;
-    protected BlockState                 loaded = null;
 
     public final ContainerData syncValues = new ContainerData()
     {
@@ -94,14 +92,15 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public int                                           total          = 0;
     private PoweredProcess                               currentProcess = null;
     protected PoweredCraftingInventory                   craftMatrix;
-    private Player                                 user;
+    private Player                                       user;
     private final LazyOptional<? extends IItemHandler>[] wrappers       = SidedInvWrapper.create(this, Direction
             .values());
     int[]                                                slots;
 
-    public BaseGeneticsTile(final BlockEntityType<?> tileEntityTypeIn, final int size, final int output)
+    public BaseGeneticsTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state,
+            final int size, final int output)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
         this.inventory = NonNullList.<ItemStack> withSize(size, ItemStack.EMPTY);
         this.outputSlot = output;
     }
@@ -316,10 +315,9 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        this.loaded = state;
-        super.load(state, nbt);
+        super.load(nbt);
         if (nbt.contains("Items")) InvHelper.load(this, nbt);
         if (nbt.contains("progress"))
         {
@@ -334,31 +332,13 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     {
         nbt = super.save(nbt);
 
-        if (this.loaded == null) this.loaded = Blocks.AIR.defaultBlockState();
-
         // saveInv check is needed for multiblock tiles!
-        if (!this.saveInv(this.loaded)) return nbt;
+        if (!this.saveInv(this.getBlockState())) return nbt;
 
         InvHelper.save(this, nbt);
         if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
 
         return nbt;
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void setRemoved()
-    {
-        super.setRemoved();
-    }
-
-    @Override
-    public void clearRemoved()
-    {
-        this.clearCache();
-        super.clearRemoved();
     }
 
     @Override

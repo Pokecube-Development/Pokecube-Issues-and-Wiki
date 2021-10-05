@@ -2,6 +2,7 @@ package pokecube.core.blocks.pc;
 
 import java.util.UUID;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,14 +17,14 @@ public class PCTile extends InteractableTile
     public UUID        boundId   = PokecubeMod.fakeUUID;
     public PCInventory inventory = PCInventory.getPC(this.boundId);
 
-    public PCTile()
+    public PCTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.PC_TYPE.get());
+        this(PokecubeItems.PC_TYPE.get(), pos, state);
     }
 
-    public PCTile(final BlockEntityType<?> tileEntityTypeIn)
+    public PCTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     @Override
@@ -34,9 +35,9 @@ public class PCTile extends InteractableTile
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag compound)
+    public void load(final CompoundTag compound)
     {
-        super.load(state, compound);
+        super.load(compound);
         if (compound.contains("boundid")) this.boundId = UUID.fromString(compound.getString("boundid"));
     }
 

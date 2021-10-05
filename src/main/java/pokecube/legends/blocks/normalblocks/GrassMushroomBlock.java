@@ -85,9 +85,9 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
     }
 
     @Override
-    public void stepOn(final Level world, final BlockPos pos, final Entity entity)
+    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
-        super.stepOn(world, pos, entity);
+        super.stepOn(world, pos, state, entity);
         {
             final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
             $_dependencies.put("entity", entity);
@@ -105,7 +105,7 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
         final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() ||
                 ((Player) entity).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem() ||
-                ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || 
+                ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() ||
                 ((Player) entity).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem()) ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1));
     }
 }

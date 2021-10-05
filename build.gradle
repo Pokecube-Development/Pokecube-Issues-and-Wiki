@@ -178,7 +178,7 @@ dependencies {
     //runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
     
     //Minecolonies
-    //implementation "blank:minecolonies-0.13.437-RELEASE-api"
+    implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
     
     //Immersive Enginnering
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"

@@ -15,9 +15,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,8 +33,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.inventory.healer.HealerContainer;
+import thut.api.block.ITickTile;
 
-public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock
+public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
 	private static final Map<Direction, VoxelShape> POKECENTER  = new HashMap<>();
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -103,9 +107,16 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new HealerTile();
+        return new HealerTile(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
+    {
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override
@@ -138,12 +149,6 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
     public FluidState getFluidState(final BlockState state)
     {
         return state.getValue(HealerBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
     }
 
     @Override

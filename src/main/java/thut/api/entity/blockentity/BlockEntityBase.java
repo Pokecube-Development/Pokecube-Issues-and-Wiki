@@ -35,6 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
@@ -104,7 +105,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     private IBlockEntityWorld fake_world;
 
-    private boolean shouldRevert = true;
+    private final boolean shouldRevert = true;
 
     protected float speedUp      = 0.5f;
     protected float speedDown    = -0.5f;
@@ -476,18 +477,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     /** Will get destroyed next tick. */
     @Override
-    public void remove()
+    public void remove(final RemovalReason reason)
     {
         if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
-        super.remove();
-    }
-
-    @Override
-    public void remove(final boolean keepData)
-    {
-        this.shouldRevert = !keepData;
-        super.remove(keepData);
+        super.remove(reason);
     }
 
     @Override

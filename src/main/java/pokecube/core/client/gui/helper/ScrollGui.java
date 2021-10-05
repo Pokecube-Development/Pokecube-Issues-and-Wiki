@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -118,19 +119,19 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1 + this.y0;
             if (l1 < this.y0) l1 = this.y0;
 
-            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_COLOR_TEX);
+            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
             bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).uv(0.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).uv(1.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).uv(1.0F, 0.0F).endVertex();
             bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).uv(0.0F, 0.0F).endVertex();
             tessellator.end();
-            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_COLOR_TEX);
+            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
             bufferbuilder.vertex(i, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j, l1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 0.0F).endVertex();
             bufferbuilder.vertex(i, l1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 0.0F).endVertex();
             tessellator.end();
-            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_COLOR_TEX);
+            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
             bufferbuilder.vertex(i, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j - 1, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 1.0F).endVertex();
             bufferbuilder.vertex(j - 1, l1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 0.0F).endVertex();
@@ -170,13 +171,13 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
                     final int i2 = x + this.x0 + this.width / 2 + k1 / 2;
                     RenderSystem.disableTexture();
                     final float f = this.isFocused() ? 1.0F : 0.5F;
-                    bufferbuilder.begin(7, DefaultVertexFormat.POSITION_COLOR);
+                    bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                     bufferbuilder.vertex(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(i2, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(i2, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(l1, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
                     tessellator.end();
-                    bufferbuilder.begin(7, DefaultVertexFormat.POSITION_COLOR);
+                    bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                     bufferbuilder.vertex(l1 + 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     bufferbuilder.vertex(i2 - 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     bufferbuilder.vertex(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();

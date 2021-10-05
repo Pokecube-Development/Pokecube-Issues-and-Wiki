@@ -147,7 +147,7 @@ public class HungerTask extends BaseIdleTask
                     this.setWalkTo(hook.position(), moveSpeed, 0);
                     if (this.entity.distanceToSqr(hook) < 2)
                     {
-                        hook.hookedIn = this.entity;
+                        hook.setHookedEntity(this.entity);
                         this.pokemob.eat(hook);
                     }
                     return true;

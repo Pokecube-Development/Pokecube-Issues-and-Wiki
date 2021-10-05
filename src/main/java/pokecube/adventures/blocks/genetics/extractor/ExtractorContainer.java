@@ -28,7 +28,8 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
                 if (temp instanceof ExtractorTile) c.tile = (ExtractorTile) temp;
             });
             // Client side
-            if (c.tile == null) c.tile = new ExtractorTile();
+            if (c.tile == null) c.tile = new ExtractorTile(invIn.player.blockPosition(), PokecubeAdv.EXTRACTOR.get()
+                    .defaultBlockState());
             return c.tile;
         });
 

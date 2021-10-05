@@ -5,13 +5,11 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.ClassInstanceMultiMap;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.ICopyMob;
@@ -75,24 +73,7 @@ public class EntityTools
     public static void getNearMobsFast(final List<Entity> toFill, final Level world, final BlockPos centre,
             final int range, final Predicate<Entity> valid)
     {
-        final int r = Math.max(range >> 4, 1);
-        // Check surrounding chunks as well
-        final int x = centre.getX() >> 4;
-        final int y = centre.getY() >> 4;
-        final int z = centre.getZ() >> 4;
-        for (int i = -r; i <= r; i++)
-            for (int j = -r; j <= r; j++)
-            {
-                // Chunk exists calls this anyway, then does a null check.
-                final ChunkAccess c = world.getChunk(x + i, z + j, ChunkStatus.FULL, false);
-                if (!(c instanceof LevelChunk)) continue;
-                final LevelChunk chunk = (LevelChunk) c;
-                for (int k = -r; k <= r; k++)
-                {
-                    final ClassInstanceMultiMap<Entity> mobs = chunk.getEntitySections()[y];
-                    toFill.addAll(mobs);
-                }
-            }
-        toFill.removeIf(valid.negate());
+        final AABB box = AABB.ofSize(new Vec3(centre.getX(), centre.getY(), centre.getZ()), range, range, range);
+        toFill.addAll(world.getEntities((Entity) null, box, valid));
     }
 }

@@ -18,6 +18,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -114,7 +115,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     private final Vector3 scale = Vector3.getNewVector();
 
-    public RenderEgg(final EntityRenderDispatcher manager)
+    public RenderEgg(final EntityRendererProvider.Context manager)
     {
         super(manager, null, 0.1f);
         this.model = this.makeModel();

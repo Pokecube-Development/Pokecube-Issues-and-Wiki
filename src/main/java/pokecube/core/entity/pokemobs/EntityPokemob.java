@@ -105,7 +105,7 @@ public class EntityPokemob extends PokemobRidable
         this.saveWithoutId(compoundnbt);
         if (p_213439_1_.setEntityOnShoulder(compoundnbt))
         {
-            this.remove(true);
+            this.remove(RemovalReason.DISCARDED);
             return true;
         }
         else return false;
@@ -141,12 +141,12 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean causeFallDamage(final float distance, final float damageMultiplier)
+    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
     {
         // TODO maybe do something here?
         // Vanilla plays sound and does damage, but only plays the sound if
         // damage occurred, maybe we should just play the sound instead?
-        return super.causeFallDamage(distance, damageMultiplier);
+        return super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     @Override
@@ -378,7 +378,7 @@ public class EntityPokemob extends PokemobRidable
             CompoundTag tag = buffer.readNbt();
             final ListTag list = (ListTag) tag.get("g");
             final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
-            GeneRegistry.GENETICS_CAP.readNBT(genes, null, list);
+            genes.deserializeNBT(list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
             tag = buffer.readNbt();
@@ -471,7 +471,7 @@ public class EntityPokemob extends PokemobRidable
         this.pokemobCap.onGenesChanged();
         final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
-        final ListTag list = (ListTag) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
+        final ListTag list = genes.serializeNBT();
         CompoundTag nbt = new CompoundTag();
         nbt.put("p", this.pokemobCap.write());
         nbt.put("g", list);
@@ -623,5 +623,13 @@ public class EntityPokemob extends PokemobRidable
         else b0 = (byte) (b0 & -2);
 
         this.entityData.set(EntityPokemob.CLIMBING, b0);
+    }
+
+    @Override
+    public boolean isFlying()
+    {
+        // TODO hook into what is used for animations, and put it in here for if
+        // is flying!
+        return false;
     }
 }

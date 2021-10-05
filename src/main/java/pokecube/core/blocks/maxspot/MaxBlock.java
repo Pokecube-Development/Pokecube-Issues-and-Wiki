@@ -12,8 +12,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -25,8 +28,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.blocks.InteractableDirectionalBlock;
+import thut.api.block.ITickTile;
 
-public class MaxBlock extends InteractableDirectionalBlock implements SimpleWaterloggedBlock
+public class MaxBlock extends InteractableDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
     private static final Map<Direction, VoxelShape> DYNAMAX  = new HashMap<>();
     private static final Map<Direction, VoxelShape> DYNAMAX_COLLISION  = new HashMap<>();
@@ -35,36 +39,36 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
 
     static
     {// @formatter:off
-        DYNAMAX.put(Direction.NORTH, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.NORTH, Shapes.or(
                 Block.box(2, 2, 13, 14, 14, 16),
                 Block.box(3, 3, 2, 13, 14, 13)).optimize());
-        DYNAMAX.put(Direction.EAST, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.EAST, Shapes.or(
                 Block.box(0, 2, 2, 3, 14, 14),
                 Block.box(3, 3, 3, 14, 13, 13)).optimize());
-        DYNAMAX.put(Direction.SOUTH, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.SOUTH, Shapes.or(
                 Block.box(2, 2, 0, 14, 14, 3),
                 Block.box(3, 3, 3, 13, 13, 14)).optimize());
-        DYNAMAX.put(Direction.WEST, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.WEST, Shapes.or(
                 Block.box(13, 2, 2, 16, 14, 14),
                 Block.box(2, 3, 3, 13, 13, 13)).optimize());
-        DYNAMAX.put(Direction.UP, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.UP, Shapes.or(
                 Block.box(2, 0, 2, 14, 3, 14),
                 Block.box(3, 3, 3, 13, 14, 13)).optimize());
-        DYNAMAX.put(Direction.DOWN, Shapes.or(
+        MaxBlock.DYNAMAX.put(Direction.DOWN, Shapes.or(
                 Block.box(2, 13, 2, 14, 16, 14),
                 Block.box(3, 2, 3, 13, 13, 13)).optimize());
 
-        DYNAMAX_COLLISION.put(Direction.NORTH, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.NORTH, Shapes.or(
                 Block.box(2, 2, 13, 14, 14, 16)).optimize());
-        DYNAMAX_COLLISION.put(Direction.EAST, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.EAST, Shapes.or(
                 Block.box(0, 2, 2, 3, 14, 14)).optimize());
-        DYNAMAX_COLLISION.put(Direction.SOUTH, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.SOUTH, Shapes.or(
                 Block.box(2, 2, 0, 14, 14, 3)).optimize());
-        DYNAMAX_COLLISION.put(Direction.WEST, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.WEST, Shapes.or(
                 Block.box(13, 2, 2, 16, 14, 14)).optimize());
-        DYNAMAX_COLLISION.put(Direction.UP, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.UP, Shapes.or(
                 Block.box(2, 0, 2, 14, 3, 14)).optimize());
-        DYNAMAX_COLLISION.put(Direction.DOWN, Shapes.or(
+        MaxBlock.DYNAMAX_COLLISION.put(Direction.DOWN, Shapes.or(
                 Block.box(2, 13, 2, 14, 16, 14)).optimize());
     }// @formatter:on
 
@@ -80,14 +84,14 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
                                final CollisionContext context)
     {
-        return DYNAMAX.get(state.getValue(MaxBlock.FACING));
+        return MaxBlock.DYNAMAX.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
     public VoxelShape getCollisionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
                                         final CollisionContext context)
     {
-        return DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
+        return MaxBlock.DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
@@ -102,7 +106,7 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockState state = context.getLevel().getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
-        Direction direction = context.getClickedFace();
+        final Direction direction = context.getClickedFace();
         return state.is(this) && state.getValue(MaxBlock.FACING) == direction ? (BlockState)this.defaultBlockState()
                 .setValue(MaxBlock.FACING, direction.getOpposite()) : (BlockState)this.defaultBlockState()
                 .setValue(MaxBlock.FACING, direction)
@@ -127,15 +131,16 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new MaxTile();
+        return new MaxTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
     {
-        return true;
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override

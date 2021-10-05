@@ -32,9 +32,9 @@ public class BaseTile extends InteractableTile
     public GlobalPos  last_base = null;
     public BlockState original  = Blocks.STONE.defaultBlockState();
 
-    public BaseTile()
+    public BaseTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeItems.BASE_TYPE.get());
+        super(PokecubeItems.BASE_TYPE.get(), pos, state);
     }
 
     @Override
@@ -78,9 +78,9 @@ public class BaseTile extends InteractableTile
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundTag compound)
+    public void load(final CompoundTag compound)
     {
-        super.load(stateIn, compound);
+        super.load(compound);
         this.any = compound.getBoolean("any_use");
         if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NbtOps.INSTANCE, compound
                 .get("last_base")).result().get().getFirst();

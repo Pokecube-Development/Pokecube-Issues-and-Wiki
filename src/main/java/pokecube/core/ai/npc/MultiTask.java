@@ -13,7 +13,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.behavior.WeightedList;
+import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -28,29 +28,31 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         CONTINUE = ObfuscationReflectionHelper.findMethod(Behavior.class, "func_212834_g_", ServerLevel.class,
                 LivingEntity.class, long.class);
     }
-    private final Set<MemoryModuleType<?>>      memoryModules;
-    private final MultiTask.Ordering            ordering;
-    private final MultiTask.RunType             runType;
-    private final WeightedList<Behavior<? super E>> tasks = new WeightedList<>();
+    private final Set<MemoryModuleType<?>> memories;
+
+    private final MultiTask.Ordering ordering;
+    private final MultiTask.RunType  runType;
+
+    private final ShufflingList<Behavior<? super E>> behaviors = new ShufflingList<>();
 
     public MultiTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMemories,
             final Set<MemoryModuleType<?>> modules, final MultiTask.Ordering ordering, final MultiTask.RunType type,
             final List<Pair<Behavior<? super E>, Integer>> tasks)
     {
         super(neededMemories);
-        this.memoryModules = modules;
+        this.memories = modules;
         this.ordering = ordering;
         this.runType = type;
         tasks.forEach((pair) ->
         {
-            this.tasks.add(pair.getFirst(), pair.getSecond());
+            this.behaviors.add(pair.getFirst(), pair.getSecond());
         });
     }
 
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
     {
-        return this.tasks.stream().filter((task) ->
+        return this.behaviors.stream().filter((task) ->
         {
             return task.getStatus() == Behavior.Status.RUNNING;
         }).anyMatch((task) ->
@@ -76,14 +78,14 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     @Override
     protected void start(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.ordering.apply(this.tasks);
-        this.runType.process(this.tasks, worldIn, entityIn, gameTimeIn);
+        this.ordering.apply(this.behaviors);
+        this.runType.process(this.behaviors, worldIn, entityIn, gameTimeIn);
     }
 
     @Override
     protected void tick(final ServerLevel worldIn, final E owner, final long gameTime)
     {
-        this.tasks.stream().filter((task) ->
+        this.behaviors.stream().filter((task) ->
         {
             return task.getStatus() == Behavior.Status.RUNNING;
         }).forEach((task) ->
@@ -95,20 +97,20 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     @Override
     protected void stop(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.tasks.stream().filter((task) ->
+        this.behaviors.stream().filter((task) ->
         {
             return task.getStatus() == Behavior.Status.RUNNING;
         }).forEach((task) ->
         {
             task.doStop(worldIn, entityIn, gameTimeIn);
         });
-        this.memoryModules.forEach(entityIn.getBrain()::eraseMemory);
+        this.memories.forEach(entityIn.getBrain()::eraseMemory);
     }
 
     @Override
     public String toString()
     {
-        final Set<? extends Behavior<? super E>> set = this.tasks.stream().filter((task) ->
+        final Set<? extends Behavior<? super E>> set = this.behaviors.stream().filter((task) ->
         {
             return task.getStatus() == Behavior.Status.RUNNING;
         }).collect(Collectors.toSet());
@@ -119,16 +121,16 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     {
         ORDERED((list) ->
         {
-        }), SHUFFLED(WeightedList::shuffle);
+        }), SHUFFLED(ShufflingList::shuffle);
 
-        private final Consumer<WeightedList<?>> consumer;
+        private final Consumer<ShufflingList<?>> consumer;
 
-        private Ordering(final Consumer<WeightedList<?>> consumer)
+        private Ordering(final Consumer<ShufflingList<?>> consumer)
         {
             this.consumer = consumer;
         }
 
-        public void apply(final WeightedList<?> list)
+        public void apply(final ShufflingList<?> list)
         {
             this.consumer.accept(list);
         }
@@ -139,7 +141,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         RUN_ONE
         {
             @Override
-            public <E extends LivingEntity> void process(final WeightedList<Behavior<? super E>> list,
+            public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
                     final ServerLevel world, final E mob, final long time)
             {
                 list.stream().filter((sub_task) ->
@@ -154,7 +156,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         TRY_ALL
         {
             @Override
-            public <E extends LivingEntity> void process(final WeightedList<Behavior<? super E>> list,
+            public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
                     final ServerLevel world, final E mob, final long time)
             {
                 list.stream().filter((sub_task) ->
@@ -171,7 +173,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         {
         }
 
-        public abstract <E extends LivingEntity> void process(WeightedList<Behavior<? super E>> list, ServerLevel world,
-                E mob, long time);
+        public abstract <E extends LivingEntity> void process(ShufflingList<Behavior<? super E>> list,
+                ServerLevel world, E mob, long time);
     }
 }

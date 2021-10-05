@@ -31,8 +31,8 @@ public abstract class InteractableBlock extends Block
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
@@ -40,7 +40,7 @@ public abstract class InteractableBlock extends Block
     }
 
     @Override
-    public void stepOn(final Level worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);

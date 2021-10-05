@@ -1,14 +1,14 @@
 package pokecube.core.blocks.repel;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableBlock;
 
-public class RepelBlock extends InteractableBlock
+public class RepelBlock extends InteractableBlock implements EntityBlock
 {
 
     public RepelBlock(final Properties properties)
@@ -17,15 +17,9 @@ public class RepelBlock extends InteractableBlock
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new RepelTile();
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
+        return new RepelTile(pos, state);
     }
 
     @Override

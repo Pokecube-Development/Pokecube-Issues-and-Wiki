@@ -45,7 +45,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
     }
 
     @Override
-    public void stepOn(final Level worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
         final BlockEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);

@@ -16,10 +16,12 @@ import pokecube.core.network.packets.PacketHeal;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
+    Inventory inventory;
 
     public Healer(final T container, final Inventory ivplay, final Component name)
     {
         super(container, ivplay, name);
+        this.inventory = ivplay;
     }
 
     @Override

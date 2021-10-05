@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
@@ -22,14 +23,14 @@ public class SplicerTile extends BaseGeneticsTile
 {
     public ItemStack override_selector = ItemStack.EMPTY;
 
-    public SplicerTile()
+    public SplicerTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeAdv.SPLICER_TYPE.get());
+        this(PokecubeAdv.SPLICER_TYPE.get(), pos, state);
     }
 
-    public SplicerTile(final BlockEntityType<?> tileEntityTypeIn)
+    public SplicerTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn, 4, 3);
+        super(tileEntityTypeIn, pos, state, 4, 3);
     }
 
     @Override

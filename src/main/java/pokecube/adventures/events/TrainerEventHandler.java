@@ -18,6 +18,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -537,7 +538,7 @@ public class TrainerEventHandler
             pokemobHolder.addPokemob(PokecubeManager.pokemobToItem(recalled));
             evt.setCanceled(true);
             recalled.markRemoved();
-            recalled.getEntity().remove(false);
+            recalled.getEntity().remove(RemovalReason.DISCARDED);
         }
     }
 

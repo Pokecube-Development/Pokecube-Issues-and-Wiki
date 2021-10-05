@@ -33,6 +33,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
@@ -175,10 +176,10 @@ public class PokecubeCore
             final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils && (BiomeDatabase
                     .contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
             // Currently this uses same settings as gold ore.
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE
-                    .configured(new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE,
-                            PokecubeItems.FOSSILSTONE.get().defaultBlockState(), 9)).range(32).squared().count(2),
-                    new ResourceLocation("pokecube:fossilstone"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
+                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, PokecubeItems.FOSSILSTONE.get()
+                            .defaultBlockState(), 9)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
+                    .squared().count(2), new ResourceLocation("pokecube:fossilstone"));
 
             // Register the general structure piece we use
             // Registry.register(Registry.STRUCTURE_PIECE,
@@ -264,8 +265,8 @@ public class PokecubeCore
             // register a new mob here
             PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
 
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes().add(
-                    Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE,
+                    16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
             event.put(EntityPokecube.TYPE, attribs.build());
             event.put(EntityPokemobEgg.TYPE, attribs.build());
             event.put(NpcMob.TYPE, attribs.build());

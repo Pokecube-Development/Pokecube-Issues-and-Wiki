@@ -78,7 +78,7 @@ public class CallForHelpTask extends CombatTask
         {
             if (!(mob instanceof Mob)) continue;
             // Only agress mobs that can see you are really under attack.
-            if (!mob.canSee(this.entity)) continue;
+            if (!mob.hasLineOfSight(this.entity)) continue;
             // Only agress if not currently in combat.
             if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.

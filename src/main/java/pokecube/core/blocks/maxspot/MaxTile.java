@@ -25,14 +25,14 @@ public class MaxTile extends InteractableTile
     public int     range   = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 
-    public MaxTile()
+    public MaxTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeItems.MAX_TYPE.get());
+        this(PokecubeItems.MAX_TYPE.get(), pos, state);
     }
 
-    public MaxTile(final BlockEntityType<?> tileEntityTypeIn)
+    public MaxTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public boolean addForbiddenSpawningCoord()
@@ -68,9 +68,9 @@ public class MaxTile extends InteractableTile
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(state, nbt);
+        super.load(nbt);
         this.range = nbt.getInt("range");
         this.enabled = nbt.getBoolean("enabled");
     }

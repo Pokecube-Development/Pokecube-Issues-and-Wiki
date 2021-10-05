@@ -7,14 +7,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public abstract class InteractableTile extends BlockEntity
 {
 
-    public InteractableTile(final BlockEntityType<?> tileEntityTypeIn)
+    public InteractableTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,

@@ -23,7 +23,7 @@ public class AfaContainer extends BaseContainer
         }
     }
 
-    Container inv;
+    Container  inv;
     IOwnableTE ownable;
 
     public AfaTile tile;
@@ -50,10 +50,10 @@ public class AfaContainer extends BaseContainer
         // Client side
         if (this.ownable == null)
         {
-            this.tile = new AfaTile();
+            this.tile = new AfaTile(invIn.player.blockPosition(), PokecubeAdv.AFA.get().defaultBlockState());
             this.ownable = (IOwnableTE) this.tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             this.inv = this.tile.inventory;
-            this.tile.setLevelAndPosition(PokecubeCore.proxy.getWorld(), invIn.player.blockPosition());
+            this.tile.setLevel(PokecubeCore.proxy.getWorld());
         }
 
         final int di = 12;

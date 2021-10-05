@@ -213,7 +213,7 @@ public class PokecubeItems extends ItemList
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(BlockBehaviour.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
         FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE)));
+                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops()));
 
         // Tile Entity Types
         NEST_TYPE = PokecubeItems.TILES.register("nest", () -> BlockEntityType.Builder.of(NestTile::new,

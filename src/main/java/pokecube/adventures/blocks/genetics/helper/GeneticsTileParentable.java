@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +24,10 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     protected boolean isDummy       = false;
     protected boolean checkedParent = false;
 
-    public GeneticsTileParentable(final BlockEntityType<?> tileEntityTypeIn, final int size, final int output)
+    public GeneticsTileParentable(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state,
+            final int size, final int output)
     {
-        super(tileEntityTypeIn, size, output);
+        super(tileEntityTypeIn, pos, state, size, output);
         this.isDummy = true;
     }
 
@@ -43,7 +45,7 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
         if (!this.isDummy) return null;
         if (this.getLevel() == null) return null;
         // No parent if we are the state to save!
-        if (this.saveInv(this.loaded == null ? super.getBlockState() : this.loaded))
+        if (this.saveInv(super.getBlockState()))
         {
             this.isDummy = false;
             return null;
@@ -305,11 +307,10 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
         if (nbt.contains("isDummy")) this.isDummy = nbt.getBoolean("isDummy");
-        super.load(state, nbt);
-        this.loaded = null;
+        super.load(nbt);
     }
 
     @Override

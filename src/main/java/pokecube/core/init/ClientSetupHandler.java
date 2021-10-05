@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
+import pokecube.adventures.entity.trainer.LeaderNpc;
+import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
@@ -178,17 +181,6 @@ public class ClientSetupHandler
         // Register mob rendering
         PokecubeCore.LOGGER.debug("Init Mob Renderers");
 
-        for (final PokedexEntry e : Database.getSortedFormes())
-        {
-            if (!e.stock) continue;
-            final EntityType<? extends Mob> t = e.getEntityType();
-            RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
-        }
-        RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMoveUse.TYPE, RenderMoves::new);
-        RenderingRegistry.registerEntityRenderingHandler(NpcMob.TYPE, RenderNPC::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.TYPE, RenderEgg::new);
-
         // Register shouldercap
         CapabilityManager.INSTANCE.register(IShoulderHolder.class);
 
@@ -209,9 +201,26 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
         // Register config gui
-        ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(
-                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeCore.getConfig(),
-                        parent)));
+        // ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c ->
+        // c.registerExtensionPoint(
+        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
+        // ConfigGui(PokecubeCore.getConfig(),
+        // parent)));
 
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(final RegisterRenderers event)
+    {
+        for (final PokedexEntry e : Database.getSortedFormes())
+        {
+            if (!e.stock) continue;
+            final EntityType<? extends Mob> t = e.getEntityType();
+            event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
+        }
+        event.registerEntityRenderer(EntityPokecube.TYPE, RenderPokecube::new);
+        event.registerEntityRenderer(EntityMoveUse.TYPE, RenderMoves::new);
+        event.registerEntityRenderer(NpcMob.TYPE, RenderNPC::new);
+        event.registerEntityRenderer(EntityPokemobEgg.TYPE, RenderEgg::new);
     }
 }

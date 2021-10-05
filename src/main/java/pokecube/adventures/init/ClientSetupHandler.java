@@ -21,10 +21,10 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
@@ -48,7 +48,6 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.client.gui.ConfigGui;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -85,8 +84,7 @@ public class ClientSetupHandler
                     + ".tooltip.bag"));
             if (tag.contains("dyeColour"))
             {
-                final Component colour = new TranslatableComponent(DyeColor.byId(tag.getInt("dyeColour"))
-                        .getName());
+                final Component colour = new TranslatableComponent(DyeColor.byId(tag.getInt("dyeColour")).getName());
                 boolean has = false;
                 for (final Component s : evt.getToolTip())
                 {
@@ -108,8 +106,8 @@ public class ClientSetupHandler
                     evt.getToolTip().add(comp);
                     if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                     {
-                        comp = new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a
-                                .getExpressed().getKey().getPath(), a.getAllele(0), a.getAllele(1));
+                        comp = new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed()
+                                .getKey().getPath(), a.getAllele(0), a.getAllele(1));
                         evt.getToolTip().add(comp);
                     }
                 }
@@ -122,11 +120,11 @@ public class ClientSetupHandler
                     for (final Class<? extends Gene<?>> geneC : genesSet)
                     try
                     {
-                        final Gene<?> gene = geneC.newInstance();
+                        final Gene<?> gene = geneC.getConstructor().newInstance();
                         evt.getToolTip().add(new TranslatableComponent(PokecubeAdv.MODID + ".tooltip.selector.gene."
                                 + gene.getKey().getPath()));
                     }
-                    catch (InstantiationException | IllegalAccessException e)
+                    catch (final Exception e)
                     {
 
                     }
@@ -140,15 +138,19 @@ public class ClientSetupHandler
         }
     }
 
+    @SubscribeEvent
+    public static void registerRenderers(final RegisterRenderers event)
+    {
+        event.registerEntityRenderer(TrainerNpc.TYPE, RenderNPC::new);
+        event.registerEntityRenderer(LeaderNpc.TYPE, RenderNPC::new);
+    }
+
     public static KeyMapping trainerEditKey;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
-
-        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.TYPE, RenderNPC::new);
-        RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, RenderNPC::new);
 
         // Register container guis.
         MenuScreens.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);
@@ -164,10 +166,13 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
 
         // Register config gui
-        ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
-                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
+        // ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c ->
+        // c.registerExtensionPoint(
+        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
+        // ConfigGui(PokecubeAdv.config, parent)));
 
-        ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(), "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(),
+                "Pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 

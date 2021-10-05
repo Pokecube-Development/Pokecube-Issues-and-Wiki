@@ -47,7 +47,8 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     public GrassDistorticBlock(final BlockBehaviour.Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING, Direction.UP).setValue(GrassDistorticBlock.SNOWY, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING, Direction.UP).setValue(
+                GrassDistorticBlock.SNOWY, false));
     }
 
     @Override
@@ -58,10 +59,12 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState updateShape(final BlockState state, final Direction direction, final BlockState state1, final LevelAccessor world, final BlockPos pos, final BlockPos pos1)
+    public BlockState updateShape(final BlockState state, final Direction direction, final BlockState state1,
+            final LevelAccessor world, final BlockPos pos, final BlockPos pos1)
     {
-        return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1) :
-            (BlockState)state.setValue(GrassDistorticBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(Blocks.SNOW));
+        return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1)
+                : (BlockState) state.setValue(GrassDistorticBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
+                        Blocks.SNOW));
     }
 
     @Override
@@ -81,18 +84,22 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
-        return this.defaultBlockState().setValue(DirectionalBlock.FACING, context.getNearestLookingDirection().getOpposite())
-            .setValue(GrassDistorticBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SNOW));
+        return this.defaultBlockState().setValue(DirectionalBlock.FACING, context.getNearestLookingDirection()
+                .getOpposite()).setValue(GrassDistorticBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(
+                        Blocks.SNOW));
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state, final boolean valid) {
+    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
+            final boolean valid)
+    {
         return block.getBlockState(pos.above()).isAir() && state.getValue(DirectionalBlock.FACING) == Direction.UP;
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state) {
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
+    {
         return true;
     }
 
@@ -112,23 +119,26 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
         final BlockState blockstate5 = world.getBlockState(blockpos5);
         if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1) return true;
         else if (blockstate.getFluidState().getAmount() == 8) return false;
-        else {
-            final int up = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos,
-                Direction.UP, blockstate.getLightBlock(world, blockpos));
+        else
+        {
+            final int up = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
+                    blockstate.getLightBlock(world, blockpos));
             final int down = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate1, blockpos1,
-                Direction.DOWN, blockstate1.getLightBlock(world, blockpos1));
+                    Direction.DOWN, blockstate1.getLightBlock(world, blockpos1));
             final int north = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate2, blockpos2,
-                Direction.NORTH, blockstate2.getLightBlock(world, blockpos2));
+                    Direction.NORTH, blockstate2.getLightBlock(world, blockpos2));
             final int south = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate3, blockpos3,
-                Direction.SOUTH, blockstate3.getLightBlock(world, blockpos3));
+                    Direction.SOUTH, blockstate3.getLightBlock(world, blockpos3));
             final int east = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate4, blockpos4,
-                Direction.EAST, blockstate4.getLightBlock(world, blockpos4));
+                    Direction.EAST, blockstate4.getLightBlock(world, blockpos4));
             final int west = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate5, blockpos5,
-                Direction.WEST, blockstate5.getLightBlock(world, blockpos5));
+                    Direction.WEST, blockstate5.getLightBlock(world, blockpos5));
             if (state.getValue(DirectionalBlock.FACING) == Direction.UP) return up < world.getMaxLightLevel();
             else if (state.getValue(DirectionalBlock.FACING) == Direction.DOWN) return down < world.getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.NORTH) return north < world.getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.SOUTH) return south < world.getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.NORTH) return north < world
+                    .getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.SOUTH) return south < world
+                    .getMaxLightLevel();
             else if (state.getValue(DirectionalBlock.FACING) == Direction.EAST) return east < world.getMaxLightLevel();
             else return west < world.getMaxLightLevel();
         }
@@ -137,12 +147,14 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     @Override
     public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
-        if (!GrassDistorticBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE.get().defaultBlockState());
+        if (!GrassDistorticBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
+                .get().defaultBlockState());
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
     @Override
-    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
+            final BlockState state)
     {
         final BlockState blockstate1 = Blocks.GRASS.defaultBlockState();
         final BlockState blockstate = world.getBlockState(pos);
@@ -152,7 +164,8 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
-        } else if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
+        }
+        else if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
         {
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
@@ -161,25 +174,33 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
         }
 
         label48:
-        for(int i = 0; i < 128; ++i) {
+        for (int i = 0; i < 128; ++i)
+        {
             BlockPos blockpos1 = blockpos;
 
-            for(int i2 = 0; i2 < i / 16; ++i2) {
-                blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) continue label48;
+            for (int i2 = 0; i2 < i / 16; ++i2)
+            {
+                blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2,
+                        random.nextInt(3) - 1);
+                if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1)
+                        .isCollisionShapeFullBlock(world, blockpos1)) continue label48;
             }
 
             final BlockState blockstate2 = world.getBlockState(blockpos1);
-            if (blockstate2.is(blockstate1.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)blockstate1.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
+            if (blockstate2.is(blockstate1.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock) blockstate1
+                    .getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
 
-            if (blockstate2.isAir()) {
+            if (blockstate2.isAir())
+            {
                 BlockState blockstate3;
-                if (random.nextInt(8) == 0) {
-                    final List<ConfiguredFeature<?, ?>> features = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
+                if (random.nextInt(8) == 0)
+                {
+                    final List<ConfiguredFeature<?, ?>> features = world.getBiome(blockpos1).getGenerationSettings()
+                            .getFlowerFeatures();
                     if (features.isEmpty()) continue;
 
                     final ConfiguredFeature<?, ?> features2 = features.get(0);
-                    final AbstractFlowerFeature flowers = (AbstractFlowerFeature)features2.feature;
+                    final AbstractFlowerFeature flowers = (AbstractFlowerFeature) features2.feature;
                     blockstate3 = flowers.getRandomFlower(random, blockpos1, features2.config());
                 }
                 else blockstate3 = blockstate1;
@@ -197,34 +218,22 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public void stepOn(final Level world, final BlockPos pos, final Entity entity)
+    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
-        super.stepOn(world, pos, entity);
-        {
-            final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
-            $_dependencies.put("entity", entity);
-            GrassDistorticBlock.executeProcedure($_dependencies);
-        }
+        super.stepOn(world, pos, state, entity);
+        GrassDistorticBlock.executeProcedure(entity);
+
     }
 
-    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
+    public static void executeProcedure(final Entity entity)
     {
-        if (dependencies.get("entity") == null)
-        {
-            System.err.println("Failed to WalkBlockEffect!");
-            return;
-        }
-        final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
                 .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
-                        .getInventory().armor
-                                .get(
-                        2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                || ((Player) entity).getInventory().armor.get(1)
-                        .getItem() != new ItemStack(
-                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                || ((Player) entity).getInventory().armor.get(0)
-                        .getItem() != new ItemStack(
-                        ItemInit.ULTRA_BOOTS.get(), 1).getItem()) ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 2));
+                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
+                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
+                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
+                                                .getInventory().armor.get(0).getItem() != new ItemStack(
+                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 2));
     }
 }

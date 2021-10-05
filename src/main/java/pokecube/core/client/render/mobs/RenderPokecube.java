@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -88,7 +88,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
                     renderStack.hasFoil());
 
             final Minecraft mc = Minecraft.getInstance();
-            final BakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level, this.cube);
+            final BakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level, this.cube, 0);
             if (this.buffer != null) mc.getItemRenderer().render(renderStack, ItemTransforms.TransformType.GROUND,
                     false, mat, this.buffer, packedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
             else mc.getItemRenderer().renderModelLists(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
@@ -100,7 +100,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
 
     public static HashMap<ResourceLocation, EntityRenderer<EntityPokecube>> pokecubeRenderers = new HashMap<>();
 
-    public RenderPokecube(final EntityRenderDispatcher renderManager)
+    public RenderPokecube(final EntityRendererProvider.Context renderManager)
     {
         super(renderManager, new ModelPokecube(), 0);
     }

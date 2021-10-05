@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
+import thut.api.block.ITickTile;
 import net.minecraftforge.eventbus.api.EventPriority;
 
 public class TempBlock extends AirBlock implements EntityBlock
@@ -64,10 +65,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
             final BlockEntityType<T> type)
     {
-        return (l, p, s, tile) ->
-        {
-            if (tile instanceof TempTile) ((TempTile) tile).tick();
-        };
+        return ITickTile.getTicker(world, state, type);
     }
 
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)

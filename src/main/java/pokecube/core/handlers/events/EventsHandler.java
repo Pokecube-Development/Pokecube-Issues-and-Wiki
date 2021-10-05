@@ -261,7 +261,7 @@ public class EventsHandler
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (!swrld.tickingEntities)
+        if (!swrld.isHandlingTick())
         {
             // This will either run it now, or run it on main thread soon
             swrld.getServer().execute(() -> task.run(swrld));

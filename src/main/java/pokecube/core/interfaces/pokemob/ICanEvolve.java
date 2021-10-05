@@ -96,7 +96,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 if (old != null) old.setOwner((UUID) null);
                 this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
                 // Remove old mob
-                world.despawn(this.thisEntity);
+                world.removeEntity(this.thisEntity);
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
@@ -547,7 +547,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         if (this.getEntity().getCommandSenderWorld() instanceof ServerLevel)
         {
             final ServerLevel world = (ServerLevel) this.getEntity().getCommandSenderWorld();
-            return this.megaEvolve(newEntry, !world.tickingEntities);
+            return this.megaEvolve(newEntry, !world.isHandlingTick());
         }
         return this.megaEvolve(newEntry, true);
     }

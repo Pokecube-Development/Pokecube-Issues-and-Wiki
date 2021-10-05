@@ -25,11 +25,11 @@ import thut.core.common.network.Packet;
  */
 public class PacketPartInteract extends Packet
 {
-    int                             entityId;
-    boolean                         sneaking;
-    private Vec3                hitVec;
-    private ServerboundInteractPacket.Action action;
-    private InteractionHand                    hand;
+    int                                          entityId;
+    boolean                                      sneaking;
+    private Vec3                                 hitVec;
+    private ServerboundInteractPacket.ActionType action;
+    private InteractionHand                      hand;
 
     private String id;
 
@@ -41,25 +41,26 @@ public class PacketPartInteract extends Packet
     public PacketPartInteract(final String name, final Entity entityIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.Action.ATTACK;
+        this.action = ServerboundInteractPacket.ActionType.ATTACK;
         this.sneaking = sneak;
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn, final boolean sneak)
+    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
+            final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.Action.INTERACT;
+        this.action = ServerboundInteractPacket.ActionType.INTERACT;
         this.hand = handIn;
         this.sneaking = sneak;
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn, final Vec3 hitVecIn,
-            final boolean sneak)
+    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
+            final Vec3 hitVecIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.Action.INTERACT_AT;
+        this.action = ServerboundInteractPacket.ActionType.INTERACT_AT;
         this.hand = handIn;
         this.hitVec = hitVecIn;
         this.sneaking = sneak;
@@ -69,11 +70,12 @@ public class PacketPartInteract extends Packet
     public PacketPartInteract(final FriendlyByteBuf buf)
     {
         this.entityId = buf.readVarInt();
-        this.action = buf.readEnum(ServerboundInteractPacket.Action.class);
-        if (this.action == ServerboundInteractPacket.Action.INTERACT_AT) this.hitVec = new Vec3(buf.readFloat(), buf
+        this.action = buf.readEnum(ServerboundInteractPacket.ActionType.class);
+        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hitVec = new Vec3(buf.readFloat(), buf
                 .readFloat(), buf.readFloat());
-        if (this.action == ServerboundInteractPacket.Action.INTERACT || this.action == ServerboundInteractPacket.Action.INTERACT_AT)
-            this.hand = buf.readEnum(InteractionHand.class);
+        if (this.action == ServerboundInteractPacket.ActionType.INTERACT
+                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hand = buf.readEnum(
+                        InteractionHand.class);
         this.sneaking = buf.readBoolean();
         this.id = buf.readUtf(32767);
     }
@@ -83,14 +85,14 @@ public class PacketPartInteract extends Packet
     {
         buf.writeVarInt(this.entityId);
         buf.writeEnum(this.action);
-        if (this.action == ServerboundInteractPacket.Action.INTERACT_AT)
+        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT)
         {
             buf.writeFloat((float) this.hitVec.x);
             buf.writeFloat((float) this.hitVec.y);
             buf.writeFloat((float) this.hitVec.z);
         }
-        if (this.action == ServerboundInteractPacket.Action.INTERACT || this.action == ServerboundInteractPacket.Action.INTERACT_AT) buf
-                .writeEnum(this.hand);
+        if (this.action == ServerboundInteractPacket.ActionType.INTERACT
+                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) buf.writeEnum(this.hand);
         buf.writeBoolean(this.sneaking);
         buf.writeUtf(this.id);
     }
@@ -101,7 +103,7 @@ public class PacketPartInteract extends Packet
         return worldIn.getEntity(this.entityId);
     }
 
-    public ServerboundInteractPacket.Action getAction()
+    public ServerboundInteractPacket.ActionType getAction()
     {
         return this.action;
     }
@@ -152,16 +154,15 @@ public class PacketPartInteract extends Packet
                 final ItemStack itemstack = hand != null ? player.getItemInHand(hand).copy() : ItemStack.EMPTY;
                 Optional<InteractionResult> optional = Optional.empty();
 
-                if (this.getAction() == ServerboundInteractPacket.Action.INTERACT) optional = Optional.of(player.interactOn(
-                        entity, hand));
-                else if (this.getAction() == ServerboundInteractPacket.Action.INTERACT_AT)
+                if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT) optional = Optional.of(player
+                        .interactOn(entity, hand));
+                else if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT_AT)
                 {
                     if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, this.getHitVec(),
                             hand) != null) return;
                     optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }
-                else if (this.getAction() == ServerboundInteractPacket.Action.ATTACK) player.attack(
-                        entity);
+                else if (this.getAction() == ServerboundInteractPacket.ActionType.ATTACK) player.attack(entity);
 
                 if (optional.isPresent() && optional.get().consumesAction())
                 {

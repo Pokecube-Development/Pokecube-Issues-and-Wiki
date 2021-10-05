@@ -15,6 +15,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,6 +23,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -464,7 +466,7 @@ public class EventsHandlerClient
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
 
         final int zLevel = 300;
-        bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.vertex(left, bottom, zLevel).uv(0, 0).endVertex();
         bufferbuilder.vertex(right, bottom, zLevel).uv(1, 0).endVertex();
         bufferbuilder.vertex(right, top, zLevel).uv(1, 1).endVertex();
@@ -508,7 +510,7 @@ public class EventsHandlerClient
         if (pokemob instanceof DefaultPokemob) try
         {
             final DefaultPokemob poke = (DefaultPokemob) pokemob;
-            GeneRegistry.GENETICS_CAP.readNBT(poke.genes, null, genesTag);
+            poke.genes.deserializeNBT((ListTag) genesTag);
         }
         catch (final Exception e)
         {

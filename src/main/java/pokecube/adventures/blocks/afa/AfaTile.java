@@ -19,7 +19,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -36,12 +35,13 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
+import thut.api.block.ITickTile;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
-public class AfaTile extends InteractableTile implements TickingBlockEntity, IEnergyStorage, ContainerListener
+public class AfaTile extends InteractableTile implements ITickTile, IEnergyStorage, ContainerListener
 {
     public static final ResourceLocation SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
 
@@ -142,9 +142,9 @@ public class AfaTile extends InteractableTile implements TickingBlockEntity, IEn
 
     boolean noEnergyNeed = false;
 
-    public AfaTile()
+    public AfaTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.AFA_TYPE.get());
+        super(PokecubeAdv.AFA_TYPE.get(), pos, state);
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) this.getCapability(
@@ -249,9 +249,9 @@ public class AfaTile extends InteractableTile implements TickingBlockEntity, IEn
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(state, nbt);
+        super.load(nbt);
         this.energy = nbt.getInt("energy");
         this.noEnergyNeed = nbt.getBoolean("noEnergyNeed");
         this.shift = nbt.getIntArray("shift");
