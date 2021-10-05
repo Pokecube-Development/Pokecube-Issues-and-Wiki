@@ -163,7 +163,7 @@ public class BeeTasks
             {
                 final Level world = mob.getCommandSenderWorld();
                 final BlockState state = world.getBlockState(this.hive.getBlockPos());
-                if (state.getBlock().is(BlockTags.BEEHIVES))
+                if (state.is(BlockTags.BEEHIVES))
                 {
                     final int i = BeehiveBlockEntity.getHoneyLevel(state);
                     if (i < 5)

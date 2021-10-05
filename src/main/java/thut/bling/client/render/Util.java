@@ -3,12 +3,11 @@ package thut.bling.client.render;
 import java.awt.Color;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -30,19 +29,22 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
-                true, false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
-                        .setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true)).setAlphaState(
-                                new RenderStateShard.AlphaStateShard(
-                                0.003921569F)).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(new RenderStateShard.OverlayStateShard(true))
+        return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, true,
+                false, RenderType.CompositeState.builder().setShaderState(
+                        RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER).setTextureState(
+                                new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
+                                        new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                                        new RenderStateShard.OverlayStateShard(true))
                         .createCompositeState(false))
-                : RenderType.create("thutbling:bling_b", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
-                        false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc, true, false))
-                                .setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true))
-                                .setCullState(
-                                        new RenderStateShard.CullStateShard(false)).setLightmapState(new RenderStateShard.LightmapStateShard(true))
-                                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false));
+                : RenderType.create("thutbling:bling_b", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, true,
+                        false, RenderType.CompositeState.builder().setShaderState(
+                                RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER).setTextureState(
+                                        new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
+                                                new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                                                new RenderStateShard.OverlayStateShard(true))
+                                .createCompositeState(false));
     }
 
     static Map<String, IModel>             customModels   = Maps.newHashMap();

@@ -79,7 +79,7 @@ public class RecipeDye extends CustomRecipe
                 continue;
             }
             final Tag<Item> dyeTag = Tags.Items.DYES;
-            if (stack.getItem().is(dyeTag))
+            if (stack.is(dyeTag))
             {
                 dye = stack;
                 continue;
@@ -92,7 +92,7 @@ public class RecipeDye extends CustomRecipe
 
         final Map<DyeColor, Tag<Item>> tags = RecipeDye.getDyeTagMap();
         for (final DyeColor colour : DyeColor.values())
-            if (dye.getItem().is(tags.get(colour)))
+            if (dye.is(tags.get(colour)))
             {
                 dyeColour = colour;
                 break;
@@ -138,7 +138,7 @@ public class RecipeDye extends CustomRecipe
                 continue;
             }
             final Tag<Item> dyeTag = Tags.Items.DYES;
-            if (stack.getItem().is(dyeTag))
+            if (stack.is(dyeTag))
             {
                 if (dye) return false;
                 dye = true;

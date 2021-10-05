@@ -3,8 +3,6 @@ package thut.core.client.render.model.parts;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,6 +10,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -138,9 +137,11 @@ public class Material
         builder.setTransparencyState(Material.DEFAULTTRANSP);
 
         // Some materials are "emissive", so for those, we don't do this.
-        if (this.emissiveMagnitude == 0) builder.setDiffuseLightingState(RenderStateShard.DIFFUSE_LIGHTING);
         // Normal alpha
-        builder.setAlphaState(RenderStateShard.DEFAULT_ALPHA);
+        // FIXME Find what happened to alpha and emission, probably in shaders
+        // if (this.emissiveMagnitude == 0)
+        builder.setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
+        // builder.setAlphaState(RenderStateShard.DEFAULT_ALPHA);
 
         // These are needed in general for world lighting
         builder.setLightmapState(RenderStateShard.LIGHTMAP);
@@ -157,12 +158,12 @@ public class Material
         else builder.setCullState(RenderStateShard.NO_CULL);
 
         // Some models have extra bits that are not flat shaded, like coatings
-        if (!this.flat) builder.setShadeModelState(RenderStateShard.SMOOTH_SHADE);
+        if (!this.flat) builder.setShaderState(RenderStateShard.RENDERTYPE_CUTOUT_MIPPED_SHADER);
         final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
 
         final String id = this.render_name + tex;
-        final RenderType type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256, true,
-                false, rendertype$state);
+        final RenderType type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256,
+                true, false, rendertype$state);
 
         this.types.put(tex, type);
         return type;

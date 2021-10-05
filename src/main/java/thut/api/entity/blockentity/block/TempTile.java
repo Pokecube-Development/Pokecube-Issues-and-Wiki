@@ -1,5 +1,6 @@
 package thut.api.entity.blockentity.block;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerPlayer;
@@ -7,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.maths.Vector3;
 
-public class TempTile extends BlockEntity implements TickingBlockEntity
+public class TempTile extends BlockEntity
 {
     public static BlockEntityType<TempTile> TYPE;
 
@@ -27,17 +27,17 @@ public class TempTile extends BlockEntity implements TickingBlockEntity
 
     public VoxelShape shape = null;
 
-    public TempTile()
+    public TempTile(final BlockPos pos, final BlockState state)
     {
-        super(TempTile.TYPE);
+        super(TempTile.TYPE, pos, state);
     }
 
-    public TempTile(final BlockEntityBase blockEntity)
+    public TempTile(final BlockEntityBase blockEntity, final BlockPos pos, final BlockState state)
     {
-        super(TempTile.TYPE);
+        this(pos, state);
+        this.blockEntity = blockEntity;
     }
 
-    @Override
     public void tick()
     {
         if (this.blockEntity != null && !this.blockEntity.isAddedToWorld()) this.shape = null;
@@ -49,11 +49,11 @@ public class TempTile extends BlockEntity implements TickingBlockEntity
             final BlockState real = this.getBlockState();
             if (fake != null)
             {
-                final int lightR = real.getLightValue(this.getLevel(), this.getBlockPos());
+                final int lightR = real.getLightEmission(this.getLevel(), this.getBlockPos());
                 @SuppressWarnings("deprecation")
                 final int lightF = fake.getLightEmission();
-                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL,
-                        lightF));
+                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(
+                        TempBlock.LIGHTLEVEL, lightF));
             }
         }
     }
@@ -94,7 +94,8 @@ public class TempTile extends BlockEntity implements TickingBlockEntity
         final boolean isPlayer = entityIn instanceof Player;
         if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
 
-        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds().intersects(box))
+        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds()
+                .intersects(box))
         {
             final Vec3 bv = this.blockEntity.getDeltaMovement();
             final Vec3 dr = new Vec3(0, top - entityIn.getY(), 0);
@@ -122,8 +123,7 @@ public class TempTile extends BlockEntity implements TickingBlockEntity
         {
             final Vector3 r = Vector3.getNewVector().set(this.worldPosition);
             final VoxelShape shape = this.blockEntity.collider.buildShape();
-            if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x,
-                    -r.y, -r.z), BooleanOp.AND);
+            if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x, -r.y, -r.z), BooleanOp.AND);
         }
         this.shape = ret;
         return ret;

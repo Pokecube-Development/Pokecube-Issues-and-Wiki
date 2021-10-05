@@ -242,10 +242,9 @@ public final class SpawnHandler
         if (!SpawnHandler.canSpawn(entry.getSpawnData(), location, world, true)) return false;
         final EntityType<?> entityTypeIn = entry.getEntityType();
         if (entityTypeIn == null) return false;
-        if (NaturalSpawner.canSpawnAtBody(Type.ON_GROUND, world, location.getPos(), entityTypeIn))
+        if (NaturalSpawner.canSpawnAtBody(Type.ON_GROUND, world, location.getPos(), entityTypeIn)) return true;
+        if (entry.swims()) if (NaturalSpawner.canSpawnAtBody(Type.IN_WATER, world, location.getPos(), entityTypeIn))
             return true;
-        if (entry.swims()) if (NaturalSpawner.canSpawnAtBody(Type.IN_WATER, world, location.getPos(),
-                entityTypeIn)) return true;
         return false;
     }
 
@@ -289,9 +288,8 @@ public final class SpawnHandler
         SpawnHandler.forbidReasons.clear();
     }
 
-    public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final double posX,
-            final double posY, final double posZ, final Vector3 spawnPoint, final SpawnData entry,
-            final SpawnBiomeMatcher matcher)
+    public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final double posX, final double posY,
+            final double posZ, final Vector3 spawnPoint, final SpawnData entry, final SpawnBiomeMatcher matcher)
     {
         final BaseSpawner spawner = new BaseSpawner()
         {
@@ -354,7 +352,8 @@ public final class SpawnHandler
         return entry == null ? ForbidReason.NONE : entry.reason;
     }
 
-    private static BlockPos getRandomHeight(final Level worldIn, final LevelChunk chunk, final int yCenter, final int dy)
+    private static BlockPos getRandomHeight(final Level worldIn, final LevelChunk chunk, final int yCenter,
+            final int dy)
     {
         final ChunkPos chunkpos = chunk.getPos();
         final int x = chunkpos.getMinBlockX() + worldIn.random.nextInt(16);
@@ -443,7 +442,7 @@ public final class SpawnHandler
             variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
             spawnLevel = variance.apply(spawnLevel);
         }
-        final SpawnEvent.Level event = new SpawnEvent.Level(pokemon, location, world, spawnLevel, variance);
+        final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemon, location, world, spawnLevel, variance);
         PokecubeCore.POKEMOB_BUS.post(event);
         return event.getLevel();
     }
@@ -754,8 +753,7 @@ public final class SpawnHandler
      * @param maxSpawnRadius
      * @return number of mobs spawned.
      */
-    public void doSpawnForPlayer(final Player player, final ServerLevel world, final int minRadius,
-            final int maxRadius)
+    public void doSpawnForPlayer(final Player player, final ServerLevel world, final int minRadius, final int maxRadius)
     {
         final Vector3 v = Vector3.getNewVector();
         v.set(player);

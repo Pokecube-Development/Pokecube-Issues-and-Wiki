@@ -5,8 +5,8 @@ import java.util.Random;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -22,8 +22,8 @@ public class ClientBot
 
     private static void onClientTick(final ClientTickEvent event)
     {
-        final World world = Minecraft.getInstance().level;
-        final PlayerEntity player = Minecraft.getInstance().player;
+        final Level world = Minecraft.getInstance().level;
+        final Player player = Minecraft.getInstance().player;
         if (world == null || player == null || world.isClientSide) return;
         final long timer = world.getGameTime() / 1000;
         final Random rng = new Random(timer * 213787354 + timer * timer * 123471753736l);

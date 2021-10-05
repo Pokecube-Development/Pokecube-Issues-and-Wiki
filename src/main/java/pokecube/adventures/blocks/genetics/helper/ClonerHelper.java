@@ -31,6 +31,7 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
+import thut.core.common.genetics.DefaultGenetics;
 
 public class ClonerHelper
 {
@@ -118,15 +119,15 @@ public class ClonerHelper
                         "V")) return null;
                 final Tag genes = poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS
                         .toString()).get("V");
-                final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-                GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+                final IMobGenetics eggs = new DefaultGenetics();
+                eggs.deserializeNBT((ListTag) genes);
                 return eggs;
             }
             return null;
         }
         final Tag genes = nbt.get(GeneticsManager.GENES);
-        final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-        GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+        final IMobGenetics eggs = new DefaultGenetics();
+        eggs.deserializeNBT((ListTag) genes);
         if (eggs.getAlleles().isEmpty()) return null;
         return eggs;
     }
@@ -212,7 +213,7 @@ public class ClonerHelper
             final boolean force)
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
-        if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        if (eggs == null) eggs = new DefaultGenetics();
         for (final ResourceLocation loc : genesIn.getKeys())
             ClonerHelper.merge(genesIn, eggs, selector, loc);
         ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
@@ -228,7 +229,7 @@ public class ClonerHelper
         if (stack.isEmpty() || !stack.hasTag()) return;
         MinecraftForge.EVENT_BUS.post(new GeneEditEvent(genes, reason));
         final CompoundTag nbt = stack.getTag();
-        final Tag geneTag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, genes, null);
+        final Tag geneTag = genes.serializeNBT();
         if (PokecubeManager.isFilled(stack))
         {
             final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
@@ -259,7 +260,7 @@ public class ClonerHelper
             final IGeneSelector selector)
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
-        if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        if (eggs == null) eggs = new DefaultGenetics();
         ClonerHelper.setGenes(destination, genesIn, EditType.EXTRACT);
         for (final ResourceLocation loc : genesIn.getKeys())
             ClonerHelper.splice(genesIn, eggs, selector, loc);

@@ -1,11 +1,10 @@
 package thut.core.client.render.particle;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -33,7 +32,7 @@ public class ParticleFactories
         public void begin(final BufferBuilder builder, final TextureManager textures)
         {
             textures.bindForSetup(ParticleBase.TEXTUREMAP);
-            builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         @Override
@@ -80,8 +79,7 @@ public class ParticleFactories
         }
 
         @Override
-        public void render(final VertexConsumer buffer, final Camera renderInfo,
-                final float partialTicks)
+        public void render(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks)
         {
             final Vec3 vec3d = renderInfo.getPosition();
             final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x);

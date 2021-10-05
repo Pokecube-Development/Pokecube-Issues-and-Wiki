@@ -114,7 +114,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.noPhysics = true;
             ICopyMob.copyEntityTransforms(living, holder);
             ICopyMob.copyPositions(living, holder);
-            living.setLevel(holder.level);
+            living.level = holder.level;
 
             if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
             {
@@ -134,9 +134,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yo = from.yo;
         to.zo = from.zo;
 
-        to.xChunk = from.xChunk;
-        to.yChunk = from.yChunk;
-        to.zChunk = from.zChunk;
+        to.levelCallback = from.levelCallback;
 
         to.setPos(from.getX(), from.getY(), from.getZ());
         to.setDeltaMovement(from.getDeltaMovement());

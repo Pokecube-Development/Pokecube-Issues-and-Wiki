@@ -1,12 +1,9 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.items.UsableItemEffects;
@@ -19,23 +16,7 @@ public interface IPokemobUseable
 
     }
 
-    public static class Storage implements Capability.IStorage<IPokemobUseable>
-    {
-
-        @Override
-        public void readNBT(Capability<IPokemobUseable> capability, IPokemobUseable instance, Direction side, Tag nbt)
-        {
-        }
-
-        @Override
-        public Tag writeNBT(Capability<IPokemobUseable> capability, IPokemobUseable instance, Direction side)
-        {
-            return null;
-        }
-
-    }
-
-    public static IPokemobUseable getUsableFor(ICapabilityProvider objectIn)
+    public static IPokemobUseable getUsableFor(final ICapabilityProvider objectIn)
     {
         if (objectIn == null) return null;
         final IPokemobUseable pokemobHolder = objectIn.getCapability(UsableItemEffects.USABLEITEM_CAP, null).orElse(
@@ -52,7 +33,7 @@ public interface IPokemobUseable
      * @param stack
      * @return
      */
-    public default InteractionResultHolder<ItemStack> onMoveTick(IPokemob attacker, ItemStack stack, MovePacket moveuse)
+    public default InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack, final MovePacket moveuse)
     {
         return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
@@ -65,7 +46,7 @@ public interface IPokemobUseable
      * @param stack
      * @return something happened
      */
-    public default InteractionResultHolder<ItemStack> onTick(IPokemob pokemob, ItemStack stack)
+    public default InteractionResultHolder<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
     {
         return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
@@ -80,7 +61,7 @@ public interface IPokemobUseable
      * @param stack
      * @return something happened
      */
-    public default InteractionResultHolder<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+    public default InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
     {
         return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }

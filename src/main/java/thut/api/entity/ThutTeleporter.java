@@ -105,8 +105,8 @@ public class ThutTeleporter
             if (pos != null)
             {
                 this.loc = pos;
-                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc.pos()
-                        .getZ() + 0.5);
+                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
+                        .pos().getZ() + 0.5);
                 this.name = "";
             }
             return this;
@@ -164,8 +164,8 @@ public class ThutTeleporter
 
         public Component getInfoName()
         {
-            return new TranslatableComponent("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(),
-                    this.loc.pos().getZ(), this.loc.dimension().location());
+            return new TranslatableComponent("teledest.location", this.loc.pos().getX(), this.loc.pos().getY(), this.loc
+                    .pos().getZ(), this.loc.dimension().location());
         }
 
         public boolean withinDist(final TeleDest other, final double dist)
@@ -219,8 +219,8 @@ public class ThutTeleporter
             this.dest = dest;
             this.sound = sound;
             this.destWorld = destWorld;
-            final boolean inTick = destWorld.tickingEntities || ((ServerLevel) entity
-                    .getCommandSenderWorld()).tickingEntities;
+            final boolean inTick = destWorld.isHandlingTick() || ((ServerLevel) entity.getCommandSenderWorld())
+                    .isHandlingTick();
             if (inTick) MinecraftForge.EVENT_BUS.register(this);
             else if (entity instanceof ServerPlayer)
             {
@@ -229,8 +229,8 @@ public class ThutTeleporter
                 player.teleportTo(destWorld, dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.yRot, entity.xRot);
                 if (sound)
                 {
-                    destWorld.playLocalSound(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z,
-                            SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                    destWorld.playLocalSound(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, SoundEvents.ENDERMAN_TELEPORT,
+                            SoundSource.BLOCKS, 1.0F, 1.0F, false);
                     player.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
                 player.isChangingDimension = false;
@@ -257,7 +257,8 @@ public class ThutTeleporter
                 {
                     final ServerPlayer player = (ServerPlayer) this.entity;
                     player.isChangingDimension = true;
-                    player.teleportTo(this.destWorld, this.dest.subLoc.x, this.dest.subLoc.y, this.dest.subLoc.z, this.entity.yRot, this.entity.xRot);
+                    player.teleportTo(this.destWorld, this.dest.subLoc.x, this.dest.subLoc.y, this.dest.subLoc.z,
+                            this.entity.yRot, this.entity.xRot);
                     if (this.sound)
                     {
                         this.destWorld.playLocalSound(this.dest.subLoc.x, this.dest.subLoc.y, this.dest.subLoc.z,
@@ -366,7 +367,7 @@ public class ThutTeleporter
         ThutTeleporter.removeMob(serverworld, entity, true);
         entity.revive();
         entity.moveTo(dest.subLoc.x, dest.subLoc.y, dest.subLoc.z, entity.yRot, entity.xRot);
-        entity.setLevel(destWorld);
+        entity.level = destWorld;
         ThutTeleporter.addMob(destWorld, entity);
         if (player != null)
         {
@@ -379,15 +380,14 @@ public class ThutTeleporter
     private static void addMob(final ServerLevel world, final Entity entity)
     {
         if (MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world))) return;
-        final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ()
-                / 16.0D), ChunkStatus.FULL, true);
+        final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ() / 16.0D),
+                ChunkStatus.FULL, true);
         if (ichunk instanceof LevelChunk) ichunk.addEntity(entity);
-        world.loadFromChunk(entity);
+        world.addDuringTeleport(entity);
     }
 
     private static void removeMob(final ServerLevel world, final Entity entity, final boolean keepData)
     {
-        entity.remove(keepData);
         world.removeEntity(entity, keepData);
     }
 

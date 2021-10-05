@@ -3,7 +3,6 @@ package thut.api.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,7 +14,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -108,26 +106,6 @@ public class BreedableCaps
         }
     }
 
-    public static class Storage implements Capability.IStorage<IBreedingMob>
-    {
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        @Override
-        public void readNBT(final Capability<IBreedingMob> capability, final IBreedingMob instance,
-                final Direction side, final Tag nbt)
-        {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IBreedingMob> capability, final IBreedingMob instance,
-                final Direction side)
-        {
-            if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
-                    .serializeNBT();
-            return null;
-        }
-    }
-
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:breedable_wrap");
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -148,7 +126,7 @@ public class BreedableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IBreedingMob.class, new Storage(), Impl::new);
+        CapabilityManager.INSTANCE.register(IBreedingMob.class);
         MinecraftForge.EVENT_BUS.register(BreedableCaps.class);
     }
 }

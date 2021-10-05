@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -476,7 +477,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             if (passenger.isShiftKeyDown()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
             passenger.setOnGround(true);
-            passenger.causeFallDamage(passenger.fallDistance, 0);
+            passenger.causeFallDamage(passenger.fallDistance, 0, DamageSource.GENERIC);
             passenger.fallDistance = 0;
             if (passenger instanceof ServerPlayer)
             {
@@ -487,7 +488,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public boolean causeFallDamage(final float distance, final float damageMultiplier)
+    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
     {
         // Do nothing here, the supoer method will call this to all passengers
         // as well!

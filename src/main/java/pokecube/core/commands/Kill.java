@@ -1,7 +1,5 @@
 package pokecube.core.commands;
 
-import java.util.stream.Stream;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -11,6 +9,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -40,9 +39,9 @@ public class Kill
             throws CommandSyntaxException
     {
         final ServerLevel world = source.getLevel();
-        final Stream<Entity> mobs = world.getEntities();
+        final LevelEntityGetter<Entity> mobs = world.getEntities();
         int count1 = 0;
-        for (final Object o : mobs.toArray())
+        for (final Object o : mobs.getAll())
         {
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)

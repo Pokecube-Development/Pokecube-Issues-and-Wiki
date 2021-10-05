@@ -32,7 +32,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -58,7 +57,6 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -103,9 +101,7 @@ public class AnimationGui extends Screen
                 {
                     final DefaultPokemob from = (DefaultPokemob) realMob;
                     final DefaultPokemob to = (DefaultPokemob) ret;
-                    final Tag tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP,
-                            from.genes, null);
-                    GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, to.genes, null, tag);
+                    to.genes.deserializeNBT(from.genes.serializeNBT());
                 }
                 if (!realMob.getPokedexEntry().stock)
                 {
@@ -633,14 +629,15 @@ public class AnimationGui extends Screen
 
         int dy = -120;
 
-        final Button iconBtn = this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, icons, b ->
-        {
-            this.doneLocs.clear();
-            this.entries.clear();
-            this.entryIndex = 0;
-            this.cap = !this.cap;
-            b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
-        }));
+        final Button iconBtn = this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20,
+                icons, b ->
+                {
+                    this.doneLocs.clear();
+                    this.entries.clear();
+                    this.entryIndex = 0;
+                    this.cap = !this.cap;
+                    b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
+                }));
         iconBtn.setFGColor(0xFFFF0000);
         dy += 20;
         this.addRenderableWidget(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, up, b ->
@@ -746,8 +743,8 @@ public class AnimationGui extends Screen
             this.bg = !this.bg;
         }));
         dy += 40;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, new TextComponent("WRTSIZE"),
-                b ->
+        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, new TextComponent(
+                "WRTSIZE"), b ->
                 {
                     AnimationGui.printSizes();
                 }));

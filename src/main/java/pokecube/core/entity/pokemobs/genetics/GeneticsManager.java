@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -36,20 +37,20 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
+import thut.core.common.genetics.DefaultGenetics;
 
 public class GeneticsManager
 {
     public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
-        public final IMobGenetics                wrapped = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        public final IMobGenetics                wrapped = new DefaultGenetics();
         private final LazyOptional<IMobGenetics> holder  = LazyOptional.of(() -> this.wrapped);
 
         @Override
         public void deserializeNBT(final CompoundTag tag)
         {
             final Tag nbt = tag.get("V");
-            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, this.holder.orElse(null), null,
-                    nbt);
+            this.wrapped.deserializeNBT((ListTag) nbt);
         }
 
         @Override
@@ -61,8 +62,7 @@ public class GeneticsManager
         @Override
         public CompoundTag serializeNBT()
         {
-            final Tag nbt = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, this.holder
-                    .orElse(null), null);
+            final Tag nbt = this.wrapped.serializeNBT();
             final CompoundTag tag = new CompoundTag();
             tag.put("V", nbt);
             return tag;

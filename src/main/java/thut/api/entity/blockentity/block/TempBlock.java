@@ -9,8 +9,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -27,15 +30,15 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 
-public class TempBlock extends AirBlock
+public class TempBlock extends AirBlock implements EntityBlock
 {
     public static final IntegerProperty LIGHTLEVEL  = IntegerProperty.create("light", 0, 15);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of(Material.AIR).noDrops().isRedstoneConductor(TempBlock::solidCheck)
-                .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(BlockBehaviour.Properties.of(Material.AIR).noDrops().isRedstoneConductor(
+                TempBlock::solidCheck).dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
@@ -49,6 +52,22 @@ public class TempBlock extends AirBlock
         this.registerDefaultState(this.stateDefinition.any().setValue(TempBlock.LIGHTLEVEL, 0).setValue(
                 TempBlock.WATERLOGGED, false));
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    {
+        return new TempTile(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
+    {
+        return (l, p, s, tile) ->
+        {
+            if (tile instanceof TempTile) ((TempTile) tile).tick();
+        };
     }
 
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
@@ -75,18 +94,6 @@ public class TempBlock extends AirBlock
         }
     }
 
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
-    }
-
-    @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
-    {
-        return new TempTile();
-    }
-
     /**
      * The type of render function called. MODEL for mixed tesr and static
      * model, MODELBLOCK_ANIMATED for TESR-only,
@@ -103,8 +110,8 @@ public class TempBlock extends AirBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TempTile)
@@ -129,8 +136,7 @@ public class TempBlock extends AirBlock
     }
 
     @Override
-    public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos,
-            final Entity entityIn)
+    public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos, final Entity entityIn)
     {
         final BlockEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);

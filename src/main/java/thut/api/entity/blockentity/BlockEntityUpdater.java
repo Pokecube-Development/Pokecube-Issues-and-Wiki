@@ -442,7 +442,7 @@ public class BlockEntityUpdater
 
                     // TODO rotate here by entity rotation.
                     final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
-                    if (tile != null) tile.setLevelAndPosition(world, pos.immutable());
+                    if (tile != null) tile.setLevel(world);
                     if (tile instanceof TickingBlockEntity)
                     {
                         if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;

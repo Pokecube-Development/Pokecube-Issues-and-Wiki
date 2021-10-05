@@ -12,7 +12,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -29,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.Config;
@@ -1276,27 +1274,4 @@ public class CapabilityHasPokemobs
 
         }
     }
-
-    public static class Storage implements Capability.IStorage<IHasPokemobs>
-    {
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        @Override
-        public void readNBT(final Capability<IHasPokemobs> capability, final IHasPokemobs instance,
-                final Direction side, final Tag base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IHasPokemobs> capability, final IHasPokemobs instance,
-                final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
-
-    }
-
-    public static Storage storage;
 }

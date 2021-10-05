@@ -101,25 +101,6 @@ public class WormholeSpawns implements IWorldTickListener
 
     }
 
-    public static class Storage implements Capability.IStorage<IWormholeWorld>
-    {
-
-        @Override
-        public void readNBT(final Capability<IWormholeWorld> capability, final IWormholeWorld instance,
-                final Direction side, final Tag nbt)
-        {
-            if (nbt instanceof CompoundTag) instance.deserializeNBT((CompoundTag) nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IWormholeWorld> capability, final IWormholeWorld instance,
-                final Direction side)
-        {
-            return instance.serializeNBT();
-        }
-
-    }
-
     @CapabilityInject(IWormholeWorld.class)
     public static final Capability<IWormholeWorld> WORMHOLES_CAP = null;
 
@@ -136,7 +117,7 @@ public class WormholeSpawns implements IWorldTickListener
 
     public static void init()
     {
-        CapabilityManager.INSTANCE.register(IWormholeWorld.class, new Storage(), Wormholes::new);
+        CapabilityManager.INSTANCE.register(IWormholeWorld.class);
 
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
         MinecraftForge.EVENT_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);

@@ -11,7 +11,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -146,25 +145,6 @@ public class CapabilityAffected
             for (final IOngoingEffect effect : stale)
                 this.removeEffect(effect);
         }
-    }
-
-    public static class Storage implements Capability.IStorage<IOngoingAffected>
-    {
-
-        @Override
-        public void readNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
-                final Direction side, final Tag nbt)
-        {
-            if (nbt instanceof ListTag) instance.deserializeNBT((ListTag) nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
-                final Direction side)
-        {
-            return instance.serializeNBT();
-        }
-
     }
 
     public static boolean addEffect(final Entity mob, final IOngoingEffect effect)

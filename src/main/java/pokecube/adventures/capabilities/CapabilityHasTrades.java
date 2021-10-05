@@ -6,14 +6,12 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class CapabilityHasTrades
@@ -97,28 +95,6 @@ public class CapabilityHasTrades
         }
 
     }
-
-    public static class Storage implements Capability.IStorage<IHasTrades>
-    {
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        @Override
-        public void readNBT(final Capability<IHasTrades> capability, final IHasTrades instance, final Direction side,
-                final Tag base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IHasTrades> capability, final IHasTrades instance, final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
-
-    }
-
-    public static Storage storage;
 
     public static interface IHasTrades
     {

@@ -26,16 +26,19 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
+import thut.crafts.Reference;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
@@ -47,6 +50,16 @@ public class ClientProxy extends CommonProxy
     KeyMapping DOWN;
     KeyMapping ROTATERIGHT;
     KeyMapping ROTATELEFT;
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void registerRenderers(final RegisterRenderers event)
+        {
+            event.registerEntityRenderer(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
+        }
+    }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
@@ -92,12 +105,13 @@ public class ClientProxy extends CommonProxy
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player
-                        .getViewVector(event.getPartialTicks()));
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getViewVector(
+                        event.getPartialTicks()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
-                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos().getZ());
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos()
+                            .getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
@@ -183,7 +197,5 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.DOWN);
         ClientRegistry.registerKeyBinding(this.ROTATELEFT);
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
-
-        RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
     }
 }

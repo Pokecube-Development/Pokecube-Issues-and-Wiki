@@ -23,7 +23,7 @@ public class TerrainUpdate extends NBTPacket
         if (!world.isAreaLoaded(pos.getWorldPosition(), 0)) return;
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_CAP, null).orElse(
                 null);
-        final CompoundTag terrainData = (CompoundTag) ThutCaps.TERRAIN_CAP.writeNBT(provider, null);
+        final CompoundTag terrainData = provider.serializeNBT();
         terrainData.putInt("c_x", pos.x);
         terrainData.putInt("c_z", pos.z);
         final TerrainUpdate message = new TerrainUpdate(terrainData);
@@ -53,6 +53,6 @@ public class TerrainUpdate extends NBTPacket
         final CompoundTag nbt = this.tag;
         final LevelChunk chunk = world.getChunk(nbt.getInt("c_x"), nbt.getInt("c_z"));
         final ITerrainProvider terrain = chunk.getCapability(ThutCaps.TERRAIN_CAP, null).orElse(null);
-        ThutCaps.TERRAIN_CAP.readNBT(terrain, null, nbt);
+        terrain.deserializeNBT(this.tag);
     }
 }

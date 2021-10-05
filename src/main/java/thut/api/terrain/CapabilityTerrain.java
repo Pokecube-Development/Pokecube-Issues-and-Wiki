@@ -181,7 +181,7 @@ public class CapabilityTerrain
 
     }
 
-    public static interface ITerrainProvider
+    public static interface ITerrainProvider extends INBTSerializable<CompoundTag>
     {
         BlockPos getChunkPos();
 

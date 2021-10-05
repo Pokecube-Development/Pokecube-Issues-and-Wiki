@@ -1,15 +1,11 @@
 package pokecube.core.init;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.Tag;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.WorldgenHandler;
@@ -18,19 +14,9 @@ import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
-import pokecube.core.interfaces.capabilities.CapabilityAffected;
-import pokecube.core.interfaces.capabilities.CapabilityAffected.DefaultAffected;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitable.NotHabitat;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitor;
-import pokecube.core.interfaces.capabilities.CapabilityInhabitor.NotInhabitor;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.items.megastuff.IMegaCapability;
-import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.moves.zmoves.CapabilityZMove;
 import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -49,31 +35,14 @@ public class SetupHandler
         EventsHandler.register();
 
         // Initialize the capabilities.
-        CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),
-                GuardAICapability::new);
-        CapabilityManager.INSTANCE.register(IPokemob.class, new CapabilityPokemob.Storage(), DefaultPokemob::new);
-        CapabilityManager.INSTANCE.register(IOngoingAffected.class, new CapabilityAffected.Storage(),
-                DefaultAffected::new);
-        CapabilityManager.INSTANCE.register(ZPower.class, new CapabilityZMove.Storage(), CapabilityZMove.Impl::new);
-        CapabilityManager.INSTANCE.register(IMegaCapability.class, new Capability.IStorage<IMegaCapability>()
-        {
-            @Override
-            public void readNBT(final Capability<IMegaCapability> capability, final IMegaCapability instance,
-                    final Direction side, final Tag nbt)
-            {
-            }
-
-            @Override
-            public Tag writeNBT(final Capability<IMegaCapability> capability, final IMegaCapability instance,
-                    final Direction side)
-            {
-                return null;
-            }
-        }, MegaCapability.Default::new);
-        CapabilityManager.INSTANCE.register(IPokemobUseable.class, new IPokemobUseable.Storage(),
-                IPokemobUseable.Default::new);
-        CapabilityManager.INSTANCE.register(IInhabitable.class, new CapabilityInhabitable.Storage(), NotHabitat::new);
-        CapabilityManager.INSTANCE.register(IInhabitor.class, new CapabilityInhabitor.Storage(), NotInhabitor::new);
+        CapabilityManager.INSTANCE.register(IGuardAICapability.class);
+        CapabilityManager.INSTANCE.register(IPokemob.class);
+        CapabilityManager.INSTANCE.register(IOngoingAffected.class);
+        CapabilityManager.INSTANCE.register(ZPower.class);
+        CapabilityManager.INSTANCE.register(IMegaCapability.class);
+        CapabilityManager.INSTANCE.register(IPokemobUseable.class);
+        CapabilityManager.INSTANCE.register(IInhabitable.class);
+        CapabilityManager.INSTANCE.register(IInhabitor.class);
 
         // Register terrain effects
         TerrainSegment.terrainEffectClasses.add(PokemobTerrainEffects.class);

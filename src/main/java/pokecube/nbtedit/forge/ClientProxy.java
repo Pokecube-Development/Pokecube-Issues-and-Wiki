@@ -18,6 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.gui.GuiEditNBTTree;

@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +22,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -33,22 +31,6 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
 {
     public interface IShoulderHolder
     {
-        public static Capability.IStorage<IShoulderHolder> STORAGE = new Capability.IStorage<IShoulderHolder>()
-        {
-            @Override
-            public Tag writeNBT(final Capability<IShoulderHolder> capability, final IShoulderHolder instance,
-                    final Direction side)
-            {
-                return null;
-            }
-
-            @Override
-            public void readNBT(final Capability<IShoulderHolder> capability, final IShoulderHolder instance,
-                    final Direction side, final Tag nbt)
-            {
-            }
-        };
-
         IPokemob getLeft();
 
         IPokemob getRight();

@@ -330,7 +330,7 @@ public class EntityPokemob extends PokemobRidable
                     variance, overrideLevel);
             else
             {
-                final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), loc, this.level,
+                final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), loc, this.level,
                         overrideLevel, variance);
                 PokecubeCore.POKEMOB_BUS.post(event);
                 level = event.getLevel();

@@ -62,11 +62,9 @@ import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.config.Config;
-import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.handlers.ConfigHandler;
 import thut.core.common.mobs.DefaultColourable;
-import thut.core.common.mobs.DefaultColourableStorage;
 import thut.core.common.network.CapabilitySync;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
@@ -304,13 +302,11 @@ public class ThutCore
 
         CapabilityTerrainAffected.init();
         // Register genetics
-        CapabilityManager.INSTANCE.register(IMobGenetics.class, new DefaultGeneStorage(), DefaultGenetics::new);
+        CapabilityManager.INSTANCE.register(IMobGenetics.class);
         // Register colourable
-        CapabilityManager.INSTANCE.register(IMobColourable.class, new DefaultColourableStorage(),
-                DefaultColourable::new);
+        CapabilityManager.INSTANCE.register(IMobColourable.class);
         // Register texturable
-        CapabilityManager.INSTANCE.register(IMobTexturable.class, new IMobTexturable.Storage(),
-                IMobTexturable.Defaults::new);
+        CapabilityManager.INSTANCE.register(IMobTexturable.class);
 
         OwnableCaps.setup();
         LinkableCaps.setup();
@@ -320,23 +316,9 @@ public class ThutCore
         CopyCaps.setup();
 
         // Register terrain capabilies
-        CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),
-                CapabilityTerrain.DefaultProvider::new);
+        CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class);
         // Datasync capability
-        CapabilityManager.INSTANCE.register(DataSync.class, new Capability.IStorage<DataSync>()
-        {
-            @Override
-            public void readNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side,
-                    final Tag nbt)
-            {
-            }
-
-            @Override
-            public Tag writeNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side)
-            {
-                return null;
-            }
-        }, DataSync_Impl::new);
+        CapabilityManager.INSTANCE.register(DataSync.class);
 
         ThutCore.proxy.setup(event);
 

@@ -56,7 +56,7 @@ public class TileNBTPacket extends NBTPacket
         final BlockEntity te = player.level.getBlockEntity(this.pos);
         if (te != null && NBTEdit.proxy.checkPermission(player)) try
         {
-            te.load(player.level.getBlockState(this.pos), this.getTag());
+            te.load(this.getTag());
             te.setChanged();// Ensures changes gets saved to disk later on.
             if (te.hasLevel() && te.getLevel() instanceof ServerLevel) ((ServerLevel) te.getLevel()).getChunkSource()
                     .blockChanged(this.pos);

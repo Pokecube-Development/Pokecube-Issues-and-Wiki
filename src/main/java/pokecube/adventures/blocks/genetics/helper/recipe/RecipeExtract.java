@@ -24,8 +24,8 @@ import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.entity.genetics.Alleles;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.genetics.DefaultGenetics;
 
 public class RecipeExtract extends PoweredRecipe
 {
@@ -98,7 +98,7 @@ public class RecipeExtract extends PoweredRecipe
                 {
                     final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
                     final Alleles<?, ?> alleles = pack.alleles;
-                    genes = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+                    genes = new DefaultGenetics();
                     genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
                     forcedGenes = true;
                     if (pack.chance > Math.random()) break source;

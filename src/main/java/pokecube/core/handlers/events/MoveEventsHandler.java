@@ -174,8 +174,9 @@ public class MoveEventsHandler
         if (!items.isEmpty())
         {
             boolean smelt = false;
-            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity();
-            tile.setLevelAndPosition(world, location.getPos());
+            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(location.getPos(), location.getBlockState(
+                    world));
+            tile.setLevel(world);
             for (final ItemEntity item2 : items)
             {
                 final ItemEntity item = item2;
@@ -183,8 +184,8 @@ public class MoveEventsHandler
                 final int num = stack.getCount();
                 tile.setItem(0, stack);
                 tile.setItem(1, stack);
-                final Recipe<?> irecipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world).orElse(
-                        null);
+                final Recipe<?> irecipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world)
+                        .orElse(null);
                 if (irecipe == null) continue;
                 ItemStack newstack = irecipe.getResultItem();
                 if (newstack != null)
@@ -249,8 +250,8 @@ public class MoveEventsHandler
             return false;
         }
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getCommandSenderWorld(), location.intX(), location
-                .intY(), location.intZ()) == ForbidReason.REPEL;
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getCommandSenderWorld(), location.intX(),
+                location.intY(), location.intZ()) == ForbidReason.REPEL;
         if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().getCommandSenderWorld());
         if (repel)
         {
@@ -258,8 +259,8 @@ public class MoveEventsHandler
             return false;
         }
         final Player player = (Player) owner;
-        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), location.getPos(), location.getBlockState(player
-                .getCommandSenderWorld()), player);
+        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), location.getPos(), location.getBlockState(
+                player.getCommandSenderWorld()), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled())
         {
@@ -515,7 +516,7 @@ public class MoveEventsHandler
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
-        final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.ANY, user
+        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user
                 .getEntity());
         final BlockHitResult hit = world.clip(context);
         return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
@@ -525,13 +526,11 @@ public class MoveEventsHandler
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user instanceof Player ? (Player) user
-                : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Player player = user instanceof Player ? (Player) user : PokecubeMod.getFakePlayer(world);
+        final Vector3 origin = Vector3.getNewVector().set(user);
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
-        final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.ANY, user
-                .getEntity());
+        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user);
         final BlockHitResult hit = world.clip(context);
         return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
     }
@@ -577,7 +576,8 @@ public class MoveEventsHandler
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
-            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
+            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
+                    move);
             if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
@@ -585,7 +585,8 @@ public class MoveEventsHandler
             final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
             if (targetheld != null)
             {
-                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
+                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
+                        move);
                 if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
             }
         }
@@ -617,7 +618,8 @@ public class MoveEventsHandler
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
-            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
+            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
+                    move);
             if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
@@ -625,7 +627,8 @@ public class MoveEventsHandler
             final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
             if (targetheld != null)
             {
-                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
+                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
+                        move);
                 if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
             }
         }

@@ -1,7 +1,6 @@
 package thut.api.maths;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkBiomeContainer;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.Material;
@@ -49,6 +47,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.entity.PartEntity;
+import thut.core.common.ThutCore;
 
 /** @author Thutmose */
 public class Vector3
@@ -1506,17 +1505,20 @@ public class Vector3
 
     public void setBiome(final Biome biome, final Level world)
     {
-        final int x = this.intX();
-        final int z = this.intZ();
-        final ChunkAccess chunk = world.getChunk(new BlockPos(x, 0, z));
-        final ChunkBiomeContainer biomes = chunk.getBiomes();
-        final int i = x & ChunkBiomeContainer.HORIZONTAL_MASK;
-        final int j = (int) Mth.clamp(this.y, 0, ChunkBiomeContainer.VERTICAL_MASK);
-        final int k = z & ChunkBiomeContainer.HORIZONTAL_MASK;
-        final int index = j << ChunkBiomeContainer.WIDTH_BITS + ChunkBiomeContainer.WIDTH_BITS
-                | k << ChunkBiomeContainer.WIDTH_BITS | i;
-        Arrays.fill(biomes.biomes, biome);
-        biomes.biomes[index] = biome;
+        ThutCore.LOGGER.error("Not supported yet!");
+        // final int x = this.intX();
+        // final int z = this.intZ();
+        // final ChunkAccess chunk = world.getChunk(new BlockPos(x, 0, z));
+        // final ChunkBiomeContainer biomes = chunk.getBiomes();
+        // final int i = x & ChunkBiomeContainer.HORIZONTAL_MASK;
+        // final int j = (int) Mth.clamp(this.y, 0,
+        // ChunkBiomeContainer.VERTICAL_MASK);
+        // final int k = z & ChunkBiomeContainer.HORIZONTAL_MASK;
+        // final int index = j << ChunkBiomeContainer.WIDTH_BITS +
+        // ChunkBiomeContainer.WIDTH_BITS
+        // | k << ChunkBiomeContainer.WIDTH_BITS | i;
+        // Arrays.fill(biomes.biomes, biome);
+        // biomes.biomes[index] = biome;
     }
 
     public void setBlock(final Level world, final BlockState defaultState)

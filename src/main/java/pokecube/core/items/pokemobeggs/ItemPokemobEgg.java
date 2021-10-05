@@ -11,6 +11,7 @@ import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -62,6 +63,7 @@ import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.genetics.DefaultGenetics;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -103,8 +105,8 @@ public class ItemPokemobEgg extends Item
         if (stack.getTag().contains(GeneticsManager.GENES))
         {
             final Tag genes = stack.getTag().get(GeneticsManager.GENES);
-            final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+            final IMobGenetics eggs = new DefaultGenetics();
+            eggs.deserializeNBT((ListTag) genes);
             final Alleles<SpeciesInfo, SpeciesGene> gene = eggs.getAlleles(GeneticsManager.SPECIESGENE);
             if (gene == null) break genes;
             final SpeciesGene sgene = gene.getExpressed();
@@ -132,11 +134,11 @@ public class ItemPokemobEgg extends Item
 
     private static void getGenetics(final IPokemob mother, final IPokemob father, final CompoundTag nbt)
     {
-        final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        final IMobGenetics eggs = new DefaultGenetics();
         final IMobGenetics mothers = mother.getEntity().getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
         final IMobGenetics fathers = father.getEntity().getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
         GeneticsManager.initEgg(eggs, mothers, fathers);
-        final Tag tag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, eggs, null);
+        final Tag tag = eggs.serializeNBT();
         nbt.put(GeneticsManager.GENES, tag);
         try
         {
@@ -243,8 +245,8 @@ public class ItemPokemobEgg extends Item
         if (nbt.contains(GeneticsManager.GENES))
         {
             final Tag genes = nbt.get(GeneticsManager.GENES);
-            final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
-            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+            final IMobGenetics eggs = new DefaultGenetics();
+            eggs.deserializeNBT((ListTag) genes);
             GeneticsManager.initFromGenes(eggs, mob);
         }
     }

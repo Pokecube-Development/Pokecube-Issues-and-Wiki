@@ -27,6 +27,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -555,7 +556,7 @@ public class PokemobEventsHandler
             final EntityPokemob mob = (EntityPokemob) living;
             if (pokemobCap.returning)
             {
-                mob.remove(false);
+                mob.remove(RemovalReason.DISCARDED);
                 evt.setCanceled(true);
                 return;
             }
@@ -591,11 +592,11 @@ public class PokemobEventsHandler
         {
             if (pokemob.isRemoved())
             {
-                pokemob.getEntity().remove(false);
+                pokemob.getEntity().remove(RemovalReason.DISCARDED);
                 return;
             }
 
-            if (pokemob.getBossInfo() != null) pokemob.getBossInfo().setPercent(living.getHealth() / living
+            if (pokemob.getBossInfo() != null) pokemob.getBossInfo().setProgress(living.getHealth() / living
                     .getMaxHealth());
             else if (pokemob.getOwnerId() == null && pokemob.getCombatState(CombatStates.DYNAMAX)
                     && dim instanceof ServerLevel) pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(),
@@ -814,11 +815,11 @@ public class PokemobEventsHandler
         {
             final IOptionalNamedTag<Item> dyeTag = Tags.Items.DYES;
             DyeColor dye = null;
-            if (held.getItem().is(dyeTag))
+            if (held.is(dyeTag))
             {
                 final Map<DyeColor, Tag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
                 for (final DyeColor colour : DyeColor.values())
-                    if (held.getItem().is(tags.get(colour)))
+                    if (held.is(tags.get(colour)))
                     {
                         dye = colour;
                         break;

@@ -2,16 +2,15 @@ package pokecube.adventures.capabilities;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.PokecubeAdv;
 
 public class CapabilityNPCAIStates
 {
-    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilitySerializable<CompoundTag>
+    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilityProvider
     {
         int   state = 0;
         float direction;
@@ -90,7 +89,7 @@ public class CapabilityNPCAIStates
 
     }
 
-    public static interface IHasNPCAIStates
+    public static interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
     {
         public static enum AIState
         {
@@ -148,27 +147,4 @@ public class CapabilityNPCAIStates
 
         void setTotalState(int state);
     }
-
-    public static class Storage implements Capability.IStorage<IHasNPCAIStates>
-    {
-
-        @Override
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public void readNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
-                final Direction side, final Tag base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
-                final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
-
-    }
-
-    public static Storage storage;
 }

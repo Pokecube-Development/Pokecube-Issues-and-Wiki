@@ -78,9 +78,9 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt.getItemStack()
-                .isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor((ServerPlayer) evt
-                        .getPlayer(), evt.getItemStack())) return;
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt
+                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor(
+                        (ServerPlayer) evt.getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
         final Level worldIn = evt.getWorld();
@@ -93,9 +93,9 @@ public class CommonProxy implements Proxy
             if (!worldIn.isClientSide)
             {
                 final BiomeType subbiome = this.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
-                final BoundingBox box = new BoundingBox(min, max);
-                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
-                        box.z1);
+                final BoundingBox box = BoundingBox.fromCorners(min, max);
+                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
+                        box.maxY, box.maxZ);
                 poses.forEach((p) ->
                 {
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
@@ -122,9 +122,9 @@ public class CommonProxy implements Proxy
     @SubscribeEvent
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt.getItemStack()
-                .isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor((ServerPlayer) evt
-                        .getPlayer(), evt.getItemStack())) return;
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt
+                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor(
+                        (ServerPlayer) evt.getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
         final Level worldIn = evt.getWorld();
@@ -133,17 +133,17 @@ public class CommonProxy implements Proxy
                 .getLong("time") != now)
         {
             final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle()
-                    .scale(2));
+            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookAngle().scale(
+                    2));
             final BlockPos pos = new BlockPos(loc);
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isClientSide)
             {
                 final BiomeType subbiome = this.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
-                final BoundingBox box = new BoundingBox(min, max);
-                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1,
-                        box.z1);
+                final BoundingBox box = BoundingBox.fromCorners(min, max);
+                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
+                        box.maxY, box.maxZ);
                 poses.forEach((p) ->
                 {
                     TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);

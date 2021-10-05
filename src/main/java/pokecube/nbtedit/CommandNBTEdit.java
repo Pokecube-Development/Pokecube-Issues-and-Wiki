@@ -43,8 +43,8 @@ public class CommandNBTEdit// extends CommandBase
             throws CommandSyntaxException
     {
         final ServerPlayer player = source.getPlayerOrException();
-        NBTEdit.log(Level.TRACE, source.getTextName() + " issued command \"/pcedit " + target.getName()
-                .getContents() + " " + value + "\"");
+        NBTEdit.log(Level.TRACE, source.getTextName() + " issued command \"/pcedit " + target.getName().getContents()
+                + " " + value + "\"");
         PacketHandler.sendCustomTag(player, target.getId(), value);
         return 0;
     }
@@ -61,14 +61,14 @@ public class CommandNBTEdit// extends CommandBase
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pcedit").requires(cs -> NBTEdit.proxy
-                .checkPermission(cs)).then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(
-                        ctx -> CommandNBTEdit.execute(ctx.getSource(), BlockPosArgument.getOrLoadBlockPos(ctx, "pos")))).then(
-                                Commands.argument("target", EntityArgument.entity()).executes(ctx -> CommandNBTEdit
-                                        .execute(ctx.getSource(), EntityArgument.getEntity(ctx, "target")))).then(
-                                                Commands.argument("target", EntityArgument.player()).then(Commands
-                                                        .argument("type", StringArgumentType.string()).suggests(
-                                                                CommandNBTEdit.SUGGEST_TYPES)).executes(
+        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pcedit").requires(
+                cs -> NBTEdit.proxy.checkPermission(cs)).then(Commands.argument("pos", BlockPosArgument.blockPos())
+                        .executes(ctx -> CommandNBTEdit.execute(ctx.getSource(), BlockPosArgument.getLoadedBlockPos(ctx,
+                                "pos")))).then(Commands.argument("target", EntityArgument.entity()).executes(
+                                        ctx -> CommandNBTEdit.execute(ctx.getSource(), EntityArgument.getEntity(ctx,
+                                                "target")))).then(Commands.argument("target", EntityArgument.player())
+                                                        .then(Commands.argument("type", StringArgumentType.string())
+                                                                .suggests(CommandNBTEdit.SUGGEST_TYPES)).executes(
                                                                         ctx -> CommandNBTEdit.execute(ctx.getSource(),
                                                                                 EntityArgument.getPlayer(ctx, "target"),
                                                                                 StringArgumentType.getString(ctx,

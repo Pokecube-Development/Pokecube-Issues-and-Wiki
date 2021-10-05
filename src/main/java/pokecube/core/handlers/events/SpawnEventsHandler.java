@@ -76,7 +76,7 @@ public class SpawnEventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
     }
 
-    private static void CapLevel(final SpawnEvent.Level event)
+    private static void CapLevel(final SpawnEvent.PickLevel event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);

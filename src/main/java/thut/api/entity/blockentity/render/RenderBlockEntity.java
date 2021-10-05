@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -52,7 +53,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 
     ResourceLocation texture;
 
-    public RenderBlockEntity(final EntityRenderDispatcher manager)
+    public RenderBlockEntity(final Context manager)
     {
         super(manager);
     }
@@ -140,7 +141,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         Lighting.turnOff();
         final float f7 = 1.0F;
         mat.scale(-f7, -f7, f7);
-        this.getDispatcher().textureManager.bind(InventoryMenu.BLOCK_ATLAS);
+        this.entityRenderDispatcher.textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
         this.getCrateModel();
         Lighting.turnBackOn();
         mat.popPose();

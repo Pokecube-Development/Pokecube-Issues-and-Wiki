@@ -67,7 +67,7 @@ public class ExitCube
                 loc.y += width * rand.nextGaussian() / 2;
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
-                final int colour = DyeColor.byId(id).textColor;
+                final int colour = DyeColor.byId(id).getTextColor();
                 PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }
@@ -83,7 +83,7 @@ public class ExitCube
             loc.x += width * rand.nextGaussian() / 2;
             loc.y += width * rand.nextGaussian() / 2;
             loc.z += width * rand.nextGaussian() / 2;
-            final int colour = DyeColor.GREEN.textColor;
+            final int colour = DyeColor.GREEN.getTextColor();
             if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "happy_villager", loc,
                     vel, colour | 0xFF000000);
         }

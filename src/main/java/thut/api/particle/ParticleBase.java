@@ -22,7 +22,7 @@ import thut.core.common.ThutCore;
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
 {
     @SuppressWarnings("deprecation")
-    private static final ParticleOptions.Deserializer<ParticleBase> DESERIALIZER = new ParticleOptions.Deserializer<ParticleBase>()
+    private static final ParticleOptions.Deserializer<ParticleBase> DESERIALIZER = new ParticleOptions.Deserializer<>()
     {
         @Override
         public ParticleBase fromCommand(
@@ -186,7 +186,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         {
             this.rgba = 0xFF000000;
             final int num = (this.getDuration() + this.initTime) / this.animSpeed % 16;
-            this.rgba += DyeColor.byId(num).textColor;
+            this.rgba += DyeColor.byId(num).getTextColor();
         }
     }
 

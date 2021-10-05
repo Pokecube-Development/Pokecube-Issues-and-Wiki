@@ -159,7 +159,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     
     //Computer Craft Support.
-    //implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
+    implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
     
     //Lost Cities
     //implementation "blank:lostcities-1.16-4.0.7-beta"
@@ -169,9 +169,9 @@ dependencies {
     
     //JEI
     // compile against the JEI API but do not include it at runtime
-    //compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
     // at runtime, use the full JEI jar
-    //runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
     
     //WHYLA
     //compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}:api")

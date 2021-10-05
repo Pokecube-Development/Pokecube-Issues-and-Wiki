@@ -6,7 +6,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -78,25 +77,6 @@ public class CopyCaps
         }
     }
 
-    public static class Storage implements Capability.IStorage<ICopyMob>
-    {
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        @Override
-        public void readNBT(final Capability<ICopyMob> capability, final ICopyMob instance, final Direction side,
-                final Tag nbt)
-        {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<ICopyMob> capability, final ICopyMob instance, final Direction side)
-        {
-            if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
-                    .serializeNBT();
-            return null;
-        }
-    }
-
     @CapabilityInject(ICopyMob.class)
     public static final Capability<ICopyMob> CAPABILITY = null;
     public static final ResourceLocation     LOC        = new ResourceLocation("thutcore:copymob");
@@ -138,7 +118,7 @@ public class CopyCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(ICopyMob.class, new Storage(), Impl::new);
+        CapabilityManager.INSTANCE.register(ICopyMob.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CopyCaps::attachMobs);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onEntitySizeSet);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onLivingUpdate);

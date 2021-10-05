@@ -2,14 +2,14 @@ package thut.test.scripting.handlers;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import thut.test.scripting.ICmdHandler;
 
@@ -30,9 +30,9 @@ public class GetBlockHandler implements ICmdHandler
         {
             final String worldName = thing.get("world").getAsString();
             final String[] posStr = thing.get("pos").getAsString().split(",");
-            final RegistryKey<World> worldKey = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(
-                    worldName));
-            final ServerWorld world = server.getLevel(worldKey);
+            final ResourceKey<Level> worldKey = ResourceKey.create(Registry.DIMENSION_REGISTRY,
+                    new ResourceLocation(worldName));
+            final ServerLevel world = server.getLevel(worldKey);
             final BlockPos pos = new BlockPos(Integer.parseInt(posStr[0]), Integer.parseInt(posStr[1]), Integer
                     .parseInt(posStr[2]));
             final BlockState block = world.getBlockState(pos);

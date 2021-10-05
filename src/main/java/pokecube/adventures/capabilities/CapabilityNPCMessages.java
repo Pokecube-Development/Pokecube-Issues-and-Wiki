@@ -7,7 +7,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -128,7 +127,7 @@ public class CapabilityNPCMessages
 
     }
 
-    public static interface IHasMessages
+    public static interface IHasMessages extends INBTSerializable<CompoundTag>
     {
         boolean doAction(MessageState state, ActionContext context);
 
@@ -142,26 +141,4 @@ public class CapabilityNPCMessages
 
         void setMessage(MessageState state, String message);
     }
-
-    public static class Storage implements Capability.IStorage<IHasMessages>
-    {
-
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        @Override
-        public void readNBT(final Capability<IHasMessages> capability, final IHasMessages instance,
-                final Direction side, final Tag base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IHasMessages> capability, final IHasMessages instance,
-                final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
-    }
-
-    public static Storage storage;
 }

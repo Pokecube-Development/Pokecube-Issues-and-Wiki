@@ -150,8 +150,8 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         final Item book = stack.getItem();
-        return book instanceof BookItem || book instanceof EnchantedBookItem || book.is(ItemTags.LECTERN_BOOKS) || book
-                .is(ModTags.BOOKS) || book.is(ModTags.BOOKSHELF_ITEMS);
+        return book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.LECTERN_BOOKS)
+                || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
     }
 
     @Override

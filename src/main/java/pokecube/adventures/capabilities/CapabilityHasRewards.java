@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,19 +28,6 @@ public class CapabilityHasRewards
         private final List<Reward>              rewards = Lists.newArrayList();
 
         @Override
-        public void deserializeNBT(final ListTag nbt)
-        {
-            this.getRewards().clear();
-            for (int i = 0; i < nbt.size(); ++i)
-            {
-                final CompoundTag tag = nbt.getCompound(i);
-                final ItemStack stack = ItemStack.of(tag);
-                final float chance = tag.contains("chance") ? tag.getFloat("chance") : 1;
-                this.getRewards().add(new Reward(stack, chance));
-            }
-        }
-
-        @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
             return TrainerCaps.REWARDS_CAP.orEmpty(cap, this.holder);
@@ -53,28 +39,9 @@ public class CapabilityHasRewards
             return this.rewards;
         }
 
-        @Override
-        public ListTag serializeNBT()
-        {
-            final ListTag ListNBT = new ListTag();
-            for (final Reward element : this.getRewards())
-            {
-                final ItemStack stack = element.stack;
-
-                if (!stack.isEmpty())
-                {
-                    final CompoundTag CompoundNBT = new CompoundTag();
-                    stack.save(CompoundNBT);
-                    CompoundNBT.putFloat("chance", element.chance);
-                    ListNBT.add(CompoundNBT);
-                }
-            }
-            return ListNBT;
-        }
-
     }
 
-    public static interface IHasRewards
+    public static interface IHasRewards extends INBTSerializable<ListTag>
     {
         List<Reward> getRewards();
 
@@ -100,6 +67,38 @@ public class CapabilityHasRewards
                 }
             }
         }
+
+        @Override
+        default ListTag serializeNBT()
+        {
+            final ListTag ListNBT = new ListTag();
+            for (final Reward element : this.getRewards())
+            {
+                final ItemStack stack = element.stack;
+
+                if (!stack.isEmpty())
+                {
+                    final CompoundTag CompoundNBT = new CompoundTag();
+                    stack.save(CompoundNBT);
+                    CompoundNBT.putFloat("chance", element.chance);
+                    ListNBT.add(CompoundNBT);
+                }
+            }
+            return ListNBT;
+        }
+
+        @Override
+        default void deserializeNBT(final ListTag nbt)
+        {
+            this.getRewards().clear();
+            for (int i = 0; i < nbt.size(); ++i)
+            {
+                final CompoundTag tag = nbt.getCompound(i);
+                final ItemStack stack = ItemStack.of(tag);
+                final float chance = tag.contains("chance") ? tag.getFloat("chance") : 1;
+                this.getRewards().add(new Reward(stack, chance));
+            }
+        }
     }
 
     public static class Reward
@@ -118,26 +117,4 @@ public class CapabilityHasRewards
             this.chance = chance;
         }
     }
-
-    public static class Storage implements Capability.IStorage<IHasRewards>
-    {
-
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        @Override
-        public void readNBT(final Capability<IHasRewards> capability, final IHasRewards instance, final Direction side,
-                final Tag base)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IHasRewards> capability, final IHasRewards instance, final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
-        }
-
-    }
-
-    public static Storage storage;
 }

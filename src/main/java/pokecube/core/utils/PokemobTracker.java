@@ -81,21 +81,21 @@ public class PokemobTracker
 
         public BlockPos getPos()
         {
-            return this.cube.getEntity().blockPosition();
+            return this.cube.blockPosition();
         }
 
         @Override
         public boolean equals(final Object obj)
         {
             if (obj instanceof MobEntry) return ((MobEntry) obj).pokemob.getEntity().getUUID().equals(this.cube
-                    .getEntity().getUUID());
+                    .getUUID());
             return false;
         }
 
         @Override
         public int hashCode()
         {
-            return this.cube.getEntity().getUUID().hashCode();
+            return this.cube.getUUID().hashCode();
         }
 
         @Override

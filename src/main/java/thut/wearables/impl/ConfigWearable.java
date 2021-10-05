@@ -47,8 +47,8 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
     @Override
     public EnumWearable getSlot(final ItemStack stack)
     {
-        if (this.slot == null && stack.hasTag() && stack.getTag().contains("wslot"))
-            this.slot = EnumWearable.valueOf(stack.getTag().getString("wslot"));
+        if (this.slot == null && stack.hasTag() && stack.getTag().contains("wslot")) this.slot = EnumWearable.valueOf(
+                stack.getTag().getString("wslot"));
         return this.slot;
     }
 
@@ -112,12 +112,10 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
             mat.translate(-0.25f, 0, 0);
             Minecraft.getInstance().textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(),
-                    null);
+            final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(), null, 0);
             // TODO check lighting/etc in this call!
             itemRenderer.render(stack, net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.FIXED,
-                    true, mat, buff, 0, 0,
-                    ibakedmodel);
+                    true, mat, buff, 0, 0, ibakedmodel);
             mat.popPose();
         }
 

@@ -60,6 +60,6 @@ public class TileUpdate extends NBTPacket
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
         final BlockPos pos = NbtUtils.readBlockPos(this.tag.getCompound("pos"));
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile != null) tile.handleUpdateTag(world.getBlockState(pos), this.tag.getCompound("tag"));
+        if (tile != null) tile.handleUpdateTag(this.tag.getCompound("tag"));
     }
 }

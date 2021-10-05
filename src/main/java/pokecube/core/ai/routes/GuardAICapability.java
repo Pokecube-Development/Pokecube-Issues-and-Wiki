@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
@@ -246,5 +247,25 @@ public class GuardAICapability implements IGuardAICapability
     public void setState(final GuardState state)
     {
         this.state = state;
+    }
+
+    @Override
+    public void deserializeNBT(final CompoundTag nbt)
+    {
+        this.setState(GuardState.values()[nbt.getInt("state")]);
+        if (nbt.contains("tasks"))
+        {
+            final ListTag tasks = (ListTag) nbt.get("tasks");
+            this.loadTasks(tasks);
+        }
+    }
+
+    @Override
+    public CompoundTag serializeNBT()
+    {
+        final CompoundTag ret = new CompoundTag();
+        ret.putInt("state", this.getState().ordinal());
+        ret.put("tasks", this.serializeTasks());
+        return ret;
     }
 }

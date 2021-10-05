@@ -3,7 +3,6 @@ package thut.core.common.terrain;
 import java.util.Collection;
 
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +19,6 @@ import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.api.terrain.TerrainSegment.ITerrainEffect;
 import thut.core.common.ThutCore;
-import thut.core.common.terrain.CapabilityTerrainAffected.ITerrainAffected;
 
 public class CapabilityTerrainAffected
 {
@@ -101,21 +99,7 @@ public class CapabilityTerrainAffected
         MinecraftForge.EVENT_BUS.addListener(CapabilityTerrainAffected::EntityUpdate);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CapabilityTerrainAffected::onEntityCapabilityAttach);
 
-        CapabilityManager.INSTANCE.register(ITerrainAffected.class, new Capability.IStorage<ITerrainAffected>()
-        {
-            @Override
-            public void readNBT(final Capability<ITerrainAffected> capability, final ITerrainAffected instance,
-                    final Direction side, final Tag nbt)
-            {
-            }
-
-            @Override
-            public Tag writeNBT(final Capability<ITerrainAffected> capability, final ITerrainAffected instance,
-                    final Direction side)
-            {
-                return null;
-            }
-        }, DefaultAffected::new);
+        CapabilityManager.INSTANCE.register(ITerrainAffected.class);
     }
 
     private static void EntityUpdate(final LivingUpdateEvent evt)

@@ -28,21 +28,20 @@ public class TrainerTracker
 
         public BlockPos getPos()
         {
-            return this.npc.getEntity().blockPosition();
+            return this.npc.blockPosition();
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof Entry) return ((Entry) obj).npc.getEntity().getUUID().equals(this.npc.getEntity()
-                    .getUUID());
+            if (obj instanceof Entry) return ((Entry) obj).npc.getUUID().equals(this.npc.getUUID());
             return false;
         }
 
         @Override
         public int hashCode()
         {
-            return this.npc.getEntity().getUUID().hashCode();
+            return this.npc.getUUID().hashCode();
         }
 
         @Override
@@ -59,7 +58,7 @@ public class TrainerTracker
         // First remove the mob from all maps, incase it is in one.
         TrainerTracker.removeTrainer(npc);
 
-        final ResourceKey<Level> dim = npc.getEntity().getCommandSenderWorld().dimension();
+        final ResourceKey<Level> dim = npc.getCommandSenderWorld().dimension();
         // Find the appropriate map
         final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
@@ -101,6 +100,6 @@ public class TrainerTracker
     {
         if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof Level)) return;
         // Reset the tracked map for this world
-        TrainerTracker.mobMap.put(((Level)evt.getWorld()).dimension(), new ArrayList<>());
+        TrainerTracker.mobMap.put(((Level) evt.getWorld()).dimension(), new ArrayList<>());
     }
 }

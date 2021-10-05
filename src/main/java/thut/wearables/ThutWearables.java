@@ -8,9 +8,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -29,7 +27,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -116,39 +113,8 @@ public class ThutWearables
 
         public void setup(final FMLCommonSetupEvent event)
         {
-            CapabilityManager.INSTANCE.register(IActiveWearable.class, new Capability.IStorage<IActiveWearable>()
-            {
-                @Override
-                public void readNBT(final Capability<IActiveWearable> capability, final IActiveWearable instance,
-                        final Direction side, final Tag nbt)
-                {
-                }
-
-                @Override
-                public Tag writeNBT(final Capability<IActiveWearable> capability, final IActiveWearable instance,
-                        final Direction side)
-                {
-                    return null;
-                }
-            }, IActiveWearable.Default::new);
-            CapabilityManager.INSTANCE.register(IWearableInventory.class, new Capability.IStorage<IWearableInventory>()
-            {
-                @SuppressWarnings({ "unchecked", "rawtypes" })
-                @Override
-                public void readNBT(final Capability<IWearableInventory> capability, final IWearableInventory instance,
-                        final Direction side, final Tag nbt)
-                {
-                    if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
-                }
-
-                @Override
-                public Tag writeNBT(final Capability<IWearableInventory> capability, final IWearableInventory instance,
-                        final Direction side)
-                {
-                    if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-                    return null;
-                }
-            }, PlayerWearables::new);
+            CapabilityManager.INSTANCE.register(IActiveWearable.class);
+            CapabilityManager.INSTANCE.register(IWearableInventory.class);
 
             ThutWearables.packets.registerMessage(PacketSyncWearables.class, PacketSyncWearables::new);
             ThutWearables.packets.registerMessage(MouseOverPacket.class, MouseOverPacket::new);

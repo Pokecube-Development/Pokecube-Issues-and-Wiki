@@ -32,8 +32,7 @@ import thut.api.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>
 {
-    private static final TargetingConditions VISIBLE = new TargetingConditions().range(16.0D).allowSameTeam()
-            .allowNonAttackable().allowInvulnerable();
+    private static final TargetingConditions VISIBLE = TargetingConditions.forNonCombat().range(16.0D);
 
     public static boolean canPokemobMate(final IPokemob pokemob)
     {
@@ -107,8 +106,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         else brain.eraseMemory(MemoryModules.POSSIBLE_MATES);
         if (!visible.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, visible);
         else brain.eraseMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
-        if (!mobs.isEmpty()) brain.setMemory(MemoryModuleType.LIVING_ENTITIES, mobs);
-        else brain.eraseMemory(MemoryModuleType.LIVING_ENTITIES);
+        if (!mobs.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES, mobs);
+        else brain.eraseMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
         if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS, items);
         else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS);
     }
@@ -116,7 +115,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     @Override
     public Set<MemoryModuleType<?>> requires()
     {
-        return ImmutableSet.of(MemoryModuleType.LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES,
+        return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES,
                 MemoryModules.HERD_MEMBERS, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.VISIBLE_ITEMS);
     }
 

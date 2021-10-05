@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 import thut.core.common.network.Packet;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
@@ -22,7 +23,7 @@ public class PacketCraftControl extends Packet
     private static final short RLEFT   = 64;
     private static final short RRIGHT  = 128;
 
-    public static void sendControlPacket(Entity pokemob, CraftController controller)
+    public static void sendControlPacket(final Entity pokemob, final CraftController controller)
     {
         final PacketCraftControl packet = new PacketCraftControl();
         packet.entityId = pokemob.getId();
@@ -46,7 +47,7 @@ public class PacketCraftControl extends Packet
         super(null);
     }
 
-    public PacketCraftControl(FriendlyByteBuf buffer)
+    public PacketCraftControl(final FriendlyByteBuf buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -54,7 +55,7 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void handle(Supplier<Context> ctx)
+    public void handle(final Supplier<Context> ctx)
     {
         ctx.get().enqueueWork(() ->
         {
@@ -77,7 +78,7 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void write(FriendlyByteBuf buffer)
+    public void write(final FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeShort(this.message);

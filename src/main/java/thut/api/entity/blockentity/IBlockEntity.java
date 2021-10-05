@@ -52,7 +52,7 @@ public interface IBlockEntity
                         temp = pos.offset(i, j, k);
                         final BlockState state = world.getBlockState(temp);
                         if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
-                        valid = valid || !state.getBlock().isAir(state, world, temp);
+                        valid = valid || !state.isAir();
                         ret[i - xMin][j - yMin][k - zMin] = state;
                     }
             return valid ? ret : null;

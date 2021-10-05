@@ -36,8 +36,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -49,10 +47,8 @@ import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
-import thut.core.client.gui.ConfigGui;
 import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ParticleFactories;
-import thut.core.common.ThutCore;
 
 public class ClientProxy extends CommonProxy
 {
@@ -94,10 +90,12 @@ public class ClientProxy extends CommonProxy
     {
         super.setupClient(event);
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register config gui
-        ModList.get().getModContainerById(ThutCore.MODID).ifPresent(c -> c.registerExtensionPoint(
-                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(ThutCore.conf, parent)));
+        //
+        // // FIXME Register config gui
+        // ModList.get().getModContainerById(ThutCore.MODID).ifPresent(c ->
+        // c.registerExtensionPoint(
+        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
+        // ConfigGui(ThutCore.conf, parent)));
     }
 
     @Override
@@ -159,11 +157,11 @@ public class ClientProxy extends CommonProxy
         if (copied != null && copied.getCopiedMob() != null)
         {
             final LivingEntity entity = copied.getCopiedMob();
-            final boolean backup = event.getRenderer().getDispatcher().camera.isInitialized();
-            event.getRenderer().getDispatcher().setRenderShadow(false);
-            event.getRenderer().getDispatcher().render(entity, 0, 0, 0, 0, event.getPartialRenderTick(), event
+            final boolean backup = event.getRenderer().entityRenderDispatcher.camera.isInitialized();
+            event.getRenderer().entityRenderDispatcher.setRenderShadow(false);
+            event.getRenderer().entityRenderDispatcher.render(entity, 0, 0, 0, 0, event.getPartialRenderTick(), event
                     .getMatrixStack(), event.getBuffers(), event.getLight());
-            event.getRenderer().getDispatcher().setRenderShadow(backup);
+            event.getRenderer().entityRenderDispatcher.setRenderShadow(backup);
             event.setCanceled(true);
         }
     }
@@ -188,13 +186,13 @@ public class ClientProxy extends CommonProxy
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player
-                        .getViewVector(event.getPartialTicks()));
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getViewVector(
+                        event.getPartialTicks()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
-                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result
-                            .getBlockPos().getZ());
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos()
+                            .getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");

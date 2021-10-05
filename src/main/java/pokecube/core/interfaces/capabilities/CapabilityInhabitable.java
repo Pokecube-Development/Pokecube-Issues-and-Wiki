@@ -180,27 +180,4 @@ public class CapabilityInhabitable
             return false;
         }
     }
-
-    public static class Storage implements Capability.IStorage<IInhabitable>
-    {
-
-        @SuppressWarnings({ "unchecked" })
-        @Override
-        public void readNBT(final Capability<IInhabitable> capability, final IInhabitable instance,
-                final Direction side, final Tag nbt)
-        {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<Tag>) instance).deserializeNBT(
-                    nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IInhabitable> capability, final IInhabitable instance,
-                final Direction side)
-        {
-            if (instance instanceof ICapabilitySerializable) return ((ICapabilitySerializable<?>) instance)
-                    .serializeNBT();
-            return null;
-        }
-    }
-
 }

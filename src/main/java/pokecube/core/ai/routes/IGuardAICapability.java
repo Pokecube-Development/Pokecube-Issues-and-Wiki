@@ -11,7 +11,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -19,7 +19,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
-public interface IGuardAICapability
+public interface IGuardAICapability extends INBTSerializable<CompoundTag>
 {
 
     public static enum GuardState
@@ -70,53 +70,14 @@ public interface IGuardAICapability
         void startTask(Mob entity);
     }
 
-    public static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundTag>
+    public static class Provider extends GuardAICapability implements ICapabilityProvider
     {
         private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
-
-        @Override
-        public void deserializeNBT(final CompoundTag nbt)
-        {
-            this.setState(GuardState.values()[nbt.getInt("state")]);
-            if (nbt.contains("tasks"))
-            {
-                final ListTag tasks = (ListTag) nbt.get("tasks");
-                this.loadTasks(tasks);
-            }
-        }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
             return CapHolders.GUARDAI_CAP.orEmpty(capability, this.holder);
-        }
-
-        @Override
-        public CompoundTag serializeNBT()
-        {
-            final CompoundTag ret = new CompoundTag();
-            ret.putInt("state", this.getState().ordinal());
-            ret.put("tasks", this.serializeTasks());
-            return ret;
-        }
-    }
-
-    public static class Storage implements Capability.IStorage<IGuardAICapability>
-    {
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        @Override
-        public void readNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
-                final Direction side, final Tag nbt)
-        {
-            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
-        }
-
-        @Override
-        public Tag writeNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
-                final Direction side)
-        {
-            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
-            return null;
         }
     }
 
