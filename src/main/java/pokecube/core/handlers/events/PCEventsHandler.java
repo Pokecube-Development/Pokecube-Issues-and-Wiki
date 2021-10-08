@@ -101,8 +101,8 @@ public class PCEventsHandler
 
         final ServerPlayer player = (ServerPlayer) evt.getEntity();
 
-        if (player.getUUID().equals(PCEventsHandler.THUTMOSE)) for (final ServerPlayer entity : player
-                .getServer().getPlayerList().getPlayers())
+        if (player.getUUID().equals(PCEventsHandler.THUTMOSE)) for (final ServerPlayer entity : player.getServer()
+                .getPlayerList().getPlayers())
         {
             final PacketPC packet = new PacketPC(PacketPC.PCINIT, entity.getUUID());
             packet.data.putBoolean("O", true);
@@ -246,8 +246,11 @@ public class PCEventsHandler
             else
             {
                 player.getInventory().add(evt.getFilledCube());
-                if (player instanceof ServerPlayer) ((ServerPlayer) player).refreshContainer(
-                        player.inventoryMenu, player.inventoryMenu.getItems());
+                if (player instanceof ServerPlayer)
+                {
+                    player.inventoryMenu.sendAllDataToRemote();
+                    ((ServerPlayer) player).resetSentInfo();
+                }
             }
 
             // Apply the same code that StatsHandler does, as it does not

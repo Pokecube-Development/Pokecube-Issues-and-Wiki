@@ -79,7 +79,7 @@ public class HealerContainer extends BaseContainer implements IHealer
         super.removed(playerIn);
         this.pos.execute((world, pos) ->
         {
-            this.clearContainer(playerIn, world, this.inv);
+            this.clearContainer(playerIn, this.inv);
         });
     }
 }

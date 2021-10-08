@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.material.Fluid;
@@ -97,7 +98,7 @@ public class PokecubeLegends
     // Barrels Inventory/Container
     public static final DeferredRegister<BlockEntityType<?>> TILES     = DeferredRegister.create(
             ForgeRegistries.BLOCK_ENTITIES, Reference.ID);
-    public static final DeferredRegister<MenuType<?>>  CONTAINER = DeferredRegister.create(
+    public static final DeferredRegister<MenuType<?>>        CONTAINER = DeferredRegister.create(
             ForgeRegistries.CONTAINERS, Reference.ID);
 
     // Recipes
@@ -129,14 +130,14 @@ public class PokecubeLegends
                             .contains(k, "MOUNTAIN") || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k,
                                     "SPOOKY"));
 
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE
-                    .configured(new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.RUBY_ORE
-                            .get().defaultBlockState(), 5)).range(32).squared().count(2), new ResourceLocation(
-                                    "pokecube_legends:ruby_ore"));
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE
-                    .configured(new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE,
-                            BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2),
-                    new ResourceLocation("pokecube_legends:sapphire_ore"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
+                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.RUBY_ORE.get()
+                            .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
+                    .squared().count(2), new ResourceLocation("pokecube_legends:ruby_ore"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
+                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
+                            .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
+                    .squared().count(2), new ResourceLocation("pokecube_legends:sapphire_ore"));
 
             Trees.register();
         }

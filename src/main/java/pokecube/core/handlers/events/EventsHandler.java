@@ -19,7 +19,6 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.boss.EnderDragonPart;
@@ -318,9 +317,6 @@ public class EventsHandler
         // types AI, and does some cleanup for shoulder mobs.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobJoinWorld);
         // This handles one part of preventing natural spawns for the
-        // deactivate<thing> configs.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnPotential);
-        // This is another stage of the above.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
 
         // Here we handle bed healing if enabled in configs
@@ -576,13 +572,6 @@ public class EventsHandler
                     e -> CapabilityPokemob.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
         }
-    }
-
-    private static void onCheckSpawnPotential(final PotentialSpawns evt)
-    {
-        final boolean disabled = evt.getType() == MobCategory.MONSTER ? PokecubeCore
-                .getConfig().deactivateMonsters : PokecubeCore.getConfig().deactivateAnimals;
-        if (disabled) evt.getList().removeIf(e -> e.type.getRegistryName().getNamespace().equals("minecraft"));
     }
 
     private static void onCheckSpawnCheck(final LivingSpawnEvent.CheckSpawn event)

@@ -29,6 +29,7 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
@@ -296,7 +297,7 @@ public class EntityMoveUse extends ThrowableProjectile
     @Override
     public AABB getBoundingBoxForCulling()
     {
-        return IForgeTileEntity.INFINITE_EXTENT_AABB;
+        return IForgeBlockEntity.INFINITE_EXTENT_AABB;
     }
 
     public Vector3 getStart()

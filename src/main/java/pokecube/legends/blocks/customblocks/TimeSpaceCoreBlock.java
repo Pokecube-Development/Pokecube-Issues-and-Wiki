@@ -6,8 +6,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.minecolonies.api.util.constant.ToolType;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -47,7 +45,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     private static final BooleanProperty                 WATERLOGGED    = BlockStateProperties.WATERLOGGED;
     private static final DirectionProperty               FACING         = HorizontalDirectionalBlock.FACING;
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     private static final VoxelShape TIME_SPACE_BOTTOM = Shapes.or(
             Block.box(4, 0, 4, 12, 16, 12),
             Block.box(0, 0, 4, 4, 2, 12),
@@ -61,7 +59,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
 
     static
     {
-        TIME_SPACE_TOP.put(Direction.NORTH, Shapes.or(
+        TimeSpaceCoreBlock.TIME_SPACE_TOP.put(Direction.NORTH, Shapes.or(
                 Block.box(7, 1, 7.5, 9, 2, 8.5),
                 Block.box(5, 2, 7.5, 11, 3, 8.5),
                 Block.box(4, 3, 7.5, 12, 4, 8.5),
@@ -71,7 +69,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
                 Block.box(4, 13, 7.5, 12, 14, 8.5),
                 Block.box(5, 14, 7.5, 11, 15, 8.5),
                 Block.box(7, 15, 7.5, 9, 16, 8.5)).optimize());
-        TIME_SPACE_TOP.put(Direction.EAST, Shapes.or(
+        TimeSpaceCoreBlock.TIME_SPACE_TOP.put(Direction.EAST, Shapes.or(
                 Block.box(7.5, 1, 7, 8.5, 2, 9),
                 Block.box(7.5, 2, 5, 8.5, 3, 11),
                 Block.box(7.5, 3, 4, 8.5, 4, 12),
@@ -81,7 +79,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
                 Block.box(7.5, 13, 4, 8.5, 14, 12),
                 Block.box(7.5, 14, 5, 8.5, 15, 11),
                 Block.box(7.5, 15, 7, 8.5, 16, 9)).optimize());
-        TIME_SPACE_TOP.put(Direction.SOUTH, Shapes.or(
+        TimeSpaceCoreBlock.TIME_SPACE_TOP.put(Direction.SOUTH, Shapes.or(
                 Block.box(7, 1, 7.5, 9, 2, 8.5),
                 Block.box(5, 2, 7.5, 11, 3, 8.5),
                 Block.box(4, 3, 7.5, 12, 4, 8.5),
@@ -91,7 +89,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
                 Block.box(4, 13, 7.5, 12, 14, 8.5),
                 Block.box(5, 14, 7.5, 11, 15, 8.5),
                 Block.box(7, 15, 7.5, 9, 16, 8.5)).optimize());
-        TIME_SPACE_TOP.put(Direction.WEST, Shapes.or(
+        TimeSpaceCoreBlock.TIME_SPACE_TOP.put(Direction.WEST, Shapes.or(
                 Block.box(7.5, 1, 7, 8.5, 2, 9),
                 Block.box(7.5, 2, 5, 8.5, 3, 11),
                 Block.box(7.5, 3, 4, 8.5, 4, 12),
@@ -103,7 +101,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
                 Block.box(7.5, 15, 7, 8.5, 16, 9)).optimize());
     }
 
-    // Precise selection box
+    // Precise selection box @formatter:on
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
@@ -114,10 +112,10 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     }
 
     // Default States
-    public TimeSpaceCoreBlock(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-                              final SoundType sound, final ToolType tool, final int harvest, boolean isDrop)
+    public TimeSpaceCoreBlock(final String name, final Material material, final MaterialColor color,
+            final float hardness, final float resistance, final SoundType sound, final boolean isDrop)
     {
-        super(name, material, color, hardness, resistance, sound, tool, harvest, isDrop);
+        super(name, material, color, hardness, resistance, sound, isDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(TimeSpaceCoreBlock.HALF, TimeSpaceCorePart.BOTTOM)
                 .setValue(TimeSpaceCoreBlock.FACING, Direction.NORTH).setValue(TimeSpaceCoreBlock.WATERLOGGED, false));
     }
@@ -137,8 +135,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
 
     // Breaking Time & Space Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
-            final Player player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(TimeSpaceCoreBlock.FACING);
         final BlockPos timeSpacePos = this.getTimeSpacePos(pos, state.getValue(TimeSpaceCoreBlock.HALF), facing);
@@ -172,9 +169,9 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     }
 
     // Breaking the Time & Space Spawner leaves water if underwater
-    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, Player player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
-        BlockState blockstate = world.getBlockState(pos);
+        final BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
         else
@@ -192,10 +189,9 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
 
-        final BlockPos timeSpacePos = this.getTimeSpaceTopPos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        if (pos.getY() < 255 && timeSpacePos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                context)) return this.defaultBlockState().setValue(TimeSpaceCoreBlock.FACING, context
+        final BlockPos timeSpacePos = this.getTimeSpaceTopPos(pos, context.getHorizontalDirection().getOpposite());
+        if (pos.getY() < 255 && timeSpacePos.getY() < 255 && context.getLevel().getBlockState(pos.above())
+                .canBeReplaced(context)) return this.defaultBlockState().setValue(TimeSpaceCoreBlock.FACING, context
                         .getHorizontalDirection().getOpposite()).setValue(TimeSpaceCoreBlock.HALF,
                                 TimeSpaceCorePart.BOTTOM).setValue(TimeSpaceCoreBlock.WATERLOGGED, ifluidstate.is(
                                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
@@ -217,7 +213,6 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F,
-                false);
+                SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 }

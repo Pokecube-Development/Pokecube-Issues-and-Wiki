@@ -1,7 +1,5 @@
 package pokecube.legends.blocks.customblocks;
 
-import com.minecolonies.api.util.constant.ToolType;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -29,35 +27,37 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
     private static final BooleanProperty   WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final DirectionProperty FACING      = HorizontalDirectionalBlock.FACING;
 
-    public Rotates(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool, final int harvest, final boolean hasDrop)
+    public Rotates(final String name, final Material material, final MaterialColor color, final float hardness,
+            final float resistance, final SoundType sound, final boolean hasDrop)
     {
-    	super(name, material, color, hardness, resistance, sound, tool, harvest, hasDrop);
+        super(name, material, color, hardness, resistance, sound, hasDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
-    
+
     public Rotates(final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final ToolType tool, final int harvest, final boolean hasDrop)
+            final SoundType sound, final boolean hasDrop)
     {
-    	super(material, color, hardness, resistance, sound, tool, harvest, hasDrop);
+        super(material, color, hardness, resistance, sound, hasDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
 
-    public Rotates(String name, Properties props) {
-    	super(name, props);
-    	this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
+    public Rotates(final String name, final Properties props)
+    {
+        super(name, props);
+        this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
-	}
-    
-    public Rotates( Properties props) {
-    	super(props);
-    	this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
-                Rotates.WATERLOGGED, false));
-	}
+    }
 
-	@Override
+    public Rotates(final Properties props)
+    {
+        super(props);
+        this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
+                Rotates.WATERLOGGED, false));
+    }
+
+    @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(Rotates.FACING, Rotates.WATERLOGGED);
@@ -67,8 +67,8 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(Rotates.FACING, context.getHorizontalDirection().getOpposite()).setValue(
-                Rotates.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        return this.defaultBlockState().setValue(Rotates.FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(Rotates.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }
 
     // Adds Waterlogging
@@ -109,13 +109,14 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
     {
         return state.rotate(mirrorIn.getRotation(state.getValue(Rotates.FACING)));
     }
-    
+
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
-                                  final BlockPos facingPos)
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(Rotates.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(Rotates.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER,
+                Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 }

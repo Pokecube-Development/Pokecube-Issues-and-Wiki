@@ -417,7 +417,6 @@ public class Pokecube extends Item implements IPokecube
         entity.seeking = false;
         entity.targetEntity = null;
         entity.targetLocation.clear();
-        entity.forcedLoading = true;
         if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
         if (!world.isClientSide)
         {
@@ -440,7 +439,6 @@ public class Pokecube extends Item implements IPokecube
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower;
         entity.shooter = thrower.getUUID();
-        entity.forcedLoading = true;
         entity.setItem(stack);
         final boolean rightclick = target == thrower;
         if (rightclick) target = null;

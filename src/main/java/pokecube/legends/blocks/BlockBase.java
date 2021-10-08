@@ -2,8 +2,6 @@ package pokecube.legends.blocks;
 
 import java.util.List;
 
-import com.minecolonies.api.util.constant.ToolType;
-
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -27,62 +25,67 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockBase extends Block
 {
-    VoxelShape customShape = null;
+    VoxelShape customShape     = null;
     String     infoname;
-    boolean    hasTextInfo = false;
-    boolean	   hasDropRequired = false;
+    boolean    hasTextInfo     = false;
+    boolean    hasDropRequired = false;
 
-    //ToolTip
-    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness, final float resistance,
-    		final SoundType sound, final ToolType tool, final int harvestLevel, final boolean dropRequired)
+    // ToolTip
+    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
+            final float resistance, final SoundType sound, final boolean dropRequired)
     {
-    	super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
         this.infoname = name;
         this.hasTextInfo = true;
         this.hasDropRequired(dropRequired);
     }
-    
+
     // No Tooltip
     public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
-    		final SoundType sound, final ToolType tool, final int harvestLevel, final boolean dropRequired)
+            final SoundType sound, final boolean dropRequired)
     {
-    	super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
+        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
         this.hasDropRequired(dropRequired);
     }
 
-    //Vertex
-    public BlockBase(String name, Properties props) {
-		super(props);
-		this.infoname = name;
-    	this.hasTextInfo = true;
-	}
-    
-    //Vertex -No ToolTip-
-    public BlockBase(Properties props) {
-		super(props);
-	}
+    // Vertex
+    public BlockBase(final String name, final Properties props)
+    {
+        super(props);
+        this.infoname = name;
+        this.hasTextInfo = true;
+    }
 
-    //Effects -ToolTip-
-	public BlockBase(String name, Material material, MaterialColor color, float hardness, float resistance,
-			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, MobEffect effects) {
-		super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
-		this.infoname = name;
-    	this.hasTextInfo = true;
-	}
-	
-	//Effects -No ToolTip-
-	public BlockBase(Material material, MaterialColor color, float hardness, float resistance,
-			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, MobEffect effects) {
-		super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).harvestTool(tool).harvestLevel(harvestLevel));
-	}
+    // Vertex -No ToolTip-
+    public BlockBase(final Properties props)
+    {
+        super(props);
+    }
 
-	public BlockBase setToolTip(String infoname) {
-		this.infoname = infoname;
-    	this.hasTextInfo = true;
-		return this;
-	}
-	
-	public BlockBase setShape(final VoxelShape shape)
+    // Effects -ToolTip-
+    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
+            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
+    {
+        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+        this.infoname = name;
+        this.hasTextInfo = true;
+    }
+
+    // Effects -No ToolTip-
+    public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
+            final SoundType sound, final boolean hadDrop, final MobEffect effects)
+    {
+        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+    }
+
+    public BlockBase setToolTip(final String infoname)
+    {
+        this.infoname = infoname;
+        this.hasTextInfo = true;
+        return this;
+    }
+
+    public BlockBase setShape(final VoxelShape shape)
     {
         this.customShape = shape;
         return this;
@@ -94,14 +97,12 @@ public class BlockBase extends Block
     {
         return this.customShape == null ? Shapes.block() : this.customShape;
     }
-    
-    //Drop Required
-    public BlockBase hasDropRequired(boolean hasDrop)
+
+    // Drop Required
+    public BlockBase hasDropRequired(final boolean hasDrop)
     {
         this.hasDropRequired = hasDrop;
-        if(hasDropRequired == true) {
-        	this.properties.requiresCorrectToolForDrops();
-        }
+        if (this.hasDropRequired == true) this.properties.requiresCorrectToolForDrops();
         return this;
     }
 
@@ -117,7 +118,8 @@ public class BlockBase extends Block
         tooltip.add(new TranslatableComponent(message));
     }
 
-	public int ticksRandomly() {
-		return 0;
-	}
+    public int ticksRandomly()
+    {
+        return 0;
+    }
 }

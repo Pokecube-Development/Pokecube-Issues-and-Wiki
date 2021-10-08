@@ -10,6 +10,7 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -75,28 +76,32 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
 
     @Override
     protected boolean isFeatureChunk(final ChunkGenerator generator, final BiomeSource biomes, final long seed,
-            final WorldgenRandom rand, final int x, final int z, final Biome biome, final ChunkPos pos,
-            final JigsawConfig config)
+            final WorldgenRandom rand, final ChunkPos pos_chunk, final Biome biome, final ChunkPos pos,
+            final JigsawConfig config, final LevelHeightAccessor heightAccess)
     {
+        final int x = pos_chunk.x;
+        final int z = pos_chunk.z;
         if (!config.struct_config.allow_void)
         {
-            final int y = CustomJigsawStructure.getMinY(x, z, generator);
+            final int y = CustomJigsawStructure.getMinY(x, z, generator, heightAccess);
             if (y < config.struct_config.minY) return false;
         }
 
-        final StructureEvent.PickLocation event = new PickLocation(generator, rand, x, z, config.struct_config);
+        final StructureEvent.PickLocation event = new PickLocation(generator, rand, pos_chunk, config.struct_config,
+                heightAccess);
         if (MinecraftForge.EVENT_BUS.post(event)) return false;
 
         // Here we check if there are any conflicting structures around.
-        final int ds0 = WorldgenHandler.getNeededSpace(this.getStructure());
-        final Decoration stage0 = StructureFeature.STEP.get(this.getStructure());
+        final int ds0 = WorldgenHandler.getNeededSpace(this);
+        final Decoration stage0 = StructureFeature.STEP.get(this);
 
         final ServerLevel world = JigsawAssmbler.getForGen(generator);
         final StructureFeatureManager manager = world.structureFeatureManager();
         final StructureSettings settings = generator.getSettings();
+
         for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
         {
-            if (s == this.getStructure()) break;
+            if (s == this) break;
             if (!biomes.canGenerateStructure(s)) continue;
             final int ds1 = WorldgenHandler.getNeededSpace(s);
             final int ds = Math.max(ds0, ds1);
@@ -129,17 +134,18 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
 
         // Super just returns true, but we will call it anyway incase it is
         // needed/mixined/etc
-        return super.isFeatureChunk(generator, biomes, seed, rand, x, z, biome, pos, config);
+        return super.isFeatureChunk(generator, biomes, seed, rand, pos_chunk, biome, pos, config, heightAccess);
     }
 
-    private static int getMinY(final int chunkX, final int chunkZ, final ChunkGenerator generatorIn)
+    private static int getMinY(final int chunkX, final int chunkZ, final ChunkGenerator generatorIn,
+            final LevelHeightAccessor heightAccess)
     {
         final int k = (chunkX << 4) + 7;
         final int l = (chunkZ << 4) + 7;
-        final int i1 = generatorIn.getFirstOccupiedHeight(k + 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG);
-        final int j1 = generatorIn.getFirstOccupiedHeight(k + 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG);
-        final int k1 = generatorIn.getFirstOccupiedHeight(k - 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG);
-        final int l1 = generatorIn.getFirstOccupiedHeight(k - 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG);
+        final int i1 = generatorIn.getFirstOccupiedHeight(k + 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG, heightAccess);
+        final int j1 = generatorIn.getFirstOccupiedHeight(k + 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG, heightAccess);
+        final int k1 = generatorIn.getFirstOccupiedHeight(k - 5, l + 5, Heightmap.Types.WORLD_SURFACE_WG, heightAccess);
+        final int l1 = generatorIn.getFirstOccupiedHeight(k - 5, l - 5, Heightmap.Types.WORLD_SURFACE_WG, heightAccess);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 
@@ -149,21 +155,21 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
      */
     public static class Start extends StructureStart<JigsawConfig>
     {
-        public Start(final StructureFeature<JigsawConfig> structureIn, final int chunkX, final int chunkZ,
-                final BoundingBox mutableBoundingBox, final int referenceIn, final long seedIn)
+        public Start(final StructureFeature<JigsawConfig> structureIn, final ChunkPos pos, final int referenceIn,
+                final long seedIn)
         {
-            super(structureIn, chunkX, chunkZ, mutableBoundingBox, referenceIn, seedIn);
+            super(structureIn, pos, referenceIn, seedIn);
         }
 
         @Override
         public void generatePieces(final RegistryAccess dynamicRegistryManager, final ChunkGenerator chunkGenerator,
-                final StructureManager templateManagerIn, final int chunkX, final int chunkZ, final Biome biomeIn,
-                final JigsawConfig config)
+                final StructureManager templateManagerIn, final ChunkPos cpos, final Biome biomeIn,
+                final JigsawConfig config, final LevelHeightAccessor heightAccess)
         {
             // Turns the chunk coordinates into actual coordinates we can use.
             // (Gets center of that chunk)
-            final int x = (chunkX << 4) + 7;
-            final int z = (chunkZ << 4) + 7;
+            final int x = cpos.getMinBlockX() + 7;
+            final int z = cpos.getMinBlockZ() + 7;
             final BlockPos blockpos = new BlockPos(x, 0, z);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Trying to place {}", config.struct_config.name);
 
@@ -172,7 +178,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                 final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
                 boolean built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
                         config.struct_config.size, PoolElementStructurePiece::new, chunkGenerator, templateManagerIn,
-                        blockpos, this.pieces, this.random, biomeIn, c -> true);
+                        blockpos, this.pieces, this.random, biomeIn, c -> true, heightAccess);
 
                 int n = 0;
                 while (!built && n++ < 20)
@@ -180,8 +186,8 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                     this.pieces.clear();
                     final Random newRand = new Random(this.random.nextLong());
                     built = assembler.build(dynamicRegistryManager, new ResourceLocation(config.struct_config.root),
-                            config.struct_config.size, PoolElementStructurePiece::new, chunkGenerator, templateManagerIn,
-                            blockpos, this.pieces, newRand, biomeIn, c -> true);
+                            config.struct_config.size, PoolElementStructurePiece::new, chunkGenerator,
+                            templateManagerIn, blockpos, this.pieces, newRand, biomeIn, c -> true, heightAccess);
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.warn("Try {}, {} parts.", n, this.pieces.size());
                 }
                 if (!built)
@@ -243,8 +249,8 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                                 if (!tradeString.isEmpty() && foundWorldspawn)
                                 {
                                     final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, pos).offset(
-                                            blockpos).offset(0, part.getBoundingBox().minY, 0);
+                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, pos)
+                                            .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
                                     sworld.getServer().execute(() ->
                                     {
@@ -253,7 +259,9 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                                     PokecubeSerializer.getInstance().setPlacedSpawn();
                                     piece.isSpawn = true;
                                     piece.spawnReplace = tradeString;
-                                    piece.mask = new BoundingBox(part.getBoundingBox());
+                                    final BoundingBox box = part.getBoundingBox();
+                                    piece.mask = new BoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
+                                            box.maxZ);
                                     break components;
                                 }
                             }
@@ -261,7 +269,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                     }
                 }
             // Sets the bounds of the structure once you are finished.
-            this.calculateBoundingBox();
+            this.createBoundingBox();
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.

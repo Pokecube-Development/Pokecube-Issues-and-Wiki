@@ -2,6 +2,7 @@ package pokecube.legends.tileentity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -31,18 +32,19 @@ import pokecube.legends.init.TileEntityInit;
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
     public NonNullList<ItemStack> itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
-    private Component        name;
+    private Component             name;
     public int                    bookCount;
 
-    private GenericBookshelfEmptyTile(final BlockEntityType<?> tileEntityType)
+    private GenericBookshelfEmptyTile(final BlockEntityType<?> tileEntityType, final BlockPos pos,
+            final BlockState state)
     {
-        super(tileEntityType);
+        super(tileEntityType, pos, state);
+        this.itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
     }
 
-    public GenericBookshelfEmptyTile()
+    public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
     {
-        this(TileEntityInit.GENERIC_BOOKSHELF_EMPTY_TILE.get());
-        this.itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
+        this(TileEntityInit.GENERIC_BOOKSHELF_EMPTY_TILE.get(), pos, state);
     }
 
     @Override
@@ -56,9 +58,9 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag loadCompoundNBT)
+    public void load(final CompoundTag loadCompoundNBT)
     {
-        super.load(state, loadCompoundNBT);
+        super.load(loadCompoundNBT);
         this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.itemStacks);
         if (loadCompoundNBT.contains("CustomName", 8)) this.name = Component.Serializer.fromJson(loadCompoundNBT
@@ -121,15 +123,16 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
             final ItemStack stack = this.removeItemNoUpdate(slot);
             if (!world.isClientSide() && number > 0)
             {
-                world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS,
-                        1.0F, 1.0F);
+                world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F,
+                        1.0F);
                 player.addItem(stack);
                 this.setChanged();
                 return InteractionResult.SUCCESS;
             }
         }
         // place book
-        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == InteractionHand.MAIN_HAND && number < 9)
+        else if (!playerHand.isEmpty() && this.canPlaceItem(number, playerHand) && hand == InteractionHand.MAIN_HAND
+                && number < 9)
         {
             final ItemStack stack = playerHand.copy();
             stack.setCount(1);

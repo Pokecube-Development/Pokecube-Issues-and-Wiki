@@ -14,8 +14,9 @@ import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.carver.CanyonCarverConfiguration;
+import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
 import net.minecraft.world.level.levelgen.carver.WorldCarver;
-import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.structures.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElement;
 import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
@@ -42,9 +43,9 @@ public class WorldgenFeatures
             ForgeRegistries.WORLD_CARVERS, PokecubeCore.MODID);
 
     public static final RegistryObject<WorldCarver<?>> CAVE   = WorldgenFeatures.CARVERS.register("cave",
-            () -> new CaveCarver(ProbabilityFeatureConfiguration.CODEC, 256));
+            () -> new CaveCarver(CaveCarverConfiguration.CODEC));
     public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.CARVERS.register("canyon",
-            () -> new CanyonCarver(ProbabilityFeatureConfiguration.CODEC));
+            () -> new CanyonCarver(CanyonCarverConfiguration.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
     public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
@@ -129,8 +130,8 @@ public class WorldgenFeatures
             });
         }
 
-        final StructureTemplatePool pattern = new StructureTemplatePool(new ResourceLocation(pool.name), new ResourceLocation(
-                pool.target), pairs, placement);
+        final StructureTemplatePool pattern = new StructureTemplatePool(new ResourceLocation(pool.name),
+                new ResourceLocation(pool.target), pairs, placement);
         PokecubeCore.LOGGER.debug("Registered Pattern/Pool: {}, with target: {}, of size: {}({},{})", pool.name,
                 pool.target, size, pairs.size(), pattern.size());
         return Pools.register(pattern);

@@ -12,6 +12,7 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.MoverType;
@@ -322,7 +323,7 @@ public class BlockEntityUpdater
             if (colY)
             {
                 entity.setOnGround(true);
-                entity.causeFallDamage(entity.fallDistance, 0);
+                entity.causeFallDamage(entity.fallDistance, 0, DamageSource.GENERIC);
                 entity.fallDistance = 0;
             }
         }

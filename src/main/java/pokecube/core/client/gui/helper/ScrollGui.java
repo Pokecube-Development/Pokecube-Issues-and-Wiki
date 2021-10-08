@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Mth;
 
@@ -243,5 +244,12 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     public int getSize()
     {
         return this.getItemCount();
+    }
+
+    @Override
+    public void updateNarration(final NarrationElementOutput p_169152_)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

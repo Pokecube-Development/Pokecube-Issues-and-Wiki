@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TextComponent;
@@ -23,14 +24,14 @@ import pokecube.nbtedit.gui.TextFieldWidget2;
 
 public class GuiPokemobAI extends GuiPokemobBase
 {
-    private static class Entry extends Entry<Entry>
+    private static class AIEntry extends Entry<AIEntry>
     {
         final IPokemob pokemob;
         final Button   wrapped;
         final int      index;
         int            top;
 
-        public Entry(final Button wrapped, final int index, final IPokemob pokemob)
+        public AIEntry(final Button wrapped, final int index, final IPokemob pokemob)
         {
             this.wrapped = wrapped;
             this.pokemob = pokemob;
@@ -71,7 +72,7 @@ public class GuiPokemobAI extends GuiPokemobBase
     final Container      pokeInventory;
     final IPokemob        pokemob;
     final Entity          entity;
-    ScrollGui<Entry>      list;
+    ScrollGui<AIEntry> list;
 
     final List<TextFieldWidget2> textInputs = Lists.newArrayList();
 
@@ -115,7 +116,7 @@ public class GuiPokemobAI extends GuiPokemobBase
                 PacketAIRoutine.sentCommand(this.pokemob, routine, state);
             });
             this.addRenderableWidget(button);
-            this.list.addEntry(new Entry(button, index, this.pokemob));
+            this.list.addEntry(new AIEntry(button, index, this.pokemob));
         }
         this.children.add(this.list);
     }

@@ -47,9 +47,9 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return true;
+        return new GenericBarrelTile(pos, state);
     }
 
     @Override
@@ -117,12 +117,6 @@ public class GenericBarrel extends BaseEntityBlock
     public BlockState mirror(final BlockState state, final Mirror mirror)
     {
         return state.rotate(mirror.getRotation(state.getValue(GenericBarrel.FACING)));
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(final BlockGetter reader)
-    {
-        return new GenericBarrelTile();
     }
 
     @Override

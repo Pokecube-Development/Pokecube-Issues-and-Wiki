@@ -163,11 +163,16 @@ public class MoveAnimationHelper
             mat.pushPose();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+            final int x = player.getBlockX() >> 4;
+            final int y = player.getBlockY() >> 4;
+            final int z = player.getBlockZ() >> 4;
+
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)
                     {
-                        pos.set(player.xChunk + i, player.yChunk + j, player.zChunk + k);
+                        pos.set(x + i, y + j, z + k);
                         final TerrainSegment segment = this.terrainMap.get(pos.immutable());
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];

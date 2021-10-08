@@ -32,6 +32,7 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -225,8 +226,7 @@ public class Database
 
     static int lastCount = -1;
 
-    public static ReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
-            PackType.SERVER_DATA);
+    public static ReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -921,10 +921,13 @@ public class Database
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
-        @SuppressWarnings("deprecation")
-        final PackRepository resourcePacks = new PackRepository(Pack::new);
-        @SuppressWarnings("deprecation")
-        final PackFinder finder = new PackFinder(Pack::new);
+        final PackRepository resourcePacks = new PackRepository(PackType.SERVER_DATA, new ServerPacksSource());
+        final PackFinder finder = new PackFinder((name, component, bool, supplier, metadata, source,
+                p_143900_, hidden) ->
+        {
+            return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source,
+                    p_143900_, hidden);
+        });
         resourcePacks.addPackFinder(finder);
         for (final PackResources info : finder.allPacks)
             try

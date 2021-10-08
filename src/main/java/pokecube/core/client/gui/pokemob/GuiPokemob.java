@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -71,6 +72,13 @@ public class GuiPokemob extends GuiPokemobBase
             col1 |= redness << 16 | greenness << 8;
             // Fill the bar
             this.fillGradient(mat, this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col, col1);
+        }
+
+        @Override
+        public void updateNarration(final NarrationElementOutput p_169152_)
+        {
+            // TODO Auto-generated method stub
+
         }
 
     }
@@ -158,7 +166,7 @@ public class GuiPokemob extends GuiPokemobBase
         if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
         final List<Component> msgs = new ArrayList<>();
         for(final String s: text) msgs.add(new TextComponent(s));
-        if (!text.isEmpty()) this.renderWrappedToolTip(mat, msgs, x, y, this.font);
+        if (!text.isEmpty()) this.renderComponentToolTip(mat, msgs, x, y, this.font);
         this.renderTooltip(mat, x, y);
     }
 }

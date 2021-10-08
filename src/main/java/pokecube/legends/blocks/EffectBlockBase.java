@@ -20,18 +20,16 @@ public class EffectBlockBase extends BlockBase
     private final MobEffect effect;
 
     public EffectBlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final ToolType tool, final int harvestLevel,
-            final boolean hadDrop, final MobEffect effects)
+            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
     {
-        super(name, material, color, hardness, resistance, sound, tool, harvestLevel, hadDrop, effects);
+        super(name, material, color, hardness, resistance, sound, hadDrop, effects);
         this.effect = effects;
     }
 
     public EffectBlockBase(final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final ToolType tool, final int harvestLevel,
-            final boolean hadDrop, final MobEffect effects)
+            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
     {
-        super(material, color, hardness, resistance, sound, tool, harvestLevel, hadDrop, effects);
+        super(material, color, hardness, resistance, sound, hadDrop, effects);
         this.effect = effects;
     }
 

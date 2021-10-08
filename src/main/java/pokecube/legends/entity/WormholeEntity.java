@@ -15,6 +15,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -37,7 +39,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
@@ -129,7 +131,7 @@ public class WormholeEntity extends LivingEntity
         return dim;
     }
 
-    public static class EnergyStore extends EnergyStorage implements ICapabilitySerializable<CompoundTag>
+    public static class EnergyStore extends EnergyStorage implements ICapabilityProvider
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
 
@@ -145,17 +147,15 @@ public class WormholeEntity extends LivingEntity
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public void deserializeNBT(final Tag nbt)
         {
-            final CompoundTag tag = new CompoundTag();
-            tag.putInt("E", this.energy);
-            return tag;
-        }
-
-        @Override
-        public void deserializeNBT(final CompoundTag nbt)
-        {
-            this.energy = nbt.getInt("E");
+            if (!(nbt instanceof IntTag))
+            {
+                PokecubeCore.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
+                return;
+            }
+            // TODO Auto-generated method stub
+            super.deserializeNBT(nbt);
         }
     }
 
@@ -210,7 +210,7 @@ public class WormholeEntity extends LivingEntity
 
     private TeleDest dest = null;
     private TeleDest pos  = null;
-    private Vec3 dir  = null;
+    private Vec3     dir  = null;
 
     public EnergyStore energy;
 

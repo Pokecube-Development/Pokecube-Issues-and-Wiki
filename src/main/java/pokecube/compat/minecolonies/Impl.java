@@ -9,8 +9,6 @@ import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerChunkCache;
@@ -84,7 +82,7 @@ public class Impl
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(rworld, v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
                         .getBuildings() == null) break check;
-                final Vec3 vec = new Vec3(v.x, v.y, v.z);
+                // final Vec3 vec = new Vec3(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
                     String type = b.getSchematicName();
@@ -93,8 +91,9 @@ public class Impl
                     if (PokecubeTerrainChecker.structureSubbiomeMap.containsKey(type))
                         type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
                     else continue;
-                    final AABB box = b.getTargetableArea(colony.getWorld());
-                    if (box.contains(vec)) return BiomeType.getBiome(type, true);
+
+                    // final AABB box = b.getTargetableArea(colony.getWorld());
+                    if (b.isInBuilding(v.getPos())) return BiomeType.getBiome(type, true);
                 }
             }
             return this.parent.getSubBiome(world, v, segment, caveAdjusted);

@@ -29,6 +29,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -222,7 +223,7 @@ public class BerryGenManager
                 for (int j = -2; j <= 2; j++)
                     world.getChunk(i + chunkX, j + chunkZ);
             final BoundingBox bounds = new BoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
-            final Start make = new Start(null, chunkX, chunkZ, bounds, 0, cropPos.asLong() + world.getSeed() + world
+            final Start make = new Start(null, new ChunkPos(cropPos), 0, cropPos.asLong() + world.getSeed() + world
                     .getGameTime());
             make.berryType = BerryManager.berryNames.get(berryId);
             final Random rand = make.build(world, biome, this, cropPos, this.jigsaw);
@@ -247,8 +248,8 @@ public class BerryGenManager
                             // TODO find out why this sometimes fails
                             final StructurePlaceSettings settings = piece.getSettings(p.getRotation(), bounds, false);
                             // DOLATER find out what the second block pos is
-                            final List<StructureBlockInfo> list = StructureTemplate.processBlockInfos(world, pos, pos, settings, settings
-                                    .getRandomPalette(t.palettes, pos).blocks(), t);
+                            final List<StructureBlockInfo> list = StructureTemplate.processBlockInfos(world, pos, pos,
+                                    settings, settings.getRandomPalette(t.palettes, pos).blocks(), t);
                             for (final StructureBlockInfo i : list)
                                 if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW || i.state
                                         .getBlock() == Blocks.STRUCTURE_VOID))
@@ -274,18 +275,19 @@ public class BerryGenManager
         {
             public String berryType = "";
 
-            public Start(final StructureFeature<JigsawConfig> structure, final int x, final int z,
-                    final BoundingBox box, final int refs, final long seed)
+            public Start(final StructureFeature<JigsawConfig> structure, final ChunkPos pos, final int refs,
+                    final long seed)
             {
-                super(structure, x, z, box, refs, seed);
+                super(structure, pos, refs, seed);
             }
 
             @Override
-            public void generatePieces(final RegistryAccess p_230364_1_, final ChunkGenerator p_230364_2_,
-                    final StructureManager p_230364_3_, final int p_230364_4_, final int p_230364_5_,
-                    final Biome p_230364_6_, final JigsawConfig p_230364_7_)
+            public void generatePieces(final RegistryAccess p_163615_, final ChunkGenerator p_163616_,
+                    final StructureManager p_163617_, final ChunkPos p_163618_, final Biome p_163619_,
+                    final JigsawConfig p_163620_, final LevelHeightAccessor p_163621_)
             {
-                // We do nothing, we do our own thing seperately.
+                // We do nothing, we do our own thing separately.
+
             }
 
             public void reallyBuild(final ServerLevel world, final ChunkGenerator generator, final BlockPos pos)
@@ -301,10 +303,10 @@ public class BerryGenManager
                 final StructureManager manager = world.getStructureManager();
                 final JigsawAssmbler assembler = new JigsawAssmbler(jigsaw);
                 final boolean built = assembler.build(world.registryAccess(), new ResourceLocation(jigsaw.root),
-                        jigsaw.size, PoolElementStructurePiece::new, chunkGenerator, manager, pos, this.pieces, this.random,
-                        biome, this.isValid(jigsaw), pos.getY());
+                        jigsaw.size, PoolElementStructurePiece::new, chunkGenerator, manager, pos, this.pieces,
+                        this.random, biome, this.isValid(jigsaw), pos.getY(), world);
                 if (!built) return null;
-                this.calculateBoundingBox();
+                this.createBoundingBox();
                 return this.random;
             }
 
@@ -403,11 +405,11 @@ public class BerryGenManager
                                 if (Math.abs(k2) != i2 || Math.abs(i3) != i2 || world.random.nextInt(2) != 0 && k1 != 0)
                                 {
                                     temp = new BlockPos(j2, j1, l2);
-                                    final Block block = world.getBlockState(temp).getBlock();
-
-                                    if (block == null || block.canBeReplacedByLeaves(world.getBlockState(temp), world,
-                                            temp)) if (world.isEmptyBlock(temp)) BerryGenManager.placeBerryLeaf(world,
-                                                    temp, berryId);
+                                    final BlockState block = world.getBlockState(temp);
+                                    // TODO check if berry leaves don't properly
+                                    // replace valid things!
+                                    if (block == null || block.isSolidRender(world, temp)) if (world.isEmptyBlock(temp))
+                                        BerryGenManager.placeBerryLeaf(world, temp, berryId);
                                 }
                             }
                         }
@@ -420,9 +422,9 @@ public class BerryGenManager
                         state = world.getBlockState(temp);
                         final Block block = state.getBlock();
 
-                        if (block == null || block.isAir(world.getBlockState(temp), world, temp)
-                                || PokecubeTerrainChecker.isLeaves(world.getBlockState(temp)) && state
-                                        .getMaterial() == Material.LEAVES) world.setBlockAndUpdate(temp, this.wood);
+                        if (block == null || world.getBlockState(temp).isAir() || PokecubeTerrainChecker.isLeaves(world
+                                .getBlockState(temp)) && state.getMaterial() == Material.LEAVES) world
+                                        .setBlockAndUpdate(temp, this.wood);
                     }
                 }
             }
@@ -656,7 +658,7 @@ public class BerryGenManager
         if (leaves == null)
         {
             PokecubeCore.LOGGER.error("Trying to make leaves for unregistered berry: " + id);
-            leaves = Blocks.OAK_LEAVES.getBlock();
+            leaves = Blocks.OAK_LEAVES;
         }
         world.setBlockAndUpdate(pos, leaves.defaultBlockState());
     }

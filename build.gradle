@@ -117,8 +117,10 @@ minecraft {
 
 repositories {
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
     flatDir {
         dirs 'libs'
@@ -174,8 +176,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
     
     //WHYLA
-    //compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}:api")
-    //runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
+    implementation fg.deobf("curse.maven:Jade-${version_jade}")
     
     //Minecolonies
     implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
@@ -188,8 +189,7 @@ dependencies {
     //implementation "blank:LibVulpes-1.16.5-1.0.1-6-api"
 
     // Curios - Wearables Support
-    //runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
-    //compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+    implementation fg.deobf("curse.maven:curios-${version_curios}")
 }
 
 sourceSets {

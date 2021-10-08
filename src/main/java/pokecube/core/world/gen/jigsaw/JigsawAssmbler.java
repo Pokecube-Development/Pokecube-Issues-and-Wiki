@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.WritableRegistry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -53,7 +53,7 @@ public class JigsawAssmbler
 {
     static final class Entry
     {
-        private final PoolElementStructurePiece        villagePiece;
+        private final PoolElementStructurePiece   villagePiece;
         private final AtomicReference<VoxelShape> shapeReference;
         private final int                         index;
         private final int                         depth;
@@ -80,7 +80,7 @@ public class JigsawAssmbler
 
     private int                  depth;
     private ChunkGenerator       chunkGenerator;
-    private StructureManager      templateManager;
+    private StructureManager     templateManager;
     private List<StructurePiece> structurePieces;
     private Random               rand;
 
@@ -94,6 +94,8 @@ public class JigsawAssmbler
     private final Set<String> needed_once = Sets.newHashSet();
 
     private final JigSawConfig config;
+
+    private LevelHeightAccessor heightAccess;
 
     public JigsawAssmbler(final JigSawConfig config)
     {
@@ -118,7 +120,7 @@ public class JigsawAssmbler
     private StructureTemplatePool init(final RegistryAccess dynamicRegistryManager,
             final ResourceLocation resourceLocationIn)
     {
-        final WritableRegistry<StructureTemplatePool> mutableregistry = dynamicRegistryManager.registryOrThrow(
+        final Registry<StructureTemplatePool> mutableregistry = dynamicRegistryManager.registryOrThrow(
                 Registry.TEMPLATE_POOL_REGISTRY);
         return mutableregistry.get(resourceLocationIn);
     }
@@ -126,27 +128,32 @@ public class JigsawAssmbler
     public boolean build(final RegistryAccess dynamicRegistryManager, final ResourceLocation resourceLocationIn,
             final int depth, final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final StructureManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome, final Predicate<StructurePoolElement> isValid, final int default_k)
+            final Random rand, final Biome biome, final Predicate<StructurePoolElement> isValid, final int default_k,
+            final LevelHeightAccessor heightAccessor)
     {
         return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.getRandom(rand), depth,
-                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, default_k, isValid);
+                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome, default_k, isValid,
+                heightAccessor);
     }
 
     public boolean build(final RegistryAccess dynamicRegistryManager, final ResourceLocation resourceLocationIn,
             final int depth, final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final StructureManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome, final Predicate<StructurePoolElement> isValid)
+            final Random rand, final Biome biome, final Predicate<StructurePoolElement> isValid,
+            final LevelHeightAccessor heightAccessor)
     {
         return this.build(dynamicRegistryManager, resourceLocationIn, depth, pieceFactory, chunkGenerator,
-                templateManagerIn, pos, parts, rand, biome, isValid, -1);
+                templateManagerIn, pos, parts, rand, biome, isValid, -1, heightAccessor);
     }
 
     public boolean build(final StructureTemplatePool jigsawpattern, final Rotation rotation, final int depth,
             final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final StructureManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome, final int default_k, final Predicate<StructurePoolElement> isValid)
+            final Random rand, final Biome biome, final int default_k, final Predicate<StructurePoolElement> isValid,
+            final LevelHeightAccessor heightAccessor)
     {
         this.validator = isValid;
+        this.heightAccess = heightAccessor;
         if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
 
@@ -170,13 +177,15 @@ public class JigsawAssmbler
             final int variance = this.config.variance <= 0 ? 0 : rand.nextInt(this.config.variance);
             // Air spawns are a somewhat random distance above the surface
             // reference.
-            if (this.config.air) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE) + variance;
+            if (this.config.air) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE, this.heightAccess)
+                    + variance;
             // If we have a surface reference, then lets use that
-            else if (this.SURFACE_TYPE != null) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE);
+            else if (this.SURFACE_TYPE != null) k = chunkGenerator.getFirstFreeHeight(i, j, this.SURFACE_TYPE,
+                    this.heightAccess);
             else
             {
                 // Otherwise, pick a random value below ground
-                k = this.chunkGenerator.getFirstFreeHeight(i, j, Heightmap.Types.OCEAN_FLOOR_WG);
+                k = this.chunkGenerator.getFirstFreeHeight(i, j, Heightmap.Types.OCEAN_FLOOR_WG, this.heightAccess);
                 if (k > 0) k = this.rand.nextInt(k + 1);
                 else k = chunkGenerator.getSeaLevel();
             }
@@ -195,11 +204,10 @@ public class JigsawAssmbler
         {
             final int dr = 80;
             final int dh = 255;
-            final AABB axisalignedbb = new AABB(i - dr, k - dr, j - dh, i + dr + 1, k + dh + 1, j
-                    + dr + 1);
-            this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(Shapes.join(
-                    Shapes.create(axisalignedbb), Shapes.create(AABB.of(mutableboundingbox)),
-                    BooleanOp.ONLY_FIRST)), k + dh, 0));
+            final AABB axisalignedbb = new AABB(i - dr, k - dr, j - dh, i + dr + 1, k + dh + 1, j + dr + 1);
+            this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(Shapes.join(Shapes
+                    .create(axisalignedbb), Shapes.create(AABB.of(mutableboundingbox)), BooleanOp.ONLY_FIRST)), k + dh,
+                    0));
             while (!this.availablePieces.isEmpty())
             {
                 final Entry jigsawmanager$entry = this.availablePieces.removeFirst();
@@ -243,8 +251,9 @@ public class JigsawAssmbler
         });
     }
 
-    private void addPiece(final PoolElementStructurePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
-            final int part_index, final int current_depth, final int default_k)
+    private void addPiece(final PoolElementStructurePiece villagePieceIn,
+            final AtomicReference<VoxelShape> atomicVoxelShape, final int part_index, final int current_depth,
+            final int default_k)
     {
         final StructurePoolElement part = villagePieceIn.getElement();
         final BlockPos blockpos = villagePieceIn.getPosition();
@@ -260,14 +269,14 @@ public class JigsawAssmbler
         if (k0 == -1 && this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
-                    Heightmap.Types.OCEAN_FLOOR_WG);
+                    Heightmap.Types.OCEAN_FLOOR_WG, this.heightAccess);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
             else k0 = -1;
         }
 
         label123:
-        for (final StructureTemplate.StructureBlockInfo jigsaw_block : part.getShuffledJigsawBlocks(this.templateManager, blockpos,
-                rotation, this.rand))
+        for (final StructureTemplate.StructureBlockInfo jigsaw_block : part.getShuffledJigsawBlocks(
+                this.templateManager, blockpos, rotation, this.rand))
         {
             final Direction jig_dir = JigsawBlock.getFrontFacing(jigsaw_block.state);
             final BlockPos jig_pos = jigsaw_block.pos;
@@ -291,8 +300,7 @@ public class JigsawAssmbler
                 {
                     atomicreference1 = atomicreference;
                     l = part_min_y;
-                    if (atomicreference.get() == null) atomicreference.set(Shapes.create(AABB.of(
-                            part_box)));
+                    if (atomicreference.get() == null) atomicreference.set(Shapes.create(AABB.of(part_box)));
                 }
                 else
                 {
@@ -315,10 +323,9 @@ public class JigsawAssmbler
 
                     for (final Rotation dir : Rotation.getShuffled(this.rand))
                     {
-                        final List<StructureTemplate.StructureBlockInfo> next_jigsaws = next_part.getShuffledJigsawBlocks(
-                                this.templateManager, BlockPos.ZERO, dir, this.rand);
-                        final BoundingBox next_box = next_part.getBoundingBox(this.templateManager,
-                                BlockPos.ZERO, dir);
+                        final List<StructureTemplate.StructureBlockInfo> next_jigsaws = next_part
+                                .getShuffledJigsawBlocks(this.templateManager, BlockPos.ZERO, dir, this.rand);
+                        final BoundingBox next_box = next_part.getBoundingBox(this.templateManager, BlockPos.ZERO, dir);
                         int i1;
                         if (next_box.getYSpan() > 16) i1 = 0;
                         else i1 = next_jigsaws.stream().mapToInt((blockInfo) ->
@@ -335,8 +342,8 @@ public class JigsawAssmbler
                                             "pool") + " " + jigsaw_block.nbt);
                                     return 0;
                                 }
-                                final StructureTemplatePool fallback_pool = BuiltinRegistries.TEMPLATE_POOL.get(next_pool
-                                        .getFallback());
+                                final StructureTemplatePool fallback_pool = BuiltinRegistries.TEMPLATE_POOL.get(
+                                        next_pool.getFallback());
                                 return Math.max(next_pool.getMaxSize(this.templateManager), fallback_pool.getMaxSize(
                                         this.templateManager));
                             }
@@ -348,8 +355,7 @@ public class JigsawAssmbler
                                 final BlockPos next_pos = next_jigsaw.pos;
                                 final BlockPos dr_0 = new BlockPos(jig_target.getX() - next_pos.getX(), jig_target
                                         .getY() - next_pos.getY(), jig_target.getZ() - next_pos.getZ());
-                                final BoundingBox box_1 = next_part.getBoundingBox(this.templateManager, dr_0,
-                                        dir);
+                                final BoundingBox box_1 = next_part.getBoundingBox(this.templateManager, dr_0, dir);
                                 final int next_min_y = box_1.minY;
                                 final StructureTemplatePool.Projection placementRule = next_part.getProjection();
                                 final boolean rigid = placementRule == StructureTemplatePool.Projection.RIGID;
@@ -361,7 +367,7 @@ public class JigsawAssmbler
                                 else
                                 {
                                     if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos
-                                            .getZ(), this.SURFACE_TYPE);
+                                            .getZ(), this.SURFACE_TYPE, this.heightAccess);
                                     i2 = k - target_y;
                                 }
 
@@ -374,11 +380,11 @@ public class JigsawAssmbler
                                     box_2.maxY = box_2.minY + k2;
                                 }
 
-                                if (!Shapes.joinIsNotEmpty(atomicreference1.get(), Shapes.create(AABB
-                                        .of(box_2).deflate(0.25D)), BooleanOp.ONLY_SECOND))
+                                if (!Shapes.joinIsNotEmpty(atomicreference1.get(), Shapes.create(AABB.of(box_2).deflate(
+                                        0.25D)), BooleanOp.ONLY_SECOND))
                                 {
-                                    atomicreference1.set(Shapes.joinUnoptimized(atomicreference1.get(), Shapes
-                                            .create(AABB.of(box_2)), BooleanOp.ONLY_FIRST));
+                                    atomicreference1.set(Shapes.joinUnoptimized(atomicreference1.get(), Shapes.create(
+                                            AABB.of(box_2)), BooleanOp.ONLY_FIRST));
                                     final int j3 = villagePieceIn.getGroundLevelDelta();
                                     int l2;
                                     if (rigid) l2 = j3 - l1;
@@ -392,7 +398,7 @@ public class JigsawAssmbler
                                     else
                                     {
                                         if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos
-                                                .getZ(), this.SURFACE_TYPE);
+                                                .getZ(), this.SURFACE_TYPE, this.heightAccess);
                                         i3 = k + l1 / 2;
                                     }
 

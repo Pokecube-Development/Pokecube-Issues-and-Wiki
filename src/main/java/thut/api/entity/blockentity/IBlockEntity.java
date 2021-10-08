@@ -78,7 +78,7 @@ public interface IBlockEntity
                         {
                             CompoundTag tag = new CompoundTag();
                             tag = old.save(tag);
-                            ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(world.getBlockState(temp),
+                            ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp),
                                     tag);
                         }
                     }
@@ -106,8 +106,7 @@ public interface IBlockEntity
             return ret;
         }
 
-        public static HitResult rayTraceInternal(final Vec3 start, final Vec3 end,
-                final IBlockEntity toTrace)
+        public static HitResult rayTraceInternal(final Vec3 start, final Vec3 end, final IBlockEntity toTrace)
         {
             Vec3 diff = end.subtract(start);
             final double l = diff.length();
@@ -189,24 +188,24 @@ public interface IBlockEntity
                         // whether the entity is rotated, and then also call the
                         // block's rotate method as well before placing the
                         // BlockState.
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k
-                                + zMin + entity.getZ());
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
+                                + entity.getZ());
                         final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                         final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
                         if (state != null)
                         {
-                            if (!entity.getCommandSenderWorld().isEmptyBlock(pos)) entity.getCommandSenderWorld().destroyBlock(pos,
-                                    true);
+                            if (!entity.getCommandSenderWorld().isEmptyBlock(pos)) entity.getCommandSenderWorld()
+                                    .destroyBlock(pos, true);
                             entity.getCommandSenderWorld().setBlockAndUpdate(pos, state);
                             if (tile != null)
                             {
                                 final BlockEntity newTile = entity.getCommandSenderWorld().getBlockEntity(pos);
-                                if (newTile != null) newTile.load(state, tile.save(new CompoundTag()));
+                                if (newTile != null) newTile.load(tile.save(new CompoundTag()));
                             }
                         }
                     }
-            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity,
-                    entity.getBoundingBox());
+            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity, entity
+                    .getBoundingBox());
             for (final Entity e : possibleInside)
                 e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }

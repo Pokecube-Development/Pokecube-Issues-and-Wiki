@@ -41,6 +41,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.tileentity.GenericBarrelTile;
 import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWaterloggedBlock
@@ -97,6 +98,12 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
         super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(GenericBookshelfEmpty.FACING, Direction.NORTH)
                 .setValue(GenericBookshelfEmpty.WATERLOGGED, false).setValue(GenericBookshelfEmpty.BOOKS, 0));
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    {
+        return new GenericBookshelfEmptyTile(pos, state);
     }
 
     @Override
@@ -190,18 +197,6 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
         return InteractionResult.PASS;
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(final BlockGetter block)
-    {
-        return new GenericBookshelfEmptyTile();
     }
 
     @Override

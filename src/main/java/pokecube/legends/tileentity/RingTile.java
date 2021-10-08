@@ -2,21 +2,22 @@ package pokecube.legends.tileentity;
 
 import java.util.Random;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TickingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.PortalWarpPart;
 import pokecube.legends.init.BlockInit;
+import thut.api.block.ITickTile;
 import thut.core.common.ThutCore;
 
-public class RingTile extends BlockEntity implements TickingBlockEntity
+public class RingTile extends BlockEntity implements ITickTile
 {
     public static BlockEntityType<RingTile> TYPE;
 
@@ -24,9 +25,9 @@ public class RingTile extends BlockEntity implements TickingBlockEntity
 
     public boolean despawns = false;
 
-    public RingTile()
+    public RingTile(final BlockPos pos, final BlockState state)
     {
-        super(RingTile.TYPE);
+        super(RingTile.TYPE, pos, state);
     }
 
     public void activatePortal()
@@ -72,9 +73,9 @@ public class RingTile extends BlockEntity implements TickingBlockEntity
     }
 
     @Override
-    public void load(final BlockState state, final CompoundTag nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(state, nbt);
+        super.load(nbt);
         this.despawns = nbt.getBoolean("despawns");
         this.timer = nbt.getInt("timer");
     }

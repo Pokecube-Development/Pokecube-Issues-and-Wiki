@@ -244,7 +244,7 @@ public class EntityPokecube extends EntityPokecubeBase
                 this.random.nextGaussian() * 0.0075F * inaccuracy, this.random.nextGaussian() * 0.0075F * inaccuracy)
                 .scale(velocity);
         this.setDeltaMovement(vec3d);
-        final float f = Mth.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
+        final float f = (float) vec3d.horizontalDistance();
         this.yRot = (float) (Mth.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
         this.xRot = (float) (Mth.atan2(vec3d.y, f) * (180F / (float) Math.PI));
         this.yRotO = this.yRot;

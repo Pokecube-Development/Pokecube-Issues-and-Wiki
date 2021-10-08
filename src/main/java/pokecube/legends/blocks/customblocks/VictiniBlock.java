@@ -40,7 +40,7 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
     private static final BooleanProperty                WATERLOGGED    = BlockStateProperties.WATERLOGGED;
     private static final DirectionProperty              FACING         = HorizontalDirectionalBlock.FACING;
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     static
     {
         VictiniBlock.VICTINI_TOP.put(Direction.NORTH, Shapes.or(
@@ -160,14 +160,15 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
             Block.box(7, 7, 12, 9, 9, 13.5),
             Block.box(7, 7, 2.5, 9, 9, 4)).optimize());
     }
+    // Precise selection box @formatter:on
 
-    // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
         final VictiniBlockPart half = state.getValue(VictiniBlock.HALF);
-        if (half == VictiniBlockPart.BOTTOM) return VictiniBlock.VICTINI_BOTTOM.get(state.getValue(VictiniBlock.FACING));
+        if (half == VictiniBlockPart.BOTTOM) return VictiniBlock.VICTINI_BOTTOM.get(state.getValue(
+                VictiniBlock.FACING));
         else return VictiniBlock.VICTINI_TOP.get(state.getValue(VictiniBlock.FACING));
     }
 
@@ -193,18 +194,18 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Victini Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
-            final Player player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final Direction facing = state.getValue(VictiniBlock.FACING);
         final BlockPos victiniPos = this.getVictiniPos(pos, state.getValue(VictiniBlock.HALF), facing);
         BlockState VictiniBlockState = world.getBlockState(victiniPos);
-        if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this.getBlock() == BlockInit.VICTINI_CORE
+        if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this.asBlock() == BlockInit.VICTINI_CORE
                 .get()) this.removeHalf(world, victiniPos, VictiniBlockState, player);
         final BlockPos victiniPartPos = this.getVictiniTopPos(victiniPos, facing);
         VictiniBlockState = world.getBlockState(victiniPartPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPartPos) && this
-                .getBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState, player);
+                .asBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState,
+                        player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
@@ -228,9 +229,9 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
     }
 
     // Breaking the Victini Spawner leaves water if underwater
-    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, Player player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
-        BlockState blockstate = world.getBlockState(pos);
+        final BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
         if (fluidState.getType() == Fluids.WATER) world.setBlock(pos, fluidState.createLegacyBlock(), 35);
         else
@@ -251,8 +252,9 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
         final BlockPos victiniPos = this.getVictiniTopPos(pos, context.getHorizontalDirection().getOpposite());
         if (pos.getY() < 255 && victiniPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
                 context)) return this.defaultBlockState().setValue(VictiniBlock.FACING, context.getHorizontalDirection()
-                        .getOpposite()).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM).setValue(VictiniBlock.WATERLOGGED,
-                                ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
+                        .getOpposite()).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM).setValue(
+                                VictiniBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
+                                        .getAmount() == 8);
         return null;
     }
 

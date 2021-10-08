@@ -11,6 +11,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
@@ -418,10 +419,10 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
             final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
+            // FIXME decide on shader
             final RenderType effectType = RenderType.create("pokecube:terrain_effects",
-                    DefaultVertexFormat.POSITION_COLOR, GL11.GL_QUADS, 256, RenderType.CompositeState.builder()
-                            .setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true)).setAlphaState(
-                                    new RenderStateShard.AlphaStateShard(0.003921569F)).createCompositeState(false));
+                    DefaultVertexFormat.POSITION_COLOR, Mode.QUADS, 256, RenderType.CompositeState.builder()
+                            .createCompositeState(false));
 
             final VertexConsumer builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.last().pose();

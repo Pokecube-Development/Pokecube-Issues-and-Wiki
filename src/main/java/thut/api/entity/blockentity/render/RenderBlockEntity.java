@@ -138,12 +138,10 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         mat.pushPose();
         mat.mulPose(new Quaternion(-180, 90, 0, true));
         mat.translate(0.5F, 0.5F, 0.5F);
-        Lighting.turnOff();
         final float f7 = 1.0F;
         mat.scale(-f7, -f7, f7);
         this.entityRenderDispatcher.textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
         this.getCrateModel();
-        Lighting.turnBackOn();
         mat.popPose();
     }
 

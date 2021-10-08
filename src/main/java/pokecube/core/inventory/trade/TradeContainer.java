@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -70,11 +69,11 @@ public class TradeContainer extends BaseContainer
     }
 
     @Override
-    public void clearContainer(final Player playerIn, final Level worldIn, final Container inventoryIn)
+    public void clearContainer(final Player playerIn, final Container inventoryIn)
     {
         if (!(playerIn instanceof ServerPlayer))
         {
-            super.clearContainer(playerIn, worldIn, inventoryIn);
+            super.clearContainer(playerIn, inventoryIn);
             return;
         }
         for (int i = 0; i < inventoryIn.getContainerSize(); ++i)
@@ -88,8 +87,7 @@ public class TradeContainer extends BaseContainer
                 final UUID owner = UUID.fromString(ids);
                 final ServerPlayer player = playerIn.getServer().getPlayerList().getPlayer(owner);
                 final boolean shouldReAdd = player.isAlive() && !player.hasDisconnected();
-                if (shouldReAdd) player.getInventory().placeItemBackInInventory(worldIn, inventoryIn.removeItemNoUpdate(
-                        i));
+                if (shouldReAdd) player.getInventory().placeItemBackInInventory(inventoryIn.removeItemNoUpdate(i));
                 else playerIn.drop(inventoryIn.removeItemNoUpdate(i), false);
             }
         }
@@ -113,7 +111,7 @@ public class TradeContainer extends BaseContainer
         super.removed(playerIn);
         this.pos.execute((world, pos) ->
         {
-            this.clearContainer(playerIn, world, this.inv);
+            this.clearContainer(playerIn, this.inv);
         });
     }
 }

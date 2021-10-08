@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
@@ -18,6 +19,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
@@ -152,11 +154,11 @@ public class GuiPokemobStorage extends GuiPokemobBase
         try
         {
             BlockPos newLink = null;
-            final Inventory inv = this.playerInventory;
             boolean effect = false;
-            if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
+            final ItemStack carried = Minecraft.getInstance().player.containerMenu.getCarried();
+            if (!carried.isEmpty() && carried.hasTag())
             {
-                final CompoundTag link = inv.getCarried().getTag().getCompound("link_pos");
+                final CompoundTag link = carried.getTag().getCompound("link_pos");
                 if (!link.isEmpty())
                 {
                     final Vector4 pos = new Vector4(link);

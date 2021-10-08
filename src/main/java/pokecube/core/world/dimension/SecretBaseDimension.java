@@ -3,6 +3,8 @@ package pokecube.core.world.dimension;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -11,6 +13,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -21,10 +24,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
@@ -45,7 +47,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -115,12 +117,12 @@ public class SecretBaseDimension
                 }
                 catch (final Exception e)
                 {
-                    old = GlobalPos.of(Level.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"),
-                            exito.getInt("z")));
+                    old = GlobalPos.of(Level.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"), exito.getInt(
+                            "z")));
                 }
                 final GlobalPos orig = old;
-                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.dimension().location().equals(c
-                        .dimension().location()) && orig.pos().equals(c.pos()));
+                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.dimension().location().equals(c.dimension()
+                        .location()) && orig.pos().equals(c.pos()));
             }
             tag.put("secret_base_exit", exit);
             PokecubeSerializer.getInstance().bases.add(gpos);
@@ -169,8 +171,8 @@ public class SecretBaseDimension
             if (tag.contains("secret_base_internal"))
             {
                 final CompoundTag exit = tag.getCompound("secret_base_internal");
-                return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt(
-                        "y"), exit.getInt("z")));
+                return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
+                        .getInt("z")));
             }
             int index;
             if (!tag.contains("secret_base_index"))
@@ -181,8 +183,8 @@ public class SecretBaseDimension
             }
             else index = tag.getInt("secret_base_index");
             final ChunkPos chunk = SecretBaseDimension.getFromIndex(index);
-            return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64,
-                    (chunk.z << 4) + 8));
+            return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64, (chunk.z << 4)
+                    + 8));
         }
         else if (!tag.contains("secret_base_exit")) return GlobalPos.of(Level.OVERWORLD, server.getLevel(
                 Level.OVERWORLD).getSharedSpawnPos());
@@ -195,8 +197,8 @@ public class SecretBaseDimension
             }
             catch (final Exception e)
             {
-                return GlobalPos.of(Level.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
-                        .getInt("z")));
+                return GlobalPos.of(Level.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt(
+                        "z")));
             }
         }
     }
@@ -212,8 +214,8 @@ public class SecretBaseDimension
 
         public SecretChunkGenerator(final Registry<Biome> registry)
         {
-            super(new FixedBiomeSource(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)),
-                    new StructureSettings(false));
+            super(new FixedBiomeSource(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)), new StructureSettings(
+                    false));
             this.registry = registry;
             Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
         }
@@ -242,7 +244,8 @@ public class SecretBaseDimension
         }
 
         @Override
-        public void fillFromNoise(final LevelAccessor world, final StructureFeatureManager manager, final ChunkAccess chunk)
+        public CompletableFuture<ChunkAccess> fillFromNoise(final Executor executor,
+                final StructureFeatureManager structures, final ChunkAccess chunk)
         {
             final ChunkPos pos = chunk.getPos();
             final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
@@ -257,8 +260,8 @@ public class SecretBaseDimension
                             false);
                     if (stone) for (int j = 57; j < 64; j++)
                     {
-                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.defaultBlockState()
-                                : Blocks.AIR.defaultBlockState();
+                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE
+                                .defaultBlockState() : Blocks.AIR.defaultBlockState();
                         chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
                         if (j < 64)
                         {
@@ -267,18 +270,20 @@ public class SecretBaseDimension
                         }
                     }
                 }
+            return CompletableFuture.completedFuture(chunk);
         }
 
         @Override
-        public int getBaseHeight(final int x, final int z, final Types heightmapType)
+        public int getBaseHeight(final int x, final int z, final Types heightmapType,
+                final LevelHeightAccessor p_156156_)
         {
             return 64;
         }
 
         @Override
-        public BlockGetter getBaseColumn(final int x, final int z)
+        public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor p_156152_)
         {
-            return new NoiseColumn(this.states);
+            return new NoiseColumn(0, this.states);
         }
 
     }
@@ -319,20 +324,24 @@ public class SecretBaseDimension
     }
 
     @SubscribeEvent
-    public static void onEnterChunk(final EnteringChunk event)
+    public static void onEnterChunk(final EntityEvent.EnteringSection event)
     {
         final Level world = event.getEntity().getCommandSenderWorld();
-        // Only wrap in secret bases.
-        if (world.dimension() != SecretBaseDimension.WORLD_KEY) return;
+        // Only wrap in secret bases, only if chunk changes, and only server
+        // side.
+        if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || event.getEntity()
+                .getCommandSenderWorld().isClientSide) return;
 
-        int x = event.getNewChunkX() / 16;
-        int z = event.getNewChunkZ() / 16;
+        final SectionPos newPos = event.getNewPos();
 
-        final int dx = event.getNewChunkX() % 16;
-        final int dz = event.getNewChunkZ() % 16;
+        int x = newPos.getX() / 16;
+        int z = newPos.getZ() / 16;
+
+        final int dx = newPos.getX() % 16;
+        final int dz = newPos.getZ() % 16;
 
         // Middle of base, don't care
-        if (dx == 0 && dz == 0 || event.getEntity().getCommandSenderWorld().isClientSide) return;
+        if (dx == 0 && dz == 0) return;
 
         if (dx > 0) if (dx < 8) x += 1;
         if (dx < 0) if (dx < -7) x -= 1;
@@ -355,9 +364,9 @@ public class SecretBaseDimension
         if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
         if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
 
-        final BlockPos newPos = new BlockPos(nx, mob.getY(), nz);
+        final BlockPos pos = new BlockPos(nx, mob.getY(), nz);
 
-        final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), newPos));
+        final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), pos));
         EventsHandler.Schedule(world, w ->
         {
             event.getEntity().setDeltaMovement(0, 0, 0);

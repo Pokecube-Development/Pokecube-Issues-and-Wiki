@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
@@ -23,21 +24,23 @@ import pokecube.core.utils.PokeType;
 
 public class Evolution
 {
-    private static final TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard("lightning_transparency", () ->
-    {
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-    }, () ->
-    {
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-    });
+    private static final TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
+            "lightning_transparency", () ->
+            {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            }, () ->
+            {
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            });
 
-    private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT  = RenderType.create("pokemob:evo_effect",
-            DefaultVertexFormat.POSITION_COLOR, 7, 256, false, true, RenderType.CompositeState.builder().setWriteMaskState(
-                    new RenderStateShard.WriteMaskStateShard(true, false)).setTransparencyState(Evolution.TRANSP).setShadeModelState(
-                            new RenderStateShard.ShadeModelStateShard(true)).createCompositeState(false));
+    private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
+    // FIXME decide on shader
+    private static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
+            Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setWriteMaskState(
+                    new RenderStateShard.WriteMaskStateShard(true, false)).setTransparencyState(Evolution.TRANSP)
+                    .createCompositeState(false));
 
     public static void render(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource iRenderTypeBuffer,
             final float partialTick)
@@ -144,8 +147,8 @@ public class Evolution
             final BufferBuilder buf = (BufferBuilder) builder;
             if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col.getBlue(),
-                0).endVertex();
+        builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col
+                .getBlue(), 0).endVertex();
     }
 
     private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,

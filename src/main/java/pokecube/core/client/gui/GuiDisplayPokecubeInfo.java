@@ -539,7 +539,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
         try
         {
             if ((this.minecraft.screen == null || GuiArranger.toggle) && !Minecraft
-                    .getInstance().options.hideGui && event.getType() == ElementType.HOTBAR || event
+                    .getInstance().options.hideGui && event.getType() == ElementType.LAYER || event
                             .getType() == ElementType.CHAT) this.draw(event);
         }
         catch (final Throwable e)

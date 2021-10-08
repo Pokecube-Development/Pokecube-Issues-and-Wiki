@@ -121,7 +121,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void registerBrainGoals(final Brain<Villager> brain)
+    public void registerBrainGoals(final Brain<Villager> brain)
     {
         final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)

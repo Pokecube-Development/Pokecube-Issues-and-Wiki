@@ -215,7 +215,7 @@ public class PacketTrade extends Packet
                 {
                     final ServerPlayer user = player.getServer().getPlayerList().getPlayer(id);
                     if (user != null) PokecubeCore.packets.sendTo(trade, user);
-                    container.clearContainer(user, user.getCommandSenderWorld(), inv.getInv());
+                    container.clearContainer(user, inv.getInv());
                 }
                 return;
 

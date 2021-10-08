@@ -16,6 +16,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
@@ -43,9 +44,9 @@ public class Category implements IRecipeCategory<Evolution>
     }
 
     @Override
-    public String getTitle()
+    public Component getTitle()
     {
-        return this.localizedName;
+        return new TextComponent(this.localizedName);
     }
 
     @Override

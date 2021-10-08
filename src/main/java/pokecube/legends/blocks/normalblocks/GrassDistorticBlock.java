@@ -89,7 +89,6 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                         Blocks.SNOW));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
             final boolean valid)
@@ -151,7 +150,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                 .get().defaultBlockState());
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)

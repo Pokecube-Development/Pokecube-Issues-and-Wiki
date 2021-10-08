@@ -24,6 +24,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -45,7 +46,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
-public class RaidSpawnBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock
+public class RaidSpawnBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<State> ACTIVE = EnumProperty.create("state", State.class);
@@ -81,7 +82,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     private static final VoxelShape RAID_SPOT = Shapes.or(
             Block.box(2, 0, 2, 14, 3, 14),
             Block.box(3, 3, 3, 13, 9, 13)).optimize();
-    
+
     public RaidSpawnBlock(final Properties properties)
     {
         super(properties);
@@ -94,7 +95,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
                                final CollisionContext context)
     {
-        return RAID_SPOT;
+        return RaidSpawnBlock.RAID_SPOT;
     }
 
     @Override
@@ -138,15 +139,10 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     }
 
     @Override
-    public BlockEntity createTileEntity(final BlockState state, final BlockGetter world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new RaidSpawn();
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
+        // TODO Auto-generated method stub
+        return new RaidSpawn(pos, state);
     }
 
     public RaidSpawnBlock setInfoBlockName(final String infoname)

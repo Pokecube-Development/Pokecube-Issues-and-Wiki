@@ -146,8 +146,11 @@ public class ClientSetupHandler
         ClientRegistry.bindTileEntityRenderer(RaidSpawn.TYPE, Raid::new);
 
         // Register config gui
-        ModList.get().getModContainerById(Reference.ID).ifPresent(c -> c.registerExtensionPoint(
-                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeLegends.config, parent)));
+        // FIXME config gui
+        // ModList.get().getModContainerById(Reference.ID).ifPresent(c ->
+        // c.registerExtensionPoint(
+        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
+        // ConfigGui(PokecubeLegends.config, parent)));
 
         // Register entity renderer for the wormhole
         RenderingRegistry.registerEntityRenderingHandler(EntityInit.WORMHOLE.get(), Wormhole::new);

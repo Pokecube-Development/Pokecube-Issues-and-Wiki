@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -21,7 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
@@ -145,11 +144,11 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
     {
         final boolean ret = false;
         BlockPos newLink = null;
-        final Inventory inv = Minecraft.getInstance().player.getInventory();
+        final ItemStack carried = Minecraft.getInstance().player.containerMenu.getCarried();
         boolean effect = false;
-        if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
+        if (!carried.isEmpty() && carried.hasTag())
         {
-            final CompoundTag link = inv.getCarried().getTag().getCompound("link_pos");
+            final CompoundTag link = carried.getTag().getCompound("link_pos");
             if (!link.isEmpty())
             {
                 final Vector4 pos = new Vector4(link);
@@ -265,7 +264,6 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.update.y = y - 5 - 20;
         this.update.x = x - 1 + this.location.getWidth();
 
-        Lighting.turnOff();
         this.location.render(mat, mouseX, mouseY, partialTicks);
         this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
         this.variation.render(mat, mouseX, mouseY, partialTicks);

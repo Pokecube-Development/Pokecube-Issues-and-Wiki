@@ -5,12 +5,13 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeTileEntity;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
@@ -24,20 +25,20 @@ public class RaidSpawn extends MaxTile
     private final List<BeamSegment> normal = Lists.newArrayList();
     private final List<BeamSegment> rare   = Lists.newArrayList();
 
-    public RaidSpawn()
+    public RaidSpawn(final BlockPos pos, final BlockState state)
     {
-        super(RaidSpawn.TYPE);
+        this(RaidSpawn.TYPE, pos, state);
+    }
+
+    public RaidSpawn(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    {
+        super(tileEntityTypeIn, pos, state);
         float[] colours = { 0.83f, 0.0f, 0.0f, 1 };
         BeamSegment seg = new BeamSegment(colours);
         this.normal.add(seg);
         colours = new float[] { 0.98f, 0.74f, 0.14f, 1 };
         seg = new BeamSegment(colours);
         this.rare.add(seg);
-    }
-
-    public RaidSpawn(final BlockEntityType<?> tileEntityTypeIn)
-    {
-        super(tileEntityTypeIn);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -64,14 +65,7 @@ public class RaidSpawn extends MaxTile
     @Override
     public AABB getRenderBoundingBox()
     {
-        return IForgeTileEntity.INFINITE_EXTENT_AABB;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public double getViewDistance()
-    {
-        return 65536.0D;
+        return IForgeBlockEntity.INFINITE_EXTENT_AABB;
     }
 
     public static class BeamSegment

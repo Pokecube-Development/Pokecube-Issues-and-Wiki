@@ -79,7 +79,6 @@ import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
-import thut.api.entity.genetics.GeneRegistry;
 
 public class EventsHandlerClient
 {
@@ -352,7 +351,7 @@ public class EventsHandlerClient
 
     public static void onRenderHotbar(final RenderGameOverlayEvent.Post event)
     {
-        if (event.getType() == ElementType.HOTBAR)
+        if (event.getType() == ElementType.LAYER)
         {
             if (!Screen.hasAltDown()) return;
             final Player player = Minecraft.getInstance().player;
@@ -449,15 +448,15 @@ public class EventsHandlerClient
         ResourceLocation icon = entry.getIcon(!female, shiny);
         if (holder != null) icon = holder.getIcon(!female, shiny, entry);
 
-        RenderSystem.pushMatrix();
+        // RenderSystem.pushMatrix();
 
 
         Minecraft.getInstance().getTextureManager().bindForSetup(icon);
         Minecraft.getInstance().getTextureManager().getTexture(icon).setFilter(false, false);
 
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableAlphaTest();
-        RenderSystem.defaultAlphaFunc();
+        // RenderSystem.enableRescaleNormal();
+        // RenderSystem.enableAlphaTest();
+        // RenderSystem.defaultAlphaFunc();
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         Lighting.setupForFlatItems();
@@ -475,10 +474,10 @@ public class EventsHandlerClient
 
         RenderSystem.enableDepthTest();
         Lighting.setupFor3DItems();
-
-        RenderSystem.disableAlphaTest();
-        RenderSystem.disableRescaleNormal();
-        RenderSystem.popMatrix();
+        //
+        // RenderSystem.disableAlphaTest();
+        // RenderSystem.disableRescaleNormal();
+        // RenderSystem.popMatrix();
     }
 
 //    private static Map<ResourceLocation, RenderType> cache = Maps.newHashMap();

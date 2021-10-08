@@ -149,8 +149,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.isLoot || this.isReleasing() || !this.canBePickedUp) return false;
-        if (source.getDirectEntity() instanceof ServerPlayer && (this.tilt <= 0 || ((Player) source
-                .getDirectEntity()).getAbilities().instabuild))
+        if (source.getDirectEntity() instanceof ServerPlayer && (this.tilt <= 0 || ((Player) source.getDirectEntity())
+                .getAbilities().instabuild))
         {
             final ServerPlayer player = (ServerPlayer) source.getDirectEntity();
             this.interact(player, InteractionHand.MAIN_HAND);
@@ -312,8 +312,10 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
-            if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
-                    raytraceresult);
+            // if TODO maybe do an event here?
+            // (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this,
+            // raytraceresult))
+            this.onImpact(raytraceresult);
             return;
         }
         if (this.isReleasing()) return;
@@ -357,7 +359,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     private void validateDirection(final Vec3 vec3d)
     {
-        final float f = Mth.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
+        final float f = (float) vec3d.horizontalDistance();
         if (f > 0.5)
         {
             this.yRot = (float) (-Mth.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
@@ -638,9 +640,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 }, projectile.getBoundingBox().expandTowards(projectile.getDeltaMovement()).inflate(1.0D));
     }
 
-    public static HitResult rayTrace(final Entity projectile, final AABB boundingBox,
-            final Predicate<Entity> filter, final ClipContext.Block blockModeIn,
-            final boolean checkEntityCollision)
+    public static HitResult rayTrace(final Entity projectile, final AABB boundingBox, final Predicate<Entity> filter,
+            final ClipContext.Block blockModeIn, final boolean checkEntityCollision)
     {
         return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, false, (Entity) null, blockModeIn, false,
                 filter, boundingBox);
@@ -650,9 +651,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
      * Gets the EntityRayTraceResult representing the entity hit
      */
     @Nullable
-    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile,
-            final Vec3 startVec, final Vec3 endVec, final AABB boundingBox,
-            final Predicate<Entity> filter)
+    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile, final Vec3 startVec,
+            final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter)
     {
         return EntityPokecubeBase.rayTraceEntities(worldIn, projectile, startVec, endVec, boundingBox, filter,
                 Double.MAX_VALUE);
@@ -667,19 +667,19 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final Vec3 vec3d1 = projectile.position();
         if (p_221268_5_ && !world.noCollision(projectile, projectile.getBoundingBox(), e -> (!includeShooter
                 && shooter != null ? EntityPokecubeBase.getEntityAndMount(shooter) : ImmutableSet.of()).contains(e)))
-            return new BlockHitResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z), new BlockPos(
-                    projectile.position()), false);
+            return new BlockHitResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z), new BlockPos(projectile
+                    .position()), false);
         else
         {
             Vec3 vec3d2 = vec3d1.add(vec3d);
-            HitResult raytraceresult = world.clip(new ClipContext(vec3d1, vec3d2, blockModeIn,
-                    ClipContext.Fluid.NONE, projectile));
+            HitResult raytraceresult = world.clip(new ClipContext(vec3d1, vec3d2, blockModeIn, ClipContext.Fluid.NONE,
+                    projectile));
             if (checkEntityCollision)
             {
                 if (raytraceresult.getType() != HitResult.Type.MISS) vec3d2 = raytraceresult.getLocation();
 
-                final HitResult raytraceresult1 = EntityPokecubeBase.rayTraceEntities(world, projectile, vec3d1,
-                        vec3d2, boundingBox, filter);
+                final HitResult raytraceresult1 = EntityPokecubeBase.rayTraceEntities(world, projectile, vec3d1, vec3d2,
+                        boundingBox, filter);
                 if (raytraceresult1 != null) raytraceresult = raytraceresult1;
             }
 
@@ -691,9 +691,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
      * Gets the EntityRayTraceResult representing the entity hit
      */
     @Nullable
-    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile,
-            final Vec3 startVec, final Vec3 endVec, final AABB boundingBox,
-            final Predicate<Entity> filter, final double distance)
+    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile, final Vec3 startVec,
+            final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter, final double distance)
     {
         double d0 = distance;
         Entity entity = null;

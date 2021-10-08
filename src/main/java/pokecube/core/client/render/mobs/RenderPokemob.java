@@ -8,19 +8,17 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -137,7 +135,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static class Holder extends ModelHolder implements IModelRenderer<Mob>
     {
-        public ModelWrapper<Mob>          wrapper;
+        public ModelWrapper<Mob>                wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -423,8 +421,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    public void render(final Mob entity, final float entityYaw, final float partialTicks,
-            final PoseStack matrixStackIn, final MultiBufferSource bufferIn, final int packedLightIn)
+    public void render(final Mob entity, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
+            final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return;
@@ -477,20 +475,20 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     protected RenderType getRenderType(final Mob entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
+        // FIXME decide on shader
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
-                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false)).setTransparencyState(
-                        new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                        {
-                            RenderSystem.enableBlend();
-                            RenderSystem.defaultBlendFunc();
-                        }, () ->
-                        {
-                            RenderSystem.disableBlend();
-                        })).setDiffuseLightingState(new RenderStateShard.DiffuseLightingStateShard(true)).setAlphaState(
-                                new RenderStateShard.AlphaStateShard(0.003921569F)).setCullState(new RenderStateShard.CullStateShard(false))
-                .setLightmapState(new RenderStateShard.LightmapStateShard(true)).setOverlayState(new RenderStateShard.OverlayStateShard(
-                        true)).createCompositeState(false);
-        return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
+                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
+                {
+                    RenderSystem.enableBlend();
+                    RenderSystem.defaultBlendFunc();
+                }, () ->
+                {
+                    RenderSystem.disableBlend();
+                })).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
+                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+        return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }
 

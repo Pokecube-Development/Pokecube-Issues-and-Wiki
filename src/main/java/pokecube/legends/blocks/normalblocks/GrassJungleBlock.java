@@ -89,7 +89,7 @@ public class GrassJungleBlock extends GrassBlock implements BonemealableBlock
     @Override
     public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
-        super.stepOn(world, pos, entity);
+        super.stepOn(world, pos, state, entity);
         GrassJungleBlock.executeProcedure(entity);
     }
 

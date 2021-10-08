@@ -15,6 +15,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.recipes.MoveRecipes.MoveRecipe;
@@ -57,9 +58,9 @@ public class Category implements IRecipeCategory<MoveRecipe>
     }
 
     @Override
-    public String getTitle()
+    public Component getTitle()
     {
-        return this.localizedName;
+        return new TextComponent(this.localizedName);
     }
 
     @Override
