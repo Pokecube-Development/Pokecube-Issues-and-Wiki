@@ -3,7 +3,6 @@
  */
 package pokecube.core.client.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -280,16 +279,16 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
-                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName),
-                        70, this.fontRenderer, true);
+                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName), 70,
+                        this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }
             this.fontRenderer.draw(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            this.fontRenderer.draw(evt.mat, "L." + level, nameOffsetX + 88 - this.fontRenderer.width("L."
-                    + level), nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
+            this.fontRenderer.draw(evt.mat, "L." + level, nameOffsetX + 88 - this.fontRenderer.width("L." + level),
+                    nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
             this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
@@ -349,9 +348,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
 
                     evt.mat.popPose();
                     evt.mat.pushPose();
-                    final Color moveColor = new Color(move.getType(pokemob).colour);
-                    GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
-                            1.0F);
                     this.fontRenderer.draw(evt.mat, MovesUtils.getMoveName(move.getName()).getString(), 5
                             + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                     evt.mat.popPose();
@@ -538,9 +534,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
     {
         try
         {
-            if ((this.minecraft.screen == null || GuiArranger.toggle) && !Minecraft
-                    .getInstance().options.hideGui && event.getType() == ElementType.LAYER || event
-                            .getType() == ElementType.CHAT) this.draw(event);
+            if ((this.minecraft.screen == null || GuiArranger.toggle) && !Minecraft.getInstance().options.hideGui
+                    && event.getType() == ElementType.LAYER || event.getType() == ElementType.CHAT) this.draw(event);
         }
         catch (final Throwable e)
         {
