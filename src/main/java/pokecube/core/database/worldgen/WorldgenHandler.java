@@ -370,8 +370,8 @@ public class WorldgenHandler
     private WorldgenHandler(final String modid, final IEventBus bus)
     {
         this.MODID = modid;
-        bus.register(this.reg);
-        MinecraftForge.EVENT_BUS.register(this);
+        // bus.register(this.reg);
+        // MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.INSTANCE = this;
         if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = StructurePoolElementType.register(
                 "pokecube:custom_pool_element", CustomJigsawPiece.makeCodec());
@@ -379,8 +379,8 @@ public class WorldgenHandler
 
     public static void setupAll()
     {
-        WorldgenHandler.INSTANCE.setup();
-        WorldgenHandler.INSTANCE.registerConfigured();
+        // WorldgenHandler.INSTANCE.setup();
+        // WorldgenHandler.INSTANCE.registerConfigured();
 
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WorldgenHandler::removeStructures);
     }

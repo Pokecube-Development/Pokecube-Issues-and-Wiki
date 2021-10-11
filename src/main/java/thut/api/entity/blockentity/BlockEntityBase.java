@@ -14,7 +14,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -425,8 +424,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         this.blocks[i][k][j] = state;
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
-                            final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
-                            this.tiles[i][k][j] = BlockEntity.loadStatic(state, tag);
+                            // final CompoundTag tag = blockTag.getCompound("T"
+                            // + i + "," + k + "," + j);
+                            // this.tiles[i][k][j] =
+                            // BlockEntity.loadStatic(state, tag);
                         }
                         catch (final Exception e)
                         {
@@ -513,37 +514,40 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
-
-    @Override
-    public void setPosRaw(final double x, final double y, final double z)
-    {
-        final Vec3 pos = new Vec3(x, y, z);
-        Vec3 vec = pos;
-        if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
-        final double ds2 = vec.distanceToSqr(pos);
-        super.setPosRaw(x, y, z);
-
-        if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0) this.getEntityData().set(
-                BlockEntityBase.position, pos);
-
-        // This is null during init, when setPosition is first called.
-        if (this.getEntityData() == null) return;
-        if (!this.isServerWorld())
-        {
-            vec = this.getEntityData().get(BlockEntityBase.position);
-            if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
-        }
-    }
-
-    @Override
-    public void setLocationFromBoundingbox()
-    {
-        final AABB box = this.getBoundingBox();
-        this.setPosRaw(box.minX, box.minY, box.minZ);
-        // Forge - Process chunk registration after moving.
-        if (this.isAddedToWorld() && !this.level.isClientSide && this.level instanceof ServerLevel)
-            ((ServerLevel) this.level).updateChunkPos(this);
-    }
+    //
+    // @Override
+    // public void setPosRaw(final double x, final double y, final double z)
+    // {
+    // final Vec3 pos = new Vec3(x, y, z);
+    // Vec3 vec = pos;
+    // if (this.getEntityData() != null) vec =
+    // this.getEntityData().get(BlockEntityBase.position);
+    // final double ds2 = vec.distanceToSqr(pos);
+    // super.setPosRaw(x, y, z);
+    //
+    // if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0)
+    // this.getEntityData().set(
+    // BlockEntityBase.position, pos);
+    //
+    // // This is null during init, when setPosition is first called.
+    // if (this.getEntityData() == null) return;
+    // if (!this.isServerWorld())
+    // {
+    // vec = this.getEntityData().get(BlockEntityBase.position);
+    // if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
+    // }
+    // }
+    //
+    // @Override
+    // public void setLocationFromBoundingbox()
+    // {
+    // final AABB box = this.getBoundingBox();
+    // this.setPosRaw(box.minX, box.minY, box.minZ);
+    // // Forge - Process chunk registration after moving.
+    // if (this.isAddedToWorld() && !this.level.isClientSide && this.level
+    // instanceof ServerLevel)
+    // ((ServerLevel) this.level).updateChunkPos(this);
+    // }
 
     @Override
     public void setPos(final double x, final double y, final double z)
