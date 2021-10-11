@@ -23,10 +23,10 @@ public class StructureManager
 {
     public static class StructureInfo
     {
-        public String         name;
+        public String            name;
         public StructureStart<?> start;
 
-        private int    hash;
+        private int    hash = -1;
         private String key;
 
         public StructureInfo()
@@ -37,12 +37,11 @@ public class StructureManager
         {
             this.name = entry.getKey().getFeatureName();
             this.start = entry.getValue();
-            this.key = this.name + " " + this.start.getBoundingBox();
-            this.hash = this.key.hashCode();
         }
 
         public boolean isIn(final BlockPos pos)
         {
+            if (this.start.getPieces().isEmpty()) return false;
             if (!this.start.getBoundingBox().isInside(pos)) return false;
             for (final StructurePiece p1 : this.start.getPieces())
                 if (this.isIn(p1.getBoundingBox(), pos)) return true;
@@ -67,6 +66,7 @@ public class StructureManager
         @Override
         public int hashCode()
         {
+            if (this.hash == -1) this.toString();
             return this.hash;
         }
 
@@ -80,6 +80,9 @@ public class StructureManager
         @Override
         public String toString()
         {
+            if (this.start.getPieces().isEmpty()) return this.name;
+            if (this.key == null) this.key = this.name + " " + this.start.getBoundingBox();
+            this.hash = this.key.hashCode();
             return this.key;
         }
     }
@@ -120,6 +123,7 @@ public class StructureManager
         for (final Entry<StructureFeature<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
+            if (info.start.getPieces().isEmpty()) continue;
             final BoundingBox b = info.start.getBoundingBox();
             for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
                 for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)

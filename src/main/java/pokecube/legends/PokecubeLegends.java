@@ -71,7 +71,6 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
-import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
 
@@ -139,7 +138,7 @@ public class PokecubeLegends
                             .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
                     .squared().count(2), new ResourceLocation("pokecube_legends:sapphire_ore"));
 
-            Trees.register();
+//            Trees.register();
         }
 
         @SubscribeEvent
