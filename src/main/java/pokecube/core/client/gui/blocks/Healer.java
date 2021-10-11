@@ -1,11 +1,11 @@
 package pokecube.core.client.gui.blocks;
 
-import org.lwjgl.opengl.GL11;
-
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,9 +28,10 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX,
             final int mouseY)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, Resources.GUI_HEAL_TABLE);
         // bind texture
-        this.minecraft.getTextureManager().bindForSetup(Resources.GUI_HEAL_TABLE);
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
         this.blit(mat, j2, k2, 0, 0, this.imageWidth, this.imageHeight);

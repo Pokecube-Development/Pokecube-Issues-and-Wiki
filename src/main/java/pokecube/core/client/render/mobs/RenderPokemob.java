@@ -485,9 +485,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 }, () ->
                 {
                     RenderSystem.disableBlend();
-                })).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
-                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
+                        new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
         return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }

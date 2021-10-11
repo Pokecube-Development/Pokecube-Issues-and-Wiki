@@ -1,13 +1,14 @@
 package pokecube.nbtedit.gui;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -106,8 +107,9 @@ public class GuiSaveSlotButton extends Button
     private void renderVanillaButton(final PoseStack mat, final int x, final int y, final int u, final int v, final int width,
             final int height)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindForSetup(GuiSaveSlotButton.TEXTURE);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, GuiSaveSlotButton.TEXTURE);
 
         // Top Left
         this.blit(mat, x, y, u, v, width / 2, height / 2);

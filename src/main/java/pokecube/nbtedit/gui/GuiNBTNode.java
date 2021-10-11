@@ -1,12 +1,12 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.opengl.GL11;
-
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.nbtedit.NBTStringHelper;
@@ -31,8 +31,8 @@ public class GuiNBTNode extends Button
 
     public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
     {
-        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new TextComponent(node.toString()), b -> tree.nodeClicked(
-                (GuiNBTNode) b));
+        super(x, y, 10, Minecraft.getInstance().font.lineHeight, new TextComponent(node.toString()), b -> tree
+                .nodeClicked((GuiNBTNode) b));
         this.tree = tree;
         this.node = node;
         this.x = x;
@@ -83,20 +83,14 @@ public class GuiNBTNode extends Button
         final int dx = this.node.hasChildren() ? 10 : 0;
         final int x = this.x + dx;
 
-        this.mc.getTextureManager().bindForSetup(GuiNBTNode.WIDGET_TEXTURE);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
 
-        if (selected)
-        {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GuiComponent.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
-        }
-        if (this.node.hasChildren())
-        {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.blit(mat, x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
-        }
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        if (selected) GuiComponent.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
+        if (this.node.hasChildren()) this.blit(mat, x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover
+                ? this.height
+                : 0, 9, this.height);
         this.blit(mat, x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
         GuiComponent.drawString(mat, this.mc.font, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
     }

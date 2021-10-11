@@ -27,6 +27,7 @@ public class ModelRing extends EntityModel<Entity>
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
+        // FIXME shaders
         return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true,
                 false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc,
                         true, false)).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(

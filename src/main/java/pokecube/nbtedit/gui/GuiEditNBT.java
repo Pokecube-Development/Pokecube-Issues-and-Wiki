@@ -1,8 +1,6 @@
 package pokecube.nbtedit.gui;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -224,8 +222,8 @@ public class GuiEditNBT extends AbstractWidget
         this.section.active = this.value.isFocused();
         this.newLine.active = this.value.isFocused();
         this.mc.getTextureManager().bindForSetup(GuiEditNBT.WINDOW_TEXTURE);
-
-        GL11.glColor4f(1, 1, 1, 1);
+     // FIXME colour?
+//        GL11.glColor4f(1, 1, 1, 1);
         this.blit(mat, this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
         if (!this.canEditText) GuiComponent.fill(mat, this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
         if (!this.canEditValue) GuiComponent.fill(mat, this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);

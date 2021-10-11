@@ -158,7 +158,8 @@ public class Material
         else builder.setCullState(RenderStateShard.NO_CULL);
 
         // Some models have extra bits that are not flat shaded, like coatings
-        if (!this.flat) builder.setShaderState(RenderStateShard.RENDERTYPE_CUTOUT_MIPPED_SHADER);
+        // FIXME not flat case
+
         final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
 
         final String id = this.render_name + tex;

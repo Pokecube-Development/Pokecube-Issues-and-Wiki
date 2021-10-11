@@ -1,7 +1,5 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -52,8 +50,8 @@ public class GuiNBTButton extends Button
             if (this.hoverTime == -1) this.hoverTime = System.currentTimeMillis();
         }
         else this.hoverTime = -1;
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+     // FIXME colour?
+//        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         // Draw the texture
         if (this.visible)
         {

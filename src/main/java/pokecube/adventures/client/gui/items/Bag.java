@@ -1,8 +1,6 @@
 package pokecube.adventures.client.gui.items;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiComponent;
@@ -68,8 +66,8 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
 
     @Override
     protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
-    {
-        GL11.glColor4f(1f, 1f, 1f, 1f);
+    {// FIXME colour?
+//        GL11.glColor4f(1f, 1f, 1f, 1f);
 
         this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
         final int x = (this.width - this.imageWidth) / 2;

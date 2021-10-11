@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.base.Predicate;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
@@ -223,7 +222,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore
                     .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = pokemob.getMaxHealth();
             float ratio = pokemob.getHealth() / total;
@@ -274,8 +274,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             }
 
             // Render Name
-            if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
@@ -291,7 +290,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                     nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             final int n = this.getPokemobsToDisplay().length;
             final int num = this.fontRenderer.width("" + n);
             this.blit(evt.mat, nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
@@ -318,7 +317,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                     // bind texture
                     evt.mat.pushPose();
 
-                    this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+                    RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
                     this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
@@ -355,7 +354,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             }
 
             // Render Mob
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobOffsetX = 0;
             final int mobOffsetY = 0;
@@ -389,7 +388,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                     .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
                             .getConfig().targetSize);
             // Render HP
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
@@ -421,7 +421,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             }
 
             // Render Name
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
             if (this.fontRenderer.width(displayName) > 70)
@@ -432,7 +432,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Box behind Mob
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobBoxOffsetX = 0;
             final int mobBoxOffsetY = 0;

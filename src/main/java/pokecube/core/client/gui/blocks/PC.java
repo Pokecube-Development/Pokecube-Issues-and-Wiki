@@ -1,8 +1,8 @@
 package pokecube.core.client.gui.blocks;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiComponent;
@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -79,9 +80,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
     {
-        GL11.glColor4f(1f, 1f, 1f, 1f);
-
-        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);

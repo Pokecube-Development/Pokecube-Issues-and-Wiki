@@ -1,12 +1,12 @@
 package pokecube.core.client.gui.blocks;
 
-import org.lwjgl.opengl.GL11;
-
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -33,14 +33,12 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
     {
-        GL11.glPushMatrix();
-        GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(PokecubeMod.ID,
-                "textures/gui/trade_machine.png"));
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
-        GL11.glPopMatrix();
     }
 
     /**
@@ -50,14 +48,10 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final PoseStack mat, final int p_146979_1_, final int p_146979_2_)
     {
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
         ItemStack stack = this.menu.getInv().getItem(0);
         if (PokecubeManager.isFilled(stack)) this.renderMob(0);
         stack = this.menu.getInv().getItem(1);
         if (PokecubeManager.isFilled(stack)) this.renderMob(1);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glPopMatrix();
     }
 
     @Override
