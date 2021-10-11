@@ -118,8 +118,6 @@ public class Health
     {
         final Stack<LivingEntity> ridingStack = new Stack<>();
 
-        if (passedEntity.tickCount < 10) return;
-
         LivingEntity entity = passedEntity;
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
