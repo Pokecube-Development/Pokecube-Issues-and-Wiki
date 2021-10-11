@@ -81,6 +81,7 @@ import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IPokemob;
@@ -150,6 +151,7 @@ public class PokemobEventsHandler
         // This deals with pokemob initialization, it initializes the AI, and
         // also does some checks for things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStartTracking);
@@ -305,8 +307,8 @@ public class PokemobEventsHandler
             return;
         }
         // Apply scaling from config for this
-        if (pokemob != null && evt.getSource().getEntity() instanceof Player) evt.setAmount((float) (evt
-                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
+        if (pokemob != null && evt.getSource().getEntity() instanceof Player) evt.setAmount((float) (evt.getAmount()
+                * PokecubeCore.getConfig().playerToPokemobDamageScale));
 
         // Some special handling for in wall stuff
         if (evt.getSource() == DamageSource.IN_WALL)
@@ -350,8 +352,7 @@ public class PokemobEventsHandler
                     // Convert to colliding AABBs
                     BlockEntityUpdater.fill(aabbs, biggerBox, total);
                     // Push off the AABBS if needed
-                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs,
-                            Vec3.ZERO);
+                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs, Vec3.ZERO);
 
                     // This gives us an indication if if we did actually
                     // collide, if this occured, then we need to do some extra
@@ -428,6 +429,15 @@ public class PokemobEventsHandler
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getDirectEntity());
         if (attacker != null && damageSource.getDirectEntity() instanceof Mob) PokemobEventsHandler.handleExp(
                 (Mob) damageSource.getDirectEntity(), attacker, (LivingEntity) evt.getEntity());
+    }
+
+    private static void onJoinWorldLast(final EntityJoinWorldEvent event)
+    {
+        final Entity mob = event.getEntity();
+        if (!(mob instanceof final EntityPokemob pokemob)) return;
+        PokemobTracker.addPokemob(pokemob.pokemobCap);
+        if (pokemob.pokemobCap.isPlayerOwned() && pokemob.pokemobCap.getOwnerId() != null) PlayerPokemobCache
+                .UpdateCache(pokemob.pokemobCap);
     }
 
     private static void onJoinWorld(final EntityJoinWorldEvent event)
@@ -669,8 +679,8 @@ public class PokemobEventsHandler
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(new TranslatableComponent("pokemob.action.faint.enemy", attackedMob
                     .getDisplayName()));
-            if (targetOwner instanceof Player && attacker.getOwner() != targetOwner) BrainUtils.initiateCombat(
-                    pokemob, (LivingEntity) targetOwner);
+            if (targetOwner instanceof Player && attacker.getOwner() != targetOwner) BrainUtils.initiateCombat(pokemob,
+                    (LivingEntity) targetOwner);
             else BrainUtils.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
@@ -789,13 +799,11 @@ public class PokemobEventsHandler
                 return;
             }
             // Debug thing to maximize happiness
-            if (held.getItem() == Items.APPLE) if (player.getAbilities().instabuild && player.isShiftKeyDown())
-                pokemob
+            if (held.getItem() == Items.APPLE) if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob
                     .addHappiness(255);
             // Debug thing to increase hunger time
             if (held.getItem() == Items.GOLDEN_HOE) if (player.getAbilities().instabuild && player.isShiftKeyDown())
-                pokemob
-                    .applyHunger(+4000);
+                pokemob.applyHunger(+4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {

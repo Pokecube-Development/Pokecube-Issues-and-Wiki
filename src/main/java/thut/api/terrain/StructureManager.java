@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.core.common.ThutCore;
 
 public class StructureManager
 {
@@ -37,6 +38,11 @@ public class StructureManager
         {
             this.name = entry.getKey().getFeatureName();
             this.start = entry.getValue();
+            if (this.name == null)
+            {
+                this.name = "unk?";
+                ThutCore.LOGGER.warn("Warning, null name for start: {}", this.start);
+            }
         }
 
         public boolean isIn(final BlockPos pos)
