@@ -212,7 +212,7 @@ public class GuiChooseFirstPokemob extends Screen
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         this.minecraft.getTextureManager().bindForSetup(Resources.GUI_POKEMOB);
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        // FIXME colour?
+
         RenderSystem.setShaderColor(255f / 255f, 0f / 255f, 0f / 255f, 1.0F);
         this.blit(mat, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
 

@@ -1,10 +1,12 @@
 package pokecube.adventures.client.gui.blocks;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -25,9 +27,9 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     @Override
     protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        // FIXME colour?
-        // GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(PokecubeAdv.MODID,
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID,
                 "textures/gui/afa.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;

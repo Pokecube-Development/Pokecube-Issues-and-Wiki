@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -422,7 +420,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             // FIXME decide on shader
             final RenderType effectType = RenderType.create("pokecube:terrain_effects",
                     DefaultVertexFormat.POSITION_COLOR, Mode.QUADS, 256, RenderType.CompositeState.builder()
-                            .createCompositeState(false));
+                            .setShaderState(RenderStateShard.POSITION_COLOR_SHADER).createCompositeState(false));
 
             final VertexConsumer builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.last().pose();
