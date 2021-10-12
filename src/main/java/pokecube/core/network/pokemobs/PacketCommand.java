@@ -108,7 +108,7 @@ public class PacketCommand extends Packet
         this.command = Command.values()[buf.readByte()];
         try
         {
-            this.handler = IHasCommands.COMMANDHANDLERS.get(this.command).newInstance();
+            this.handler = IHasCommands.COMMANDHANDLERS.get(this.command).getConstructor().newInstance();
             this.handler.readFromBuf(buf);
         }
         catch (final Exception e)

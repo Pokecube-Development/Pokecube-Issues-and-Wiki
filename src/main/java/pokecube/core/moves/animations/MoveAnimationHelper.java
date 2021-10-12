@@ -65,7 +65,7 @@ public class MoveAnimationHelper
         final Class<? extends MoveAnimationBase> presetClass = MoveAnimationHelper.presets.get(preset);
         if (presetClass != null) try
         {
-            animation = presetClass.newInstance();
+            animation = presetClass.getConstructor().newInstance();
             ((MoveAnimationBase) animation).init(anim);
         }
         catch (final Exception e)

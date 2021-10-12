@@ -41,7 +41,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.legends.tileentity.GenericBarrelTile;
 import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWaterloggedBlock

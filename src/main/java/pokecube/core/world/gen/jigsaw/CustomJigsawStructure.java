@@ -26,6 +26,7 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureStart;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
@@ -153,7 +154,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
      * Handles calling up the structure's pieces class and height that structure
      * will spawn at.
      */
-    public static class Start extends StructureStart<JigsawConfig>
+    public static class Start extends NoiseAffectingStructureStart<JigsawConfig>
     {
         public Start(final StructureFeature<JigsawConfig> structureIn, final ChunkPos pos, final int referenceIn,
                 final long seedIn)
@@ -268,14 +269,12 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                         }
                     }
                 }
-            // Sets the bounds of the structure once you are finished.
-            this.createBoundingBox();
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " "
                     + this.getBoundingBox().getCenter().getY() + " " + blockpos.getZ() + " of size " + this.pieces
-                            .size() + " " + this.getBoundingBox().getLength());
+                            .size());
         }
 
     }

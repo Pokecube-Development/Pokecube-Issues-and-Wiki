@@ -77,7 +77,8 @@ public class ActionNaturePower implements IMoveAction
             // Has to be used on sand
             if (state.getBlock() == Blocks.SAND)
             {
-                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()), predicate);
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()),
+                        predicate);
                 checker.checkPoints();
                 // Check if any cactus is found, will only allow this change if
                 // at least 1 is found.
@@ -113,7 +114,6 @@ public class ActionNaturePower implements IMoveAction
                 final BlockState stateHere = world.getBlockState(t);
                 final BlockState stateUp = world.getBlockState(t.above());
                 final Block blockHere = stateHere.getBlock();
-                final Block blockUp = stateUp.getBlock();
 
                 final ResourceKey<Biome> here = BiomeDatabase.getKey(world.getBiome(t));
                 if (here == ForestChanger.FOREST) return false;
@@ -134,7 +134,8 @@ public class ActionNaturePower implements IMoveAction
             // Has to be wood on dirt, ie at least originally a tree.
             if (below.getBlock() == Blocks.DIRT && PokecubeTerrainChecker.isWood(state))
             {
-                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()), predicate);
+                final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos.below()),
+                        predicate);
                 checker.checkPoints();
                 return ActionNaturePower.applyChecker(checker, world, ForestChanger.FOREST);
             }
@@ -202,42 +203,46 @@ public class ActionNaturePower implements IMoveAction
         public boolean apply(BlockPos pos, ServerLevel world);
     }
 
-    public static void updateChunks(final ChunkMap chunkMap, final Set<LevelChunk> affected, final int minY, final int maxY)
+    public static void updateChunks(final ChunkMap chunkMap, final Set<LevelChunk> affected, final int minY,
+            final int maxY)
     {
         // Send updates about the chunk having changed. If this is not done,
         // the player will need to leave area and return to see the changes
         // on their end.
-//        for (final Chunk chunk : affected)
-//        {
-//            final PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x, chunk.z);
-//            if (entry != null)
-//            {
-//                // Reflection is fine here, as not too many chunks should be
-//                // affected by a single use of naturepower.
-//                ReflectionHelper.setPrivateValue(PlayerChunkMapEntry.class, entry, false, "sentToPlayers",
-//                        "field_187290_j", "j");
-//                entry.sendToPlayers();
-//                final ClassInheritanceMultiMap<Entity>[] entityLists = chunk.getEntityLists();
-//                // Ensure range is correct.
-//                minY = Math.max(0, minY);
-//                maxY = Math.min(entityLists.length - 1, maxY);
-//                for (int y = minY; y <= maxY; y++)
-//                {
-//                    // Iterate over the mobs here, and send updates to clients.
-//                    // This is needed, as somehow the entry.sendToPlayers();
-//                    // above removes the entities from the client side mob
-//                    // lists. This is the simplest way I found to re-add them to
-//                    // those lists.
-//                    final ClassInheritanceMultiMap<Entity> e = entityLists[y];
-//                    final Iterator<Entity> iter = e.iterator();
-//                    while (iter.hasNext())
-//                    {
-//                        final Entity mob = iter.next();
-//                        EntityUpdate.sendEntityUpdate(mob);
-//                    }
-//                }
-//            }
-//        }
+        // for (final Chunk chunk : affected)
+        // {
+        // final PlayerChunkMapEntry entry = chunkMap.getEntry(chunk.x,
+        // chunk.z);
+        // if (entry != null)
+        // {
+        // // Reflection is fine here, as not too many chunks should be
+        // // affected by a single use of naturepower.
+        // ReflectionHelper.setPrivateValue(PlayerChunkMapEntry.class, entry,
+        // false, "sentToPlayers",
+        // "field_187290_j", "j");
+        // entry.sendToPlayers();
+        // final ClassInheritanceMultiMap<Entity>[] entityLists =
+        // chunk.getEntityLists();
+        // // Ensure range is correct.
+        // minY = Math.max(0, minY);
+        // maxY = Math.min(entityLists.length - 1, maxY);
+        // for (int y = minY; y <= maxY; y++)
+        // {
+        // // Iterate over the mobs here, and send updates to clients.
+        // // This is needed, as somehow the entry.sendToPlayers();
+        // // above removes the entities from the client side mob
+        // // lists. This is the simplest way I found to re-add them to
+        // // those lists.
+        // final ClassInheritanceMultiMap<Entity> e = entityLists[y];
+        // final Iterator<Entity> iter = e.iterator();
+        // while (iter.hasNext())
+        // {
+        // final Entity mob = iter.next();
+        // EntityUpdate.sendEntityUpdate(mob);
+        // }
+        // }
+        // }
+        // }
     }
 
     public static class PlainsChanger implements IBiomeChanger
@@ -397,8 +402,8 @@ public class ActionNaturePower implements IMoveAction
                 {
                     vec.addTo(i, 0, j);
                     final Biome here = vec.getBiome(world);
-                    final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(
-                            vec.intX(), vec.intY(), vec.intZ());
+                    final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(vec
+                            .intX(), vec.intY(), vec.intZ());
                     if (natural != here)
                     {
                         vec.setBiome(natural, world);
@@ -458,10 +463,11 @@ public class ActionNaturePower implements IMoveAction
     private static BlockPos getTopSolidOrLiquidBlock(final LevelReader p_208498_0_,
             @Nullable final EntityType<?> p_208498_1_, final int p_208498_2_, final int p_208498_3_)
     {
-        final BlockPos blockpos = new BlockPos(p_208498_2_, p_208498_0_.getHeight(SpawnPlacements
-                .getHeightmapType(p_208498_1_), p_208498_2_, p_208498_3_), p_208498_3_);
+        final BlockPos blockpos = new BlockPos(p_208498_2_, p_208498_0_.getHeight(SpawnPlacements.getHeightmapType(
+                p_208498_1_), p_208498_2_, p_208498_3_), p_208498_3_);
         final BlockPos blockpos1 = blockpos.below();
-        return p_208498_0_.getBlockState(blockpos1).isPathfindable(p_208498_0_, blockpos1, PathComputationType.LAND) ? blockpos1
+        return p_208498_0_.getBlockState(blockpos1).isPathfindable(p_208498_0_, blockpos1, PathComputationType.LAND)
+                ? blockpos1
                 : blockpos;
     }
 
@@ -485,13 +491,14 @@ public class ActionNaturePower implements IMoveAction
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         final long now = Tracker.instance().getTick();
         if (time + 20 * 3 > now) return false;
-//        final BlockPos pos = location.getPos();
-//        final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
-        if(this.changers.isEmpty()) this.init();
+        // final BlockPos pos = location.getPos();
+        // final ServerWorld world = (ServerWorld)
+        // attacker.getEntity().getEntityWorld();
+        if (this.changers.isEmpty()) this.init();
         // Check the changers in order, and apply the first one that returns
         // true. TODO hunger cost added here.
-//        for (final IBiomeChanger changer : this.changers)
-//            if (changer.apply(pos, world)) return true;
+        // for (final IBiomeChanger changer : this.changers)
+        // if (changer.apply(pos, world)) return true;
         return false;
     }
 
@@ -507,7 +514,7 @@ public class ActionNaturePower implements IMoveAction
         for (final Class<? extends IBiomeChanger> clazz : ActionNaturePower.changer_classes)
             try
             {
-                this.changers.add(clazz.newInstance());
+                this.changers.add(clazz.getConstructor().newInstance());
             }
             catch (final Exception e)
             {

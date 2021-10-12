@@ -125,7 +125,7 @@ public class AbilityManager
         Ability ret = null;
         try
         {
-            ret = abil.newInstance().init(args);
+            ret = abil.getConstructor().newInstance().init(args);
             ret.init(args);
         }
         catch (final Exception e)

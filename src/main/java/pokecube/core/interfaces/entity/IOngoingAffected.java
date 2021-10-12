@@ -57,13 +57,13 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
          * @param affected
          * @return can this effect be added to the mob.
          */
-        default AddType canAdd(IOngoingAffected affected, IOngoingEffect toAdd)
+        default AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
         {
             return AddType.ACCEPT;
         }
 
         @Override
-        default void deserializeNBT(CompoundTag nbt)
+        default void deserializeNBT(final CompoundTag nbt)
         {
             this.setDuration(nbt.getInt("D"));
         }
@@ -103,7 +103,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
     void clearEffects();
 
     @Override
-    default void deserializeNBT(ListTag nbt)
+    default void deserializeNBT(final ListTag nbt)
     {
         this.clearEffects();
         for (int i = 0; i < nbt.size(); i++)
@@ -115,7 +115,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
             final Class<? extends IOngoingEffect> effectClass = IOngoingAffected.EFFECTS.get(loc);
             if (effectClass != null) try
             {
-                final IOngoingEffect effect = effectClass.newInstance();
+                final IOngoingEffect effect = effectClass.getConstructor().newInstance();
                 effect.deserializeNBT(value);
                 this.addEffect(effect);
             }
