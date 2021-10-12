@@ -167,7 +167,7 @@ dependencies {
     //implementation "blank:lostcities-1.16-4.0.7-beta"
     
     //Thut Essentials
-    //implementation "blank:thutessentials-1.16.5-4.1.5-deobf"
+    implementation "${depstr_thutessentials}"
     
     //JEI
     // compile against the JEI API but do not include it at runtime
