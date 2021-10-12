@@ -48,6 +48,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.FillerProcessor;
@@ -106,9 +107,11 @@ public class CustomJigsawPiece extends SingleJigsawPiece
 
     public World world;
 
-    public boolean            isSpawn;
-    public String             spawnReplace;
-    public MutableBoundingBox mask;
+    public boolean  isSpawn;
+    public String   spawnReplace;
+    public BlockPos spawnPos;
+    public BlockPos profPos;
+    public boolean  placedSpawn = false;
 
     public PlacementSettings toUse;
 
@@ -185,7 +188,6 @@ public class CustomJigsawPiece extends SingleJigsawPiece
                 event.setBiomeType(this.config.biomeType);
                 MinecraftForge.EVENT_BUS.post(event);
             }
-            this.maskCheck = this.mask != null && this.mask.intersects(box);
 
             // Check if we need to undo any waterlogging which may have
             // occurred, we also process data markers here as to not duplicate
@@ -236,13 +238,24 @@ public class CustomJigsawPiece extends SingleJigsawPiece
     {
         String function = info.nbt != null ? info.nbt.getString("metadata") : "";
 
-        this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+        final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+        final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
 
-        if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function))
+        if (toPlaceProf && info.pos.equals(this.profPos))
         {
-            PokecubeCore.LOGGER.debug("Overriding an entry as a professor at " + pos);
+            PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
             function = PokecubeCore.getConfig().professor_override;
             PokecubeSerializer.getInstance().setPlacedProf();
+        }
+        if (toPlaceSpawn && info.pos.equals(this.spawnPos))
+        {
+            PokecubeCore.LOGGER.info("Overriding world spawn to " + pos);
+            EventsHandler.Schedule(this.world, w ->
+            {
+                ((ServerWorld) w).setDefaultSpawnPos(pos, 0);
+                return true;
+            });
+            this.placedSpawn = true;
         }
         if (function.startsWith("pokecube:chest:"))
         {

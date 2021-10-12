@@ -224,8 +224,8 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                             for (final Palette list : t.palettes)
                             {
                                 boolean foundWorldspawn = false;
-                                String tradeString = "";
-                                BlockPos pos = null;
+                                BlockPos localSpawn = null;
+                                BlockPos localTrader = null;
                                 for (final BlockInfo i : list.blocks())
                                     if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                     {
@@ -235,25 +235,27 @@ public class CustomJigsawStructure extends Structure<JigsawConfig>
                                         {
                                             final String meta = i.nbt.getString("metadata");
                                             foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                                            if (pos == null && foundWorldspawn) pos = i.pos;
-                                            if (meta.startsWith("pokecube:mob:trader") || meta.startsWith(
-                                                    "pokecube:mob:pokemart_merchant")) tradeString = meta;
+                                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos;
+                                            if (meta.contains("pokecube:mob:trader") || meta.contains(
+                                                    "pokecube:mob:pokemart_merchant")) localTrader = i.pos;
                                         }
                                     }
-                                if (!tradeString.isEmpty() && foundWorldspawn)
+                                if (localTrader != null && localSpawn != null)
                                 {
                                     final ServerWorld sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, pos).offset(
-                                            blockpos).offset(0, part.getBoundingBox().y0, 0);
-                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
+                                    final BlockPos spos = Template.calculateRelativePosition(piece.toUse, localSpawn)
+                                            .offset(blockpos).offset(0, part.getBoundingBox().y0, 0);
+                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos,
+                                            localSpawn, localTrader);
+                                    PokecubeSerializer.getInstance().setPlacedSpawn();
                                     sworld.getServer().execute(() ->
                                     {
                                         sworld.setDefaultSpawnPos(spos, 0);
                                     });
-                                    PokecubeSerializer.getInstance().setPlacedSpawn();
+                                    piece.placedSpawn = false;
                                     piece.isSpawn = true;
-                                    piece.spawnReplace = tradeString;
-                                    piece.mask = new MutableBoundingBox(part.getBoundingBox());
+                                    piece.spawnPos = localSpawn;
+                                    piece.profPos = localTrader;
                                     break components;
                                 }
                             }

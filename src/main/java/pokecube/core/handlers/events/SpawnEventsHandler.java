@@ -194,7 +194,6 @@ public class SpawnEventsHandler
     {
         EventsHandler.Schedule(event.worldActual, w ->
         {
-            w.getChunk(mob.blockPosition());
             SpawnEventsHandler.applyFunction(mob, thing);
             w.addFreshEntity(mob);
             return true;
@@ -235,11 +234,8 @@ public class SpawnEventsHandler
         if (event.function.startsWith("pokecube:mob:"))
         {
             final String function = event.function.replaceFirst("pokecube:mob:", "");
-            if (SpawnEventsHandler.oldSpawns(event, function))
-            {
-                // NOOP, We handled spawning in oldSpawns already
-            }
-            else if (StructureSpawnPresetLoader.presetMap.containsKey(function)) try
+
+            if (StructureSpawnPresetLoader.presetMap.containsKey(function)) try
             {
                 SpawnEventsHandler.newSpawns(event, function);
             }
@@ -247,6 +243,7 @@ public class SpawnEventsHandler
             {
                 PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
             }
+            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
             else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
