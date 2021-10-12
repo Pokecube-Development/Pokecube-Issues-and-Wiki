@@ -7,11 +7,10 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import thut.api.ThutCaps;
 
 public class ShearableCaps
 {
@@ -73,7 +72,7 @@ public class ShearableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return ShearableCaps.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.SHEARABLE.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -89,13 +88,11 @@ public class ShearableCaps
 
     }
 
-    @CapabilityInject(IShearable.class)
-    public static final Capability<IShearable> CAPABILITY = null;
     public static final ResourceLocation       LOC        = new ResourceLocation("thutcore:shearable");
 
     public static IShearable get(final ICapabilityProvider in)
     {
-        return in.getCapability(ShearableCaps.CAPABILITY).orElse(null);
+        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
     }
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
@@ -107,7 +104,6 @@ public class ShearableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IShearable.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ShearableCaps::attachMobs);
     }
 }

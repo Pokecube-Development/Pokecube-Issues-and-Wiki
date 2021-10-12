@@ -63,7 +63,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     public void render(final T entityIn, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
-        final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
+        final IMobTexturable mob = TextureableCaps.forMob(entityIn);
         if (mob instanceof NPCCap<?>) this.model = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
@@ -71,7 +71,7 @@ public class RenderNPC<T extends NpcMob> extends LivingEntityRenderer<T, PlayerM
     @Override
     public ResourceLocation getTextureLocation(final T entity)
     {
-        final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
+        final IMobTexturable mob = TextureableCaps.forMob(entity);
         if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
         return new ResourceLocation("empty");
     }

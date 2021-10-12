@@ -162,6 +162,8 @@ public class EventsHandler
         }
     }
 
+    public static boolean RUNNING = false;
+
     private static class WorldTickScheduler implements IWorldTickListener
     {
         static WorldTickScheduler INSTANCE = new WorldTickScheduler();
@@ -169,6 +171,7 @@ public class EventsHandler
         @Override
         public void onTickEnd(final ServerLevel world)
         {
+            if (!EventsHandler.RUNNING) return;
             final ResourceKey<Level> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
             if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
@@ -260,7 +263,7 @@ public class EventsHandler
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (!swrld.isHandlingTick())
+        if (!swrld.isHandlingTick() && swrld.getServer().isSameThread())
         {
             // This will either run it now, or run it on main thread soon
             swrld.getServer().execute(() -> task.run(swrld));
@@ -645,12 +648,14 @@ public class EventsHandler
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
+        EventsHandler.RUNNING = true;
     }
 
     private static void onServerStopped(final FMLServerStoppedEvent event)
     {
         // Reset this.
         PokecubeSerializer.clearInstance();
+        EventsHandler.RUNNING = false;
         CustomJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
@@ -712,7 +717,7 @@ public class EventsHandler
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-//        event.addListener(Database.ReloadListener.INSTANCE);
+        // event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayer player)

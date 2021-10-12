@@ -7,15 +7,10 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import thut.core.common.ThutCore;
 
 public class GeneRegistry
 {
-    @CapabilityInject(IMobGenetics.class)
-    public static final Capability<IMobGenetics> GENETICS_CAP = null;
-
     static Map<ResourceLocation, Class<? extends Gene<?>>> geneMap = Maps.newHashMap();
 
     public static Class<? extends Gene<?>> getClass(final ResourceLocation location)

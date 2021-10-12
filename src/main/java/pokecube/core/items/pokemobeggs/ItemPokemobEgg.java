@@ -58,8 +58,8 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -135,8 +135,8 @@ public class ItemPokemobEgg extends Item
     private static void getGenetics(final IPokemob mother, final IPokemob father, final CompoundTag nbt)
     {
         final IMobGenetics eggs = new DefaultGenetics();
-        final IMobGenetics mothers = mother.getEntity().getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
-        final IMobGenetics fathers = father.getEntity().getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics mothers = mother.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics fathers = father.getEntity().getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         GeneticsManager.initEgg(eggs, mothers, fathers);
         final Tag tag = eggs.serializeNBT();
         nbt.put(GeneticsManager.GENES, tag);

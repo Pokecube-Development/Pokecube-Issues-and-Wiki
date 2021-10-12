@@ -2,14 +2,14 @@ package thut.core.common.mobs;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.INBTSerializable;
 import thut.api.entity.IMobColourable;
 
 public class DefaultColourable implements IMobColourable, INBTSerializable<CompoundTag>
 {
-    @CapabilityInject(IMobColourable.class)
-    public static final Capability<IMobColourable> CAPABILITY = null;
+    public static final Capability<IMobColourable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     int[] RGBA   = { 255, 255, 255, 255 };
     int   colour = 0;

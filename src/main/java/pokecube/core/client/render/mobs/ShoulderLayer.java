@@ -19,7 +19,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -36,8 +37,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
         IPokemob getRight();
     }
 
-    @CapabilityInject(IShoulderHolder.class)
-    public static Capability<IShoulderHolder> CAPABILITY = null;
+    public static Capability<IShoulderHolder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static class ShoulderHolder implements IShoulderHolder, ICapabilityProvider
     {

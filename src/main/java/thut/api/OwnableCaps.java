@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -349,7 +348,6 @@ public class OwnableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IOwnable.class);
         MinecraftForge.EVENT_BUS.register(OwnableCaps.class);
     }
 }

@@ -157,7 +157,7 @@ public interface ITerrainProvider
             return segs.get(y);
         }
         final CapabilityTerrain.ITerrainProvider provider = ((ICapabilityProvider) chunk).getCapability(
-                ThutCaps.TERRAIN_CAP).orElse(null);
+                ThutCaps.TERRAIN_PROVIDER).orElse(null);
         provider.setChunk(chunk);
         return provider.getTerrainSegment(y);
     }

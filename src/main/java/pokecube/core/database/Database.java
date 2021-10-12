@@ -885,6 +885,7 @@ public class Database
      */
     public static void onLoadComplete()
     {
+        Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
         {

@@ -21,7 +21,7 @@ public class TerrainUpdate extends NBTPacket
     {
         final Level world = player.getCommandSenderWorld();
         if (!world.isAreaLoaded(pos.getWorldPosition(), 0)) return;
-        final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_CAP, null).orElse(
+        final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_PROVIDER, null).orElse(
                 null);
         final CompoundTag terrainData = provider.serializeNBT();
         terrainData.putInt("c_x", pos.x);
@@ -52,7 +52,7 @@ public class TerrainUpdate extends NBTPacket
         final Level world = net.minecraft.client.Minecraft.getInstance().level;
         final CompoundTag nbt = this.tag;
         final LevelChunk chunk = world.getChunk(nbt.getInt("c_x"), nbt.getInt("c_z"));
-        final ITerrainProvider terrain = chunk.getCapability(ThutCaps.TERRAIN_CAP, null).orElse(null);
+        final ITerrainProvider terrain = chunk.getCapability(ThutCaps.TERRAIN_PROVIDER, null).orElse(null);
         terrain.deserializeNBT(this.tag);
     }
 }

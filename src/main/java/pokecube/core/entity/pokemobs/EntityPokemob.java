@@ -70,7 +70,7 @@ import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
-import thut.api.entity.genetics.GeneRegistry;
+import thut.api.ThutCaps;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -377,7 +377,7 @@ public class EntityPokemob extends PokemobRidable
         {
             CompoundTag tag = buffer.readNbt();
             final ListTag list = (ListTag) tag.get("g");
-            final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
+            final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
             genes.deserializeNBT(list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
@@ -463,7 +463,7 @@ public class EntityPokemob extends PokemobRidable
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();
         this.pokemobCap.onGenesChanged();
-        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
+        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         final ListTag list = genes.serializeNBT();
         CompoundTag nbt = new CompoundTag();

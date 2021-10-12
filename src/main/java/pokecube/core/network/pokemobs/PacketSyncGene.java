@@ -9,8 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.network.Packet;
 
@@ -65,7 +65,7 @@ public class PacketSyncGene extends Packet
         final Alleles<?, ?> alleles = this.genes;
         final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         if (mob == null) return;
-        final IMobGenetics genes = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (genes != null && alleles != null && alleles.getExpressed() != null) genes.getAlleles().put(alleles
                 .getExpressed().getKey(), alleles);

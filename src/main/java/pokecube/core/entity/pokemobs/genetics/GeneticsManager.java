@@ -34,6 +34,7 @@ import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
@@ -56,7 +57,7 @@ public class GeneticsManager
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return GeneRegistry.GENETICS_CAP.orEmpty(cap, this.holder);
+            return ThutCaps.GENETICS_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -131,7 +132,7 @@ public class GeneticsManager
     public static void handleLoad(final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
-        final IMobGenetics genes = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (!genes.getAlleles().isEmpty()) return;
         GeneticsManager.initMob(mob);
     }
@@ -159,7 +160,7 @@ public class GeneticsManager
     public static void initFromGenes(final IMobGenetics genes, final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
-        final IMobGenetics mobs = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics mobs = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
         pokemob.onGenesChanged();
     }

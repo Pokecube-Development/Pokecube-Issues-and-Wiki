@@ -13,7 +13,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -22,8 +23,7 @@ import pokecube.core.interfaces.IInhabitable;
 
 public class CapabilityInhabitable
 {
-    @CapabilityInject(IInhabitable.class)
-    public static final Capability<IInhabitable> CAPABILITY = null;
+    public static final Capability<IInhabitable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static class HabitatProvider implements ICapabilityProvider, IInhabitable
     {

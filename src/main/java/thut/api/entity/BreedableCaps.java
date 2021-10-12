@@ -12,7 +12,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -126,7 +125,6 @@ public class BreedableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IBreedingMob.class);
         MinecraftForge.EVENT_BUS.register(BreedableCaps.class);
     }
 }

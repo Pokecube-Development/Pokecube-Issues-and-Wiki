@@ -90,7 +90,7 @@ public class CapabilityTerrain
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return ThutCaps.TERRAIN_CAP.orEmpty(cap, this.holder);
+            return ThutCaps.TERRAIN_PROVIDER.orEmpty(cap, this.holder);
         }
 
         @Override

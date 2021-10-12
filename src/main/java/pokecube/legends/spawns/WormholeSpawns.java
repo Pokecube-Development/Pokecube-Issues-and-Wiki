@@ -21,9 +21,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -101,8 +102,9 @@ public class WormholeSpawns implements IWorldTickListener
 
     }
 
-    @CapabilityInject(IWormholeWorld.class)
-    public static final Capability<IWormholeWorld> WORMHOLES_CAP = null;
+    public static final Capability<IWormholeWorld> WORMHOLES_CAP = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
@@ -117,11 +119,14 @@ public class WormholeSpawns implements IWorldTickListener
 
     public static void init()
     {
-        CapabilityManager.INSTANCE.register(IWormholeWorld.class);
-
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
         MinecraftForge.EVENT_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
+    }
+
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        event.register(IWormholeWorld.class);
     }
 
     private static void onWorldCaps(final AttachCapabilitiesEvent<Level> event)
