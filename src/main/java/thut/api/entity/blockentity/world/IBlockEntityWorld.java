@@ -32,16 +32,20 @@ public interface IBlockEntityWorld extends LevelAccessor
         return entity.getCommandSenderWorld();
     }
 
-    default BlockEntity getTile(final BlockPos pos)
+    default BlockEntity getTile(BlockPos pos)
     {
         if (!this.inBounds(pos)) return null;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
+        pos = pos.immutable();
         final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         final BlockEntity tile = mob.getTiles()[i][j][k];
-        if (tile != null) tile.setPosition(pos.immutable());
+        if (tile != null && !tile.getBlockPos().equals(pos))
+        {
+            // TODO FIXME replace the tile entity somehow?
+        }
         return tile;
     }
 
@@ -54,8 +58,7 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         if (i >= mob.getBlocks().length || j >= mob.getBlocks()[0].length || k >= mob.getBlocks()[0][0].length || i < 0
-                || j < 0 || k < 0)
-            return false;
+                || j < 0 || k < 0) return false;
         return true;
     }
 
@@ -90,9 +93,9 @@ public interface IBlockEntityWorld extends LevelAccessor
                 for (int k = 0; k < sizeZ; k++)
                     if (mob.getTiles()[i][j][k] != null)
                     {
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                                k + zMin + entity.getZ());
-                        mob.getTiles()[i][j][k].setPosition(pos);
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
+                                + entity.getZ());
+                        // FIXME update TE position somehow...
                         mob.getTiles()[i][j][k].clearRemoved();
                     }
     }
@@ -110,8 +113,7 @@ public interface IBlockEntityWorld extends LevelAccessor
         {
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.setRemoved();
-            tile.setPosition(pos.immutable());
-            // TODO see about setting world for tiles.
+            // FIXME update TE position somehow...
             tile.clearRemoved();
         }
         return true;

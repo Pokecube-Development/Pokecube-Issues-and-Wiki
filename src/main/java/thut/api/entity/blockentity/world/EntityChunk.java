@@ -6,9 +6,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkBiomeContainer;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.ProtoChunk;
 import net.minecraft.world.level.chunk.UpgradeData;
@@ -18,19 +20,17 @@ public class EntityChunk extends LevelChunk
 {
     public static class EntityChunkPrimer extends ProtoChunk
     {
-
-        public EntityChunkPrimer(final ChunkPos pos)
+        public EntityChunkPrimer(final ChunkPos pos, final LevelHeightAccessor access)
         {
-            super(pos, new UpgradeData(new CompoundTag()));
+            super(pos, new UpgradeData(new CompoundTag(), access), access);
         }
-
     }
 
     IBlockEntityWorld worldE;
 
     public EntityChunk(final IBlockEntityWorld worldIn_, final ChunkPos pos)
     {
-        super((Level) worldIn_, new EntityChunkPrimer(pos));
+        super((Level) worldIn_, pos, worldIn_.getChunk(pos.x, pos.z).getBiomes());
         this.worldE = worldIn_;
     }
 
@@ -60,8 +60,21 @@ public class EntityChunk extends LevelChunk
     }
 
     @Override
-    public void setBlockEntity(final BlockPos pos, final BlockEntity tile)
+    public void removeBlockEntity(final BlockPos pos)
     {
+        final IBlockEntity mob = this.worldE.getBlockEntity();
+        final Entity entity = (Entity) mob;
+        final int i = pos.getX() - Mth.floor(entity.getX());
+        final int j = pos.getY() - Mth.floor(entity.getY());
+        final int k = pos.getZ() - Mth.floor(entity.getZ());
+        mob.getTiles()[i][j][k] = null;
+    }
+
+    @Override
+    public void setBlockEntity(final BlockEntity tile)
+    {
+        if (tile == null) return;
+        final BlockPos pos = tile.getBlockPos();
         if (!this.worldE.inBounds(pos)) return;
         final IBlockEntity mob = this.worldE.getBlockEntity();
         final Entity entity = (Entity) mob;
@@ -71,12 +84,17 @@ public class EntityChunk extends LevelChunk
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {
-            tile.setLevelAndPosition((Level) this.worldE, pos.immutable());
+            tile.setLevel((Level) this.worldE);
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.setRemoved();
             tile.clearRemoved();
         }
-        return;
+    }
+
+    @Override
+    public ChunkBiomeContainer getBiomes()
+    {
+        return super.getBiomes();
     }
 
     @Override
