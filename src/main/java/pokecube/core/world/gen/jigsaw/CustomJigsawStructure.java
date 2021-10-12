@@ -25,7 +25,6 @@ import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureStart;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -251,7 +250,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                                 {
                                     final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
                                     final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, localSpawn)
-                                            .offset(blockpos).offset(0, part.getBoundingBox().y0, 0);
+                                            .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
                                     PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos,
                                             localSpawn, localTrader);
                                     PokecubeSerializer.getInstance().setPlacedSpawn();
