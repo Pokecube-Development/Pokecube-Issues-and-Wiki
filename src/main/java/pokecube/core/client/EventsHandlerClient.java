@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -164,8 +165,8 @@ public class EventsHandlerClient
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToWorld() && event.player.distanceTo(mob
-                    .getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
+            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().isAddedToWorld() && event.player.distanceTo(
+                    mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
         }
         control:
         if (event.player.isPassenger() && Minecraft.getInstance().screen == null)
@@ -242,7 +243,8 @@ public class EventsHandlerClient
         final LocalPlayer player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt.getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
+        if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt
+                .getKey() == GLFW.GLFW_KEY_D) GuiInfoMessages.clear();
 
         if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
                 .getInstance().screen instanceof AnimationGui)
@@ -309,8 +311,8 @@ public class EventsHandlerClient
 
     public static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation(
-                "pokecube:shouldermobs"), new ShoulderHolder((Player) event.getObject()));
+        if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation("pokecube:shouldermobs"),
+                new ShoulderHolder((Player) event.getObject()));
     }
 
     public static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
@@ -425,7 +427,6 @@ public class EventsHandlerClient
                 top, width, height, realMob.isShiny());
     }
 
-    @SuppressWarnings("deprecation")
     public static void renderIcon(final PokedexEntry entry, final FormeHolder holder, final boolean female, int left,
             int top, final int width, final int height, final boolean shiny)
     {
@@ -450,8 +451,9 @@ public class EventsHandlerClient
 
         // RenderSystem.pushMatrix();
 
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, icon);
 
-        Minecraft.getInstance().getTextureManager().bindForSetup(icon);
         Minecraft.getInstance().getTextureManager().getTexture(icon).setFilter(false, false);
 
         // RenderSystem.enableRescaleNormal();
@@ -480,23 +482,29 @@ public class EventsHandlerClient
         // RenderSystem.popMatrix();
     }
 
-//    private static Map<ResourceLocation, RenderType> cache = Maps.newHashMap();
-//
-//    private static RenderType getRenderTypeForIcon(final ResourceLocation icon)
-//    {
-//        if (EventsHandlerClient.cache.containsKey(icon)) return EventsHandlerClient.cache.get(icon);
-//        else
-//        {
-//            final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
-//                    new RenderState.TextureState(icon, false, false)).setAlphaState(RenderState.DEFAULT_ALPHA)
-//                    .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
-//                            RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
-//                    .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
-//            EventsHandlerClient.cache.put(icon, RenderType.create("_icon_" + icon, DefaultVertexFormats.POSITION_TEX, 7,
-//                    256, rendertype$state));
-//        }
-//        return EventsHandlerClient.cache.get(icon);
-//    }
+    // private static Map<ResourceLocation, RenderType> cache =
+    // Maps.newHashMap();
+    //
+    // private static RenderType getRenderTypeForIcon(final ResourceLocation
+    // icon)
+    // {
+    // if (EventsHandlerClient.cache.containsKey(icon)) return
+    // EventsHandlerClient.cache.get(icon);
+    // else
+    // {
+    // final RenderType.State rendertype$state =
+    // RenderType.State.builder().setTextureState(
+    // new RenderState.TextureState(icon, false,
+    // false)).setAlphaState(RenderState.DEFAULT_ALPHA)
+    // .setLayeringState(RenderState.VIEW_OFFSET_Z_LAYERING).setTransparencyState(
+    // RenderState.TRANSLUCENT_TRANSPARENCY).setOutputState(RenderState.ITEM_ENTITY_TARGET)
+    // .setWriteMaskState(RenderState.COLOR_DEPTH_WRITE).createCompositeState(true);
+    // EventsHandlerClient.cache.put(icon, RenderType.create("_icon_" + icon,
+    // DefaultVertexFormats.POSITION_TEX, 7,
+    // 256, rendertype$state));
+    // }
+    // return EventsHandlerClient.cache.get(icon);
+    // }
 
     public static void setFromNBT(final IPokemob pokemob, final CompoundTag tag)
     {

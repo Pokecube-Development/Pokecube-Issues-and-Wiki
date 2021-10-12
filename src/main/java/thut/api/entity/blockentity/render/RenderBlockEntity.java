@@ -1,6 +1,7 @@
 package thut.api.entity.blockentity.render;
 
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -8,6 +9,7 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -33,6 +35,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
+import pokecube.core.client.Resources;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -140,7 +143,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         mat.translate(0.5F, 0.5F, 0.5F);
         final float f7 = 1.0F;
         mat.scale(-f7, -f7, f7);
-        this.entityRenderDispatcher.textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
+
+        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
         this.getCrateModel();
         mat.popPose();
     }

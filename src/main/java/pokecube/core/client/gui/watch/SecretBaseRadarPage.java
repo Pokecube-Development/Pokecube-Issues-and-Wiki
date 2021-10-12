@@ -3,18 +3,18 @@ package pokecube.core.client.gui.watch;
 import java.util.Map;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -127,11 +127,11 @@ public class SecretBaseRadarPage extends WatchPage
     @Override
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        GL11.glPushMatrix();
+        mat.pushPose();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
-        GL11.glTranslated(x + 126, y + 72, 0);
+        mat.translate(x + 126, y + 72, 0);
         double xCoord = 0;
         double yCoord = 0;
         final float zCoord = this.getBlitOffset();
@@ -143,14 +143,17 @@ public class SecretBaseRadarPage extends WatchPage
         float g = 1;
         final float b = 0;
         float a = 1;
-        GlStateManager._disableTexture();
+        RenderSystem.disableTexture();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder vertexbuffer = tessellator.getBuilder();
         r = 1;
         g = 0;
         final Vector3 here = Vector3.getNewVector().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
-        GL11.glRotated(angle, 0, 0, 1);
+        // GL11.glRotated(angle, 0, 0, 1);
+        mat.mulPose(Vector3f.ZP.rotationDegrees(angle));
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
         final float range = SecretBaseRadarPage.baseRange * SecretBaseRadarPage.mode.rangeScale;
@@ -158,7 +161,7 @@ public class SecretBaseRadarPage extends WatchPage
         for (final BlockPos c : coords)
         {
             final Vector3 loc = Vector3.getNewVector().set(c);
-            GL11.glPushMatrix();
+            mat.pushPose();
             final Vector3 v = loc.subtract(here);
             final double max = 55;
             final double hDistSq = v.x * v.x + v.z * v.z;
@@ -182,9 +185,9 @@ public class SecretBaseRadarPage extends WatchPage
             vertexbuffer.vertex(xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(xCoord + minU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
             tessellator.end();
-            GL11.glPopMatrix();
+            mat.popPose();
         }
-        GL11.glPopMatrix();
+        mat.popPose();
         GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
 
         super.render(mat, mouseX, mouseY, partialTicks);

@@ -3,11 +3,13 @@ package pokecube.adventures.client.gui.trainer.editor;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -128,9 +130,9 @@ public class EditorGui extends Screen
     {
         super.render(mat, mouseX, mouseY, partialTicks);
 
-        this.minecraft.textureManager.bindForSetup(new ResourceLocation(
-                PokecubeAdv.MODID,
-                "textures/gui/traineredit.png"));
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/traineredit.png"));
+
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;
         this.blit(mat, j2, k2, 0, 0, 256, 160);
