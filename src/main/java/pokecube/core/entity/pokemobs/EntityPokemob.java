@@ -434,12 +434,6 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void onAddedToWorld()
     {
-        if (!this.isAddedToWorld())
-        {
-            PokemobTracker.addPokemob(this.pokemobCap);
-            if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
-                    this.pokemobCap);
-        }
         super.onAddedToWorld();
     }
 

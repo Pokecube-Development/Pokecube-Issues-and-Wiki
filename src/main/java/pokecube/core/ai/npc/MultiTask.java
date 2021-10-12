@@ -25,7 +25,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
 
     static
     {
-        CONTINUE = ObfuscationReflectionHelper.findMethod(Behavior.class, "func_212834_g_", ServerLevel.class,
+        CONTINUE = ObfuscationReflectionHelper.findMethod(Behavior.class, "m_6737_", ServerLevel.class,
                 LivingEntity.class, long.class);
     }
     private final Set<MemoryModuleType<?>> memories;

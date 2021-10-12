@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -187,12 +188,14 @@ public class TexButton extends Button
     }
 
     @Override
-    public void renderButton(final PoseStack matrixStack, final int mouseX, final int mouseY,
-            final float partialTicks)
+    public void renderButton(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
     {
         final Minecraft minecraft = Minecraft.getInstance();
         final Font fontrenderer = minecraft.font;
-        minecraft.getTextureManager().bindForSetup(this.texture);
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, this.texture);
+
         this.render.render(this, matrixStack, mouseX, mouseY, partialTicks);
         this.renderBg(matrixStack, minecraft, mouseX, mouseY);
         final int j = this.getFGColor();

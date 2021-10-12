@@ -29,6 +29,7 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
+        // FIXME shaders
         return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, true,
                 false, RenderType.CompositeState.builder().setShaderState(
                         RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER).setTextureState(

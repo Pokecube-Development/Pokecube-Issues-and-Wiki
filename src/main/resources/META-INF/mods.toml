@@ -5,7 +5,7 @@ license="All rights reserved"
 
 [[mods]]
     modId="thutcore"
-    version="version_thutcore"
+    version="99.99.99"
     displayName="Thut Core"
     authors="Thutmose"
     description='''

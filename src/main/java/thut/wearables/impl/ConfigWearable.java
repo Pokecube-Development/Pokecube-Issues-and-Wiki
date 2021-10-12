@@ -1,9 +1,11 @@
 package thut.wearables.impl;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -110,7 +112,9 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
             }
 
             mat.translate(-0.25f, 0, 0);
-            Minecraft.getInstance().textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
+
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(), null, 0);
             // TODO check lighting/etc in this call!

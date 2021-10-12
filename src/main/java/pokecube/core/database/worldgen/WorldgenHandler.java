@@ -293,7 +293,7 @@ public class WorldgenHandler
     private static class BiomeFeature
     {
         public final GenerationStep.Decoration stage;
-        public final ConfiguredFeature<?, ?>    feature;
+        public final ConfiguredFeature<?, ?>   feature;
 
         public final ResourceLocation name;
 
@@ -442,8 +442,8 @@ public class WorldgenHandler
          * StructureTutorialMain to add
          * the structure spacing from this list into that dimension.
          */
-        StructureSettings.DEFAULTS = ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration> builder()
-                .putAll(StructureSettings.DEFAULTS).put(structure, config.toSettings()).build();
+        StructureSettings.DEFAULTS = ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration> builder().putAll(
+                StructureSettings.DEFAULTS).put(structure, config.toSettings()).build();
     }
 
     /**
@@ -475,8 +475,8 @@ public class WorldgenHandler
             // structures.
             // Also that vanilla superflat is really tricky and buggy to work
             // with in my experience.
-            if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && key.equals(
-                    Level.OVERWORLD)) return;
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && key.equals(Level.OVERWORLD))
+                return;
 
             CustomJigsawPiece.sent_events.clear();
 
@@ -594,7 +594,8 @@ public class WorldgenHandler
             }
     }
 
-    public CustomJigsawStructure register(final JigSawConfig struct, final RegistryEvent.Register<StructureFeature<?>> event)
+    public CustomJigsawStructure register(final JigSawConfig struct,
+            final RegistryEvent.Register<StructureFeature<?>> event)
     {
         final String structName = struct.type.isEmpty() ? struct.name : struct.type;
 
@@ -615,8 +616,8 @@ public class WorldgenHandler
             {
                 final ResourceKey<NoiseGeneratorSettings> key = ResourceKey.create(
                         Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(s));
-                BuiltinRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(
-                        structure, struct.toSettings());
+                BuiltinRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(structure,
+                        struct.toSettings());
             }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);

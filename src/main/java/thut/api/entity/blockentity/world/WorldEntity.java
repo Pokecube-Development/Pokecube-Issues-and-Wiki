@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
@@ -27,6 +28,8 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
@@ -38,9 +41,9 @@ import thut.api.entity.blockentity.IBlockEntity;
 public class WorldEntity implements IBlockEntityWorld
 {
 
-    final Level    world;
-    IBlockEntity   mob;
-    public boolean creating;
+    final Level              world;
+    IBlockEntity             mob;
+    public boolean           creating;
     BlockEntityChunkProvider chunks;
 
     public WorldEntity(final Level world)
@@ -164,8 +167,8 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public void playSound(final Player player, final BlockPos pos, final SoundEvent soundIn,
-            final SoundSource category, final float volume, final float pitch)
+    public void playSound(final Player player, final BlockPos pos, final SoundEvent soundIn, final SoundSource category,
+            final float volume, final float pitch)
     {
         this.world.playSound(player, pos, soundIn, category, volume, pitch);
     }
@@ -182,13 +185,6 @@ public class WorldEntity implements IBlockEntityWorld
             final Predicate<? super Entity> predicate)
     {
         return this.world.getEntities(entityIn, boundingBox, predicate);
-    }
-
-    @Override
-    public <T extends Entity> List<T> getEntitiesOfClass(final Class<? extends T> clazz, final AABB aabb,
-            final Predicate<? super T> filter)
-    {
-        return this.world.getEntitiesOfClass(clazz, aabb, filter);
     }
 
     @Override
@@ -292,5 +288,30 @@ public class WorldEntity implements IBlockEntityWorld
             final int recursionLeft)
     {
         return false;
+    }
+
+    @Override
+    public MinecraftServer getServer()
+    {
+        return this.world.getServer();
+    }
+
+    @Override
+    public void gameEvent(final Entity p_151549_, final GameEvent p_151550_, final BlockPos p_151551_)
+    {
+        this.world.gameEvent(p_151549_, p_151550_, p_151551_);
+    }
+
+    @Override
+    public <T extends Entity> List<T> getEntities(final EntityTypeTest<Entity, T> p_151464_, final AABB p_151465_,
+            final Predicate<? super T> p_151466_)
+    {
+        return this.world.getEntities(p_151464_, p_151465_, p_151466_);
+    }
+
+    @Override
+    public boolean isFluidAtPosition(final BlockPos p_151584_, final Predicate<FluidState> p_151585_)
+    {
+        return this.world.isFluidAtPosition(p_151584_, p_151585_);
     }
 }

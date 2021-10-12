@@ -1,8 +1,8 @@
 package pokecube.nbtedit.gui;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.ByteArrayTag;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.DoubleTag;
@@ -223,9 +224,11 @@ public class GuiEditNBT extends AbstractWidget
 
         this.section.active = this.value.isFocused();
         this.newLine.active = this.value.isFocused();
-        this.mc.getTextureManager().bindForSetup(GuiEditNBT.WINDOW_TEXTURE);
 
-        GL11.glColor4f(1, 1, 1, 1);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, GuiEditNBT.WINDOW_TEXTURE);
+
         this.blit(mat, this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
         if (!this.canEditText) GuiComponent.fill(mat, this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
         if (!this.canEditValue) GuiComponent.fill(mat, this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);

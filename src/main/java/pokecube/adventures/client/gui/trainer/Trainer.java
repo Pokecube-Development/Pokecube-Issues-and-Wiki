@@ -1,8 +1,10 @@
 package pokecube.adventures.client.gui.trainer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,7 +27,9 @@ public class Trainer extends AbstractContainerScreen<ContainerTrainer>
             final int y)
     {
         // bind texture
-        this.minecraft.getTextureManager().bindForSetup(Trainer.TRAINER_GUI);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, Trainer.TRAINER_GUI);
+
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, j2, k2, 0, 0, this.imageWidth, this.imageHeight);

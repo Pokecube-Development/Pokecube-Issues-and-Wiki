@@ -42,7 +42,7 @@ import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
 /**
- * This health renderer is directly based on Neat vy Vaziki, which can be found
+ * This health renderer is directly based on Neat by Vaziki, which can be found
  * here: https://github.com/Vazkii/Neat This version has been modified to only
  * apply to pokemobs, as well as to show level, gender and exp. I have also
  * modified the nametags to indicate ownership
@@ -190,8 +190,8 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof Mob && ((Mob) entity).hasCustomName())
-                nameComp = (MutableComponent) ((Mob) entity).getCustomName();
+            if (entity instanceof Mob && ((Mob) entity).hasCustomName()) nameComp = (MutableComponent) ((Mob) entity)
+                    .getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();

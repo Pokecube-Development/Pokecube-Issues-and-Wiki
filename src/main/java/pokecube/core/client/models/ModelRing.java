@@ -27,17 +27,23 @@ public class ModelRing extends EntityModel<Entity>
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
+        // FIXME shaders
         return alpha ? RenderType.create("thutbling:bling_a", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true,
-                false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc,
-                        true, false)).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false))
+                false, RenderType.CompositeState.builder().setShaderState(
+                        RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setTextureState(
+                                new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
+                                        new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                                        new RenderStateShard.OverlayStateShard(true))
+                        .createCompositeState(false))
                 : RenderType.create("thutbling:bling_b", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, false,
-                        RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(loc,
-                                true, false)).setCullState(new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                                new RenderStateShard.OverlayStateShard(true)).createCompositeState(
-                                                        false));
+                        RenderType.CompositeState.builder().setShaderState(
+                                RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setTextureState(
+                                        new RenderStateShard.TextureStateShard(loc, true, false)).setCullState(
+                                                new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                                        new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                                                new RenderStateShard.OverlayStateShard(true))
+                                .createCompositeState(false));
     }
 
     public static VertexConsumer makeBuilder(final MultiBufferSource buff, final ResourceLocation loc)

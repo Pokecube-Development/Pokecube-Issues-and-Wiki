@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -23,13 +24,11 @@ import pokecube.core.PokecubeCore;
 @Mixin(StructureFeature.class)
 public class MixinStructure
 {
-
     @Inject(method = "generate", at = @At(value = "HEAD"), cancellable = true)
-    public void onGenerate(final RegistryAccess p_242785_1_, final ChunkGenerator p_242785_2_,
-            final BiomeSource p_242785_3_, final StructureManager p_242785_4_, final long p_242785_5_,
-            final ChunkPos p_242785_7_, final Biome p_242785_8_, final int p_242785_9_,
-            final WorldgenRandom p_242785_10_, final StructureFeatureConfiguration p_242785_11_,
-            final FeatureConfiguration p_242785_12_, final CallbackInfoReturnable<StructureStart<?>> cir)
+    public void onGenerate(final RegistryAccess p_160465_, final ChunkGenerator p_160466_, final BiomeSource p_160467_,
+            final StructureManager p_160468_, final long p_160469_, final ChunkPos p_160470_, final Biome p_160471_, final int p_160472_,
+            final WorldgenRandom p_160473_, final StructureFeatureConfiguration p_160474_, final FeatureConfiguration p_160475_,
+            final LevelHeightAccessor p_160476_, final CallbackInfoReturnable<StructureStart<?>> cir)
     {
         final Object us = this;
         // We didn't extend it, so using this as a workaround cast instead.

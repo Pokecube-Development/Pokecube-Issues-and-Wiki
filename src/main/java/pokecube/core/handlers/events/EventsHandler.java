@@ -38,6 +38,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -55,7 +56,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -343,7 +343,7 @@ public class EventsHandler
         // Initialises or reloads some datapack dependent values in Database
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onResourcesReloaded);
         // This does similar to the above, but on dedicated servers only.
-        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarted);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onTagsUpdated);
         // Registers our commands.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
 
@@ -625,14 +625,12 @@ public class EventsHandler
         if (event.getTarget() instanceof EntityPokecube && event.getEntity() instanceof ServerPlayer)
         {
             final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
-            if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage(
-                    (Player) event.getEntity(), pokecube.getId(), Tracker.instance().getTick()
-                            + pokecube.resetTime);
+            if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage((Player) event
+                    .getEntity(), pokecube.getId(), Tracker.instance().getTick() + pokecube.resetTime);
         }
         if (event.getTarget() instanceof ServerPlayer && event.getEntity() instanceof ServerPlayer)
         {
-            final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((Player) event
-                    .getTarget());
+            final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData((Player) event.getTarget());
             final PlayerData data = manager.getData("pokecube-stats");
             PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayer) event.getEntity(), false);
         }
@@ -707,14 +705,14 @@ public class EventsHandler
         }
     }
 
-    private static void onServerStarted(final FMLServerStartedEvent event)
+    private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-        if (event.getServer().isDedicatedServer()) Database.onResourcesReloaded();
+        Database.onResourcesReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-        event.addListener(Database.ReloadListener.INSTANCE);
+//        event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayer player)

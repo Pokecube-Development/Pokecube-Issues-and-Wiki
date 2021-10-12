@@ -3,6 +3,7 @@ package pokecube.core.moves.animations.presets;
 import java.util.Random;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,7 +11,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,7 +39,10 @@ public class ThrowParticle extends MoveAnimationBase
         final Vector3 source = info.source;
         final Vector3 target = info.target;
         final ResourceLocation texture = new ResourceLocation("pokecube", "textures/blank.png");
-        Minecraft.getInstance().textureManager.bindForSetup(texture);
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShaderTexture(0, texture);
+
         final double dist = source.distanceTo(target);
         final Vector3 temp = Vector3.getNewVector().set(source).subtractFrom(target);
 

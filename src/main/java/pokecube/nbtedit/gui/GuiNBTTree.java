@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -535,7 +537,9 @@ public class GuiNBTTree extends Screen
     {
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder worldRenderer = tessellator.getBuilder();
-        this.mc.getTextureManager().bindForSetup(GuiComponent.BACKGROUND_LOCATION);
+
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
         final float var6 = 32.0F;
         worldRenderer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);

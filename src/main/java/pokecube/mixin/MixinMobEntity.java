@@ -63,7 +63,7 @@ public abstract class MixinMobEntity extends LivingEntity
     private boolean ticked_default_ai = false;
     private boolean checked_for_ai    = false;
 
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V", args = {
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
             "ldc=mob tick" }))
     /**
      * Here, during the first tick, we add a dummy task to the brain, to see if
@@ -85,7 +85,7 @@ public abstract class MixinMobEntity extends LivingEntity
         }
     }
 
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V", args = {
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
             "ldc=controls" }))
     /**
      * Here we check if the dummy task above was ticked. If it isn't, we tick

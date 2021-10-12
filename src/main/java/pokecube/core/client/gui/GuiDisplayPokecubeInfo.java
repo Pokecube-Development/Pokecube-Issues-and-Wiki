@@ -3,12 +3,9 @@
  */
 package pokecube.core.client.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicate;
 import com.mojang.blaze3d.platform.Window;
@@ -19,15 +16,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -64,7 +61,7 @@ import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
-public class GuiDisplayPokecubeInfo extends GuiComponent
+public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay
 {
     protected static int                 lightGrey  = 0xDDDDDD;
     public static int[]                  guiDims    = { 147, 42 };
@@ -167,6 +164,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
 
     int indexPokemob = 0;
 
+    IIngameOverlay infoOverlay = this;
+
     /**
      *
      */
@@ -177,12 +176,25 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
         if (GuiDisplayPokecubeInfo.instance != null) MinecraftForge.EVENT_BUS.unregister(
                 GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
-        MinecraftForge.EVENT_BUS.register(this);
+        OverlayRegistry.registerOverlayTop("Pokecube Info", this.infoOverlay);
+
     }
 
-    protected void draw(final RenderGameOverlayEvent.Post event)
+    public void disable()
     {
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderMoveMessages(event.getMatrixStack(), event.getType()));
+        OverlayRegistry.enableOverlay(this.infoOverlay, false);
+    }
+
+    public void enable()
+    {
+        OverlayRegistry.enableOverlay(this.infoOverlay, true);
+    }
+
+    @Override
+    public void render(final ForgeIngameGui gui, final PoseStack mStack, final float partialTicks, final int width,
+            final int height)
+    {
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderMoveMessages(mStack, gui));
         if (this.indexPokemob > this.getPokemobsToDisplay().length)
         {
             this.refreshCounter = 0;
@@ -192,9 +204,9 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
         if (this.getPokemobsToDisplay().length == 0) return;
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.font;
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo(event.getMatrixStack()));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo(event.getMatrixStack()));
-        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports(event.getMatrixStack()));
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo(mStack, gui));
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo(mStack, gui));
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports(mStack, gui));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -219,13 +231,13 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
         {
             String displayName = pokemob.getDisplayName().getString();
             final int currentMoveIndex = pokemob.getMoveIndex();
-            evt.mat.pushPose();
+            evt.getMat().pushPose();
             final float s = (float) PokecubeCore.getConfig().guiSize;
-            GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().guiRef, PokecubeCore
+            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().guiRef, PokecubeCore
                     .getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
-            this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+            this.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = pokemob.getMaxHealth();
             float ratio = pokemob.getHealth() / total;
             int x = hpOffsetX + 1;
@@ -234,10 +246,10 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             int height = 5;
             int u = 0;
             int v = 85;
-            this.blit(evt.mat, x, y, u, v, width, height);
+            this.blit(evt.getMat(), x, y, u, v, width, height);
 
             // Render XP
-            this.blit(evt.mat, xpOffsetX, xpOffsetY, 43, 19, 92, 5);
+            this.blit(evt.getMat(), xpOffsetX, xpOffsetY, 43, 19, 92, 5);
 
             final int current = pokemob.getExp();
             final int level = pokemob.getLevel();
@@ -253,7 +265,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             height = 2;
             u = 0;
             v = 97;
-            this.blit(evt.mat, x, y, u, v, width, height);
+            this.blit(evt.getMat(), x, y, u, v, width, height);
 
             // Render Status
             final byte status = pokemob.getStatus();
@@ -264,43 +276,42 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                 if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1 * 14;
                 if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                 if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
-                this.blit(evt.mat, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
+                this.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
 
-                evt.mat.translate(0, 0, 100);
-                this.blit(evt.mat, confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
-                evt.mat.translate(0, 0, -100);
+                evt.getMat().translate(0, 0, 100);
+                this.blit(evt.getMat(), confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
+                evt.getMat().translate(0, 0, -100);
             }
 
             // Render Name
-            if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
-            this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
+            this.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             if (this.fontRenderer.width(displayName) > 70)
             {
-                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName),
-                        70, this.fontRenderer, true);
+                final List<MutableComponent> list = ListHelper.splitText(new TextComponent(displayName), 70,
+                        this.fontRenderer, true);
                 displayName = list.get(0).getString();
             }
-            this.fontRenderer.draw(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
+            this.fontRenderer.draw(evt.getMat(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            this.fontRenderer.draw(evt.mat, "L." + level, nameOffsetX + 88 - this.fontRenderer.width("L."
-                    + level), nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
+            this.fontRenderer.draw(evt.getMat(), "L." + level, nameOffsetX + 88 - this.fontRenderer.width("L." + level),
+                    nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+            RenderSystem.enableBlend();
             final int n = this.getPokemobsToDisplay().length;
             final int num = this.fontRenderer.width("" + n);
-            this.blit(evt.mat, nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
-            this.fontRenderer.draw(evt.mat, "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+            this.blit(evt.getMat(), nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
+            this.fontRenderer.draw(evt.getMat(), "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
-            RenderSystem.enableBlend();
             int moveIndex = 0;
             int moveCount = 0;
             for (moveCount = 0; moveCount < 4; moveCount++)
@@ -317,18 +328,18 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                 {
 
                     // bind texture
-                    evt.mat.pushPose();
+                    evt.getMat().pushPose();
 
-                    this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+                    RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
-                    this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
+                    this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
                     // Render colour overlays.
                     if (currentMoveIndex == index)
                     {
                         // Draw selected indictator
                         RenderSystem.enableBlend();
-                        this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
+                        this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                         // Draw cooldown box
                         float timer = 1;
                         Move_Base lastMove;
@@ -339,33 +350,30 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                                             & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
-                        this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer), 13);
+                        this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
+                                13);
                     }
-                    if (disabled)
-                    {
-                        RenderSystem.enableBlend();
-                        this.blit(evt.mat, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
-                    }
+                    if (disabled) this.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
 
-                    evt.mat.popPose();
-                    evt.mat.pushPose();
-                    final Color moveColor = new Color(move.getType(pokemob).colour);
-                    GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
-                            1.0F);
-                    this.fontRenderer.draw(evt.mat, MovesUtils.getMoveName(move.getName()).getString(), 5
+                    evt.getMat().popPose();
+                    evt.getMat().pushPose();
+                    this.fontRenderer.draw(evt.getMat(), MovesUtils.getMoveName(move.getName()).getString(), 5
                             + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
-                    evt.mat.popPose();
+                    evt.getMat().popPose();
                 }
             }
 
             // Render Mob
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
-            RenderSystem.enableBlend();
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+
             final int mobOffsetX = 0;
             final int mobOffsetY = 0;
-            this.blit(evt.mat, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
-            GuiPokemobBase.renderMob(evt.mat, pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f);
-            evt.mat.popPose();
+            RenderSystem.enableBlend();
+            this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
+
+            GuiPokemobBase.renderMob(evt.getMat(), pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
+                    0.75f);
+            evt.getMat().popPose();
         }
     }
 
@@ -388,19 +396,20 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
             final LivingEntity entity = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (entity == null || !entity.isAlive()) break render;
 
-            evt.mat.pushPose();
-            GuiDisplayPokecubeInfo.applyTransform(evt.mat, PokecubeCore.getConfig().targetRef, PokecubeCore
+            evt.getMat().pushPose();
+            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef, PokecubeCore
                     .getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore
                             .getConfig().targetSize);
             // Render HP
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
-            this.blit(evt.mat, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+            this.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
             final int x = hpOffsetX + 1;
             final int y = hpOffsetY + 1;
             final int width = (int) (92 * ratio);
-            this.blit(evt.mat, x, y, 0, 85, width, 5);
+            this.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
             // Render Status
             pokemob = CapabilityPokemob.getPokemobFor(entity);
@@ -414,36 +423,36 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
                     if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1 * 14;
                     if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                     if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
-                    this.blit(evt.mat, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
+                    this.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
                 }
                 if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
                 {
-                    evt.mat.translate(0, 0, 100);
-                    this.blit(evt.mat, confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
-                    evt.mat.translate(0, 0, -100);
+                    evt.getMat().translate(0, 0, 100);
+                    this.blit(evt.getMat(), confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
+                    evt.getMat().translate(0, 0, -100);
                 }
             }
 
             // Render Name
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
-            this.blit(evt.mat, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+            this.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
             if (this.fontRenderer.width(displayName) > 70)
             {
 
             }
-            this.fontRenderer.draw(evt.mat, displayName, nameOffsetX + 3, nameOffsetY + 3,
+            this.fontRenderer.draw(evt.getMat(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Box behind Mob
-            this.minecraft.getTextureManager().bindForSetup(Resources.GUI_BATTLE);
+            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int mobBoxOffsetX = 0;
             final int mobBoxOffsetY = 0;
-            this.blit(evt.mat, mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
+            this.blit(evt.getMat(), mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
-            GuiPokemobBase.renderMob(evt.mat, entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f);
-            evt.mat.popPose();
+            GuiPokemobBase.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f);
+            evt.getMat().popPose();
         }
     }
 
@@ -530,22 +539,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent
     {
         this.indexPokemob++;
         if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob = 0;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
-    public void onRenderHotbar(final RenderGameOverlayEvent.Post event)
-    {
-        try
-        {
-            if ((this.minecraft.screen == null || GuiArranger.toggle) && !Minecraft
-                    .getInstance().options.hideGui && event.getType() == ElementType.LAYER || event
-                            .getType() == ElementType.CHAT) this.draw(event);
-        }
-        catch (final Throwable e)
-        {
-            e.printStackTrace();
-        }
     }
 
     /** Identifies target of attack, and sends the packet with info to server */

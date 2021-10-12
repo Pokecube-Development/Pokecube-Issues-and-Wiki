@@ -1,6 +1,7 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 
 import com.google.common.collect.Maps;
 
@@ -16,19 +17,19 @@ import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.chunk.ProtoChunk;
-import net.minecraft.world.level.chunk.UpgradeData;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
 
 public class BlockEntityChunkProvider extends ChunkSource
 {
-    private final WorldEntity          world;
-    private final LevelLightEngine    lightManager;
+    private final WorldEntity world;
 
-    private final Map<BlockPos, LevelChunk> chunks     = Maps.newHashMap();
-    private BlockPos                   lastOrigin = null;
+    private final LevelLightEngine lightManager;
+
+    private final Map<BlockPos, LevelChunk> chunks = Maps.newHashMap();
+
+    private BlockPos lastOrigin = null;
 
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
@@ -39,8 +40,8 @@ public class BlockEntityChunkProvider extends ChunkSource
     @Override
     public ChunkAccess getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
-        final AABB chunkBox = new AABB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
-                this.world.getWorld().getMaxBuildHeight(), chunkZ * 16 + 15);
+        final AABB chunkBox = new AABB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15, this.world.getWorld()
+                .getMaxBuildHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
@@ -56,9 +57,8 @@ public class BlockEntityChunkProvider extends ChunkSource
         pos.set(chunkX, 0, chunkZ);
         final BlockPos immut = pos.immutable();
         if (this.chunks.containsKey(immut)) return this.chunks.get(immut);
-        final ProtoChunk primer = new ProtoChunk(new ChunkPos(chunkX, chunkZ), UpgradeData.EMPTY);
-
-        final LevelChunk ret = new LevelChunk(this.world.getWorld(), primer);
+        final ChunkPos cpos = new ChunkPos(chunkX, chunkZ);
+        final LevelChunk ret = new EntityChunk(this.world, cpos);
         this.chunks.put(immut, ret);
         for (int i = 0; i < 16; i++)
             for (int j = 0; j < 256; j++)
@@ -78,7 +78,7 @@ public class BlockEntityChunkProvider extends ChunkSource
                     }
                     storage.setBlockState(i & 15, j & 15, k & 15, state, false);
                     final BlockEntity tile = this.world.getBlockEntity(pos);
-                    if (tile != null) ret.addBlockEntity(tile);
+                    if (tile != null) ret.setBlockEntity(tile);
                 }
         return ret;
     }
@@ -110,8 +110,13 @@ public class BlockEntityChunkProvider extends ChunkSource
     }
 
     @Override
-    public boolean isTickingChunk(final BlockPos pos)
+    public void tick(final BooleanSupplier p_156184_)
     {
-        return false;
+    }
+
+    @Override
+    public int getLoadedChunksCount()
+    {
+        return 0;
     }
 }

@@ -4,19 +4,21 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 
 public abstract class WatchPage extends Screen implements GuiEventListener
 {
-    public final GuiPokeWatch    watch;
-    private final Component title;
+    public final GuiPokeWatch watch;
+    private final Component   title;
 
     private final ResourceLocation tex_dm;
     private final ResourceLocation tex_nm;
@@ -41,7 +43,9 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     @Override
     public void renderBackground(final PoseStack matrixStack)
     {
-        this.minecraft.textureManager.bindForSetup(this.getBackgroundTex());
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, this.getBackgroundTex());
+
         final int j2 = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int k2 = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         this.blit(matrixStack, j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);

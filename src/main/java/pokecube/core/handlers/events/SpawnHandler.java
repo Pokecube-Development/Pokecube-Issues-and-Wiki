@@ -769,7 +769,7 @@ public final class SpawnHandler
         final int boxR = PokecubeCore.getConfig().maxSpawnRadius;
         final AABB box = v.getAABB().inflate(boxR, Math.max(height, boxR), boxR);
         int num = PokemobTracker.countPokemobs(world, box);
-        if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return;
+        if (num >= SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return;
         final Vector3 v1 = SpawnHandler.getRandomPointNear(world, v, maxRadius);
         double dt = (System.nanoTime() - time) / 1e3D;
         if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.debug("Location Find took " + dt);

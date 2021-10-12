@@ -1,9 +1,11 @@
 package thut.wearables.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import thut.wearables.ThutWearables;
@@ -30,15 +32,15 @@ public class GuiWearables extends EffectRenderingInventoryScreen<ContainerWearab
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float p_146976_1_,
-            final int p_146976_2_, final int p_146976_3_)
+    protected void renderBg(final PoseStack mat, final float p_146976_1_, final int p_146976_2_, final int p_146976_3_)
     {
-        this.minecraft.getTextureManager().bindForSetup(GuiWearables.background);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, GuiWearables.background);
         final int i = this.leftPos;
         final int j = this.topPos;
         this.blit(mat, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        InventoryScreen.renderEntityInInventory(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50 - this.oldMouseY,
-                this.menu.wearer);
+        InventoryScreen.renderEntityInInventory(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50
+                - this.oldMouseY, this.menu.wearer);
     }
 
     /** Draws the screen and all the components in it. */

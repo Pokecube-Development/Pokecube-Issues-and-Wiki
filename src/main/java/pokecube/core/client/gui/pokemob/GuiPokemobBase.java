@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
@@ -18,6 +19,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -82,8 +84,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         GuiPokemobBase.renderMob(new PoseStack(), entity, dx, dy, pitch, yaw, headPitch, headYaw, scale);
     }
 
-    public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy, final float pitch,
-            final float yaw, final float headPitch, final float headYaw, float scale)
+    public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
+            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale)
     {
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         LivingEntity renderMob = entity;
@@ -137,8 +139,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
                 .bufferSource();
         RenderMobOverlays.enabled = false;
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat,
-                irendertypebuffer$impl, 15728880);
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, mat, irendertypebuffer$impl, 15728880);
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.endBatch();
         entityrenderermanager.setRenderShadow(true);
@@ -181,17 +182,18 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX,
-            final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        this.getMinecraft().getTextureManager().bindForSetup(Resources.GUI_POKEMOB);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         this.blit(mat, k, l, 0, 0, this.imageWidth, this.imageHeight);
         if (this.menu.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
-        if (this.menu.pokemob != null) GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0,
-                0, 1);
+        if (this.menu.pokemob != null) GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0,
+                1);
     }
 
     /**
@@ -201,8 +203,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
     @Override
     protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
     {
-        this.font.draw(mat, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2,
-                4210752);
+        this.font.draw(mat, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2, 4210752);
     }
 
     @Override

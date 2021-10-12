@@ -8,6 +8,7 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.ClickEvent;
@@ -50,9 +52,9 @@ public class GuiPokedex extends Screen
     public static PokedexEntry pokedexEntry = null;
 
     public IPokemob                pokemob      = null;
-    protected Player         PlayerEntity = null;
+    protected Player               PlayerEntity = null;
     protected ScrollGui<LineEntry> list;
-    protected EditBox      pokemobTextField;
+    protected EditBox              pokemobTextField;
     /** The X size of the inventory window in pixels. */
     protected int                  xSize;
 
@@ -154,8 +156,7 @@ public class GuiPokedex extends Screen
         final int yOffset = this.height / 2 - 80;
         final int xOffset = this.width / 2;
 
-        this.pokemobTextField = new EditBox(this.font, xOffset - 65, yOffset + 123, 110, 10,
-                new TextComponent(""));
+        this.pokemobTextField = new EditBox(this.font, xOffset - 65, yOffset + 123, 110, 10, new TextComponent(""));
         this.pokemobTextField.setBordered(false);
         this.pokemobTextField.setEditable(true);
 
@@ -198,6 +199,7 @@ public class GuiPokedex extends Screen
                 }
                 return false;
             }
+
             @Override
             public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
             {
@@ -272,11 +274,11 @@ public class GuiPokedex extends Screen
         if (ret) return true;
         final int button = this.getButtonId(x, y);
 
-        if (button != 0) this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        if (button != 0) this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK,
+                1.0F));
         if (button == 14)
         {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()
-                    .getCode());
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
             return true;
         }
 
@@ -297,8 +299,8 @@ public class GuiPokedex extends Screen
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTick)
     {
         // Draw background
-        final Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bindForSetup(Resources.GUI_POKEDEX);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEDEX);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
         this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
@@ -313,8 +315,8 @@ public class GuiPokedex extends Screen
         final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
                 .getData(PokecubePlayerStats.class);
         boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
-                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
-                || this.minecraft.player.getAbilities().instabuild;
+                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0 || this.minecraft.player
+                        .getAbilities().instabuild;
 
         // Megas Inherit colouring from the base form.
         if (!fullColour && pokedexEntry.isMega()) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),

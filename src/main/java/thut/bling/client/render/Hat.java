@@ -4,10 +4,11 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,7 +32,6 @@ public class Hat
         DyeColor ret;
         Color colour;
         final ResourceLocation[] tex = textures.clone();
-        final Minecraft minecraft = Minecraft.getInstance();
         float s;
         mat.pushPose();
         s = 0.285f;
@@ -43,7 +43,10 @@ public class Hat
         mat.popPose();
         mat.pushPose();
         mat.scale(s * 0.995f, -s * 0.995f, -s * 0.995f);
-        minecraft.textureManager.bindForSetup(tex[1]);
+
+        RenderSystem.setShader(GameRenderer::getRendertypeEntityTranslucentCullShader);
+        RenderSystem.setShaderTexture(0, tex[1]);
+
         ret = DyeColor.RED;
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {

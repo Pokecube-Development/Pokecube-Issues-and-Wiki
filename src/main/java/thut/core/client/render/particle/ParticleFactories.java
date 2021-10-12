@@ -1,5 +1,6 @@
 package thut.core.client.render.particle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -11,6 +12,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -31,7 +33,8 @@ public class ParticleFactories
         @Override
         public void begin(final BufferBuilder builder, final TextureManager textures)
         {
-            textures.bindForSetup(ParticleBase.TEXTUREMAP);
+            RenderSystem.setShaderTexture(0, ParticleBase.TEXTUREMAP);
+            RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapShader);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 

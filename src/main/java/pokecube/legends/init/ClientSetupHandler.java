@@ -11,11 +11,10 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
@@ -25,7 +24,6 @@ import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
 import pokecube.legends.tileentity.RaidSpawn;
-import thut.core.client.gui.ConfigGui;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -142,9 +140,6 @@ public class ClientSetupHandler
             if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
         }
 
-        // Renderer for raid spawn
-        ClientRegistry.bindTileEntityRenderer(RaidSpawn.TYPE, Raid::new);
-
         // Register config gui
         // FIXME config gui
         // ModList.get().getModContainerById(Reference.ID).ifPresent(c ->
@@ -152,10 +147,17 @@ public class ClientSetupHandler
         // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
         // ConfigGui(PokecubeLegends.config, parent)));
 
-        // Register entity renderer for the wormhole
-        RenderingRegistry.registerEntityRenderingHandler(EntityInit.WORMHOLE.get(), Wormhole::new);
-
-        //Shields
+        // Shields
         ItemInit.addItemModelProperties();
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(final RegisterRenderers event)
+    {
+        // Renderer for raid spawn
+        event.registerBlockEntityRenderer(RaidSpawn.TYPE, Raid::new);
+
+        // Register entity renderer for the wormhole
+        event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);
     }
 }

@@ -1,6 +1,6 @@
 package thut.api.entity.blockentity.render;
 
-import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -12,8 +12,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.resources.model.BakedModel;
@@ -140,7 +138,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         mat.translate(0.5F, 0.5F, 0.5F);
         final float f7 = 1.0F;
         mat.scale(-f7, -f7, f7);
-        this.entityRenderDispatcher.textureManager.bindForSetup(InventoryMenu.BLOCK_ATLAS);
+
+        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
         this.getCrateModel();
         mat.popPose();
     }
@@ -149,7 +148,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final PoseStack mat, final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final BlockEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
-        if (tile != null) BlockEntityRenderDispatcher.instance.render(tile, partialTicks, mat, bufferIn);
+        if (tile != null) Minecraft.getInstance().getBlockEntityRenderDispatcher().render(tile, packedLightIn, mat,
+                bufferIn);
     }
 
     private BakedModel getCrateModel()
@@ -173,17 +173,18 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final BlockPos real_pos, final BlockPos relPos, final PoseStack mat, final MultiBufferSource bufferIn,
             final int packedLightIn)
     {
-        final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state)
-                .getModelData((BlockAndTintGetter) world, real_pos, state, EmptyModelData.INSTANCE);
+        final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).getModelData(
+                (BlockAndTintGetter) world, real_pos, state, EmptyModelData.INSTANCE);
         final BlockPos rpos = relPos.offset(entity.getOriginalPos());
         for (final RenderType type : RenderType.chunkBufferLayers())
             if (ItemBlockRenderTypes.canRenderInLayer(state, type))
             {
                 final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
                 final BakedModel model = blockRenderer.getBlockModel(state);
-                blockRenderer.getModelRenderer().renderModel((BlockAndTintGetter) world, model, state, real_pos,
-                        mat, bufferIn.getBuffer(type), false, ThutCore.newRandom(), state.getSeed(rpos),
-                        packedLightIn, data);
+
+                blockRenderer.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, real_pos, mat,
+                        bufferIn.getBuffer(type), false, ThutCore.newRandom(), state.getSeed(rpos), packedLightIn,
+                        data);
             }
     }
 }

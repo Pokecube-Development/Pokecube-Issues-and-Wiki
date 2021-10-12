@@ -8,12 +8,14 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -337,7 +339,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (drawLevel) drawLevel = this.watch.pokemob.getPokedexEntry() == this.pokemob.getPokedexEntry();
 
             // Draw the icon indicating capture/inspect status.
-            this.minecraft.getTextureManager().bindForSetup(GuiPokeWatch.TEXTURE_BASE);
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+            RenderSystem.setShaderTexture(0, GuiPokeWatch.TEXTURE_BASE);
+
             final PokedexEntry pokedexEntry = this.pokemob.getPokedexEntry();
             final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
                     .getInstance().player).getData(PokecubePlayerStats.class);

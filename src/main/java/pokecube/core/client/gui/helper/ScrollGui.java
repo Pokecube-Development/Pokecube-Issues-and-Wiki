@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 
 public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends AbstractSelectionList<T>
@@ -28,8 +29,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     public ScrollGui(final Screen parent, final Minecraft mcIn, final int widthIn, final int heightIn,
             final int slotHeightIn, final int offsetX, final int offsetY)
     {
-        super(mcIn, widthIn, slotHeightIn * (heightIn / slotHeightIn), offsetY,
-                offsetY + slotHeightIn * (heightIn / slotHeightIn), slotHeightIn);
+        super(mcIn, widthIn, slotHeightIn * (heightIn / slotHeightIn), offsetY, offsetY + slotHeightIn * (heightIn
+                / slotHeightIn), slotHeightIn);
         this.y0 = offsetY;
         this.y1 = this.y0 + this.height;
         this.setLeftPos(offsetX);
@@ -99,7 +100,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         final int j = i + 6;
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
-        this.minecraft.getTextureManager().bindForSetup(GuiComponent.BACKGROUND_LOCATION);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
@@ -146,7 +148,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     }
 
     @Override
-    protected void renderList(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY, final float tick)
+    protected void renderList(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY,
+            final float tick)
     {
         final int i = this.getItemCount();
         final Tesselator tessellator = Tesselator.getInstance();
@@ -186,9 +189,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
                     tessellator.end();
                     RenderSystem.enableTexture();
                 }
-                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY,
-                        this.isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e),
-                        tick);
+                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY, this.isMouseOver(mouseX, mouseY) && Objects.equals(this
+                        .getEntryAtPosition(mouseX, mouseY), e), tick);
             }
         }
     }

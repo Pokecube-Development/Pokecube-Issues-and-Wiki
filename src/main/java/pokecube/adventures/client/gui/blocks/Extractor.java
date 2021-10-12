@@ -1,8 +1,10 @@
 package pokecube.adventures.client.gui.blocks;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -19,12 +21,10 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX,
-            final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        this.minecraft.getTextureManager().bindForSetup(new ResourceLocation(
-                PokecubeAdv.MODID,
-                "textures/gui/extractor.png"));
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);

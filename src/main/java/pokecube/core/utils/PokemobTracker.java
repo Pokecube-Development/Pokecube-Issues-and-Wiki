@@ -145,6 +145,11 @@ public class PokemobTracker
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
         if (!this.liveMobs.containsKey(dim)) this.liveMobs.put(dim, mobList);
+
+        // Check if the mob is already in list (ie moved elsewhere, then back),
+        // if so, remove it
+        mobList.removeIf(e2 -> e2.getUUID().equals(e.getUUID()));
+
         // Add the pokemob to the list
         mobList.add(e);
         this.entries.put(e.getUUID(), e);

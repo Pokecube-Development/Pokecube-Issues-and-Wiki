@@ -2,11 +2,12 @@ package pokecube.mobs.proxy;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,7 +35,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                       model;
+            X3dModel model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -49,8 +50,8 @@ public class ClientProxy extends CommonProxy
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.HAT) return;
-                if (this.model == null)
-                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara.x3d"));
+                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
+                        "models/worn/megatiara.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
                 final float dx = -0.0f, dy = 0.25f, dz = -0.25f;
                 mat.mulPose(Vector3f.XP.rotationDegrees(-90));
@@ -76,7 +77,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                       model;
+            X3dModel model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -90,8 +91,8 @@ public class ClientProxy extends CommonProxy
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.ANKLE) return;
-                if (this.model == null)
-                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia.x3d"));
+                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
+                        "models/worn/megaankletzinnia.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
                 float s, dx, dy, dz;
                 dx = 0.f;
@@ -122,7 +123,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                       model;
+            X3dModel model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -137,10 +138,10 @@ public class ClientProxy extends CommonProxy
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.NECK) return;
-                if (this.model == null)
-                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant.x3d"));
+                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
+                        "models/worn/megapendant.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
-                float  dx, dy, dz;
+                float dx, dy, dz;
                 dx = 0;
                 dy = -.0f;
                 dz = 0.01f;
@@ -168,7 +169,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                       model;
+            X3dModel model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -183,10 +184,10 @@ public class ClientProxy extends CommonProxy
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.EAR) return;
-                if (this.model == null)
-                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring.x3d"));
+                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
+                        "models/worn/megaearring.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
-                final Minecraft minecraft = Minecraft.getInstance();
+
                 float dx, dy, dz;
                 dx = 0.0f;
                 dy = index == 0 ? 0.01f : -0.01f;
@@ -196,7 +197,9 @@ public class ClientProxy extends CommonProxy
                 VertexConsumer buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
 
-                minecraft.getTextureManager().bindForSetup(this.loop);
+                RenderSystem.setShader(GameRenderer::getRendertypeEntityTranslucentShader);
+                RenderSystem.setShaderTexture(0, this.loop);
+
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
@@ -216,7 +219,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel                       model;
+            X3dModel model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -231,8 +234,8 @@ public class ClientProxy extends CommonProxy
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.EYE) return;
-                if (this.model == null)
-                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses.x3d"));
+                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
+                        "models/worn/megaglasses.x3d"));
                 if (!this.model.isLoaded() || !this.model.isValid()) return;
 
                 final float dx = -0.0f, dy = 0.0f, dz = -0.25f;

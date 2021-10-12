@@ -10,20 +10,19 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import pokecube.legends.tileentity.RaidSpawn;
 
-public class Raid extends BlockEntityRenderer<RaidSpawn>
+public class Raid implements BlockEntityRenderer<RaidSpawn>
 {
     public static final ResourceLocation TEXTURE_BEACON_BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
 
-    public Raid(final BlockEntityRenderDispatcher rendererDispatcherIn)
+    public Raid(final BlockEntityRendererProvider.Context context)
     {
-        super(rendererDispatcherIn);
     }
 
     @Override

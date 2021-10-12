@@ -22,7 +22,7 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    public static void renderSpecial(final RenderLivingEvent.Pre<Mob, EntityModel<Mob>> event)
+    public static void renderSpecial(final RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
     {
         if (!RenderMobOverlays.enabled) return;
         final Minecraft mc = Minecraft.getInstance();

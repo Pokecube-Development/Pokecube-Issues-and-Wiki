@@ -1,12 +1,12 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.opengl.GL11;
-
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.nbtedit.NBTStringHelper;
 
@@ -53,11 +53,12 @@ public class GuiNBTButton extends Button
         }
         else this.hoverTime = -1;
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         // Draw the texture
         if (this.visible)
         {
-            this.mc.getTextureManager().bindForSetup(GuiNBTNode.WIDGET_TEXTURE);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
             this.blit(mat, this.x, this.y, (this.id - 1) * 9, 18, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
         }
     }
