@@ -712,12 +712,12 @@ public class EventsHandler
 
     private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-        Database.onResourcesReloaded();
+//        Database.onResourcesReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-        // event.addListener(Database.ReloadListener.INSTANCE);
+        event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayer player)

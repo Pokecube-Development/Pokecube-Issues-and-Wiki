@@ -131,6 +131,9 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, GuiInfoMessages::draw);
         // Register the handler for drawing things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
+
+        // Initialise this gui
+        GuiDisplayPokecubeInfo.instance();
     }
 
     /**

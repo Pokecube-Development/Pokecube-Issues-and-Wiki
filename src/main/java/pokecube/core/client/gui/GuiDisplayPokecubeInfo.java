@@ -177,7 +177,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                 GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
         OverlayRegistry.registerOverlayTop("Pokecube Info", this.infoOverlay);
-
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void disable()

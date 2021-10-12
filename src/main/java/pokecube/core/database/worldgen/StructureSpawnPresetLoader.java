@@ -20,6 +20,8 @@ public class StructureSpawnPresetLoader
 {
     public static Map<String, JsonObject> presetMap = Maps.newHashMap();
 
+    public static boolean validLoad = false;
+
     public static class SpawnPresets
     {
         List<JsonObject> presets = Lists.newArrayList();
@@ -27,6 +29,7 @@ public class StructureSpawnPresetLoader
 
     public static void loadDatabase()
     {
+        StructureSpawnPresetLoader.validLoad = false;
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
         for (final ResourceLocation file : resources)
         {
@@ -38,6 +41,7 @@ public class StructureSpawnPresetLoader
                 reader.close();
                 if (loaded.has("presets"))
                 {
+                    StructureSpawnPresetLoader.validLoad = true;
                     final SpawnPresets database = PokedexEntryLoader.gson.fromJson(loaded, SpawnPresets.class);
                     for (final JsonObject preset : database.presets)
                         if (preset.has("preset_name")) StructureSpawnPresetLoader.presetMap.put(preset.get(
