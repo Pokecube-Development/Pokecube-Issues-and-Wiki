@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -175,13 +177,26 @@ public class EventsHandler
             final ResourceKey<Level> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
             if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
+
+            final Set<IRunnable> done = Sets.newHashSet();
+            final List<IRunnable> toRun = Lists.newArrayList();
+
             synchronized (tasks)
             {
-                tasks.removeIf(r ->
-                {
-                    // This ensures it is executed on the main thread.
-                    return r.run(world);
-                });
+                toRun.addAll(tasks);
+            }
+
+            final long start = System.currentTimeMillis();
+            for (final IRunnable run : toRun)
+            {
+                if (run.run(world)) done.add(run);
+                final long dt = System.currentTimeMillis() - start;
+                if (dt > 5) break;
+            }
+
+            synchronized (tasks)
+            {
+                tasks.removeAll(done);
             }
             // Call spawner tick at end of world tick.
             if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick(world);
@@ -562,6 +577,8 @@ public class EventsHandler
             evt.setCanceled(true);
             return;
         }
+        // Forge workaround for this not being called server side!
+        if (!evt.getEntity().isAddedToWorld()) evt.getEntity().onAddedToWorld();
 
         if (evt.getEntity() instanceof IPokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
         {
@@ -712,7 +729,7 @@ public class EventsHandler
 
     private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-//        Database.onResourcesReloaded();
+        // Database.onResourcesReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
