@@ -2,9 +2,13 @@ package pokecube.core.handlers.events;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -243,7 +248,8 @@ public class SpawnEventsHandler
             {
                 PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
             }
-            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
+            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}",
+                    function, event.pos);
             else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
@@ -256,14 +262,7 @@ public class SpawnEventsHandler
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxY,
                     box.maxY, box.maxZ);
-            EventsHandler.Schedule((ServerLevel) event.getWorld(), world ->
-            {
-                poses.forEach((p) ->
-                {
-                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
-                });
-                return true;
-            });
+            SpawnEventsHandler.queueForUpdate(poses, subbiome, (Level) event.getWorld());
         }
         else
         {
@@ -278,6 +277,29 @@ public class SpawnEventsHandler
                 TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
             });
         }
+    }
+
+    private static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
+    {
+        final Map<ChunkPos, Set<BlockPos>> byChunk = Maps.newHashMap();
+        poses.forEach((p) ->
+        {
+            final ChunkPos pos = new ChunkPos(p);
+            Set<BlockPos> set = byChunk.get(pos);
+            if (set == null) byChunk.put(pos, set = Sets.newHashSet());
+            set.add(p.immutable());
+        });
+        byChunk.forEach((pos, s) ->
+        {
+            EventsHandler.Schedule(level, world ->
+            {
+                s.forEach((p) ->
+                {
+                    TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
+                });
+                return true;
+            }, false);
+        });
     }
 
     public static class GuardInfo

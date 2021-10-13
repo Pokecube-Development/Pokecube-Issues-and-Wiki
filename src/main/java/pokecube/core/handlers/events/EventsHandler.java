@@ -272,12 +272,17 @@ public class EventsHandler
 
     public static void Schedule(final Level world, final IRunnable task)
     {
+        EventsHandler.Schedule(world, task, true);
+    }
+
+    public static void Schedule(final Level world, final IRunnable task, final boolean immedateIfPossible)
+    {
         if (!(world instanceof ServerLevel)) return;
         final ServerLevel swrld = (ServerLevel) world;
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (!swrld.isHandlingTick() && swrld.getServer().isSameThread())
+        if (immedateIfPossible && !swrld.isHandlingTick() && swrld.getServer().isSameThread())
         {
             // This will either run it now, or run it on main thread soon
             swrld.getServer().execute(() -> task.run(swrld));
