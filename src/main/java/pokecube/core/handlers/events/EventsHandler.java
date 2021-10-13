@@ -35,6 +35,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -694,8 +695,8 @@ public class EventsHandler
         final ServerLevel world = (ServerLevel) tworld;
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
-        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(null, e -> EventsHandler.validFollowing(entity,
-                e)));
+        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
+                e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
