@@ -50,11 +50,6 @@ public class ClientProxy
     static KeyMapping ROTATERIGHT;
     static KeyMapping ROTATELEFT;
 
-    static
-    {
-        new Exception().printStackTrace();
-    }
-
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {

@@ -95,12 +95,6 @@ import pokecube.core.utils.Tools;
 
 public class EventsHandlerClient
 {
-
-    static
-    {
-        new Exception().printStackTrace();
-    }
-
     public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();
 
     private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();

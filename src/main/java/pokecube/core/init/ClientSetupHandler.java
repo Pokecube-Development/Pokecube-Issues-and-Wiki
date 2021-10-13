@@ -86,12 +86,6 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
-    {
-        event.register(IShoulderHolder.class);
-    }
-
-    @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
         PokecubeCore.LOGGER.debug("Pokecube Client Setup");
@@ -206,6 +200,12 @@ public class ClientSetupHandler
         // ConfigGui(PokecubeCore.getConfig(),
         // parent)));
 
+    }
+
+    @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        event.register(IShoulderHolder.class);
     }
 
     @SubscribeEvent
