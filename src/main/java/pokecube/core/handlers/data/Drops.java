@@ -157,7 +157,6 @@ public class Drops extends LootTableProvider
     private final DataGenerator dataGenerator;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    // FIXME drops datagen
     public Drops(final DataGenerator dataGeneratorIn)
     {
         super(dataGeneratorIn);

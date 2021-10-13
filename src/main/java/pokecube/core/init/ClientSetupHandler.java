@@ -193,13 +193,7 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
-        // Register config gui
-        // ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c ->
-        // c.registerExtensionPoint(
-        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
-        // ConfigGui(PokecubeCore.getConfig(),
-        // parent)));
-
+        // FIXME Register config gui
     }
 
     @SubscribeEvent
