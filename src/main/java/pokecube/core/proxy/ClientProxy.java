@@ -28,6 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
+import pokecube.nbtedit.NBTEdit;
 
 @OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
@@ -39,6 +40,7 @@ public class ClientProxy extends CommonProxy
         public static void onStart(final NewRegistry event)
         {
             PokecubeCore.proxy = new ClientProxy();
+            NBTEdit.proxy = new pokecube.nbtedit.forge.ClientProxy();
         }
     }
 

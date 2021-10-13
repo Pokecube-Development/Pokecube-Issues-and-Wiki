@@ -7,39 +7,21 @@ import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import thut.bling.ThutBling.CommonProxy;
+import pokecube.core.PokecubeCore;
 import thut.bling.bag.large.LargeContainer;
 import thut.bling.bag.small.SmallContainer;
 import thut.bling.client.gui.Bag;
 import thut.wearables.EnumWearable;
 
-public class ClientSetupHandler extends CommonProxy
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+public class ClientSetupHandler
 {
-
-    @Override
-    public boolean isClientSide()
-    {
-        return EffectiveSide.get() == LogicalSide.CLIENT;
-    }
-
-    @Override
-    public boolean isServerSide()
-    {
-        return EffectiveSide.get() == LogicalSide.SERVER;
-    }
-
-    @Override
-    public void setup(final FMLCommonSetupEvent event)
-    {
-        super.setup(event);
-    }
-
-    @Override
-    public void setupClient(final FMLClientSetupEvent event)
+    @SubscribeEvent
+    public static void setupClient(final FMLClientSetupEvent event)
     {
         MenuScreens.register(LargeContainer.TYPE, Bag<LargeContainer>::new);
         MenuScreens.register(SmallContainer.TYPE, ContainerScreen::new);

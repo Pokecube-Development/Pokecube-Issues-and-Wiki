@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.nbtedit.NBTEdit;
 
 public class CommonProxy
 {
@@ -22,7 +23,11 @@ public class CommonProxy
         @SubscribeEvent
         public static void onStart(final NewRegistry event)
         {
-            if (PokecubeCore.proxy == null) PokecubeCore.proxy = new CommonProxy();
+            if (PokecubeCore.proxy == null)
+            {
+                PokecubeCore.proxy = new CommonProxy();
+                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+            }
         }
     }
 

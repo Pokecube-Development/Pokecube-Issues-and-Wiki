@@ -15,6 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,9 +30,9 @@ import pokecube.nbtedit.packets.PacketHandler;
 import pokecube.nbtedit.packets.TileRequestPacket;
 import thut.core.common.network.Packet;
 
+@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
-
     public static KeyMapping NBTEditKey;
 
     @SubscribeEvent

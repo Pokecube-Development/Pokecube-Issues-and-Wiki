@@ -15,20 +15,31 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
+import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
+import pokecube.mobs.PokecubeMobs;
 import thut.bling.client.render.Util;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
-public class ClientProxy extends CommonProxy
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID, value = Dist.CLIENT)
+public class ClientProxy
 {
-    @Override
-    public void initWearables()
+    @SubscribeEvent
+    public static void onStart(final NewRegistry event)
     {
-        super.initWearables();
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, ClientProxy::initWearables);
+    }
+
+    public static void initWearables(final RegisterMiscItems event)
+    {
         // Tiara like worn by Lisia, but rotated to be centered on head instead
         // of at angle.
         WearablesCompat.renderers.put("tiara", new WearablesRenderer()

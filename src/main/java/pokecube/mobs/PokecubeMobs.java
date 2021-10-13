@@ -24,7 +24,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -59,8 +58,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.moves.MoveRegister;
-import pokecube.mobs.proxy.ClientProxy;
-import pokecube.mobs.proxy.CommonProxy;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -86,7 +83,6 @@ public class PokecubeMobs
     }
 
     public static final String MODID = "pokecube_mobs";
-    public static CommonProxy  proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
@@ -462,8 +458,6 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("dracovish");
         ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
-        // We are depending on this now, so might as well always use it.
-        PokecubeMobs.proxy.initWearables();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
