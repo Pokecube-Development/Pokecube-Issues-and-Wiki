@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -164,6 +166,8 @@ public class EventsHandler
         }
     }
 
+    public static boolean RUNNING = false;
+
     private static class WorldTickScheduler implements IWorldTickListener
     {
         static WorldTickScheduler INSTANCE = new WorldTickScheduler();
@@ -171,16 +175,30 @@ public class EventsHandler
         @Override
         public void onTickEnd(final ServerWorld world)
         {
+            if (!EventsHandler.RUNNING) return;
             final RegistryKey<World> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
             if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
+
+            final Set<IRunnable> done = Sets.newHashSet();
+            final List<IRunnable> toRun = Lists.newArrayList();
+
             synchronized (tasks)
             {
-                tasks.removeIf(r ->
-                {
-                    // This ensures it is executed on the main thread.
-                    return r.run(world);
-                });
+                toRun.addAll(tasks);
+            }
+
+            final long start = System.currentTimeMillis();
+            for (final IRunnable run : toRun)
+            {
+                if (run.run(world)) done.add(run);
+                final long dt = System.currentTimeMillis() - start;
+                if (dt > 5) break;
+            }
+
+            synchronized (tasks)
+            {
+                tasks.removeAll(done);
             }
             // Call spawner tick at end of world tick.
             if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick(world);
@@ -257,12 +275,17 @@ public class EventsHandler
 
     public static void Schedule(final World world, final IRunnable task)
     {
+        EventsHandler.Schedule(world, task, true);
+    }
+
+    public static void Schedule(final World world, final IRunnable task, final boolean immedateIfPossible)
+    {
         if (!(world instanceof ServerWorld)) return;
         final ServerWorld swrld = (ServerWorld) world;
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (!swrld.tickingEntities)
+        if (immedateIfPossible && !swrld.tickingEntities)
         {
             // This will either run it now, or run it on main thread soon
             swrld.getServer().execute(() -> task.run(swrld));
@@ -659,12 +682,14 @@ public class EventsHandler
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
+        EventsHandler.RUNNING = true;
     }
 
     private static void onServerStopped(final FMLServerStoppedEvent event)
     {
         // Reset this.
         PokecubeSerializer.clearInstance();
+        EventsHandler.RUNNING = false;
         CustomJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
