@@ -34,6 +34,7 @@ import pokecube.core.client.PokecenterSound;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.utils.PokeType;
 
 public class ClientProxy extends CommonProxy
@@ -42,6 +43,11 @@ public class ClientProxy extends CommonProxy
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
+
+    public ClientProxy()
+    {
+        MoveAnimationHelper.Instance();
+    }
 
     @SubscribeEvent
     public void colourBlocks(final ColorHandlerEvent.Block event)

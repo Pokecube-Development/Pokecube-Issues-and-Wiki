@@ -1,6 +1,6 @@
 package pokecube.core.moves.animations;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -34,14 +34,16 @@ public class MoveAnimationHelper
 
     static
     {
-        List<Class<?>> foundClasses;
+        Collection<Class<?>> foundClasses;
         try
         {
             foundClasses = ClassFinder.find(MoveAnimationHelper.class.getPackage().getName());
             for (final Class<?> candidateClass : foundClasses)
             {
+                if (!MoveAnimationBase.class.isAssignableFrom(candidateClass)) continue;
+                if (candidateClass.getAnnotations().length == 0) continue;
                 final AnimPreset preset = candidateClass.getAnnotation(AnimPreset.class);
-                if (preset != null && MoveAnimationBase.class.isAssignableFrom(candidateClass))
+                if (preset != null)
                 {
                     @SuppressWarnings("unchecked")
                     final Class<? extends MoveAnimationBase> presetClass = (Class<? extends MoveAnimationBase>) candidateClass;

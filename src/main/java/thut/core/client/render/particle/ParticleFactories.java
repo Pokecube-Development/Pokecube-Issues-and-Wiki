@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -85,10 +86,20 @@ public class ParticleFactories
         public void render(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks)
         {
             final Vec3 vec3d = renderInfo.getPosition();
-            final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x);
-            final float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3d.y);
-            final float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3d.z);
+            final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x());
+            final float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3d.y());
+            final float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3d.z());
             final Vector3f source = new Vector3f(x, y, z);
+
+            Quaternion quaternion;
+            if (this.roll == 0.0F) quaternion = renderInfo.rotation();
+            else
+            {
+                quaternion = new Quaternion(renderInfo.rotation());
+                final float f3 = Mth.lerp(partialTicks, this.oRoll, this.roll);
+                quaternion.mul(com.mojang.math.Vector3f.ZP.rotation(f3));
+            }
+
             this.particle.renderParticle(buffer, renderInfo, partialTicks, source);
         }
 
