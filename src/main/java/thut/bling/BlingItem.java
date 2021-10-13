@@ -27,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
+import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
@@ -141,7 +142,7 @@ public class BlingItem extends Item implements IWearable
             final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
             final int brightness, final int overlay)
     {
-        ThutBling.PROXY.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+        ClientSetupHandler.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
     }
 
     @Override

@@ -12,74 +12,43 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.texture.HttpTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
-import pokecube.core.PokecubeItems;
+import net.minecraftforge.fml.common.Mod;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.items.berries.BerryManager;
-import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.moves.animations.MoveAnimationHelper;
-import pokecube.core.utils.PokeType;
 
+@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
-    private static final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void onStart(final NewRegistry event)
+        {
+            PokecubeCore.proxy = new ClientProxy();
+        }
+    }
+
+    public static final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
 
     public ClientProxy()
     {
-        MoveAnimationHelper.Instance();
-    }
-
-    @SubscribeEvent
-    public void colourBlocks(final ColorHandlerEvent.Block event)
-    {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        // System.out.println(pechaLeaves);
-        // System.out.println(qualotLeaves);
-        event.getBlockColors().register((state, reader, pos, tintIndex) ->
-        {
-            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
-                    : FoliageColor.getDefaultColor();
-        }, qualotLeaves);
-    }
-
-    @SubscribeEvent
-    public void colourItems(final ColorHandlerEvent.Item event)
-    {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        event.getItemColors().register((stack, tintIndex) ->
-        {
-            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
-            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, qualotLeaves);
-
-        event.getItemColors().register((stack, tintIndex) ->
-        {
-            final PokeType type = PokeType.unknown;
-            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
-            if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
-            return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
-        }, PokecubeItems.EGG.get());
-
     }
 
     @Override
@@ -154,12 +123,6 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
-    {
-        ClientProxy.pokecenter_sounds.clear();
-    }
-
-    @Override
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
     {
         if (play && !ClientProxy.pokecenter_sounds.containsKey(tileIn.getBlockPos()))
@@ -174,6 +137,5 @@ public class ClientProxy extends CommonProxy
             sound.stopped = true;
             Minecraft.getInstance().getSoundManager().stop(sound);
         }
-
     }
 }

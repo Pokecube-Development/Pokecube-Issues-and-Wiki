@@ -5,24 +5,20 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import thut.api.entity.blockentity.block.TempTile;
-import thut.core.common.Proxy;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
 import thut.crafts.network.PacketCraftControl;
-import thut.crafts.proxy.ClientProxy;
-import thut.crafts.proxy.CommonProxy;
 
 @Mod(Reference.MODID)
 public class ThutCrafts
@@ -85,8 +81,6 @@ public class ThutCrafts
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
             Reference.NETVERSION);
 
-    public static Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
     public static Item CRAFTMAKER;
 
     public static Block CRAFTBLOCK;
@@ -109,16 +103,9 @@ public class ThutCrafts
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register Config stuff
         Config.setupConfigs(ThutCrafts.conf, ThutCore.MODID, Reference.MODID);
-    }
-
-    private void doClientStuff(final FMLClientSetupEvent event)
-    {
-        ThutCrafts.proxy.setupClient(event);
     }
 
     private void setup(final FMLCommonSetupEvent event)
@@ -127,6 +114,6 @@ public class ThutCrafts
         ThutCrafts.packets.registerMessage(PacketCraftControl.class, PacketCraftControl::new);
 
         // SEtup proxy
-        ThutCrafts.proxy.setup(event);
+        MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
     }
 }

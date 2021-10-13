@@ -64,8 +64,6 @@ import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.PacketDataSync;
-import thut.core.proxy.ClientProxy;
-import thut.core.proxy.CommonProxy;
 import thut.crafts.ThutCrafts;
 
 @Mod(ThutCore.MODID)
@@ -86,9 +84,8 @@ public class ThutCore
             event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
         }
 
-        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec,
-                final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter,
-                final double distance)
+        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec, final Vec3 endVec,
+                final AABB boundingBox, final Predicate<Entity> filter, final double distance)
         {
             final Level world = shooter.level;
             double d0 = distance;
@@ -199,7 +196,8 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> thut.core.proxy.ClientProxy::new,
+            () -> thut.core.proxy.CommonProxy::new);
 
     public static final ConfigHandler conf = new ConfigHandler();
 

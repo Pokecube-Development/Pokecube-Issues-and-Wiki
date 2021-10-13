@@ -55,10 +55,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -351,10 +349,6 @@ public class EventsHandler
         // stats information in pokewatch.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onStartTracking);
 
-        // This initializes some things in the Database, is HIGHEST to ensure
-        // that is finished before addons do their own things. It also does some
-        // cleanup in the ClientProxy. TODO move that cleanup elsewhere!
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandler::onServerAboutToStart);
         // Does some debug output in pokecube tags if enabled.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
         // Cleans up some things for when server next starts.
@@ -655,11 +649,6 @@ public class EventsHandler
             final PlayerData data = manager.getData("pokecube-stats");
             PacketDataSync.syncData(data, event.getTarget().getUUID(), (ServerPlayer) event.getEntity(), false);
         }
-    }
-
-    private static void onServerAboutToStart(final FMLServerAboutToStartEvent event)
-    {
-        PokecubeCore.proxy.serverAboutToStart(event);
     }
 
     private static void onServerStarting(final FMLServerStartingEvent event)

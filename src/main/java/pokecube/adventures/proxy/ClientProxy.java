@@ -6,13 +6,29 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.PokecubeAdv;
 import thut.bling.client.render.Back;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
+@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void onStart(final NewRegistry event)
+        {
+            PokecubeAdv.proxy = new ClientProxy();
+        }
+    }
+
     protected static class RenderWearable extends Wearable
     { // One model for each layer.
         X3dModel bag;
