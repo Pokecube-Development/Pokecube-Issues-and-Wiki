@@ -62,9 +62,9 @@ public class CustomJigsawPiece extends SinglePoolElement
     {
         return RecordCodecBuilder.create((instance) ->
         {
-            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(), StructurePoolElement
-                    .projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config()).apply(instance,
-                            CustomJigsawPiece::new);
+            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                    StructurePoolElement.projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config())
+                    .apply(instance, CustomJigsawPiece::new);
         });
     }
 
@@ -129,8 +129,7 @@ public class CustomJigsawPiece extends SinglePoolElement
     }
 
     @Override
-    public StructurePlaceSettings getSettings(final Rotation direction, final BoundingBox box,
-            final boolean notJigsaw)
+    public StructurePlaceSettings getSettings(final Rotation direction, final BoundingBox box, final boolean notJigsaw)
     {
         final StructurePlaceSettings placementsettings = new StructurePlaceSettings();
         placementsettings.setBoundingBox(box);
@@ -183,7 +182,8 @@ public class CustomJigsawPiece extends SinglePoolElement
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
             if (this.config.name != null)
             {
-                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
+                final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
+                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
                         this.config.name, placementsettings);
                 event.setBiomeType(this.config.biomeType);
                 MinecraftForge.EVENT_BUS.post(event);
@@ -194,22 +194,22 @@ public class CustomJigsawPiece extends SinglePoolElement
             // loop later, as this operation is expensive enough anyway.
             if (this.opts.extra.containsKey("markers_to_air"))
             {
-                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
-                        .blocks();
+                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(
+                        template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
                             && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
-                                .offset(pos1);
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
+                                info.pos).offset(pos1);
                         this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                     }
                     else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
-                                .offset(pos1);
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
+                                info.pos).offset(pos1);
                         final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
                                 seedReader, blockpos, placementsettings.getRotation());
                         seedReader.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
@@ -223,8 +223,8 @@ public class CustomJigsawPiece extends SinglePoolElement
                 final List<StructureBlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
                 for (final StructureBlockInfo info : data)
                 {
-                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos).offset(
-                            pos1);
+                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
+                            .offset(pos1);
                     this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                 }
             }

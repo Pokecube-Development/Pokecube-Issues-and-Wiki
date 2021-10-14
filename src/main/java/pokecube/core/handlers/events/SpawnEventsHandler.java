@@ -256,12 +256,12 @@ public class SpawnEventsHandler
 
     private static void onStructureSpawn(final StructureEvent.BuildStructure event)
     {
-        if (event.getBiomeType() != null) if (event.getWorld() instanceof ServerLevel)
+        if (event.getBiomeType() == null) return;
+        if (event.getWorld() instanceof ServerLevel)
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxY,
-                    box.maxY, box.maxZ);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
             SpawnEventsHandler.queueForUpdate(poses, subbiome, (Level) event.getWorld());
         }
         else
@@ -269,8 +269,7 @@ public class SpawnEventsHandler
             PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
             final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxY,
-                    box.maxY, box.maxZ);
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
             final LevelAccessor world = event.getWorld();
             poses.forEach((p) ->
             {
