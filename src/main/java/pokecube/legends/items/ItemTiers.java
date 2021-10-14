@@ -1,4 +1,4 @@
-package pokecube.core.handlers;
+package pokecube.legends.items;
 
 import java.util.function.Supplier;
 
