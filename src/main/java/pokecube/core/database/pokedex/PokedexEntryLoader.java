@@ -197,7 +197,8 @@ public class PokedexEntryLoader
                     final String key = this.key.substring(0, this.key.length() - 1);
                     if (this._matches.isEmpty()) for (final ResourceLocation test : Database.formeHolders.keySet())
                         if (test.getPath().startsWith(key)) this._matches.add(Database.formeHolders.get(test));
-                    if (!this._matches.isEmpty()) return this._matches.get(ThutCore.newRandom().nextInt(this._matches.size()));
+                    if (!this._matches.isEmpty()) return this._matches.get(ThutCore.newRandom().nextInt(this._matches
+                            .size()));
                 }
                 return null;
             }
@@ -1042,6 +1043,11 @@ public class PokedexEntryLoader
             {
                 final String name = evol.name;
                 final PokedexEntry evolEntry = Database.getEntry(name);
+                if (evolEntry == null)
+                {
+                    PokecubeCore.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, entry.name);
+                    continue;
+                }
                 EvolutionData data = null;
                 final boolean clear = evol.clear != null && evol.clear;
                 // check for specific clearing info for this entry.

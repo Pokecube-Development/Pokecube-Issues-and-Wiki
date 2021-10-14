@@ -20,6 +20,8 @@ public class PokemobsJson implements Comparable<PokemobsJson>
 
     public boolean hotload = false;
 
+    public boolean register = false;
+
     public ResourceLocation _file;
 
     public List<String> requiredMods = Lists.newArrayList();
@@ -63,6 +65,8 @@ public class PokemobsJson implements Comparable<PokemobsJson>
     @Override
     public int compareTo(final PokemobsJson o)
     {
+        if (o.register && !this.register) return 1;
+        if (this.register && !o.register) return -1;
         return this.priority.compareTo(o.priority);
     }
 }
