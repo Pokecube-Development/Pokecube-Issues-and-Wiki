@@ -19,7 +19,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
-import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
@@ -213,7 +212,7 @@ public class WalkToTask extends RootTask<Mob>
 
             final int xz = 16;
             final int y = 10;
-            final double scale = 2 * Math.PI / 2F;
+//            final double scale = 2 * Math.PI / 2F;
             final Vec3 pos = new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             final Vec3 vec3d = LandRandomPos.getPosTowards((PathfinderMob) mob, xz, y, pos);
             if (vec3d != null)

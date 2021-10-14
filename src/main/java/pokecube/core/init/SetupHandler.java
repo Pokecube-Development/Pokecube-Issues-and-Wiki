@@ -1,6 +1,6 @@
 package pokecube.core.init;
 
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -27,22 +27,26 @@ import thut.api.terrain.TerrainSegment;
 public class SetupHandler
 {
     @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        // Initialize the capabilities.
+        event.register(IGuardAICapability.class);
+        event.register(IPokemob.class);
+        event.register(IOngoingAffected.class);
+        event.register(ZPower.class);
+        event.register(IMegaCapability.class);
+        event.register(IPokemobUseable.class);
+        event.register(IInhabitable.class);
+        event.register(IInhabitor.class);
+    }
+
+    @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
         PokecubeCore.LOGGER.info("Hello from Common Proxy setup!");
 
         // Registers the event listeners.
         EventsHandler.register();
-
-        // Initialize the capabilities.
-        CapabilityManager.INSTANCE.register(IGuardAICapability.class);
-        CapabilityManager.INSTANCE.register(IPokemob.class);
-        CapabilityManager.INSTANCE.register(IOngoingAffected.class);
-        CapabilityManager.INSTANCE.register(ZPower.class);
-        CapabilityManager.INSTANCE.register(IMegaCapability.class);
-        CapabilityManager.INSTANCE.register(IPokemobUseable.class);
-        CapabilityManager.INSTANCE.register(IInhabitable.class);
-        CapabilityManager.INSTANCE.register(IInhabitor.class);
 
         // Register terrain effects
         TerrainSegment.terrainEffectClasses.add(PokemobTerrainEffects.class);

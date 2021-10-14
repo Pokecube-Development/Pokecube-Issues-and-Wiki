@@ -48,6 +48,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.WorldgenFeatures;
 import pokecube.core.world.gen.template.FillerProcessor;
@@ -61,9 +62,9 @@ public class CustomJigsawPiece extends SinglePoolElement
     {
         return RecordCodecBuilder.create((instance) ->
         {
-            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(), StructurePoolElement
-                    .projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config()).apply(instance,
-                            CustomJigsawPiece::new);
+            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                    StructurePoolElement.projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config())
+                    .apply(instance, CustomJigsawPiece::new);
         });
     }
 
@@ -106,9 +107,11 @@ public class CustomJigsawPiece extends SinglePoolElement
 
     public Level world;
 
-    public boolean            isSpawn;
-    public String             spawnReplace;
-    public BoundingBox mask;
+    public boolean  isSpawn;
+    public String   spawnReplace;
+    public BlockPos spawnPos;
+    public BlockPos profPos;
+    public boolean  placedSpawn = false;
 
     public StructurePlaceSettings toUse;
 
@@ -126,8 +129,7 @@ public class CustomJigsawPiece extends SinglePoolElement
     }
 
     @Override
-    public StructurePlaceSettings getSettings(final Rotation direction, final BoundingBox box,
-            final boolean notJigsaw)
+    public StructurePlaceSettings getSettings(final Rotation direction, final BoundingBox box, final boolean notJigsaw)
     {
         final StructurePlaceSettings placementsettings = new StructurePlaceSettings();
         placementsettings.setBoundingBox(box);
@@ -180,34 +182,34 @@ public class CustomJigsawPiece extends SinglePoolElement
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);
             if (this.config.name != null)
             {
-                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, this.world,
+                final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
+                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, this.world,
                         this.config.name, placementsettings);
                 event.setBiomeType(this.config.biomeType);
                 MinecraftForge.EVENT_BUS.post(event);
             }
-            this.maskCheck = this.mask != null && this.mask.intersects(box);
 
             // Check if we need to undo any waterlogging which may have
             // occurred, we also process data markers here as to not duplicate
             // loop later, as this operation is expensive enough anyway.
             if (this.opts.extra.containsKey("markers_to_air"))
             {
-                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
-                        .blocks();
+                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(
+                        template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
                             && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
-                                .offset(pos1);
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
+                                info.pos).offset(pos1);
                         this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                     }
                     else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
-                                .offset(pos1);
+                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
+                                info.pos).offset(pos1);
                         final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
                                 seedReader, blockpos, placementsettings.getRotation());
                         seedReader.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
@@ -221,8 +223,8 @@ public class CustomJigsawPiece extends SinglePoolElement
                 final List<StructureBlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
                 for (final StructureBlockInfo info : data)
                 {
-                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos).offset(
-                            pos1);
+                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
+                            .offset(pos1);
                     this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
                 }
             }
@@ -236,13 +238,24 @@ public class CustomJigsawPiece extends SinglePoolElement
     {
         String function = info.nbt != null ? info.nbt.getString("metadata") : "";
 
-        this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+        final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+        final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
 
-        if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function))
+        if (toPlaceProf && info.pos.equals(this.profPos))
         {
-            PokecubeCore.LOGGER.debug("Overriding an entry as a professor at " + pos);
+            PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
             function = PokecubeCore.getConfig().professor_override;
             PokecubeSerializer.getInstance().setPlacedProf();
+        }
+        if (toPlaceSpawn && info.pos.equals(this.spawnPos))
+        {
+            PokecubeCore.LOGGER.info("Overriding world spawn to " + pos);
+            EventsHandler.Schedule(this.world, w ->
+            {
+                ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
+                return true;
+            });
+            this.placedSpawn = true;
         }
         if (function.startsWith("pokecube:chest:"))
         {

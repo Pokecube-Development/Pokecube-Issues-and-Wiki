@@ -3,15 +3,15 @@ package pokecube.core.interfaces.capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.interfaces.IInhabitor;
 
 public class CapabilityInhabitor
 {
-    @CapabilityInject(IInhabitor.class)
-    public static final Capability<IInhabitor> CAPABILITY = null;
+    public static final Capability<IInhabitor> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static class InhabitorProvider implements ICapabilityProvider
     {

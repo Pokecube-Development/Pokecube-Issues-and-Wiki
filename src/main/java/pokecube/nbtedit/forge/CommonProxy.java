@@ -22,7 +22,6 @@ import thut.core.common.Proxy;
 
 public class CommonProxy implements Proxy
 {
-
     boolean reg = false;
 
     public boolean checkPermission(final CommandSourceStack cs)

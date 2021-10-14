@@ -31,7 +31,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -71,7 +70,6 @@ import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
-import pokecube.adventures.proxy.ClientProxy;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.PokecubeCore;
@@ -289,7 +287,7 @@ public class PokecubeAdv
     //
     // Server vs client implementations of Wearable, the client one has extended
     // rendering functions.
-    public final static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy;
 
     private static final String NETVERSION = "1.0.1";
     // Handler for network stuff.
@@ -309,12 +307,6 @@ public class PokecubeAdv
         PokecubeAdv.ITEMS.register(modEventBus);
         PokecubeAdv.TILES.register(modEventBus);
         PokecubeAdv.CONTAINERS.register(modEventBus);
-
-        modEventBus.addListener(PokecubeAdv.proxy::setup);
-        // Register the doClientStuff method for modloading
-        modEventBus.addListener(PokecubeAdv.proxy::setupClient);
-        // Register the loaded method for modloading
-        modEventBus.addListener(PokecubeAdv.proxy::loaded);
 
         modEventBus.addListener(this::loadComplete);
 

@@ -809,6 +809,8 @@ public class Database
         toRemove.clear();
     }
 
+    public static long lastLoad = -1;
+
     public static void onResourcesReloaded()
     {
         // If this was not done, then lisener never reloaded correctly, so we
@@ -816,18 +818,34 @@ public class Database
         if (!Database.listener.loaded) return;
 
         long time = System.nanoTime();
+        long dt = time - Database.lastLoad;
+        System.out.println(dt / 5e11);
+
+        if (dt < 5e11)
+        {
+            PokecubeCore.LOGGER.info("Skipping Load, too soon since last load.");
+            return;
+        }
+
+        StructureSpawnPresetLoader.loadDatabase();
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.info("Resource Stage 1: {}s", dt / 1e9d);
+
+        // In this case, we are not acually a real datapack load, just an
+        // initial world check thing.
+        if (!StructureSpawnPresetLoader.validLoad) return;
+        time = System.nanoTime();
+
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
-        StructureSpawnPresetLoader.loadDatabase();
-
-        long dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.info("Resource Stage 2: {}s", dt / 1e9d);
+        time = System.nanoTime();
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
-        time = System.nanoTime();
 
         Database.spawnables.clear();
         PokedexInspector.rewards.clear();
@@ -875,8 +893,9 @@ public class Database
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
 
-        dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
+        Database.lastLoad = System.nanoTime();
+        dt = Database.lastLoad - time;
+        PokecubeCore.LOGGER.info("Resource Stage 3: {}s", dt / 1e9d);
     }
 
     /**
@@ -885,6 +904,7 @@ public class Database
      */
     public static void onLoadComplete()
     {
+        Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -922,11 +942,10 @@ public class Database
     {
         Database.customPacks.clear();
         final PackRepository resourcePacks = new PackRepository(PackType.SERVER_DATA, new ServerPacksSource());
-        final PackFinder finder = new PackFinder((name, component, bool, supplier, metadata, source,
-                p_143900_, hidden) ->
+        final PackFinder finder = new PackFinder((name, component, bool, supplier, metadata, source, p_143900_,
+                hidden) ->
         {
-            return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source,
-                    p_143900_, hidden);
+            return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source, p_143900_, hidden);
         });
         resourcePacks.addPackFinder(finder);
         for (final PackResources info : finder.allPacks)

@@ -43,8 +43,8 @@ import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ai.IAIRunnable;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -290,7 +290,7 @@ public abstract class PokemobAI extends PokemobEvolves
         final PokedexEntry entry = this.getPokedexEntry();
 
         this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        this.genes = entity.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
+        this.genes = entity.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
         if (this.getOwnerHolder() == null) PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! "
                 + this.getPokedexEntry());
         if (this.guardCap == null) PokecubeCore.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this

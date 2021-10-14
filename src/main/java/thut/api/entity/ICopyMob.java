@@ -134,8 +134,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yo = from.yo;
         to.zo = from.zo;
 
-        to.levelCallback = from.levelCallback;
-
         to.setPos(from.getX(), from.getY(), from.getZ());
         to.setDeltaMovement(from.getDeltaMovement());
     }

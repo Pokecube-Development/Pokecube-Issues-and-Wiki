@@ -47,12 +47,12 @@ public class EntityMoveUse extends ThrowableProjectile
     public static EntityType<EntityMoveUse> TYPE;
     static
     {
-        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, MobCategory.MISC).noSummon()
-                .fireImmune().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).sized(
-                        0.5f, 0.5f).setCustomClientFactory((spawnEntity, world) ->
-                        {
-                            return EntityMoveUse.TYPE.create(world);
-                        }).build("move_use");
+        EntityMoveUse.TYPE = EntityType.Builder.of(EntityMoveUse::new, MobCategory.MISC).noSummon().fireImmune()
+                .setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).sized(0.5f, 0.5f)
+                .setCustomClientFactory((spawnEntity, world) ->
+                {
+                    return EntityMoveUse.TYPE.create(world);
+                }).build("move_use");
     }
 
     public static class Builder
@@ -66,7 +66,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         protected Builder(final Entity user, final Move_Base move, final Vector3 start)
         {
-            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.getCommandSenderWorld());
+            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.level);
             this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
         }
 
@@ -250,7 +250,7 @@ public class EntityMoveUse extends ThrowableProjectile
         // Only hit multipart entities once
         // Only can hit our valid target!
         if (targId != null && !attack.move.canHitNonTarget() && !targId.equals(targetID)) return;
-        if (!this.getCommandSenderWorld().isClientSide)
+        if (!this.level.isClientSide)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
@@ -316,14 +316,14 @@ public class EntityMoveUse extends ThrowableProjectile
     public Entity getTarget()
     {
         if (this.target != null) return this.target;
-        return this.target = this.getCommandSenderWorld().getEntity(this.getEntityData().get(EntityMoveUse.TARGET));
+        return this.target = this.level.getEntity(this.getEntityData().get(EntityMoveUse.TARGET));
     }
 
     public Entity getUser()
     {
         if (this.user != null) return this.user;
-        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getCommandSenderWorld(), this.getEntityData()
-                .get(EntityMoveUse.USER), true);
+        return this.user = PokecubeCore.getEntityProvider().getEntity(this.level, this.getEntityData().get(
+                EntityMoveUse.USER), true);
     }
 
     public boolean isDone()
@@ -512,15 +512,15 @@ public class EntityMoveUse extends ThrowableProjectile
             hitboxes.add(testBox);
         }
 
-        if (this.getCommandSenderWorld().isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(
-                userMob).spawnClientEntities(this.getMoveInfo());
+        if (this.level.isClientSide && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
+                .spawnClientEntities(this.getMoveInfo());
 
         // Not ready to apply yet
         if (this.getApplicationTick() < age) return;
 
         final Vec3 v = this.getDeltaMovement();
         testBox = testBox.expandTowards(v.x, v.y, v.z);
-        final List<Entity> hits = this.getCommandSenderWorld().getEntities(this, testBox, this.valid);
+        final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
         final AABB hitBox = testBox;
         hits.removeIf(e ->
         {
@@ -542,7 +542,7 @@ public class EntityMoveUse extends ThrowableProjectile
         for (final Entity e : hits)
             this.doMoveUse(e);
 
-        if (this.getMove() != null && userMob != null && !this.applied && !this.getCommandSenderWorld().isClientSide)
+        if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
         {
             boolean canApply = false;
             this.getEnd();
@@ -554,8 +554,8 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             else
             {
-                final EntityHitResult hit = ProjectileUtil.getEntityHitResult(this.getCommandSenderWorld(), this,
-                        this.here.toVec3d(), this.end.toVec3d(), this.getBoundingBox(), this.valid);
+                final EntityHitResult hit = ProjectileUtil.getEntityHitResult(this.level, this, this.here.toVec3d(),
+                        this.end.toVec3d(), this.getBoundingBox(), this.valid);
                 canApply = hit == null || hit.getType() == Type.MISS;
             }
             if (canApply)

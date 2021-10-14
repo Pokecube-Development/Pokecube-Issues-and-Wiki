@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -168,8 +167,6 @@ public class LinkableCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(ILinkable.class);
-        CapabilityManager.INSTANCE.register(ILinkStorage.class);
         MinecraftForge.EVENT_BUS.addListener(LinkableCaps::linkBlock);
     }
 

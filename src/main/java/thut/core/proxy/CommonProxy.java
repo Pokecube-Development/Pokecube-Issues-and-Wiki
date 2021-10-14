@@ -14,9 +14,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -28,37 +30,39 @@ import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.Proxy;
+import thut.core.common.ThutCore;
 import thut.core.common.ThutCore.MobEvents;
 import thut.core.common.world.mobs.data.SyncHandler;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonProxy implements Proxy
 {
     public static final String SET_SUBBIOME = "thutcore.subbiome.set";
 
-    @Override
-    public void setup(final FMLCommonSetupEvent event)
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT, modid = ThutCore.MODID)
+    public static class RegistryEvents
     {
-        Proxy.super.setup(event);
+        @SubscribeEvent
+        public static void setup(final FMLCommonSetupEvent event)
+        {
+            // Setup terrain manager
+            TerrainManager.getInstance();
 
-        // Setup terrain manager
-        TerrainManager.getInstance();
+            MinecraftForge.EVENT_BUS.register(LinkableCaps.class);
+            MinecraftForge.EVENT_BUS.register(TerrainManager.class);
+            MinecraftForge.EVENT_BUS.register(StructureManager.class);
+            MinecraftForge.EVENT_BUS.register(TickHandler.class);
+            MinecraftForge.EVENT_BUS.register(MobEvents.class);
+            MinecraftForge.EVENT_BUS.register(SyncHandler.class);
 
-        MinecraftForge.EVENT_BUS.register(LinkableCaps.class);
-        MinecraftForge.EVENT_BUS.register(TerrainManager.class);
-        MinecraftForge.EVENT_BUS.register(StructureManager.class);
-        MinecraftForge.EVENT_BUS.register(TickHandler.class);
-        MinecraftForge.EVENT_BUS.register(MobEvents.class);
-        MinecraftForge.EVENT_BUS.register(SyncHandler.class);
+            TerrainManager.init();
 
-        MinecraftForge.EVENT_BUS.register(this);
-
-        TerrainManager.init();
-
-        PermissionAPI.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
-                "Able to set subbiomes via items");
+            PermissionAPI.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
+                    "Able to set subbiomes via items");
+        }
     }
 
-    BiomeType getSubbiome(final ServerPlayer player, final ItemStack held)
+    static BiomeType getSubbiome(final ServerPlayer player, final ItemStack held)
     {
         if (!PermissionAPI.hasPermission(player, CommonProxy.SET_SUBBIOME)) return null;
         if (held.getHoverName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
@@ -70,16 +74,16 @@ public class CommonProxy implements Proxy
         return null;
     }
 
-    protected boolean isSubbiomeEditor(final ServerPlayer player, final ItemStack held)
+    protected static boolean isSubbiomeEditor(final ServerPlayer player, final ItemStack held)
     {
-        return this.getSubbiome(player, held) != null;
+        return CommonProxy.getSubbiome(player, held) != null;
     }
 
     @SubscribeEvent
-    public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
+    public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt
-                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor(
+                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !CommonProxy.isSubbiomeEditor(
                         (ServerPlayer) evt.getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
@@ -92,7 +96,7 @@ public class CommonProxy implements Proxy
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isClientSide)
             {
-                final BiomeType subbiome = this.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
+                final BiomeType subbiome = CommonProxy.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
                 final BoundingBox box = BoundingBox.fromCorners(min, max);
                 final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
                         box.maxY, box.maxZ);
@@ -120,10 +124,10 @@ public class CommonProxy implements Proxy
     }
 
     @SubscribeEvent
-    public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
+    public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer) || evt
-                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !this.isSubbiomeEditor(
+                .getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown() || !CommonProxy.isSubbiomeEditor(
                         (ServerPlayer) evt.getPlayer(), evt.getItemStack())) return;
         final ItemStack itemstack = evt.getItemStack();
         final Player playerIn = evt.getPlayer();
@@ -140,7 +144,7 @@ public class CommonProxy implements Proxy
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isClientSide)
             {
-                final BiomeType subbiome = this.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
+                final BiomeType subbiome = CommonProxy.getSubbiome((ServerPlayer) evt.getPlayer(), itemstack);
                 final BoundingBox box = BoundingBox.fromCorners(min, max);
                 final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
                         box.maxY, box.maxZ);

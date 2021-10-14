@@ -1,8 +1,10 @@
 package pokecube.adventures.capabilities;
 
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
@@ -12,20 +14,24 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 public class TrainerCaps
 {
 
-    @CapabilityInject(IHasNPCAIStates.class)
-    public static final Capability<IHasNPCAIStates> AISTATES_CAP = null;
+    public static final Capability<IHasNPCAIStates> AISTATES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
-    @CapabilityInject(IHasPokemobs.class)
-    public static final Capability<IHasPokemobs> HASPOKEMOBS_CAP = null;
+    public static final Capability<IHasPokemobs> HASPOKEMOBS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
-    @CapabilityInject(IHasMessages.class)
-    public static final Capability<IHasMessages> MESSAGES_CAP = null;
+    public static final Capability<IHasMessages> MESSAGES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
-    @CapabilityInject(IHasRewards.class)
-    public static final Capability<IHasRewards> REWARDS_CAP = null;
+    public static final Capability<IHasRewards> REWARDS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
-    @CapabilityInject(IHasTrades.class)
-    public static final Capability<IHasTrades> TRADES_CAP = null;
+    public static final Capability<IHasTrades> TRADES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
+
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        event.register(IHasNPCAIStates.class);
+        event.register(IHasPokemobs.class);
+        event.register(IHasMessages.class);
+        event.register(IHasRewards.class);
+        event.register(IHasTrades.class);
+    }
 
     public static IHasPokemobs getHasPokemobs(final ICapabilityProvider entityIn)
     {

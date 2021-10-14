@@ -13,7 +13,6 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -25,7 +24,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -33,8 +31,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
@@ -44,12 +42,13 @@ import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
-public class ClientProxy extends CommonProxy
+@Mod.EventBusSubscriber(bus = Bus.FORGE, value = Dist.CLIENT)
+public class ClientProxy
 {
-    KeyMapping UP;
-    KeyMapping DOWN;
-    KeyMapping ROTATERIGHT;
-    KeyMapping ROTATELEFT;
+    static KeyMapping UP;
+    static KeyMapping DOWN;
+    static KeyMapping ROTATERIGHT;
+    static KeyMapping ROTATELEFT;
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
@@ -61,9 +60,8 @@ public class ClientProxy extends CommonProxy
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void clientTick(final TickEvent.PlayerTickEvent event)
+    public static void clientTick(final TickEvent.PlayerTickEvent event)
     {
         if (event.phase == Phase.START || event.player != Minecraft.getInstance().player) return;
         control:
@@ -72,29 +70,28 @@ public class ClientProxy extends CommonProxy
             final Entity e = event.player.getVehicle();
             if (e instanceof EntityCraft)
             {
-                final LocalPlayer player = (LocalPlayer) event.player;
+                final net.minecraft.client.player.LocalPlayer player = (net.minecraft.client.player.LocalPlayer) event.player;
                 final CraftController controller = ((EntityCraft) e).controller;
                 if (controller == null) break control;
                 controller.backInputDown = player.input.down;
                 controller.forwardInputDown = player.input.up;
                 controller.leftInputDown = player.input.left;
                 controller.rightInputDown = player.input.right;
-                controller.upInputDown = this.UP.isDown();
-                controller.downInputDown = this.DOWN.isDown();
+                controller.upInputDown = ClientProxy.UP.isDown();
+                controller.downInputDown = ClientProxy.DOWN.isDown();
 
                 if (ThutCrafts.conf.canRotate)
                 {
-                    controller.rightRotateDown = this.ROTATERIGHT.isDown();
-                    controller.leftRotateDown = this.ROTATELEFT.isDown();
+                    controller.rightRotateDown = ClientProxy.ROTATERIGHT.isDown();
+                    controller.leftRotateDown = ClientProxy.ROTATELEFT.isDown();
                 }
                 PacketCraftControl.sendControlPacket(e, controller);
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void RenderBounds(final RenderWorldLastEvent event)
+    public static void RenderBounds(final RenderWorldLastEvent event)
     {
         ItemStack held;
         final Player player = Minecraft.getInstance().player;
@@ -165,37 +162,31 @@ public class ClientProxy extends CommonProxy
                 final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 final VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
-                    thut.core.proxy.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
+                    thut.core.init.ClientInit.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
                             1f);
                 mat.popPose();
             }
         }
     }
 
-    @Override
-    public void setup(final FMLCommonSetupEvent event)
+    @SubscribeEvent
+    public static void setupClient(final FMLClientSetupEvent event)
     {
-        super.setup(event);
-    }
-
-    @Override
-    public void setupClient(final FMLClientSetupEvent event)
-    {
-        this.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        this.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        ClientProxy.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        ClientProxy.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
 
         final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
-        this.UP.setKeyConflictContext(inGame);
-        this.DOWN.setKeyConflictContext(inGame);
+        ClientProxy.UP.setKeyConflictContext(inGame);
+        ClientProxy.DOWN.setKeyConflictContext(inGame);
 
-        this.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        this.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        this.ROTATELEFT.setKeyConflictContext(inGame);
-        this.ROTATERIGHT.setKeyConflictContext(inGame);
+        ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+        ClientProxy.ROTATELEFT.setKeyConflictContext(inGame);
+        ClientProxy.ROTATERIGHT.setKeyConflictContext(inGame);
 
-        ClientRegistry.registerKeyBinding(this.UP);
-        ClientRegistry.registerKeyBinding(this.DOWN);
-        ClientRegistry.registerKeyBinding(this.ROTATELEFT);
-        ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
+        ClientRegistry.registerKeyBinding(ClientProxy.UP);
+        ClientRegistry.registerKeyBinding(ClientProxy.DOWN);
+        ClientRegistry.registerKeyBinding(ClientProxy.ROTATELEFT);
+        ClientRegistry.registerKeyBinding(ClientProxy.ROTATERIGHT);
     }
 }

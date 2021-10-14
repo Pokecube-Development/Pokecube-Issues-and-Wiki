@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -33,6 +35,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -52,10 +55,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -162,6 +163,8 @@ public class EventsHandler
         }
     }
 
+    public static boolean RUNNING = false;
+
     private static class WorldTickScheduler implements IWorldTickListener
     {
         static WorldTickScheduler INSTANCE = new WorldTickScheduler();
@@ -169,16 +172,30 @@ public class EventsHandler
         @Override
         public void onTickEnd(final ServerLevel world)
         {
+            if (!EventsHandler.RUNNING) return;
             final ResourceKey<Level> dim = world.dimension();
             final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
             if (!world.getServer().isSameThread()) throw new IllegalStateException("World ticking off thread!");
+
+            final Set<IRunnable> done = Sets.newHashSet();
+            final List<IRunnable> toRun = Lists.newArrayList();
+
             synchronized (tasks)
             {
-                tasks.removeIf(r ->
-                {
-                    // This ensures it is executed on the main thread.
-                    return r.run(world);
-                });
+                toRun.addAll(tasks);
+            }
+
+            final long start = System.currentTimeMillis();
+            for (final IRunnable run : toRun)
+            {
+                if (run.run(world)) done.add(run);
+                final long dt = System.currentTimeMillis() - start;
+                if (dt > 5) break;
+            }
+
+            synchronized (tasks)
+            {
+                tasks.removeAll(done);
             }
             // Call spawner tick at end of world tick.
             if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick(world);
@@ -255,12 +272,17 @@ public class EventsHandler
 
     public static void Schedule(final Level world, final IRunnable task)
     {
+        EventsHandler.Schedule(world, task, true);
+    }
+
+    public static void Schedule(final Level world, final IRunnable task, final boolean immedateIfPossible)
+    {
         if (!(world instanceof ServerLevel)) return;
         final ServerLevel swrld = (ServerLevel) world;
 
         // If we are tickingEntities, do not do this, as it can cause
         // concurrent modification exceptions.
-        if (!swrld.isHandlingTick())
+        if (immedateIfPossible && !swrld.isHandlingTick() && swrld.getServer().isSameThread())
         {
             // This will either run it now, or run it on main thread soon
             swrld.getServer().execute(() -> task.run(swrld));
@@ -332,10 +354,6 @@ public class EventsHandler
         // stats information in pokewatch.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onStartTracking);
 
-        // This initializes some things in the Database, is HIGHEST to ensure
-        // that is finished before addons do their own things. It also does some
-        // cleanup in the ClientProxy. TODO move that cleanup elsewhere!
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandler::onServerAboutToStart);
         // Does some debug output in pokecube tags if enabled.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onServerStarting);
         // Cleans up some things for when server next starts.
@@ -559,6 +577,8 @@ public class EventsHandler
             evt.setCanceled(true);
             return;
         }
+        // Forge workaround for this not being called server side!
+        if (!evt.getEntity().isAddedToWorld()) evt.getEntity().onAddedToWorld();
 
         if (evt.getEntity() instanceof IPokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
         {
@@ -636,21 +656,18 @@ public class EventsHandler
         }
     }
 
-    private static void onServerAboutToStart(final FMLServerAboutToStartEvent event)
-    {
-        PokecubeCore.proxy.serverAboutToStart(event);
-    }
-
     private static void onServerStarting(final FMLServerStartingEvent event)
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
+        EventsHandler.RUNNING = true;
     }
 
     private static void onServerStopped(final FMLServerStoppedEvent event)
     {
         // Reset this.
         PokecubeSerializer.clearInstance();
+        EventsHandler.RUNNING = false;
         CustomJigsawPiece.sent_events.clear();
         EventsHandler.scheduledTasks.clear();
     }
@@ -672,8 +689,8 @@ public class EventsHandler
         final ServerLevel world = (ServerLevel) tworld;
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
-        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(null, e -> EventsHandler.validFollowing(entity,
-                e)));
+        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
+                e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
@@ -707,12 +724,12 @@ public class EventsHandler
 
     private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-        Database.onResourcesReloaded();
+        // Database.onResourcesReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)
     {
-//        event.addListener(Database.ReloadListener.INSTANCE);
+        event.addListener(Database.ReloadListener.INSTANCE);
     }
 
     public static void sendInitInfo(final ServerPlayer player)

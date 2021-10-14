@@ -88,12 +88,12 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
+import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.SyncHandler;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
 
@@ -240,7 +240,7 @@ public class TrainerEventHandler
     public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
     {
         for (final ICapabilityProvider provider : event.getCapabilities().values())
-            if (provider.getCapability(SyncHandler.CAP).isPresent()) return provider.getCapability(SyncHandler.CAP)
+            if (provider.getCapability(ThutCaps.DATASYNC).isPresent()) return provider.getCapability(ThutCaps.DATASYNC)
                     .orElse(null);
         return null;
     }

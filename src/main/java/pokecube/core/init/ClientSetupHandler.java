@@ -13,15 +13,12 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
-import pokecube.adventures.entity.trainer.LeaderNpc;
-import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
@@ -56,7 +53,6 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.NBTEdit;
-import thut.core.client.gui.ConfigGui;
 import thut.core.client.render.animation.CapabilityAnimation;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
@@ -181,9 +177,6 @@ public class ClientSetupHandler
         // Register mob rendering
         PokecubeCore.LOGGER.debug("Init Mob Renderers");
 
-        // Register shouldercap
-        CapabilityManager.INSTANCE.register(IShoulderHolder.class);
-
         // Register the render layers
         for (final Block crop : BerryManager.berryCrops.values())
             ItemBlockRenderTypes.setRenderLayer(crop, RenderType.cutoutMipped());
@@ -200,13 +193,13 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
 
-        // Register config gui
-        // ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c ->
-        // c.registerExtensionPoint(
-        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
-        // ConfigGui(PokecubeCore.getConfig(),
-        // parent)));
+        // FIXME Register config gui
+    }
 
+    @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        event.register(IShoulderHolder.class);
     }
 
     @SubscribeEvent

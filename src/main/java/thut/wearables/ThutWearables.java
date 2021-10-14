@@ -25,8 +25,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -113,9 +114,6 @@ public class ThutWearables
 
         public void setup(final FMLCommonSetupEvent event)
         {
-            CapabilityManager.INSTANCE.register(IActiveWearable.class);
-            CapabilityManager.INSTANCE.register(IWearableInventory.class);
-
             ThutWearables.packets.registerMessage(PacketSyncWearables.class, PacketSyncWearables::new);
             ThutWearables.packets.registerMessage(MouseOverPacket.class, MouseOverPacket::new);
             ThutWearables.packets.registerMessage(PacketGui.class, PacketGui::new);
@@ -134,6 +132,13 @@ public class ThutWearables
     public static class RegistryEvents
     {
         @SubscribeEvent
+        public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+        {
+            event.register(IActiveWearable.class);
+            event.register(IWearableInventory.class);
+        }
+
+        @SubscribeEvent
         public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
         {
             event.getRegistry().register(ContainerWearables.TYPE.setRegistryName(ThutWearables.MODID, "wearables"));
@@ -149,10 +154,8 @@ public class ThutWearables
         }
     }
 
-    @CapabilityInject(IActiveWearable.class)
-    public static final Capability<IActiveWearable>    WEARABLE_CAP  = null;
-    @CapabilityInject(IWearableInventory.class)
-    public static final Capability<IWearableInventory> WEARABLES_CAP = null;
+    public static final Capability<IActiveWearable>    WEARABLE_CAP  = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IWearableInventory> WEARABLES_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final ResourceLocation WEARABLES_ITEM_TAG = new ResourceLocation(Reference.MODID, "wearable");
 

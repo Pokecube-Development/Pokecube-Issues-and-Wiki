@@ -56,7 +56,11 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         {
             if (!anim.preset.endsWith(":~" + move.name)) anim.preset = anim.preset + ":~" + move.name;
             final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset);
-            if (animation == null) continue;
+            if (animation == null)
+            {
+                PokecubeCore.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
+                continue;
+            }
             final int start = Integer.parseInt(anim.starttick);
             final int dur = Integer.parseInt(anim.duration);
             if (anim.applyAfter) this.applicationTick = Math.max(start + dur, this.applicationTick);
@@ -138,14 +142,14 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume, pitch,
-                        true);
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
+                        pitch, true);
                 // Check target sounds.
                 valid = toRun.soundTarget;
                 if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
                         : info.attacked);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume, pitch,
-                        true);
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
+                        pitch, true);
             }
         }
     }

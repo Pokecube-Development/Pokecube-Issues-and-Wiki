@@ -13,9 +13,7 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -30,8 +28,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -46,25 +43,19 @@ import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
-import thut.api.entity.IMobColourable;
-import thut.api.entity.IMobTexturable;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.api.entity.genetics.IMobGenetics;
 import thut.api.particle.ThutParticles;
-import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.StructureManager;
-import thut.api.world.mobs.data.DataSync;
 import thut.core.common.config.Config;
-import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.handlers.ConfigHandler;
-import thut.core.common.mobs.DefaultColourable;
 import thut.core.common.network.CapabilitySync;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
@@ -72,10 +63,7 @@ import thut.core.common.network.PacketHandler;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
-import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
-import thut.core.proxy.ClientProxy;
-import thut.core.proxy.CommonProxy;
 import thut.crafts.ThutCrafts;
 
 @Mod(ThutCore.MODID)
@@ -96,9 +84,8 @@ public class ThutCore
             event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
         }
 
-        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec,
-                final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter,
-                final double distance)
+        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec, final Vec3 endVec,
+                final AABB boundingBox, final Predicate<Entity> filter, final double distance)
         {
             final Level world = shooter.level;
             double d0 = distance;
@@ -181,6 +168,12 @@ public class ThutCore
     public static class RegistryEvents
     {
         @SubscribeEvent
+        public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+        {
+            ThutCaps.registerCapabilities(event);
+        }
+
+        @SubscribeEvent
         public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> event)
         {
             ThutCore.LOGGER.debug("Registering Particle Types");
@@ -203,7 +196,8 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> thut.core.proxy.ClientProxy::new,
+            () -> thut.core.proxy.CommonProxy::new);
 
     public static final ConfigHandler conf = new ConfigHandler();
 
@@ -301,12 +295,6 @@ public class ThutCore
         // Register capabilities.
 
         CapabilityTerrainAffected.init();
-        // Register genetics
-        CapabilityManager.INSTANCE.register(IMobGenetics.class);
-        // Register colourable
-        CapabilityManager.INSTANCE.register(IMobColourable.class);
-        // Register texturable
-        CapabilityManager.INSTANCE.register(IMobTexturable.class);
 
         OwnableCaps.setup();
         LinkableCaps.setup();
@@ -314,11 +302,6 @@ public class ThutCore
         BreedableCaps.setup();
         AnimatedCaps.setup();
         CopyCaps.setup();
-
-        // Register terrain capabilies
-        CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class);
-        // Datasync capability
-        CapabilityManager.INSTANCE.register(DataSync.class);
 
         ThutCore.proxy.setup(event);
 

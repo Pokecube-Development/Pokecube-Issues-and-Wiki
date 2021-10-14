@@ -19,7 +19,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -285,8 +286,7 @@ public class UsableItemEffects
         }
     }
 
-    @CapabilityInject(IPokemobUseable.class)
-    public static final Capability<IPokemobUseable> USABLEITEM_CAP = null;
+    public static final Capability<IPokemobUseable> USABLEITEM_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final ResourceLocation USABLE = new ResourceLocation(PokecubeMod.ID, "usables");
 

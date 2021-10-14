@@ -106,10 +106,10 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.ThutCaps;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -473,7 +473,7 @@ public class PokemobEventsHandler
         if (!(event.getEntity() instanceof ServerPlayer)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
-        final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = event.getTarget().getCapability(ThutCaps.GENETICS_CAP).orElse(null);
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
             PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayer) event.getPlayer());
 

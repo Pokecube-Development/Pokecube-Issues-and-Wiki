@@ -20,7 +20,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -33,9 +33,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult.Type;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
@@ -48,7 +53,9 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
@@ -73,10 +80,15 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
+import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
+import pokecube.core.proxy.ClientProxy;
+import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -131,6 +143,50 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, GuiInfoMessages::draw);
         // Register the handler for drawing things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
+
+        // Initialise this gui
+        GuiDisplayPokecubeInfo.instance();
+        MoveAnimationHelper.Instance();
+
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::colourBlocks);
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::colourItems);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandlerClient::serverAboutToStart);
+    }
+
+    private static void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    {
+        ClientProxy.pokecenter_sounds.clear();
+    }
+
+    private static void colourBlocks(final ColorHandlerEvent.Block event)
+    {
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        // System.out.println(pechaLeaves);
+        // System.out.println(qualotLeaves);
+        event.getBlockColors().register((state, reader, pos, tintIndex) ->
+        {
+            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
+                    : FoliageColor.getDefaultColor();
+        }, qualotLeaves);
+    }
+
+    private static void colourItems(final ColorHandlerEvent.Item event)
+    {
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        event.getItemColors().register((stack, tintIndex) ->
+        {
+            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
+            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
+        }, qualotLeaves);
+
+        event.getItemColors().register((stack, tintIndex) ->
+        {
+            final PokeType type = PokeType.unknown;
+            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
+            if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
+            return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
+        }, PokecubeItems.EGG.get());
+
     }
 
     /**
@@ -152,7 +208,7 @@ public class EventsHandlerClient
         return ret;
     }
 
-    public static void onPlayerTick(final TickEvent.PlayerTickEvent event)
+    private static void onPlayerTick(final TickEvent.PlayerTickEvent event)
     {
         if (event.phase == Phase.START || event.player != Minecraft.getInstance().player) return;
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
@@ -177,10 +233,11 @@ public class EventsHandlerClient
             {
                 final LogicMountedControl controller = pokemob.getController();
                 if (controller == null) break control;
-                controller.backInputDown = ((LocalPlayer) event.player).input.down;
-                controller.forwardInputDown = ((LocalPlayer) event.player).input.up;
-                controller.leftInputDown = ((LocalPlayer) event.player).input.left;
-                controller.rightInputDown = ((LocalPlayer) event.player).input.right;
+                final net.minecraft.client.player.LocalPlayer player = (net.minecraft.client.player.LocalPlayer) event.player;
+                controller.backInputDown = player.input.down;
+                controller.forwardInputDown = player.input.up;
+                controller.leftInputDown = player.input.left;
+                controller.rightInputDown = player.input.right;
 
                 final boolean up = ClientSetupHandler.mobUp.isDown();
                 final boolean down = ClientSetupHandler.mobDown.isDown();
@@ -205,7 +262,7 @@ public class EventsHandlerClient
         EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
     }
 
-    public static void onFogRender(final EntityViewRenderEvent.FogDensity evt)
+    private static void onFogRender(final EntityViewRenderEvent.FogDensity evt)
     {
         IPokemob mount;
 
@@ -218,9 +275,9 @@ public class EventsHandlerClient
         }
     }
 
-    public static void onMouseInput(final RawMouseEvent evt)
+    private static void onMouseInput(final RawMouseEvent evt)
     {
-        final LocalPlayer player = Minecraft.getInstance().player;
+        final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
         //
@@ -238,9 +295,9 @@ public class EventsHandlerClient
         }
     }
 
-    public static void onKeyInput(final KeyInputEvent evt)
+    private static void onKeyInput(final KeyInputEvent evt)
     {
-        final LocalPlayer player = Minecraft.getInstance().player;
+        final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
         if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3) && evt
@@ -302,20 +359,20 @@ public class EventsHandlerClient
         }
     }
 
-    public static void onPlayerRender(final RenderPlayerEvent.Post event)
+    private static void onPlayerRender(final RenderPlayerEvent.Post event)
     {
         if (EventsHandlerClient.addedLayers.contains(event.getRenderer())) return;
         event.getRenderer().addLayer(new ShoulderLayer<>(event.getRenderer()));
         EventsHandlerClient.addedLayers.add(event.getRenderer());
     }
 
-    public static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
+    private static void onCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getObject() instanceof Player) event.addCapability(new ResourceLocation("pokecube:shouldermobs"),
                 new ShoulderHolder((Player) event.getObject()));
     }
 
-    public static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
+    private static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
     {
         try
         {
@@ -351,7 +408,7 @@ public class EventsHandlerClient
         }
     }
 
-    public static void onRenderHotbar(final RenderGameOverlayEvent.Post event)
+    private static void onRenderHotbar(final RenderGameOverlayEvent.Post event)
     {
         if (event.getType() == ElementType.LAYER)
         {

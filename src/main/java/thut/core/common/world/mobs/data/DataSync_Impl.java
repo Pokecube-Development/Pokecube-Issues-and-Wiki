@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import thut.api.ThutCaps;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.world.mobs.data.types.Data_Byte;
@@ -55,11 +56,11 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T makeData(final int id) throws InstantiationException, IllegalAccessException
+    public static <T> T makeData(final int id) throws Exception
     {
         final Class<? extends Data<?>> dataType = DataSync_Impl.REGISTRY.get(id);
         if (dataType == null) throw new NullPointerException("No type registered for ID: " + id);
-        final Data<?> data = dataType.newInstance();
+        final Data<?> data = dataType.getConstructor().newInstance();
         DataSync_Impl.getID(data);
         return (T) data;
     }
@@ -104,7 +105,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        return SyncHandler.CAP.orEmpty(capability, this.holder);
+        return ThutCaps.DATASYNC.orEmpty(capability, this.holder);
     }
 
     @Override

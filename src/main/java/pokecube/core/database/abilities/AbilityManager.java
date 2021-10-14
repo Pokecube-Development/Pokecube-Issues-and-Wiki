@@ -101,7 +101,8 @@ public class AbilityManager
                 if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
                 for (final Class<?> candidateClass : foundClasses)
-                    if (Ability.class.isAssignableFrom(candidateClass) && candidateClass != Ability.class)
+                    if (Ability.class.isAssignableFrom(candidateClass) && !candidateClass.getName().equals(Ability.class
+                            .getName()))
                     {
                         num++;
                         AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
@@ -125,7 +126,7 @@ public class AbilityManager
         Ability ret = null;
         try
         {
-            ret = abil.newInstance().init(args);
+            ret = abil.getConstructor().newInstance().init(args);
             ret.init(args);
         }
         catch (final Exception e)

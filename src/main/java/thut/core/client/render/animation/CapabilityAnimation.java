@@ -16,8 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -172,8 +172,7 @@ public class CapabilityAnimation
     private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
     private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
 
-    @CapabilityInject(IAnimationHolder.class)
-    public static final Capability<IAnimationHolder> CAPABILITY = null;
+    public static final Capability<IAnimationHolder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     @SubscribeEvent
     public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
@@ -189,7 +188,6 @@ public class CapabilityAnimation
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IAnimationHolder.class);
         MinecraftForge.EVENT_BUS.register(CapabilityAnimation.class);
     }
 }

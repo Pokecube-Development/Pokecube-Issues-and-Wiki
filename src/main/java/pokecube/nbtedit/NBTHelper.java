@@ -3,7 +3,6 @@ package pokecube.nbtedit;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import io.netty.buffer.ByteBuf;

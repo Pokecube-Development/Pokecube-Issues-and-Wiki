@@ -6,13 +6,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmllegacy.LogicalSidedProvider;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.nbtedit.NBTEdit;
 
 public class CommonProxy
 {
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void onStart(final NewRegistry event)
+        {
+            if (PokecubeCore.proxy == null)
+            {
+                PokecubeCore.proxy = new CommonProxy();
+                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+            }
+        }
+    }
 
     public Player getPlayer(final UUID uuid)
     {
@@ -39,12 +56,6 @@ public class CommonProxy
     public Player getPlayer()
     {
         return null;
-    }
-
-    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
-    {
-        // Do nothing here, the client side uses this to clear some things for
-        // single player
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)

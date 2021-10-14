@@ -4,10 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.world.entity.Entity;
-import net.minecraft.util.ClassInstanceMultiMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.server.level.ServerLevel;
@@ -25,9 +22,6 @@ import pokecube.core.events.pokemob.SpawnCheckEvent;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.TeamManager.ITeamProvider;
 import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -152,14 +146,17 @@ public class Impl
         if (!(event.getWorld() instanceof ServerLevel && event.getChunk() instanceof LevelChunk)) return;
         final ServerLevel world = (ServerLevel) event.getWorld();
         if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
-        final List<Entity> mobs = Lists.newArrayList();
-        final LevelChunk chunk = (LevelChunk) event.getChunk();
-        for (final ClassInstanceMultiMap<Entity> list : chunk.getEntitySections())
-            list.forEach(e ->
-            {
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
-                if (pokemob != null && pokemob.getOwnerId() != null || e instanceof EntityPokecube) mobs.add(e);
-            });
-        PCEventsHandler.recallAll(mobs, true);
+        // FIXME decide on how to best deal with this, now that EntitySections
+        // are separate!
+        // final List<Entity> mobs = Lists.newArrayList();
+        // final LevelChunk chunk = (LevelChunk) event.getChunk();
+        // for (final ClassInstanceMultiMap<Entity> list : chunk.getSections())
+        // list.forEach(e ->
+        // {
+        // final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+        // if (pokemob != null && pokemob.getOwnerId() != null || e instanceof
+        // EntityPokecube) mobs.add(e);
+        // });
+        // PCEventsHandler.recallAll(mobs, true);
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -58,7 +57,6 @@ public class AnimatedCaps
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IAnimated.class);
         MinecraftForge.EVENT_BUS.register(AnimatedCaps.class);
     }
 

@@ -25,7 +25,7 @@ import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureStart;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
@@ -153,7 +153,7 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
      * Handles calling up the structure's pieces class and height that structure
      * will spawn at.
      */
-    public static class Start extends StructureStart<JigsawConfig>
+    public static class Start extends NoiseAffectingStructureStart<JigsawConfig>
     {
         public Start(final StructureFeature<JigsawConfig> structureIn, final ChunkPos pos, final int referenceIn,
                 final long seedIn)
@@ -230,8 +230,8 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                             for (final Palette list : t.palettes)
                             {
                                 boolean foundWorldspawn = false;
-                                String tradeString = "";
-                                BlockPos pos = null;
+                                BlockPos localSpawn = null;
+                                BlockPos localTrader = null;
                                 for (final StructureBlockInfo i : list.blocks())
                                     if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                     {
@@ -241,41 +241,39 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
                                         {
                                             final String meta = i.nbt.getString("metadata");
                                             foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                                            if (pos == null && foundWorldspawn) pos = i.pos;
-                                            if (meta.startsWith("pokecube:mob:trader") || meta.startsWith(
-                                                    "pokecube:mob:pokemart_merchant")) tradeString = meta;
+                                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos;
+                                            if (meta.contains("pokecube:mob:trader") || meta.contains(
+                                                    "pokecube:mob:pokemart_merchant")) localTrader = i.pos;
                                         }
                                     }
-                                if (!tradeString.isEmpty() && foundWorldspawn)
+                                if (localTrader != null && localSpawn != null)
                                 {
                                     final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, pos)
+                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, localSpawn)
                                             .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
-                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}", spos, pos);
+                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos,
+                                            localSpawn, localTrader);
+                                    PokecubeSerializer.getInstance().setPlacedSpawn();
                                     sworld.getServer().execute(() ->
                                     {
                                         sworld.setDefaultSpawnPos(spos, 0);
                                     });
-                                    PokecubeSerializer.getInstance().setPlacedSpawn();
+                                    piece.placedSpawn = false;
                                     piece.isSpawn = true;
-                                    piece.spawnReplace = tradeString;
-                                    final BoundingBox box = part.getBoundingBox();
-                                    piece.mask = new BoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
-                                            box.maxZ);
+                                    piece.spawnPos = localSpawn;
+                                    piece.profPos = localTrader;
                                     break components;
                                 }
                             }
                         }
                     }
                 }
-            // Sets the bounds of the structure once you are finished.
-            this.createBoundingBox();
 
             // I use to debug and quickly find out if the structure is spawning
             // or not and where it is.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(config.struct_config.name + " at " + blockpos.getX() + " "
                     + this.getBoundingBox().getCenter().getY() + " " + blockpos.getZ() + " of size " + this.pieces
-                            .size() + " " + this.getBoundingBox().getLength());
+                            .size());
         }
 
     }

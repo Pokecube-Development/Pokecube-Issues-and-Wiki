@@ -1,7 +1,5 @@
 package pokecube.core.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -244,7 +242,7 @@ public class GuiChooseFirstPokemob extends Screen
         GuiComponent.drawCenteredString(mat, this.font, DS + ": ", n + k - 18, m + l + 55, 0x57933A);
         GuiComponent.drawCenteredString(mat, this.font, S + ": ", n + k - 10, m + l + 67, 0xB44062);
 
-        this.renderMob();
+        this.renderMob(mat);
         this.renderItem(n + 00, m + 75, 40);
     }
 
@@ -259,7 +257,7 @@ public class GuiChooseFirstPokemob extends Screen
             final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()
                     .bufferSource();
             matrixstack.pushPose();
-            matrixstack.translate((float) x + 8, (float) y + 8, 100.0F);
+            matrixstack.translate((float) x + 8, (float) y + 8, -100.0F);
             matrixstack.scale(50.0F, -50.0F, 50.0F);
             final boolean flag = !model.usesBlockLight();
             if (flag) Lighting.setupForFlatItems();
@@ -274,7 +272,7 @@ public class GuiChooseFirstPokemob extends Screen
         }
     }
 
-    private void renderMob()
+    private void renderMob(final PoseStack stack)
     {
         try
         {
@@ -293,10 +291,10 @@ public class GuiChooseFirstPokemob extends Screen
             final float hx = 0;
             final float hy = yaw;
             //@formatter:on
-            GL11.glPushMatrix();
-            GL11.glTranslated(0, 0, 100);
+            stack.pushPose();
+            stack.translate(0, 0, 100);
             GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size);
-            GL11.glPopMatrix();
+            stack.popPose();
         }
         catch (final Throwable e)
         {
