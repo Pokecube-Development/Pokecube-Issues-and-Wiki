@@ -1,4 +1,4 @@
-package pokecube.core.handlers;
+package pokecube.legends.items;
 
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.crafting.Ingredient;
