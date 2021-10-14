@@ -1,5 +1,6 @@
 {
   "priority": 0,
+  "register": true,
   "pokemon": [
     {
       "name": "bulbasaur",
