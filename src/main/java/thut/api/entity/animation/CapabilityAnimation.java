@@ -87,7 +87,6 @@ public class CapabilityAnimation
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            if (this.fixed) return;
             // Only reset if we have a pending animation.
             final int l = animation.getLength();
             final boolean finished = l != 0 && step > l || animation.hasLimbBased;
@@ -139,6 +138,12 @@ public class CapabilityAnimation
             this.playing = nbt.getString("pl");
             this.pending = nbt.getString("pn");
             this.fixed = nbt.getBoolean("f");
+        }
+
+        @Override
+        public boolean isFixed()
+        {
+            return this.fixed;
         }
     }
 

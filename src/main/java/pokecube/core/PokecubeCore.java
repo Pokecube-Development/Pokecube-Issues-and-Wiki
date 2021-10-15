@@ -245,6 +245,7 @@ public class PokecubeCore
                     event.getRegistry().register(type);
                     Pokedex.getInstance().registerPokemon(entry);
                     PokecubeCore.typeMap.put(type, entry);
+                    CopyCaps.register(type);
                 }
                 catch (final Exception e)
                 {

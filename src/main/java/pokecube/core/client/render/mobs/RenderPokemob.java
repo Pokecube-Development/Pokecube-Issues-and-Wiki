@@ -192,6 +192,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         @Override
         public String getAnimation(final Entity entityIn)
         {
+            final IAnimationHolder holder = this.getAnimationHolder();
+            if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
             final String phase = this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
             return phase;

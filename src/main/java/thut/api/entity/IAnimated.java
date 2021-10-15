@@ -61,5 +61,7 @@ public interface IAnimated
         void preRun();
 
         void postRun();
+
+        boolean isFixed();
     }
 }
