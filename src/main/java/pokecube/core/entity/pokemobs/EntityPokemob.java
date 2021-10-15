@@ -584,7 +584,17 @@ public class EntityPokemob extends PokemobRidable
             }
             this.setBesideClimbableBlock(climb);
         }
+    }
 
+    @Override
+    public void kill()
+    {
+        if (this.isInvulnerable())
+        {
+            PokecubeCore.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
+            return;
+        }
+        super.kill();
     }
 
     /**
