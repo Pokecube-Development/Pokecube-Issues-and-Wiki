@@ -600,6 +600,27 @@ public class EntityPokemob extends PokemobRidable
             // We can use tick counts above this to adjust animations
             if (this.age < 1000) this.age = 1000;
             this.tickCount = this.age;
+            // Make rots same as old
+            this.xRotO = this.xRot;
+            this.yRotO = this.yRot;
+
+            this.xOld = this.xo;
+            this.yOld = this.yo;
+            this.zOld = this.zo;
+
+            this.animationSpeedOld = this.animationSpeed;
+            this.animStepO = this.animStep;
+
+            this.lerpX = 0;
+            this.lerpXRot = 0;
+            this.lerpY = 0;
+            this.lerpYRot = 0;
+            this.lerpZ = 0;
+            this.lerpHeadSteps = 0;
+
+            this.yBodyRotO = this.yBodyRot;
+            this.yHeadRotO = this.yHeadRot;
+
             // No movement here
             this.setDeltaMovement(0, 0, 0);
             // Max absorption
