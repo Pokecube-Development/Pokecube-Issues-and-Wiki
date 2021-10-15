@@ -169,7 +169,7 @@ public class EntityMoveUse extends ThrowableProjectile
             // If we timed out, it means our user died before the move could
             // finish (ie it died on the same tick it used the attack), in this
             // case, we just remove the attack.
-            this.remove(Entity.RemovalReason.DISCARDED);
+            this.discard();
             return;
         }
 
@@ -455,7 +455,7 @@ public class EntityMoveUse extends ThrowableProjectile
         // Finished, or is invalid
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
-            this.remove(Entity.RemovalReason.DISCARDED);
+            this.discard();
             return;
         }
 

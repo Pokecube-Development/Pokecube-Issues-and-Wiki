@@ -42,7 +42,7 @@ public class CaptureManager
     public static void onCaptureDenied(final EntityPokecubeBase cube)
     {
         cube.spawnAtLocation(cube.getItem(), (float) 0.5);
-        cube.remove(Entity.RemovalReason.DISCARDED);
+        cube.discard();
     }
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
@@ -145,7 +145,7 @@ public class CaptureManager
             cube.setCapturing(mob);
         }
 
-        if (removeMob) mob.remove(Entity.RemovalReason.DISCARDED);
+        if (removeMob) mob.discard();
     }
 
     public static void captureFailed(final EntityPokecubeBase cube)

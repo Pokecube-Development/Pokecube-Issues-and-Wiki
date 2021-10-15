@@ -15,7 +15,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
@@ -156,7 +155,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     {
         if (this.pokemob != null)
         {
-            this.pokemob.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            this.pokemob.getEntity().discard();
             this.pokemob = null;
             this.ability = null;
         }

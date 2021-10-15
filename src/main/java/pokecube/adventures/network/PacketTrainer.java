@@ -336,7 +336,7 @@ public class PacketTrainer extends NBTPacket
                 return;
             }
             mob = player.getCommandSenderWorld().getEntity(id);
-            if (mob != null) mob.remove(Entity.RemovalReason.DISCARDED);
+            if (mob != null) mob.discard();
             break;
         case UPDATEMOB:
             if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITMOB))

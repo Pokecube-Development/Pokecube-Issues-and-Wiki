@@ -653,10 +653,10 @@ public class PokecubeMobs
                     cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
-                    evt.getCaught().getEntity().remove(Entity.RemovalReason.DISCARDED);
+                    evt.getCaught().getEntity().discard();
                     cube.setDeltaMovement(0, 0.1, 0);
                     cube.getCommandSenderWorld().addFreshEntity(cube.copy());
-                    evt.pokecube.remove(Entity.RemovalReason.DISCARDED);
+                    evt.pokecube.discard();
                 }
                 evt.setCanceled(true);
             }
@@ -697,11 +697,11 @@ public class PokecubeMobs
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
-                evt.getCaught().getEntity().remove(Entity.RemovalReason.DISCARDED);
+                evt.getCaught().getEntity().discard();
                 cube.setDeltaMovement(0, 0.1, 0);
                 cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                 evt.setCanceled(true);
-                evt.pokecube.remove(Entity.RemovalReason.DISCARDED);
+                evt.pokecube.discard();
             }
 
         };

@@ -199,7 +199,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         if (this.isRemoved())
         {
-            this.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            this.getEntity().discard();
             return;
         }
         // We use this directly as isAlive() also checks hp!
@@ -207,7 +207,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (removed) return;
         if (this.getOwnerId() == null)
         {
-            this.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            this.getEntity().discard();
             return;
         }
         if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel)) try
@@ -250,7 +250,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         if (this.returning)
         {
-            this.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            this.getEntity().discard();
             return;
         }
 
@@ -275,7 +275,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
             this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
             this.getEntity().captureDrops(null);
-            this.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            this.getEntity().discard();
             EventsHandler.Schedule(world, w ->
             {
                 final ServerLevel srld = (ServerLevel) w;
@@ -341,7 +341,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
         this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
         this.getEntity().captureDrops(null);
-        this.getEntity().remove(Entity.RemovalReason.DISCARDED);
+        this.getEntity().discard();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
         /**

@@ -193,7 +193,7 @@ public abstract class TrainerBase extends NpcMob
                 // Do not despawn if there is a player nearby.
                 if (Tools.isAnyPlayerInRange(10, this)) return;
                 this.despawncounter++;
-                if (this.despawncounter > 200) this.remove(Entity.RemovalReason.DISCARDED);
+                if (this.despawncounter > 200) this.discard();
                 return;
             }
         }

@@ -17,7 +17,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -351,7 +350,7 @@ public class GatherTask extends UtilTask
             if (this.targetItem.distanceTo(this.entity) < diff)
             {
                 ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2);
-                this.targetItem.remove(Entity.RemovalReason.DISCARDED);
+                this.targetItem.discard();
             }
             else this.setWalkTo(stuffLoc, speed, 0);
             this.reset();

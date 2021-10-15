@@ -721,7 +721,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             mob.save(tag);
             tag.remove("Leash");
             this.ants_in.add(new Ant(tag, 0, 20 + mob.getRandom().nextInt(200)));
-            mob.remove(Entity.RemovalReason.DISCARDED);
+            mob.discard();
         }
 
         return true;

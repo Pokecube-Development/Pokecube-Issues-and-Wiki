@@ -181,7 +181,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (e instanceof Player && ((Player) e).getAbilities().instabuild && e.isCrouching())
         {
             final Player player = (Player) e;
-            if (player.getMainHandItem().isEmpty()) this.remove(Entity.RemovalReason.DISCARDED);
+            if (player.getMainHandItem().isEmpty()) this.discard();
         }
         if (this.invuln) return false;
         return super.hurt(source, i);

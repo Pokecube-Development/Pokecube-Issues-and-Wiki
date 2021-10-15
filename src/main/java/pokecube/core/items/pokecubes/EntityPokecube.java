@@ -165,7 +165,7 @@ public class EntityPokecube extends EntityPokecubeBase
                 if (player.isCrouching())
                 {
                     Tools.giveItem(player, this.getItem());
-                    this.remove(Entity.RemovalReason.DISCARDED);
+                    this.discard();
                 }
                 else SendOutManager.sendOut(this, true);
             }
@@ -200,7 +200,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     return InteractionResult.SUCCESS;
                 }
                 Tools.giveItem(player, this.getItem());
-                this.remove(Entity.RemovalReason.DISCARDED);
+                this.discard();
             }
         }
         return InteractionResult.SUCCESS;
@@ -256,7 +256,7 @@ public class EntityPokecube extends EntityPokecubeBase
     {
         if (this.isReleasing() && this.getTime() < 0)
         {
-            this.remove(Entity.RemovalReason.DISCARDED);
+            this.discard();
             return;
         }
         capture:
@@ -285,13 +285,13 @@ public class EntityPokecube extends EntityPokecubeBase
                     }
                     if (!gave) this.spawnAtLocation(this.getItem(), 0.5f);
                 }
-                this.remove(Entity.RemovalReason.DISCARDED);
+                this.discard();
                 return;
             }
             else if (this.getTilt() >= 0)
             {// Missed the pokemon
                 CaptureManager.captureFailed(this);
-                this.remove(Entity.RemovalReason.DISCARDED);
+                this.discard();
                 return;
             }
         }

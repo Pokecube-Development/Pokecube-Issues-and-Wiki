@@ -849,12 +849,12 @@ public final class SpawnHandler
                             totalSpawnCount++;
                         }
                     }
-                    else entity.remove(Entity.RemovalReason.DISCARDED);
+                    else entity.discard();
                 }
             }
             catch (final Throwable e)
             {
-                if (entity != null) entity.remove(Entity.RemovalReason.DISCARDED);
+                if (entity != null) entity.discard();
 
                 System.err.println("Wrong Id while spawn: " + dbe.getName());
                 e.printStackTrace();
