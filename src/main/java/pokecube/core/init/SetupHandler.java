@@ -13,6 +13,7 @@ import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.worldgen.WorldgenHandler;
+import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
@@ -35,6 +36,7 @@ import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.entity.CopyCaps;
 import thut.api.terrain.TerrainSegment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
@@ -85,6 +87,9 @@ public class SetupHandler
 
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
+
+        // Register the pokemob class for animations.
+        CopyCaps.registerAnimateClass(GenericPokemob.class);
 
         event.enqueueWork(() ->
         {

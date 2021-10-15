@@ -1,29 +1,22 @@
-package thut.core.client.render.animation;
+package thut.api.entity.animation;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.animation.Animation;
 
 public class CapabilityAnimation
 {
@@ -149,25 +142,6 @@ public class CapabilityAnimation
         }
     }
 
-    private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
-
     @CapabilityInject(IAnimationHolder.class)
     public static final Capability<IAnimationHolder> CAPABILITY = null;
-
-    @SubscribeEvent
-    public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass())) event.addCapability(
-                CopyCaps.ANIM, new DefaultImpl());
-    }
-
-    public static void registerAnimateClass(final Class<? extends Entity> clazz)
-    {
-        CapabilityAnimation.ANIMATE.add(clazz);
-    }
-
-    public static void setup()
-    {
-        MinecraftForge.EVENT_BUS.register(CapabilityAnimation.class);
-    }
 }

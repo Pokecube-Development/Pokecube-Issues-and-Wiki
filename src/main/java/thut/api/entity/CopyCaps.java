@@ -24,7 +24,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.core.client.render.animation.CapabilityAnimation.DefaultImpl;
+import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
 import thut.core.common.network.CapabilitySync;
 
 public class CopyCaps
@@ -107,6 +107,13 @@ public class CopyCaps
 
     private static final Set<ResourceLocation> ATTACH_TO = Sets.newHashSet();
 
+    private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
+
+    public static void registerAnimateClass(final Class<? extends Entity> clazz)
+    {
+        CopyCaps.ANIMATE.add(clazz);
+    }
+
     public static ICopyMob get(final ICapabilityProvider in)
     {
         return in.getCapability(CopyCaps.CAPABILITY).orElse(null);
@@ -114,9 +121,10 @@ public class CopyCaps
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getCapabilities().containsKey(CopyCaps.LOC)) return;
-        if (CopyCaps.ATTACH_TO.contains(event.getObject().getType().getRegistryName())) event.addCapability(
-                CopyCaps.LOC, new Impl());
+        if (event.getCapabilities().containsKey(CopyCaps.LOC) && CopyCaps.ATTACH_TO.contains(event.getObject().getType()
+                .getRegistryName())) event.addCapability(CopyCaps.LOC, new Impl());
+        if (event.getCapabilities().containsKey(CopyCaps.ANIM) && CopyCaps.ANIMATE.contains(event.getObject()
+                .getClass())) event.addCapability(CopyCaps.ANIM, new DefaultImpl());
     }
 
     private static void onEntitySizeSet(final EntityEvent.Size event)

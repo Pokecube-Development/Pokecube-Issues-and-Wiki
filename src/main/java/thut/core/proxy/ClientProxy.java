@@ -50,7 +50,6 @@ import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.ConfigGui;
-import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.common.ThutCore;
 
@@ -104,7 +103,6 @@ public class ClientProxy extends CommonProxy
     public void setup(final FMLCommonSetupEvent event)
     {
         super.setup(event);
-        CapabilityAnimation.setup();
     }
 
     @SubscribeEvent
