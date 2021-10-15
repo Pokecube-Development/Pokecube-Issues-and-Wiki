@@ -1,31 +1,26 @@
-package thut.core.client.render.animation;
+package thut.api.entity.animation;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.api.ThutCaps;
+import thut.api.entity.IAnimated.IAnimationHolder;
 
 public class CapabilityAnimation
 {
-    public static class DefaultImpl implements IAnimationHolder, ICapabilityProvider
+    public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundTag>
     {
         private static final List<Animation>         EMPTY  = Collections.emptyList();
         private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
@@ -40,6 +35,8 @@ public class CapabilityAnimation
         String pending = "";
         String playing = "";
 
+        boolean fixed = false;
+
         @Override
         public void clean()
         {
@@ -51,7 +48,7 @@ public class CapabilityAnimation
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityAnimation.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.ANIMCAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -82,7 +79,8 @@ public class CapabilityAnimation
         public void setPendingAnimations(final List<Animation> list, final String name)
         {
             this.anims.put(name, Lists.newArrayList(list));
-            this.pending = name;
+            if (this.fixed) this.pending = this.playing;
+            else this.pending = name;
             this.getPlaying();
         }
 
@@ -123,71 +121,29 @@ public class CapabilityAnimation
                 return false;
             });
         }
-    }
 
-    public static interface IAnimationHolder
-    {
-        /** should clear the ticks animations were run on */
-        void clean();
+        @Override
+        public CompoundTag serializeNBT()
+        {
+            final CompoundTag tag = new CompoundTag();
+            tag.putString("pl", this.playing);
+            tag.putString("pn", this.pending);
+            tag.putBoolean("f", this.fixed);
+            return tag;
+        }
 
-        /**
-         * Gets the animation about to be run.
-         *
-         * @return
-         */
-        String getPendingAnimations();
+        @Override
+        public void deserializeNBT(final CompoundTag nbt)
+        {
+            this.playing = nbt.getString("pl");
+            this.pending = nbt.getString("pn");
+            this.fixed = nbt.getBoolean("f");
+        }
 
-        List<Animation> getPlaying();
-
-        /**
-         * This is the animation about to be run.
-         *
-         * @param name
-         */
-        void setPendingAnimations(final List<Animation> list, final String name);
-
-        /**
-         * Sets the last tick this animation was run. Can set to 0 to count
-         * this animation as cleared.
-         *
-         * @param animation
-         * @param step
-         */
-        void setStep(Animation animation, float step);
-
-        /**
-         * This should get whatever animation we think the entity should be
-         * doing.
-         *
-         * @param entityIn
-         * @return
-         */
-        String getAnimation(Entity entityIn);
-
-        void preRun();
-
-        void postRun();
-    }
-
-    private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
-    private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
-
-    public static final Capability<IAnimationHolder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
-
-    @SubscribeEvent
-    public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
-    {
-        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass())) event.addCapability(
-                CapabilityAnimation.ANIM, new DefaultImpl());
-    }
-
-    public static void registerAnimateClass(final Class<? extends Entity> clazz)
-    {
-        CapabilityAnimation.ANIMATE.add(clazz);
-    }
-
-    public static void setup()
-    {
-        MinecraftForge.EVENT_BUS.register(CapabilityAnimation.class);
+        @Override
+        public boolean isFixed()
+        {
+            return this.fixed;
+        }
     }
 }

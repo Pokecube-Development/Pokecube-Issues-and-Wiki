@@ -64,6 +64,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokeType;
@@ -381,6 +382,7 @@ public class EntityPokemob extends PokemobRidable
             genes.deserializeNBT(list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
+            this.canUpdate(tag.getBoolean("u"));
             tag = buffer.readNbt();
             if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
         }
@@ -469,6 +471,7 @@ public class EntityPokemob extends PokemobRidable
         CompoundTag nbt = new CompoundTag();
         nbt.put("p", this.pokemobCap.write());
         nbt.put("g", list);
+        nbt.putBoolean("u", this.canUpdate());
         buffer.writeNbt(nbt);
         nbt = this.getPersistentData().getCompound("url_model");
         buffer.writeNbt(nbt);
@@ -578,6 +581,58 @@ public class EntityPokemob extends PokemobRidable
             }
             this.setBesideClimbableBlock(climb);
         }
+    }
+
+    @Override
+    public boolean canUpdate()
+    {
+        if (!super.canUpdate())
+        {
+            // Lets clear some values, so that we act as a statue, rather than a
+            // living mob!
+            this.hurtTime = 0;
+            // We can use tick counts above this to adjust animations
+            if (this.age < 1000) this.age = 1000;
+            this.tickCount = this.age;
+            // Make rots same as old
+            this.xRotO = this.xRot;
+            this.yRotO = this.yRot;
+
+            this.xOld = this.xo;
+            this.yOld = this.yo;
+            this.zOld = this.zo;
+
+            this.animationSpeedOld = this.animationSpeed;
+            this.animStepO = this.animStep;
+
+            this.lerpX = 0;
+            this.lerpXRot = 0;
+            this.lerpY = 0;
+            this.lerpYRot = 0;
+            this.lerpZ = 0;
+            this.lerpHeadSteps = 0;
+
+            this.yBodyRotO = this.yBodyRot;
+            this.yHeadRotO = this.yHeadRot;
+
+            // No movement here
+            this.setDeltaMovement(0, 0, 0);
+            // Max absorption
+            this.setAbsorptionAmount(Float.MAX_VALUE);
+            // Max HP
+            this.setHealth(Float.MAX_VALUE);
+            // Clear owner
+            this.pokemobCap.setOwner((UUID) null);
+            // clear these as well so we don't have the effects
+            this.pokemobCap.setGeneralState(GeneralStates.EXITINGCUBE, false);
+            this.pokemobCap.setGeneralState(GeneralStates.EVOLVING, false);
+            // No fire
+            if (this.isOnFire()) this.clearFire();
+            // No potion effects either
+            this.removeAllEffects();
+            return false;
+        }
+        return true;
     }
 
     @Override

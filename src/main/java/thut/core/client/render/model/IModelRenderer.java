@@ -10,10 +10,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.core.client.render.animation.Animation;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.texturing.IPartTexturer;
 

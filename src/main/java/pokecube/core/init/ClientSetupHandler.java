@@ -41,7 +41,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
@@ -53,7 +52,6 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.nbtedit.NBTEdit;
-import thut.core.client.render.animation.CapabilityAnimation;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class ClientSetupHandler
@@ -89,9 +87,6 @@ public class ClientSetupHandler
     public static void setupClient(final FMLClientSetupEvent event)
     {
         PokecubeCore.LOGGER.debug("Pokecube Client Setup");
-
-        // Register the pokemob class for animations.
-        CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Register event handlers
         EventsHandlerClient.register();

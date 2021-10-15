@@ -37,12 +37,12 @@ import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -191,6 +191,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public String getAnimation(final Entity entityIn)
         {
+            final IAnimationHolder holder = this.getAnimationHolder();
+            if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
             final String phase = this.getPhase((Mob) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
             return phase;

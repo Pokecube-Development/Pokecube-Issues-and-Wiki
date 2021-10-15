@@ -1,4 +1,4 @@
-package thut.core.client.render.animation;
+package thut.api.entity.animation;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -10,20 +10,20 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Ordering;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
-/**
- * Container for Tabula animations.
- *
- * @author Gegy1000
- * @since 0.1.0
- */
-@OnlyIn(Dist.CLIENT)
 public class Animation
 {
+    /**
+     * Used to convert from part names to identifiers if needed.
+     *
+     * @author Thutmose
+     */
+    public static interface IPartRenamer
+    {
+        void convertToIdents(String[] names);
+    }
+
     private UUID id;
 
     public UUID _uuid = UUID.randomUUID();

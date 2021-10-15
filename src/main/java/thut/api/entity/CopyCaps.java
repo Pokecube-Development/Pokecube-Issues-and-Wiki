@@ -20,7 +20,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.ThutCaps;
+import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
 import thut.core.common.network.CapabilitySync;
 
 public class CopyCaps
@@ -76,7 +78,8 @@ public class CopyCaps
         }
     }
 
-    public static final ResourceLocation     LOC        = new ResourceLocation("thutcore:copymob");
+    public static final ResourceLocation LOC  = new ResourceLocation("thutcore:copymob");
+    public static final ResourceLocation ANIM = new ResourceLocation("thutcore:animations");
 
     private static final Set<ResourceLocation> ATTACH_TO = Sets.newHashSet();
 
@@ -87,9 +90,9 @@ public class CopyCaps
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getCapabilities().containsKey(CopyCaps.LOC)) return;
-        if (CopyCaps.ATTACH_TO.contains(event.getObject().getType().getRegistryName())) event.addCapability(
-                CopyCaps.LOC, new Impl());
+        if (!CopyCaps.ATTACH_TO.contains(event.getObject().getType().getRegistryName())) return;
+        if (!event.getCapabilities().containsKey(CopyCaps.LOC)) event.addCapability(CopyCaps.LOC, new Impl());
+        if (!event.getCapabilities().containsKey(CopyCaps.ANIM)) event.addCapability(CopyCaps.ANIM, new DefaultImpl());
     }
 
     private static void onEntitySizeSet(final EntityEvent.Size event)
@@ -115,11 +118,12 @@ public class CopyCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CopyCaps::attachMobs);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, CopyCaps::attachMobs);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onEntitySizeSet);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onLivingUpdate);
 
         CapabilitySync.TO_SYNC.add(CopyCaps.LOC.toString());
+        CapabilitySync.TO_SYNC.add(CopyCaps.ANIM.toString());
     }
 
     public static void register(final EntityType<?> type)
