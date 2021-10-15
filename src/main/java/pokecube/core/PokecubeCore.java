@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.item.PaintingType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +21,7 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.item.PaintingType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -70,7 +70,11 @@ import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
-import pokecube.core.handlers.*;
+import pokecube.core.handlers.Config;
+import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.handlers.ItemHandler;
+import pokecube.core.handlers.PaintingsHandler;
+import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.data.Drops;
 import pokecube.core.handlers.data.Recipes;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -252,6 +256,7 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
 
             CopyCaps.register(NpcMob.TYPE);
+            CopyCaps.register(EntityType.ARMOR_STAND);
         }
 
         @SubscribeEvent

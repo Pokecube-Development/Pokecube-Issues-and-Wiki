@@ -48,7 +48,8 @@ public class AnimationHelper
         {
             final float time = component.limbBased ? time2 : time1;
             if (component.limbBased) aniTick = (int) time2;
-//            if (partName.equals("body")) System.out.println(Arrays.toString(component.posChange));
+            // if (partName.equals("body"))
+            // System.out.println(Arrays.toString(component.posChange));
             if (time >= component.startKey)
             {
                 animated = true;
@@ -85,12 +86,17 @@ public class AnimationHelper
     }
 
     public static boolean doAnimation(List<Animation> list, final Entity entity, final String partName,
-            final IExtendedModelPart part, final float partialTick, final float limbSwing)
+            final IExtendedModelPart part, float partialTick, float limbSwing)
     {
         boolean animate = false;
         final IAnimationHolder holder = part.getAnimationHolder();
         if (holder != null)
         {
+            if (!entity.canUpdate())
+            {
+                partialTick = 0;
+                limbSwing = 0;
+            }
             list = Lists.newArrayList(holder.getPlaying());
             for (final Animation animation : list)
                 animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,

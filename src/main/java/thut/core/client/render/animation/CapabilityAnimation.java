@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -19,14 +20,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CapabilityAnimation
 {
-    public static class DefaultImpl implements IAnimationHolder, ICapabilityProvider
+    public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundNBT>
     {
         private static final List<Animation>         EMPTY  = Collections.emptyList();
         private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
@@ -40,6 +41,8 @@ public class CapabilityAnimation
 
         String pending = "";
         String playing = "";
+
+        boolean fixed = false;
 
         @Override
         public void clean()
@@ -83,13 +86,15 @@ public class CapabilityAnimation
         public void setPendingAnimations(final List<Animation> list, final String name)
         {
             this.anims.put(name, Lists.newArrayList(list));
-            this.pending = name;
+            if (this.fixed) this.pending = this.playing;
+            else this.pending = name;
             this.getPlaying();
         }
 
         @Override
         public void setStep(final Animation animation, final float step)
         {
+            if (this.fixed) return;
             // Only reset if we have a pending animation.
             final int l = animation.getLength();
             final boolean finished = l != 0 && step > l || animation.hasLimbBased;
@@ -123,6 +128,24 @@ public class CapabilityAnimation
                 }
                 return false;
             });
+        }
+
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            final CompoundNBT tag = new CompoundNBT();
+            tag.putString("pl", this.playing);
+            tag.putString("pn", this.pending);
+            tag.putBoolean("f", this.fixed);
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(final CompoundNBT nbt)
+        {
+            this.playing = nbt.getString("pl");
+            this.pending = nbt.getString("pn");
+            this.fixed = nbt.getBoolean("f");
         }
     }
 
