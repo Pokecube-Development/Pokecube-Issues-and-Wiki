@@ -6,6 +6,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.prefab.AdvancedFlapAnimation;
 import thut.core.client.render.animation.prefab.BasicFlapAnimation;
@@ -21,15 +23,6 @@ import thut.core.common.ThutCore;
  */
 public class AnimationRegistry
 {
-    /**
-     * Used to convert from part names to identifiers if needed.
-     *
-     * @author Thutmose
-     */
-    public static interface IPartRenamer
-    {
-        void convertToIdents(String[] names);
-    }
 
     /** Map of XML node name to animation to read in. */
     public static HashMap<String, Class<? extends Animation>> animations = Maps.newHashMap();
@@ -54,7 +47,7 @@ public class AnimationRegistry
         AnimationRegistry.animationPhases.put("snakeidle", "idle");
         AnimationRegistry.animations.put("snakeswim", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakeswim", "swimming");
-        
+
         //
         AnimationRegistry.animations.put("snakesit", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakesit", "sitting");

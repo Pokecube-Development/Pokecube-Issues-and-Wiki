@@ -11,9 +11,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.AnimationComponent;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.model.IExtendedModelPart;
 
 /**

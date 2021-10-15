@@ -9,11 +9,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Quaternion;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
-import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
 

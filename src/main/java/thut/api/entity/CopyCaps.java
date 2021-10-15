@@ -23,6 +23,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.core.client.render.animation.CapabilityAnimation.DefaultImpl;
 import thut.core.common.network.CapabilitySync;
 
 public class CopyCaps
@@ -99,7 +101,9 @@ public class CopyCaps
 
     @CapabilityInject(ICopyMob.class)
     public static final Capability<ICopyMob> CAPABILITY = null;
-    public static final ResourceLocation     LOC        = new ResourceLocation("thutcore:copymob");
+
+    public static final ResourceLocation LOC  = new ResourceLocation("thutcore:copymob");
+    public static final ResourceLocation ANIM = new ResourceLocation("thutcore:animations");
 
     private static final Set<ResourceLocation> ATTACH_TO = Sets.newHashSet();
 
@@ -139,11 +143,27 @@ public class CopyCaps
     public static void setup()
     {
         CapabilityManager.INSTANCE.register(ICopyMob.class, new Storage(), Impl::new);
+        CapabilityManager.INSTANCE.register(IAnimationHolder.class, new Capability.IStorage<IAnimationHolder>()
+        {
+            @Override
+            public void readNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
+                    final Direction side, final INBT nbt)
+            {
+            }
+
+            @Override
+            public final INBT writeNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
+                    final Direction side)
+            {
+                return null;
+            }
+        }, DefaultImpl::new);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, CopyCaps::attachMobs);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onEntitySizeSet);
         MinecraftForge.EVENT_BUS.addListener(CopyCaps::onLivingUpdate);
 
         CapabilitySync.TO_SYNC.add(CopyCaps.LOC.toString());
+        CapabilitySync.TO_SYNC.add(CopyCaps.ANIM.toString());
     }
 
     public static void register(final EntityType<?> type)

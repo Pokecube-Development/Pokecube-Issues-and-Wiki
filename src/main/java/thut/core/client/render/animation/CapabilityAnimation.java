@@ -13,17 +13,17 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.api.entity.CopyCaps;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.Animation;
 
 public class CapabilityAnimation
 {
@@ -149,68 +149,7 @@ public class CapabilityAnimation
         }
     }
 
-    public static interface IAnimationHolder
-    {
-        /** should clear the ticks animations were run on */
-        void clean();
-
-        /**
-         * Gets the animation about to be run.
-         *
-         * @return
-         */
-        String getPendingAnimations();
-
-        List<Animation> getPlaying();
-
-        /**
-         * This is the animation about to be run.
-         *
-         * @param name
-         */
-        void setPendingAnimations(final List<Animation> list, final String name);
-
-        /**
-         * Sets the last tick this animation was run. Can set to 0 to count
-         * this animation as cleared.
-         *
-         * @param animation
-         * @param step
-         */
-        void setStep(Animation animation, float step);
-
-        /**
-         * This should get whatever animation we think the entity should be
-         * doing.
-         *
-         * @param entityIn
-         * @return
-         */
-        String getAnimation(Entity entityIn);
-
-        void preRun();
-
-        void postRun();
-    }
-
-    private static class Storage implements Capability.IStorage<IAnimationHolder>
-    {
-        @Override
-        public void readNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
-                final Direction side, final INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IAnimationHolder> capability, final IAnimationHolder instance,
-                final Direction side)
-        {
-            return null;
-        }
-    }
-
     private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
-    private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
 
     @CapabilityInject(IAnimationHolder.class)
     public static final Capability<IAnimationHolder> CAPABILITY = null;
@@ -219,7 +158,7 @@ public class CapabilityAnimation
     public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
     {
         if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass())) event.addCapability(
-                CapabilityAnimation.ANIM, new DefaultImpl());
+                CopyCaps.ANIM, new DefaultImpl());
     }
 
     public static void registerAnimateClass(final Class<? extends Entity> clazz)
@@ -229,7 +168,6 @@ public class CapabilityAnimation
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IAnimationHolder.class, new Storage(), DefaultImpl::new);
         MinecraftForge.EVENT_BUS.register(CapabilityAnimation.class);
     }
 }
