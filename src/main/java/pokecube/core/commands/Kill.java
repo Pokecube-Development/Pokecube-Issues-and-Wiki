@@ -44,7 +44,7 @@ public class Kill
         for (final Object o : mobs.getAll())
         {
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
-            if (e != null)
+            if (e != null && !e.getEntity().isInvulnerable())
             {
                 if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
                     continue;
