@@ -598,7 +598,8 @@ public class EntityPokemob extends PokemobRidable
             // living mob!
             this.hurtTime = 0;
             // We can use tick counts above this to adjust animations
-            if (this.tickCount < 1000) this.tickCount = 1000;
+            if (this.age < 1000) this.age = 1000;
+            this.tickCount = this.age;
             // No movement here
             this.setDeltaMovement(0, 0, 0);
             // Max absorption
