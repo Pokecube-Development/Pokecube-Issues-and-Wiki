@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.ILinkable;
 import thut.api.entity.IAnimated;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
@@ -40,6 +41,8 @@ public class ThutCaps
 
     public static final Capability<ICopyMob> COPYMOB = CapabilityManager.get(new CapabilityToken<>(){});
 
+    public static final Capability<IAnimationHolder> ANIMCAP = CapabilityManager.get(new CapabilityToken<>(){});
+
     public static final Capability<ITerrainAffected> TERRAIN_AFFECTED = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final Capability<IMobGenetics> GENETICS_CAP = CapabilityManager.get(new CapabilityToken<>(){});
@@ -53,6 +56,7 @@ public class ThutCaps
         event.register(ITerrainProvider.class);
         event.register(IOwnable.class);
         event.register(ICopyMob.class);
+        event.register(IAnimationHolder.class);
         event.register(IMobColourable.class);
         event.register(IBreedingMob.class);
         event.register(IAnimated.class);

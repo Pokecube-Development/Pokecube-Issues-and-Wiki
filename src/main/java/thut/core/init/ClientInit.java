@@ -32,7 +32,6 @@ import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,25 +44,11 @@ import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
-import thut.core.client.render.animation.CapabilityAnimation;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.particle.ParticleFactories;
-import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientInit
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT, modid = ThutCore.MODID)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void registerCapabilities(final RegisterCapabilitiesEvent event)
-        {
-            event.register(IAnimationHolder.class);
-            CapabilityAnimation.setup();
-        }
-    }
-
     public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final float dx1,
             final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
             final float g, final float b, final float a)

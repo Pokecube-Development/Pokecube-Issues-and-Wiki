@@ -2,7 +2,7 @@ package thut.api.entity;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import thut.api.entity.animation.Animation;
 
 public interface IAnimated
