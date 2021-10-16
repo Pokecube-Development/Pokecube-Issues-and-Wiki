@@ -275,17 +275,17 @@ public class AnimationLoader
             loaded.setAnimationChanger(animator);
 
             // Process the head rotation information.
-            if (model.getHeadInfo() != null)
+            if (animHolder != null && animHolder.getHeadInfo() != null)
             {
                 if (headDir2 == 2) headDir2 = headDir;
-                if (headDir != 2) model.getHeadInfo().yawDirection = headDir;
-                if (headDir2 != 2) model.getHeadInfo().pitchDirection = headDir2;
-                model.getHeadInfo().yawAxis = headAxis;
-                model.getHeadInfo().pitchAxis = headAxis2;
-                model.getHeadInfo().yawCapMin = headCaps[0];
-                model.getHeadInfo().yawCapMax = headCaps[1];
-                model.getHeadInfo().pitchCapMin = headCaps1[0];
-                model.getHeadInfo().pitchCapMax = headCaps1[1];
+                if (headDir != 2) animHolder.getHeadInfo().yawDirection = headDir;
+                if (headDir2 != 2) animHolder.getHeadInfo().pitchDirection = headDir2;
+                animHolder.getHeadInfo().yawAxis = headAxis;
+                animHolder.getHeadInfo().pitchAxis = headAxis2;
+                animHolder.getHeadInfo().yawCapMin = headCaps[0];
+                animHolder.getHeadInfo().yawCapMax = headCaps[1];
+                animHolder.getHeadInfo().pitchCapMin = headCaps1[0];
+                animHolder.getHeadInfo().pitchCapMax = headCaps1[1];
             }
 
             // Pre-process the animations via the model

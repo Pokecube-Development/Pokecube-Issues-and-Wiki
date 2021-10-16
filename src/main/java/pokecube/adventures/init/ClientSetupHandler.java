@@ -41,6 +41,7 @@ import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
 import pokecube.adventures.client.gui.trainer.Trainer;
+import pokecube.adventures.client.render.StatueBlock;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
@@ -150,6 +151,8 @@ public class ClientSetupHandler
 
         RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.TYPE, RenderNPC::new);
         RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, RenderNPC::new);
+
+        ClientRegistry.bindTileEntityRenderer(PokecubeAdv.STATUE_TYPE.get(), StatueBlock::new);
 
         // Register container guis.
         ScreenManager.register(PokecubeAdv.CLONER_CONT.get(), Cloner::new);

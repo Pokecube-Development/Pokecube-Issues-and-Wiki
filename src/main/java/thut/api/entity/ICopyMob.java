@@ -60,6 +60,7 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
                     {
                         this.setCopiedID(this.getCopiedMob().getType().getRegistryName());
                         this.setCopiedMob(mob);
+                        this.setCopiedNBT(mob.serializeNBT());
                         return;
                     }
                 }
@@ -78,12 +79,14 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
                 if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
                 {
                     this.setCopiedID(null);
+                    this.setCopiedNBT(new CompoundNBT());
                     return;
                 }
                 this.setCopiedMob(mob);
                 try
                 {
-                    mob.readAdditionalSaveData(this.getCopiedNBT());
+                    mob.deserializeNBT(this.getCopiedNBT());
+                    this.setCopiedNBT(mob.serializeNBT());
                 }
                 catch (final Exception e)
                 {
@@ -93,6 +96,7 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             else
             {
                 this.setCopiedID(null);
+                this.setCopiedNBT(new CompoundNBT());
                 return;
             }
         }
@@ -106,7 +110,8 @@ public interface ICopyMob extends INBTSerializable<CompoundNBT>
             living.inChunk = false;
 
             final float eye = living.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()));
-            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder.refreshDimensions();
+            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder
+                    .refreshDimensions();
 
             living.setItemInHand(Hand.MAIN_HAND, holder.getItemInHand(Hand.MAIN_HAND));
             living.setItemInHand(Hand.OFF_HAND, holder.getItemInHand(Hand.OFF_HAND));

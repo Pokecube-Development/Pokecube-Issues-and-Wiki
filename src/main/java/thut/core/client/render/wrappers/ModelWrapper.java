@@ -22,6 +22,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
@@ -43,8 +44,6 @@ import thut.core.common.mobs.DefaultColourable;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
-    private static final HeadInfo DUMMY = new HeadInfo();
-
     private static final Set<ModelWrapper<?>> WRAPPERS = Sets.newHashSet();
 
     @SubscribeEvent
@@ -83,13 +82,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (!this.isLoaded()) return;
         this.imodel.applyAnimation(entity, renderer, partialTicks, limbSwing);
-    }
-
-    @Override
-    public HeadInfo getHeadInfo()
-    {
-        if (this.imodel == null) return ModelWrapper.DUMMY;
-        return this.imodel.getHeadInfo();
     }
 
     @Override
@@ -165,8 +157,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (!this.isLoaded()) return;
         this.entityIn = entityIn;
-        final HeadInfo info = this.imodel.getHeadInfo();
-        if (info != null)
+        final HeadInfo info = this.renderer.getAnimationHolder().getHeadInfo();
+        if (info != null && !info.fixed)
         {
             info.headPitch = headPitch;
             info.headYaw = netHeadYaw;

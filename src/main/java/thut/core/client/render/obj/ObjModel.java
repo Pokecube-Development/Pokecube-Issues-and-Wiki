@@ -22,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
@@ -42,7 +43,6 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public HashMap<String, IExtendedModelPart> parts = new HashMap<>();
     Map<String, Material>                      mats  = Maps.newHashMap();
     Set<String>                                heads = Sets.newHashSet();
-    final HeadInfo                             info  = new HeadInfo();
     public String                              name;
     private boolean                            valid = true;
 
@@ -64,12 +64,6 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         // this.updateAnimation(entity, renderer, renderer.getAnimation(entity),
         // partialTicks, this.getHeadInfo().headYaw,
         // this.getHeadInfo().headYaw, limbSwing, 0);
-    }
-
-    @Override
-    public HeadInfo getHeadInfo()
-    {
-        return this.info;
     }
 
     @Override
@@ -308,7 +302,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             final float limbSwing, final int brightnessIn)
     {
         if (parent == null) return;
-        final HeadInfo info = this.getHeadInfo();
+
+        final HeadInfo info = renderer.getAnimationHolder().getHeadInfo();
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);

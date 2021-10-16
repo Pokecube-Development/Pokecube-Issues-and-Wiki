@@ -159,7 +159,7 @@ public class ClientProxy extends CommonProxy
             final LivingEntity entity = copied.getCopiedMob();
             final boolean backup = event.getRenderer().getDispatcher().camera.isInitialized();
             event.getRenderer().getDispatcher().setRenderShadow(false);
-            event.getRenderer().getDispatcher().render(entity, 0, 0, 0, 0, event.getPartialRenderTick(), event
+            event.getRenderer().getDispatcher().render(entity, 0, 0, 0, event.getPartialRenderTick(), 0, event
                     .getMatrixStack(), event.getBuffers(), event.getLight());
             event.getRenderer().getDispatcher().setRenderShadow(backup);
             event.setCanceled(true);

@@ -15,6 +15,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTile;
+import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
@@ -22,6 +23,7 @@ import thut.api.LinkableCaps.Linkable;
 import thut.api.LinkableCaps.PosStorage;
 import thut.api.OwnableCaps;
 import thut.api.block.IOwnableTE;
+import thut.api.entity.CopyCaps;
 
 public class BlockEventHandler
 {
@@ -62,19 +64,14 @@ public class BlockEventHandler
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
             this.tile.getDest().shift(0.5, 0, 0.5);
-            if (!user.getCommandSenderWorld().isClientSide)
+            if (!user.getCommandSenderWorld().isClientSide) if (user instanceof PlayerEntity)
             {
-                if (user instanceof PlayerEntity)
-                {
-                    final PlayerEntity player = (PlayerEntity) user;
-                    player.displayClientMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), true);
-                } else
-                {
-                    user.sendMessage(new TranslationTextComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
-                }
+                final PlayerEntity player = (PlayerEntity) user;
+                player.displayClientMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link",
+                        this.tile.getDest().getInfoName()), true);
             }
+            else user.sendMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link", this.tile
+                    .getDest().getInfoName()), Util.NIL_UUID);
             // Centre us properly.
             return true;
         }
@@ -140,6 +137,7 @@ public class BlockEventHandler
         if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
                         (SiphonTile) event.getObject()));
+        if (event.getObject() instanceof StatueEntity) event.addCapability(CopyCaps.LOC, new CopyCaps.Impl());
 
     }
 }
