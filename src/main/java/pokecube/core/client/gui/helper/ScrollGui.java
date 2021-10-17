@@ -2,12 +2,12 @@ package pokecube.core.client.gui.helper;
 
 import java.util.Objects;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
@@ -100,51 +100,39 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         final int j = i + 6;
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
 
         this.renderList(mat, k, l, mouseX, mouseY, tick);
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
-                GlStateManager.DestFactor.ONE);
-        RenderSystem.disableTexture();
 
-        final int j1 = this.getMaxScroll();
-        if (j1 > 0)
-        {
-            int k1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
-            k1 = Mth.clamp(k1, 32, this.y1 - this.y0 - 8);
-            int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1 + this.y0;
-            if (l1 < this.y0) l1 = this.y0;
+        final int k1 = this.getMaxScroll();
+        if (k1 > 0) {
+           RenderSystem.disableTexture();
+           RenderSystem.setShader(GameRenderer::getPositionColorShader);
+           int l1 = (int)((float)((this.y1 - this.y0) * (this.y1 - this.y0)) / (float)this.getMaxPosition());
+           l1 = Mth.clamp(l1, 32, this.y1 - this.y0 - 8);
+           int i2 = (int)this.getScrollAmount() * (this.y1 - this.y0 - l1) / k1 + this.y0;
+           if (i2 < this.y0) i2 = this.y0;
 
-            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
-            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, l1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, l1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
-            bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j - 1, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j - 1, l1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, l1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
+           bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+           bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(i, i2 + l1, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(j, i2 + l1, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(j, i2, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(i, i2, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(i, i2 + l1 - 1, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(j - 1, i2 + l1 - 1, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(j - 1, i2, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(i, i2, 0.0D).color(192, 192, 192, 255).endVertex();
+           tessellator.end();
         }
 
         this.renderDecorations(mat, mouseX, mouseY);
-        RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
     }
 
     @Override

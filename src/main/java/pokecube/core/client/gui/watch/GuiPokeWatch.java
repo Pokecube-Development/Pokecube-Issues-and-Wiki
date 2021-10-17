@@ -33,8 +33,7 @@ public class GuiPokeWatch extends Screen
 
         public MissingPage(final GuiPokeWatch watch)
         {
-            super(new TranslatableComponent("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM,
-                    GuiPokeWatch.TEX_NM);
+            super(new TranslatableComponent("pokewatch.title.blank"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
             this.font = Minecraft.getInstance().font;
         }
 
@@ -104,7 +103,7 @@ public class GuiPokeWatch extends Screen
 
     public final IPokemob     pokemob;
     public final LivingEntity target;
-    public final Player player;
+    public final Player       player;
     public int                index = 0;
 
     public GuiPokeWatch(final Player player, final LivingEntity target)
@@ -206,6 +205,7 @@ public class GuiPokeWatch extends Screen
         this.children.clear();
         super.init();
         this.current_page = this.createPage(GuiPokeWatch.lastPage);
+        this.current_page.itemRenderer = this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;

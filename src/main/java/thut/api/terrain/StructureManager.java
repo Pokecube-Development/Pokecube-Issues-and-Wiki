@@ -49,8 +49,11 @@ public class StructureManager
         {
             if (this.start.getPieces().isEmpty()) return false;
             if (!this.start.getBoundingBox().isInside(pos)) return false;
-            for (final StructurePiece p1 : this.start.getPieces())
-                if (this.isIn(p1.getBoundingBox(), pos)) return true;
+            synchronized (this.start.getPieces())
+            {
+                for (final StructurePiece p1 : this.start.getPieces())
+                    if (this.isIn(p1.getBoundingBox(), pos)) return true;
+            }
             return false;
         }
 
