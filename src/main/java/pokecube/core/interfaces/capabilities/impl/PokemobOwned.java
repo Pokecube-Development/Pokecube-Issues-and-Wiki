@@ -502,7 +502,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         IPokemob pokemob = this;
         if (this.spawnInitRule == null) return this;
-        int maxXP = this.getEntity().getPersistentData().getInt("spawnExp");
+        int maxXP = pokemob.getEntity().getPersistentData().getInt("spawnExp");
+        final Level world = this.getEntity().level;
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
          * will choose how much exp it spawns with based on the position that it
@@ -510,21 +511,19 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
          */
         if (maxXP == 0)
         {
-            if (!this.getEntity().getPersistentData().getBoolean("initSpawn"))
+            if (!pokemob.getEntity().getPersistentData().getBoolean("initSpawn"))
             {
                 // Only set this if we haven't had one set yet already
-                if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(this.getEntity()));
+                if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
                 if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
                 pokemob.setHealth(pokemob.getMaxHealth());
                 return pokemob;
             }
-            this.getEntity().getPersistentData().remove("initSpawn");
-            final Vector3 spawnPoint = Vector3.getNewVector().set(this.getEntity());
-            maxXP = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), spawnPoint, pokemob
-                    .getPokedexEntry());
-            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), spawnPoint, this
-                    .getEntity().getCommandSenderWorld(), Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(),
-                            -1), SpawnHandler.DEFAULT_VARIANCE);
+            pokemob.getEntity().getPersistentData().remove("initSpawn");
+            final Vector3 spawnPoint = Vector3.getNewVector().set(pokemob.getEntity());
+            maxXP = SpawnHandler.getSpawnXp(world, spawnPoint, pokemob.getPokedexEntry());
+            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), spawnPoint, world,
+                    Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), -1), SpawnHandler.DEFAULT_VARIANCE);
             PokecubeCore.POKEMOB_BUS.post(event);
             final int level = event.getLevel();
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
