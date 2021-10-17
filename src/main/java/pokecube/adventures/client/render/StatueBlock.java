@@ -29,7 +29,7 @@ public class StatueBlock extends TileEntityRenderer<StatueEntity>
         final Minecraft mc = Minecraft.getInstance();
         tile.checkMob();
         mc.getEntityRenderDispatcher().setRenderShadow(false);
-        mc.getEntityRenderDispatcher().render(copied, 0.5f, 0, 0.5f, partialTicks, 0, matrixStackIn, bufferIn,
+        mc.getEntityRenderDispatcher().render(copied, 0.5f, 0, 0.5f, partialTicks, 1, matrixStackIn, bufferIn,
                 combinedLightIn);
     }
 }

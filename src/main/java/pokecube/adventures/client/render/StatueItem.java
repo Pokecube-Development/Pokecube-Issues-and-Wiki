@@ -51,7 +51,7 @@ public class StatueItem extends ItemStackTileEntityRenderer
                     }
                     copy.onBaseTick(mc.level, mob);
                     mob = copy.getCopiedMob();
-                    StatueItem.CACHE.put(mob.getUUID(), mob);
+                    if (mob != null) StatueItem.CACHE.put(mob.getUUID(), mob);
                 }
             }
         }
