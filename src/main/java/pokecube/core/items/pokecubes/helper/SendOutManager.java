@@ -122,7 +122,7 @@ public class SendOutManager
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
                 user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.general"), true);
-                cube.remove(Entity.RemovalReason.DISCARDED);
+                cube.discard();
             }
             return null;
         }
@@ -150,7 +150,7 @@ public class SendOutManager
             {
                 Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
                 user.displayClientMessage(new TranslatableComponent("pokecube.noroom"), true);
-                cube.remove(Entity.RemovalReason.DISCARDED);
+                cube.discard();
                 return null;
             }
             else if (v == null) v = cube.v0.set(cube);
@@ -172,7 +172,7 @@ public class SendOutManager
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.specific",
                             pokemob.getDisplayName()), true);
-                    cube.remove(Entity.RemovalReason.DISCARDED);
+                    cube.discard();
                     return null;
                 }
             }
@@ -185,7 +185,7 @@ public class SendOutManager
                     Tools.giveItem(user, cube.getItem());
                     user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob
                             .getDisplayName()), true);
-                    cube.remove(Entity.RemovalReason.DISCARDED);
+                    cube.discard();
                 }
                 return null;
             }
@@ -217,7 +217,7 @@ public class SendOutManager
         else
         {
             cube.spawnAtLocation(cube.getItem(), 0.5f);
-            cube.remove(Entity.RemovalReason.DISCARDED);
+            cube.discard();
         }
         if (pokemob == null) return null;
         return pokemob.getEntity();

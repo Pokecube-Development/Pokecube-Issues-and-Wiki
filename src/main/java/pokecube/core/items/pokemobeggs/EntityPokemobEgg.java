@@ -81,7 +81,7 @@ public class EntityPokemobEgg extends AgeableMob
             if (i <= 0 || player.getInventory().add(itemstack))
             {
                 player.take(this, i);
-                if (itemstack.isEmpty()) this.remove(Entity.RemovalReason.DISCARDED);
+                if (itemstack.isEmpty()) this.discard();
                 return true;
             }
         }
@@ -178,7 +178,7 @@ public class EntityPokemobEgg extends AgeableMob
         if (i <= 0 || player.getInventory().add(itemstack))
         {
             player.take(this, i);
-            if (itemstack.isEmpty()) this.remove(Entity.RemovalReason.DISCARDED);
+            if (itemstack.isEmpty()) this.discard();
             return InteractionResult.SUCCESS;
         }
         return super.interactAt(player, pos, hand);
@@ -238,7 +238,7 @@ public class EntityPokemobEgg extends AgeableMob
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this
                 .getCommandSenderWorld(), this);
-        this.remove(Entity.RemovalReason.DISCARDED);
+        this.discard();
     }
 
     @Override
@@ -261,14 +261,14 @@ public class EntityPokemobEgg extends AgeableMob
         if (this.getCommandSenderWorld().isClientSide) return;
         if (this.getMainHandItem().isEmpty() || this.getAge() > 0)
         {
-            this.remove(Entity.RemovalReason.DISCARDED);
+            this.discard();
             return;
         }
         this.delayBeforeCanPickup--;
         if (this.random.nextInt(20 - this.getAge()) == 0)
         {
             final IPokemob mob = this.getPokemob(false);
-            if (mob == null) this.remove(Entity.RemovalReason.DISCARDED);
+            if (mob == null) this.discard();
             else mob.getEntity().playAmbientSound();
         }
         BlockEntity te = this.here.getTileEntity(this.getCommandSenderWorld(), Direction.DOWN);
@@ -278,7 +278,7 @@ public class EntityPokemobEgg extends AgeableMob
             final HopperBlockEntity hopper = (HopperBlockEntity) te;
             final ItemEntity item = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this
                     .getZ(), this.getMainHandItem());
-            if (HopperBlockEntity.addItem(hopper, item)) this.remove(Entity.RemovalReason.DISCARDED);
+            if (HopperBlockEntity.addItem(hopper, item)) this.discard();
         }
     }
 

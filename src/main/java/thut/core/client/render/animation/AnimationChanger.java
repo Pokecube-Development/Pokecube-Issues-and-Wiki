@@ -13,10 +13,11 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ShearableCaps;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
+import thut.api.entity.animation.Animation;
 
 public class AnimationChanger implements IAnimationChanger
 {

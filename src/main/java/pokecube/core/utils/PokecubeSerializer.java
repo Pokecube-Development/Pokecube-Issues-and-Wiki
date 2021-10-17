@@ -25,7 +25,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -363,7 +362,7 @@ public class PokecubeSerializer
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
             PokecubeManager.heal(item, owner.getCommandSenderWorld());
-            entity.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            entity.getEntity().discard();
             return item;
         }
         return ItemStack.EMPTY;

@@ -139,13 +139,13 @@ public class PCEventsHandler
             if (num == -1)
             {
                 PCInventory.addPokecubeToPC(evt.getItem().getItem(), evt.getPlayer().getCommandSenderWorld());
-                evt.getItem().remove(Entity.RemovalReason.DISCARDED);
+                evt.getItem().discard();
             }
         }
         else
         {
             PCInventory.addPokecubeToPC(evt.getItem().getItem(), evt.getPlayer().getCommandSenderWorld());
-            evt.getItem().remove(Entity.RemovalReason.DISCARDED);
+            evt.getItem().discard();
             evt.setCanceled(true);
         }
     }
@@ -162,7 +162,7 @@ public class PCEventsHandler
         {
             if (PokecubeManager.getOwner(evt.getEntityItem().getItem()).isEmpty()) return;
             PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getCommandSenderWorld());
-            evt.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            evt.getEntity().discard();
             evt.setCanceled(true);
         }
     }

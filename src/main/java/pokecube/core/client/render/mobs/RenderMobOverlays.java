@@ -30,7 +30,7 @@ public class RenderMobOverlays
         final float partialTicks = event.getPartialRenderTick();
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
-        if (pokemob != null)
+        if (pokemob != null && event.getEntity().canUpdate())
         {
             final PoseStack mat = event.getMatrixStack();
             Evolution.render(pokemob, mat, event.getBuffers(), partialTicks);

@@ -243,6 +243,7 @@ public class PokecubeCore
                     event.getRegistry().register(type);
                     Pokedex.getInstance().registerPokemon(entry);
                     PokecubeCore.typeMap.put(type, entry);
+                    CopyCaps.register(type);
                 }
                 catch (final Exception e)
                 {
@@ -254,6 +255,7 @@ public class PokecubeCore
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
 
             CopyCaps.register(NpcMob.TYPE);
+            CopyCaps.register(EntityType.ARMOR_STAND);
         }
 
         @SubscribeEvent

@@ -1,13 +1,7 @@
-package thut.core.client.render.animation;
+package thut.api.entity.animation;
 
 import java.util.ArrayList;
 
-/**
- * Container for Tabula animation components.
- *
- * @author Gegy1000
- * @since 0.1.0
- */
 public class AnimationComponent
 {
     public double[]            posChange     = new double[3];

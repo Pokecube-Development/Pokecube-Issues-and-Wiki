@@ -163,7 +163,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true));
                 if (mob != null) mob.onRecall();
             }
-            this.remove(Entity.RemovalReason.DISCARDED);
+            this.discard();
         }
         return false;
     }

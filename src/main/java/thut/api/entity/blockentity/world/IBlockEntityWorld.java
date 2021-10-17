@@ -82,7 +82,7 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int yMin = mob.getMin().getY();
         if (mob.getBlocks() == null)
         {
-            if (!entity.getCommandSenderWorld().isClientSide) entity.remove(Entity.RemovalReason.DISCARDED);
+            if (!entity.getCommandSenderWorld().isClientSide) entity.discard();
             return;
         }
         final int sizeX = mob.getBlocks().length;

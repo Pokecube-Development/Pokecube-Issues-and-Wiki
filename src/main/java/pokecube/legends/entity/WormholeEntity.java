@@ -396,7 +396,7 @@ public class WormholeEntity extends LivingEntity
                 });
                 final float boom = 0.5f * this.uses;
                 this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, BlockInteraction.NONE);
-                this.remove(Entity.RemovalReason.DISCARDED);
+                this.discard();
             }
             return;
         }

@@ -31,6 +31,7 @@ import net.minecraftforge.forgespi.locating.IModFile;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
+@SuppressWarnings("removal")
 public class PackFinder implements RepositorySource
 {
     static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
@@ -78,6 +79,7 @@ public class PackFinder implements RepositorySource
         this.init(packInfoFactoryIn);
     }
 
+    @SuppressWarnings({ "deprecation" })
     public void init(final Pack.PackConstructor packInfoFactoryIn)
     {
         try

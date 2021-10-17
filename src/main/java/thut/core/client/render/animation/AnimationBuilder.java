@@ -13,7 +13,9 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.Animation.IPartRenamer;
+import thut.api.entity.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationXML.Component;
 import thut.core.client.render.animation.AnimationXML.Part;
 import thut.core.client.render.animation.AnimationXML.Phase;

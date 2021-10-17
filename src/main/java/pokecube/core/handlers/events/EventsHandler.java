@@ -567,13 +567,13 @@ public class EventsHandler
     {
         if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
-            evt.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            evt.getEntity().discard();
             evt.setCanceled(true);
             return;
         }
         if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(evt.getEntity()))
         {
-            evt.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            evt.getEntity().discard();
             evt.setCanceled(true);
             return;
         }
