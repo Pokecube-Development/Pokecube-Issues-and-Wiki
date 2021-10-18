@@ -161,5 +161,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.animationSpeed = from.animationSpeed;
 
         to.setOnGround(from.isOnGround());
+        to.wasTouchingWater = from.wasTouchingWater;
+        to.fluidHeight = from.fluidHeight;
+        to.fluidOnEyes = from.fluidOnEyes;
     }
 }

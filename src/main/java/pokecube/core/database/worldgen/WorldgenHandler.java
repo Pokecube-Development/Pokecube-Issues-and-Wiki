@@ -508,7 +508,7 @@ public class WorldgenHandler
                                 final ResourceLocation location = new ResourceLocation("pokecube:village");
                                 final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
                                 final StructureFeature<?> structure = reg.getValue(location);
-                                if (reg.containsKey(location)) serverWorld.getLevel().findNearestMapFeature(structure,
+                                if (reg.containsKey(location)) serverWorld.findNearestMapFeature(structure,
                                         BlockPos.ZERO, 50, false);
                             });
 
