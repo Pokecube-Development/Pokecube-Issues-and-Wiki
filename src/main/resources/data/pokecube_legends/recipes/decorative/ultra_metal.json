@@ -8,11 +8,11 @@
   ],
   "key": {
     "4": {
-      "item": "pokecube_legends:ultrastone"
+      "item": "pokecube_legends:ultra_stone"
     }
   },
   "result": {
-    "item": "pokecube_legends:ultrablock",
+    "item": "pokecube_legends:ultra_metal",
     "count": 4
   }
 }

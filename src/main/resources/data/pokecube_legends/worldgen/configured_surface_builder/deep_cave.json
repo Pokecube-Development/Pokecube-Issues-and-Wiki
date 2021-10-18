@@ -1,0 +1,17 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:inverted_grass_block",
+      "Properties": {
+        "snowy" : "false"
+      }
+    },
+    "under_material": {
+      "Name": "pokecube_legends:inverted_dirt"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:inverted_dirt"
+    }
+  },
+  "type": "minecraft:default"
+}

@@ -7,11 +7,11 @@
   ],
   "key": {
 	"X": {
-      "item": "pokecube_legends:concrete_plank"
+      "item": "pokecube_legends:concrete_planks"
     }
   },
   "result": {
-    "item": "pokecube_legends:concrete_dense_plank",
+    "item": "pokecube_legends:concrete_dense_planks",
     "count": 4
   }
 }

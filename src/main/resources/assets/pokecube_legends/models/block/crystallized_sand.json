@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+    "down": "pokecube_legends:blocks/crystallized_sand",
+    "up": "pokecube_legends:blocks/crystallized_sand",
+    "north": "pokecube_legends:blocks/crystallized_sand",
+    "east": "pokecube_legends:blocks/crystallized_sand",
+    "south": "pokecube_legends:blocks/crystallized_sand",
+    "west": "pokecube_legends:blocks/crystallized_sand",
+    "particle": "pokecube_legends:blocks/crystallized_sand"
+  }
+}

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:oceanbrick"
+    "item": "pokecube_legends:ocean_bricks"
   },
-  "result": "pokecube_legends:ocean_brick_stairs",
+  "result": "pokecube_legends:ocean_bricks_stairs",
   "count": 1
 }

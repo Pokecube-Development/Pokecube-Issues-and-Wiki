@@ -1,0 +1,17 @@
+{
+  "ambient_light": 1,
+  "infiniburn": "minecraft:crystal_sound_blocks",
+  "respawn_anchor_works": true,
+  "has_raids": false,
+  "min_y": 0,
+  "height": 176,
+  "logical_height": 176,
+  "natural": true,
+  "coordinate_scale": 1,
+  "piglin_safe": false,
+  "bed_works": false,
+  "has_skylight": false,
+  "has_ceiling": false,
+  "ultrawarm": false,
+  "effects": "minecraft:the_end"
+}

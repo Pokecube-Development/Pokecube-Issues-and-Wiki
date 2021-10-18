@@ -6,11 +6,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:darkskybrick"
+      "item": "pokecube_legends:dark_sky_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:darksky_brick_slab",
+    "item": "pokecube_legends:dark_sky_bricks_slab",
     "count": 6
   }
 }

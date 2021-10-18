@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "pokecube_legends:ultrasand"
+      "item": "pokecube_legends:crystallized_sand"
     }
   },
   "result": {
-    "item": "pokecube_legends:ultrasandstone",
+    "item": "pokecube_legends:crystallized_sandstone",
     "count": 4
   }
 }

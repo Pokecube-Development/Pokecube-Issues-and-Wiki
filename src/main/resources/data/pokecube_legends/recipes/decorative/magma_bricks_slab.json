@@ -6,11 +6,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:magmabrick"
+      "item": "pokecube_legends:magma_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:magma_brick_slab",
+    "item": "pokecube_legends:magma_bricks_slab",
     "count": 6
   }
 }

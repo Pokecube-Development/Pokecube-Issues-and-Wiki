@@ -8,14 +8,14 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:skybrick"
+      "item": "pokecube_legends:sky_bricks"
     },
     "4": {
       "tag": "forge:dyes/gray"
     }
   },
   "result": {
-    "item": "pokecube_legends:darkskybrick",
+    "item": "pokecube_legends:dark_sky_bricks",
     "count": 4
   }
 }

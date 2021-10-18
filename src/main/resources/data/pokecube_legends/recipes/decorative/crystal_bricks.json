@@ -7,11 +7,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:temporal_crystal"
+      "item": "pokecube_legends:crystal_block"
     }
   },
   "result": {
-    "item": "pokecube_legends:crystalbrick",
+    "item": "pokecube_legends:crystal_bricks",
     "count": 4
   }
 }

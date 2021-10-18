@@ -4,8 +4,9 @@
     "pokecube:mega_earring",
     "pokecube:parkcube",
     "pokecube:teammagmacube",
-    "pokecube_legends:blackwhite_block",
-    "pokecube_legends:victiniblock",
+    "pokecube_legends:blackwhite_spawn",
+    "pokecube_legends:legendary_spawn",
+    "pokecube_legends:victini_spawn",
     "pokecube_legends:z_electric"
   ]
 }

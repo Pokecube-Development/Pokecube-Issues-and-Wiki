@@ -357,7 +357,7 @@ public class ItemInit
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
 
         // Torch
-        INFECTED_TORCH = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
+        INFECTED_TORCH = PokecubeLegends.ITEMS.register("infected_torch", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
                 .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
 
         // Plants

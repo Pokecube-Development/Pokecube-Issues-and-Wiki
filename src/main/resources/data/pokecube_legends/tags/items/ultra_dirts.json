@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultradirt1",
-    "pokecube_legends:ultradirt2",
-    "pokecube_legends:ultradirt3",
-    "pokecube_legends:ultradirt4",
-    "pokecube_legends:distortic_grass",
-    "pokecube_legends:ultragrass3",
-    "pokecube_legends:ultragrass2",
-    "pokecube_legends:ultragrass1",
-    "pokecube_legends:ultrasand1"
+    "pokecube_legends:mushroom_dirt",
+    "pokecube_legends:corrupted_dirt",
+    "pokecube_legends:jungle_dirt",
+    "pokecube_legends:aged_dirt",
+    "pokecube_legends:distortic_grass_block",
+    "pokecube_legends:jungle_grass_block",
+    "pokecube_legends:mushroom_grass_block",
+    "pokecube_legends:aged_grass_block",
+    "pokecube_legends:crystallized_sand"
   ]
 }

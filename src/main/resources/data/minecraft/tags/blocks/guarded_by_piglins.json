@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "#forge:barrels",
-    "pokecube_legends:blackwhite_block",
-    "pokecube_legends:victiniblock"
+    "pokecube_legends:blackwhite_spawn",
+    "pokecube_legends:victini_spawn"
   ]
 }

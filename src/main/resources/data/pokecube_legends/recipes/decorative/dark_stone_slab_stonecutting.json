@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:ultracobbles"
+    "item": "pokecube_legends:ultra_darkstone"
   },
   "result": "pokecube_legends:ultra_darkstone_slab",
   "count": 2

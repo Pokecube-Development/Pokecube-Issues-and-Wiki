@@ -1,0 +1,40 @@
+{
+    "variants": {
+        "snowy=false,facing=up": [
+            { "model": "pokecube_legends:block/distortic_grass_block" }
+        ],
+        "snowy=false,facing=down": [
+            { "model": "pokecube_legends:block/distortic_grass_block", "x": 180 }
+        ],
+        "snowy=false,facing=north": [
+            { "model": "pokecube_legends:block/distortic_grass_block", "x": 90 }
+        ],
+        "snowy=false,facing=south": [
+            { "model": "pokecube_legends:block/distortic_grass_block", "x": 90, "y": 180 }
+        ],
+        "snowy=false,facing=east": [
+            { "model": "pokecube_legends:block/distortic_grass_block", "x": 90, "y": 90 }
+        ],
+        "snowy=false,facing=west": [
+            { "model": "pokecube_legends:block/distortic_grass_block", "x": 90, "y": 270 }
+        ],
+        "snowy=true,facing=up": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow"
+        },
+        "snowy=true,facing=down": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow", "x": 180
+        },
+        "snowy=true,facing=north": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow", "x": 90
+        },
+        "snowy=true,facing=south": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow", "x": 90, "y": 180
+        },
+        "snowy=true,facing=east": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow", "x": 90, "y": 90
+        },
+        "snowy=true,facing=west": {
+            "model": "pokecube_legends:block/distortic_grass_block_snow", "x": 90, "y": 270
+        }
+    }
+}

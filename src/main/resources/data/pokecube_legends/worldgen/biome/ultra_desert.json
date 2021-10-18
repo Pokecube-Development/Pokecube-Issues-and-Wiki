@@ -1,0 +1,61 @@
+{
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "sky_color": 10092031,
+    "fog_color": 16777215,
+    "water_color": 65484,
+    "water_fog_color": 1269131,
+    "foliage_color": 35327,
+    "grass_color": 2542847,
+    "ambient_sound": "minecraft:ambient.basalt_deltas.mood"
+  },
+  "surface_builder": "pokecube_legends:ultra_desert",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava"
+    ],
+    [],
+    [
+    ],
+    [
+    ],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic",
+     "pokecube_legends:ore_ultra_coal",
+     "pokecube_legends:ore_ultra_iron",
+     "pokecube_legends:ore_ultra_lazuli",
+     "pokecube_legends:ore_ultra_redstone"
+    ],
+    [],
+    [
+     
+    ],
+    []
+  ],
+  "starts": [
+    "minecraft:desert_pyramid"
+  ],
+  "spawners":{},
+  "spawn_costs": {},
+  "category": "desert",
+  "precipitation": "none",
+  "scale": 0.07,
+  "downfall": 0.4,
+  "depth": 0.12,
+  "temperature": 2,
+  "player_spawn_friendly": false
+}

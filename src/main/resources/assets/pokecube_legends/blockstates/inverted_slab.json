@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/inverted_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/ultra_plank01"
+      "model": "pokecube_legends:block/inverted_planks"
     },
     "type=top": {
       "model": "pokecube_legends:block/inverted_slab_top"
