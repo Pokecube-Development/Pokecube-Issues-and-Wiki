@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_legends:giratina_mirror"
+            "items": [ "pokecube_legends:giratina_mirror" ]
           }
         ]
       }

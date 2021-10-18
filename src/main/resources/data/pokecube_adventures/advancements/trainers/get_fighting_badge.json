@@ -16,7 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_adventures:badge_fighting"
+            "items": [ "pokecube_adventures:badge_fighting" ]
           }
         ]
       }
