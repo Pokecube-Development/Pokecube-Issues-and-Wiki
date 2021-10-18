@@ -819,7 +819,6 @@ public class Database
 
         long time = System.nanoTime();
         long dt = time - Database.lastLoad;
-        System.out.println(dt / 5e11);
 
         if (dt < 5e11)
         {
@@ -904,6 +903,8 @@ public class Database
      */
     public static void onLoadComplete()
     {
+        Database.listener.loaded = true;
+        Database.lastLoad = -1;
         Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())

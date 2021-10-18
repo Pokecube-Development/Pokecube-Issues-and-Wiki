@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,7 +21,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
-import thut.api.LinkableCaps;
 import thut.api.TickHandler;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
@@ -39,7 +37,7 @@ public class CommonProxy implements Proxy
 {
     public static final String SET_SUBBIOME = "thutcore.subbiome.set";
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT, modid = ThutCore.MODID)
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
     {
         @SubscribeEvent
@@ -48,8 +46,6 @@ public class CommonProxy implements Proxy
             // Setup terrain manager
             TerrainManager.getInstance();
 
-            MinecraftForge.EVENT_BUS.register(LinkableCaps.class);
-            MinecraftForge.EVENT_BUS.register(TerrainManager.class);
             MinecraftForge.EVENT_BUS.register(StructureManager.class);
             MinecraftForge.EVENT_BUS.register(TickHandler.class);
             MinecraftForge.EVENT_BUS.register(MobEvents.class);
