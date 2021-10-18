@@ -570,7 +570,6 @@ public class BerryGenManager
 
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
-        if (BerryGenManager.berryLocations.isEmpty()) BerryGenManager.parseConfig();
         SpawnBiomeMatcher toMatch = null;
         final SpawnCheck checker = new SpawnCheck(Vector3.getNewVector().set(location), world);
         /**

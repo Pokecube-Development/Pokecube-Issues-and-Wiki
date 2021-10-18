@@ -16,7 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_adventures:badge_psychic"
+            "items": [ "pokecube_adventures:badge_psychic" ]
           }
         ]
       }

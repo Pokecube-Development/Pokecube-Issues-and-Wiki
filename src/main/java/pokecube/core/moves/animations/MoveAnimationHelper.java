@@ -2,6 +2,9 @@ package pokecube.core.moves.animations;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.BiFunction;
+
+import org.objectweb.asm.Type;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,6 +23,8 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.maths.Vector3;
@@ -30,14 +35,25 @@ import thut.lib.CompatParser.ClassFinder;
 
 public class MoveAnimationHelper
 {
+    private static final Type PRESETANNOTATION = Type.getType("Lpokecube/core/moves/animations/AnimPreset;");
+
     static Map<String, Class<? extends MoveAnimationBase>> presets = Maps.newHashMap();
+
+    private static final BiFunction<ModFile, String, Boolean> validClass = (file, name) ->
+    {
+        for (final AnnotationData a : file.getScanResult().getAnnotations())
+            if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(
+                    MoveAnimationHelper.PRESETANNOTATION)) return true;
+        return false;
+    };
 
     static
     {
         Collection<Class<?>> foundClasses;
         try
         {
-            foundClasses = ClassFinder.find(MoveAnimationHelper.class.getPackage().getName());
+            foundClasses = ClassFinder.find(MoveAnimationHelper.class.getPackage().getName(),
+                    MoveAnimationHelper.validClass);
             for (final Class<?> candidateClass : foundClasses)
             {
                 if (!MoveAnimationBase.class.isAssignableFrom(candidateClass)) continue;

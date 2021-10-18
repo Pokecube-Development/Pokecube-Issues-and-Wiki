@@ -5,6 +5,8 @@ license="All rights reserved"
 [[mods]]
     modId="testmod"
 [[mods]]
+    modId="thutbot"
+[[mods]]
     modId="pokecube_wiki"
 [[mods]]
     modId="pokecube_pokeplayer"

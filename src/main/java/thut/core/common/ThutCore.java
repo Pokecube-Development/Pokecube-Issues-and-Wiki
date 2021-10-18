@@ -42,7 +42,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
-import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.BreedableCaps;
@@ -296,7 +295,6 @@ public class ThutCore
 
         CapabilityTerrainAffected.init();
 
-        OwnableCaps.setup();
         LinkableCaps.setup();
         ShearableCaps.setup();
         BreedableCaps.setup();

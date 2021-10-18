@@ -24,7 +24,7 @@ public abstract class NBTPacket extends Packet
     {
         this();
         this.tag = buffer.readNbt();
-        this.assembler.onRead(this.getTag());
+        if (this.assembler != null) this.assembler.onRead(this.getTag());
     }
 
     @Override

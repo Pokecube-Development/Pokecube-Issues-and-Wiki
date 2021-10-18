@@ -302,10 +302,10 @@ public final class SpawnHandler
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
                 MobSpawnType.NATURAL)) return null;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
-            pokemob.spawnInit(matcher.spawnRule);
+            pokemob = pokemob.spawnInit(matcher.spawnRule);
             return pokemob.getEntity();
         }
         return null;
@@ -845,6 +845,7 @@ public final class SpawnHandler
                             PokecubeCore.POKEMOB_BUS.post(evt);
                             entity.finalizeSpawn(world, world.getCurrentDifficultyAt(v.getPos()), MobSpawnType.NATURAL,
                                     null, null);
+                            entity = pokemob.onAddedInit().getEntity();
                             world.addFreshEntity(entity);
                             totalSpawnCount++;
                         }

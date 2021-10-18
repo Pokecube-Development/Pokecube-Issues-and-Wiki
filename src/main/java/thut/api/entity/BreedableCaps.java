@@ -16,7 +16,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.ThutCaps;
 import thut.core.common.ThutCore;
 
@@ -59,13 +58,13 @@ public class BreedableCaps
         {
             try
             {
-                if (this.wrapped instanceof Animal && other instanceof Animal)
-                    return ((Animal) this.wrapped).canMate((Animal) other);
+                if (this.wrapped instanceof Animal && other instanceof Animal) return ((Animal) this.wrapped).canMate(
+                        (Animal) other);
             }
             catch (final Exception e)
             {
-                if (!ThutCore.conf.supress_warns) ThutCore.LOGGER.warn("Warning, Mob {} has messed up canMateWith check!",
-                        this.wrapped.getType().getRegistryName());
+                if (!ThutCore.conf.supress_warns) ThutCore.LOGGER.warn(
+                        "Warning, Mob {} has messed up canMateWith check!", this.wrapped.getType().getRegistryName());
                 return false;
             }
             return other.getClass() == this.wrapped.getClass();
@@ -107,8 +106,7 @@ public class BreedableCaps
 
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:breedable_wrap");
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
+    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
@@ -125,6 +123,6 @@ public class BreedableCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.register(BreedableCaps.class);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BreedableCaps::attachMobs);
     }
 }

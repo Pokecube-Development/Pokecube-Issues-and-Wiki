@@ -21,7 +21,6 @@ import thut.core.common.ThutCore;
 
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, ParticleOptions
 {
-    @SuppressWarnings("deprecation")
     private static final ParticleOptions.Deserializer<ParticleBase> DESERIALIZER = new ParticleOptions.Deserializer<>()
     {
         @Override

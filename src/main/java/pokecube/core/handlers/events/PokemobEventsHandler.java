@@ -443,18 +443,19 @@ public class PokemobEventsHandler
     private static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         final Entity mob = event.getEntity();
+        final Level world = mob.level;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setEntity((Mob) mob);
         final IPokemob modified = pokemob.onAddedInit();
-        if (modified != pokemob)
+        if (modified.getEntity() != mob)
         {
             pokemob.markRemoved();
-            if (mob.getCommandSenderWorld() instanceof ServerLevel) mob.getCommandSenderWorld().addFreshEntity(modified
-                    .getEntity());
+            final Mob newMob = modified.getEntity();
+            if (world instanceof ServerLevel && !newMob.isAddedToWorld()) world.addFreshEntity(newMob);
         }
         // This initializes logics on the client side.
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel)) pokemob.initAI();
+        if (!(world instanceof ServerLevel)) pokemob.initAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)

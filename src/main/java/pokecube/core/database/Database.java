@@ -43,6 +43,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
+import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.MovesDatabases;
@@ -819,7 +820,6 @@ public class Database
 
         long time = System.nanoTime();
         long dt = time - Database.lastLoad;
-        System.out.println(dt / 5e11);
 
         if (dt < 5e11)
         {
@@ -846,6 +846,8 @@ public class Database
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
+
+        BerryGenManager.parseConfig();
 
         Database.spawnables.clear();
         PokedexInspector.rewards.clear();
@@ -904,6 +906,8 @@ public class Database
      */
     public static void onLoadComplete()
     {
+        Database.listener.loaded = true;
+        Database.lastLoad = -1;
         Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())

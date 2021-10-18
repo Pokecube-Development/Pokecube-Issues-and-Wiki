@@ -13,7 +13,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.entity.IAnimated;
 
 public class AnimatedCaps
@@ -40,8 +39,7 @@ public class AnimatedCaps
 
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:animated_mob");
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
+    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
@@ -57,7 +55,7 @@ public class AnimatedCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.register(AnimatedCaps.class);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, AnimatedCaps::attachMobs);
     }
 
 }

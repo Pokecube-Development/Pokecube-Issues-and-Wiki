@@ -62,6 +62,7 @@ public class PacketDataSync extends Packet
     {
         final UUID id = this.data.hasUUID("uuid") ? this.data.getUUID("uuid") : null;
         final Player player = id == null ? PokecubeCore.proxy.getPlayer() : PokecubeCore.proxy.getPlayer(id);
+        if(player==null) return;
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         manager.getData(this.data.getString("type")).readFromNBT(this.data.getCompound("data"));
     }

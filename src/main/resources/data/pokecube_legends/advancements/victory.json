@@ -72,7 +72,7 @@
             "item": "pokecube_adventures:badge_dark"
           },
           {
-            "item": "pokecube_adventures:badge_fairy"
+            "items": [ "pokecube_adventures:badge_fairy" ]
           }
         ]
       }
