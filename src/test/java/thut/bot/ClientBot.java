@@ -1,4 +1,4 @@
-package thut.test.scripting;
+package thut.bot;
 
 import java.util.Random;
 

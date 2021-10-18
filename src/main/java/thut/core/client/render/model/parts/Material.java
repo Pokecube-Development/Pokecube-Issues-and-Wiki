@@ -19,7 +19,7 @@ import thut.api.maths.vecmath.Vector3f;
 
 public class Material
 {
-    protected static final RenderStateShard.TransparencyStateShard DEFAULTTRANSP = new RenderStateShard.TransparencyStateShard(
+    public static final RenderStateShard.TransparencyStateShard DEFAULTTRANSP = new RenderStateShard.TransparencyStateShard(
             "material_transparency", () ->
             {
                 RenderSystem.enableBlend();
@@ -29,7 +29,7 @@ public class Material
                 RenderSystem.disableBlend();
             });
 
-    protected static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
+    public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
 
     public final String  name;
     private final String render_name;
@@ -84,7 +84,7 @@ public class Material
 
         final String id = this.render_name + tex;
         RenderType type = null;
-//        if (this.emissiveMagnitude == 0)
+        // if (this.emissiveMagnitude == 0)
         {
             final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
             // No blur, No MipMap
@@ -114,7 +114,7 @@ public class Material
             type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false,
                     rendertype$state);
         }
-//        else type = RenderTypes.brightSolid(tex);
+        // else type = RenderTypes.brightSolid(tex);
 
         this.types.put(tex, type);
         return type;
