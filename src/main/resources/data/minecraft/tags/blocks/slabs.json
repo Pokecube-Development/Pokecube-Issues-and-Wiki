@@ -17,10 +17,10 @@
 	"pokecube_legends:corrupted_slab",
 	"pokecube_legends:ultra_stone_slab",
 	"pokecube_legends:ultra_cobblestone_slab",
-	"pokecube_legends:ultra_stonebricks_slab",
-	"pokecube_legends:ultra_sandstone_slab",
-	"pokecube_legends:ultra_sandbrick_slab",
-	"pokecube_legends:ultra_sandstone_smooth_slab",
+	"pokecube_legends:ultra_stone_bricks_slab",
+	"pokecube_legends:crystallized_sandstone_slab",
+	"pokecube_legends:crystallized_sandstone_bricks_slab",
+	"pokecube_legends:crystallized_sandstone_smooth_slab",
 	"pokecube_legends:ultra_metal_slab",
 	"pokecube_legends:ruby_slab",
 	"pokecube_legends:sapphire_slab",
@@ -32,12 +32,12 @@
 	"pokecube_legends:crystal_bricks_slab",
 	"pokecube_legends:distortic_stone_slab",
 	"pokecube_legends:meteor_slab",
-	"pokecube_legends:magma_brick_slab",
-	"pokecube_legends:sky_brick_slab",
-	"pokecube_legends:darksky_brick_slab",
-	"pokecube_legends:ocean_brick_slab",
-	"pokecube_legends:spatian_brick_slab",
+	"pokecube_legends:magma_bricks_slab",
+	"pokecube_legends:sky_bricks_slab",
+	"pokecube_legends:dark_sky_bricks_slab",
+	"pokecube_legends:ocean_bricks_slab",
+	"pokecube_legends:spatian_bricks_slab",
 	"pokecube_legends:distortic_chiseled_slab",
-	"pokecube_legends:distortic_stonebrick_slab"
+	"pokecube_legends:distortic_stone_bricks_slab"
   ]
 }

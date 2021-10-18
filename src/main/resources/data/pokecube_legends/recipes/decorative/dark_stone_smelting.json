@@ -4,9 +4,9 @@
   "experience": 2,
   "cookingtime": 350,
   "ingredient": {
-    "item": "pokecube_legends:ultrarock"
+    "item": "pokecube_legends:ultra_dark_cobblestone"
   },
   "result": {
-    "item": "pokecube_legends:ultracobbles"
+    "item": "pokecube_legends:ultra_darkstone"
   }
 }

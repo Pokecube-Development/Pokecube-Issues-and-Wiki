@@ -8,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "item": "pokecube_legends:spatianbrick"
+      "item": "pokecube_legends:spatian_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:spatian_brick_stairs",
+    "item": "pokecube_legends:spatian_bricks_stairs",
     "count": 6
   }
 }

@@ -3,7 +3,7 @@
   "blockId": "pokecube_legends:distortic_mirror",
   "dimId": "pokecube_legends:distorted_world",
   "input": {
-    "item": "pokecube_legends:distortic_grass"
+    "item": "pokecube_legends:distortic_grass_block"
   },
   "output": {
     "item": "pokecube_legends:distortic_cracked_stone"

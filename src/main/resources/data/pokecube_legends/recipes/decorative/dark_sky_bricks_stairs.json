@@ -8,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "item": "pokecube_legends:darkskybrick"
+      "item": "pokecube_legends:dark_sky_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:darksky_brick_stairs",
+    "item": "pokecube_legends:dark_sky_bricks_stairs",
     "count": 4
   }
 }

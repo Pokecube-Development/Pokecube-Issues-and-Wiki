@@ -1,0 +1,14 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:ultra_darkstone"
+    },
+    "under_material": {
+      "Name": "pokecube_legends:ultra_darkstone"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:ultra_darkstone"
+    }
+  },
+  "type": "minecraft:default"
+}

@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/stone.png",
     "icon": {
-      "item": "pokecube_legends:ultragrass3"
+      "item": "pokecube_legends:aged_grass_block"
     },
     "title": {
       "translate": "advancements.intotespace.title"

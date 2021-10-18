@@ -220,8 +220,8 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new SpruceFoliagePlacer(UniformInt.of(2, 2), UniformInt.of(0, 2),
-                    UniformInt.of(3, 1)),
+                new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2),
+                    UniformInt.of(1, 3)),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -243,7 +243,7 @@ public class Trees
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
             // Forky, Giant, MegaJungle available
-            new GiantTrunkPlacer(15, 2, 14),
+            new GiantTrunkPlacer(13, 2, 14),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
@@ -278,7 +278,7 @@ public class Trees
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
             // Forky, Giant, MegaJungle available
-            new GiantTrunkPlacer(15, 2, 14),
+            new GiantTrunkPlacer(13, 2, 14),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
@@ -291,7 +291,7 @@ public class Trees
             // more can also probably be coded if needed
             // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
             // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-            new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(13, 8)),
+            new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(8, 13)),
 
             // I am not certain exactly how this works, but there is also a threeLayer feature
             // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -328,7 +328,7 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new AcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
+                new AcaciaFoliagePlacer(ConstantInt.of(1), ConstantInt.of(3)),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -413,27 +413,27 @@ public class Trees
     public static void register()
     {
         Trees.INVERTED_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree01", Trees.INVERTED_TREE = Feature.TREE.configured(Trees.getInvertedTree()
+                "pokecube_legends:inverted_tree", Trees.INVERTED_TREE = Feature.TREE.configured(Trees.getInvertedTree()
                         .withDecorators(ImmutableList.of(Features.Decorators.BEEHIVE_0002))));
         Trees.INVERTED_TREE_FANCY = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree01", Trees.INVERTED_TREE_FANCY = Feature.TREE.configured(Trees
+                "pokecube_legends:inverted_fancy_tree", Trees.INVERTED_TREE_FANCY = Feature.TREE.configured(Trees
                         .getInvertedTreeFancy().withDecorators(ImmutableList.of(Features.Decorators.BEEHIVE_0002))));
 
         Trees.TEMPORAL_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree02", Trees.TEMPORAL_TREE = Feature.TREE.configured(Trees
+                "pokecube_legends:temporal_tree", Trees.TEMPORAL_TREE = Feature.TREE.configured(Trees
                         .getTemporalTree()));
         Trees.MEGA_TEMPORAL_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree02", Trees.MEGA_TEMPORAL_TREE = Feature.TREE.configured(Trees
+                "pokecube_legends:mega_temporal_tree", Trees.MEGA_TEMPORAL_TREE = Feature.TREE.configured(Trees
                         .getMegaTemporalTree()));
 
         Trees.AGED_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree03", Trees.AGED_TREE = Feature.TREE.configured(Trees.getAgedTree()
+                "pokecube_legends:aged_tree", Trees.AGED_TREE = Feature.TREE.configured(Trees.getAgedTree()
                         .withDecorators(ImmutableList.of(Features.Decorators.BEEHIVE_0002))));
         Trees.MEGA_AGED_PINE_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree03", Trees.MEGA_AGED_PINE_TREE = Feature.TREE.configured(Trees
+                "pokecube_legends:mega_aged_pine_tree", Trees.MEGA_AGED_PINE_TREE = Feature.TREE.configured(Trees
                         .getMegaAgedPineTree()));
         Trees.MEGA_AGED_SPRUCE_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:ultra_tree03", Trees.MEGA_AGED_SPRUCE_TREE = Feature.TREE.configured(Trees
+                "pokecube_legends:mega_aged_spruce_tree", Trees.MEGA_AGED_SPRUCE_TREE = Feature.TREE.configured(Trees
                         .getMegaAgedSpruceTree()));
 
         Trees.CORRUPTED_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
