@@ -1,0 +1,120 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/beach/town_centers",
+      "options": [
+        "pokecube:village/beach/town_centers/center_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/small",
+      "options": [
+        "pokecube:village/beach/town_centers/center_small"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/beach/terminators/terminator_01"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/streets",
+      "target": "pokecube:village/beach/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/beach/streets/crossroad_01;{\"weight\":2}",
+        "pokecube:village/beach/streets/straight_1;{\"weight\":6}",
+        "pokecube:village/beach/streets/straight_2;{\"weight\":6}",
+        "pokecube:village/beach/streets/straight_3;{\"weight\":4}"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/pokecenter/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/beach/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/gym/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/beach/gym/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/beach/houses",
+      "target": "pokecube:village/beach/terminators",
+      "rigid": true,
+      "options": [
+        "empty;{\"weight\":1}",
+        "pokecube:village/beach/houses/house_1;{\"weight\":3}",
+        "pokecube:village/beach/houses/house_2;{\"weight\":3}",
+        "pokecube:village/beach/houses/house_3;{\"weight\":3}",
+        "pokecube:village/beach/houses/house_4;{\"weight\":3}",
+        "pokecube:village/beach/houses/house_5;{\"weight\":3}",
+        "pokecube:village/beach/houses/shop_house_1;{\"weight\":3}",
+        "pokecube:village/beach/houses/shop_house_2;{\"weight\":3}",
+        "pokecube:village/beach/houses/shop_house_3;{\"weight\":3}",
+        "pokecube:village/beach/houses/shop_house_4;{\"weight\":3}",
+        "pokecube:village/beach/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/beach/gym/gym_01;{\"flag\":\"gym\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/beach",
+      "root": "pokecube:village/beach/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 6,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "beach",
+          "typesBlacklist": "snowy,spooky,swamp,mesa",
+          "categoryBlacklist": "plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    },
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/beach_small",
+      "root": "pokecube:village/beach/small",
+      "chance": 1,
+      "distance": 32,
+      "separation": 12,
+      "size": 3,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "beach",
+          "typesBlacklist": "snowy,spooky,swamp,mesa",
+          "categoryBlacklist": "plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    }
+  ]
+}

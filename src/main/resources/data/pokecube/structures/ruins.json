@@ -1,0 +1,71 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:scattered/ruins_rigid",
+      "rigid": true,
+      "biomeType": "ruin",
+      "options": [
+        "pokecube:scattered/ruins_rigid/ancient_tomb;{\"weight\":10}",
+        "pokecube:scattered/ruins_rigid/ruin_1;{\"weight\":9}",
+        "pokecube:scattered/ruins_rigid/ruin_2;{\"weight\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:scattered/ruins_loose/rock_piles",
+      "rigid": false,
+      "options": [
+        "empty;{\"weight\":5}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_01;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_02;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_03;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_04;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_05;{\"weight\":6}",
+        "pokecube:scattered/ruins_loose/rock_piles/rock_pile_06;{\"weight\":6}"
+      ]
+    },
+    {
+      "name": "pokecube:scattered/ruins_loose",
+      "rigid": false,
+      "water": true,
+      "biomeType": "ruin",
+      "options": [
+        "pokecube:scattered/ruins_loose/stonehenge_ruins"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:ruins_loose",
+      "name": "pokecube:scattered/ruins_loose",
+      "root": "pokecube:scattered/ruins_loose",
+      "chance": 1,
+      "biomeType": "ruin",
+      "base_under": false,
+      "water": true,
+      "distance": 32,
+      "separation": 12,
+      "priority": 10000,
+      "spawn": {
+        "values": {
+          "types": "all"
+        }
+      }
+    },
+    {
+      "type": "pokecube:ruins_rigid",
+      "name": "pokecube:scattered/ruins_rigid",
+      "root": "pokecube:scattered/ruins_rigid",
+      "chance": 1,
+      "biomeType": "ruin",
+      "distance": 32,
+      "separation": 12,
+      "priority": 10000,
+      "spawn": {
+        "values": {
+          "types": "all",
+          "categoryBlacklist": "ocean,river,mushroom"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/badlands/town_centers",
+      "options": [
+        "pokecube:village/badlands/town_centers/center_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands_small/small",
+      "options": [
+        "pokecube:village/badlands_small/town_centers/center_small"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands_small/pokecenter/path",
+      "rigid": false,
+      "options": [
+        "pokecube:village/badlands_small/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands_small/houses",
+      "target": "pokecube:village/badlands/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/badlands_small/pokecenter/center_small;{\"flag\":\"pokecenter\"}"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/terminators",
+      "rigid": false,
+      "options": [
+        "pokecube:village/badlands/terminators/terminator_01;{\"weight\":8}",
+        "pokecube:village/badlands/terminators/terminator_02;{\"weight\":2}"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/streets",
+      "target": "pokecube:village/badlands/terminators",
+      "rigid": false,
+      "options": [
+        "pokecube:village/badlands/streets/crossroad_01;{\"weight\":2}",
+        "pokecube:village/badlands/streets/crossroad_02;{\"weight\":2}",
+        "pokecube:village/badlands/streets/straight_1;{\"weight\":8}",
+        "pokecube:village/badlands/streets/straight_2;{\"weight\":8}"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/pokecenter/path",
+      "rigid": false,
+      "options": [
+        "pokecube:village/badlands/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/gym/path",
+      "rigid": false,
+      "options": [
+        "pokecube:village/badlands/gym/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/decor/tunnel",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube:village/badlands/decor/tunnel"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/decor/miner",
+      "rigid": true,
+      "options": [
+        "pokecube:village/badlands/decor/miner"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/decor/room_1",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/badlands/decor/room_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/rails",
+      "rigid": true,
+      "options": [
+        "pokecube:village/badlands/rails/line_1;{\"weight\":4}",
+        "pokecube:village/badlands/rails/line_2;{\"weight\":3}",
+        "pokecube:village/badlands/rails/line_3;{\"weight\":4}",
+        "pokecube:village/badlands/rails/line_4;{\"weight\":4}",
+        "pokecube:village/badlands/rails/end;{\"weight\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/badlands/houses",
+      "target": "pokecube:village/badlands/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "empty;{\"weight\":1}",
+        "pokecube:village/badlands/houses/coal_mine;{\"weight\":2}",
+        "pokecube:village/badlands/houses/farmland;{\"weight\":4}",
+        "pokecube:village/badlands/houses/deposit;{\"weight\":4}",
+        "pokecube:village/badlands/houses/house_1;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_2;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_3;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_4;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_5;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_6;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_7;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_8;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_9;{\"weight\":8}",
+        "pokecube:village/badlands/houses/house_10;{\"weight\":8}",
+        "pokecube:village/badlands/houses/tiny_house_1;{\"weight\":6}",
+        "pokecube:village/badlands/houses/tiny_house_2;{\"weight\":6}",
+        "pokecube:village/badlands/houses/tiny_house_3;{\"weight\":6}",
+        "pokecube:village/badlands/houses/tiny_house_4;{\"weight\":6}",
+        "pokecube:village/badlands/houses/tiny_house_5;{\"weight\":6}",
+        "pokecube:village/badlands/houses/medium_house_1;{\"weight\":5}",
+        "pokecube:village/badlands/houses/medium_house_2;{\"weight\":5}",
+        "pokecube:village/badlands/houses/medium_house_3;{\"weight\":5}",
+        "pokecube:village/badlands/houses/medium_house_4;{\"weight\":5}",
+        "pokecube:village/badlands/houses/empty_1;{\"weight\":2}",
+        "pokecube:village/badlands/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/badlands/gym/gym_01;{\"flag\":\"gym\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/badlands",
+      "root": "pokecube:village/badlands/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 6,
+      "priority": 10,
+      "base_under": true,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "types": "mesa",
+          "typesBlacklist": "snowy,spooky,swamp",
+          "categoryBlacklist": "forest,plains,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,taiga,icy"
+        }
+      }
+    },
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/badlands_small",
+      "root": "pokecube:village/badlands_small/small",
+      "chance": 1,
+      "distance": 28,
+      "separation": 12,
+      "size": 3,
+      "priority": 10,
+      "base_under": true,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "types": "mesa",
+          "typesBlacklist": "snowy,spooky,swamp",
+          "categoryBlacklist": "forest,plains,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,taiga,icy"
+        }
+      }
+    }
+  ]
+}

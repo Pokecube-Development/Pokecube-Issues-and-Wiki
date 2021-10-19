@@ -1,0 +1,116 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/sky/town_centers",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/town_centers/center_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/town_centers/base",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/town_centers/base"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/tower/tower_1",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/tower/tower_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/tower/tower_2",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/tower/tower_2"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/tower/tower_3",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/sky/tower/tower_3"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/terminators/terminator_01",
+        "pokecube:village/sky/terminators/crossroad"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/streets",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/streets/straight_1;{\"weight\":4}",
+        "pokecube:village/sky/streets/straight_2;{\"weight\":4}"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/pokecenter/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/houses",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "empty;{\"weight\":1}",
+        "pokecube:village/sky/houses/house_1;{\"weight\":3}",
+        "pokecube:village/sky/houses/house_2;{\"weight\":3}",
+        "pokecube:village/sky/houses/house_3;{\"weight\":3}",
+        "pokecube:village/sky/houses/house_4;{\"weight\":3}",
+        "pokecube:village/sky/houses/house_5;{\"weight\":3}",
+        "pokecube:village/sky/houses/house_6;{\"weight\":3}",
+        "pokecube:village/sky/houses/balloon_1;{\"weight\":2}",
+        "pokecube:village/sky/houses/balloon_2;{\"weight\":2}",
+        "pokecube:village/sky/houses/balloon_3;{\"weight\":2}",
+        "pokecube:village/sky/houses/balloon_4;{\"weight\":2}",
+        "pokecube:village/sky/houses/balloon_5;{\"weight\":3}",
+        "pokecube:village/sky/houses/workspace_1;{\"weight\":3}",
+        "pokecube:village/sky/houses/workspace_2;{\"weight\":3}",
+        "pokecube:village/sky/houses/workspace_3;{\"weight\":3}",
+        "pokecube:village/sky/houses/workspace_4;{\"weight\":3}",
+        "pokecube:village/sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube:village/sky",
+      "root": "pokecube:village/sky/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 7,
+      "priority": 10,
+      "base_under": false,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "forest",
+          "typesBlacklist": "snowy,jungle",
+          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+        }
+      }
+    }
+  ]
+}
