@@ -339,7 +339,7 @@ public class ThutTeleporter
             }
             final ServerLevel destWorld = entity.getServer().getLevel(dest.loc.dimension());
             // Schedule the transfer for end of tick.
-            new TransferTicker(destWorld, entity, dest, sound);
+            if (destWorld != null) new TransferTicker(destWorld, entity, dest, sound);
         }
     }
 
