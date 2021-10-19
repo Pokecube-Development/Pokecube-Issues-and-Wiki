@@ -1,0 +1,124 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/swamp/town_centers",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/town_centers/center_1;{\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/small",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/town_centers/center_small;{\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/terminators/terminator_01;{\"weight\":4,\"dy\":3}",
+        "pokecube:village/swamp/terminators/terminator_02;{\"weight\":7,\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/streets",
+      "target": "pokecube:village/swamp/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/streets/straight_1;{\"weight\":4,\"dy\":3}",
+        "pokecube:village/swamp/streets/straight_2;{\"weight\":6,\"dy\":3}",
+        "pokecube:village/swamp/streets/crossroad_01;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/streets/crossroad_02;{\"weight\":3,\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/pokecenter/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/pokecenter/path;{\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/gym/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/gym/path;{\"dy\":3}"
+      ]
+    },
+    {
+      "name": "pokecube:village/swamp/houses",
+      "target": "pokecube:village/swamp/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/swamp/houses/house_1;{\"weight\":4,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_2;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_3;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_4;{\"weight\":2,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_5;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_6;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/house_7;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/fisher_house;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/fletcher_house;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/library_house;{\"weight\":2,\"dy\":3}",
+        "pokecube:village/swamp/houses/masons_house;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/shepherds_house;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/houses/temple_house;{\"weight\":2,\"dy\":3}",
+        "pokecube:village/swamp/houses/tool_smith_house;{\"weight\":3,\"dy\":3}",
+        "pokecube:village/swamp/pokecenter/center_01;{\"flag\":\"pokecenter\",\"dy\":3}",
+        "pokecube:village/swamp/gym/gym_01;{\"flag\":\"gym\",\"dy\":3}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/swamp",
+      "root": "pokecube:village/swamp/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 5,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "swamp"
+        }
+      }
+    },
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/swamp_small",
+      "root": "pokecube:village/swamp/small",
+      "chance": 1,
+      "distance": 28,
+      "separation": 12,
+      "size": 3,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "swamp"
+        }
+      }
+    }
+  ]
+}

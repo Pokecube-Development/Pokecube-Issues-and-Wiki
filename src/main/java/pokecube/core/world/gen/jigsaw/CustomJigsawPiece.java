@@ -176,7 +176,20 @@ public class CustomJigsawPiece extends SinglePoolElement
         final StructureTemplate template = this.getTemplate(templates);
         final StructurePlaceSettings placementsettings = this.getSettings(rotation, box, notJigsaw);
         final int placeFlags = 18;
-        if (!template.placeInWorld(seedReader, pos1, pos2, placementsettings, rng, placeFlags)) return false;
+
+        boolean placed = false;
+
+        try
+        {
+            placed = template.placeInWorld(seedReader, pos1, pos2, placementsettings, rng, placeFlags);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error with part of structure: {}", this.config);
+            PokecubeCore.LOGGER.error(e);
+        }
+
+        if (!placed) return false;
         else
         {
             if (this.world == null) this.world = JigsawAssmbler.getForGen(chunkGenerator);

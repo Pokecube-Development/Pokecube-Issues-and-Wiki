@@ -5,10 +5,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -43,6 +44,24 @@ public class StructureManager
                 this.name = "unk?";
                 ThutCore.LOGGER.warn("Warning, null name for start: {}", this.start);
             }
+        }
+
+        private BoundingBox inflate(final BoundingBox other, final int amt)
+        {
+            return new BoundingBox(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(), other.maxZ())
+                    .inflate(amt);
+        }
+
+        public boolean isNear(final BlockPos pos, final int distance)
+        {
+            if (this.start.getPieces().isEmpty()) return false;
+            if (!this.inflate(this.start.getBoundingBox(), distance).isInside(pos)) return false;
+            synchronized (this.start.getPieces())
+            {
+                for (final StructurePiece p1 : this.start.getPieces())
+                    if (this.isIn(this.inflate(p1.getBoundingBox(), distance), pos)) return true;
+            }
+            return false;
         }
 
         public boolean isIn(final BlockPos pos)
@@ -102,12 +121,12 @@ public class StructureManager
      * world.chunkExists returning true does not mean that you can just go and
      * ask for the chunk...
      */
-    public static Map<GlobalChunkPos, Set<StructureInfo>> map_by_pos = new Object2ObjectOpenHashMap<>();
+    public static Map<GlobalChunkPos, Set<StructureInfo>> map_by_pos = Maps.newHashMap();
 
     private static Set<StructureInfo> getOrMake(final GlobalChunkPos pos)
     {
-        final Set<StructureInfo> set = StructureManager.map_by_pos.getOrDefault(pos, Sets.newHashSet());
-        if (!StructureManager.map_by_pos.containsKey(pos)) StructureManager.map_by_pos.put(pos, set);
+        Set<StructureInfo> set = StructureManager.map_by_pos.get(pos);
+        if (set == null) StructureManager.map_by_pos.put(pos, set = Sets.newHashSet());
         return set;
     }
 
@@ -122,6 +141,30 @@ public class StructureManager
         return matches;
     }
 
+    private static Set<StructureInfo> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
+            final int distance)
+    {
+        final GlobalChunkPos gpos = new GlobalChunkPos(dim, pos);
+        final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
+        if (forPos.isEmpty()) return forPos;
+        final Set<StructureInfo> matches = Sets.newHashSet();
+        for (final StructureInfo i : forPos)
+            if (i.isNear(loc, distance)) matches.add(i);
+        return matches;
+    }
+
+    public static Set<StructureInfo> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance)
+    {
+        final Set<StructureInfo> matches = Sets.newHashSet();
+        final ChunkPos origin = new ChunkPos(loc);
+        int dr = SectionPos.blockToSectionCoord(distance);
+        dr = Math.max(dr, 1);
+        for (int x = origin.x - dr; x <= origin.x + dr; x++)
+            for (int z = origin.z - dr; z <= origin.z + dr; z++)
+                matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance));
+        return matches;
+    }
+
     @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
@@ -132,8 +175,15 @@ public class StructureManager
         for (final Entry<StructureFeature<?>, StructureStart<?>> entry : evt.getChunk().getAllStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
-            if (info.start.getPieces().isEmpty()) continue;
+            if (!info.start.isValid()) continue;
+
             final BoundingBox b = info.start.getBoundingBox();
+            if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
+            {
+                ThutCore.LOGGER.warn("Warning, too big box for {}: {}", info.name, b);
+                continue;
+            }
+
             for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
                 for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
                 {

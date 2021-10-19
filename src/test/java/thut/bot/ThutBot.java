@@ -103,7 +103,6 @@ public class ThutBot
         servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player
                 .getXRot());
         list.addPlayer(player);
-        // list.playersByUUID.put(p_11263_.getUUID(), p_11263_);
         list.broadcastAll(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, player));
 
         for (final ServerPlayer element : list.getPlayers())
