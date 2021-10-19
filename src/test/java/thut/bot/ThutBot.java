@@ -58,7 +58,6 @@ public class ThutBot
         {
             final GameProfile profile = new GameProfile(id, "ThutBot");
             final BotPlayer bot = new BotPlayer(overworld, profile);
-            System.out.println(bot);
             ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
         }
     }
