@@ -1,5 +1,8 @@
 package thut.bot.entity;
 
+import java.util.Set;
+import java.util.function.Function;
+
 import javax.annotation.Nullable;
 import com.mojang.authlib.GameProfile;
 
@@ -17,6 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -26,12 +30,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.entity.CopyCaps;
+import thut.api.terrain.StructureManager;
+import thut.api.terrain.StructureManager.StructureInfo;
 
 public class BotPlayer extends ServerPlayer
 {
@@ -46,37 +55,25 @@ public class BotPlayer extends ServerPlayer
     @Override
     public void tick()
     {
+        if (ForgeHooks.onLivingUpdate(this)) return;
+
         if (!(this.level instanceof final ServerLevel world)) return;
 
+        final PathfinderMob old = this.mob;
         if (this.mob == null)
         {
             this.mob = new Villager(EntityType.VILLAGER, this.level);
+            CopyCaps.get(this).setCopiedMob(this.mob);
+        }
+        final boolean init = this.mob != old;
+        if (init)
+        {
+            this.mob.setInvulnerable(true);
+            this.mob.setInvisible(true);
             EntityTools.copyPositions(this.mob, this);
             EntityTools.copyRotations(this.mob, this);
             EntityTools.copyEntityTransforms(this.mob, this);
         }
-
-        final Iterable<BlockPos> iter = BlockPos.betweenClosed(this.getOnPos().north().east(), this.getOnPos().south()
-                .west());
-        iter.forEach(pos ->
-        {
-            pos = pos.immutable();
-            final BlockState on = this.level.getBlockState(pos);
-            final BlockState path = Blocks.COARSE_DIRT.defaultBlockState();
-            if (PokecubeTerrainChecker.isGround(on)) this.level.setBlock(pos, path, 3);
-            pos = pos.above();
-            BlockState up = this.level.getBlockState(pos);
-            if (PokecubeTerrainChecker.isGround(on) || PokecubeTerrainChecker.isLeaves(up)) this.level.setBlock(pos,
-                    Blocks.AIR.defaultBlockState(), 3);
-            pos = pos.above();
-            up = this.level.getBlockState(pos);
-            if (PokecubeTerrainChecker.isGround(on) || PokecubeTerrainChecker.isLeaves(up)) this.level.setBlock(pos,
-                    Blocks.AIR.defaultBlockState(), 3);
-            pos = pos.above();
-            up = this.level.getBlockState(pos);
-            if (PokecubeTerrainChecker.isGround(on) || PokecubeTerrainChecker.isLeaves(up)) this.level.setBlock(pos,
-                    Blocks.AIR.defaultBlockState(), 3);
-        });
 
         Vec3 targ = this.position;
 
@@ -105,26 +102,113 @@ public class BotPlayer extends ServerPlayer
             }
         }
 
+        BlockPos origin = this.getOnPos();
+
+        BlockPos hmap = new BlockPos(this.getOnPos());
+        hmap = world.getHeightmapPos(Types.WORLD_SURFACE, hmap);
+        final double dy = hmap.getY() - this.getOnPos().getY();
+
+        if (dy > 0) origin = origin.above();
+
+        final Set<StructureInfo> inside = StructureManager.getFor(this.level.dimension(), origin);
+        if (inside.isEmpty())
+        {
+
+            final Iterable<BlockPos> iter = BlockPos.betweenClosed(origin.north().east(), origin.south().west());
+            iter.forEach(pos ->
+            {
+                pos = pos.immutable();
+                BlockState on = this.level.getBlockState(pos);
+
+                final Function<BlockPos, BlockState> sides_above = p ->
+                {
+                    final FluidState fluid = world.getFluidState(p);
+                    if (fluid.is(FluidTags.WATER)) return Blocks.OAK_PLANKS.defaultBlockState();
+                    else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
+                    return Blocks.AIR.defaultBlockState();
+                };
+
+                final Function<BlockPos, BlockState> below = p ->
+                {
+                    final FluidState fluid = world.getFluidState(p);
+                    if (fluid.is(FluidTags.WATER)) return Blocks.OAK_PLANKS.defaultBlockState();
+                    else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
+                    else if (world.getBlockState(p).isAir()) return Blocks.OAK_PLANKS.defaultBlockState();
+                    else if (PokecubeTerrainChecker.isLeaves(world.getBlockState(p))) return Blocks.AIR
+                            .defaultBlockState();
+                    return Blocks.COARSE_DIRT.defaultBlockState();
+                };
+
+                final Function<BlockState, Boolean> valid = s -> PokecubeTerrainChecker.isTerrain(s)
+                        || PokecubeTerrainChecker.isLeaves(s) || PokecubeTerrainChecker.isRock(s) || s
+                                .getBlock() == Blocks.WATER;
+
+                if (valid.apply(on)) this.level.setBlock(pos, below.apply(pos), 3);
+
+                pos = pos.below();
+                on = this.level.getBlockState(pos);
+                if (valid.apply(on)) this.level.setBlock(pos, below.apply(pos), 3);
+
+                pos = pos.above(2);
+                BlockState up = this.level.getBlockState(pos);
+                if (valid.apply(up)) this.level.setBlock(pos, sides_above.apply(pos), 3);
+                pos = pos.above();
+                up = this.level.getBlockState(pos);
+                if (valid.apply(up)) this.level.setBlock(pos, sides_above.apply(pos), 3);
+                pos = pos.above();
+                up = this.level.getBlockState(pos);
+                if (valid.apply(up)) this.level.setBlock(pos, sides_above.apply(pos), 3);
+            });
+        }
+
+        final int d1 = 9;
+        final int d2 = 32;
+        final double dist = targ.distanceToSqr(this.position);
+
         final PathNavigation navi = this.mob.getNavigation();
-        if (!navi.isInProgress() && targ.distanceToSqr(this.position) > 9)
+        if (!navi.isInProgress() && dist > d1)
         {
             BlockPos pos = new BlockPos(targ);
-            if (targ.distanceTo(this.position) < 256) pos = world.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, pos);
+            if (Math.sqrt(dist) < 256)
+            {
+                pos = world.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, pos);
+                this.getPersistentData().put("targ_pos", NbtUtils.writeBlockPos(pos));
+            }
             final Path p = navi.createPath(pos, 1, 16);
             if (p != null) navi.moveTo(p, 1);
-            if (p != null) if (p.getNodeCount() == 1 && navi.getPath().getEndNode().asBlockPos().equals(navi
-                    .getTargetPos())) this.getPersistentData().remove("targ_pos");
+            if (p != null)
+            {
+                boolean rem = false;
+                if (rem = (p.getNodeCount() < 3 && p.getEndNode().asBlockPos().distManhattan(navi.getTargetPos()) < d2))
+                    this.getPersistentData().remove("targ_pos");
+                System.out.println(p.getNodeCount() + " " + targ + " " + targ.distanceTo(this.position) + " " + p
+                        .getEndNode().asBlockPos().distManhattan(navi.getTargetPos()) + " " + rem);
+            }
         }
+
+        if (navi.isInProgress())
+        {
+            final BlockPos next = navi.getPath().getNextNodePos();
+            final BlockPos here = this.getOnPos();
+            int diff = 1;
+            if (next.getY() < here.getY()) diff = 4;
+            if (here.closerThan(next, diff)) navi.getPath().advance();
+            if (targ.distanceTo(this.position) > 0)
+            {
+                targ = targ.normalize().scale(0.05);
+                targ = targ.add(0, Math.signum(dy) * 0.25 - 0.1, 0);
+                this.mob.setDeltaMovement(targ);
+                this.mob.setOnGround(true);
+            }
+        }
+        if (this.tickCount % 20 == 0) System.out.println(dist);
+        this.mob.setSilent(true);
+        this.mob.maxUpStep = 1.25f;
 
         // Prevent the mob from having its own ideas of what to do
         this.mob.getBrain().removeAllBehaviors();
-        if (this.mob.getMoveControl().hasWanted())
-        {
-            targ = new Vec3(this.mob.getMoveControl().getWantedX(), this.mob.getMoveControl().getWantedY(), this.mob
-                    .getMoveControl().getWantedZ());
-            this.lookAt(Anchor.EYES, targ);
-        }
-        else this.mob.setDeltaMovement(this.mob.getDeltaMovement().multiply(0.8, 1, 0.8));
+        this.lookAt(Anchor.EYES, targ);
+
         this.mob.setOldPosAndRot();
         this.mob.tickCount = this.tickCount;
         this.mob.tick();
