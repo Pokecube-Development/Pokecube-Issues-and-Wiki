@@ -22,4 +22,10 @@ public class JigsawConfig implements FeatureConfiguration
     {
         this.struct_config = struct;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.struct_config.serialize();
+    }
 }

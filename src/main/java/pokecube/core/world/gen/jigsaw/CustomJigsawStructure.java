@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureStart;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -46,6 +48,8 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
     public int priority = 100;
 
     public int spacing = 6;
+
+    JigsawConfig lastUsed = null;
 
     public CustomJigsawStructure(final Codec<JigsawConfig> config)
     {
@@ -72,6 +76,12 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
         // adjustments to account for that, will call super for now just as an
         // initial test.
         return super.linearSeparation();
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.getRegistryName() + " " + this.getFeatureName() + " " + this.lastUsed;
     }
 
     @Override
@@ -155,6 +165,8 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
      */
     public static class Start extends NoiseAffectingStructureStart<JigsawConfig>
     {
+        JigsawConfig lastUsed = null;
+
         public Start(final StructureFeature<JigsawConfig> structureIn, final ChunkPos pos, final int referenceIn,
                 final long seedIn)
         {
@@ -162,10 +174,20 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
         }
 
         @Override
+        public void placeInChunk(final WorldGenLevel p_73584_, final StructureFeatureManager p_73585_,
+                final ChunkGenerator p_73586_, final Random p_73587_, final BoundingBox p_73588_,
+                final ChunkPos p_73589_)
+        {
+            if (this.getFeature()instanceof final CustomJigsawStructure feature) feature.lastUsed = this.lastUsed;
+            super.placeInChunk(p_73584_, p_73585_, p_73586_, p_73587_, p_73588_, p_73589_);
+        }
+
+        @Override
         public void generatePieces(final RegistryAccess dynamicRegistryManager, final ChunkGenerator chunkGenerator,
                 final StructureManager templateManagerIn, final ChunkPos cpos, final Biome biomeIn,
                 final JigsawConfig config, final LevelHeightAccessor heightAccess)
         {
+            this.lastUsed = config;
             // Turns the chunk coordinates into actual coordinates we can use.
             // (Gets center of that chunk)
             final int x = cpos.getMinBlockX() + 7;
@@ -208,62 +230,55 @@ public class CustomJigsawStructure extends StructureFeature<JigsawConfig>
             // spawned flag
 
             for (final StructurePiece part : this.pieces)
-                if (part instanceof PoolElementStructurePiece)
+                if (part instanceof final PoolElementStructurePiece p) if (p
+                        .getElement()instanceof final CustomJigsawPiece piece)
                 {
-                    final PoolElementStructurePiece p = (PoolElementStructurePiece) part;
-                    if (p.getElement() instanceof CustomJigsawPiece)
-                    {
-                        final CustomJigsawPiece piece = (CustomJigsawPiece) p.getElement();
-                        final int dy = piece.opts.dy;
-                        // Check if the part needs a shift.
-                        p.move(0, -dy, 0);
-                        p.getBoundingBox().move(0, dy, 0);
+                    final int dy = piece.opts.dy;
+                    // Check if the part needs a shift.
+                    p.move(0, -dy, 0);
+                    p.getBoundingBox().move(0, dy, 0);
 
-                        // Check if we should place a professor.
-                        if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore
-                                .getConfig().doSpawnBuilding)
+                    // Check if we should place a professor.
+                    if (!PokecubeSerializer.getInstance().hasPlacedSpawn() && PokecubeCore.getConfig().doSpawnBuilding)
+                    {
+                        final StructureTemplate t = piece.getTemplate(templateManagerIn);
+                        if (piece.toUse == null) piece.getSettings(part.getRotation(), part.getBoundingBox(), false);
+                        components:
+                        for (final Palette list : t.palettes)
                         {
-                            final StructureTemplate t = piece.getTemplate(templateManagerIn);
-                            if (piece.toUse == null) piece.getSettings(part.getRotation(), part.getBoundingBox(),
-                                    false);
-                            components:
-                            for (final Palette list : t.palettes)
-                            {
-                                boolean foundWorldspawn = false;
-                                BlockPos localSpawn = null;
-                                BlockPos localTrader = null;
-                                for (final StructureBlockInfo i : list.blocks())
-                                    if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
-                                    {
-                                        final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
-                                                "mode"));
-                                        if (structuremode == StructureMode.DATA)
-                                        {
-                                            final String meta = i.nbt.getString("metadata");
-                                            foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos;
-                                            if (meta.contains("pokecube:mob:trader") || meta.contains(
-                                                    "pokecube:mob:pokemart_merchant")) localTrader = i.pos;
-                                        }
-                                    }
-                                if (localTrader != null && localSpawn != null)
+                            boolean foundWorldspawn = false;
+                            BlockPos localSpawn = null;
+                            BlockPos localTrader = null;
+                            for (final StructureBlockInfo i : list.blocks())
+                                if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
                                 {
-                                    final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
-                                    final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse, localSpawn)
-                                            .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
-                                    PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos,
-                                            localSpawn, localTrader);
-                                    PokecubeSerializer.getInstance().setPlacedSpawn();
-                                    sworld.getServer().execute(() ->
+                                    final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString("mode"));
+                                    if (structuremode == StructureMode.DATA)
                                     {
-                                        sworld.setDefaultSpawnPos(spos, 0);
-                                    });
-                                    piece.placedSpawn = false;
-                                    piece.isSpawn = true;
-                                    piece.spawnPos = localSpawn;
-                                    piece.profPos = localTrader;
-                                    break components;
+                                        final String meta = i.nbt.getString("metadata");
+                                        foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
+                                        if (localSpawn == null && foundWorldspawn) localSpawn = i.pos;
+                                        if (meta.contains("pokecube:mob:trader") || meta.contains(
+                                                "pokecube:mob:pokemart_merchant")) localTrader = i.pos;
+                                    }
                                 }
+                            if (localTrader != null && localSpawn != null)
+                            {
+                                final ServerLevel sworld = JigsawAssmbler.getForGen(chunkGenerator);
+                                final BlockPos spos = StructureTemplate.calculateRelativePosition(piece.toUse,
+                                        localSpawn).offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
+                                PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,
+                                        localTrader);
+                                PokecubeSerializer.getInstance().setPlacedSpawn();
+                                sworld.getServer().execute(() ->
+                                {
+                                    sworld.setDefaultSpawnPos(spos, 0);
+                                });
+                                piece.placedSpawn = false;
+                                piece.isSpawn = true;
+                                piece.spawnPos = localSpawn;
+                                piece.profPos = localTrader;
+                                break components;
                             }
                         }
                     }
