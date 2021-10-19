@@ -9,6 +9,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -27,6 +28,7 @@ import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.bot.entity.BotPlayer;
 import thut.core.common.network.CapabilitySync;
 
 @Mod(value = "pokecube_pokeplayer")
@@ -80,6 +82,18 @@ public class Pokeplayer
     private static void onPlayerTick(final PlayerTickEvent event)
     {
         final ICopyMob copy = CopyCaps.get(event.player);
+
+        if (event.player instanceof final ServerPlayer player)
+        {
+            final Entity cam = player.getCamera();
+            if (cam != player && cam instanceof BotPlayer)
+            {
+                ICopyMob.copyPositions(player, cam);
+                player.connection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player
+                        .getXRot());
+            }
+        }
+
         // If we are copied, then just use the mob's step height.
         if (copy != null && copy.getCopiedMob() != null)
         {
