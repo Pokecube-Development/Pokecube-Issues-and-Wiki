@@ -99,10 +99,13 @@
     },
     "settings": {
       "name": "minecraft:overworld",
-      "bedrock_roof_position": -10,
-      "bedrock_floor_position": -10,
-      "sea_level": 63,
+	  "noise_caves_enabled": true,
+	  "deepslate_enabled": true,
+      "ore_veins_enabled": true,
+      "noodle_caves_enabled": true,
+      "min_surface_level": 0,
       "disable_mob_generation": false,
+      "aquifers_enabled": true,
       "default_block": {
         "Name": "pokecube_legends:ultrastone"
       },
@@ -112,6 +115,9 @@
           "level": "0"
         }
       },
+	  "bedrock_roof_position": -2147483648,
+	  "bedrock_floor_position": 0,
+	  "sea_level": 63,
       "noise": {
         "density_factor": 0.9,
         "density_offset": -0.4,
@@ -120,7 +126,7 @@
         "island_noise_override": false,
         "amplified": false,
         "size_horizontal": 1,
-        "size_vertical": 2,
+        "min_y": 2,
         "height": 256,
         "sampling": {
           "xz_scale": 1,

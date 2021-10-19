@@ -12,7 +12,8 @@
     "state_provider": {
       "state": {
         "Properties": {
-          "age": "0"
+          "age": "0",
+          "waterlogged": "true"
         },
         "Name": "pokecube_legends:crystallized_cactus"
       },
@@ -22,8 +23,8 @@
       "size": {
         "type": "minecraft:biased_to_bottom",
         "value": {
-          "min_inclusive": 2,
-          "max_inclusive": 5
+          "min_inclusive": 1,
+          "max_inclusive": 3
         }
       },
       "type": "minecraft:column_placer"

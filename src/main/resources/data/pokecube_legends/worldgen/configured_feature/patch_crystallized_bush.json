@@ -13,6 +13,10 @@
         "tries": 4,
         "state_provider": {
           "state": {
+            "Properties":
+            {
+              "waterlogged": "false"
+            },
             "Name": "pokecube_legends:crystallized_bush"
           },
           "type": "minecraft:simple_state_provider"

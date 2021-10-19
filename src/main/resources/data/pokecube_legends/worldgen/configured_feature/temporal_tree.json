@@ -1,36 +1,28 @@
 {
   "config": {
-    "max_water_depth": 0,
-    "ignore_vines": true,
-    "heightmap": "OCEAN_FLOOR",
-    "minimum_size": {
-      "limit": 2,
-      "lower_size": 0,
-      "upper_size": 2,
-      "type": "minecraft:two_layers_feature_size"
-    },
     "decorators": [
       {
         "type": "minecraft:trunk_vine"
       },
       {
         "type": "minecraft:leave_vine"
-      },
-      {
-        "probability": 0.01,
-        "type": "minecraft:beehive"
       }
     ],
-    "trunk_provider": {
+    "ignore_vines": false,
+    "force_dirt": false,
+    "dirt_provider": {
       "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:temporal_log"
+        "Name": "pokecube_legends:jungle_dirt"
       },
       "type": "minecraft:simple_state_provider"
     },
-    "leaves_provider": {
+    "minimum_size": {
+      "limit": 1,
+      "lower_size": 1,
+      "upper_size": 2,
+      "type": "minecraft:two_layers_feature_size"
+    },
+    "foliage_provider": {
       "state": {
         "Properties": {
           "persistent": "false",
@@ -40,17 +32,35 @@
       },
       "type": "minecraft:simple_state_provider"
     },
+    "sapling_provider": {
+      "state": {
+        "Properties": {
+          "stage": "0"
+        },
+        "Name": "pokecube_legends:temporal_sapling"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
     "foliage_placer": {
       "radius": 2,
       "offset": 0,
-      "height": 3,
+      "height": 2,
       "type": "minecraft:jungle_foliage_placer"
     },
+    "trunk_provider": {
+      "state": {
+        "Properties": {
+          "axis": "y"
+        },
+        "Name": "pokecube_legends:temporal_log"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
     "trunk_placer": {
-      "base_height": 8,
-      "height_rand_a": 8,
-      "height_rand_b": 0,
-      "type": "minecraft:straight_trunk_placer"
+      "base_height": 10,
+      "height_rand_a": 2,
+      "height_rand_b": 19,
+      "type": "minecraft:mega_jungle_trunk_placer"
     }
   },
   "type": "minecraft:tree"
