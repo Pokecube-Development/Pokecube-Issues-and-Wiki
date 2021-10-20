@@ -2,10 +2,7 @@
   "config": {
     "feature": {
       "config": {
-        "feature": {
-          "config": {},
-          "type": "minecraft:ice_spike"
-        },
+        "feature": "minecraft:mirage_cactus",
         "decorator": {
           "config": {
             "outer": {
@@ -13,8 +10,10 @@
               "type": "minecraft:square"
             },
             "inner": {
-              "config": {},
-              "type": "minecraft:heightmap"
+              "config": {
+                "heightmap": "MOTION_BLOCKING"
+              },
+              "type": "minecraft:heightmap_spread_double"
             }
           },
           "type": "minecraft:decorated"
@@ -24,7 +23,7 @@
     },
     "decorator": {
       "config": {
-        "count": 2
+        "count": 10
       },
       "type": "minecraft:count"
     }

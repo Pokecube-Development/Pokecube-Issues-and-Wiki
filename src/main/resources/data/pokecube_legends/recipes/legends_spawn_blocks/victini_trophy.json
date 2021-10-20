@@ -2,23 +2,23 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ZZZ",
-    "AYA",
-    "AAA"
+    "424",
+    "414",
+    " 4 "
   ],
   "key": {
-    "A": {
-      "tag": "forge:netherrack"
+    "4": {
+      "tag": "forge:storage_blocks/gold"
     },
-    "Z": {
-      "item": "minecraft:magma_block"
+    "2": {
+      "item": "pokecube_legends:grayorb"
     },
-    "Y": {
+    "1": {
       "item": "pokecube_legends:redorb"
     }
   },
   "result": {
-    "item": "pokecube_legends:heatran_block",
+    "item": "pokecube_legends:victini_spawn",
     "count": 1
   }
 }

@@ -4,18 +4,10 @@
       "config": {
         "feature": {
           "config": {
-          	"features": [
+           "features": [
               {
-                "feature": "pokecube_legends:mirage_cactus",
-                "chance": 0.3
-              },
-              {
-                "feature": "pokecube_legends:patch_crystallized_bush",
-                "chance": 0.4
-              },
-			  {
-                "feature": "pokecube_legends:patch_crystallized_tall",
-                "chance": 0.07
+                "feature": "minecraft:fancy_oak_bees_005",
+                "chance": 0.33333334
               }
             ],
             "default": "pokecube_legends:mirage_tree"
