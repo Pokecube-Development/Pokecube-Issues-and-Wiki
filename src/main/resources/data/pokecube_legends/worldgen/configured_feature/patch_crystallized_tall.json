@@ -4,39 +4,30 @@
       "config": {
         "feature": {
           "config": {
-            "feature": {
-              "config": {
-                "can_replace": false,
-                "project": false,
-                "need_water": false,
-                "xspread": 7,
-                "yspread": 3,
-                "zspread": 7,
-                "whitelist": [],
-                "blacklist": [],
-                "tries": 64,
-                "state_provider": {
-                  "state": {
-                    "Properties": {
-                      "half": "lower",
-                      "waterlogged": "false"
-                    },
-                    "Name": "pokecube_legends:tall_crystallized_bush"
-                  },
-                  "type": "minecraft:simple_state_provider"
+            "can_replace": false,
+            "project": true,
+            "need_water": false,
+            "xspread": 7,
+            "yspread": 3,
+            "zspread": 7,
+            "whitelist": [],
+            "blacklist": [],
+            "tries": 32,
+            "state_provider": {
+              "state": {
+                "Properties": {
+                  "half": "lower",
+                  "waterlogged": "true"
                 },
-                "block_placer": {
-                  "type": "minecraft:double_plant_placer"
-                }
+                "Name": "pokecube_legends:tall_crystallized_bush"
               },
-              "type": "minecraft:random_patch"
+              "type": "minecraft:simple_state_provider"
             },
-            "decorator": {
-              "config": {},
-              "type": "minecraft:spread_32_above"
+            "block_placer": {
+              "type": "minecraft:simple_block_placer"
             }
           },
-          "type": "minecraft:decorated"
+          "type": "minecraft:random_patch"
         },
         "decorator": {
           "config": {
@@ -48,7 +39,7 @@
               "config": {
                 "heightmap": "MOTION_BLOCKING"
               },
-              "type": "minecraft:heightmap"
+              "type": "minecraft:heightmap_spread_double"
             }
           },
           "type": "minecraft:decorated"
@@ -58,7 +49,7 @@
     },
     "decorator": {
       "config": {
-        "count": 7
+        "count": 2
       },
       "type": "minecraft:count"
     }

@@ -6,8 +6,8 @@
           "config": {
            "features": [
               {
-                "feature": "minecraft:fancy_oak_bees_005",
-                "chance": 0.33333334
+                "feature": "pokecube_legends:mirage_tree",
+                "chance": 0.2
               }
             ],
             "default": "pokecube_legends:mirage_tree"
