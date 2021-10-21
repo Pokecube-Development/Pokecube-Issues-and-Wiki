@@ -107,7 +107,7 @@
       "disable_mob_generation": false,
       "aquifers_enabled": true,
       "default_block": {
-        "Name": "pokecube_legends:ultrastone"
+        "Name": "pokecube_legends:ultra_stone"
       },
       "default_fluid": {
         "Name": "minecraft:water",
@@ -126,7 +126,8 @@
         "island_noise_override": false,
         "amplified": false,
         "size_horizontal": 1,
-        "min_y": 2,
+        "size_vertical": 2,
+        "min_y": 0,
         "height": 256,
         "sampling": {
           "xz_scale": 1,
