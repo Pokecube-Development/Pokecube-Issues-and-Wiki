@@ -3,6 +3,7 @@ package thut.bot.entity.map;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
@@ -26,6 +27,8 @@ public class Tree implements INBTSerializable<CompoundTag>
     public Map<NodeType, List<Node>> rooms = Maps.newHashMap();
 
     public Map<BlockPos, Node> map = Maps.newHashMap();
+
+    public Map<UUID, Part> allParts = Maps.newHashMap();
 
     // This list has order of when the rooms were added.
     public List<Node> allRooms = Lists.newArrayList();
@@ -100,6 +103,13 @@ public class Tree implements INBTSerializable<CompoundTag>
                         if (edge.areSame(e))
                         {
                             had.set(true);
+                            this.allParts.remove(e.id);
+                            if (e.getBuildBounds().size() > edge.getBuildBounds().size())
+                            {
+                                edge.getBuildBounds().clear();
+                                edge.getBuildBounds().addAll(e.getBuildBounds());
+                                edge.digInd = e.digInd;
+                            }
                             return edge;
                         }
                         return e;
@@ -114,6 +124,13 @@ public class Tree implements INBTSerializable<CompoundTag>
                         if (edge.areSame(e))
                         {
                             had.set(true);
+                            this.allParts.remove(e.id);
+                            if (e.getBuildBounds().size() > edge.getBuildBounds().size())
+                            {
+                                edge.getBuildBounds().clear();
+                                edge.getBuildBounds().addAll(e.getBuildBounds());
+                                edge.digInd = e.digInd;
+                            }
                             return edge;
                         }
                         return e;
@@ -133,22 +150,31 @@ public class Tree implements INBTSerializable<CompoundTag>
         return false;
     }
 
-    public boolean shouldCheckDig(final BlockPos pos, final long time)
-    {
-        for (final Part part : this.allRooms)
-            if (part.shouldCheckDig(pos, time)) return true;
-        for (final Part part : this.allEdges)
-            if (part.shouldCheckDig(pos, time)) return true;
-        return false;
-    }
-
     public void add(final Node node)
     {
         final BlockPos mid = node.getCenter();
         if (this.map.containsKey(mid))
         {
-            this.allRooms.removeIf(n -> n.getCenter().equals(mid));
-            this.rooms.forEach((r, l) -> l.removeIf(n -> n.getCenter().equals(mid)));
+            this.allRooms.removeIf(n ->
+            {
+                if (n.getCenter().equals(mid))
+                {
+                    this.allParts.remove(n.id);
+                    n.edges.forEach(e -> this.allParts.remove(e.id));
+                    return true;
+                }
+                return false;
+            });
+            this.rooms.forEach((r, l) -> l.removeIf(n ->
+            {
+                if (n.getCenter().equals(mid))
+                {
+                    this.allParts.remove(n.id);
+                    n.edges.forEach(e -> this.allParts.remove(e.id));
+                    return true;
+                }
+                return false;
+            }));
         }
         this.rooms.get(node.type).add(node);
         this.allRooms.add(node);

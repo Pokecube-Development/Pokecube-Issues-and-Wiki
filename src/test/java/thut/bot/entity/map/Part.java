@@ -1,32 +1,35 @@
 package thut.bot.entity.map;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.interfaces.PokecubeMod;
 
 public abstract class Part implements INBTSerializable<CompoundTag>
 {
+    public UUID id = UUID.randomUUID();
 
     // Persistant value to track if we have started being mined.
-    public boolean started    = false;
-    public long    dig_done   = 0;
-    public long    build_done = 0;
+    public boolean started = false;
+
+    // Used to track when last done things.
+    public long dig_done   = 0;
+    public long build_done = 0;
 
     private AABB inBounds  = null;
     private AABB outBounds = null;
 
-    private final List<BlockPos> digBounds   = Lists.newArrayList();
     private final List<BlockPos> buildBounds = Lists.newArrayList();
 
-    Object2LongOpenHashMap<BlockPos> digBlocks   = new Object2LongOpenHashMap<>();
     Object2LongOpenHashMap<BlockPos> buildBlocks = new Object2LongOpenHashMap<>();
 
     // If present, when loading this map will be used to sync the nodes
@@ -40,6 +43,14 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         nbt.putBoolean("s", this.started);
         nbt.putLong("dd", this.dig_done);
         nbt.putLong("bd", this.build_done);
+        nbt.putUUID("id", this.id);
+
+        final ListTag build = new ListTag();
+        for (final BlockPos p : this.buildBounds)
+            build.add(NbtUtils.writeBlockPos(p));
+        nbt.put("bb", build);
+        nbt.putString("ids", this.id.toString());
+
         return nbt;
     }
 
@@ -47,11 +58,15 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public void deserializeNBT(final CompoundTag nbt)
     {
         this.started = nbt.getBoolean("s");
+        this.id = nbt.getUUID("id");
         if (!PokecubeMod.debug)
         {
             this.dig_done = nbt.getLong("dd");
             this.build_done = nbt.getLong("bd");
         }
+        final ListTag build = nbt.getList("bb", 10);
+        for (int i = 0; i < build.size(); i++)
+            this.buildBounds.add(NbtUtils.readBlockPos(build.getCompound(i)));
     }
 
     public boolean shouldDig(final long worldTime)
@@ -76,16 +91,11 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public void setTree(final Tree _tree)
     {
         this._tree = _tree;
-    }
-
-    public List<BlockPos> getDigBounds()
-    {
-        return this.digBounds;
+        _tree.allParts.put(this.id, this);
     }
 
     public List<BlockPos> getBuildBounds()
     {
-        Collections.shuffle(this.buildBounds);
         return this.buildBounds;
     }
 
@@ -97,34 +107,11 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public void setOutBounds(final AABB outBounds)
     {
         this.outBounds = outBounds;
-        this.buildBounds.clear();
-        this.getBuildBlocks().clear();
-//        BlockPos.betweenClosedStream(this.getOutBounds()).forEach(p ->
-//        {
-//            final BlockPos p2 = p.immutable();
-//            this.buildBounds.add(p2);
-//            if (this.isOnShell(p2)) this.getBuildBlocks().put(p2, 0);
-//        });
     }
 
     public AABB getInBounds()
     {
         return this.inBounds;
-    }
-
-    public boolean shouldCheckDig(final BlockPos pos, final long time)
-    {
-        return this.shouldDig(time) && this.getDigBlocks().getOrDefault(pos, time) < time;
-    }
-
-    public void markDug(final BlockPos pos, final long time)
-    {
-        this.getDigBlocks().put(pos, time);
-    }
-
-    public Object2LongOpenHashMap<BlockPos> getDigBlocks()
-    {
-        return this.digBlocks;
     }
 
     public boolean shouldCheckBuild(final BlockPos pos, final long time)
@@ -145,14 +132,6 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public void setInBounds(final AABB inBounds)
     {
         this.inBounds = inBounds;
-        this.digBounds.clear();
-        this.getDigBlocks().clear();
-//        BlockPos.betweenClosedStream(this.getInBounds()).forEach(p ->
-//        {
-//            final BlockPos p2 = p.immutable();
-//            this.digBounds.add(p2);
-//            if (this.isInside(p2)) this.getDigBlocks().put(p2, 0);
-//        });
     }
 
     public void setDigDone(final long time)

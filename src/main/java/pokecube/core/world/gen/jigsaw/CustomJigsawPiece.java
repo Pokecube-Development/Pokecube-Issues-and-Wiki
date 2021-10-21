@@ -187,6 +187,7 @@ public class CustomJigsawPiece extends SinglePoolElement
         {
             PokecubeCore.LOGGER.error("Error with part of structure: {}", this.config.serialize());
             PokecubeCore.LOGGER.error(e);
+            e.printStackTrace();
         }
 
         if (!placed) return false;
