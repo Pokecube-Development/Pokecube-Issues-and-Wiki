@@ -14,8 +14,7 @@ public class Edge extends Part
     private BlockPos end1;
     private BlockPos end2;
 
-    // Fraction of the way dug from end1 to end2.
-    public double digged = 0;
+    public int digInd = 0;
 
     boolean areSame(final Edge other)
     {
@@ -68,6 +67,7 @@ public class Edge extends Part
         edgeNbt.put("e1", NbtUtils.writeBlockPos(this.getEnd1()));
         edgeNbt.put("n2", NbtUtils.writeBlockPos(this.node2.getCenter()));
         edgeNbt.put("e2", NbtUtils.writeBlockPos(this.getEnd2()));
+        edgeNbt.putInt("d", this.digInd);
         return edgeNbt;
     }
 
@@ -78,6 +78,7 @@ public class Edge extends Part
 
         final BlockPos p1 = NbtUtils.readBlockPos(nbt.getCompound("n1"));
         final BlockPos p2 = NbtUtils.readBlockPos(nbt.getCompound("n2"));
+        this.digInd = nbt.getInt("d");
 
         // The following 4 lines ensure that the nodes are the
         // correctly loaded ones.

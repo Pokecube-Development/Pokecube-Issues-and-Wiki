@@ -35,6 +35,8 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import thut.bot.entity.BotPlayer;
+import thut.bot.entity.ai.IBotAI;
+import thut.bot.entity.ai.modules.VillageRouteMaker;
 import thut.core.common.ThutCore;
 
 @Mod(value = "thutbot")
@@ -45,6 +47,7 @@ public class ThutBot
     {
         // The commmand to turn into a pokemob
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerTick);
+        IBotAI.REGISTRY.put("pokecube:village_routes", VillageRouteMaker::new);
     }
 
     private static void onServerTick(final ServerTickEvent event)
@@ -57,7 +60,7 @@ public class ThutBot
         if (overworld.getPlayerByUUID(id) == null)
         {
             final GameProfile profile = new GameProfile(id, "ThutBot");
-            final BotPlayer bot = new BotPlayer(overworld, profile);
+            final BotPlayer bot = new BotPlayer(overworld, profile, IBotAI.Factory.get("pokecube:village_routes"));
             ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
         }
     }
