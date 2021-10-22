@@ -1,4 +1,4 @@
-package thut.bot.entity.map;
+package thut.bot.entity.ai.modules.map;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +36,11 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     // on the edges.
     private Tree _tree = null;
 
+    // The tree should set this to false after saving everything.
+    // When this is true, it will not save the build bounds. This is done to
+    // prevent over saving of those for cases like edges.
+    protected boolean saved = false;
+
     @Override
     public CompoundTag serializeNBT()
     {
@@ -48,7 +53,8 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         final ListTag build = new ListTag();
         for (final BlockPos p : this.buildBounds)
             build.add(NbtUtils.writeBlockPos(p));
-        nbt.put("bb", build);
+        if (!this.saved) nbt.put("bb", build);
+        this.saved = true;
         nbt.putString("ids", this.id.toString());
 
         return nbt;
