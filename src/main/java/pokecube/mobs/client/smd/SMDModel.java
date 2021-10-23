@@ -23,6 +23,7 @@ import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import pokecube.mobs.client.smd.impl.MutableVertex;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -83,7 +84,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     private final Set<String>    nullHeadSet = Sets.newHashSet();
     private final Set<String>    animations  = Sets.newHashSet();
-    private final HeadInfo       info        = new HeadInfo();
     private final List<Material> mats        = Lists.newArrayList();
 
     protected boolean valid  = true;
@@ -196,12 +196,6 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public HeadInfo getHeadInfo()
-    {
-        return this.info;
-    }
-
-    @Override
     public Set<String> getHeadParts()
     {
         return this.nullHeadSet;
@@ -263,9 +257,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // Makes model face correct way.
             mat.mulPose(Vector3f.YP.rotationDegrees(180));
 
+            final HeadInfo info = renderer.getAnimationHolder() != null ? renderer.getAnimationHolder().getHeadInfo()
+                    : HeadInfo.DUMMY;
+
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
-                this.wrapped.body.currentAnim.setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim
+                this.wrapped.body.currentAnim.setCurrentFrame(info.currentTick % this.wrapped.body.currentAnim
                         .frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
@@ -274,18 +271,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 if (bone != null)
                 {
                     // Cap and convert pitch and yaw to radians.
-                    float yaw = Math.max(Math.min(this.info.headYaw, this.info.yawCapMax), this.info.yawCapMin);
-                    yaw = (float) Math.toRadians(yaw) * this.info.yawDirection;
-                    float pitch = -Math.max(Math.min(this.info.headPitch, this.info.pitchCapMax),
-                            this.info.pitchCapMin);
-                    pitch = (float) Math.toRadians(pitch) * this.info.pitchDirection;
+                    float yaw = Math.max(Math.min(info.headYaw, info.yawCapMax), info.yawCapMin);
+                    yaw = (float) Math.toRadians(yaw) * info.yawDirection;
+                    float pitch = -Math.max(Math.min(info.headPitch, info.pitchCapMax), info.pitchCapMin);
+                    pitch = (float) Math.toRadians(pitch) * info.pitchDirection;
 
                     // Head rotation matrix
                     Matrix4f headRot = new Matrix4f();
 
                     float xr = 0, yr = 0, zr = 0;
 
-                    switch (this.info.yawAxis)
+                    switch (info.yawAxis)
                     {
                     case 2:
                         zr = yaw;
@@ -305,7 +301,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                     yr = 0;
                     zr = 0;
 
-                    switch (this.info.pitchAxis)
+                    switch (info.pitchAxis)
                     {
                     case 2:
                         zr = pitch;

@@ -40,6 +40,7 @@ import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
 import pokecube.adventures.client.gui.trainer.Trainer;
+import pokecube.adventures.client.render.StatueBlock;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
@@ -143,6 +144,8 @@ public class ClientSetupHandler
     {
         event.registerEntityRenderer(TrainerNpc.TYPE, RenderNPC::new);
         event.registerEntityRenderer(LeaderNpc.TYPE, RenderNPC::new);
+
+        event.registerBlockEntityRenderer(PokecubeAdv.STATUE_TYPE.get(), StatueBlock::new);
     }
 
     public static KeyMapping trainerEditKey;

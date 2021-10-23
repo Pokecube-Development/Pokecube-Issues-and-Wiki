@@ -1,10 +1,13 @@
-package thut.bot.entity.map;
+package thut.bot.entity.ai.modules.map;
+
+import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import thut.core.common.ThutCore;
 
 public class Edge extends Part
 {
@@ -18,8 +21,11 @@ public class Edge extends Part
 
     boolean areSame(final Edge other)
     {
-        return this.node1.getCenter().equals(other.node1.getCenter()) && this.node2.getCenter().equals(other.node2
-                .getCenter());
+        final BlockPos here1 = this.node1.getCenter().atY(0);
+        final BlockPos here2 = this.node2.getCenter().atY(0);
+        final BlockPos there1 = other.node1.getCenter().atY(0);
+        final BlockPos there2 = other.node2.getCenter().atY(0);
+        return here1.equals(there1) && here2.equals(there2);
     }
 
     public boolean withinDistance(final BlockPos pos, final double size)
@@ -63,9 +69,9 @@ public class Edge extends Part
     public CompoundTag serializeNBT()
     {
         final CompoundTag edgeNbt = super.serializeNBT();
-        edgeNbt.put("n1", NbtUtils.writeBlockPos(this.node1.getCenter()));
+        edgeNbt.putUUID("n1", this.node1.id);
         edgeNbt.put("e1", NbtUtils.writeBlockPos(this.getEnd1()));
-        edgeNbt.put("n2", NbtUtils.writeBlockPos(this.node2.getCenter()));
+        edgeNbt.putUUID("n2", this.node2.id);
         edgeNbt.put("e2", NbtUtils.writeBlockPos(this.getEnd2()));
         edgeNbt.putInt("d", this.digInd);
         return edgeNbt;
@@ -76,23 +82,17 @@ public class Edge extends Part
     {
         super.deserializeNBT(nbt);
 
-        final BlockPos p1 = NbtUtils.readBlockPos(nbt.getCompound("n1"));
-        final BlockPos p2 = NbtUtils.readBlockPos(nbt.getCompound("n2"));
+        final UUID p1 = (nbt.getUUID("n1"));
+        final UUID p2 = (nbt.getUUID("n2"));
         this.digInd = nbt.getInt("d");
 
-        // The following 4 lines ensure that the nodes are the
-        // correctly loaded ones.
         if (this.getTree() != null)
         {
-            this.node1 = this.getTree().map.getOrDefault(p1, new Node(p1));
-            this.node2 = this.getTree().map.getOrDefault(p2, new Node(p2));
-            this.getTree().map.put(p1, this.node1);
-            this.getTree().map.put(p2, this.node2);
-        }
-        else
-        {
-            this.node1 = new Node(p1);
-            this.node2 = new Node(p2);
+            this.node1 = (Node) this.getTree().allParts.get(p1);
+            this.node2 = (Node) this.getTree().allParts.get(p2);
+
+            this.node1.edges.add(this);
+            this.node2.edges.add(this);
         }
         this.setEnds(NbtUtils.readBlockPos(nbt.getCompound("e1")), NbtUtils.readBlockPos(nbt.getCompound("e2")));
     }
@@ -125,6 +125,12 @@ public class Edge extends Part
     {
         this.end1 = end1;
         this.end2 = end2;
+
+        if (end1.closerThan(end2, 1))
+        {
+            ThutCore.LOGGER.error("ERROR EDGE NOT VALID");
+            new IllegalArgumentException().printStackTrace();
+        }
 
         final double minX = Math.min(end1.getX(), end2.getX());
         final double maxX = Math.max(end1.getX(), end2.getX());

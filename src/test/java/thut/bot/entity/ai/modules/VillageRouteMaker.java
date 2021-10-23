@@ -2,17 +2,19 @@ package thut.bot.entity.ai.modules;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,10 +43,10 @@ import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 import thut.bot.entity.ai.IBotAI;
 import thut.bot.entity.ai.helper.PathMob;
-import thut.bot.entity.map.Edge;
-import thut.bot.entity.map.Node;
-import thut.bot.entity.map.Part;
-import thut.bot.entity.map.Tree;
+import thut.bot.entity.ai.modules.map.Edge;
+import thut.bot.entity.ai.modules.map.Node;
+import thut.bot.entity.ai.modules.map.Part;
+import thut.bot.entity.ai.modules.map.Tree;
 import thut.core.common.ThutCore;
 
 public class VillageRouteMaker implements IBotAI
@@ -84,7 +86,7 @@ public class VillageRouteMaker implements IBotAI
         this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
 
         for (final ServerPlayer player : readd)
-            player.setCamera(player);
+            player.setCamera(this.player);
 
         EntityTools.copyPositions(this.mob, this.player);
         EntityTools.copyRotations(this.mob, this.player);
@@ -212,8 +214,9 @@ public class VillageRouteMaker implements IBotAI
     private void updateTargetMemory(final BlockPos target)
     {
         double dx, dz, dh2;
-        for (final Node n : this.getMap().allRooms)
+        for (final Part p : this.getMap().allParts.values())
         {
+            if (!(p instanceof final Node n)) continue;
             final BlockPos mid = n.getCenter();
             dx = mid.getX() - target.getX();
             dz = mid.getZ() - target.getZ();
@@ -257,7 +260,7 @@ public class VillageRouteMaker implements IBotAI
             this.map = new Tree();
             this.map.deserializeNBT(tag);
         }
-        if (this.map.allRooms.isEmpty())
+        if (this.map.nodeCount == 0)
         {
             final ServerLevel world = (ServerLevel) this.player.level;
             final ResourceLocation location = new ResourceLocation("pokecube:village");
@@ -326,6 +329,7 @@ public class VillageRouteMaker implements IBotAI
                 {
                     final Node close = e.node2 == n ? e.node1 : e.node2;
                     final double d = here.distanceTo(close.mid);
+                    if (!e.getBuildBounds().isEmpty()) continue;
                     if (d < min)
                     {
                         min = d;
@@ -356,6 +360,24 @@ public class VillageRouteMaker implements IBotAI
             final Part p = this.getMap().allParts.get(this.player.getPersistentData().getUUID("t_node"));
             if (p instanceof final Node e) return this.setTargetNode(e);
         }
+
+        if (this.getMap().nodeCount > 20)
+        {
+            final List<Edge> edges = Lists.newArrayList();
+            for (final Part o : this.getMap().allParts.values())
+                if (o instanceof final Edge e) edges.add(e);
+            Collections.shuffle(edges);
+            for (final Edge e : edges)
+                if (e.getBuildBounds().isEmpty())
+                {
+                    System.out.println(e.getBuildBounds() + " " + e);
+                    this.setCurrentEdge(e);
+                    return this.setTargetNode(e.node1);
+                }
+            this.setCurrentEdge(null);
+            return this.setTargetNode(null);
+        }
+
         final ResourceLocation location = new ResourceLocation("pokecube:village");
         final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
         final StructureFeature<?> structure = reg.getValue(location);
@@ -364,23 +386,39 @@ public class VillageRouteMaker implements IBotAI
         if (village != null)
         {
             this.setTargetNode(this.addNode(village));
+            if (this.getTargetNode() == null)
+            {
+                System.out.println("Null Node!!");
+                return null;
+            }
+
             final List<Edge> edges = Lists.newArrayList(this.targetNode.edges);
-            Collections.shuffle(edges);
             Node prev = null;
             Edge running = null;
+            final List<Node> options = Lists.newArrayList();
+            final Map<UUID, Edge> opts_e = Maps.newHashMap();
+            // Check the edges to find some nodes to try to go from.
             for (final Edge e : edges)
             {
                 final Node other = e.node1 == this.targetNode ? e.node2 : e.node1;
                 if (!other.started) continue;
-                prev = other;
-                running = e;
+                options.add(other);
+                opts_e.put(other.id, e);
                 break;
             }
+
+            // Sort the found nodes, and pick closest one to do.
+            if (!options.isEmpty())
+            {
+                final BlockPos o0 = village.atY(0);
+                options.sort((o1, o2) -> (int) (o1.getCenter().atY(0).distSqr(o0) - o2.getCenter().atY(0).distSqr(o0)));
+                prev = options.get(0);
+                running = opts_e.get(prev.id);
+            }
+
             if (prev == null || prev.getCenter().getY() == 0)
             {
                 ThutCore.LOGGER.error("Warning, no started node connected to us!");
-                if (this.targetNode != null) this.player.getPersistentData().put("targ_pos", NbtUtils.writeBlockPos(
-                        this.targetNode.getCenter()));
                 return this.targetNode;
             }
             if (running != null) running.started = true;
@@ -394,9 +432,22 @@ public class VillageRouteMaker implements IBotAI
     private Node addNode(final BlockPos next)
     {
         final ServerLevel world = (ServerLevel) this.player.level;
-        final List<Node> nodes = Lists.newArrayList(this.getMap().allRooms);
+        final List<Node> nodes = Lists.newArrayList();
+        this.getMap().allParts.forEach((i, p) ->
+        {
+            if (p instanceof final Node n) nodes.add(n);
+        });
         final BlockPos o0 = next.atY(0);
-        nodes.sort((o1, o2) -> (int) (o1.getCenter().atY(0).distSqr(o0) - o2.getCenter().atY(0).distSqr(o0)));
+        nodes.removeIf(n -> n.edges.size() > 15);
+        nodes.sort((o1, o2) -> (o1.getCenter().atY(0).distManhattan(o0) - o2.getCenter().atY(0).distManhattan(o0)));
+
+        for (final Node node : nodes)
+        {
+            final int dist = node.getCenter().atY(0).distManhattan(o0);
+            System.out.println(dist);
+            if (dist == 0) return null;
+        }
+
         int size = 32;
         final Set<StructureInfo> near = StructureManager.getNear(world.dimension(), next, 0);
         final ResourceLocation location = new ResourceLocation("pokecube:village");
@@ -411,9 +462,35 @@ public class VillageRouteMaker implements IBotAI
             }
         final Node n1 = new Node();
         n1.setCenter(next, size);
-        for (int i = 0; i < Math.min(nodes.size(), 3); i++)
+        final Vec3 mid1 = new Vec3(n1.mid.x, 0, n1.mid.z);
+        int n = 0;
+        nodes:
+        for (int i = 0; i < nodes.size() && n < 3; i++)
         {
             final Node n2 = nodes.get(i);
+            final Vec3 mid2 = new Vec3(n2.mid.x, 0, n2.mid.z);
+            final Vec3 dir1_2 = mid2.subtract(mid1).normalize();
+
+            // If we have already added an edge to the nearest village, ensure
+            // the next villages are not also in too straight of a line.
+            for (final Edge e2 : n1.edges)
+            {
+                final Node n3 = e2.node2;
+                final Vec3 mid3 = new Vec3(n3.mid.x, 0, n3.mid.z);
+                final Vec3 dir1_3 = mid3.subtract(mid1).normalize();
+                // |v.dot(v)| will give an indication of parallelness
+                final double dot = Math.abs(dir1_3.dot(dir1_2));
+                // Lets say 0.5 is too parallel.
+                if (dot > 0.5)
+                {
+                    n--;
+                    continue nodes;
+                }
+            }
+            final int dist = n2.getCenter().atY(0).distManhattan(o0);
+            System.out.println(dist);
+
+            n++;
             final Edge e = new Edge();
             n2.started = true;
             e.node1 = n1;
@@ -496,6 +573,12 @@ public class VillageRouteMaker implements IBotAI
             return;
         }
 
+        if (e.getBuildBounds().size() < 2)
+        {
+            this.computeNextEdgePoint(rev, e, n, vecHere);
+            return;
+        }
+
         final BlockPos prev = e.getBuildBounds().get(prevIndex);
         final BlockPos next = e.getBuildBounds().get(nextIndex);
 
@@ -541,6 +624,14 @@ public class VillageRouteMaker implements IBotAI
             dir = randNear.subtract(vecHere);
             dr = dir.length();
             e.getBuildBounds().set(nextIndex, new BlockPos(randNear));
+        }
+
+        if (dr > 64)
+        {
+            System.out.println("Error with distance! " + dr + " " + e.getBuildBounds().size());
+            if (e.getBuildBounds().size() < 3) e.getBuildBounds().clear();
+            this.endTarget();
+            return;
         }
 
         dir = dir.normalize();
@@ -603,7 +694,6 @@ public class VillageRouteMaker implements IBotAI
     @Override
     public void tick()
     {
-
         this.player.setGameMode(GameType.CREATIVE);
         this.player.setInvulnerable(true);
         if (ForgeHooks.onLivingUpdate(this.player)) return;
@@ -629,7 +719,7 @@ public class VillageRouteMaker implements IBotAI
         for (final ServerPlayer player : world.players())
             if (player.getCamera() == this.player && player != this.player) readd.add(player);
 
-        if (readd.isEmpty() || this.mob != null)
+        if (readd.isEmpty())
         {
             EntityTools.copyPositions(this.mob, this.player);
             EntityTools.copyRotations(this.mob, this.player);

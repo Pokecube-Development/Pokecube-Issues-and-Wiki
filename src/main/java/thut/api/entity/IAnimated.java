@@ -17,7 +17,41 @@ public interface IAnimated
      */
     List<String> getChoices();
 
+    public static class HeadInfo
+    {
+        public static final HeadInfo DUMMY = new HeadInfo();
 
+        /**
+         * This should be updated to match the mob, incase the IModel needs to
+         * do custom rendering itself.
+         */
+        public float headYaw;
+        /**
+         * This should be updated to match the mob, incase the IModel needs to
+         * do custom rendering itself.
+         */
+        public float headPitch;
+
+        /** This is the current ticksExisted for the object being rendered.. */
+        public int currentTick = 0;
+        /**
+         * This is the ticksExisted before this render tick for the object
+         * being rendered
+         */
+        public int lastTick    = 0;
+
+        public float yawCapMax   = 180;
+        public float yawCapMin   = -180;
+        public float pitchCapMax = 40;
+        public float pitchCapMin = -40;
+
+        public int yawAxis        = 1;
+        public int pitchAxis      = 0;
+        public int yawDirection   = 1;
+        public int pitchDirection = 1;
+
+        public boolean fixed = false;
+    }
 
     public static interface IAnimationHolder
     {
@@ -63,5 +97,9 @@ public interface IAnimated
         void postRun();
 
         boolean isFixed();
+
+        HeadInfo getHeadInfo();
+
+        void setHeadInfo(HeadInfo info);
     }
 }

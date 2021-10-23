@@ -60,6 +60,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                     {
                         this.setCopiedID(this.getCopiedMob().getType().getRegistryName());
                         this.setCopiedMob(mob);
+                        this.setCopiedNBT(mob.serializeNBT());
                         return;
                     }
                 }
@@ -78,12 +79,14 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
                 {
                     this.setCopiedID(null);
+                    this.setCopiedNBT(new CompoundTag());
                     return;
                 }
                 this.setCopiedMob(mob);
                 try
                 {
-                    mob.readAdditionalSaveData(this.getCopiedNBT());
+                    mob.deserializeNBT(this.getCopiedNBT());
+                    this.setCopiedNBT(mob.serializeNBT());
                 }
                 catch (final Exception e)
                 {
@@ -93,6 +96,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             else
             {
                 this.setCopiedID(null);
+                this.setCopiedNBT(new CompoundTag());
                 return;
             }
         }
@@ -106,7 +110,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.onRemovedFromWorld();
 
             final float eye = living.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()));
-            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder.refreshDimensions();
+            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder
+                    .refreshDimensions();
 
             living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
             living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));

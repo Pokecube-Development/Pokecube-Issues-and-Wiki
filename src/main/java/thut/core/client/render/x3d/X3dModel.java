@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -70,7 +71,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     Map<String, Material>      mats  = Maps.newHashMap();
 
     Set<String>       heads  = Sets.newHashSet();
-    final HeadInfo    info   = new HeadInfo();
     public String     name;
     protected boolean valid  = true;
     protected boolean loaded = false;
@@ -133,12 +133,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                 allTransforms.add(f);
                 this.addChildren(allTransforms, f);
             }
-    }
-
-    @Override
-    public HeadInfo getHeadInfo()
-    {
-        return this.info;
     }
 
     @Override
@@ -375,8 +369,9 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             final float limbSwing)
     {
         if (this.getOrder().isEmpty()) return;
-        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
-                this.getHeadInfo().headYaw, limbSwing);
+        final IAnimationHolder holder = renderer.getAnimationHolder();
+        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, holder
+                .getHeadInfo().headYaw, holder.getHeadInfo().headYaw, limbSwing);
     }
 
     @Override
@@ -412,17 +407,18 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     {
         if (this.getOrder().isEmpty()) return;
         if (parent == null) return;
-        final HeadInfo info = this.getHeadInfo();
 
         parent.resetToInit();
         boolean anim = renderer.getAnimations().containsKey(currentPhase);
         final List<Animation> anims = Lists.newArrayList();
 
         final IAnimationHolder animHolder = parent.getAnimationHolder();
+        HeadInfo info = null;
         if (animHolder != null)
         {
             anims.addAll(animHolder.getPlaying());
             anim = !anims.isEmpty();
+            info = animHolder.getHeadInfo();
         }
         else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
 
