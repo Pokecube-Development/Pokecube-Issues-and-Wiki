@@ -818,7 +818,7 @@ public class BlockInit
 
         // Ultra Desert
         //ultrasand
-        CRYSTALLIZED_SAND = PokecubeLegends.BLOCKS_TAB.register("crystallized_sand", () -> new EffectBlockBaseSand(16119285,
+        CRYSTALLIZED_SAND = PokecubeLegends.BLOCKS_TAB.register("crystallized_sand", () -> new EffectBlockBaseSand(14737366,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.WOOL).sound(SoundType.SAND)
                 .strength(0.2f), MobEffects.LEVITATION));
         
