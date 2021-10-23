@@ -16,13 +16,15 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 
 public class CapabilityAnimation
 {
     public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundTag>
     {
-        private static final List<Animation>         EMPTY  = Collections.emptyList();
+        private static final List<Animation> EMPTY = Collections.emptyList();
+
         private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
 
         Map<String, List<Animation>> anims = Maps.newHashMap();
@@ -30,12 +32,15 @@ public class CapabilityAnimation
         List<Animation> playingList = DefaultImpl.EMPTY;
 
         Object2IntOpenHashMap<UUID> non_static = new Object2IntOpenHashMap<>();
-        List<Animation>             keys       = Lists.newArrayList();
+
+        List<Animation> keys = Lists.newArrayList();
 
         String pending = "";
         String playing = "";
 
         boolean fixed = false;
+
+        HeadInfo head = new HeadInfo();
 
         @Override
         public void clean()
@@ -129,6 +134,14 @@ public class CapabilityAnimation
             tag.putString("pl", this.playing);
             tag.putString("pn", this.pending);
             tag.putBoolean("f", this.fixed);
+
+            // In this case, also load/save head info
+            if (this.fixed)
+            {
+                tag.putFloat("Hy", this.head.headYaw);
+                tag.putFloat("Hp", this.head.headPitch);
+            }
+
             return tag;
         }
 
@@ -138,12 +151,30 @@ public class CapabilityAnimation
             this.playing = nbt.getString("pl");
             this.pending = nbt.getString("pn");
             this.fixed = nbt.getBoolean("f");
+            if (this.fixed)
+            {
+                this.head.fixed = true;
+                this.head.headYaw = nbt.getFloat("Hy");
+                this.head.headPitch = nbt.getFloat("Hp");
+            }
         }
 
         @Override
         public boolean isFixed()
         {
             return this.fixed;
+        }
+
+        @Override
+        public HeadInfo getHeadInfo()
+        {
+            return this.head;
+        }
+
+        @Override
+        public void setHeadInfo(final HeadInfo info)
+        {
+            this.head = info;
         }
     }
 }
