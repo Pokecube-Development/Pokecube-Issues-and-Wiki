@@ -9,7 +9,7 @@
                 "targets": [
                   {
                     "target": {
-                      "tag": "minecraft:stone_ore_replaceables",
+                      "tag": "pokecube_legends:distortic_stone_ore_replaceables",
                       "predicate_type": "minecraft:tag_match"
                     },
                     "state": {
@@ -17,7 +17,7 @@
                     }
                   }
                 ],
-                "size": 50,
+                "size": 64,
                 "discard_chance_on_air_exposure": 0.0
               },
               "type": "minecraft:ore"
@@ -48,7 +48,7 @@
     },
     "decorator": {
       "config": {
-        "count": 2
+        "count": 1
       },
       "type": "minecraft:count"
     }
