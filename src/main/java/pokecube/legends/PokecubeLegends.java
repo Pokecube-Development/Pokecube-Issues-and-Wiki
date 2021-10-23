@@ -131,11 +131,11 @@ public class PokecubeLegends
                                     "SPOOKY"));
 
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.RUBY_ORE.get()
+                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get()
                             .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
                     .squared().count(2), new ResourceLocation("pokecube_legends:ruby_ore"));
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
+                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.SAPPHIRE_ORE.get()
                             .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
                     .squared().count(2), new ResourceLocation("pokecube_legends:sapphire_ore"));
 
