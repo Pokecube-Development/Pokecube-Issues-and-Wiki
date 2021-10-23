@@ -98,6 +98,7 @@ import pokecube.legends.blocks.plants.DistortedVinesBlock;
 import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
 import pokecube.legends.blocks.plants.DistorticTree;
 import pokecube.legends.blocks.plants.InvertedTree;
+import pokecube.legends.blocks.plants.MirageSapling;
 import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
@@ -1378,8 +1379,8 @@ public class BlockInit
                         MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
 
         // MIRAGE Blocks
-        MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new SaplingBase(
-                () -> new MirageTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SAND).strength(0f,
+        MIRAGE_SAPLING = PokecubeLegends.BLOCKS_TAB.register("mirage_sapling", () -> new MirageSapling(
+                new MirageTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE).strength(0f,
                         1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
         
         //mirage_leave
