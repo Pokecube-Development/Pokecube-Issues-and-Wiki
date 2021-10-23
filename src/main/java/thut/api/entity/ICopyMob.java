@@ -79,7 +79,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
                 {
                     this.setCopiedID(null);
-                    this.setCopiedNBT(new CompoundNBT());
+                    this.setCopiedNBT(new CompoundTag());
                     return;
                 }
                 this.setCopiedMob(mob);
@@ -96,7 +96,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             else
             {
                 this.setCopiedID(null);
-                this.setCopiedNBT(new CompoundNBT());
+                this.setCopiedNBT(new CompoundTag());
                 return;
             }
         }
