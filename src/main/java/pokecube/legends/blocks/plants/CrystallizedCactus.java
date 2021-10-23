@@ -1,9 +1,12 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -12,6 +15,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,10 +24,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import pokecube.legends.init.BlockInit;
 
 public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 {  
@@ -36,6 +42,14 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
         super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
     }
+
+    public void tick(BlockState state, ServerLevel server, BlockPos pos, Random random) 
+    {
+        if (!server.isAreaLoaded(pos, 1)) return;
+        if (!state.canSurvive(server, pos)) {
+        	server.destroyBlock(pos, true);
+        }
+    }
 	
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 	      return COLLISION_SHAPE;
@@ -43,6 +57,11 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 	      return OUTLINE_SHAPE;
+    }
+
+    public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) {
+       BlockState blockstate1 = reader.getBlockState(pos.below());
+       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get()));
     }
 
 	@Override
@@ -79,7 +98,11 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	@SuppressWarnings("deprecation")
 	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
 								  final BlockPos facingPos)
-	{
+	{   
+		if (!state.canSurvive(world, currentPos)) 
+	    {
+			world.getBlockTicks().scheduleTick(currentPos, this, 1);
+        }
 		if (state.getValue(WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
