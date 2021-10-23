@@ -21,9 +21,11 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -36,6 +38,7 @@ import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.EffectBlockBase;
+import pokecube.legends.blocks.EffectBlockBaseSand;
 import pokecube.legends.blocks.FaceBlock_Base;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.containers.GenericBarrel;
@@ -815,8 +818,9 @@ public class BlockInit
 
         // Ultra Desert
         //ultrasand
-        CRYSTALLIZED_SAND = PokecubeLegends.BLOCKS_TAB.register("crystallized_sand", () -> new EffectBlockBase(Material.SAND,
-                MaterialColor.SNOW, 2f, 4f, SoundType.SAND, false, MobEffects.LEVITATION));
+        CRYSTALLIZED_SAND = PokecubeLegends.BLOCKS_TAB.register("crystallized_sand", () -> new EffectBlockBaseSand(16119285,
+                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.WOOL).sound(SoundType.SAND)
+                .strength(0.2f), MobEffects.LEVITATION));
         
         //ultrasandstone
         CRYSTALLIZED_SANDSTONE = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone", () -> new BlockBase(
