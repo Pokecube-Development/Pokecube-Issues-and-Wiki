@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "pokecube_legends:dark_sky_bricks"
-  },
-  "result": "pokecube_legends:dark_sky_bricks_slab",
-  "count": 2
-}

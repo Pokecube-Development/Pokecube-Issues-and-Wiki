@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:dark_sky_bricks"
+          "name": "pokecube_legends:stormy_sky_brick_slab"
         }
       ],
       "conditions": [

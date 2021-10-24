@@ -2,20 +2,17 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " 0 ",
-    "040",
-    " 0 "
+    "#  ",
+	"## ",
+	"###"
   ],
   "key": {
-    "0": {
+    "#": {
       "item": "pokecube_legends:sky_bricks"
-    },
-    "4": {
-      "tag": "forge:dyes/gray"
     }
   },
   "result": {
-    "item": "pokecube_legends:dark_sky_bricks",
+    "item": "pokecube_legends:sky_brick_stairs",
     "count": 4
   }
 }

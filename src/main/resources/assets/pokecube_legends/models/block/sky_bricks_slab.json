@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/skybrick",
-    "top": "pokecube_legends:blocks/skybrick",
-    "side": "pokecube_legends:blocks/skybrick"
-  }
-}

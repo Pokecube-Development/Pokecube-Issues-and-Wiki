@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:sky_bricks_slab"
+          "name": "pokecube_legends:sky_brick_slab"
         }
       ],
       "conditions": [

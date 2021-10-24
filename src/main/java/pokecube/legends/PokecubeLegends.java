@@ -240,7 +240,7 @@ public class PokecubeLegends
         @Override
         public ItemStack makeIcon()
         {
-            return new ItemStack(BlockInit.SKY_BRICK.get());
+            return new ItemStack(BlockInit.SKY_BRICKS.get());
         }
     };
 
