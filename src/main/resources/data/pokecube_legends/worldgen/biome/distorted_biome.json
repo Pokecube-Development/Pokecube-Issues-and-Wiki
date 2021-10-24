@@ -4,7 +4,7 @@
     "sky_color": 8501625,
     "fog_color": 926014,
     "water_color": 65505,
-    "water_fog_color": 228462,
+    "water_fog_color": 65505,
     "particle":
     {
       "options":
@@ -34,19 +34,21 @@
   "features": [
     [],
     [
-     "pokecube_legends:distortic_lake"
+      "pokecube_legends:distortic_lake"
     ],
     [],
     [],
     [],
     [],
     [
-    "pokecube_legends:ore_mirror",
-	"pokecube_legends:ore_fractal"
+      "pokecube_legends:ore_mirror",
+	  "pokecube_legends:ore_fractal"
     ],
     [],
     [
-    "pokecube_legends:distorted_vegetation"
+      "pokecube_legends:distorted_vegetation",
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
     ],
     [
       "pokecube_legends:patch_distorted"

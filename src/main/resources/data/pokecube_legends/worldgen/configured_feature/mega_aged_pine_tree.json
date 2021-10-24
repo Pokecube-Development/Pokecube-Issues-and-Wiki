@@ -2,6 +2,10 @@
   "config": {
     "decorators": [
       {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
+      },
+      {
         "provider": {
           "state": {
             "Properties": {
@@ -54,7 +58,7 @@
         "type": "minecraft:uniform",
         "value": {
           "min_inclusive": 3,
-          "max_inclusive": 7
+          "max_inclusive": 8
         }
       },
       "type": "minecraft:mega_pine_foliage_placer"

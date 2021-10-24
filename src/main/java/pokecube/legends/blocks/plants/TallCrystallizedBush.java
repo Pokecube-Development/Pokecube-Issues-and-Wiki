@@ -154,7 +154,8 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
 	}
 
 	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) 
+	{
 	    return PlantType.DESERT;
 	}
 }

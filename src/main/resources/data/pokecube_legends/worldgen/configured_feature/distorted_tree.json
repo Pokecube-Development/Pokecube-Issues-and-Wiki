@@ -5,11 +5,7 @@
     "force_dirt": false,
     "dirt_provider": {
       "state": {
-        "Name": "pokecube_legends:distortic_grass_block",
-			"Properties": {
-				"facing" : "up",
-				"snowy" : "false"
-		}
+        "Name": "pokecube_legends:distortic_stone"
       },
       "type": "minecraft:simple_state_provider"
     },
@@ -55,7 +51,7 @@
     },
     "trunk_placer": {
       "base_height": 14,
-      "height_rand_a": 0,
+      "height_rand_a": 2,
       "height_rand_b": 10,
       "type": "minecraft:straight_trunk_placer"
     }

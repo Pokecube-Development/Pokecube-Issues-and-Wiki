@@ -88,12 +88,14 @@ public class MirageSapling extends SaplingBlock implements BonemealableBlock
     }
 
 	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) 
+	{
 	    return PlantType.DESERT;
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos) {
+	protected boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos) 
+	{
 		return state.is(BlockTags.DIRT) || state.is(BlockTags.SAND) || state.is(Blocks.FARMLAND);
 	}
 }

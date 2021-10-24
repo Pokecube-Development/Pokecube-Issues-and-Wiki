@@ -38,7 +38,7 @@
       "radius": 2,
       "offset": 1,
       "height": 2,
-      "type": "minecraft:bush_foliage_placer"
+      "type": "minecraft:jungle_foliage_placer"
     },
     "trunk_provider": {
       "state": {

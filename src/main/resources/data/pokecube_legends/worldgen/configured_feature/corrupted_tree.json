@@ -17,7 +17,11 @@
     },
     "foliage_provider": {
       "state": {
-        "Name": "minecraft:air"
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        },
+        "Name": "pokecube_legends:corrupted_leaves"
       },
       "type": "minecraft:simple_state_provider"
     },

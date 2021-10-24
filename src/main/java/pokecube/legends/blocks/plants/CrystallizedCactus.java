@@ -51,25 +51,30 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
         }
     }
 	
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) 
+	{
 	      return COLLISION_SHAPE;
     }
 
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) 
+    {
 	      return OUTLINE_SHAPE;
     }
 
-    public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) 
+    {
        BlockState blockstate1 = reader.getBlockState(pos.below());
        return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get()));
     }
 
 	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) 
+	{
 		entity.hurt(DamageSource.CACTUS, 1.0F);
     }
 
-	public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType path) {
+	public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType path) 
+	{
 		return false;
 	}
 

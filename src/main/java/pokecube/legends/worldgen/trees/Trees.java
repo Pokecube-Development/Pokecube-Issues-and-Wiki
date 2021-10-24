@@ -24,6 +24,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDeco
 import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
@@ -46,12 +47,6 @@ public class Trees
     {
         public static final BlockState ULTRA_JUNGLE_GRASS = BlockInit.JUNGLE_GRASS.get().defaultBlockState();
         public static final BlockState ULTRA_AGED_GRASS   = BlockInit.AGED_GRASS.get().defaultBlockState();
-        // static {
-        // ULTRA_JUNGLE_GRASS =
-        // BlockInit.ULTRA_JUNGLE_GRASS.get().defaultBlockState();
-        // ULTRA_AGED_GRASS =
-        // BlockInit.ULTRA_AGED_GRASS.get().defaultBlockState();
-        // }
     }
 
     public static TreeConfiguration getInvertedTree()
@@ -63,13 +58,13 @@ public class Trees
                 new SimpleStateProvider(BlockInit.INVERTED_LOG.get().defaultBlockState()),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
+                // Forking, Giant, MegaJungle available
                 new StraightTrunkPlacer(6, 4, 0),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.INVERTED_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
@@ -98,13 +93,13 @@ public class Trees
             new SimpleStateProvider(BlockInit.INVERTED_LOG.get().defaultBlockState()),
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
-            // Forky, Giant, MegaJungle available
+            // Forking, Giant, MegaJungle available
             new FancyTrunkPlacer(3, 11, 0),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
 
-            // This one is similar, but for the leaves
+            // This one is similar, but for the saplings
             new SimpleStateProvider(BlockInit.INVERTED_SAPLING.get().defaultBlockState()),
 
             // This is how the leaves are arranged, this is the default for oak, there
@@ -133,13 +128,13 @@ public class Trees
                 new SimpleStateProvider(BlockInit.TEMPORAL_LOG.get().defaultBlockState()),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(8, 8, 0),
+                // Forking, Giant, MegaJungle available
+                new StraightTrunkPlacer(6, 8, 0),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.TEMPORAL_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.TEMPORAL_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
@@ -170,13 +165,13 @@ public class Trees
             new SimpleStateProvider(BlockInit.TEMPORAL_LOG.get().defaultBlockState()),
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
-            // Forky, Giant, MegaJungle available
+            // Forking, Giant, MegaJungle available
             new MegaJungleTrunkPlacer(12, 4, 24),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.TEMPORAL_LEAVES.get().defaultBlockState()),
 
-            // This one is similar, but for the leaves
+            // This one is similar, but for the saplings
             new SimpleStateProvider(BlockInit.TEMPORAL_SAPLING.get().defaultBlockState()),
 
             // This is how the leaves are arranged, this is the default for oak, there
@@ -206,13 +201,13 @@ public class Trees
                 new SimpleStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
+                // Forking, Giant, MegaJungle available
                 new StraightTrunkPlacer(8, 6, 0),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.AGED_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
@@ -242,13 +237,13 @@ public class Trees
             new SimpleStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
-            // Forky, Giant, MegaJungle available
+            // Forking, Giant, MegaJungle available
             new GiantTrunkPlacer(13, 2, 14),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
 
-            // This one is similar, but for the leaves
+            // This one is similar, but for the saplings
             new SimpleStateProvider(BlockInit.AGED_SAPLING.get().defaultBlockState()),
 
             // This is how the leaves are arranged, this is the default for oak, there
@@ -277,13 +272,13 @@ public class Trees
             new SimpleStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
 
             // This is how the tree trunk works, there are also DarkOak, Fancy,
-            // Forky, Giant, MegaJungle available
+            // Forking, Giant, MegaJungle available
             new GiantTrunkPlacer(13, 2, 14),
 
             // This one is similar, but for the leaves
             new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
 
-            // This one is similar, but for the leaves
+            // This one is similar, but for the saplings
             new SimpleStateProvider(BlockInit.AGED_SAPLING.get().defaultBlockState()),
 
             // This is how the leaves are arranged, this is the default for oak, there
@@ -314,13 +309,13 @@ public class Trees
                 //new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
-                new FancyTrunkPlacer(10, 6, 0),
+                // Forking, Giant, MegaJungle available
+                new ForkingTrunkPlacer(6, 2, 3),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.CORRUPTED_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.CORRUPTED_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
@@ -328,7 +323,7 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new AcaciaFoliagePlacer(ConstantInt.of(1), ConstantInt.of(3)),
+                new AcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -349,13 +344,13 @@ public class Trees
                 new SimpleStateProvider(BlockInit.MIRAGE_LOG.get().defaultBlockState()),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(15, 7, 10),
+                // Forking, Giant, MegaJungle available
+                new StraightTrunkPlacer(10, 5, 15),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.MIRAGE_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.MIRAGE_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there
@@ -384,13 +379,13 @@ public class Trees
                 new SimpleStateProvider(BlockInit.DISTORTIC_LOG.get().defaultBlockState()),
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
-                // Forky, Giant, MegaJungle available
-                new StraightTrunkPlacer(13, 10, 0),
+                // Forking, Giant, MegaJungle available
+                new StraightTrunkPlacer(14, 2, 10),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.DISTORTIC_LEAVES.get().defaultBlockState()),
 
-                // This one is similar, but for the leaves
+                // This one is similar, but for the saplings
                 new SimpleStateProvider(BlockInit.DISTORTIC_SAPLING.get().defaultBlockState()),
 
                 // This is how the leaves are arranged, this is the default for oak, there

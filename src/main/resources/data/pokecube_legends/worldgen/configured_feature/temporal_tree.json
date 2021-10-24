@@ -6,6 +6,10 @@
       },
       {
         "type": "minecraft:leave_vine"
+      },
+      {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
       }
     ],
     "ignore_vines": false,
@@ -17,8 +21,8 @@
       "type": "minecraft:simple_state_provider"
     },
     "minimum_size": {
-      "limit": 1,
-      "lower_size": 1,
+      "limit": 2,
+      "lower_size": 0,
       "upper_size": 2,
       "type": "minecraft:two_layers_feature_size"
     },
@@ -44,7 +48,7 @@
     "foliage_placer": {
       "radius": 2,
       "offset": 0,
-      "height": 2,
+      "height": 3,
       "type": "minecraft:jungle_foliage_placer"
     },
     "trunk_provider": {
@@ -57,10 +61,10 @@
       "type": "minecraft:simple_state_provider"
     },
     "trunk_placer": {
-      "base_height": 10,
-      "height_rand_a": 2,
-      "height_rand_b": 19,
-      "type": "minecraft:mega_jungle_trunk_placer"
+      "base_height": 6,
+      "height_rand_a": 8,
+      "height_rand_b": 0,
+      "type": "minecraft:straight_trunk_placer"
     }
   },
   "type": "minecraft:tree"

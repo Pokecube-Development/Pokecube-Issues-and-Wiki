@@ -36,9 +36,8 @@
     },
     "foliage_placer": {
       "radius": 2,
-      "offset": 1,
-      "height": 2,
-      "type": "minecraft:bush_foliage_placer"
+      "offset": 0,
+      "type": "acacia_foliage_placer"
     },
     "trunk_provider": {
       "state": {
