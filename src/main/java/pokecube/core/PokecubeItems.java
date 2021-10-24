@@ -150,7 +150,7 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Block> TRADER;
     public static final RegistryObject<Block> TMMACHINE;
     public static final RegistryObject<Block> SECRETBASE;
-    public static final RegistryObject<Block> FOSSILSTONE;
+    public static final RegistryObject<Block> FOSSIL_ORE;
 
     // Tile Entities
     public static final RegistryObject<BlockEntityType<?>> BASE_TYPE;
@@ -212,7 +212,7 @@ public class PokecubeItems extends ItemList
                 Material.METAL, MaterialColor.COLOR_GREEN).strength(2000).requiresCorrectToolForDrops()));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(BlockBehaviour.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
-        FOSSILSTONE = PokecubeItems.BLOCKS.register("fossilstone", () -> new Block(BlockBehaviour.Properties.of(
+        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops()));
 
         // Tile Entity Types

@@ -174,9 +174,9 @@ public class PokecubeCore
                     .contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
             // Currently this uses same settings as gold ore.
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSILSTONE.get()
+                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get()
                             .defaultBlockState(), 9)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
-                    .squared().count(2), new ResourceLocation("pokecube:fossilstone"));
+                    .squared().count(2), new ResourceLocation("pokecube:fossil_ore"));
 
             // Register the general structure piece we use
             // Registry.register(Registry.STRUCTURE_PIECE,

@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"": [
+			{ "model": "pokecube:block/fossil_ore_amber" },
+			{ "model": "pokecube:block/fossil_ore_armor" },
+			{ "model": "pokecube:block/fossil_ore_claw" },
+			{ "model": "pokecube:block/fossil_ore_dome" },
+			{ "model": "pokecube:block/fossil_ore_helix" },
+			{ "model": "pokecube:block/fossil_ore_root" },
+			{ "model": "pokecube:block/fossil_ore_skull" }
+		]
+	}
+}

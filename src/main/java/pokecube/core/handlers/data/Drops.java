@@ -113,10 +113,10 @@ public class Drops extends LootTableProvider
 
             final List<ItemFossil> drops = Lists.newArrayList(ItemGenerator.fossils.values());
             LootPool.Builder fossilPool = LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem
-                    .lootTableItem(PokecubeItems.FOSSILSTONE.get()).when(BlckLoot.SILK_TOUCH));
+                    .lootTableItem(PokecubeItems.FOSSIL_ORE.get()).when(BlckLoot.SILK_TOUCH));
             for (final ItemFossil fossil : drops)
                 fossilPool = fossilPool.add(LootItem.lootTableItem(fossil).when(BlckLoot.NO_SILK_TOUCH));
-            this.add(PokecubeItems.FOSSILSTONE.get(), LootTable.lootTable().withPool(fossilPool));
+            this.add(PokecubeItems.FOSSIL_ORE.get(), LootTable.lootTable().withPool(fossilPool));
             for (final String s : ItemGenerator.logs.keySet())
             {
                 final Block from = ItemGenerator.logs.get(s);

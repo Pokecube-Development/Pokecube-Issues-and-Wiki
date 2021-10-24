@@ -433,7 +433,7 @@
     
     "_comment": "Items",
 
-    "block.pokecube.fossilstone": "Fossil Stone",
+    "block.pokecube.fossil_ore": "Fossil Ore",
     "item.pokecube.pokedex": "Pokédex",
     "item.pokecube.pokewatch": "PokéWatch",
     "item.pokecube.tm0": "Blank TM",
