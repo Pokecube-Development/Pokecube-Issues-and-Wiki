@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.core.common.network.TileUpdate;

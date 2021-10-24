@@ -455,11 +455,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
-        if (holder.wrapper == null)
+        if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
             PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
+
         if (holder.wrapper != null && !holder.wrapper.isLoaded()) return;
 
         // This gives time for the model to actually finish loading in.
