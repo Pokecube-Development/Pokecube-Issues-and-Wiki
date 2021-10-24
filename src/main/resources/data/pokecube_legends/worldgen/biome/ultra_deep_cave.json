@@ -53,8 +53,8 @@
       "minecraft:patch_grass_plain",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
-      "minecraft:spring_water",
-      "minecraft:spring_lava"
+      "pokecube_legends:spring_water",
+      "pokecube_legends:spring_lava"
     ],
     []
   ],
