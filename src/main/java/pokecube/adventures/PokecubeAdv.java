@@ -62,7 +62,7 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
-import pokecube.adventures.blocks.warp_pad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -176,7 +176,7 @@ public class PokecubeAdv
     public static final RegistryObject<BlockEntityType<ExtractorTile>> EXTRACTOR_TYPE;
     public static final RegistryObject<BlockEntityType<SplicerTile>>   SPLICER_TYPE;
     public static final RegistryObject<BlockEntityType<SiphonTile>>    SIPHON_TYPE;
-    public static final RegistryObject<BlockEntityType<WarppadTile>>   WARPPAD_TYPE;
+    public static final RegistryObject<BlockEntityType<WarpPadTile>>   WARP_PAD_TYPE;
 
     public static final RegistryObject<MenuType<AfaContainer>>       AFA_CONT;
     public static final RegistryObject<MenuType<ClonerContainer>>    CLONER_CONT;
@@ -247,7 +247,7 @@ public class PokecubeAdv
                 PokecubeAdv.SPLICER.get()).build(null));
         SIPHON_TYPE = PokecubeAdv.TILES.register("siphon", () -> BlockEntityType.Builder.of(SiphonTile::new,
                 PokecubeAdv.SIPHON.get()).build(null));
-        WARPPAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarppadTile::new,
+        WARP_PAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarpPadTile::new,
                 PokecubeAdv.WARP_PAD.get()).build(null));
 
         // Containers

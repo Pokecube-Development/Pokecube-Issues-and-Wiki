@@ -24,7 +24,7 @@ import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 
-public class WarppadTile extends InteractableTile implements IEnergyStorage
+public class WarpPadTile extends InteractableTile implements IEnergyStorage
 {
     public static List<ResourceKey<Level>> invalidDests   = Lists.newArrayList();
     public static List<ResourceKey<Level>> invalidSources = Lists.newArrayList();
@@ -32,21 +32,21 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public static void initParser(final String function)
     {
-        WarppadTile.parser = new JEP();
-        WarppadTile.parser.initFunTab(); // clear the contents of the function
+        WarpPadTile.parser = new JEP();
+        WarpPadTile.parser.initFunTab(); // clear the contents of the function
                                          // table
-        WarppadTile.parser.addStandardFunctions();
-        WarppadTile.parser.initSymTab(); // clear the contents of the symbol
+        WarpPadTile.parser.addStandardFunctions();
+        WarpPadTile.parser.initSymTab(); // clear the contents of the symbol
                                          // table
-        WarppadTile.parser.addStandardConstants();
-        WarppadTile.parser.addComplex(); // among other things adds i to the
+        WarpPadTile.parser.addStandardConstants();
+        WarpPadTile.parser.addComplex(); // among other things adds i to the
                                          // symbol
         // table
-        WarppadTile.parser.addVariable("dw", 0);
-        WarppadTile.parser.addVariable("dx", 0);
-        WarppadTile.parser.addVariable("dy", 0);
-        WarppadTile.parser.addVariable("dz", 0);
-        WarppadTile.parser.parseExpression(function);
+        WarpPadTile.parser.addVariable("dw", 0);
+        WarpPadTile.parser.addVariable("dx", 0);
+        WarpPadTile.parser.addVariable("dy", 0);
+        WarpPadTile.parser.addVariable("dz", 0);
+        WarpPadTile.parser.parseExpression(function);
     }
 
     public static double MAXRANGE = 64;
@@ -61,12 +61,12 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public int       energy       = 0;
     boolean          noEnergyNeed = false;
 
-    public WarppadTile(final BlockPos pos, final BlockState state)
+    public WarpPadTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeAdv.WARPPAD_TYPE.get(), pos, state);
+        this(PokecubeAdv.WARP_PAD_TYPE.get(), pos, state);
     }
 
-    public WarppadTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    public WarpPadTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
     }
@@ -82,7 +82,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarppadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension()) || entityIn
+        if (WarpPadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension()) || entityIn
                 .getCommandSenderWorld().isClientSide) return;
 
         final TeleDest dest = this.getDest();
@@ -90,19 +90,19 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         final long time = Tracker.instance().getTick();
         final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
         // No step now, too soon.
-        if (lastStepped - WarppadTile.COOLDOWN > time) return;
+        if (lastStepped - WarpPadTile.COOLDOWN > time) return;
         entityIn.getPersistentData().putLong("lastWarpPadUse", time);
         if (!this.noEnergyNeed && PokecubeAdv.config.warpPadEnergy)
         {
 
             double cost = 0;
             final Vector3 here = Vector3.getNewVector().set(this);
-            WarppadTile.parser.setVarValue("dx", link.getX() - here.x);
-            WarppadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
-            WarppadTile.parser.setVarValue("dz", link.getZ() - here.z);
-            WarppadTile.parser.setVarValue("dw", 0);// TODO Decide on distance
+            WarpPadTile.parser.setVarValue("dx", link.getX() - here.x);
+            WarpPadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
+            WarpPadTile.parser.setVarValue("dz", link.getZ() - here.z);
+            WarpPadTile.parser.setVarValue("dw", 0);// TODO Decide on distance
                                                     // between dimensions
-            cost = WarppadTile.parser.getValue();
+            cost = WarpPadTile.parser.getValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
                 this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
@@ -115,7 +115,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
                 + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         this.getLevel().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
                 SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
-        WarppadTile.warp(entityIn, dest, true);
+        WarpPadTile.warp(entityIn, dest, true);
     }
 
     @Override

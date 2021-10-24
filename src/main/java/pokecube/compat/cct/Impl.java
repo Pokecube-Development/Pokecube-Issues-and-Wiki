@@ -12,7 +12,7 @@ import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warp_pad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.compat.cct.modules.Commander;
 import pokecube.compat.cct.modules.Extractor;
 import pokecube.compat.cct.modules.Siphon;
@@ -40,7 +40,7 @@ public class Impl
             if (tile instanceof TMTile) return new TM((TMTile) tile);
             if (tile instanceof SplicerTile) return new Splicer((SplicerTile) tile);
             if (tile instanceof ExtractorTile) return new Extractor((ExtractorTile) tile);
-            if (tile instanceof WarppadTile) return new Warppad((WarppadTile) tile);
+            if (tile instanceof WarpPadTile) return new Warppad((WarpPadTile) tile);
             if (tile instanceof SiphonTile) return new Siphon((SiphonTile) tile);
             return null;
         }

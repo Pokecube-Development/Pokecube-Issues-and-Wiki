@@ -17,7 +17,7 @@ public class WarpPadBlock extends InteractableHorizontalBlock implements EntityB
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new WarppadTile(pos, state);
+        return new WarpPadTile(pos, state);
     }
 
 }
