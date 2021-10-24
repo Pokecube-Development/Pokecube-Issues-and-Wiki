@@ -36,7 +36,13 @@ public class StatueEntity extends BlockEntity
         check:
         if (copy != null)
         {
-            final LivingEntity before = copy.getCopiedMob();
+            LivingEntity before = copy.getCopiedMob();
+            if (before == null)
+            {
+                copy.setCopiedMob(before = PokecubeCore.createPokemob(Database.missingno, this.level));
+                copy.setCopiedID(before.getType().getRegistryName());
+                before = null;
+            }
             copy.onBaseTick(this.level, null);
             if (copy.getCopiedMob() == null) break check;
 
