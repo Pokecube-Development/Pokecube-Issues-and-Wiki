@@ -1579,13 +1579,13 @@ public class BlockInit
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
                         .strength(20.0f, 1200.0f).sound(SoundType.STONE).requiresCorrectToolForDrops().dynamicShape()));
 
-        //oceanbrick
-        OCEAN_BRICK = PokecubeLegends.DECORATION_TAB.register("ocean_bricks", () -> new BlockBase(Material.STONE,
+        // Ocean Bricks
+        OCEAN_BRICKS = PokecubeLegends.DECORATION_TAB.register("ocean_bricks", () -> new BlockBase(Material.STONE,
                 MaterialColor.COLOR_CYAN, 1.5f, 10f, SoundType.STONE, true));
-        OCEAN_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("ocean_bricks_slab", () -> new SlabBlock(
+        OCEAN_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("ocean_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(
                         SoundType.STONE).requiresCorrectToolForDrops()));
-        OCEAN_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("ocean_bricks_stairs", () -> new GenericStairs(
+        OCEAN_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("ocean_brick_stairs", () -> new GenericStairs(
                 Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties.of(Material.STONE,
                         MaterialColor.COLOR_CYAN).strength(2.0F, 10f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));

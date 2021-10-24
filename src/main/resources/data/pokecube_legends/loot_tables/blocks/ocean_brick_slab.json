@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:ocean_bricks_stairs"
+          "name": "pokecube_legends:ocean_brick_slab"
         }
       ],
       "conditions": [

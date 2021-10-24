@@ -766,8 +766,8 @@
     
     // Decoration
     "block.pokecube_legends.ocean_bricks": "Ocean Bricks",
-    "block.pokecube_legends.ocean_bricks_slab": "Ocean Brick Slab",
-    "block.pokecube_legends.ocean_bricks_stairs": "Ocean Brick Stairs",
+    "block.pokecube_legends.ocean_brick_slab": "Ocean Brick Slab",
+    "block.pokecube_legends.ocean_brick_stairs": "Ocean Brick Stairs",
     "block.pokecube_legends.sky_bricks": "Sky Bricks",
     "block.pokecube_legends.sky_brick_slab": "Sky Brick Slab",
     "block.pokecube_legends.sky_brick_stairs": "Sky Brick Stairs",

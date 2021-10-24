@@ -2,8 +2,8 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
-    "444",
+    "44 ",
+    "44 ",
     "   "
   ],
   "key": {
@@ -13,6 +13,6 @@
   },
   "result": {
     "item": "pokecube_legends:spatian_bricks",
-    "count": 3
+    "count": 4
   }
 }
