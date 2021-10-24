@@ -1,4 +1,4 @@
-package pokecube.adventures.blocks.warppad;
+package pokecube.adventures.blocks.warp_pad;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.EntityBlock;
@@ -6,10 +6,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 
-public class WarppadBlock extends InteractableHorizontalBlock implements EntityBlock
+public class WarpPadBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
-    public WarppadBlock(final Properties properties)
+    public WarpPadBlock(final Properties properties)
     {
         super(properties);
     }

@@ -12,7 +12,7 @@ import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarppadTile;
 import pokecube.compat.cct.modules.Commander;
 import pokecube.compat.cct.modules.Extractor;
 import pokecube.compat.cct.modules.Siphon;

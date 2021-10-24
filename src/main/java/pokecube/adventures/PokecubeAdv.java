@@ -61,8 +61,8 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warppad.WarppadBlock;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
+import pokecube.adventures.blocks.warp_pad.WarppadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -162,7 +162,7 @@ public class PokecubeAdv
     public static final RegistryObject<Block> EXTRACTOR;
     public static final RegistryObject<Block> SPLICER;
     public static final RegistryObject<Block> SIPHON;
-    public static final RegistryObject<Block> WARPPAD;
+    public static final RegistryObject<Block> WARP_PAD;
     public static final RegistryObject<Block> LAB_GLASS;
 
     public static final RegistryObject<Item> EXPSHARE;
@@ -218,7 +218,7 @@ public class PokecubeAdv
                 MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
-        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(BlockBehaviour.Properties.of(Material.METAL,
+        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad", () -> new WarpPadBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlassBlock(
                 DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
@@ -247,8 +247,8 @@ public class PokecubeAdv
                 PokecubeAdv.SPLICER.get()).build(null));
         SIPHON_TYPE = PokecubeAdv.TILES.register("siphon", () -> BlockEntityType.Builder.of(SiphonTile::new,
                 PokecubeAdv.SIPHON.get()).build(null));
-        WARPPAD_TYPE = PokecubeAdv.TILES.register("warppad", () -> BlockEntityType.Builder.of(WarppadTile::new,
-                PokecubeAdv.WARPPAD.get()).build(null));
+        WARPPAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarppadTile::new,
+                PokecubeAdv.WARP_PAD.get()).build(null));
 
         // Containers
 

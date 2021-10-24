@@ -1,5 +1,5 @@
 {
-    "parent": "pokecube_adventures:block/warppad",
+    "parent": "pokecube_adventures:block/warp_pad",
     "display": {
     "thirdperson": {
         "rotation": [ 10, -45, 170 ],

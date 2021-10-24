@@ -15,7 +15,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarppadTile;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
@@ -68,11 +68,11 @@ public class BlockEventHandler
                 {
                     final Player player = (Player) user;
                     player.displayClientMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), true);
+                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), true);
                 } else
                 {
                     user.sendMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
+                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
             // Centre us properly.

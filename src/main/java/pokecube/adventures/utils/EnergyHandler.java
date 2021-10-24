@@ -34,7 +34,7 @@ import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarppadTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;

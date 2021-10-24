@@ -1,4 +1,4 @@
-package pokecube.adventures.blocks.warppad;
+package pokecube.adventures.blocks.warp_pad;
 
 import java.util.List;
 

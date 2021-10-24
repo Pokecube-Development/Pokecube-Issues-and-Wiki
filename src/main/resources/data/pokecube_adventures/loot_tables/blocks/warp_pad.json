@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_adventures:warppad"
+          "name": "pokecube_adventures:warp_pad"
         }
       ],
       "conditions": [

@@ -12,7 +12,7 @@ import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarppadTile;
 import pokecube.adventures.utils.EnergyHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
