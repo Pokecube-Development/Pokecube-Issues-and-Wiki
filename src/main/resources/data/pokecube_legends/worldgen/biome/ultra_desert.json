@@ -9,7 +9,7 @@
     "sky_color": 10092031,
     "fog_color": 16777215,
     "water_color": 65484,
-    "water_fog_color": 1269131,
+    "water_fog_color": 65484,
     "foliage_color": 35327,
     "grass_color": 2542847,
     "ambient_sound": "minecraft:ambient.basalt_deltas.mood"
@@ -33,19 +33,21 @@
     ],
     [],
     [
-     "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic",
-     "pokecube_legends:ore_ultra_coal",
-     "pokecube_legends:ore_ultra_iron",
-     "pokecube_legends:ore_ultra_lazuli",
-     "pokecube_legends:ore_ultra_redstone"
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_lazuli",
+      "pokecube_legends:ore_ultra_redstone"
     ],
     [],
     [
-     "pokecube_legends:mirage_vegetation",
-     "pokecube_legends:patch_cactus_mirage",
-     "pokecube_legends:patch_crystallized_bush",
-     "pokecube_legends:patch_crystallized_tall"
+      "pokecube_legends:mirage_vegetation",
+      "pokecube_legends:patch_cactus_mirage",
+      "pokecube_legends:patch_crystallized_bush",
+      "pokecube_legends:patch_crystallized_tall",
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
     ],
     []
   ],

@@ -10,7 +10,7 @@
     "sky_color": 14797895,
     "fog_color": 7292427,
     "water_color": 8892184,
-    "water_fog_color": 6839064,
+    "water_fog_color": 8892184,
     "grass_color": 4896398,
     "foliage_color": 4896398
   },
@@ -42,7 +42,9 @@
     [],
     [
       "pokecube_legends:jungle_vegetation",
-      "pokecube_legends:patch_grass_jungle"
+      "pokecube_legends:patch_grass_jungle",
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
     ],
     [
     ]

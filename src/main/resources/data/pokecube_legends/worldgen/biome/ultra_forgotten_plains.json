@@ -9,7 +9,7 @@
     "sky_color": 16763520,
     "fog_color": 16643037,
     "water_color": 4182244,
-    "water_fog_color": 3105703,
+    "water_fog_color": 4182244,
     "foliage_color": 16763145,
     "grass_color": 16763145,
     "particle": {
@@ -34,7 +34,7 @@
   "features": [
     [],
     [
-      "minecraft:lake_lava"
+      "minecraft:lake_water"
     ],
     [],
     [],
@@ -43,16 +43,18 @@
     [
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_cosmic",
-     "pokecube_legends:ore_ultra_coal",
-     "pokecube_legends:ore_ultra_gold",
-     "pokecube_legends:ore_ultra_emerald"
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_gold",
+      "pokecube_legends:ore_ultra_emerald"
     ],
     [],
     [
       "pokecube_legends:aged_vegetation",
       "pokecube_legends:aged_flower",
       "minecraft:patch_grass_taiga",
-      "minecraft:patch_large_fern"
+      "minecraft:patch_large_fern",
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
     ],
     []
   ],

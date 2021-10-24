@@ -9,7 +9,7 @@
     "sky_color": 1184274,
     "fog_color": 855309,
     "water_color": 11994630,
-    "water_fog_color": 7340032,
+    "water_fog_color": 11994630,
     "foliage_color": 2958880,
     "grass_color": 3944746,
     "particle": {
@@ -46,7 +46,10 @@
       "pokecube_legends:ore_ultra_diamond"
     ],
     [],
-    [],
+    [
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
+    ],
     []
   ],
   "starts": [],

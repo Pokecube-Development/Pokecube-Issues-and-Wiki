@@ -1,4 +1,5 @@
 {
+  "scale": 0.3,
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.soul_sand_valley.mood",
@@ -9,7 +10,7 @@
     "sky_color": 1704752,
     "fog_color": 1710113,
     "water_color": 3883333,
-    "water_fog_color": 1908000,
+    "water_fog_color": 3883333,
     "foliage_color": 4143695,
     "grass_color": 3288639,
     "particle": {
@@ -39,16 +40,18 @@
     ],
     [],
     [
-     "pokecube_legends:ore_spectrum",
-     "pokecube_legends:ore_cosmic",
-     "pokecube_legends:ore_ultra_iron",
-     "pokecube_legends:ore_ultra_gold",
-     "pokecube_legends:ore_ultra_lazuli",
-     "pokecube_legends:ore_ultra_diamond"
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_gold",
+      "pokecube_legends:ore_ultra_lazuli",
+      "pokecube_legends:ore_ultra_diamond"
     ],
     [],
     [
-     "pokecube_legends:deep_hills_vegetation"
+      "pokecube_legends:deep_hills_vegetation",
+      "minecraft:spring_water",
+      "minecraft:spring_lava"
     ],
     []
   ],
@@ -58,7 +61,7 @@
   "precipitation": "none",
   "scale": 0.05,
   "downfall": 0.2,
-  "depth": 0.16,
+  "depth": 0.45,
   "temperature": 0.3,
   "player_spawn_friendly": false,
   "spawn_costs": {}
