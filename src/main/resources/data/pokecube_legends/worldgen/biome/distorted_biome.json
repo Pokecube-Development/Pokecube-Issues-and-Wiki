@@ -47,11 +47,9 @@
     [],
     [
       "pokecube_legends:distorted_vegetation",
-      "minecraft:spring_water",
-      "minecraft:spring_lava"
+      "pokecube_legends:distortic_spring"
     ],
     [
-      "pokecube_legends:patch_distorted"
     ]
   ],
   "starts": [],
