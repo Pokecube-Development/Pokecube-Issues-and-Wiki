@@ -311,7 +311,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                 parent, partialTick, limbSwing))
         {
         }
-        if (info != null && this.isHead(parent.getName()))
+        if (this.isHead(parent.getName()))
         {
             float ang;
             float ang2 = -info.headPitch;

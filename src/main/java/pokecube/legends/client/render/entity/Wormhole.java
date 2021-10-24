@@ -21,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -235,6 +236,12 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     @Override
     public void updateModel(final HashMap<String, ArrayList<Vector5>> phaseList, final ModelHolder model)
     {
+    }
+
+    @Override
+    public HeadInfo getHeadInfo()
+    {
+        return HeadInfo.DUMMY;
     }
 
 }

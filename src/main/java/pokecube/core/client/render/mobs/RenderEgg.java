@@ -26,6 +26,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.utils.PokeType;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -251,5 +252,11 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     public IAnimationHolder getAnimationHolder()
     {
         return null;
+    }
+
+    @Override
+    public HeadInfo getHeadInfo()
+    {
+        return HeadInfo.DUMMY;
     }
 }

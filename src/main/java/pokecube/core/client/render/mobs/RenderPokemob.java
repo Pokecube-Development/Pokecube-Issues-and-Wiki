@@ -38,6 +38,7 @@ import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -164,6 +165,8 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
 
         IAnimationHolder currentHolder = null;
 
+        HeadInfo headInfo = new HeadInfo();
+
         public Holder(final PokedexEntry entry)
         {
             super(entry.model(), entry.texture(), entry.animation(), entry.getTrimmedName());
@@ -221,6 +224,7 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
         public void setAnimationHolder(final IAnimationHolder holder)
         {
             this.currentHolder = holder;
+            if (holder != null) holder.getHeadInfo().copyFrom(this.getHeadInfo());
             if (this.animator != null) this.animator.setAnimationHolder(holder);
             this.wrapper.imodel.setAnimationHolder(holder);
         }
@@ -365,6 +369,12 @@ public class RenderPokemob extends MobRenderer<MobEntity, ModelWrapper<MobEntity
             this.name = model.name;
             this.texture = model.texture;
             this.global = global;
+        }
+
+        @Override
+        public HeadInfo getHeadInfo()
+        {
+            return this.headInfo;
         }
     }
 

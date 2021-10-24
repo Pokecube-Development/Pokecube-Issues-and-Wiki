@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
 import thut.api.ModelHolder;
+import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -103,6 +105,15 @@ public interface IModelRenderer<T extends Entity>
     void setAnimationHolder(IAnimationHolder holder);
 
     IAnimationHolder getAnimationHolder();
+
+    /**
+     * This one is only used to store the axis/limits/offsets. For actual
+     * rendering, use the one from getAnimationHolder!
+     *
+     * @return a dummy HeadInfo for loading limits into
+     */
+    @Nonnull
+    HeadInfo getHeadInfo();
 
     void setAnimationChanger(IAnimationChanger changer);
 

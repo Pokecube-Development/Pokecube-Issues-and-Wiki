@@ -423,7 +423,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
 
         if (anim) AnimationHelper.doAnimation(anims, entity, parent.getName(), parent, partialTick, limbSwing);
-        if (info != null && this.isHead(parent.getName()))
+        if (this.isHead(parent.getName()))
         {
             float ang;
             float ang2 = -info.headPitch;

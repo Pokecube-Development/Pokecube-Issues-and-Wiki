@@ -170,12 +170,6 @@ public class CapabilityAnimation
         {
             return this.head;
         }
-
-        @Override
-        public void setHeadInfo(final HeadInfo info)
-        {
-            this.head = info;
-        }
     }
 
     @CapabilityInject(IAnimationHolder.class)
