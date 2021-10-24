@@ -395,9 +395,9 @@ public class ThutTeleporter
     {
         if (entity instanceof LivingEntity)
         {
-            double targetX = dest.getLoc().x;
+            double targetX = dest.getLoc().x + 0.5;
             double targetY = dest.getLoc().y;
-            double targetZ = dest.getLoc().z;
+            double targetZ = dest.getLoc().z + 0.5;
             final TeleEvent event = TeleEvent.onUseTeleport((LivingEntity) entity, targetX, targetY, targetZ);
 
             if (event.isCanceled()) return;
