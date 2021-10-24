@@ -3,6 +3,7 @@ package thut.api.entity;
 import java.util.List;
 
 import net.minecraft.world.entity.Entity;
+import javax.annotation.Nonnull;
 import thut.api.entity.animation.Animation;
 
 public interface IAnimated
@@ -51,6 +52,19 @@ public interface IAnimated
         public int pitchDirection = 1;
 
         public boolean fixed = false;
+
+        public void copyFrom(final HeadInfo other)
+        {
+            this.yawAxis = other.yawAxis;
+            this.yawCapMin = other.yawCapMin;
+            this.yawCapMax = other.yawCapMax;
+            this.yawDirection = other.yawDirection;
+
+            this.pitchAxis = other.pitchAxis;
+            this.pitchCapMin = other.pitchCapMin;
+            this.pitchCapMax = other.pitchCapMax;
+            this.pitchDirection = other.pitchDirection;
+        }
     }
 
     public static interface IAnimationHolder
@@ -98,8 +112,7 @@ public interface IAnimated
 
         boolean isFixed();
 
+        @Nonnull
         HeadInfo getHeadInfo();
-
-        void setHeadInfo(HeadInfo info);
     }
 }

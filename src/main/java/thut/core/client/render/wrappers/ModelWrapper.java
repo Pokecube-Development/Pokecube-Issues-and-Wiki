@@ -158,12 +158,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded()) return;
         this.entityIn = entityIn;
         final HeadInfo info = this.renderer.getAnimationHolder().getHeadInfo();
-        if (info != null && !info.fixed)
+        if (!info.fixed)
         {
             info.headPitch = headPitch;
             info.headYaw = netHeadYaw;
         }
-        if (info != null) info.currentTick = entityIn.tickCount;
+        info.currentTick = entityIn.tickCount;
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();
         if (animChanger != null) for (final String partName : this.imodel.getParts().keySet())
