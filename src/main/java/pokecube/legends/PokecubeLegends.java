@@ -145,9 +145,9 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
-            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null);
             RingTile.TYPE = BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
-            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
+            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWNER.get().getRegistryName()));
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
         }
 
@@ -331,7 +331,7 @@ public class PokecubeLegends
         if (event.getWorld().isClientSide) return;
         if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
-        if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
+        if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
                     new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);

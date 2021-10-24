@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "state=empty":  { "model": "pokecube_legends:block/raid_spot_spawner_empty"},
+    "state=normal": { "model": "pokecube_legends:block/raid_spot_spawner_normal"},
+    "state=rare":  { "model": "pokecube_legends:block/raid_spot_spawner_rare"}
+  }
+}

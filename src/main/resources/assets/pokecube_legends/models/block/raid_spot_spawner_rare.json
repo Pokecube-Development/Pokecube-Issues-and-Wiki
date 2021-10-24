@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "pokecube_legends:blocks/raid_spot_spawn_rare",
-		"raid_spot": "pokecube_legends:blocks/raid_spot_spawn_rare",
+		"particle": "pokecube_legends:blocks/raid_spot_spawner_rare",
+		"raid_spot": "pokecube_legends:blocks/raid_spot_spawner_rare",
 		"base": "block/polished_diorite"
 	},
 	"elements": [

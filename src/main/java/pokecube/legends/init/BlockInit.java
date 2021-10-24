@@ -108,7 +108,7 @@ import pokecube.legends.blocks.plants.TemporalTree;
 public class BlockInit
 {
     // Blocks
-    public static final RegistryObject<Block> RAID_SPAWN;
+    public static final RegistryObject<Block> RAID_SPAWNER;
 
     public static final RegistryObject<Block> CRAMOMATIC_BLOCK;
 
@@ -623,9 +623,9 @@ public class BlockInit
         // Dimensions Creative Tab - Sorting depends on the order the blocks are
         // listed in
         // Block Raid
-        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(
+        RAID_SPAWNER = PokecubeLegends.BLOCKS.register("raid_spot_spawner", () -> new RaidSpawnBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(2000,
-                        2000)).setInfoBlockName("raidspawn"));
+                        2000)).setInfoBlockName("raid_spawner"));
         CRAMOMATIC_BLOCK = PokecubeLegends.BLOCKS.register("cramomatic_block", () -> new CramomaticBlock(
                 BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(6, 15).sound(
                         SoundType.ANVIL).dynamicShape().requiresCorrectToolForDrops()).setToolTip("cramobot"));
