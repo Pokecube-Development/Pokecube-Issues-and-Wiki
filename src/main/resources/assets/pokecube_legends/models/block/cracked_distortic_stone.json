@@ -1,0 +1,9 @@
+{
+	"parent": "block/cube_bottom_top",
+    "textures": {
+        "bottom": "pokecube_legends:blocks/cracked_distortic_stone",
+        "side": "pokecube_legends:blocks/cracked_distortic_stone_side",
+        "top": "pokecube_legends:blocks/cracked_distortic_stone_top",
+        "particle": "pokecube_legends:blocks/cracked_distortic_stone"
+    }
+}

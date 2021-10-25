@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:distortic_chiseled_stone"
+          "name": "pokecube_legends:chiseled_distortic_stone_bricks"
         }
       ],
       "conditions": [

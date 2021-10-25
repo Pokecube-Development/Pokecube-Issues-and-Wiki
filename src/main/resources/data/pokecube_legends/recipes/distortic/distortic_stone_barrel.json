@@ -8,13 +8,13 @@
   ],
   "key": {
     "A": {
-      "item": "pokecube_legends:distortic_planks"
+      "item": "pokecube_legends:chiseled_distortic_stone_bricks"
     },
 	"S": {
-      "item": "pokecube_legends:distortic_slab"
+      "item": "pokecube_legends:chiseled_distortic_stone_brick_slab"
     }
   },
   "result": {
-    "item": "pokecube_legends:distortic_barrel"
+    "item": "pokecube_legends:distortic_stone_barrel"
   }
 }

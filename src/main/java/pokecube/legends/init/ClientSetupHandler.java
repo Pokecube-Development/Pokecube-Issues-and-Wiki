@@ -107,7 +107,7 @@ public class ClientSetupHandler
             }
             if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
-			ItemBlockRenderTypes.setRenderLayer(BlockInit.DISTORTIC_FRAMED_MIRROR.get(), RenderType.translucent());
+			ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
         }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())

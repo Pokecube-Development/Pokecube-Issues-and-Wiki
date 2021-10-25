@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:distortic_chiseled_mirror"
+          "name": "pokecube_legends:framed_distortic_mirror"
         }
       ],
       "conditions": [

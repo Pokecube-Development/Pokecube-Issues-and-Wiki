@@ -254,8 +254,8 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
     public static final RegistryObject<Block> DISTORTIC_CRACKED_STONE;
     public static final RegistryObject<Block> DISTORTIC_GLOWSTONE;
-    public static final RegistryObject<Block> DISTORTIC_CHISELED_MIRROR;
-    public static final RegistryObject<Block> DISTORTIC_FRAMED_MIRROR;
+    public static final RegistryObject<Block> CHISELED_DISTORTIC_MIRROR;
+    public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR;
     public static final RegistryObject<Block> ONE_WAY_GLASS;
     public static final RegistryObject<Block> ONE_WAY_GLASS_WHITE;
     public static final RegistryObject<Block> ONE_WAY_GLASS_ORANGE;
@@ -283,9 +283,9 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_STONE_BRICK_STAIRS;
     public static final RegistryObject<Block> DISTORTIC_STONE_BARREL;
 
-    public static final RegistryObject<Block> DISTORTIC_CHISELED_STONE;
-    public static final RegistryObject<Block> DISTORTIC_CHISELED_SLAB;
-    public static final RegistryObject<Block> DISTORTIC_CHISELED_STAIRS;
+    public static final RegistryObject<Block> CHISELED_DISTORTIC_STONE;
+    public static final RegistryObject<Block> CHISELED_DISTORTIC_STONE_SLAB;
+    public static final RegistryObject<Block> CHISELED_DISTORTIC_STONE_STAIRS;
 
     public static final RegistryObject<Block> DISTORTIC_TERRACOTTA;
     public static final RegistryObject<Block> DISTORTIC_TERRACOTTA_SLAB;
@@ -863,7 +863,7 @@ public class BlockInit
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass_block", () -> new GrassDistorticBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NYLIUM)
                         .strength(1, 2).requiresCorrectToolForDrops().randomTicks()));
-        DISTORTIC_CRACKED_STONE = PokecubeLegends.BLOCKS_TAB.register("distortic_cracked_stone",
+        DISTORTIC_CRACKED_STONE = PokecubeLegends.BLOCKS_TAB.register("cracked_distortic_stone",
                 () -> new DistorticCrackedStone(BlockBehaviour.Properties.of(Material.STONE,
                         MaterialColor.TERRACOTTA_BLACK).sound(SoundType.STONE).strength(1, 2)
                         .requiresCorrectToolForDrops()));
@@ -1068,7 +1068,7 @@ public class BlockInit
         FRACTAL_BLOCK = PokecubeLegends.DECORATION_TAB.register("fractal_block", () -> new BlockBase(Material.METAL,
                 MaterialColor.COLOR_LIGHT_BLUE, 3f, 12, SoundType.GLASS, true));
 
-        DISTORTIC_CHISELED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_mirror",
+        CHISELED_DISTORTIC_MIRROR = PokecubeLegends.DECORATION_TAB.register("chiseled_distortic_mirror",
                 () -> new BlockBase(Material.GLASS, MaterialColor.SNOW, 1.5f, 1.5f, SoundType.GLASS, true));
 
         DISTORTIC_GLOWSTONE = PokecubeLegends.DECORATION_TAB.register("distortic_glowstone", () -> new BlockBase(
@@ -1648,12 +1648,12 @@ public class BlockInit
                         .of(Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
 
-        DISTORTIC_CHISELED_STONE = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_stone",
+        CHISELED_DISTORTIC_STONE = PokecubeLegends.DECORATION_TAB.register("chiseled_distortic_stone_bricks",
                 () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_BLACK, 2.5f, 10f, SoundType.STONE, true));
-        DISTORTIC_CHISELED_SLAB = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_slab",
+        CHISELED_DISTORTIC_STONE_SLAB = PokecubeLegends.DECORATION_TAB.register("chiseled_distortic_stone_brick_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLACK)
                         .strength(2.0F, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        DISTORTIC_CHISELED_STAIRS = PokecubeLegends.DECORATION_TAB.register("distortic_chiseled_stairs",
+        CHISELED_DISTORTIC_STONE_STAIRS = PokecubeLegends.DECORATION_TAB.register("chiseled_distortic_stone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.TERRACOTTA_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
@@ -1721,7 +1721,7 @@ public class BlockInit
                 MaterialColor.TERRACOTTA_BLACK, 2f, 3f, SoundType.STONE, true));
 
         // Glass
-        DISTORTIC_FRAMED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_framed_mirror",
+        FRAMED_DISTORTIC_MIRROR = PokecubeLegends.DECORATION_TAB.register("framed_distortic_mirror",
                 () -> new OneWayStainedGlass(DyeColor.WHITE, BlockBehaviour.Properties.of(Material.GLASS,
                         MaterialColor.SNOW).noOcclusion().sound(SoundType.GLASS).strength(0.3f)
                         .requiresCorrectToolForDrops()));
