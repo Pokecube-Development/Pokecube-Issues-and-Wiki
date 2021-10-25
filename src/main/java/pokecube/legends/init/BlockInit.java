@@ -833,10 +833,10 @@ public class BlockInit
         CRYS_SANDSTONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_bricks", () -> new BlockBase(
                 Material.STONE, MaterialColor.SNOW, 1.4f, 10f, SoundType.STONE, true));
         
-        CRYS_SANDSTONE_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_bricks_slab", () -> new SlabBlock(
+        CRYS_SANDSTONE_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
                         SoundType.SAND).requiresCorrectToolForDrops()));
-        CRYS_SANDSTONE_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_bricks_stairs",
+        CRYS_SANDSTONE_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)
                         .requiresCorrectToolForDrops()));

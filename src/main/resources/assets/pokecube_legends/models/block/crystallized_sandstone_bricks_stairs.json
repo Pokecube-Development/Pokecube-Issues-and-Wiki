@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/ultra_sandbrick",
-    "top": "pokecube_legends:blocks/ultra_sandbrick",
-    "side": "pokecube_legends:blocks/ultra_sandbrick"
-  }
-}
