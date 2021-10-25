@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/magmabrick",
-    "top": "pokecube_legends:blocks/magmabrick",
-    "side": "pokecube_legends:blocks/magmabrick"
-  }
-}

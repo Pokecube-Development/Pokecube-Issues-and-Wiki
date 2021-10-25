@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:magma_bricks_slab"
+          "name": "pokecube_legends:magma_brick_stairs"
         }
       ],
       "conditions": [

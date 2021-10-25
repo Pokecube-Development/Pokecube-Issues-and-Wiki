@@ -129,7 +129,7 @@ public class BlockInit
     public static final RegistryObject<Block> PURPUR_BRICK_SLAB;
     public static final RegistryObject<Block> PURPUR_BRICK_STAIRS;
 
-    public static final RegistryObject<Block> MAGMA_BRICK;
+    public static final RegistryObject<Block> MAGMA_BRICKS;
     public static final RegistryObject<Block> MAGMA_BRICK_SLAB;
     public static final RegistryObject<Block> MAGMA_BRICK_STAIRS;
 
@@ -1612,17 +1612,17 @@ public class BlockInit
                         .requiresCorrectToolForDrops()));
 
         // Magma Bricks
-        MAGMA_BRICK = PokecubeLegends.DECORATION_TAB.register("magma_bricks", () -> new MagmaBlock(
+        MAGMA_BRICKS = PokecubeLegends.DECORATION_TAB.register("magma_bricks", () -> new MagmaBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).strength(1.5f, 10).sound(
                         SoundType.NETHERRACK).lightLevel(b -> 3).emissiveRendering((s, r, p) -> true)
                         .requiresCorrectToolForDrops()));
-        MAGMA_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("magma_bricks_slab", () -> new SlabBlock(
-                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(
+        MAGMA_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("magma_brick_slab", () -> new SlabBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).strength(2.0F, 3.0f).sound(
                         SoundType.NETHERRACK).lightLevel(b -> 3).emissiveRendering((s, r, p) -> true)
                         .requiresCorrectToolForDrops()));
-        MAGMA_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("magma_bricks_stairs",
+        MAGMA_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("magma_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(
+                        .of(Material.STONE, MaterialColor.NETHER).strength(2.0F, 3.0f).sound(
                                 SoundType.NETHERRACK).lightLevel(b -> 3).emissiveRendering((s, r, p) -> true)
                         .requiresCorrectToolForDrops()));
 
