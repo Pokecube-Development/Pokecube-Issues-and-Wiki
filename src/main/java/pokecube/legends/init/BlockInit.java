@@ -335,11 +335,11 @@ public class BlockInit
     // Crystal
     public static final RegistryObject<Block> CRYSTAL;
     public static final RegistryObject<Block> CRYSTAL_BUTTON;
-    public static final RegistryObject<Block> CRYSTAL_BRICK;
+    public static final RegistryObject<Block> CRYSTAL_BRICKS;
     public static final RegistryObject<Block> CRYSTAL_STAIRS;
     public static final RegistryObject<Block> CRYSTAL_SLAB;
-    public static final RegistryObject<Block> CRYSTAL_BRICKS_SLAB;
-    public static final RegistryObject<Block> CRYSTAL_BRICKS_STAIRS;
+    public static final RegistryObject<Block> CRYSTAL_BRICK_SLAB;
+    public static final RegistryObject<Block> CRYSTAL_BRICK_STAIRS;
 
     // Ultra Stone
     public static final RegistryObject<Block> ULTRA_STONE;
@@ -683,21 +683,21 @@ public class BlockInit
         // Crystal Blocks
         CRYSTAL = PokecubeLegends.BLOCKS_TAB.register("crystal_block", () -> new BlockBase(Material.GLASS,
                 MaterialColor.COLOR_LIGHT_BLUE, 1.5f, 3, SoundType.GLASS, false));
-        CRYSTAL_BRICK = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks", () -> new BlockBase(Material.ICE_SOLID,
-                MaterialColor.COLOR_LIGHT_BLUE, 0.5F, 10, SoundType.GLASS, true));
         CRYSTAL_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_stairs", () -> new ItemGenerator.GenericStairs(
                 Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties.of(Material.GLASS,
-                        MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)
+                        MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)
                         .requiresCorrectToolForDrops()));
         CRYSTAL_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_slab", () -> new SlabBlock(BlockBehaviour.Properties
-                .of(Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)
+                .of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.GLASS)
                 .requiresCorrectToolForDrops()));
-        CRYSTAL_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_stairs",
+        CRYSTAL_BRICKS = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks", () -> new BlockBase(Material.ICE_SOLID,
+                MaterialColor.COLOR_LIGHT_BLUE, 0.5F, 10, SoundType.GLASS, true));
+        CRYSTAL_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystal_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f).sound(
+                        .of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(
                                 SoundType.GLASS).requiresCorrectToolForDrops()));
-        CRYSTAL_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_bricks_slab", () -> new SlabBlock(
-                BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_LIGHT_BLUE).strength(2.0F, 3.0f)
+        CRYSTAL_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystal_brick_slab", () -> new SlabBlock(
+                BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f)
                         .sound(SoundType.GLASS).requiresCorrectToolForDrops()));
         CRYSTAL_BUTTON = PokecubeLegends.BLOCKS_TAB.register("crystal_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.GLASS,
