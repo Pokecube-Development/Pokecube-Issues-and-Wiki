@@ -796,10 +796,10 @@ public class BlockInit
         ULTRA_DARKSTONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks",
                 () -> new EffectBlockBase(Material.STONE, MaterialColor.COLOR_BLACK, 5f, 8f,
                         SoundType.GILDED_BLACKSTONE, true, MobEffects.BLINDNESS));
-        ULTRA_DARKSTONE_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks_slab",
+        ULTRA_DARKSTONE_BRICKS_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_brick_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(
                         2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
-        ULTRA_DARKSTONE_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_bricks_stairs",
+        ULTRA_DARKSTONE_BRICKS_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_darkstone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(
                                 SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));

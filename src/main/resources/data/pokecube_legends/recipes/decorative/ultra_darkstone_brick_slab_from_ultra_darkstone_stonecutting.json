@@ -3,6 +3,6 @@
   "ingredient": {
     "item": "pokecube_legends:ultra_darkstone"
   },
-  "result": "pokecube_legends:ultra_darkstone_bricks_stairs",
-  "count": 1
+  "result": "pokecube_legends:ultra_darkstone_brick_slab",
+  "count": 2
 }
