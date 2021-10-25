@@ -125,9 +125,9 @@ public class BlockInit
     public static final RegistryObject<Block> SKY_BRICK_SLAB;
     public static final RegistryObject<Block> SKY_BRICK_STAIRS;
 
-    public static final RegistryObject<Block> SPATIAN_BRICK;
-    public static final RegistryObject<Block> SPATIAN_BRICK_SLAB;
-    public static final RegistryObject<Block> SPATIAN_BRICK_STAIRS;
+    public static final RegistryObject<Block> PURPUR_BRICKS;
+    public static final RegistryObject<Block> PURPUR_BRICK_SLAB;
+    public static final RegistryObject<Block> PURPUR_BRICK_STAIRS;
 
     public static final RegistryObject<Block> MAGMA_BRICK;
     public static final RegistryObject<Block> MAGMA_BRICK_SLAB;
@@ -620,8 +620,7 @@ public class BlockInit
 
     static
     {
-        // Dimensions Creative Tab - Sorting depends on the order the blocks are
-        // listed in
+        // Dimensions Creative Tab - Sorting depends on the order the blocks are listed in
         // Block Raid
         RAID_SPAWNER = PokecubeLegends.BLOCKS.register("raid_spot_spawner", () -> new RaidSpawnBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(2000,
@@ -1600,13 +1599,14 @@ public class BlockInit
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 10f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
-
-        SPATIAN_BRICK = PokecubeLegends.DECORATION_TAB.register("spatian_bricks", () -> new BlockBase(Material.STONE,
+        
+        // Purpur Bricks
+        PURPUR_BRICKS = PokecubeLegends.DECORATION_TAB.register("purpur_bricks", () -> new BlockBase(Material.STONE,
                 MaterialColor.COLOR_MAGENTA, 1.5f, 10f, SoundType.STONE, true));
-        SPATIAN_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("spatian_bricks_slab", () -> new SlabBlock(
+        PURPUR_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("purpur_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(
                         SoundType.STONE).requiresCorrectToolForDrops()));
-        SPATIAN_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("spatian_bricks_stairs",
+        PURPUR_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("purpur_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));

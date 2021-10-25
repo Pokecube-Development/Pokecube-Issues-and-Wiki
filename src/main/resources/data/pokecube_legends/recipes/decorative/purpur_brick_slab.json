@@ -2,17 +2,15 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "#  ",
-	"## ",
-	"###"
+    "000"
   ],
   "key": {
-    "#": {
-      "item": "pokecube_legends:spatian_bricks"
+    "0": {
+      "item": "pokecube_legends:purpur_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:spatian_bricks_stairs",
+    "item": "pokecube_legends:purpur_brick_slab",
     "count": 6
   }
 }
