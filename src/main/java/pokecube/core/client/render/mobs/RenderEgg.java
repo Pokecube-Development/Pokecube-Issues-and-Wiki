@@ -29,6 +29,7 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -47,6 +48,7 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
 
     private static class EggColourer implements IAnimationChanger
     {
+        IAnimationHolder anims = new CapabilityAnimation.DefaultImpl();
 
         @Override
         public void addChild(final IAnimationChanger animationRandomizer)
@@ -98,12 +100,13 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         @Override
         public void setAnimationHolder(final IAnimationHolder holder)
         {
+            this.anims = holder;
         }
 
         @Override
         public IAnimationHolder getAnimationHolder()
         {
-            return null;
+            return this.anims;
         }
 
     }
@@ -114,6 +117,8 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     private IPartTexturer     texer   = null;
 
     private final Vector3 scale = Vector3.getNewVector();
+
+    IAnimationHolder animHolder = new CapabilityAnimation.DefaultImpl();
 
     public RenderEgg(final EntityRendererManager manager)
     {
@@ -246,12 +251,13 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     @Override
     public void setAnimationHolder(final IAnimationHolder holder)
     {
+        this.animHolder = holder;
     }
 
     @Override
     public IAnimationHolder getAnimationHolder()
     {
-        return null;
+        return this.animHolder;
     }
 
     @Override
