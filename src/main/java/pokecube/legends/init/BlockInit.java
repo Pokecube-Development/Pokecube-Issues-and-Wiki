@@ -252,7 +252,7 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
-    public static final RegistryObject<Block> DISTORTIC_CRACKED_STONE;
+    public static final RegistryObject<Block> CRACKED_DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_GLOWSTONE;
     public static final RegistryObject<Block> CHISELED_DISTORTIC_MIRROR;
     public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR;
@@ -863,7 +863,7 @@ public class BlockInit
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass_block", () -> new GrassDistorticBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NYLIUM)
                         .strength(1, 2).requiresCorrectToolForDrops().randomTicks()));
-        DISTORTIC_CRACKED_STONE = PokecubeLegends.BLOCKS_TAB.register("cracked_distortic_stone",
+        CRACKED_DISTORTIC_STONE = PokecubeLegends.BLOCKS_TAB.register("cracked_distortic_stone",
                 () -> new DistorticCrackedStone(BlockBehaviour.Properties.of(Material.STONE,
                         MaterialColor.TERRACOTTA_BLACK).sound(SoundType.STONE).strength(1, 2)
                         .requiresCorrectToolForDrops()));
