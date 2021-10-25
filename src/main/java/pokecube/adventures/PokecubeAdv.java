@@ -63,6 +63,9 @@ import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
+import pokecube.adventures.blocks.statue.PokemobStatue;
+import pokecube.adventures.blocks.statue.StatueEntity;
+import pokecube.adventures.blocks.statue.StatueItem;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -163,6 +166,7 @@ public class PokecubeAdv
     public static final RegistryObject<Block> SPLICER;
     public static final RegistryObject<Block> SIPHON;
     public static final RegistryObject<Block> WARP_PAD;
+    public static final RegistryObject<Block> STATUE;
     public static final RegistryObject<Block> LAB_GLASS;
 
     public static final RegistryObject<Item> EXPSHARE;
@@ -177,6 +181,7 @@ public class PokecubeAdv
     public static final RegistryObject<BlockEntityType<SplicerTile>>   SPLICER_TYPE;
     public static final RegistryObject<BlockEntityType<SiphonTile>>    SIPHON_TYPE;
     public static final RegistryObject<BlockEntityType<WarpPadTile>>   WARP_PAD_TYPE;
+    public static final RegistryObject<BlockEntityType<StatueEntity>>  STATUE_TYPE;
 
     public static final RegistryObject<MenuType<AfaContainer>>       AFA_CONT;
     public static final RegistryObject<MenuType<ClonerContainer>>    CLONER_CONT;
@@ -220,6 +225,9 @@ public class PokecubeAdv
                 MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
         WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad", () -> new WarpPadBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        STATUE = PokecubeAdv.BLOCKS.register("statue", () -> new PokemobStatue(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.STONE).strength(5.0F, 6.0F).dynamicShape().noOcclusion()
+                .requiresCorrectToolForDrops()));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlassBlock(
                 DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
                 .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
@@ -249,6 +257,8 @@ public class PokecubeAdv
                 PokecubeAdv.SIPHON.get()).build(null));
         WARP_PAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarpPadTile::new,
                 PokecubeAdv.WARP_PAD.get()).build(null));
+        STATUE_TYPE = PokecubeAdv.TILES.register("statue", () -> BlockEntityType.Builder.of(StatueEntity::new,
+                PokecubeAdv.STATUE.get()).build(null));
 
         // Containers
 
@@ -267,12 +277,16 @@ public class PokecubeAdv
     {
         // Register the item blocks.
         for (final RegistryObject<Block> reg : PokecubeAdv.BLOCKS.getEntries())
-            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
-                    .tab(PokecubeItems.POKECUBEBLOCKS)));
+        {
+            final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEBLOCKS);
+            // Statue does something a bit differently.
+            if (reg == PokecubeAdv.STATUE) PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new StatueItem(reg.get(), props));
+            else PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), props));
+        }
 
         for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
-            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
-                    .tab(PokecubeLegends.DECO_TAB)));
+            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties().tab(
+                    PokecubeLegends.DECO_TAB)));
 
         // Initialize advancement triggers
         Triggers.init();

@@ -1,4 +1,4 @@
-package thut.bot.entity.map;
+package thut.bot.entity.ai.modules.map;
 
 import java.util.List;
 import java.util.Set;
@@ -8,12 +8,10 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.PokecubeCore;
-import thut.bot.entity.map.Tree.NodeType;
+import thut.bot.entity.ai.modules.map.Tree.NodeType;
 
 public class Node extends Part
 {
@@ -92,24 +90,7 @@ public class Node extends Part
         nbt.putString("node", this.type.name());
         nbt.putInt("d", this.depth);
         nbt.putFloat("sz", this.size);
-        final ListTag edges = new ListTag();
-        this.edges.removeIf(edge ->
-        {
-            CompoundTag edgeNbt;
-            try
-            {
-                edgeNbt = edge.serializeNBT();
-                edges.add(edgeNbt);
-                return false;
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-                PokecubeCore.LOGGER.error("Error saving an edge!");
-                return true;
-            }
-        });
-        nbt.put("edges", edges);
+        nbt.putInt("e", this.edges.size());
         return nbt;
     }
 
@@ -119,37 +100,7 @@ public class Node extends Part
         super.deserializeNBT(nbt);
         final BlockPos pos = NbtUtils.readBlockPos(nbt);
         this.setCenter(pos, nbt.getFloat("sz"));
-        // This is a "real" node, it will be added to the maps
-        if (this.getTree() != null)
-        {
-            final Node n = this.getTree().map.getOrDefault(pos, this);
-            if (n != this)
-            {
-                // Ensure the new node also has a tree.
-                n.setTree(this.getTree());
-                n.deserializeNBT(nbt);
-                return;
-            }
-            this.getTree().map.put(pos, n);
-        }
         this.type = NodeType.valueOf(nbt.getString("node"));
-        final ListTag edges = nbt.getList("edges", 10);
-        for (int j = 0; j < edges.size(); ++j)
-        {
-            final CompoundTag edgeNbt = edges.getCompound(j);
-            final Edge e = new Edge();
-            try
-            {
-                e.setTree(this.getTree());
-                e.deserializeNBT(edgeNbt);
-                if (!(e.getEnd1().equals(e.getEnd2()) || this.edges.contains(e))) this.edges.add(e);
-            }
-            catch (final Exception e1)
-            {
-                e1.printStackTrace();
-                PokecubeCore.LOGGER.error("Error loading an edge!");
-            }
-        }
     }
 
     public BlockPos getCenter()

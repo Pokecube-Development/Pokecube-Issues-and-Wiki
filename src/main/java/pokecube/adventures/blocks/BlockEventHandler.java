@@ -16,12 +16,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
+import pokecube.adventures.blocks.statue.StatueEntity;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
 import thut.api.LinkableCaps.PosStorage;
 import thut.api.OwnableCaps;
 import thut.api.block.IOwnableTE;
+import thut.api.entity.CopyCaps;
 
 public class BlockEventHandler
 {
@@ -140,6 +142,7 @@ public class BlockEventHandler
         if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
                         (SiphonTile) event.getObject()));
+        if (event.getObject() instanceof StatueEntity) event.addCapability(CopyCaps.LOC, new CopyCaps.Impl());
 
     }
 }
