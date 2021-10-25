@@ -348,9 +348,9 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_COBBLESTONE;
     public static final RegistryObject<Block> ULTRA_COBBLESTONE_SLAB;
     public static final RegistryObject<Block> ULTRA_COBBLESTONE_STAIRS;
-    public static final RegistryObject<Block> ULTRA_STONEBRICK_SLAB;
-    public static final RegistryObject<Block> ULTRA_STONEBRICK_STAIRS;
-    public static final RegistryObject<Block> ULTRA_STONEBRICK;
+    public static final RegistryObject<Block> ULTRA_STONE_BRICK_SLAB;
+    public static final RegistryObject<Block> ULTRA_STONE_BRICK_STAIRS;
+    public static final RegistryObject<Block> ULTRA_STONE_BRICKS;
     public static final RegistryObject<Block> ULTRA_STONE_BUTTON;
     public static final RegistryObject<Block> ULTRA_STONE_PR_PLATE;
 
@@ -753,12 +753,12 @@ public class BlockInit
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
-        ULTRA_STONEBRICK = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_bricks", () -> new BlockBase(Material.STONE,
+        ULTRA_STONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_bricks", () -> new BlockBase(Material.STONE,
                 MaterialColor.TERRACOTTA_CYAN, 1.5f, 10f, SoundType.STONE, true));
-        ULTRA_STONEBRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_bricks_slab", () -> new SlabBlock(
+        ULTRA_STONE_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(
                         SoundType.STONE).requiresCorrectToolForDrops()));
-        ULTRA_STONEBRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_bricks_stairs",
+        ULTRA_STONE_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("ultra_stone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
