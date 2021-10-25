@@ -825,41 +825,40 @@ public class BlockInit
         //ultra_sandstone_slab
         CRYS_SANDSTONE_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
-                        SoundType.SAND).requiresCorrectToolForDrops()));
+                        SoundType.STONE).requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)
+                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_BRICKS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_bricks", () -> new BlockBase(
                 Material.STONE, MaterialColor.SNOW, 1.4f, 10f, SoundType.STONE, true));
         
         CRYS_SANDSTONE_BRICK_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
-                        SoundType.SAND).requiresCorrectToolForDrops()));
+                        SoundType.STONE).requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_BRICK_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)
+                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_SMOOTH = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_smooth", () -> new BlockBase(
                 Material.STONE, MaterialColor.SNOW, 1.5f, 10f, SoundType.STONE, true));
         CRYS_SANDSTONE_SMOOTH_SLAB = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_smooth_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F,
-                        3.0f).sound(SoundType.SAND).requiresCorrectToolForDrops()));
+                        3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_SMOOTH_STAIRS = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_smooth_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.SAND)
+                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_BUTTON = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.STONE,
-                        MaterialColor.SAND).sound(SoundType.SAND).noCollission().strength(0.5F)
+                        MaterialColor.SAND).sound(SoundType.STONE).noCollission().strength(0.5F)
                         .requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_PR_PLATE = PokecubeLegends.BLOCKS_TAB.register("crystallized_sandstone_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING,
-                        BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).sound(SoundType.SOUL_SAND)
+                        BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).sound(SoundType.STONE)
                                 .noCollission().strength(0.7F).requiresCorrectToolForDrops()));
 
         // Distortic World
-        //distortic_grass
         DISTORTIC_GRASS = PokecubeLegends.BLOCKS_TAB.register("distortic_grass_block", () -> new GrassDistorticBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK).sound(SoundType.NYLIUM)
                         .strength(1, 2).requiresCorrectToolForDrops().randomTicks()));
