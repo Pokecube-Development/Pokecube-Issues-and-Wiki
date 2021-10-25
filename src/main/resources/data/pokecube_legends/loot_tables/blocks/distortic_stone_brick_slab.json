@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:distortic_stone_bricks_slab"
+          "name": "pokecube_legends:distortic_stone_brick_slab"
         }
       ],
       "conditions": [
