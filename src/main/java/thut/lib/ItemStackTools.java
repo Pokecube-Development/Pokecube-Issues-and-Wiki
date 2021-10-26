@@ -1,15 +1,15 @@
 package thut.lib;
 
-import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.ReportedException;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.CrashReport;
+import net.minecraft.ReportedException;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ItemStackTools
 {
-    public static boolean addItemStackToInventory(final ItemStack itemStackIn, final IInventory toAddTo,
+    public static boolean addItemStackToInventory(final ItemStack itemStackIn, final Container toAddTo,
             final int minIndex)
     {
         return ItemStackTools.addItemStackToInventory(itemStackIn, new InvWrapper(toAddTo), minIndex);
@@ -67,7 +67,7 @@ public class ItemStackTools
                 .getCount() < stack1.getMaxStackSize();
     }
 
-    public static int getFirstEmptyStack(final IInventory inventory, final int minIndex)
+    public static int getFirstEmptyStack(final Container inventory, final int minIndex)
     {
         return ItemStackTools.getFirstEmptyStack(new InvWrapper(inventory), minIndex);
     }

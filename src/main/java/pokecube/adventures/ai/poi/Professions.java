@@ -2,7 +2,7 @@ package pokecube.adventures.ai.poi;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.entity.npc.NpcType;
 

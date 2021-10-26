@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.INPC;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Npc;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.utils.EnergyHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -199,7 +199,7 @@ public class Config extends ConfigData
 
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
-        WarppadTile.initParser(this.warpPadCostFunction);
+        WarpPadTile.initParser(this.warpPadCostFunction);
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);
@@ -211,7 +211,7 @@ public class Config extends ConfigData
     public boolean shouldBeCustomTrainer(final LivingEntity mob)
     {
         if (!this.npcsAreTrainers) return false;
-        if (mob instanceof INPC) return true;
+        if (mob instanceof Npc) return true;
         return this.customTrainerTypes.contains(mob.getType().getRegistryName());
     }
 

@@ -1,14 +1,14 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.client.gui.helper.ScrollGui;
 
-public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> extends Page
+public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends Page
 {
 
     protected ScrollGui<T> list;
@@ -17,16 +17,16 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
      */
     protected boolean      handlesList = false;
 
-    public ListPage(final ITextComponent title, final EditorGui parent)
+    public ListPage(final Component title, final EditorGui parent)
     {
         super(title, parent);
     }
 
-    public void drawTitle(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void drawTitle(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.parent.width - 160) / 2 + 80;
         final int y = (this.parent.height - 160) / 2 + 8;
-        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
+        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, 0xFFFFFFFF);
     }
 
     @Override
@@ -49,7 +49,7 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         this.drawTitle(mat, mouseX, mouseY, partialTicks);
         super.render(mat, mouseX, mouseY, partialTicks);

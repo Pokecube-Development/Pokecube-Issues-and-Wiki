@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.interfaces.Move_Base;

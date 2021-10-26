@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:distortic_stonebrick",
-    "pokecube_legends:distortic_chiseled_stone",
+    "pokecube_legends:distortic_stone_bricks",
+    "pokecube_legends:chiseled_distortic_stone_bricks",
     "pokecube_legends:unown_stone_a",
     "pokecube_legends:unown_stone_b",
     "pokecube_legends:unown_stone_c",

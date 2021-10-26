@@ -3,17 +3,17 @@ package pokecube.legends.blocks.normalblocks;
 import java.util.Iterator;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.IGrowable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.init.BlockInit;
 
-public class DirtCorruptedBlock extends Block implements IGrowable
+public class DirtCorruptedBlock extends Block implements BonemealableBlock
 {
     public DirtCorruptedBlock(final Properties properties)
     {
@@ -21,7 +21,7 @@ public class DirtCorruptedBlock extends Block implements IGrowable
     }
 
     @Override
-    public boolean isValidBonemealTarget(final IBlockReader block, final BlockPos pos, final BlockState state,
+    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
             final boolean valid)
     {
         if (!block.getBlockState(pos.above()).propagatesSkylightDown(block, pos)) return false;
@@ -44,13 +44,13 @@ public class DirtCorruptedBlock extends Block implements IGrowable
     }
 
     @Override
-    public boolean isBonemealSuccess(final World world, final Random random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(final ServerWorld world, final Random random, final BlockPos pos,
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
     {
         boolean valid = false;

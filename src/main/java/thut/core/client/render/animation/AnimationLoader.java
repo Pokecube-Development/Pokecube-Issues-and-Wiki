@@ -16,8 +16,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -301,7 +301,7 @@ public class AnimationLoader
     {
         try
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(animations);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(animations);
             final InputStream stream = res.getInputStream();
             if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);

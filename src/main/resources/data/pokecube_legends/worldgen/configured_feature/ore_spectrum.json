@@ -6,22 +6,33 @@
           "config": {
             "feature": {
               "config": {
-               "target": {
-                  "tag": "minecraft:base_stone_overworld",
-                  "predicate_type": "minecraft:tag_match"
-                },
-                "state": {
-                  "Name": "pokecube_legends:spectrum_ore"
-                },
-                "size": 6
+                "targets": [
+                  {
+                    "target": {
+                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+                      "predicate_type": "minecraft:tag_match"
+                    },
+                    "state": {
+                      "Name": "pokecube_legends:spectrum_ore"
+                    }
+                  }
+                ],
+                "size": 9,
+                "discard_chance_on_air_exposure": 0.0
               },
               "type": "minecraft:ore"
             },
             "decorator": {
               "config": {
-                "bottom_offset": 0,
-                "top_offset": 0,
-                "maximum": 32
+                "height": {
+                  "min_inclusive": {
+                    "above_bottom": 0
+                  },
+                  "max_inclusive": {
+                    "absolute": 31
+                  },
+                  "type": "minecraft:uniform"
+                }
               },
               "type": "minecraft:range"
             }

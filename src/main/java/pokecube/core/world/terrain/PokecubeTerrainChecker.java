@@ -5,15 +5,15 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import thut.api.item.ItemList;
@@ -137,11 +137,11 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     }
 
     @Override
-    public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+    public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
-        if (!(world instanceof World)) return BiomeType.NONE;
-        final World rworld = (World) world;
+        if (!(world instanceof Level)) return BiomeType.NONE;
+        final Level rworld = (Level) world;
         if (caveAdjusted)
         {
             final Set<StructureInfo> set = StructureManager.getFor(rworld.dimension(), v.getPos());
@@ -228,21 +228,21 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
             if (sky) return BiomeType.SKY;
         }
         // Check nearby villages, and if in one, define as village type.
-        if (world instanceof ServerWorld)
+        if (world instanceof ServerLevel)
         {
             final BlockPos pos = v.getPos();
-            final ServerWorld server = (ServerWorld) world;
+            final ServerLevel server = (ServerLevel) world;
             if (server.isVillage(pos)) biome = BiomeType.VILLAGE;
         }
         return biome;
     }
 
-    public boolean isCave(final Vector3 v, final IWorld world)
+    public boolean isCave(final Vector3 v, final LevelAccessor world)
     {
         return this.isCaveFloor(v, world) && this.isCaveCeiling(v, world);
     }
 
-    public boolean isCaveCeiling(final Vector3 v, final IWorld world)
+    public boolean isCaveCeiling(final Vector3 v, final LevelAccessor world)
     {
         final double y = v.getMaxY(world);
         if (y <= v.y) return false;
@@ -254,7 +254,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return PokecubeTerrainChecker.isCave(state);
     }
 
-    public boolean isCaveFloor(final Vector3 v, final IWorld world)
+    public boolean isCaveFloor(final Vector3 v, final LevelAccessor world)
     {
         final BlockState state = v.getBlockState(world);
         if (state.getMaterial().isSolid()) return PokecubeTerrainChecker.isCave(state);

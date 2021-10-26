@@ -1,9 +1,9 @@
 package pokecube.legends.handlers;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.interfaces.IPokemob;
@@ -22,16 +22,16 @@ public class ItemHelperEffect
          * @return
          */
         @Override
-        public ActionResult<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
+        public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
                 final MovePacket moveuse)
         {
             if (pokemob == moveuse.attacker && moveuse.pre) 
             	if (ItemList.is(new ResourceLocation(Reference.ID, "poffin_"+moveuse.getMove().getType(pokemob)), stack))
             {
                 moveuse.PWR *= 1.2;
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
+                return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
             }
-            return new ActionResult<>(ActionResultType.FAIL, stack);
+            return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
         }
     }
 

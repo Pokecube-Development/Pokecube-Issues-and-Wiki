@@ -22,7 +22,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:a1_flower"
+          "name": "pokecube_legends:golden_poppy"
         }
       ],
       "conditions": [

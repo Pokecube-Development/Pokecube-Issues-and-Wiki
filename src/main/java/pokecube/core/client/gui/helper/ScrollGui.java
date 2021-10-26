@@ -2,20 +2,23 @@ package pokecube.core.client.gui.helper;
 
 import java.util.Objects;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.Mth;
 
-public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends AbstractList<T>
+public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends AbstractSelectionList<T>
 {
     public boolean      smoothScroll    = false;
     private boolean     checkedSmooth   = false;
@@ -26,8 +29,8 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     public ScrollGui(final Screen parent, final Minecraft mcIn, final int widthIn, final int heightIn,
             final int slotHeightIn, final int offsetX, final int offsetY)
     {
-        super(mcIn, widthIn, slotHeightIn * (heightIn / slotHeightIn), offsetY,
-                offsetY + slotHeightIn * (heightIn / slotHeightIn), slotHeightIn);
+        super(mcIn, widthIn, slotHeightIn * (heightIn / slotHeightIn), offsetY, offsetY + slotHeightIn * (heightIn
+                / slotHeightIn), slotHeightIn);
         this.y0 = offsetY;
         this.y1 = this.y0 + this.height;
         this.setLeftPos(offsetX);
@@ -89,65 +92,55 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float tick)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float tick)
     {
         this.renderBackground(mat);
 
         final int i = this.getScrollbarPosition();
         final int j = i + 6;
-        final Tessellator tessellator = Tessellator.getInstance();
+        final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
-        this.minecraft.getTextureManager().bind(AbstractGui.BACKGROUND_LOCATION);
+        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
 
         this.renderList(mat, k, l, mouseX, mouseY, tick);
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
-                GlStateManager.DestFactor.ONE);
-        RenderSystem.disableTexture();
 
-        final int j1 = this.getMaxScroll();
-        if (j1 > 0)
-        {
-            int k1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
-            k1 = MathHelper.clamp(k1, 32, this.y1 - this.y0 - 8);
-            int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1 + this.y0;
-            if (l1 < this.y0) l1 = this.y0;
+        final int k1 = this.getMaxScroll();
+        if (k1 > 0) {
+           RenderSystem.disableTexture();
+           RenderSystem.setShader(GameRenderer::getPositionColorShader);
+           int l1 = (int)((float)((this.y1 - this.y0) * (this.y1 - this.y0)) / (float)this.getMaxPosition());
+           l1 = Mth.clamp(l1, 32, this.y1 - this.y0 - 8);
+           int i2 = (int)this.getScrollAmount() * (this.y1 - this.y0 - l1) / k1 + this.y0;
+           if (i2 < this.y0) i2 = this.y0;
 
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, l1 + k1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j, l1, 0.0D).color(128, 128, 128, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, l1, 0.0D).color(128, 128, 128, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
-            bufferbuilder.vertex(i, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j - 1, l1 + k1 - 1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(j - 1, l1, 0.0D).color(192, 192, 192, 255).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(i, l1, 0.0D).color(192, 192, 192, 255).uv(0.0F, 0.0F).endVertex();
-            tessellator.end();
+           bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+           bufferbuilder.vertex(i, this.y1, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(j, this.y1, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(j, this.y0, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(i, this.y0, 0.0D).color(0, 0, 0, 255).endVertex();
+           bufferbuilder.vertex(i, i2 + l1, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(j, i2 + l1, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(j, i2, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(i, i2, 0.0D).color(128, 128, 128, 255).endVertex();
+           bufferbuilder.vertex(i, i2 + l1 - 1, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(j - 1, i2 + l1 - 1, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(j - 1, i2, 0.0D).color(192, 192, 192, 255).endVertex();
+           bufferbuilder.vertex(i, i2, 0.0D).color(192, 192, 192, 255).endVertex();
+           tessellator.end();
         }
 
         this.renderDecorations(mat, mouseX, mouseY);
-        RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
     }
 
     @Override
-    protected void renderList(final MatrixStack mat, final int x, final int y, final int mouseX, final int mouseY, final float tick)
+    protected void renderList(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY,
+            final float tick)
     {
         final int i = this.getItemCount();
-        final Tessellator tessellator = Tessellator.getInstance();
+        final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
 
         for (int j = 0; j < i; ++j)
@@ -170,13 +163,13 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     final int i2 = x + this.x0 + this.width / 2 + k1 / 2;
                     RenderSystem.disableTexture();
                     final float f = this.isFocused() ? 1.0F : 0.5F;
-                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                     bufferbuilder.vertex(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(i2, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(i2, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
                     bufferbuilder.vertex(l1, i1 - 2, 0.0D).color(f, f, f, 1).endVertex();
                     tessellator.end();
-                    bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                     bufferbuilder.vertex(l1 + 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     bufferbuilder.vertex(i2 - 1, i1 + j1 + 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     bufferbuilder.vertex(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
@@ -184,9 +177,8 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     tessellator.end();
                     RenderSystem.enableTexture();
                 }
-                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY,
-                        this.isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e),
-                        tick);
+                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY, this.isMouseOver(mouseX, mouseY) && Objects.equals(this
+                        .getEntryAtPosition(mouseX, mouseY), e), tick);
             }
         }
     }
@@ -217,12 +209,12 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
             scroll = old + ds;
             scroll = Math.min(scroll, this.getMaxScroll());
         }
-        this.scrollAmount = MathHelper.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
+        this.scrollAmount = Mth.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
     }
 
     public void skipTo(final double scroll)
     {
-        this.scrollAmount = MathHelper.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
+        this.scrollAmount = Mth.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
     }
 
     public int itemHeight()
@@ -242,5 +234,12 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     public int getSize()
     {
         return this.getItemCount();
+    }
+
+    @Override
+    public void updateNarration(final NarrationElementOutput p_169152_)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

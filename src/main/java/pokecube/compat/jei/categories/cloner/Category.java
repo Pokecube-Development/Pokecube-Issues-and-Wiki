@@ -11,11 +11,12 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 
@@ -43,9 +44,9 @@ public class Category implements IRecipeCategory<Wrapper>
     }
 
     @Override
-    public String getTitle()
+    public Component getTitle()
     {
-        return this.localizedName;
+        return new TextComponent(this.localizedName);
     }
 
     @Override
@@ -73,12 +74,12 @@ public class Category implements IRecipeCategory<Wrapper>
     }
 
     @Override
-    public List<ITextComponent> getTooltipStrings(final Wrapper recipe, final double mouseX, final double mouseY)
+    public List<Component> getTooltipStrings(final Wrapper recipe, final double mouseX, final double mouseY)
     {
-        final List<ITextComponent> tooltips = Lists.newArrayList();
+        final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
-        tooltips.add(new TranslationTextComponent("gui.jei.cloner.need_egg"));
+        tooltips.add(new TranslatableComponent("gui.jei.cloner.need_egg"));
         return tooltips;
     }
 

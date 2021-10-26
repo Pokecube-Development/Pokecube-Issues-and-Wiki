@@ -1,10 +1,10 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.events.TeleportEvent;
@@ -71,7 +71,7 @@ public class ActionTeleport implements IMoveAction
             toTeleport.getCommandSenderWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
         toTeleport.getCommandSenderWorld().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT,
-                SoundCategory.HOSTILE, 1.0F, 1.0F, false);
+                SoundSource.HOSTILE, 1.0F, 1.0F, false);
         toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
         return true;
     }
@@ -84,9 +84,9 @@ public class ActionTeleport implements IMoveAction
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         final boolean inCombat = user.inCombat();
-        if (!inCombat && user.getOwner() instanceof ServerPlayerEntity)
+        if (!inCombat && user.getOwner() instanceof ServerPlayer)
         {
-            final ServerPlayerEntity target = (ServerPlayerEntity) user.getOwner();
+            final ServerPlayer target = (ServerPlayer) user.getOwner();
             EventsHandler.recallAllPokemobsExcluding(target, null, false);
             try
             {

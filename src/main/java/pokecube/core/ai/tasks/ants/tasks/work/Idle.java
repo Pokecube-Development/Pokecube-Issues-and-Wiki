@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.nest.Node;
@@ -15,12 +15,12 @@ import thut.core.common.ThutCore;
 
 public class Idle extends AbstractAntTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        Idle.mems.put(AntTasks.WORK_POS, MemoryModuleStatus.VALUE_ABSENT);
-        Idle.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
-        Idle.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
+        Idle.mems.put(AntTasks.WORK_POS, MemoryStatus.VALUE_ABSENT);
+        Idle.mems.put(MemoryModules.WALK_TARGET, MemoryStatus.VALUE_ABSENT);
+        Idle.mems.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
     }
 
     int timer = 0;

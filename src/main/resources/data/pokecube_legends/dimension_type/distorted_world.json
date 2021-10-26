@@ -1,15 +1,17 @@
 {
-  "has_raids": true,
-  "logical_height": 180,
-  "infiniburn": "minecraft:infiniburn_overworld",
-  "effects": "minecraft:the_nether",
   "ambient_light": 1,
-  "piglin_safe": false,
-  "bed_works": false,
-  "respawn_anchor_works": false,
-  "ultrawarm": true,
+  "infiniburn": "pokecube_legends:infiniburn_distorted_world",
+  "respawn_anchor_works": true,
+  "has_raids": false,
+  "min_y": 0,
+  "height": 256,
+  "logical_height": 256,
   "natural": true,
   "coordinate_scale": 1,
+  "piglin_safe": false,
+  "bed_works": false,
   "has_skylight": false,
-  "has_ceiling": false
+  "has_ceiling": false,
+  "ultrawarm": false,
+  "effects": "minecraft:the_end"
 }

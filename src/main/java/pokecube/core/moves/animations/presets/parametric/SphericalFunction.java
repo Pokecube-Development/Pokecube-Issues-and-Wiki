@@ -2,7 +2,7 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import org.nfunk.jep.JEP;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
@@ -81,10 +81,10 @@ public class SphericalFunction extends MoveAnimationBase
         final double dR = this.radial.getValue();
         this.theta.setVarValue("t", t);
         final double dTheta = this.theta.getValue();
-        final double sinTheta = MathHelper.sin((float) dTheta);
-        final double cosTheta = MathHelper.cos((float) dTheta);
-        final double rsinPhi = MathHelper.sin((float) dPhi) * dR;
-        final double rcosPhi = MathHelper.cos((float) dPhi) * dR;
+        final double sinTheta = Mth.sin((float) dTheta);
+        final double cosTheta = Mth.cos((float) dTheta);
+        final double rsinPhi = Mth.sin((float) dPhi) * dR;
+        final double rcosPhi = Mth.cos((float) dPhi) * dR;
         temp.set(rcosPhi * sinTheta, dR * cosTheta, rsinPhi * sinTheta);
     }
 

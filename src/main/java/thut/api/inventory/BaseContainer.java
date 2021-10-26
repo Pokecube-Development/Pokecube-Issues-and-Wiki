@@ -1,21 +1,21 @@
 package thut.api.inventory;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-public abstract class BaseContainer extends Container
+public abstract class BaseContainer extends AbstractContainerMenu
 {
-    protected BaseContainer(final ContainerType<?> type, final int id)
+    protected BaseContainer(final MenuType<?> type, final int id)
     {
         super(type, id);
     }
 
-    public void bindPlayerInventory(final PlayerInventory playerInv, final int yOffset)
+    public void bindPlayerInventory(final Inventory playerInv, final int yOffset)
     {
         for (int i1 = 0; i1 < 9; ++i1)
             this.addSlot(new Slot(playerInv, i1, 8 + i1 * 18, 161 + yOffset));
@@ -27,7 +27,7 @@ public abstract class BaseContainer extends Container
         this.getInv().startOpen(playerInv.player);
     }
 
-    public abstract IInventory getInv();
+    public abstract Container getInv();
 
     public int getInventorySlotCount()
     {
@@ -35,14 +35,14 @@ public abstract class BaseContainer extends Container
     }
 
     @Override
-    public void removed(final PlayerEntity playerIn)
+    public void removed(final Player playerIn)
     {
         super.removed(playerIn);
         this.getInv().stopOpen(playerIn);
     }
 
     @Override
-    public ItemStack quickMoveStack(final PlayerEntity player, final int index)
+    public ItemStack quickMoveStack(final Player player, final int index)
     {
         ItemStack itemstack = ItemStack.EMPTY;
         final Slot slot = this.slots.get(index);

@@ -1,7 +1,7 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;

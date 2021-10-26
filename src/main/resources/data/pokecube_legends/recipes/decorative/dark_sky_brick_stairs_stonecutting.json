@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "pokecube_legends:darkskybrick"
-  },
-  "result": "pokecube_legends:darksky_brick_stairs",
-  "count": 1
-}

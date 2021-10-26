@@ -1,28 +1,30 @@
 package pokecube.adventures.client.gui.blocks;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;
 
-public class Cloner extends ContainerScreen<ClonerContainer>
+public class Cloner extends AbstractContainerScreen<ClonerContainer>
 {
 
-    public Cloner(final ClonerContainer screenContainer, final PlayerInventory inv, final ITextComponent titleIn)
+    public Cloner(final ClonerContainer screenContainer, final Inventory inv, final Component titleIn)
     {
         super(screenContainer, inv, titleIn);
     }
 
     @Override
-    protected void renderBg(final MatrixStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
     {
-        this.minecraft.getTextureManager().bind(new ResourceLocation(PokecubeAdv.MODID,
-                "textures/gui/cloner.png"));
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
@@ -36,13 +38,13 @@ public class Cloner extends ContainerScreen<ClonerContainer>
     }
 
     @Override
-    protected void renderLabels(final MatrixStack mat, final int mouseX, final int mouseY)
+    protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
     {
         this.font.draw(mat, this.getTitle().getString(), 8, 6, 4210752);
-        this.font.draw(mat, this.inventory.getName().getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        this.font.draw(mat, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
-        final ITextComponent warning0 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_0");
-        final ITextComponent warning1 = new TranslationTextComponent("gui.pokecube_adventures.cloner.warning_1");
+        final Component warning0 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_0");
+        final Component warning1 = new TranslatableComponent("gui.pokecube_adventures.cloner.warning_1");
 
         final int dx = 109;
         final int dy = 6;
@@ -57,10 +59,10 @@ public class Cloner extends ContainerScreen<ClonerContainer>
 
     @Override
     /** Draws the screen and all the components in it. */
-    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         this.renderBackground(mat);
-        super.render(mat,mouseX, mouseY, partialTicks);
-        this.renderTooltip(mat,mouseX, mouseY);
+        super.render(mat, mouseX, mouseY, partialTicks);
+        this.renderTooltip(mat, mouseX, mouseY);
     }
 }

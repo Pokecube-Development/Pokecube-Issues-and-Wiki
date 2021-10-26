@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
@@ -33,7 +32,7 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<WormholeEntity>> implements
+public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<WormholeEntity>> implements
         IModelRenderer<WormholeEntity>
 {
     static final ResourceLocation TEXTURE = new ResourceLocation(Reference.ID, "entity/textures/wormhole.png");
@@ -51,9 +50,9 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     private Vector3 scale     = Vector3.getNewVector();
     private Vector5 rotations = new Vector5();
 
-    public Wormhole(final EntityRendererManager manager)
+    public Wormhole(final EntityRendererProvider.Context renderManager)
     {
-        super(manager, null, 0.0f);
+        super(renderManager, null, 0.0f);
         this.model = this.makeModel();
     }
 
@@ -71,7 +70,7 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
 
     @Override
     public void render(final WormholeEntity entity, final float p_225623_2_, final float p_225623_3_,
-            final MatrixStack p_225623_4_, final IRenderTypeBuffer bufferIn, final int p_225623_6_)
+            final PoseStack p_225623_4_, final MultiBufferSource bufferIn, final int p_225623_6_)
     {
         this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
         super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, bufferIn, p_225623_6_);
@@ -81,20 +80,21 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     protected RenderType getRenderType(final WormholeEntity entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
-                new RenderState.TextureState(this.getTextureLocation(entity), false, false)).setTransparencyState(
-                        new RenderState.TransparencyState("translucent_transparency", () ->
-                        {
-                            RenderSystem.enableBlend();
-                            RenderSystem.defaultBlendFunc();
-                        }, () ->
-                        {
-                            RenderSystem.disableBlend();
-                        })).setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
-                                new RenderState.AlphaState(0.003921569F)).setCullState(new RenderState.CullState(false))
-                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(
-                        true)).createCompositeState(false);
-        return RenderType.create("pokecube_legends:wormhole", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
+        // FIXME decide on shader
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
+                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
+                {
+                    RenderSystem.enableBlend();
+                    RenderSystem.defaultBlendFunc();
+                }, () ->
+                {
+                    RenderSystem.disableBlend();
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
+                        new RenderStateShard.CullStateShard(false)).setLightmapState(
+                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
+                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+        return RenderType.create("pokecube_legends:wormhole", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256,
                 bool_a, bool_b, rendertype$state);
     }
 
@@ -174,7 +174,7 @@ public class Wormhole extends LivingRenderer<WormholeEntity, ModelWrapper<Wormho
     }
 
     @Override
-    public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
+    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 1;
         float sx = (float) this.getScale().x;

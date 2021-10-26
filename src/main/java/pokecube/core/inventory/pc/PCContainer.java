@@ -6,20 +6,20 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.WritableBookItem;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.WritableBookItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.IContainerFactory;
+import net.minecraftforge.fmllegacy.network.IContainerFactory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;
@@ -34,7 +34,7 @@ import thut.wearables.ThutWearables;
 
 public class PCContainer extends BaseContainer
 {
-    public static final ContainerType<PCContainer> TYPE = new ContainerType<>(
+    public static final MenuType<PCContainer> TYPE = new MenuType<>(
             (IContainerFactory<PCContainer>) PCContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
@@ -67,24 +67,24 @@ public class PCContainer extends BaseContainer
 
     public final PCInventory inv;
 
-    public final PlayerInventory invPlayer;
+    public final Inventory invPlayer;
     public final BlockPos        pcPos;
     public boolean               release = false;
     // private GuiPC gpc;
 
     public boolean[] toRelease = new boolean[54];
 
-    public PCContainer(final int id, final PlayerInventory ivplay, final PacketBuffer buffer)
+    public PCContainer(final int id, final Inventory ivplay, final FriendlyByteBuf buffer)
     {
         this(id, ivplay, new PCInventory(PCManager.INSTANCE, buffer));
     }
 
-    public PCContainer(final int id, final PlayerInventory ivplay, final PCInventory pc)
+    public PCContainer(final int id, final Inventory ivplay, final PCInventory pc)
     {
         this(id, ivplay, pc, null);
     }
 
-    public PCContainer(final int id, final PlayerInventory ivplay, final PCInventory pc, final BlockPos pcPos)
+    public PCContainer(final int id, final Inventory ivplay, final PCInventory pc, final BlockPos pcPos)
     {
         super(PCContainer.TYPE, id);
         PCContainer.xOffset = 0;
@@ -116,7 +116,7 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity PlayerEntity)
+    public boolean stillValid(final Player PlayerEntity)
     {
         return true;
     }
@@ -138,7 +138,7 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public IInventory getInv()
+    public Container getInv()
     {
         return this.inv;
     }
@@ -186,7 +186,7 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public void removed(final PlayerEntity player)
+    public void removed(final Player player)
     {
         super.removed(player);
         this.inv.stopOpen(player);
@@ -207,15 +207,17 @@ public class PCContainer extends BaseContainer
     }
 
     @Override
-    public ItemStack clicked(final int slotId, final int dragType, final ClickType clickTypeIn,
-            final PlayerEntity player)
+    public void clicked(final int slotId, final int dragType,
+            final ClickType clickTypeIn,
+            final Player player)
     {
         if (this.release)
         {
             if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
-            return ItemStack.EMPTY;
+            this.getSlot(slotId).set(ItemStack.EMPTY);
+            return;
         }
-        return super.clicked(slotId, dragType, clickTypeIn, player);
+        super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
     public void toggleAuto()
@@ -229,7 +231,7 @@ public class PCContainer extends BaseContainer
         }
     }
 
-    public void updateInventoryPages(final int dir, final PlayerInventory invent)
+    public void updateInventoryPages(final int dir, final Inventory invent)
     {
         int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
                 : (this.inv.getPage() + dir) % this.inv.boxCount();

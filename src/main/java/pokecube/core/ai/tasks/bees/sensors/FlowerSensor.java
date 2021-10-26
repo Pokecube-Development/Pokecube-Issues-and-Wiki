@@ -6,17 +6,17 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.state.properties.DoubleBlockHalf;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -41,7 +41,7 @@ public class FlowerSensor extends Sensor<LivingEntity>
     private final float flowerSenseChance = 0.5f;
 
     @Override
-    protected void doTick(final ServerWorld worldIn, final LivingEntity entityIn)
+    protected void doTick(final ServerLevel worldIn, final LivingEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
         if (brain.hasMemoryValue(BeeTasks.FLOWER_POS)) return;

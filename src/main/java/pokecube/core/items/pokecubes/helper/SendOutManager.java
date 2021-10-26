@@ -3,18 +3,18 @@ package pokecube.core.items.pokecubes.helper;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.server.permission.IPermissionHandler;
@@ -40,10 +40,10 @@ import thut.core.common.commands.CommandTools;
 
 public class SendOutManager
 {
-    public static Vector3 getFreeSpot(final Entity mob, final ServerWorld world, final Vector3 pos,
+    public static Vector3 getFreeSpot(final Entity mob, final ServerLevel world, final Vector3 pos,
             final boolean respectRoom)
     {
-        AxisAlignedBB box = mob.getBoundingBox();
+        AABB box = mob.getBoundingBox();
         if (mob.isMultipartEntity())
         {
             final PartEntity<?>[] parts = mob.getParts();
@@ -74,7 +74,7 @@ public class SendOutManager
         return respectRoom ? null : pos.copy();
     }
 
-    public static boolean valid(final AxisAlignedBB box, final ServerWorld world)
+    public static boolean valid(final AABB box, final ServerLevel world)
     {
         final Stream<VoxelShape> colliding = world.getBlockCollisions(null, box);
         final long num = colliding.count();
@@ -89,7 +89,7 @@ public class SendOutManager
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon, final boolean respectRoom)
     {
         if (cube.getCommandSenderWorld().isClientSide || cube.isReleasing()) return null;
-        final ServerWorld world = (ServerWorld) cube.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) cube.getCommandSenderWorld();
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
 
         if (mob == null) return null;
@@ -101,9 +101,9 @@ public class SendOutManager
 
         final boolean hasMob = mob != null;
         final boolean hasPokemob = pokemob != null;
-        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayerEntity
+        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayer
                 && !(cube.shootingEntity instanceof FakePlayer);
-        final ServerPlayerEntity user = isPlayers ? (ServerPlayerEntity) cube.shootingEntity : null;
+        final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
         final boolean checkPerms = config.permsSendOut && isPlayers;
         boolean hasPerms = true;
 
@@ -120,9 +120,9 @@ public class SendOutManager
         {
             if (isPlayers && cube.shootingEntity.isAlive())
             {
-                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"), true);
-                cube.remove();
+                Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
+                user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.general"), true);
+                cube.discard();
             }
             return null;
         }
@@ -148,9 +148,9 @@ public class SendOutManager
             // Let npcs send out their mobs wherever they want to...
             if (v == null && isPlayers)
             {
-                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.displayClientMessage(new TranslationTextComponent("pokecube.noroom"), true);
-                cube.remove();
+                Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
+                user.displayClientMessage(new TranslatableComponent("pokecube.noroom"), true);
+                cube.discard();
                 return null;
             }
             else if (v == null) v = cube.v0.set(cube);
@@ -170,9 +170,9 @@ public class SendOutManager
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific",
+                    user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.noperms.specific",
                             pokemob.getDisplayName()), true);
-                    cube.remove();
+                    cube.discard();
                     return null;
                 }
             }
@@ -183,9 +183,9 @@ public class SendOutManager
                 if (isPlayers)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
+                    user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob
                             .getDisplayName()), true);
-                    cube.remove();
+                    cube.discard();
                 }
                 return null;
             }
@@ -217,13 +217,13 @@ public class SendOutManager
         else
         {
             cube.spawnAtLocation(cube.getItem(), 0.5f);
-            cube.remove();
+            cube.discard();
         }
         if (pokemob == null) return null;
         return pokemob.getEntity();
     }
 
-    private static void make(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
+    private static void make(final ServerLevel world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
         if (summon) world.addWithUUID(mob);
@@ -234,9 +234,9 @@ public class SendOutManager
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
             pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
             final Entity owner = pokemob.getOwner();
-            if (owner instanceof PlayerEntity)
+            if (owner instanceof Player)
             {
-                final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
+                final Component mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
                         pokemob.getDisplayName());
                 pokemob.displayMessageToOwner(mess);
             }
@@ -245,7 +245,7 @@ public class SendOutManager
         }
     }
 
-    private static void apply(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
+    private static void apply(final ServerLevel world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
         final Entity test = world.getEntity(mob.getUUID());

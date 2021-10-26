@@ -8,12 +8,13 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -33,37 +34,37 @@ import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
+import thut.core.common.genetics.DefaultGenetics;
 
 public class GeneticsManager
 {
-    public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT>
+    public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
-        public final IMobGenetics                wrapped = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+        public final IMobGenetics                wrapped = new DefaultGenetics();
         private final LazyOptional<IMobGenetics> holder  = LazyOptional.of(() -> this.wrapped);
 
         @Override
-        public void deserializeNBT(final CompoundNBT tag)
+        public void deserializeNBT(final CompoundTag tag)
         {
-            final INBT nbt = tag.get("V");
-            GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, this.holder.orElse(null), null,
-                    nbt);
+            final Tag nbt = tag.get("V");
+            this.wrapped.deserializeNBT((ListTag) nbt);
         }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return GeneRegistry.GENETICS_CAP.orEmpty(cap, this.holder);
+            return ThutCaps.GENETICS_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final INBT nbt = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, this.holder
-                    .orElse(null), null);
-            final CompoundNBT tag = new CompoundNBT();
+            final Tag nbt = this.wrapped.serializeNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.put("V", nbt);
             return tag;
         }
@@ -131,7 +132,7 @@ public class GeneticsManager
     public static void handleLoad(final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
-        final IMobGenetics genes = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (!genes.getAlleles().isEmpty()) return;
         GeneticsManager.initMob(mob);
     }
@@ -159,7 +160,7 @@ public class GeneticsManager
     public static void initFromGenes(final IMobGenetics genes, final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
-        final IMobGenetics mobs = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics mobs = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
         pokemob.onGenesChanged();
     }

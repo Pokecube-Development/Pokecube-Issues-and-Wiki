@@ -6,25 +6,36 @@
           "config": {
             "feature": {
               "config": {
-               "target": {
-                  "tag": "minecraft:base_stone_overworld",
-                  "predicate_type": "minecraft:tag_match"
-                },
-                "state": {
-                 "Properties": {
-                    "lit": "false"
-                  },
-                  "Name": "pokecube_legends:ultra_redstone_ore"
-                },
-                "size": 4
+                "targets": [
+                  {
+                    "target": {
+                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+                      "predicate_type": "minecraft:tag_match"
+                    },
+                    "state": {
+                      "Properties": {
+                        "lit": "false"
+                      },
+                      "Name": "pokecube_legends:ultra_redstone_ore"
+                    }
+                  }
+                ],
+                "size": 8,
+                "discard_chance_on_air_exposure": 0.0
               },
               "type": "minecraft:ore"
             },
             "decorator": {
               "config": {
-                "bottom_offset": 0,
-                "top_offset": 0,
-                "maximum": 25
+                "height": {
+                  "min_inclusive": {
+                    "above_bottom": 0
+                  },
+                  "max_inclusive": {
+                    "absolute": 15
+                  },
+                  "type": "minecraft:uniform"
+                }
               },
               "type": "minecraft:range"
             }
@@ -40,7 +51,7 @@
     },
     "decorator": {
       "config": {
-        "count": 7
+        "count": 8
       },
       "type": "minecraft:count"
     }

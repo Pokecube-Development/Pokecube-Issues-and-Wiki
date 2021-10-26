@@ -2,35 +2,36 @@ package pokecube.legends.blocks.plants;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.PlantType;
 
-public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLoggable
+public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWaterloggedBlock
 {
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -43,9 +44,9 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
     }
 
 	@Override
-	public void entityInside(final BlockState state, final World world, final BlockPos pos, final Entity entity) {
+	public void entityInside(final BlockState state, final Level world, final BlockPos pos, final Entity entity) {
 		if (entity instanceof LivingEntity) {
-			entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
+			entity.makeStuckInBlock(state, new Vec3(0.9D, 0.75D, 0.9D));
 			if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
 				final double d0 = Math.abs(entity.getX() - entity.xOld);
 				final double d1 = Math.abs(entity.getZ() - entity.zOld);
@@ -56,19 +57,19 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 
 	@Nullable
 	@Override
-	public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
+	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
 	{
-		return PathNodeType.DAMAGE_OTHER;
+		return BlockPathTypes.DAMAGE_OTHER;
 	}
 
 	@Override
-	protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(TallCrystallizedBush.HALF, TallCrystallizedBush.WATERLOGGED);
 	}
 
 	@Override
-	public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+	public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
 							final LivingEntity placer, final ItemStack stack)
 	{
 		if (placer != null)
@@ -80,7 +81,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	}
 
 	@Override
-	public BlockState getStateForPlacement(final BlockItemUseContext context)
+	public BlockState getStateForPlacement(final BlockPlaceContext context)
 	{
 		final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
 		final BlockPos pos = context.getClickedPos();
@@ -94,7 +95,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	}
 
 	// Breaking leaves water if underwater
-	private void removeHalf(final World world, final BlockPos pos, final BlockState state, final PlayerEntity player)
+	private void removeHalf(final Level world, final BlockPos pos, final BlockState state, final Player player)
 	{
 		final BlockState blockstate = world.getBlockState(pos);
 		final FluidState fluidState = world.getFluidState(pos);
@@ -106,8 +107,8 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 		}
 	}
 	@Override
-	public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
-								  final PlayerEntity player)
+	public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+								  final Player player)
 	{
 		final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(TallCrystallizedBush.HALF));
 		BlockState tallBushBlockState = world.getBlockState(tallBushPos);
@@ -132,12 +133,12 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	}
 
 	@Override
-	public boolean mayPlaceOn(final BlockState state, final IBlockReader worldIn, final BlockPos pos) {
+	public boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos) {
 		return state.isFaceSturdy(worldIn, pos, Direction.UP);
 	}
 
 	@Override
-	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
+	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
 								  final BlockPos facingPos)
 	{
 		if (state.getValue(TallCrystallizedBush.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -150,5 +151,11 @@ public class TallCrystallizedBush extends DoublePlantBlock implements IWaterLogg
 	public FluidState getFluidState(final BlockState state)
 	{
 		return state.getValue(TallCrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) 
+	{
+	    return PlantType.DESERT;
 	}
 }

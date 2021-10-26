@@ -1,9 +1,9 @@
 package pokecube.mobs.abilities.a;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.Explosion.Mode;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Explosion.BlockInteraction;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import pokecube.core.database.abilities.Ability;
@@ -24,7 +24,7 @@ public class Aftermath extends Ability
         if (mob.getEntity().getHealth() <= 0)
         {
             final Explosion boom = new Explosion(move.attacked.getCommandSenderWorld(), move.attacked, move.attacked.getX(),
-                    move.attacked.getY(), move.attacked.getZ(), 0, false, Mode.BREAK);
+                    move.attacked.getY(), move.attacked.getZ(), 0, false, BlockInteraction.BREAK);
             final ExplosionEvent evt = new ExplosionEvent.Start(move.attacked.getCommandSenderWorld(), boom);
             MinecraftForge.EVENT_BUS.post(evt);
             if (!evt.isCanceled())

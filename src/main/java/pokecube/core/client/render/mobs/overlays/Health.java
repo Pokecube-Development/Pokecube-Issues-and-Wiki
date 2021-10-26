@@ -7,26 +7,26 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.UUID;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
@@ -42,7 +42,7 @@ import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
 /**
- * This health renderer is directly based on Neat vy Vaziki, which can be found
+ * This health renderer is directly based on Neat by Vaziki, which can be found
  * here: https://github.com/Vazkii/Neat This version has been modified to only
  * apply to pokemobs, as well as to show level, gender and exp. I have also
  * modified the nametags to indicate ownership
@@ -74,9 +74,9 @@ public class Health
         return !nametag;
     }
 
-    public static IFormattableTextComponent obfuscate(final ITextComponent compIn)
+    public static MutableComponent obfuscate(final Component compIn)
     {
-        final ITextComponent comp = compIn;
+        final Component comp = compIn;
         String val = comp.getString();
         final Random rand = ThutCore.newRandom();
         final char[] chars = val.toCharArray();
@@ -91,7 +91,7 @@ public class Health
                 }
             }
         val = new String(chars);
-        return new StringTextComponent(val).setStyle(compIn.getStyle());
+        return new TextComponent(val).setStyle(compIn.getStyle());
     }
 
     public static Entity getEntityLookedAt(final Entity e)
@@ -99,7 +99,7 @@ public class Health
         return Tools.getPointedEntity(e, 32);
     }
 
-    private static void blit(final IVertexBuilder buffer, final Matrix4f pos, final float x1, final float y1,
+    private static void blit(final VertexConsumer buffer, final Matrix4f pos, final float x1, final float y1,
             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
             final int brightness)
     {
@@ -113,24 +113,24 @@ public class Health
         buffer.vertex(pos, x2, y1, z).color(r, g, b, a).uv(u0, v0).uv2(brightness).endVertex();
     }
 
-    public static void renderHealthBar(final LivingEntity passedEntity, final MatrixStack mat,
-            final IRenderTypeBuffer buf, final float partialTicks, final Entity viewPoint, final int br)
+    public static void renderHealthBar(final LivingEntity passedEntity, final PoseStack mat,
+            final MultiBufferSource buf, final float partialTicks, final Entity viewPoint, final int br)
     {
         final Stack<LivingEntity> ridingStack = new Stack<>();
 
         LivingEntity entity = passedEntity;
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        if (pokemob == null || !entity.inChunk || !pokemob.getPokedexEntry().stock) return;
+        if (pokemob == null || !entity.isAddedToWorld() || !pokemob.getPokedexEntry().stock) return;
         if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
-        final EntityRendererManager renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+        final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         if (renderManager == null || renderManager.camera == null) return;
         if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return;
-        final ActiveRenderInfo viewer = renderManager.camera;
+        final Camera viewer = renderManager.camera;
 
-        final boolean background = config.drawBackground && entity.canSee(viewer.getEntity());
+        final boolean background = config.drawBackground && entity.hasLineOfSight(viewer.getEntity());
 
         if (entity.getPassengers().contains(viewer.getEntity())) return;
 
@@ -144,7 +144,7 @@ public class Health
             ridingStack.push(entity);
         }
 
-        IVertexBuilder buffer;
+        VertexConsumer buffer;
         Matrix4f pos;
 
         mat.pushPose();
@@ -187,11 +187,11 @@ public class Health
             r = color.getRed();
             g = color.getGreen();
             b = color.getBlue();
-            IFormattableTextComponent nameComp = (IFormattableTextComponent) pokemob.getDisplayName();
+            MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
-                nameComp = (IFormattableTextComponent) ((MobEntity) entity).getCustomName();
+            if (entity instanceof Mob && ((Mob) entity).hasCustomName()) nameComp = (MutableComponent) ((Mob) entity)
+                    .getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();
@@ -324,7 +324,7 @@ public class Health
         mat.popPose();
     }
 
-    public static void renderIcon(final LivingEntity mob, final MatrixStack mat, final IRenderTypeBuffer buf,
+    public static void renderIcon(final LivingEntity mob, final PoseStack mat, final MultiBufferSource buf,
             final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
     {
         mat.pushPose();
@@ -333,8 +333,8 @@ public class Health
             mat.translate(vertexX, vertexY + 7, 0);
             mat.scale(20, -20, -1);
             Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
-                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY);
+                    net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf, mob
+                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY, 0);
         }
         catch (final Exception e)
         {

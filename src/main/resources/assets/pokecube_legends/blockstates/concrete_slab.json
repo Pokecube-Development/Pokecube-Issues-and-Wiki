@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/concrete_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/concrete_plank"
+      "model": "pokecube_legends:block/concrete_planks"
     },
     "type=top": {
       "model": "pokecube_legends:block/concrete_slab_top"

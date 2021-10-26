@@ -1,44 +1,47 @@
 {
   "config": {
-    "max_water_depth": 0,
-    "ignore_vines": true,
-    "heightmap": "OCEAN_FLOOR",
-    "minimum_size": {
-      "limit": 1,
-      "lower_size": 0,
-      "upper_size": 1,
-      "type": "minecraft:two_layers_feature_size"
-    },
     "decorators": [],
-    "trunk_provider": {
+    "ignore_vines": true,
+    "force_dirt": false,
+    "dirt_provider": {
       "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:distortic_vines_plant"
+        "Name": "pokecube_legends:distortic_stone"
       },
       "type": "minecraft:simple_state_provider"
     },
-    "leaves_provider": {
+    "minimum_size": {
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 2,
+      "type": "minecraft:two_layers_feature_size"
+    },
+    "foliage_provider": {
       "state": {
-        "Properties": {
-          "persistent": "false",
-          "distance": "7"
-        },
         "Name": "minecraft:air"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "sapling_provider": {
+      "state": {
+        "Name": "pokecube_legends:distortic_vines_plant"
       },
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
       "radius": 0,
       "offset": 0,
-      "height": 0,
-      "type": "minecraft:fancy_foliage_placer"
+      "type": "minecraft:acacia_foliage_placer"
+    },
+    "trunk_provider": {
+      "state": {
+        "Name": "pokecube_legends:distortic_vines_plant"
+      },
+      "type": "minecraft:simple_state_provider"
     },
     "trunk_placer": {
-      "base_height": 4,
-      "height_rand_a": 10,
-      "height_rand_b": 0,
+      "base_height": 3,
+      "height_rand_a": 8,
+      "height_rand_b": 5,
       "type": "minecraft:straight_trunk_placer"
     }
   },

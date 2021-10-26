@@ -12,11 +12,12 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeCore;
@@ -43,9 +44,9 @@ public class Category implements IRecipeCategory<InteractRecipe>
     }
 
     @Override
-    public String getTitle()
+    public Component getTitle()
     {
-        return this.localizedName;
+        return new TextComponent(this.localizedName);
     }
 
     @Override
@@ -73,15 +74,15 @@ public class Category implements IRecipeCategory<InteractRecipe>
     }
 
     @Override
-    public List<ITextComponent> getTooltipStrings(final InteractRecipe recipe, final double mouseX, final double mouseY)
+    public List<Component> getTooltipStrings(final InteractRecipe recipe, final double mouseX, final double mouseY)
     {
-        final List<ITextComponent> tooltips = Lists.newArrayList();
+        final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
         if (!arrow.contains(mouseX, mouseY)) return tooltips;
-        if (!recipe.interaction.male) tooltips.add(new TranslationTextComponent("gui.jei.pokemob.nogender",
-                new TranslationTextComponent("gui.jei.pokemob.gender.male")));
-        if (!recipe.interaction.female) tooltips.add(new TranslationTextComponent("gui.jei.pokemob.nogender",
-                new TranslationTextComponent("gui.jei.pokemob.gender.female")));
+        if (!recipe.interaction.male) tooltips.add(new TranslatableComponent("gui.jei.pokemob.nogender",
+                new TranslatableComponent("gui.jei.pokemob.gender.male")));
+        if (!recipe.interaction.female) tooltips.add(new TranslatableComponent("gui.jei.pokemob.nogender",
+                new TranslatableComponent("gui.jei.pokemob.gender.female")));
         return tooltips;
     }
 

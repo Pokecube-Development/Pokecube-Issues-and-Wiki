@@ -1,17 +1,17 @@
 package thut.wearables.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effects;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
@@ -21,13 +21,13 @@ import thut.wearables.client.render.slots.Head;
 import thut.wearables.client.render.slots.Leg;
 import thut.wearables.inventory.PlayerWearables;
 
-public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> extends LayerRenderer<T, M>
+public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M>
 {
     float[]                             offsetArr = { 0, 0, 0 };
 
-    private final IEntityRenderer<?, ?> livingEntityRenderer;
+    private final RenderLayerParent<?, ?> livingEntityRenderer;
 
-    public WearablesRenderer(final IEntityRenderer<T, M> livingEntityRendererIn)
+    public WearablesRenderer(final RenderLayerParent<T, M> livingEntityRendererIn)
     {
         super(livingEntityRendererIn);
         this.livingEntityRenderer = livingEntityRendererIn;
@@ -40,25 +40,25 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
     }
 
     @Override
-    public void render(final MatrixStack mat, final IRenderTypeBuffer buff, final int packedLightIn, final T wearer,
+    public void render(final PoseStack mat, final MultiBufferSource buff, final int packedLightIn, final T wearer,
             final float limbSwing, final float limbSwingAmount, final float partialTicks, final float ageInTicks,
             final float netHeadYaw, final float headPitch)
     {
         // No Render invisible.
-        if (wearer.getEffect(Effects.INVISIBILITY) != null) return;
+        if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
         // Only applies to bipeds, anyone else needs to write their own render
         // layer.
-        if (!(this.livingEntityRenderer.getModel() instanceof BipedModel<?>)) return;
-        final BipedModel<?> theModel = (BipedModel<?>) this.livingEntityRenderer.getModel();
+        if (!(this.livingEntityRenderer.getModel() instanceof HumanoidModel<?>)) return;
+        final HumanoidModel<?> theModel = (HumanoidModel<?>) this.livingEntityRenderer.getModel();
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;
         boolean thin = false;
 
-        final int overlay = LivingRenderer.getOverlayCoords(wearer, 0);
+        final int overlay = LivingEntityRenderer.getOverlayCoords(wearer, 0);
 
-        if (wearer instanceof AbstractClientPlayerEntity)
-            thin = ((AbstractClientPlayerEntity) wearer).getModelName().equals("slim");
+        if (wearer instanceof AbstractClientPlayer)
+            thin = ((AbstractClientPlayer) wearer).getModelName().equals("slim");
         else if (theModel instanceof PlayerModel<?>) thin = ((PlayerModel<?>) theModel).slim;
 
         for (int i = 0; i < worn.getSlots(); i++)

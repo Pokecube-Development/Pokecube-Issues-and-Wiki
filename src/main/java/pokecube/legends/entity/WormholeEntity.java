@@ -11,39 +11,41 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.HandSide;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion.Mode;
-import net.minecraft.world.World;
-import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion.BlockInteraction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.event.entity.living.EntityTeleportEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -63,15 +65,15 @@ import thut.core.common.network.EntityUpdate;
 
 public class WormholeEntity extends LivingEntity
 {
-    private static final List<RegistryKey<World>> _sorted = Lists.newArrayList();
+    private static final List<ResourceKey<Level>> _sorted = Lists.newArrayList();
 
-    private static final Map<RegistryKey<World>, Float> _mapped = Maps.newHashMap();
+    private static final Map<ResourceKey<Level>, Float> _mapped = Maps.newHashMap();
 
     public static final Float DEFAULT_WEIGHT = 10f;
 
-    public static final Map<RegistryKey<World>, Float> WEIGHTED_DIM_MAP = Maps.newHashMap();
+    public static final Map<ResourceKey<Level>, Float> WEIGHTED_DIM_MAP = Maps.newHashMap();
 
-    public static final Set<RegistryKey<World>> NO_HOLES = Sets.newHashSet();
+    public static final Set<ResourceKey<Level>> NO_HOLES = Sets.newHashSet();
 
     private static int lastCheck = 0;
 
@@ -85,27 +87,27 @@ public class WormholeEntity extends LivingEntity
         WormholeEntity._sorted.clear();
     }
 
-    private static RegistryKey<World> getTargetWorld(final ServerWorld source, final float rng)
+    private static ResourceKey<Level> getTargetWorld(final ServerLevel source, final float rng)
     {
-        final Set<RegistryKey<World>> worlds = source.getServer().levelKeys();
+        final Set<ResourceKey<Level>> worlds = source.getServer().levelKeys();
         if (WormholeEntity._sorted.isEmpty() || WormholeEntity.lastCheck < worlds.size())
         {
             WormholeEntity._sorted.clear();
             WormholeEntity._mapped.clear();
             float total = 0;
-            for (final RegistryKey<World> world : WormholeEntity.WEIGHTED_DIM_MAP.keySet())
+            for (final ResourceKey<Level> world : WormholeEntity.WEIGHTED_DIM_MAP.keySet())
             {
                 total += WormholeEntity.WEIGHTED_DIM_MAP.getOrDefault(world, WormholeEntity.DEFAULT_WEIGHT);
                 WormholeEntity._mapped.put(world, total);
             }
-            for (final RegistryKey<World> world : worlds)
+            for (final ResourceKey<Level> world : worlds)
             {
                 if (WormholeEntity.NO_HOLES.contains(world) || WormholeEntity._mapped.containsKey(world)) continue;
                 total += WormholeEntity.WEIGHTED_DIM_MAP.getOrDefault(world, WormholeEntity.DEFAULT_WEIGHT);
                 WormholeEntity._mapped.put(world, total);
             }
             float current = 0;
-            for (final RegistryKey<World> world : Sets.newHashSet(WormholeEntity._mapped.keySet()))
+            for (final ResourceKey<Level> world : Sets.newHashSet(WormholeEntity._mapped.keySet()))
             {
                 if (WormholeEntity.NO_HOLES.contains(world)) continue;
                 current += WormholeEntity._mapped.get(world) / total;
@@ -114,7 +116,7 @@ public class WormholeEntity extends LivingEntity
             }
         }
         if (WormholeEntity._sorted.isEmpty()) return source.dimension();
-        RegistryKey<World> dim = WormholeEntity._sorted.get(0);
+        ResourceKey<Level> dim = WormholeEntity._sorted.get(0);
         for (int i = 1; i < WormholeEntity._sorted.size(); i++)
         {
             dim = WormholeEntity._sorted.get(i - 1);
@@ -129,7 +131,7 @@ public class WormholeEntity extends LivingEntity
         return dim;
     }
 
-    public static class EnergyStore extends EnergyStorage implements ICapabilitySerializable<CompoundNBT>
+    public static class EnergyStore extends EnergyStorage implements ICapabilityProvider
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
 
@@ -145,25 +147,23 @@ public class WormholeEntity extends LivingEntity
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public void deserializeNBT(final Tag nbt)
         {
-            final CompoundNBT tag = new CompoundNBT();
-            tag.putInt("E", this.energy);
-            return tag;
-        }
-
-        @Override
-        public void deserializeNBT(final CompoundNBT nbt)
-        {
-            this.energy = nbt.getInt("E");
+            if (!(nbt instanceof IntTag))
+            {
+                PokecubeCore.LOGGER.error("error loading wormhole energy, this is probably from a version update!");
+                return;
+            }
+            // TODO Auto-generated method stub
+            super.deserializeNBT(nbt);
         }
     }
 
     public static void onTeleport(final EntityTeleportEvent event)
     {
-        final World world = event.getEntity().level;
+        final Level world = event.getEntity().level;
         if (world.isClientSide()) return;
-        if (!(world instanceof ServerWorld)) return;
+        if (!(world instanceof ServerLevel)) return;
 
         final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         if (holes == null) return;
@@ -205,19 +205,19 @@ public class WormholeEntity extends LivingEntity
         world.addFreshEntity(wormhole);
     }
 
-    private static final DataParameter<Byte> ACTIVE_STATE = EntityDataManager.defineId(WormholeEntity.class,
-            DataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> ACTIVE_STATE = SynchedEntityData.defineId(WormholeEntity.class,
+            EntityDataSerializers.BYTE);
 
     private TeleDest dest = null;
     private TeleDest pos  = null;
-    private Vector3d dir  = null;
+    private Vec3     dir  = null;
 
     public EnergyStore energy;
 
     int timer = 0;
     int uses  = 0;
 
-    public WormholeEntity(final EntityType<? extends LivingEntity> type, final World level)
+    public WormholeEntity(final EntityType<? extends LivingEntity> type, final Level level)
     {
         super(type, level);
         this.setInvulnerable(true);
@@ -247,22 +247,22 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundNBT nbt)
+    public void readAdditionalSaveData(final CompoundTag nbt)
     {
         if (nbt.contains("warp_dest"))
         {
-            final CompoundNBT tag = nbt.getCompound("warp_dest");
+            final CompoundTag tag = nbt.getCompound("warp_dest");
             this.dest = TeleDest.readFromNBT(tag);
         }
         if (nbt.contains("anchor_pos"))
         {
-            final CompoundNBT tag = nbt.getCompound("anchor_pos");
+            final CompoundTag tag = nbt.getCompound("anchor_pos");
             this.pos = TeleDest.readFromNBT(tag);
         }
         if (nbt.contains("face_dir"))
         {
-            final CompoundNBT tag = nbt.getCompound("face_dir");
-            this.setDir(new Vector3d(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z")));
+            final CompoundTag tag = nbt.getCompound("face_dir");
+            this.setDir(new Vec3(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z")));
         }
         this.timer = nbt.getInt("timer");
         this.uses = nbt.getInt("uses");
@@ -273,8 +273,8 @@ public class WormholeEntity extends LivingEntity
 
     public void setDest(final TeleDest d)
     {
-        final RegistryKey<World> key = d.getPos().dimension();
-        final ServerWorld dest = this.getServer().getLevel(key);
+        final ResourceKey<Level> key = d.getPos().dimension();
+        final ServerLevel dest = this.getServer().getLevel(key);
         final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         this.makingDest = true;
         EventsHandler.Schedule(dest, w ->
@@ -293,16 +293,16 @@ public class WormholeEntity extends LivingEntity
 
     public TeleDest getDest()
     {
-        if (this.dest == null) if (this.level instanceof ServerWorld)
+        if (this.dest == null) if (this.level instanceof ServerLevel)
         {
             if (this.makingDest) return new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                    : World.OVERWORLD, this.getOnPos().above(20)));
+                    : Level.OVERWORLD, this.getOnPos().above(20)));
             final Random rng = this.getRandom();
-            final RegistryKey<World> key = WormholeEntity.getTargetWorld((ServerWorld) this.level, rng.nextFloat());
-            ServerWorld dest = this.getServer().getLevel(key);
+            final ResourceKey<Level> key = WormholeEntity.getTargetWorld((ServerLevel) this.level, rng.nextFloat());
+            ServerLevel dest = this.getServer().getLevel(key);
             if (dest == null)
             {
-                dest = (ServerWorld) this.level;
+                dest = (ServerLevel) this.level;
                 PokecubeCore.LOGGER.error("Warning, Wormhole had invalid exit dimension {}", key);
             }
             final WorldBorder border = dest.getWorldBorder();
@@ -312,7 +312,7 @@ public class WormholeEntity extends LivingEntity
             {
                 final int x = (int) ((border.getMaxX() - border.getMinX()) * rng.nextDouble() + border.getMinX());
                 final int z = (int) ((border.getMaxZ() - border.getMinZ()) * rng.nextDouble() + border.getMinZ());
-                final ServerWorld world = (ServerWorld) w;
+                final ServerLevel world = (ServerLevel) w;
                 this.dest = new TeleDest().setPos(GlobalPos.of(key, WormholeSpawns.getWormholePos(world, new BlockPos(x,
                         0, z))));
 
@@ -328,19 +328,19 @@ public class WormholeEntity extends LivingEntity
             });
         }
         else this.dest = new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                : World.OVERWORLD, this.getOnPos().above(20)));
+                : Level.OVERWORLD, this.getOnPos().above(20)));
         return this.dest;
     }
 
     public TeleDest getPos()
     {
         if (this.pos == null) this.pos = new TeleDest().setPos(GlobalPos.of(this.level != null ? this.level.dimension()
-                : World.OVERWORLD, this.getOnPos()));
+                : Level.OVERWORLD, this.getOnPos()));
         return this.pos;
     }
 
     @Override
-    public ActionResultType interact(final PlayerEntity p_184230_1_, final Hand p_184230_2_)
+    public InteractionResult interact(final Player p_184230_1_, final InteractionHand p_184230_2_)
     {
         return super.interact(p_184230_1_, p_184230_2_);
     }
@@ -374,17 +374,17 @@ public class WormholeEntity extends LivingEntity
 
         if (this.isClosing() && this.timer++ > 300)
         {
-            if (this.level instanceof ServerWorld)
+            if (this.level instanceof ServerLevel)
             {
                 final IWormholeWorld holes = this.level.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
                 holes.removeWormhole(this.getPos().getPos().pos());
                 holes.getWormholes().clear();
 
-                final ServerWorld dest = this.getServer().getLevel(this.getDest().getPos().dimension());
+                final ServerLevel dest = this.getServer().getLevel(this.getDest().getPos().dimension());
                 EventsHandler.Schedule(dest, w ->
                 {
                     dest.getChunk(this.dest.getPos().pos());
-                    final AxisAlignedBB box = new AxisAlignedBB(this.getDest().getPos().pos()).inflate(10);
+                    final AABB box = new AABB(this.getDest().getPos().pos()).inflate(10);
                     final List<WormholeEntity> list = w.getEntitiesOfClass(WormholeEntity.class, box);
                     for (final WormholeEntity e : list)
                     {
@@ -395,8 +395,8 @@ public class WormholeEntity extends LivingEntity
                     return true;
                 });
                 final float boom = 0.5f * this.uses;
-                this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, Mode.NONE);
-                this.remove();
+                this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, BlockInteraction.NONE);
+                this.discard();
             }
             return;
         }
@@ -404,10 +404,10 @@ public class WormholeEntity extends LivingEntity
         this.energy.receiveEnergy(WormholeEntity.wormholeEnergyPerTick, false);
 
         final BlockPos anchor = this.getPos().getPos().pos();
-        final Vector3d origin = new Vector3d(anchor.getX(), anchor.getY(), anchor.getZ());
-        final Vector3d here = this.position();
-        final Vector3d diff = origin.subtract(here);
-        final Vector3d v = this.getDeltaMovement();
+        final Vec3 origin = new Vec3(anchor.getX(), anchor.getY(), anchor.getZ());
+        final Vec3 here = this.position();
+        final Vec3 diff = origin.subtract(here);
+        final Vec3 v = this.getDeltaMovement();
         final double s = 0.01;
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
@@ -450,15 +450,15 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    public void addAdditionalSaveData(final CompoundNBT nbt)
+    public void addAdditionalSaveData(final CompoundTag nbt)
     {
-        CompoundNBT tag = new CompoundNBT();
+        CompoundTag tag = new CompoundTag();
         this.getDest().writeToNBT(tag);
         nbt.put("warp_dest", tag);
-        tag = new CompoundNBT();
+        tag = new CompoundTag();
         this.getPos().writeToNBT(tag);
         nbt.put("anchor_pos", tag);
-        tag = new CompoundNBT();
+        tag = new CompoundTag();
         tag.putDouble("x", this.getDir().x);
         tag.putDouble("y", this.getDir().y);
         tag.putDouble("z", this.getDir().z);
@@ -505,7 +505,7 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -517,29 +517,29 @@ public class WormholeEntity extends LivingEntity
     }
 
     @Override
-    public ItemStack getItemBySlot(final EquipmentSlotType p_184582_1_)
+    public ItemStack getItemBySlot(final EquipmentSlot p_184582_1_)
     {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public void setItemSlot(final EquipmentSlotType p_184201_1_, final ItemStack p_184201_2_)
+    public void setItemSlot(final EquipmentSlot p_184201_1_, final ItemStack p_184201_2_)
     {
     }
 
     @Override
-    public HandSide getMainArm()
+    public HumanoidArm getMainArm()
     {
-        return HandSide.LEFT;
+        return HumanoidArm.LEFT;
     }
 
-    public Vector3d getDir()
+    public Vec3 getDir()
     {
         if (this.dir == null) this.dir = this.getLookAngle();
         return this.dir;
     }
 
-    public void setDir(final Vector3d dir)
+    public void setDir(final Vec3 dir)
     {
         this.dir = dir;
     }

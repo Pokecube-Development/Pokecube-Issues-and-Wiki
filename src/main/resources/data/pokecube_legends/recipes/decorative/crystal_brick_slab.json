@@ -6,11 +6,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:crystalbrick"
+      "item": "pokecube_legends:crystal_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:crystal_bricks_slab",
+    "item": "pokecube_legends:crystal_brick_slab",
     "count": 6
   }
 }

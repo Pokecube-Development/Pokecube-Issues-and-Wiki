@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -48,7 +48,7 @@ public interface IModel
      * @param mat
      * @param dy
      */
-    default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
+    default void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
         mat.mulPose(new Quaternion(90, 0, 180, true));

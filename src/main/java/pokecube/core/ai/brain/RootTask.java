@@ -8,26 +8,26 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityPosWrapper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.phys.Vec3;
 import pokecube.core.ai.pathing.PosWrapWrap;
 import thut.api.maths.Vector3;
 
-public class RootTask<E extends LivingEntity> extends Task<E>
+public class RootTask<E extends LivingEntity> extends Behavior<E>
 {
-    public static Map<MemoryModuleType<?>, MemoryModuleStatus> merge(
-            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems2,
-            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems3)
+    public static Map<MemoryModuleType<?>, MemoryStatus> merge(
+            final Map<MemoryModuleType<?>, MemoryStatus> mems2,
+            final Map<MemoryModuleType<?>, MemoryStatus> mems3)
     {
-        final Map<MemoryModuleType<?>, MemoryModuleStatus> ret = Maps.newHashMap();
+        final Map<MemoryModuleType<?>, MemoryStatus> ret = Maps.newHashMap();
         ret.putAll(mems2);
         ret.putAll(mems3);
         return ImmutableMap.copyOf(ret);
@@ -37,52 +37,52 @@ public class RootTask<E extends LivingEntity> extends Task<E>
 
     public static int runRate = 10;
 
-    protected final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
+    protected final Map<MemoryModuleType<?>, MemoryStatus> neededMems;
 
     private final MemoryModuleType<?>[] neededModules;
-    private final MemoryModuleStatus[]  neededStatus;
+    private final MemoryStatus[]  neededStatus;
 
     protected E entity;
 
     protected boolean runWhileDead = false;
 
-    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems, final int duration,
+    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration,
             final int maxDuration)
     {
         super(neededMems, duration, maxDuration);
         this.entity = entity;
         this.neededMems = neededMems;
         final List<MemoryModuleType<?>> neededModules = Lists.newArrayList();
-        final List<MemoryModuleStatus> neededStatus = Lists.newArrayList();
+        final List<MemoryStatus> neededStatus = Lists.newArrayList();
         neededModules.addAll(neededMems.keySet());
         for (final MemoryModuleType<?> mod : neededModules)
             neededStatus.add(neededMems.get(mod));
         this.neededModules = neededModules.toArray(new MemoryModuleType<?>[neededModules.size()]);
-        this.neededStatus = neededStatus.toArray(new MemoryModuleStatus[neededModules.size()]);
+        this.neededStatus = neededStatus.toArray(new MemoryStatus[neededModules.size()]);
     }
 
-    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems, final int duration)
+    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration)
     {
         this(entity, neededMems, duration, duration);
     }
 
-    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
+    public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
     {
         this(entity, neededMems, 60);
     }
 
-    public RootTask(final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems, final int duration)
+    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration)
     {
         this(null, neededMems, duration);
     }
 
-    public RootTask(final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems, final int duration,
+    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration,
             final int maxDuration)
     {
         this(null, neededMems, duration, maxDuration);
     }
 
-    public RootTask(final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
+    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
     {
         this(null, neededMems, 60);
     }
@@ -97,7 +97,7 @@ public class RootTask<E extends LivingEntity> extends Task<E>
         this.setWalkTo(pos.toVec3d(), speed, dist);
     }
 
-    protected void setWalkTo(final Vector3d pos, final double speed, final int dist)
+    protected void setWalkTo(final Vec3 pos, final double speed, final int dist)
     {
         this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
     }
@@ -109,12 +109,12 @@ public class RootTask<E extends LivingEntity> extends Task<E>
 
     protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
     {
-        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn, false), (float) speed, dist));
+        this.setWalkTo(new WalkTarget(new EntityTracker(mobIn, false), (float) speed, dist));
     }
 
     protected void setWalkTo(WalkTarget target)
     {
-        if (!(target.getTarget() instanceof EntityPosWrapper) && target != null)
+        if (!(target.getTarget() instanceof EntityTracker) && target != null)
         {
             final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(), target
                     .getCloseEnoughDist());

@@ -1,10 +1,10 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -31,7 +31,7 @@ public class RaidCapture
             PokecubeCore.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
             if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
             {
-                if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
+                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
                         "pokecube.denied"), Util.NIL_UUID);
                 event.setCanceled(true);
                 event.setResult(Result.DENY);
@@ -40,7 +40,7 @@ public class RaidCapture
         }
         else
         {
-            if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
+            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);
@@ -50,7 +50,7 @@ public class RaidCapture
         // No Catch normal Pokemobs
         if (dynamaxCube && !raidMob)
         {
-            if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
+            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
                     "pokecube.denied"), Util.NIL_UUID);
             event.setCanceled(true);
             event.setResult(Result.DENY);

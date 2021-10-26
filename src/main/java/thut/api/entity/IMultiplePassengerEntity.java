@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.IDataSerializer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import thut.api.maths.vecmath.Matrix3f;
 import thut.api.maths.vecmath.Vector3f;
 
@@ -24,10 +24,10 @@ public interface IMultiplePassengerEntity
             Vector3f v = multipassenger.getSeat(passenger);
             final float yaw = -multipassenger.getYaw() * 0.017453292F;
             final float pitch = -multipassenger.getPitch() * 0.017453292F;
-            final float sinYaw = MathHelper.sin(yaw);
-            final float cosYaw = MathHelper.cos(yaw);
-            final float sinPitch = MathHelper.sin(pitch);
-            final float cosPitch = MathHelper.cos(pitch);
+            final float sinYaw = Mth.sin(yaw);
+            final float cosYaw = Mth.cos(yaw);
+            final float sinPitch = Mth.sin(pitch);
+            final float cosPitch = Mth.cos(pitch);
             final Matrix3f matrixYaw = new Matrix3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
             final Matrix3f matrixPitch = new Matrix3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
             final Matrix3f transform = new Matrix3f();
@@ -47,10 +47,10 @@ public interface IMultiplePassengerEntity
     {
         public static final UUID BLANK = new UUID(0, 0);
 
-        public static Seat readFromNBT(final CompoundNBT tag)
+        public static Seat readFromNBT(final CompoundTag tag)
         {
             final byte[] arr = tag.getByteArray("v");
-            final PacketBuffer buf = new PacketBuffer(Unpooled.copiedBuffer(arr));
+            final FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.copiedBuffer(arr));
             return new Seat(buf);
         }
 
@@ -58,7 +58,7 @@ public interface IMultiplePassengerEntity
 
         private UUID entityId;
 
-        public Seat(final PacketBuffer buf)
+        public Seat(final FriendlyByteBuf buf)
         {
             this.seat = new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
             this.setEntityId(new UUID(buf.readLong(), buf.readLong()));
@@ -107,7 +107,7 @@ public interface IMultiplePassengerEntity
             return this.seat + " " + this.getEntityId();
         }
 
-        public void writeToBuf(final PacketBuffer buf)
+        public void writeToBuf(final FriendlyByteBuf buf)
         {
             buf.writeFloat(this.seat.x);
             buf.writeFloat(this.seat.y);
@@ -116,15 +116,15 @@ public interface IMultiplePassengerEntity
             buf.writeLong(this.getEntityId().getLeastSignificantBits());
         }
 
-        public void writeToNBT(final CompoundNBT tag)
+        public void writeToNBT(final CompoundTag tag)
         {
-            final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(8));
+            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(8));
             this.writeToBuf(buffer);
             tag.putByteArray("v", buffer.array());
         }
     }
 
-    public static final IDataSerializer<Seat> SEATSERIALIZER = new IDataSerializer<Seat>()
+    public static final EntityDataSerializer<Seat> SEATSERIALIZER = new EntityDataSerializer<Seat>()
     {
         @Override
         public Seat copy(final Seat value)
@@ -133,19 +133,19 @@ public interface IMultiplePassengerEntity
         }
 
         @Override
-        public DataParameter<Seat> createAccessor(final int id)
+        public EntityDataAccessor<Seat> createAccessor(final int id)
         {
-            return new DataParameter<>(id, this);
+            return new EntityDataAccessor<>(id, this);
         }
 
         @Override
-        public Seat read(final PacketBuffer buf)
+        public Seat read(final FriendlyByteBuf buf)
         {
             return new Seat(buf);
         }
 
         @Override
-        public void write(final PacketBuffer buf, final Seat value)
+        public void write(final FriendlyByteBuf buf, final Seat value)
         {
             value.writeToBuf(buf);
         }

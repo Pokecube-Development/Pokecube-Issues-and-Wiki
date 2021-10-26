@@ -3,9 +3,9 @@ package pokecube.core.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.database.Database;
@@ -14,7 +14,7 @@ import pokecube.core.utils.Tools;
 public class Reload
 {
 
-    public static void register(final LiteralArgumentBuilder<CommandSource> command)
+    public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.reload";
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
@@ -23,12 +23,13 @@ public class Reload
                 .getSource())));
     }
 
-    public static int execute(final CommandSource source) throws CommandSyntaxException
+    public static int execute(final CommandSourceStack source) throws CommandSyntaxException
     {
-        source.sendSuccess(new TranslationTextComponent("pokecube.command.reloading_packs.start"), true);
+        source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.start"), true);
         Database.listener.loaded = true;
+        Database.lastLoad = -1;
         Database.onResourcesReloaded();
-        source.sendSuccess(new TranslationTextComponent("pokecube.command.reloading_packs.end"), true);
+        source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.end"), true);
         return 0;
     }
 

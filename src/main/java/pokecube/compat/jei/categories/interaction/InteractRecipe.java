@@ -1,7 +1,7 @@
 package pokecube.compat.jei.categories.interaction;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;

@@ -1,57 +1,24 @@
 package pokecube.legends.items;
 
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.LazyValue;
+import java.util.List;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeTier;
+import net.minecraftforge.common.TierSortingRegistry;
 import pokecube.legends.init.ItemInit;
 
-import java.util.function.Supplier;
+public class ItemTiers
+{
+    public static final Tag.Named<Block> RAINBOW_WING_TAG = BlockTags.createOptional(new ResourceLocation(
+            "pokecube_legends:needs_rainbow_wing_tool"));
 
-public enum ItemTiers implements IItemTier {
-
-    RAINBOW_WING(3, 1561, 7.0F, 3.0F, 15, () -> {
-        return Ingredient.of(new IItemProvider[]{ItemInit.RAINBOW_WING.get()});
-    });
-
-    private final int level;
-    private final int uses;
-    private final float speed;
-    private final float damage;
-    private final int enchantmentValue;
-    private final LazyValue<Ingredient> repairIngredient;
-
-    ItemTiers(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability,
-                     Supplier<Ingredient> repairMaterial) {
-        this.level = harvestLevel;
-        this.uses = maxUses;
-        this.speed = efficiency;
-        this.damage = attackDamage;
-        this.enchantmentValue = enchantability;
-        this.repairIngredient = new LazyValue<>(repairMaterial);
-    }
-
-    public int getUses() {
-        return this.uses;
-    }
-
-    public float getSpeed() {
-        return this.speed;
-    }
-
-    public float getAttackDamageBonus() {
-        return this.damage;
-    }
-
-    public int getLevel() {
-        return this.level;
-    }
-
-    public int getEnchantmentValue() {
-        return this.enchantmentValue;
-    }
-
-    public Ingredient getRepairIngredient() {
-        return (Ingredient)this.repairIngredient.get();
-    }
+    public static final Tier RAINBOW_WING = TierSortingRegistry.registerTier(new ForgeTier(5, 5000, 10, 100, 0,
+            ItemTiers.RAINBOW_WING_TAG, () -> Ingredient.of(ItemInit.RAINBOW_WING.get())), new ResourceLocation(
+                    "pokecube_legends:rainbow_wing"), List.of(Tiers.DIAMOND), List.of());
 }

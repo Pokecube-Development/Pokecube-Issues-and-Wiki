@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;

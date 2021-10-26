@@ -7,11 +7,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:ultrastone"
+      "item": "pokecube_legends:ultra_stone"
     }
   },
   "result": {
-    "item": "pokecube_legends:ultra_stonebricks",
+    "item": "pokecube_legends:ultra_stone_bricks",
     "count": 4
   }
 }

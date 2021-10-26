@@ -1,7 +1,7 @@
 package pokecube.core.moves.templates;
 
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -49,7 +49,7 @@ public class Move_Terrain extends Move_Basic
         attacker.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
-        final World world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getCommandSenderWorld();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, location);
 
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
@@ -57,7 +57,7 @@ public class Move_Terrain extends Move_Basic
         // Otherwise send the it starts to effect messaged
 
         teffect.setEffectDuration(this.effect, this.duration + Tracker.instance().getTick(), attacker);
-        if (world instanceof ServerWorld) PacketSyncTerrain.sendTerrainEffects((ServerWorld) world, segment.chunkX,
+        if (world instanceof ServerLevel) PacketSyncTerrain.sendTerrainEffects((ServerLevel) world, segment.chunkX,
                 segment.chunkY, segment.chunkZ, teffect);
 
     }

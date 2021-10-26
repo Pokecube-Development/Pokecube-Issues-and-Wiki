@@ -13,21 +13,21 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.Memory;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.NBTDynamicOps;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.memory.ExpirableValue;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -36,18 +36,18 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.events.BrainInitEvent;
 
-@Mixin(MobEntity.class)
+@Mixin(Mob.class)
 public abstract class MixinMobEntity extends LivingEntity
 {
     private static class DummySetTask extends RootTask<LivingEntity>
     {
         public DummySetTask()
         {
-            super(ImmutableMap.of(MemoryTypes.DUMMY, MemoryModuleStatus.REGISTERED));
+            super(ImmutableMap.of(MemoryTypes.DUMMY, MemoryStatus.REGISTERED));
         }
 
         @Override
-        protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
+        protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
         {
             final Brain<?> brain = owner.getBrain();
             brain.setMemory(MemoryTypes.DUMMY, true);
@@ -55,7 +55,7 @@ public abstract class MixinMobEntity extends LivingEntity
         }
     }
 
-    public MixinMobEntity(final EntityType<? extends LivingEntity> type, final World worldIn)
+    public MixinMobEntity(final EntityType<? extends LivingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
     }
@@ -63,7 +63,7 @@ public abstract class MixinMobEntity extends LivingEntity
     private boolean ticked_default_ai = false;
     private boolean checked_for_ai    = false;
 
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V", args = {
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
             "ldc=mob tick" }))
     /**
      * Here, during the first tick, we add a dummy task to the brain, to see if
@@ -77,7 +77,7 @@ public abstract class MixinMobEntity extends LivingEntity
             final Brain<?> brain = this.getBrain();
             BrainUtils.addToBrain(brain, Lists.newArrayList(MemoryTypes.DUMMY), Lists.newArrayList());
             MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
-            final List<Pair<Integer, ? extends Task<? super LivingEntity>>> dummyTasks = Lists.newArrayList();
+            final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> dummyTasks = Lists.newArrayList();
             dummyTasks.add(Pair.of(0, new DummySetTask()));
             for (final Activity a : brain.activeActivities)
                 BrainUtils.addToActivity(brain, a, dummyTasks);
@@ -85,7 +85,7 @@ public abstract class MixinMobEntity extends LivingEntity
         }
     }
 
-    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;push(Ljava/lang/String;)V", args = {
+    @Inject(method = "serverAiStep", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = {
             "ldc=controls" }))
     /**
      * Here we check if the dummy task above was ticked. If it isn't, we tick
@@ -103,7 +103,7 @@ public abstract class MixinMobEntity extends LivingEntity
             @SuppressWarnings("unchecked")
             final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
             this.getCommandSenderWorld().getProfiler().push("custom_brain");
-            brain.tick((ServerWorld) this.getCommandSenderWorld(), this);
+            brain.tick((ServerLevel) this.getCommandSenderWorld(), this);
             this.getCommandSenderWorld().getProfiler().pop();
         }
     }
@@ -113,27 +113,27 @@ public abstract class MixinMobEntity extends LivingEntity
      * Here we load the brain's memories again, this properly loads in the
      * memories, which seem to be forgotten however vanilla is doing it...
      */
-    protected void onPostReadAdditional(final CompoundNBT compound, final CallbackInfo cbi)
+    protected void onPostReadAdditional(final CompoundTag compound, final CallbackInfo cbi)
     {
-        if (this.level instanceof ServerWorld)
+        if (this.level instanceof ServerLevel)
         {
             MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
             if (compound.contains("Brain", 10))
             {
                 final Brain<?> brain = this.getBrain();
-                final CompoundNBT mems = compound.getCompound("Brain").getCompound("memories");
+                final CompoundTag mems = compound.getCompound("Brain").getCompound("memories");
                 for (final String s : mems.getAllKeys())
                 {
-                    final INBT nbt = mems.get(s);
+                    final Tag nbt = mems.get(s);
                     try
                     {
-                        final Dynamic<INBT> d = new Dynamic<>(NBTDynamicOps.INSTANCE, nbt);
+                        final Dynamic<Tag> d = new Dynamic<>(NbtOps.INSTANCE, nbt);
                         @SuppressWarnings("unchecked")
                         final MemoryModuleType<Object> mem = (MemoryModuleType<Object>) ForgeRegistries.MEMORY_MODULE_TYPES
                                 .getValue(new ResourceLocation(s));
                         final DataResult<?> res = mem.getCodec().map(DataResult::success).orElseGet(
                                 () -> DataResult.error("Error loading Memory??")).flatMap(codec -> codec.parse(d));
-                        final Memory<?> memory = (Memory<?>) res.getOrThrow(true, s1 -> PokecubeCore.LOGGER.error(s1));
+                        final ExpirableValue<?> memory = (ExpirableValue<?>) res.getOrThrow(true, s1 -> PokecubeCore.LOGGER.error(s1));
                         brain.setMemory(mem, memory.getValue());
                     }
                     catch (final Throwable e)

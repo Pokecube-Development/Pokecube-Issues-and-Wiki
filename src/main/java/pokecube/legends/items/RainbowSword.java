@@ -1,16 +1,16 @@
 package pokecube.legends.items;
 
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class RainbowSword extends SwordItem
 {
-    public final IItemTier tier;
-    public RainbowSword(final IItemTier material, final int bonusDamage, final float attackSpeed, final ItemGroup group)
+    public final Tier tier;
+    public RainbowSword(final Tier material, final int bonusDamage, final float attackSpeed, final CreativeModeTab group)
     {
         super(material, bonusDamage, attackSpeed, new Properties().tab(group));
         this.tier = material;

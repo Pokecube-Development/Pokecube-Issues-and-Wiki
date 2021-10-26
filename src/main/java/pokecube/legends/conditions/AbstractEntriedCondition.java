@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 
@@ -38,7 +38,7 @@ public abstract class AbstractEntriedCondition extends AbstractCondition
     }
 
     @Override
-    public IFormattableTextComponent getFailureMessage(final Entity trainer)
+    public MutableComponent getFailureMessage(final Entity trainer)
     {
         if (this.names == null)
         {

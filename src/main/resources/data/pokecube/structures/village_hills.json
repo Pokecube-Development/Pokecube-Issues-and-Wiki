@@ -1,0 +1,136 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/hills/town_centers",
+      "options": [
+        "pokecube:village/hills/town_centers/center_1",
+        "pokecube:village/hills/town_centers/center_2"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/small",
+      "options": [
+        "pokecube:village/hills/town_centers/center_small"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/terminators",
+      "rigid": false,
+      "options": [
+        "pokecube:village/hills/terminators/terminator_01"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/streets",
+      "target": "pokecube:village/hills/terminators",
+      "rigid": false,
+      "options": [
+        "pokecube:village/hills/streets/crossroad_01;{\"weight\":3}",
+        "pokecube:village/hills/streets/straight_1;{\"weight\":5}",
+        "pokecube:village/hills/streets/straight_2;{\"weight\":5}",
+        "pokecube:village/hills/streets/straight_3;{\"weight\":5}",
+        "pokecube:village/hills/streets/straight_4;{\"weight\":5}"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/decor",
+      "rigid": true,
+      "options": [
+        "empty;{\"weight\":2}",
+        "pokecube:village/hills/decor/banner_1;{\"weight\":2}",
+        "pokecube:village/hills/decor/leafs_1;{\"weight\":2}",
+        "pokecube:village/hills/decor/logs_1;{\"weight\":2}"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/pokecenter/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/hills/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/gym/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/hills/gym/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/hills/houses",
+      "target": "pokecube:village/hills/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/hills/houses/tiny_house_1;{\"weight\":3}",
+        "pokecube:village/hills/houses/tiny_house_2;{\"weight\":3}",
+        "pokecube:village/hills/houses/tiny_house_3;{\"weight\":3}",
+        "pokecube:village/hills/houses/medium_house_1;{\"weight\":2}",
+        "pokecube:village/hills/houses/large_house_1;{\"weight\":2}",
+        "pokecube:village/hills/houses/armorer_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/butcher_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/cartographer_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/fisher_house;{\"weight\":2}",
+        "pokecube:village/hills/houses/fletcher_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/library_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/loom_house;{\"weight\":2}",
+        "pokecube:village/hills/houses/masons_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/tannery_house;{\"weight\":2}",
+        "pokecube:village/hills/houses/temple_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/tool_smith_house;{\"weight\":3}",
+        "pokecube:village/hills/houses/weaponsmith_house;{\"weight\":3}",
+        "pokecube:village/hills/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/hills/gym/gym_01;{\"flag\":\"gym\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/hills",
+      "root": "pokecube:village/hills/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 5,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter",
+        "gym"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "extreme_hills"
+        }
+      }
+    },
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/hills_small",
+      "root": "pokecube:village/hills/small",
+      "chance": 1,
+      "distance": 32,
+      "separation": 12,
+      "size": 3,
+      "priority": 10,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "extreme_hills"
+        }
+      }
+    }
+  ]
+}

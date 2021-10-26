@@ -2,9 +2,9 @@ package pokecube.core.database.stats;
 
 import java.util.HashMap;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 
@@ -21,8 +21,8 @@ public interface ISpecialCaptureCondition
 
     }
 
-    default IFormattableTextComponent getFailureMessage(final Entity trainer)
+    default MutableComponent getFailureMessage(final Entity trainer)
     {
-        return new StringTextComponent("ERROR NEED MESSAGE");
+        return new TextComponent("ERROR NEED MESSAGE");
     }
 }

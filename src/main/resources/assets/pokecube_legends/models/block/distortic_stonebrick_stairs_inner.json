@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/distortic_stonebricks",
-    "top": "pokecube_legends:blocks/distortic_stonebricks",
-    "side": "pokecube_legends:blocks/distortic_stonebricks"
-  }
-}

@@ -3,11 +3,11 @@ package pokecube.core.interfaces;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -336,7 +336,7 @@ public abstract class Move_Base
     {
         final Vector3 pos = Vector3.getNewVector();
         final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;
-        final World world = attacker.getCommandSenderWorld();
+        final Level world = attacker.getCommandSenderWorld();
         final float pitch = 1;
         final float volume = 1 * scale;
         if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)
@@ -350,7 +350,7 @@ public abstract class Move_Base
                 this.move.baseEntry.soundEffectSource = null;
             }
             pos.set(attacker);
-            if (this.soundUser != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundCategory.HOSTILE,
+            if (this.soundUser != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundUser, SoundSource.HOSTILE,
                     volume, pitch, true);
         }
         if (attacked != null)
@@ -368,7 +368,7 @@ public abstract class Move_Base
                 }
                 pos.set(attacked);
                 if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget,
-                        SoundCategory.HOSTILE, volume, pitch, true);
+                        SoundSource.HOSTILE, volume, pitch, true);
             }
         }
         else if (attacker != null && targetPos != null) if (this.soundTarget != null
@@ -383,7 +383,7 @@ public abstract class Move_Base
                 this.move.baseEntry.soundEffectTarget = null;
             }
             pos.set(targetPos);
-            if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundCategory.HOSTILE,
+            if (this.soundTarget != null) world.playLocalSound(pos.x, pos.y, pos.z, this.soundTarget, SoundSource.HOSTILE,
                     volume, pitch, true);
         }
     }

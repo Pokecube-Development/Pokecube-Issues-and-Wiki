@@ -1,10 +1,10 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.GameRules;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.LevelUpEvent;
 import pokecube.core.interfaces.IPokemob;
@@ -122,10 +122,10 @@ public abstract class PokemobStats extends PokemobGenes
                         if (evo != null) ret = evo;
                     }
                     ret.levelUp(newLvl);
-                    if (this.getEntity().inChunk && ret.getOwner() instanceof PlayerEntity && this.getEntity()
+                    if (this.getEntity().isAddedToWorld() && ret.getOwner() instanceof Player && this.getEntity()
                             .getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) && !this.getEntity()
                                     .getCommandSenderWorld().isClientSide) this.getEntity().getCommandSenderWorld().addFreshEntity(
-                                            new ExperienceOrbEntity(this.getEntity().getCommandSenderWorld(), this.getEntity()
+                                            new ExperienceOrb(this.getEntity().getCommandSenderWorld(), this.getEntity()
                                                     .getX(), this.getEntity().getY(), this.getEntity().getZ(),
                                                     1));
                 }
@@ -161,13 +161,13 @@ public abstract class PokemobStats extends PokemobGenes
         final boolean oldName = this.getPokedexEntry().getName().equals(nickname) || nickname.trim().isEmpty();
         if (!this.getEntity().isEffectiveAi())
         {
-            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().inChunk) PacketNickname.sendPacket(
+            if (!nickname.equals(this.getPokemonNickname()) && this.getEntity().isAddedToWorld()) PacketNickname.sendPacket(
                     this.getEntity(), nickname);
         }
         else if (oldName) this.dataSync().set(this.params.NICKNAMEDW, "");
         else this.dataSync().set(this.params.NICKNAMEDW, nickname);
         if (!this.getPokedexEntry().stock && this.getEntity().isAddedToWorld()) this.getEntity().setCustomName(oldName
-                ? null : new StringTextComponent(nickname));
+                ? null : new TextComponent(nickname));
     }
 
     @Override

@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultra_sapling01",
-    "pokecube_legends:ultra_sapling02",
-    "pokecube_legends:ultra_sapling03",
+    "pokecube_legends:inverted_sapling",
+    "pokecube_legends:temporal_sapling",
+    "pokecube_legends:aged_sapling",
     "pokecube_legends:distortic_sapling",
     "pokecube_legends:corrupted_sapling",
     "pokecube_legends:mirage_sapling"

@@ -11,21 +11,21 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.Category;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biome.BiomeCategory;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -49,17 +49,17 @@ public class SpawnBiomeMatcher
     {
         SUN, CLOUD, RAIN, SNOW, NONE;
 
-        public static Weather getForWorld(final World world, final Vector3 location)
+        public static Weather getForWorld(final Level world, final Vector3 location)
         {
             final boolean globalRain = world.isRaining();
             final BlockPos position = location.getPos();
             boolean outside = world.canSeeSky(position);
-            outside = outside && world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, position).getY() > position
+            outside = outside && world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY() > position
                     .getY();
             if (!outside) return NONE;
             if (globalRain)
             {
-                final Biome.RainType type = world.getBiome(position).getPrecipitation();
+                final Biome.Precipitation type = world.getBiome(position).getPrecipitation();
                 switch (type)
                 {
                 case NONE:
@@ -84,16 +84,16 @@ public class SpawnBiomeMatcher
         public final boolean            night;
         public final Material           material;
         public final float              light;
-        public final RegistryKey<Biome> biome;
+        public final ResourceKey<Biome> biome;
         public final BiomeType          type;
         public final Weather            weather;
-        public final Category           cat;
+        public final BiomeCategory           cat;
         public final boolean            thundering;
-        public final IWorld             world;
-        public final IChunk             chunk;
+        public final LevelAccessor             world;
+        public final ChunkAccess             chunk;
         public final Vector3            location;
 
-        public SpawnCheck(final Vector3 location, final IWorld world, final Biome biome)
+        public SpawnCheck(final Vector3 location, final LevelAccessor world, final Biome biome)
         {
             this.world = world;
             this.location = location;
@@ -108,7 +108,7 @@ public class SpawnBiomeMatcher
             this.cat = biome.getBiomeCategory();
         }
 
-        public SpawnCheck(final Vector3 location, final IWorld world)
+        public SpawnCheck(final Vector3 location, final LevelAccessor world)
         {
             this.world = world;
             this.location = location;
@@ -116,14 +116,14 @@ public class SpawnBiomeMatcher
             this.biome = BiomeDatabase.getKey(biome);
             this.cat = biome.getBiomeCategory();
             this.material = location.getBlockMaterial(world);
-            this.chunk = ITerrainProvider.getChunk(((World) world).dimension(), new ChunkPos(location.getPos()));
+            this.chunk = ITerrainProvider.getChunk(((Level) world).dimension(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             this.type = t.getBiome(location);
             // TODO better way to choose current time.
-            final double time = ((ServerWorld) world).getDayTime() / 24000.0;
+            final double time = ((ServerLevel) world).getDayTime() / 24000.0;
             final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
             this.light = lightBlock / 15f;
-            final World w = (ServerWorld) world;
+            final Level w = (ServerLevel) world;
             this.weather = Weather.getForWorld(w, location);
             this.thundering = this.weather == Weather.RAIN && w.isThundering();
             this.day = PokedexEntry.day.contains(time);
@@ -161,7 +161,7 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(((World) checker.world).dimension(),
+                final Set<StructureInfo> set = StructureManager.getFor(((Level) checker.world).dimension(),
                         checker.location.getPos());
                 for (final StructureInfo i : set)
                     if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;
@@ -214,27 +214,27 @@ public class SpawnBiomeMatcher
     }
 
     private static int                      lastBiomesSize = -1;
-    private static List<RegistryKey<Biome>> allBiomeKeys   = Lists.newArrayList();
+    private static List<ResourceKey<Biome>> allBiomeKeys   = Lists.newArrayList();
     private static List<Biome>              allBiomes      = Lists.newArrayList();
 
-    public static Set<RegistryKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
+    public static Set<ResourceKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
 
     private static boolean loadedIn = false;
 
-    public static Collection<RegistryKey<Biome>> getAllBiomeKeys()
+    public static Collection<ResourceKey<Biome>> getAllBiomeKeys()
     {
-        final DynamicRegistries REG = ThutCore.proxy.getRegistries();
+        final RegistryAccess REG = ThutCore.proxy.getRegistries();
         SpawnBiomeMatcher.loadedIn = false;
         // Before loading in.
         if (REG == null) return SpawnBiomeMatcher.allBiomeKeys;
         SpawnBiomeMatcher.loadedIn = true;
-        final Collection<Entry<RegistryKey<Biome>, Biome>> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY)
+        final Collection<Entry<ResourceKey<Biome>, Biome>> biomes = REG.registryOrThrow(Registry.BIOME_REGISTRY)
                 .entrySet();
         if (SpawnBiomeMatcher.lastBiomesSize != biomes.size())
         {
             SpawnBiomeMatcher.allBiomeKeys = Lists.newArrayList();
             SpawnBiomeMatcher.allBiomes = Lists.newArrayList();
-            for (final Entry<RegistryKey<Biome>, Biome> b : biomes)
+            for (final Entry<ResourceKey<Biome>, Biome> b : biomes)
             {
                 SpawnBiomeMatcher.allBiomeKeys.add(b.getKey());
                 SpawnBiomeMatcher.allBiomes.add(b.getValue());
@@ -252,11 +252,11 @@ public class SpawnBiomeMatcher
     }
 
     // These are private so that they can force an update based on categories
-    private Set<RegistryKey<Biome>> _validBiomes     = Sets.newHashSet();
-    private Set<RegistryKey<Biome>> _blackListBiomes = Sets.newHashSet();
+    private Set<ResourceKey<Biome>> _validBiomes     = Sets.newHashSet();
+    private Set<ResourceKey<Biome>> _blackListBiomes = Sets.newHashSet();
 
-    private Set<Category> _validCats     = Sets.newHashSet();
-    private Set<Category> _blackListCats = Sets.newHashSet();
+    private Set<BiomeCategory> _validCats     = Sets.newHashSet();
+    private Set<BiomeCategory> _blackListCats = Sets.newHashSet();
 
     public Set<BiomeDictionary.Type> _validTypes   = Sets.newHashSet();
     public Set<BiomeDictionary.Type> _invalidTypes = Sets.newHashSet();
@@ -270,7 +270,7 @@ public class SpawnBiomeMatcher
 
     // These two sets are used for syncing _validBiomes and _validTypes over to
     // clients on multiplayer.
-    public Set<RegistryKey<Biome>> clientBiomes = Sets.newHashSet();
+    public Set<ResourceKey<Biome>> clientBiomes = Sets.newHashSet();
 
     public Set<String> clientTypes = Sets.newHashSet();
 
@@ -312,7 +312,7 @@ public class SpawnBiomeMatcher
         this.parseBasic();
     }
 
-    public boolean validCategory(final Category cat)
+    public boolean validCategory(final BiomeCategory cat)
     {
         this.parse();
         if (this._blackListCats.contains(cat)) return false;
@@ -320,7 +320,7 @@ public class SpawnBiomeMatcher
         return this._validCats.contains(cat);
     }
 
-    public Set<RegistryKey<Biome>> getInvalidBiomes()
+    public Set<ResourceKey<Biome>> getInvalidBiomes()
     {
         // Ensures we are actually loaded in, this is required to set loadedIn
         // true for the below check.
@@ -330,7 +330,7 @@ public class SpawnBiomeMatcher
             this._checked_cats = true;
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
-                final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+                final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
                 if (this._blackListCats.contains(b.getBiomeCategory())) this._blackListBiomes.add(key);
                 for (final BiomeDictionary.Type type : this._invalidTypes)
                     if (BiomeDictionary.hasType(key, type))
@@ -341,7 +341,7 @@ public class SpawnBiomeMatcher
             }
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
-                final RegistryKey<Biome> key = BiomeDatabase.getKey(b);
+                final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
                 if (key.location() == null) continue;
                 if (this._blackListBiomes.contains(key))
                 {
@@ -363,15 +363,15 @@ public class SpawnBiomeMatcher
         return this._blackListBiomes;
     }
 
-    public Set<RegistryKey<Biome>> getValidBiomes()
+    public Set<ResourceKey<Biome>> getValidBiomes()
     {
         this.getInvalidBiomes();
         return this._validBiomes;
     }
 
-    private RegistryKey<Biome> from(final BiomeLoadingEvent event)
+    private ResourceKey<Biome> from(final BiomeLoadingEvent event)
     {
-        return RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
+        return ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
     }
 
     public boolean checkLoadEvent(final BiomeLoadingEvent event)
@@ -380,7 +380,7 @@ public class SpawnBiomeMatcher
         this.parse();
         // This checks if there is acategory at all.
         if (!this.validCategory(event.getCategory())) return false;
-        final RegistryKey<Biome> key = this.from(event);
+        final ResourceKey<Biome> key = this.from(event);
         // Check types, etc manually here, as this can be run before biomes are
         // actually valid.
         for (final BiomeDictionary.Type type : this._invalidTypes)
@@ -406,7 +406,7 @@ public class SpawnBiomeMatcher
      * @param biome
      * @return
      */
-    public boolean checkBiome(final RegistryKey<Biome> biome)
+    public boolean checkBiome(final ResourceKey<Biome> biome)
     {
         this.parse();
         if (!this.valid) return false;
@@ -447,7 +447,7 @@ public class SpawnBiomeMatcher
         // specific biomes and this is not one of them.
         if (!rightBiome) return false;
 
-        final IChunk chunk = checker.chunk;
+        final ChunkAccess chunk = checker.chunk;
         // No chunk here, no spawn here!
         if (chunk == null) return false;
 
@@ -526,9 +526,9 @@ public class SpawnBiomeMatcher
         return subCondition && !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
     }
 
-    private Category getCat(final String name)
+    private BiomeCategory getCat(final String name)
     {
-        for (final Category c : Category.values())
+        for (final BiomeCategory c : BiomeCategory.values())
             if (c.getName().equalsIgnoreCase(name)) return c;
         return null;
     }
@@ -640,15 +640,15 @@ public class SpawnBiomeMatcher
         final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
         final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
 
-        final Set<Category> biomeCats = this._validCats;
-        final Set<Category> noBiomeCats = this._blackListCats;
+        final Set<BiomeCategory> biomeCats = this._validCats;
+        final Set<BiomeCategory> noBiomeCats = this._blackListCats;
 
         if (biomeCat != null)
         {
             final String[] args = biomeCat.split(",");
             for (final String s : args)
             {
-                final Category c = this.getCat(s);
+                final BiomeCategory c = this.getCat(s);
                 if (c != null) biomeCats.add(c);
             }
 
@@ -658,7 +658,7 @@ public class SpawnBiomeMatcher
             final String[] args = noBiomeCat.split(",");
             for (final String s : args)
             {
-                final Category c = this.getCat(s);
+                final BiomeCategory c = this.getCat(s);
                 if (c != null) noBiomeCats.add(c);
             }
         }
@@ -678,7 +678,7 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
+                final ResourceKey<Biome> biome = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
                 this._validBiomes.add(biome);
             }
         }
@@ -712,7 +712,7 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 // Ensure we are a resourcelocation!
                 if (!s.contains(":")) s = "minecraft:" + s;
-                final RegistryKey<Biome> biome = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
+                final ResourceKey<Biome> biome = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
                 this._blackListBiomes.add(biome);
             }
         }

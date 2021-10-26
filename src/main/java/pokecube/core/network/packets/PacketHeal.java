@@ -1,8 +1,8 @@
 package pokecube.core.network.packets;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import pokecube.core.interfaces.IHealer;
 import thut.core.common.network.Packet;
 
@@ -12,19 +12,19 @@ public class PacketHeal extends Packet
     {
     }
 
-    public PacketHeal(final PacketBuffer buffer)
+    public PacketHeal(final FriendlyByteBuf buffer)
     {
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
-        final Container cont = player.containerMenu;
+        final AbstractContainerMenu cont = player.containerMenu;
         if (cont instanceof IHealer) ((IHealer) cont).heal(player.getCommandSenderWorld());
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void write(final FriendlyByteBuf buffer)
     {
     }
 

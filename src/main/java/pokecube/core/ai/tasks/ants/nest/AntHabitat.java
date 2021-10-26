@@ -12,21 +12,21 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -57,7 +57,7 @@ import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
 
-public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, IWorldTickListener
+public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, IWorldTickListener
 {
     final List<Ant> ants_in = Lists.newArrayList();
 
@@ -72,8 +72,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     public List<ItemEntity> items  = Lists.newArrayList();
 
     BlockPos    here;
-    ServerWorld world;
-    TileEntity  tile;
+    ServerLevel world;
+    BlockEntity  tile;
 
     int antExitCooldown = 0;
 
@@ -93,7 +93,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onAttach(final ServerWorld world)
+    public void onAttach(final ServerLevel world)
     {
         this.world = world;
         this.attached = true;
@@ -101,7 +101,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onDetach(final ServerWorld world)
+    public void onDetach(final ServerLevel world)
     {
         this.world = null;
         this.attached = false;
@@ -109,7 +109,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onTickEnd(final ServerWorld world)
+    public void onTickEnd(final ServerLevel world)
     {
 
         // Checks of if the tile entity is here, if not anger all ants
@@ -119,7 +119,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         {
             if (!world.isAreaLoaded(this.here, 1)) return;
 
-            TileEntity tile = world.getBlockEntity(this.here);
+            BlockEntity tile = world.getBlockEntity(this.here);
             if (tile == null)
             {
                 this.onTick(world);
@@ -152,9 +152,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     private boolean removing = false;
 
     @Override
-    public void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
+    public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
-        final AxisAlignedBB box = this.rooms.getBounds().inflate(10, 0, 10);
+        final AABB box = this.rooms.getBounds().inflate(10, 0, 10);
         NestTile nest = null;
         this.tile = tile;
         if (this.tile instanceof NestTile)
@@ -169,7 +169,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
+    public ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         if (this.repelled == null && !this.removing) this.updateRepelledRegion(tile, world);
         return this.repelled;
@@ -335,7 +335,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onTick(final ServerWorld world)
+    public void onTick(final ServerLevel world)
     {
         if (!this.attached) WorldTickManager.addWorldData(world.dimension(), this);
 
@@ -382,7 +382,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
         if (world.getGameTime() % 200 == 0)
         {
-            final TileEntity nest = world.getBlockEntity(this.here);
+            final BlockEntity nest = world.getBlockEntity(this.here);
             this.hasItems = false;
             if (nest != null)
             {
@@ -420,7 +420,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             if (AntTasks.isValid(mob))
             {
                 // If we are a valid ant, ensure it has a job to do.
-                if (world.getRandom().nextInt(50) == 0) this.assignJob(j, (MobEntity) mob);
+                if (world.getRandom().nextInt(50) == 0) this.assignJob(j, (Mob) mob);
                 return false;
             }
             this.ants.remove(uuid);
@@ -428,7 +428,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         }));
     }
 
-    private void assignJob(final AntJob j, final MobEntity mob)
+    private void assignJob(final AntJob j, final Mob mob)
     {
         final int timer = mob.getBrain().getMemory(AntTasks.NO_WORK_TIME).orElse(0);
         mob.getBrain().setMemory(AntTasks.NO_WORK_TIME, timer + 1);
@@ -453,7 +453,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                         final BlockPos pos = n.getCenter();
                         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Build Order for {} {} {}", pos, mob
                                 .getId(), n.type);
-                        final CompoundNBT tag = new CompoundNBT();
+                        final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
                         mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
@@ -476,7 +476,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(),
                             info);
-                    final CompoundNBT tag = new CompoundNBT();
+                    final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
@@ -497,7 +497,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                         final BlockPos pos = n.getCenter();
                         if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Finish Order for {} {} {} {}", pos,
                                 mob.getId(), n.type, n.dug.size());
-                        final CompoundNBT tag = new CompoundNBT();
+                        final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
                         mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
@@ -512,7 +512,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     final BlockPos pos = n.getCenter();
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(),
                             n.type);
-                    final CompoundNBT tag = new CompoundNBT();
+                    final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
@@ -536,7 +536,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
                     final String info = a.node1.type + "<->" + a.node2.type;
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(),
                             info);
-                    final CompoundNBT tag = new CompoundNBT();
+                    final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
                     mob.getBrain().setMemory(AntTasks.JOB_INFO, tag);
@@ -561,7 +561,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             {
                 if (!n.started) continue;
                 final Vector3 x0 = Vector3.getNewVector().set(n.getCenter());
-                final AxisAlignedBB box = x0.getAABB().inflate(2);
+                final AABB box = x0.getAABB().inflate(2);
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)
                 {
@@ -580,11 +580,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onBroken(final ServerWorld world)
+    public void onBroken(final ServerLevel world)
     {
         this.ants_in.forEach(ant ->
         {
-            final CompoundNBT tag = ant.entityData;
+            final CompoundTag tag = ant.entityData;
             final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) ->
             {
                 // Here we should do things like heal the ant,
@@ -600,7 +600,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         this.ants_in.clear();
     }
 
-    private boolean tryReleaseAnt(final Ant ant, final ServerWorld world)
+    private boolean tryReleaseAnt(final Ant ant, final ServerLevel world)
     {
         // Tick this anyway, all will leave at daybreak!
         ant.ticksInHive++;
@@ -609,7 +609,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         final boolean release = ant.ticksInHive > ant.minOccupationTicks;
         if (release)
         {
-            final CompoundNBT tag = ant.entityData;
+            final CompoundTag tag = ant.entityData;
             final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) ->
             {
                 // Here we should do things like heal the ant,
@@ -624,7 +624,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void onExitHabitat(final MobEntity mob)
+    public void onExitHabitat(final Mob mob)
     {
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
@@ -650,7 +650,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         if (mob.getPersistentData().hasUUID("spectated_by"))
         {
             final UUID id = mob.getPersistentData().getUUID("spectated_by");
-            final ServerPlayerEntity player = (ServerPlayerEntity) this.world.getPlayerByUUID(id);
+            final ServerPlayer player = (ServerPlayer) this.world.getPlayerByUUID(id);
             if (player != null) player.setCamera(mob);
             mob.getPersistentData().remove("spectated_by");
         }
@@ -659,7 +659,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public boolean onEnterHabitat(final MobEntity mob)
+    public boolean onEnterHabitat(final Mob mob)
     {
         if (!this.canEnterHabitat(mob)) return false;
 
@@ -676,7 +676,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             {
                 if (!room.isPresent()) room = Optional.of(this.here);
                 final PokedexEntry entry = poke.getPokedexEntry();
-                final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
                 if (world.isEmptyBlock(room.get().above()))
                 {
                     final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
@@ -687,7 +687,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
         // enter:
         {
-            if (this.world != null) for (final ServerPlayerEntity player : this.world.players())
+            if (this.world != null) for (final ServerPlayer player : this.world.players())
                 if (player.getCamera() == mob)
                 {
                     mob.getPersistentData().putUUID("spectated_by", player.getUUID());
@@ -697,7 +697,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
             mob.stopRiding();
             mob.ejectPassengers();
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
 
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final Optional<AntNest> nest = NestSensor.getNest(mob);
@@ -721,40 +721,40 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
             mob.save(tag);
             tag.remove("Leash");
             this.ants_in.add(new Ant(tag, 0, 20 + mob.getRandom().nextInt(200)));
-            mob.remove();
+            mob.discard();
         }
 
         return true;
     }
 
     @Override
-    public boolean canEnterHabitat(final MobEntity mob)
+    public boolean canEnterHabitat(final Mob mob)
     {
         if (!AntTasks.isValid(mob)) return false;
-        if (!(mob.getCommandSenderWorld() instanceof ServerWorld)) return false;
+        if (!(mob.getCommandSenderWorld() instanceof ServerLevel)) return false;
         return true;
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        final CompoundNBT compound = new CompoundNBT();
-        final ListNBT ants = new ListNBT();
+        final CompoundTag compound = new CompoundTag();
+        final ListTag ants = new ListTag();
         for (final Ant ant : this.ants_in)
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.put("EntityData", ant.entityData);
             tag.putInt("TicksInHive", ant.ticksInHive);
             tag.putInt("MinOccupationTicks", ant.minOccupationTicks);
             ants.add(tag);
         }
         compound.put("ants", ants);
-        final ListNBT workers = new ListNBT();
+        final ListTag workers = new ListTag();
         this.workers.forEach((j, s) ->
         {
             s.forEach(u ->
             {
-                final CompoundNBT tag = new CompoundNBT();
+                final CompoundTag tag = new CompoundTag();
                 tag.putString("job", j.name());
                 tag.putUUID("id", u);
                 workers.add(tag);
@@ -762,10 +762,10 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         });
         compound.put("workers", workers);
         compound.put("rooms", this.rooms.serializeNBT());
-        final ListNBT eggs = new ListNBT();
+        final ListTag eggs = new ListTag();
         this.eggs.forEach(uuid ->
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             eggs.add(tag);
         });
@@ -774,7 +774,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
     }
 
     @Override
-    public void deserializeNBT(final CompoundNBT nbt)
+    public void deserializeNBT(final CompoundTag nbt)
     {
         this.ants_in.clear();
         this.ants.clear();
@@ -782,27 +782,27 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
         this.rooms.deserializeNBT(nbt.getCompound("rooms"));
         this.eggs.clear();
         final int compoundId = 10;
-        final ListNBT ants = nbt.getList("ants", compoundId);
+        final ListTag ants = nbt.getList("ants", compoundId);
         for (int i = 0; i < ants.size(); ++i)
         {
-            final CompoundNBT tag = ants.getCompound(i);
+            final CompoundTag tag = ants.getCompound(i);
             final Ant ant = new Ant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt(
                     "MinOccupationTicks"));
             this.ants_in.add(ant);
         }
-        final ListNBT workers = nbt.getList("workers", compoundId);
+        final ListTag workers = nbt.getList("workers", compoundId);
         for (int i = 0; i < workers.size(); ++i)
         {
-            final CompoundNBT tag = workers.getCompound(i);
+            final CompoundTag tag = workers.getCompound(i);
             final AntJob job = AntJob.valueOf(tag.getString("job"));
             final UUID id = tag.getUUID("id");
             this.workers.get(job).add(id);
             this.ants.add(id);
         }
-        final ListNBT eggs = nbt.getList("eggs", compoundId);
+        final ListTag eggs = nbt.getList("eggs", compoundId);
         for (int i = 0; i < eggs.size(); ++i)
         {
-            final CompoundNBT tag = eggs.getCompound(i);
+            final CompoundTag tag = eggs.getCompound(i);
             this.eggs.add(tag.getUUID("id"));
         }
     }
@@ -815,12 +815,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundNBT>, 
 
     public static class Ant
     {
-        public final CompoundNBT entityData;
+        public final CompoundTag entityData;
 
         public int       ticksInHive;
         public final int minOccupationTicks;
 
-        private Ant(final CompoundNBT nbt, final int ticksInHive, final int minOccupationTicks)
+        private Ant(final CompoundTag nbt, final int ticksInHive, final int minOccupationTicks)
         {
             this.entityData = nbt;
             this.ticksInHive = ticksInHive;

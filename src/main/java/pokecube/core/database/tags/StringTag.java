@@ -20,8 +20,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -196,7 +196,7 @@ public class StringTag implements IResourceData
         try
         {
             final TagHolder tagged = new TagHolder();
-            for (final IResource resource : PackFinder.getResources(tagLoc))
+            for (final Resource resource : PackFinder.getResources(tagLoc))
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);

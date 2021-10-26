@@ -2,35 +2,35 @@ package pokecube.core.handlers;
 
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class PokecubePlayerDataHandler extends PlayerDataHandler
 {
-    public static CompoundNBT getCustomDataTag(final PlayerEntity player)
+    public static CompoundTag getCustomDataTag(final Player player)
     {
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         final PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
         return data.tag;
     }
 
-    public static CompoundNBT getCustomDataTag(final UUID player)
+    public static CompoundTag getCustomDataTag(final UUID player)
     {
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         final PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
         return data.tag;
     }
 
-    public static CompoundNBT getCustomDataTag(final String player)
+    public static CompoundTag getCustomDataTag(final String player)
     {
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         final PokecubePlayerCustomData data = manager.getData(PokecubePlayerCustomData.class);
         return data.tag;
     }
 
-    public static void saveCustomData(final PlayerEntity player)
+    public static void saveCustomData(final Player player)
     {
         PokecubePlayerDataHandler.saveCustomData(player.getStringUUID());
     }

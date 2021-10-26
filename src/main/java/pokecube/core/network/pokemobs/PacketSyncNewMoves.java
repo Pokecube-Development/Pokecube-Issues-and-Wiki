@@ -1,12 +1,12 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -17,12 +17,12 @@ public class PacketSyncNewMoves extends Packet
 {
     public static void sendUpdatePacket(final IPokemob pokemob)
     {
-        if (pokemob.getOwner() instanceof ServerPlayerEntity)
+        if (pokemob.getOwner() instanceof ServerPlayer)
         {
-            final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
-            final ListNBT newMoves = new ListNBT();
+            final ServerPlayer player = (ServerPlayer) pokemob.getOwner();
+            final ListTag newMoves = new ListTag();
             for (final String s : pokemob.getMoveStats().newMoves)
-                newMoves.add(StringNBT.valueOf(s));
+                newMoves.add(StringTag.valueOf(s));
             final PacketSyncNewMoves packet = new PacketSyncNewMoves();
             packet.data.put(TagNames.NEWMOVES, newMoves);
             packet.entityId = pokemob.getEntity().getId();
@@ -32,14 +32,14 @@ public class PacketSyncNewMoves extends Packet
 
     public int entityId;
 
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketSyncNewMoves()
     {
         super(null);
     }
 
-    public PacketSyncNewMoves(final PacketBuffer buffer)
+    public PacketSyncNewMoves(final FriendlyByteBuf buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -49,14 +49,14 @@ public class PacketSyncNewMoves extends Packet
     @Override
     public void handleClient()
     {
-        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
-        final CompoundNBT data = this.data;
+        final CompoundTag data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null)
         {
-            final ListNBT newMoves = (ListNBT) data.get(TagNames.NEWMOVES);
+            final ListTag newMoves = (ListTag) data.get(TagNames.NEWMOVES);
             pokemob.getMoveStats().newMoves.clear();
             for (int i = 0; i < newMoves.size(); i++)
                 if (!pokemob.getMoveStats().newMoves.contains(newMoves.getString(i))) pokemob.getMoveStats().newMoves
@@ -65,7 +65,7 @@ public class PacketSyncNewMoves extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buffer)
+    public void write(final FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeNbt(this.data);

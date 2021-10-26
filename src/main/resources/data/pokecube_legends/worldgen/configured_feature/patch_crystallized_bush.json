@@ -10,7 +10,7 @@
         "zspread": 7,
         "whitelist": [],
         "blacklist": [],
-        "tries": 8,
+        "tries": 16,
         "state_provider": {
           "state": {
             "Properties": {
@@ -33,7 +33,9 @@
           "type": "minecraft:square"
         },
         "inner": {
-          "config": {},
+          "config": {
+            "heightmap": "MOTION_BLOCKING"
+          },
           "type": "minecraft:heightmap_spread_double"
         }
       },

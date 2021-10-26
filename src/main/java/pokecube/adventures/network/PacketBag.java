@@ -2,12 +2,12 @@ package pokecube.adventures.network;
 
 import java.util.UUID;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagInventory;
 import pokecube.adventures.items.bag.BagManager;
@@ -23,12 +23,12 @@ public class PacketBag extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner)
+    public static void sendOpenPacket(final Player sendTo, final UUID owner)
     {
-        final ServerPlayerEntity player = (ServerPlayerEntity) sendTo;
+        final ServerPlayer player = (ServerPlayer) sendTo;
         final BagInventory inv = BagManager.INSTANCE.get(owner);
-        final PacketBuffer clt = inv.makeBuffer();
-        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new BagContainer(i,
+        final FriendlyByteBuf clt = inv.makeBuffer();
+        final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new BagContainer(i,
                 p, inv), sendTo.getDisplayName());
         NetworkHooks.openGui(player, provider, buf ->
         {
@@ -37,7 +37,7 @@ public class PacketBag extends Packet
     }
 
     byte               message;
-    public CompoundNBT data = new CompoundNBT();
+    public CompoundTag data = new CompoundTag();
 
     public PacketBag()
     {
@@ -54,10 +54,10 @@ public class PacketBag extends Packet
         this.data.putUUID(PacketBag.OWNER, owner);
     }
 
-    public PacketBag(final PacketBuffer buf)
+    public PacketBag(final FriendlyByteBuf buf)
     {
         this.message = buf.readByte();
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         this.data = buffer.readNbt();
     }
 
@@ -74,7 +74,7 @@ public class PacketBag extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
 
         BagContainer container = null;
@@ -99,10 +99,10 @@ public class PacketBag extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
         buf.writeByte(this.message);
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         buffer.writeNbt(this.data);
     }
 

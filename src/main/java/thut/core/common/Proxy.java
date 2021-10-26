@@ -1,13 +1,13 @@
 package thut.core.common;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 
 public interface Proxy
 {
@@ -22,7 +22,7 @@ public interface Proxy
         return EffectiveSide.get() == LogicalSide.SERVER;
     }
 
-    default DynamicRegistries getRegistries()
+    default RegistryAccess getRegistries()
     {
         try
         {

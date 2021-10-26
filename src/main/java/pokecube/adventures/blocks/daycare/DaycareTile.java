@@ -6,14 +6,14 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
@@ -22,8 +22,9 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Tools;
+import thut.api.block.ITickTile;
 
-public class DaycareTile extends InteractableTile implements ITickableTileEntity
+public class DaycareTile extends InteractableTile implements ITickTile
 {
     public static JEP expToGive;
     public static JEP pwrPerExp;
@@ -69,16 +70,16 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
 
     public int redstonePower = 0;
 
-    public DaycareTile()
+    public DaycareTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.DAYCARE_TYPE.get());
+        this(PokecubeAdv.DAYCARE_TYPE.get(), pos, state);
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
     }
 
-    public DaycareTile(final TileEntityType<?> tileEntityTypeIn)
+    public DaycareTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     private void checkPower(final int target)
@@ -86,7 +87,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         if (this.power > target) return;
         ItemStack emeralds = this.itemstore.getStackInSlot(0);
         if (emeralds.isEmpty()) return;
-        int needed = MathHelper.ceil(target / (double) PokecubeAdv.config.dayCarePowerPerFuel);
+        int needed = Mth.ceil(target / (double) PokecubeAdv.config.dayCarePowerPerFuel);
         final int have = emeralds.getCount();
         if (have > needed) emeralds.split(needed);
         else
@@ -101,7 +102,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (!(this.getLevel() instanceof ServerWorld)) return;
+        if (!(this.getLevel() instanceof ServerLevel)) return;
         if (this.getLevel().getGameTime() % PokecubeAdv.config.dayCareTickRate != 0) return;
         this.checkPower(1);
         if (this.power == 0)
@@ -129,12 +130,12 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
             DaycareTile.expToGive.setVarValue("x", pokemob.getExp());
             DaycareTile.expToGive.setVarValue("l", level);
             DaycareTile.expToGive.setVarValue("n", exp_diff);
-            final int exp_out = MathHelper.ceil(DaycareTile.expToGive.getValue());
+            final int exp_out = Mth.ceil(DaycareTile.expToGive.getValue());
 
             DaycareTile.pwrPerExp.setVarValue("x", exp_out);
             DaycareTile.pwrPerExp.setVarValue("l", level);
             DaycareTile.pwrPerExp.setVarValue("n", exp_diff);
-            final int needed = MathHelper.ceil(DaycareTile.pwrPerExp.getValue() * exp_out);
+            final int needed = Mth.ceil(DaycareTile.pwrPerExp.getValue() * exp_out);
 
             this.checkPower(needed);
             if (this.power < needed)
@@ -155,14 +156,14 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public void load(final BlockState state, final CompoundNBT compound)
+    public void load(final CompoundTag compound)
     {
         this.power = compound.getInt("fuel_cache");
-        super.load(state, compound);
+        super.load(compound);
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT compound)
+    public CompoundTag save(final CompoundTag compound)
     {
         compound.putFloat("fuel_cache", this.power);
         return super.save(compound);

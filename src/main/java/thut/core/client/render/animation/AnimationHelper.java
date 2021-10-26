@@ -7,10 +7,11 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.entity.Entity;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
@@ -110,7 +111,7 @@ public class AnimationHelper
 
     public static IAnimationHolder getHolder(final Entity mob)
     {
-        final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY).orElse(null);
+        final IAnimationHolder cap = mob.getCapability(ThutCaps.ANIMCAP).orElse(null);
         if (cap != null) return cap;
         if (AnimationHelper.holderMap.containsKey(mob.getUUID())) return AnimationHelper.holderMap.get(mob.getUUID());
         else

@@ -1,0 +1,24 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "424",
+    "414",
+    " 4 "
+  ],
+  "key": {
+    "4": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "2": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "1": {
+      "item": "pokecube_legends:redorb"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:victini_spawn",
+    "count": 1
+  }
+}

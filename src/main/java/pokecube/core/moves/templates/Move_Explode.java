@@ -8,15 +8,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.Explosion;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -125,7 +125,7 @@ public class Move_Explode extends Move_Basic
     public void attack(final IPokemob attacker, final Entity attacked)
     {
         if (!attacker.getEntity().isAlive()) return;
-        final MobEntity mob = attacker.getEntity();
+        final Mob mob = attacker.getEntity();
         final IPokemob pokemob = attacker;
         if (pokemob.getMoveStats().timeSinceIgnited-- <= 0)
         {
@@ -165,8 +165,8 @@ public class Move_Explode extends Move_Basic
             else
             {
                 // Otherwise spawn in some effects
-                mob.getCommandSenderWorld().playSound((PlayerEntity) null, mob.getX(), mob.getY(), mob.getZ(),
-                        SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (mob
+                mob.getCommandSenderWorld().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(),
+                        SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (mob
                                 .getCommandSenderWorld().random.nextFloat() - mob.getCommandSenderWorld().random.nextFloat()) * 0.2F)
                                 * 0.7F);
                 if (this.getPWR() > 200) mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob
@@ -202,7 +202,7 @@ public class Move_Explode extends Move_Basic
         {
             boolean giveExp = true;
             if (target.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().pvpExp && target
-                    .getOwner() instanceof PlayerEntity) giveExp = false;
+                    .getOwner() instanceof Player) giveExp = false;
             if (target.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().trainerExp) giveExp = false;
             if (giveExp)
             {

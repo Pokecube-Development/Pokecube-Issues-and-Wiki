@@ -1,11 +1,11 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.SharedConstants;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.SharedConstants;
+import net.minecraft.Util;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -28,15 +28,15 @@ public class PacketNickname extends Packet
     {
     }
 
-    public PacketNickname(final PacketBuffer buf)
+    public PacketNickname(final FriendlyByteBuf buf)
     {
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         this.entityId = buffer.readInt();
         this.name = buffer.readUtf(20);
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    public void handleServer(final ServerPlayer player)
     {
 
         final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
@@ -50,21 +50,21 @@ public class PacketNickname extends Packet
                 .getOriginalOwnerUUID());
         if (!OT)
         {
-            if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(new TranslationTextComponent(
+            if (pokemob.getOwner() != null) pokemob.getOwner().sendMessage(new TranslatableComponent(
                     "pokemob.rename.deny"), Util.NIL_UUID);
         }
         else
         {
-            pokemob.getOwner().sendMessage(new TranslationTextComponent("pokemob.rename.success", pokemob
+            pokemob.getOwner().sendMessage(new TranslatableComponent("pokemob.rename.success", pokemob
                     .getDisplayName().getString(), name), Util.NIL_UUID);
             pokemob.setPokemonNickname(name);
         }
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
-        final PacketBuffer buffer = new PacketBuffer(buf);
+        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
         buffer.writeInt(this.entityId);
         buffer.writeUtf(this.name);
     }

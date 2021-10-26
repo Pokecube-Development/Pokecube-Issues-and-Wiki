@@ -11,12 +11,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -131,7 +131,7 @@ public class XMLRecipeHandler
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final ITag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
+                    final Tag<Item> tag = ItemTags.getAllTags().getTagOrEmpty(id);
                     recipeItemsIn.add(Ingredient.of(tag));
                 }
                 else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));

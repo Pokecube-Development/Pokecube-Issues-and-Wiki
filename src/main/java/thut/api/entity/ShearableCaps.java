@@ -1,27 +1,24 @@
 package thut.api.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import thut.api.ThutCaps;
 
 public class ShearableCaps
 {
-    public static class Sheep extends Impl
+    public static class SheepImpl extends Impl
     {
-        final SheepEntity sheep;
+        final Sheep sheep;
 
-        public Sheep(final SheepEntity sheep)
+        public SheepImpl(final Sheep sheep)
         {
             this.sheep = sheep;
         }
@@ -75,7 +72,7 @@ public class ShearableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return ShearableCaps.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.SHEARABLE.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -91,44 +88,22 @@ public class ShearableCaps
 
     }
 
-    public static class Storage implements Capability.IStorage<IShearable>
-    {
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        @Override
-        public void readNBT(final Capability<IShearable> capability, final IShearable instance, final Direction side,
-                final INBT nbt)
-        {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IShearable> capability, final IShearable instance, final Direction side)
-        {
-            if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
-                    .serializeNBT();
-            return null;
-        }
-    }
-
-    @CapabilityInject(IShearable.class)
-    public static final Capability<IShearable> CAPABILITY = null;
     public static final ResourceLocation       LOC        = new ResourceLocation("thutcore:shearable");
 
     public static IShearable get(final ICapabilityProvider in)
     {
-        return in.getCapability(ShearableCaps.CAPABILITY).orElse(null);
+        return in.getCapability(ThutCaps.SHEARABLE).orElse(null);
     }
 
     private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(ShearableCaps.LOC)) return;
-        if (event.getObject() instanceof SheepEntity) event.addCapability(ShearableCaps.LOC, new Sheep(
-                (SheepEntity) event.getObject()));
+        if (event.getObject() instanceof Sheep) event.addCapability(ShearableCaps.LOC, new SheepImpl((Sheep) event
+                .getObject()));
     }
 
     public static void setup()
     {
-        CapabilityManager.INSTANCE.register(IShearable.class, new Storage(), Impl::new);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ShearableCaps::attachMobs);
     }
 }

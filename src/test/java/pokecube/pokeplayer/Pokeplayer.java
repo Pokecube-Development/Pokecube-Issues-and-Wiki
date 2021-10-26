@@ -1,25 +1,24 @@
 package pokecube.pokeplayer;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.FMLNetworkConstants;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -29,6 +28,7 @@ import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.bot.entity.BotPlayer;
 import thut.core.common.network.CapabilitySync;
 
 @Mod(value = "pokecube_pokeplayer")
@@ -37,8 +37,8 @@ public class Pokeplayer
 
     public Pokeplayer()
     {
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(
-                () -> FMLNetworkConstants.IGNORESERVERONLY, (in, net) -> true));
+        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
+                () -> new IExtensionPoint.DisplayTest(() -> "pokecube_pokeplayer", (incoming, isNetwork) -> true));
 
         // The commmand to turn into a pokemob
         MinecraftForge.EVENT_BUS.addListener(Pokeplayer::onCommandRegister);
@@ -52,20 +52,22 @@ public class Pokeplayer
         CopyCaps.register(EntityType.PLAYER);
     }
 
+    private static final SimpleCommandExceptionType ERROR_FAILED = new SimpleCommandExceptionType(
+            new TranslatableComponent("not copy?"));
+
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        final LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokeplayer").then(Commands.argument(
-                "val", StringArgumentType.string()).executes(ctx ->
+        final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokeplayer").then(Commands
+                .argument("val", StringArgumentType.string()).executes(ctx ->
                 {
                     final String wrd = StringArgumentType.getString(ctx, "val");
 
                     final PokedexEntry var = Database.getEntry(wrd);
                     final ICopyMob copy = CopyCaps.get(ctx.getSource().getEntity());
-                    if (copy == null) throw new CommandException(new StringTextComponent("not copy?"));
-
+                    if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
                     if (wrd.equals("check"))
                     {
-                        ctx.getSource().sendSuccess(new StringTextComponent(copy.getCopiedID() + ""), false);
+                        ctx.getSource().sendSuccess(new TextComponent(copy.getCopiedID() + ""), false);
                         return 0;
                     }
 
@@ -80,6 +82,18 @@ public class Pokeplayer
     private static void onPlayerTick(final PlayerTickEvent event)
     {
         final ICopyMob copy = CopyCaps.get(event.player);
+
+        if (event.player instanceof final ServerPlayer player)
+        {
+            final Entity cam = player.getCamera();
+            if (cam != player && cam instanceof BotPlayer)
+            {
+                ICopyMob.copyPositions(player, cam);
+                player.connection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player
+                        .getXRot());
+            }
+        }
+
         // If we are copied, then just use the mob's step height.
         if (copy != null && copy.getCopiedMob() != null)
         {
@@ -97,12 +111,12 @@ public class Pokeplayer
 
     private static void onCopySet(final CopySetEvent event)
     {
-        if (event.newCopy == null && event.getEntity() instanceof PlayerEntity)
+        if (event.newCopy == null && event.getEntity() instanceof Player)
         {
-            final PlayerEntity player = (PlayerEntity) event.getEntity();
-            if (!player.abilities.instabuild)
+            final Player player = (Player) event.getEntity();
+            if (!player.getAbilities().instabuild)
             {
-                player.abilities.mayfly = false;
+                player.getAbilities().mayfly = false;
                 player.onUpdateAbilities();
             }
         }
@@ -110,8 +124,8 @@ public class Pokeplayer
 
     private static void onCopyTick(final CopyUpdateEvent event)
     {
-        if (!(event.realEntity instanceof PlayerEntity)) return;
-        final PlayerEntity player = (PlayerEntity) event.realEntity;
+        if (!(event.realEntity instanceof Player)) return;
+        final Player player = (Player) event.realEntity;
         final Pose pose = event.realEntity.getPose();
         // Short mobs need to be able to walk properly in small spaces, so force
         // standing pose if not in water
@@ -129,28 +143,28 @@ public class Pokeplayer
         event.setCanceled(true);
     }
 
-    private static void setFlying(final PlayerEntity player, final IPokemob pokemob)
+    private static void setFlying(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
         final boolean fly = pokemob.floats() || pokemob.flys();
-        if (!player.abilities.instabuild && player.abilities.mayfly != fly)
+        if (!player.getAbilities().instabuild && player.getAbilities().mayfly != fly)
         {
-            player.abilities.mayfly = fly;
+            player.getAbilities().mayfly = fly;
             player.onUpdateAbilities();
         }
     }
 
-    private static void updateFlying(final PlayerEntity player, final IPokemob pokemob)
+    private static void updateFlying(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
         if (pokemob.floats() || pokemob.flys())
         {
             player.fallDistance = 0;
-            if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).connection.aboveGroundTickCount = 0;
+            if (player instanceof ServerPlayer) ((ServerPlayer) player).connection.aboveGroundTickCount = 0;
         }
     }
 
-    private static void updateFloating(final PlayerEntity player, final IPokemob pokemob)
+    private static void updateFloating(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
         if (!player.isShiftKeyDown() && pokemob.floats() && !player.isFallFlying())
@@ -159,7 +173,7 @@ public class Pokeplayer
         }
     }
 
-    private static void updateSwimming(final PlayerEntity player, final IPokemob pokemob)
+    private static void updateSwimming(final Player player, final IPokemob pokemob)
     {
         if (pokemob == null) return;
         if (pokemob.getPokedexEntry().swims() || pokemob.isType(PokeType.getType("water"))) player.setAirSupply(300);

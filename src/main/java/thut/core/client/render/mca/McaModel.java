@@ -11,8 +11,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import thut.core.client.render.mca.McaXML.Buffers;
 import thut.core.client.render.mca.McaXML.Children;
 import thut.core.client.render.mca.McaXML.GeometryNode;
@@ -60,7 +60,7 @@ public class McaModel extends X3dModel
         this.valid = true;
         try
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
             if (res == null)
             {
                 this.valid = false;

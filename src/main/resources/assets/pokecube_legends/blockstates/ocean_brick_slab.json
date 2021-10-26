@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/ocean_brick_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/oceanbrick"
+      "model": "pokecube_legends:block/ocean_bricks"
     },
     "type=top": {
       "model": "pokecube_legends:block/ocean_brick_slab_top"

@@ -1,13 +1,13 @@
 package pokecube.core.client.render.mobs;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
@@ -22,7 +22,7 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    public static void renderSpecial(final RenderLivingEvent.Pre<MobEntity, EntityModel<MobEntity>> event)
+    public static void renderSpecial(final RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
     {
         if (!RenderMobOverlays.enabled) return;
         final Minecraft mc = Minecraft.getInstance();
@@ -32,11 +32,11 @@ public class RenderMobOverlays
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null && event.getEntity().canUpdate())
         {
-            final MatrixStack mat = event.getMatrixStack();
+            final PoseStack mat = event.getMatrixStack();
             Evolution.render(pokemob, mat, event.getBuffers(), partialTicks);
             ExitCube.render(pokemob, mat, event.getBuffers(), partialTicks);
 
-            final IRenderTypeBuffer buf = event.getBuffers();
+            final MultiBufferSource buf = event.getBuffers();
             if (PokecubeCore.getConfig().doHealthBars)
             {
                 int br = event.getLight();

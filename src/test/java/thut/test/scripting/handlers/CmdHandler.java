@@ -1,31 +1,31 @@
 package thut.test.scripting.handlers;
 
-import net.minecraft.command.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.ITextComponent;
 import thut.test.scripting.ICmdHandler;
 
 public class CmdHandler implements ICmdHandler
 {
-    private static class SourceWrapper extends CommandSource
+    private static class SourceWrapper extends CommandSourceStack
     {
-        ITextComponent lastMsg = null;
+        Component lastMsg = null;
 
-        public SourceWrapper(final CommandSource wrapped)
+        public SourceWrapper(final CommandSourceStack wrapped)
         {
             super(wrapped.getServer(), wrapped.getPosition(), wrapped.getRotation(), wrapped.getLevel(), 4, wrapped
                     .getTextName(), wrapped.getDisplayName(), wrapped.getServer(), wrapped.getEntity());
         }
 
         @Override
-        public void sendFailure(final ITextComponent message)
+        public void sendFailure(final Component message)
         {
             this.lastMsg = message;
             super.sendFailure(message);
         }
 
         @Override
-        public void sendSuccess(final ITextComponent message, final boolean p_197030_2_)
+        public void sendSuccess(final Component message, final boolean p_197030_2_)
         {
             this.lastMsg = message;
             super.sendSuccess(message, p_197030_2_);

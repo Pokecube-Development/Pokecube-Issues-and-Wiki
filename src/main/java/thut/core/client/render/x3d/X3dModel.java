@@ -10,15 +10,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -89,7 +89,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         try
         {
             // Check if the model even exists
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(l);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(l);
             if (res == null)
             {
                 this.valid = false;
@@ -216,7 +216,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         this.valid = true;
         try
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
             if (res == null)
             {
                 this.valid = false;
@@ -325,7 +325,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer)
+    public void renderAll(final PoseStack mat, final VertexConsumer buffer)
     {
         for (final String s : this.getOrder())
         {
@@ -335,7 +335,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
+    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
     {
         for (final String s : this.getOrder())
         {
@@ -345,7 +345,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderOnly(final MatrixStack mat, final IVertexBuilder buffer, final String... groupNames)
+    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
     {
         for (final String s : this.getOrder())
         {
@@ -355,7 +355,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderPart(final MatrixStack mat, final IVertexBuilder buffer, final String partName)
+    public void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
     {
         for (final String s : this.getOrder())
         {

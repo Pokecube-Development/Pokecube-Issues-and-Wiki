@@ -7,20 +7,20 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerListener;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -51,7 +51,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
-public abstract class PokemobOwned extends PokemobAI implements IInventoryChangedListener
+public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
     public static final QName KEY   = new QName("forme_key");
     public static final QName TEX   = new QName("tex");
@@ -59,16 +59,16 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     public static final QName ANIM  = new QName("anim");
 
     @Override
-    public void displayMessageToOwner(final ITextComponent message)
+    public void displayMessageToOwner(final Component message)
     {
         final Entity owner = this.getOwner();
         // Ensure this is actually client side before sending this.
-        if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
+        if (owner instanceof ServerPlayer && this.getEntity().isAlive())
         {
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeCore.MOVE_BUS.post(event);
-            PacketPokemobMessage.sendMessage((PlayerEntity) owner, event.message);
+            PacketPokemobMessage.sendMessage((Player) owner, event.message);
         }
     }
 
@@ -119,11 +119,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final UUID ownerID = this.getOwnerId();
         if (ownerID == null) return null;
-        final World world = this.getEntity().getCommandSenderWorld();
-        final boolean serv = world instanceof ServerWorld;
+        final Level world = this.getEntity().getCommandSenderWorld();
+        final boolean serv = world instanceof ServerLevel;
         if (!serv && ownerID.equals(PokecubeCore.proxy.getPlayer().getUUID())) if (this.getOwnerHolder()
                 .getOwner() == null) this.getOwnerHolder().setOwner(PokecubeCore.proxy.getPlayer());
-        return serv ? this.getOwnerHolder().getOwner((ServerWorld) world) : this.getOwnerHolder().getOwner();
+        return serv ? this.getOwnerHolder().getOwner((ServerLevel) world) : this.getOwnerHolder().getOwner();
     }
 
     @Override
@@ -172,7 +172,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     }
 
     @Override
-    public boolean moveToShoulder(final PlayerEntity player)
+    public boolean moveToShoulder(final Player player)
     {
         final float scale = this.getSize();
         final float width = this.getPokedexEntry().width * scale;
@@ -190,7 +190,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     }
 
     @Override
-    public void containerChanged(final IInventory inventory)
+    public void containerChanged(final Container inventory)
     {
     }
 
@@ -199,19 +199,18 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         if (this.isRemoved())
         {
-            this.getEntity().remove(false);
+            this.getEntity().discard();
             return;
         }
         // We use this directly as isAlive() also checks hp!
-        @SuppressWarnings("deprecation")
-        final boolean removed = this.getEntity().removed;
+        final boolean removed = this.getEntity().isRemoved();
         if (removed) return;
         if (this.getOwnerId() == null)
         {
-            this.getEntity().remove(false);
+            this.getEntity().discard();
             return;
         }
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld)) try
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel)) try
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getId());
             PokecubeCore.packets.sendToServer(packet);
@@ -228,7 +227,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final UUID id = this.getEntity().getUUID();
         final Entity mob = this.getEntity();
-        final World world = this.getEntity().getCommandSenderWorld();
+        final Level world = this.getEntity().getCommandSenderWorld();
         final BlockPos pos = this.getEntity().blockPosition();
         // Ensures the chunk is actually still loaded here.
         world.getChunk(pos);
@@ -251,7 +250,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         if (this.returning)
         {
-            this.getEntity().remove(false);
+            this.getEntity().discard();
             return;
         }
 
@@ -276,10 +275,10 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
             this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
             this.getEntity().captureDrops(null);
-            this.getEntity().remove();
+            this.getEntity().discard();
             EventsHandler.Schedule(world, w ->
             {
-                final ServerWorld srld = (ServerWorld) w;
+                final ServerLevel srld = (ServerLevel) w;
                 final Entity original = srld.getEntity(id);
                 if (original == mob) srld.removeEntity(original, false);
                 return true;
@@ -304,21 +303,21 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         this.setCombatState(CombatStates.ANGRY, false);
 
         this.getEntity().captureDrops(Lists.newArrayList());
-        final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getCommandSenderWorld());
+        final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().getCommandSenderWorld());
 
         boolean added = false;
         toPlayer:
-        if (owner instanceof PlayerEntity)
+        if (owner instanceof Player)
         {
             final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-            final PlayerEntity player = (PlayerEntity) owner;
+            final Player player = (Player) owner;
             boolean noRoom = false;
             final boolean ownerDead = player.getHealth() <= 0;
-            if (ownerDead || player.inventory.getFreeSlot() == -1) noRoom = true;
+            if (ownerDead || player.getInventory().getFreeSlot() == -1) noRoom = true;
             if (noRoom) break toPlayer;
             else
             {
-                added = player.inventory.add(itemstack);
+                added = player.getInventory().add(itemstack);
                 if (!added) break toPlayer;
             }
             if (!owner.isShiftKeyDown() && this.getEntity().isAlive() && !ownerDead)
@@ -327,7 +326,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                 has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
                 if (!has) StatsCollector.addCapture(this);
             }
-            final ITextComponent mess = new TranslationTextComponent("pokemob.action.return", this.getDisplayName());
+            final Component mess = new TranslatableComponent("pokemob.action.return", this.getDisplayName());
             this.displayMessageToOwner(mess);
         }
         if (!added && this.getOwnerId() != null)
@@ -342,7 +341,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
         this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
         this.getEntity().captureDrops(null);
-        this.getEntity().remove();
+        this.getEntity().discard();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
         /**
@@ -363,7 +362,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         EventsHandler.Schedule(world, w ->
         {
-            final ServerWorld srld = (ServerWorld) w;
+            final ServerLevel srld = (ServerLevel) w;
             final Entity original = srld.getEntity(id);
             if (original == mob) srld.removeEntity(original, false);
             return true;
@@ -467,8 +466,8 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         /*
          * Trigger vanilla event for taming a mob.
          */
-        if (e instanceof ServerPlayerEntity && this.getEntity() instanceof AnimalEntity) CriteriaTriggers.TAME_ANIMAL
-                .trigger((ServerPlayerEntity) e, (AnimalEntity) this.getEntity());
+        if (e instanceof ServerPlayer && this.getEntity() instanceof Animal) CriteriaTriggers.TAME_ANIMAL.trigger(
+                (ServerPlayer) e, (Animal) this.getEntity());
     }
 
     @Override
@@ -479,7 +478,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         this.getOwnerHolder().setOwner(owner);
         // Clear team, it will refresh it whenever it is actually checked.
         this.setPokemobTeam("");
-        if (this.getEntity() instanceof TameableEntity) ((TameableEntity) this.getEntity()).setOwnerUUID(owner);
+        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity()).setOwnerUUID(owner);
         if (owner != null) PlayerPokemobCache.UpdateCache(this);
     }
 
@@ -503,7 +502,8 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         IPokemob pokemob = this;
         if (this.spawnInitRule == null) return this;
-        int maxXP = this.getEntity().getPersistentData().getInt("spawnExp");
+        int maxXP = pokemob.getEntity().getPersistentData().getInt("spawnExp");
+        final Level world = this.getEntity().level;
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
          * will choose how much exp it spawns with based on the position that it
@@ -511,21 +511,19 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
          */
         if (maxXP == 0)
         {
-            if (!this.getEntity().getPersistentData().getBoolean("initSpawn"))
+            if (!pokemob.getEntity().getPersistentData().getBoolean("initSpawn"))
             {
                 // Only set this if we haven't had one set yet already
-                if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(this.getEntity()));
+                if (pokemob.getHeldItem().isEmpty()) pokemob.setHeldItem(pokemob.wildHeldItem(pokemob.getEntity()));
                 if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
                 pokemob.setHealth(pokemob.getMaxHealth());
                 return pokemob;
             }
-            this.getEntity().getPersistentData().remove("initSpawn");
-            final Vector3 spawnPoint = Vector3.getNewVector().set(this.getEntity());
-            maxXP = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), spawnPoint, pokemob
-                    .getPokedexEntry());
-            final SpawnEvent.Level event = new SpawnEvent.Level(pokemob.getPokedexEntry(), spawnPoint, this.getEntity()
-                    .getCommandSenderWorld(), Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), -1),
-                    SpawnHandler.DEFAULT_VARIANCE);
+            pokemob.getEntity().getPersistentData().remove("initSpawn");
+            final Vector3 spawnPoint = Vector3.getNewVector().set(pokemob.getEntity());
+            maxXP = SpawnHandler.getSpawnXp(world, spawnPoint, pokemob.getPokedexEntry());
+            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), spawnPoint, world,
+                    Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), -1), SpawnHandler.DEFAULT_VARIANCE);
             PokecubeCore.POKEMOB_BUS.post(event);
             final int level = event.getLevel();
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);

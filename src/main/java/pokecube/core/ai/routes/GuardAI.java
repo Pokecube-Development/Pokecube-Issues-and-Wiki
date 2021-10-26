@@ -1,8 +1,8 @@
 package pokecube.core.ai.routes;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability.GuardState;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
@@ -31,13 +31,13 @@ public class GuardAI extends Goal
 
     public final IGuardAICapability capability;
 
-    private final MobEntity entity;
+    private final Mob entity;
 
     public int cooldownTicks;
 
     public ShouldRun shouldRun = () -> true;
 
-    public GuardAI(final MobEntity entity, final IGuardAICapability capability)
+    public GuardAI(final Mob entity, final IGuardAICapability capability)
     {
         this.entity = entity;
         this.capability = capability;

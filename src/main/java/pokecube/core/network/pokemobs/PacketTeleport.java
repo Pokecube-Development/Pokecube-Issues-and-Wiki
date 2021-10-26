@@ -1,7 +1,7 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import thut.core.common.network.Packet;
 
@@ -18,19 +18,19 @@ public class PacketTeleport extends Packet
         this.index = index;
     }
 
-    public PacketTeleport(PacketBuffer buffer)
+    public PacketTeleport(FriendlyByteBuf buffer)
     {
         this.index = buffer.readInt();
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(ServerPlayer player)
     {
         TeleportHandler.setTeleIndex(player.getStringUUID(), this.index);
     }
 
     @Override
-    public void write(PacketBuffer buffer)
+    public void write(FriendlyByteBuf buffer)
     {
         buffer.writeInt(this.index);
     }

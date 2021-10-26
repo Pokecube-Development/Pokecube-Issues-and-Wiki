@@ -52,17 +52,16 @@ public class Factory<T>
         return Factory.makeForClass(clazz).make(source);
     }
 
-    public static <T> Factory<T> makeForClass(final Class<T> clazz) throws InstantiationException,
-            IllegalAccessException
+    public static <T> Factory<T> makeForClass(final Class<T> clazz) throws Exception
     {
         return new Factory<>(clazz);
     }
 
     final T toFill;
 
-    private Factory(final Class<T> clazz) throws InstantiationException, IllegalAccessException
+    private Factory(final Class<T> clazz) throws Exception
     {
-        this.toFill = clazz.newInstance();
+        this.toFill = clazz.getConstructor().newInstance();
     }
 
     @SuppressWarnings("unchecked")
@@ -100,7 +99,7 @@ public class Factory<T>
                 else if (clazz == boolean.class || clazz == Boolean.class) obj2 = Boolean.parseBoolean(value);
                 else if (clazz.getAnnotation(XmlRootElement.class) != null)
                 {
-                    obj2 = clazz.newInstance();
+                    obj2 = clazz.getConstructor().newInstance();
                     this.processNode(n, obj2, depth + 1);
                 }
                 list.add(obj2);
@@ -115,7 +114,7 @@ public class Factory<T>
             {
                 if (obj2 == null)
                 {
-                    obj2 = fclaz.newInstance();
+                    obj2 = fclaz.getConstructor().newInstance();
                     field.set(obj, obj2);
                 }
                 this.processNode(n, obj2, depth + 1);

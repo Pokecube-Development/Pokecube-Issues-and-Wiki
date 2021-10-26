@@ -6,16 +6,16 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -25,7 +25,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 
-public class RecipeSelector extends SpecialRecipe
+public class RecipeSelector extends CustomRecipe
 {
 
     public static class ItemBasedSelector implements IGeneSelector
@@ -66,7 +66,7 @@ public class RecipeSelector extends SpecialRecipe
 
     public static class SelectorValue
     {
-        public static SelectorValue load(final CompoundNBT tag)
+        public static SelectorValue load(final CompoundTag tag)
         {
             if (!tag.contains("S") || !tag.contains("D")) return RecipeSelector.defaultSelector;
             return new SelectorValue(tag.getFloat("S"), tag.getFloat("D"));
@@ -83,10 +83,10 @@ public class RecipeSelector extends SpecialRecipe
         }
 
         @OnlyIn(Dist.CLIENT)
-        public void addToTooltip(final List<ITextComponent> toolTip)
+        public void addToTooltip(final List<Component> toolTip)
         {
-            toolTip.add(new TranslationTextComponent("container.geneselector.tooltip.a", this.selectorDestructChance));
-            toolTip.add(new TranslationTextComponent("container.geneselector.tooltip.b", this.dnaDestructChance));
+            toolTip.add(new TranslatableComponent("container.geneselector.tooltip.a", this.selectorDestructChance));
+            toolTip.add(new TranslatableComponent("container.geneselector.tooltip.b", this.dnaDestructChance));
         }
 
         @Override
@@ -98,9 +98,9 @@ public class RecipeSelector extends SpecialRecipe
             return false;
         }
 
-        public CompoundNBT save()
+        public CompoundTag save()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putFloat("S", this.selectorDestructChance);
             tag.putFloat("D", this.dnaDestructChance);
             return tag;
@@ -159,7 +159,7 @@ public class RecipeSelector extends SpecialRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingContainer inv)
     {
 
         ItemStack book = ItemStack.EMPTY;
@@ -193,13 +193,13 @@ public class RecipeSelector extends SpecialRecipe
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
+    public RecipeSerializer<?> getSerializer()
     {
         return RecipePokeAdv.SELECTOR.get();
     }
 
     @Override
-    public boolean matches(final CraftingInventory inv, final World worldIn)
+    public boolean matches(final CraftingContainer inv, final Level worldIn)
     {
         ItemStack book = ItemStack.EMPTY;
         ItemStack modifier = ItemStack.EMPTY;

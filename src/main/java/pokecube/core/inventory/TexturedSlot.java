@@ -1,18 +1,18 @@
 package pokecube.core.inventory;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class TexturedSlot extends Slot
 {
-    public TexturedSlot(final IInventory inventoryIn, final int index, final int xPosition, final int yPosition,
+    public TexturedSlot(final Container inventoryIn, final int index, final int xPosition, final int yPosition,
             final String texture)
     {
         super(inventoryIn, index, xPosition, yPosition);
-        this.setBackground(PlayerContainer.BLOCK_ATLAS, new ResourceLocation(texture));
+        this.setBackground(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(texture));
     }
 
     @Override

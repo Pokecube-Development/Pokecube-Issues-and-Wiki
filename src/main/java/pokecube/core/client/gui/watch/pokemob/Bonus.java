@@ -1,15 +1,15 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IBidiRenderer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.interfaces.Nature;
@@ -26,8 +26,8 @@ public class Bonus extends PokeInfoPage
     int                   last = 0;
     final PokemobInfoPage parent;
 
-    private IBidiRenderer      splitRenderer = IBidiRenderer.EMPTY;
-    private final FontRenderer fontRender;
+    private MultiLineLabel      splitRenderer = MultiLineLabel.EMPTY;
+    private final Font fontRender;
 
     public Bonus(final PokemobInfoPage parent)
     {
@@ -37,13 +37,13 @@ public class Bonus extends PokeInfoPage
     }
 
     // Default
-    private void drawBaseStats(final MatrixStack mat, final int x, final int y)
+    private void drawBaseStats(final PoseStack mat, final int x, final int y)
     {
 
     }
 
     // Your Pokemob
-    private void drawInfo(final MatrixStack mat, final int x, final int y)
+    private void drawInfo(final PoseStack mat, final int x, final int y)
     {
         final int offsetX = 120; // -52
         int dx = 20 + offsetX;
@@ -65,38 +65,38 @@ public class Bonus extends PokeInfoPage
             this.font.draw(mat, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
-        TextComponent message = new StringTextComponent("");
+        BaseComponent message = new TextComponent("");
 
         // Draw size
         dy += 10; // 50
-        message = new TranslationTextComponent("pokewatch.size", this.parent.pokemob.getSize());
-        this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+        message = new TranslatableComponent("pokewatch.size", this.parent.pokemob.getSize());
+        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
         dy += 11; // 50
         if (nature != null)
         {
-            message = new TranslationTextComponent("pokewatch.nature", this.parent.pokemob.getNature());
-            this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+            message = new TranslatableComponent("pokewatch.nature", this.parent.pokemob.getNature());
+            this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
             this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, natureColour);
         }
 
-        if (happiness == 0) message = new TranslationTextComponent("pokemob.info.happy0");
-        if (happiness > 0) message = new TranslationTextComponent("pokemob.info.happy1");
-        if (happiness > 49) message = new TranslationTextComponent("pokemob.info.happy2");
-        if (happiness > 99) message = new TranslationTextComponent("pokemob.info.happy3");
-        if (happiness > 149) message = new TranslationTextComponent("pokemob.info.happy4");
-        if (happiness > 199) message = new TranslationTextComponent("pokemob.info.happy5");
-        if (happiness > 254) message = new TranslationTextComponent("pokemob.info.happy6");
+        if (happiness == 0) message = new TranslatableComponent("pokemob.info.happy0");
+        if (happiness > 0) message = new TranslatableComponent("pokemob.info.happy1");
+        if (happiness > 49) message = new TranslatableComponent("pokemob.info.happy2");
+        if (happiness > 99) message = new TranslatableComponent("pokemob.info.happy3");
+        if (happiness > 149) message = new TranslatableComponent("pokemob.info.happy4");
+        if (happiness > 199) message = new TranslatableComponent("pokemob.info.happy5");
+        if (happiness > 254) message = new TranslatableComponent("pokemob.info.happy6");
         // Draw Happiness
         dy += 16; // 50
-        this.splitRenderer = IBidiRenderer.create(this.fontRender, message, 100);
+        this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, abilitycolour);
     }
 
     @Override
-    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;

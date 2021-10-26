@@ -2,7 +2,7 @@ package pokecube.core.moves.animations;
 
 import java.util.Random;
 
-import net.minecraft.item.DyeColor;
+import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.interfaces.IMoveAnimation;

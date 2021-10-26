@@ -1,8 +1,8 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum ClonerBlockPart implements IStringSerializable
+public enum ClonerBlockPart implements StringRepresentable
 {
     TOP("top"),
     BOTTOM("bottom");

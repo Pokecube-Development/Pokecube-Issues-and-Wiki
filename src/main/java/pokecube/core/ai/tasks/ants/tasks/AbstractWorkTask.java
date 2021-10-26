@@ -6,13 +6,13 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.utility.StoreTask;
@@ -25,11 +25,11 @@ import thut.api.maths.Vector3;
 
 public abstract class AbstractWorkTask extends AbstractAntTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        AbstractWorkTask.mems.put(AntTasks.WORK_POS, MemoryModuleStatus.VALUE_PRESENT);
-        AbstractWorkTask.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
+        AbstractWorkTask.mems.put(AntTasks.WORK_POS, MemoryStatus.VALUE_PRESENT);
+        AbstractWorkTask.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
     }
     protected StoreTask storage = null;
 
@@ -41,7 +41,7 @@ public abstract class AbstractWorkTask extends AbstractAntTask
         this.validJob = job;
     }
 
-    public AbstractWorkTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems,
+    public AbstractWorkTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems,
             final Predicate<AntJob> job)
     {
         super(pokemob, mems);

@@ -6,13 +6,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
-import pokecube.nbtedit.forge.ClientProxy;
 import pokecube.nbtedit.forge.CommonProxy;
 import pokecube.nbtedit.nbt.NBTNodeSorter;
 import pokecube.nbtedit.nbt.NBTTree;
@@ -55,8 +53,7 @@ public class NBTEdit
 
     public static boolean opOnly = true;
 
-    public final static CommonProxy proxy = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy;
 
     public static final ConfigHolder config = new ConfigHolder();
 
@@ -74,7 +71,7 @@ public class NBTEdit
         NBTEdit.LOGGER.log(l, s);
     }
 
-    public static void logTag(final CompoundNBT tag)
+    public static void logTag(final CompoundTag tag)
     {
         final NBTTree tree = new NBTTree(tag);
         String sb = "";

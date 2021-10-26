@@ -4,17 +4,17 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.IPosWrapper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.ClipContext.Block;
+import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -27,17 +27,17 @@ import thut.api.maths.Vector3;
 
 public class UseMoveTask extends UtilTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_PRESENT);
     }
 
     private boolean running    = false;
     private boolean checkRange = false;
 
-    IPosWrapper pos = null;
+    PositionTracker pos = null;
 
     Vector3 destination = Vector3.getNewVector();
 
@@ -132,17 +132,17 @@ public class UseMoveTask extends UtilTask
         // move, otherwise path to location.
         if (this.checkRange)
         {
-            RayTraceContext context = new RayTraceContext(this.entity.position(), new Vector3d(this.destination.x,
-                    this.destination.y, this.destination.z), BlockMode.COLLIDER, FluidMode.NONE, this.entity);
-            RayTraceResult trace = this.world.clip(context);
-            BlockRayTraceResult result = null;
+            ClipContext context = new ClipContext(this.entity.position(), new Vec3(this.destination.x,
+                    this.destination.y, this.destination.z), Block.COLLIDER, Fluid.NONE, this.entity);
+            HitResult trace = this.world.clip(context);
+            BlockHitResult result = null;
 
             // Adjust destination accordingly based on side hit, since it is
             // normally center of block.
             if (trace.getType() == Type.BLOCK)
             {
-                result = (BlockRayTraceResult) trace;
-                final Vector3i dir = result.getDirection().getNormal();
+                result = (BlockHitResult) trace;
+                final Vec3i dir = result.getDirection().getNormal();
                 // Make a new location that is shifted to closer to edge of
                 // the block for the visiblity checks.
                 final Vector3 loc = this.destination.copy();
@@ -150,11 +150,11 @@ public class UseMoveTask extends UtilTask
                 if (loc.y % 1 == 0.5) loc.y += dir.getY() * 0.49;
                 if (loc.z % 1 == 0.5) loc.z += dir.getZ() * 0.49;
                 result = null;
-                context = new RayTraceContext(this.entity.position(), new Vector3d(loc.x, loc.y, loc.z),
-                        BlockMode.COLLIDER, FluidMode.NONE, this.entity);
+                context = new ClipContext(this.entity.position(), new Vec3(loc.x, loc.y, loc.z),
+                        Block.COLLIDER, Fluid.NONE, this.entity);
                 // Raytrace against shifted location.
                 trace = this.world.clip(context);
-                if (trace.getType() == Type.BLOCK) result = (BlockRayTraceResult) trace;
+                if (trace.getType() == Type.BLOCK) result = (BlockHitResult) trace;
             }
 
             // Apply move directly from here.

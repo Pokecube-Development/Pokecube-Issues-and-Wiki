@@ -1,16 +1,17 @@
 package pokecube.adventures.blocks.genetics.extractor;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -23,14 +24,14 @@ public class ExtractorTile extends BaseGeneticsTile
 {
     public ItemStack override_selector = ItemStack.EMPTY;
 
-    public ExtractorTile()
+    public ExtractorTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeAdv.EXTRACTOR_TYPE.get());
+        this(PokecubeAdv.EXTRACTOR_TYPE.get(), pos, state);
     }
 
-    public ExtractorTile(final TileEntityType<?> tileEntityTypeIn)
+    public ExtractorTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn, 4, 3);
+        super(tileEntityTypeIn, pos, state, 4, 3);
     }
 
     @Override
@@ -61,13 +62,13 @@ public class ExtractorTile extends BaseGeneticsTile
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
-        final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.extractor");
-        player.openMenu(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ExtractorContainer(id,
-                playerInventory, IWorldPosCallable.create(this.getLevel(), pos)), name));
-        return ActionResultType.SUCCESS;
+        final TranslatableComponent name = new TranslatableComponent("block.pokecube_adventures.extractor");
+        player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new ExtractorContainer(id,
+                playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), name));
+        return InteractionResult.SUCCESS;
     }
 
 }

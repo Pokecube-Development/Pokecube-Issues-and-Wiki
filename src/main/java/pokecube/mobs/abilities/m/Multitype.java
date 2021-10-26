@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.m;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;

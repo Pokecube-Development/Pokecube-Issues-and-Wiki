@@ -1,12 +1,9 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.items.UsableItemEffects;
@@ -19,23 +16,7 @@ public interface IPokemobUseable
 
     }
 
-    public static class Storage implements Capability.IStorage<IPokemobUseable>
-    {
-
-        @Override
-        public void readNBT(Capability<IPokemobUseable> capability, IPokemobUseable instance, Direction side, INBT nbt)
-        {
-        }
-
-        @Override
-        public INBT writeNBT(Capability<IPokemobUseable> capability, IPokemobUseable instance, Direction side)
-        {
-            return null;
-        }
-
-    }
-
-    public static IPokemobUseable getUsableFor(ICapabilityProvider objectIn)
+    public static IPokemobUseable getUsableFor(final ICapabilityProvider objectIn)
     {
         if (objectIn == null) return null;
         final IPokemobUseable pokemobHolder = objectIn.getCapability(UsableItemEffects.USABLEITEM_CAP, null).orElse(
@@ -52,9 +33,9 @@ public interface IPokemobUseable
      * @param stack
      * @return
      */
-    public default ActionResult<ItemStack> onMoveTick(IPokemob attacker, ItemStack stack, MovePacket moveuse)
+    public default InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack, final MovePacket moveuse)
     {
-        return new ActionResult<>(ActionResultType.FAIL, stack);
+        return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
 
     /**
@@ -65,9 +46,9 @@ public interface IPokemobUseable
      * @param stack
      * @return something happened
      */
-    public default ActionResult<ItemStack> onTick(IPokemob pokemob, ItemStack stack)
+    public default InteractionResultHolder<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
     {
-        return new ActionResult<>(ActionResultType.FAIL, stack);
+        return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
 
     /**
@@ -80,8 +61,8 @@ public interface IPokemobUseable
      * @param stack
      * @return something happened
      */
-    public default ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+    public default InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
     {
-        return new ActionResult<>(ActionResultType.FAIL, stack);
+        return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
 }

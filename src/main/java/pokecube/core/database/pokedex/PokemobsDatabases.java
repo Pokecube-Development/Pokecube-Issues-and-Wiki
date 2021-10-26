@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;

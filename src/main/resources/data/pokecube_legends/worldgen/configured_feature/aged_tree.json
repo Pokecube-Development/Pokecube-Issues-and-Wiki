@@ -1,53 +1,71 @@
 {
   "config": {
-    "max_water_depth": 0,
+    "decorators": [],
     "ignore_vines": true,
-    "heightmap": "OCEAN_FLOOR",
-    "minimum_size": {
-      "limit": 2,
-      "lower_size": 0,
-      "upper_size": 2,
-      "type": "minecraft:two_layers_feature_size"
-    },
-    "decorators": [
-      {
-        "probability": 0.01,
-        "type": "minecraft:beehive"
-      }
-    ],
-    "trunk_provider": {
+    "force_dirt": false,
+    "dirt_provider": {
       "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:ultra_log03"
+        "Name": "pokecube_legends:aged_dirt"
       },
       "type": "minecraft:simple_state_provider"
     },
-    "leaves_provider": {
+    "minimum_size": {
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1,
+      "type": "minecraft:two_layers_feature_size"
+    },
+    "foliage_provider": {
       "state": {
         "Properties": {
           "persistent": "false",
           "distance": "7"
         },
-        "Name": "pokecube_legends:ultra_leave03"
+        "Name": "pokecube_legends:aged_leaves"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "sapling_provider": {
+      "state": {
+        "Properties": {
+          "stage": "0"
+        },
+        "Name": "pokecube_legends:aged_sapling"
       },
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
       "radius": {
-        "base": 2,
-        "spread": 2
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 2,
+          "max_inclusive": 3
+        }
       },
       "offset": {
-        "base": 0,
-        "spread": 2
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 0,
+          "max_inclusive": 2
+        }
       },
       "trunk_height": {
-        "base": 3,
-        "spread": 1
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 3
+        }
       },
       "type": "minecraft:spruce_foliage_placer"
+    },
+    "trunk_provider": {
+      "state": {
+        "Properties": {
+          "axis": "y"
+        },
+        "Name": "pokecube_legends:aged_log"
+      },
+      "type": "minecraft:simple_state_provider"
     },
     "trunk_placer": {
       "base_height": 8,

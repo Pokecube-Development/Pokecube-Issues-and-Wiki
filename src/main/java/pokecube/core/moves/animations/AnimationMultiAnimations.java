@@ -3,13 +3,13 @@ package pokecube.core.moves.animations;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -56,7 +56,11 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         {
             if (!anim.preset.endsWith(":~" + move.name)) anim.preset = anim.preset + ":~" + move.name;
             final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset);
-            if (animation == null) continue;
+            if (animation == null)
+            {
+                PokecubeCore.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
+                continue;
+            }
             final int start = Integer.parseInt(anim.starttick);
             final int dur = Integer.parseInt(anim.duration);
             if (anim.applyAfter) this.applicationTick = Math.max(start + dur, this.applicationTick);
@@ -78,7 +82,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer, final MovePacketInfo info,
+    public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
             final float partialTick)
     {
         final int tick = info.currentTick;
@@ -109,7 +113,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     {
         final int tick = info.currentTick;
         final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
-        final World world = PokecubeCore.proxy.getWorld();
+        final Level world = PokecubeCore.proxy.getWorld();
         for (int i = 0; i < this.components.size(); i++)
         {
             info.currentTick = tick;
@@ -138,14 +142,14 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
-                        true);
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
+                        pitch, true);
                 // Check target sounds.
                 valid = toRun.soundTarget;
                 if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
                         : info.attacked);
-                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundCategory.HOSTILE, volume, pitch,
-                        true);
+                if (valid) world.playLocalSound(pos.x, pos.y, pos.z, toRun.soundEvent, SoundSource.HOSTILE, volume,
+                        pitch, true);
             }
         }
     }

@@ -1,7 +1,0 @@
-{
-	"variants": {
-    	"axis=y": { "model": "pokecube_legends:block/ultra_log03" },
-    	"axis=z": { "model": "pokecube_legends:block/ultra_log03", "x": 90},
-    	"axis=x": { "model": "pokecube_legends:block/ultra_log03", "x": 90, "y": 90}
-    }
-}

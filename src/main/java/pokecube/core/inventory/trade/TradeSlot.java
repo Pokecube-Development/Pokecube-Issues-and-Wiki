@@ -1,19 +1,19 @@
 package pokecube.core.inventory.trade;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class TradeSlot extends Slot
 {
-    public PlayerEntity validCheck = null;
+    public Player validCheck = null;
 
     TraderTile tile;
 
-    public TradeSlot(final IInventory inventoryIn, final PlayerEntity playerIn, final TraderTile tile, final int index,
+    public TradeSlot(final Container inventoryIn, final Player playerIn, final TraderTile tile, final int index,
             final int xPosition, final int yPosition)
     {
         super(inventoryIn, index, xPosition, yPosition);
@@ -22,7 +22,7 @@ public class TradeSlot extends Slot
     }
 
     @Override
-    public boolean mayPickup(final PlayerEntity playerIn)
+    public boolean mayPickup(final Player playerIn)
     {
         if (this.tile.confirmed[this.getSlotIndex()]) return false;
         final ItemStack stack = this.getItem();
@@ -35,10 +35,10 @@ public class TradeSlot extends Slot
     }
 
     @Override
-    public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
+    public void onTake(final Player thePlayer, final ItemStack stack)
     {
         this.tile.confirmed[0] = this.tile.confirmed[1] = false;
-        return super.onTake(thePlayer, stack);
+        super.onTake(thePlayer, stack);
     }
 
     @Override

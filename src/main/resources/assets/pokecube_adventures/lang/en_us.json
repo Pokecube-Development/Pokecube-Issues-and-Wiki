@@ -42,8 +42,8 @@
 
     "igwtab.entry.Stones": "Evolution Stones",
 
-    "block.pokecube_adventures.warppad": "Warp Pad",
-    "block.pokecube_adventures.warppad.link": "Warp Pad linked to %1$s",
+    "block.pokecube_adventures.warp_pad": "Warp Pad",
+    "block.pokecube_adventures.warp_pad.link": "Warp Pad linked to %1$s",
     
     "block.pokecube_adventures.siphon.link": "Energy Siphon linked to %1$s",
     "block.pokecube_adventures.siphon.unlink": "Energy Siphon unlinked from %1$s",
@@ -423,8 +423,8 @@
     "pokecube.config.machine": "Machine Options",
     "pokecube.config.maxOutput.tooltip": "Maximum RF/t a RF Siphon can produce",
     "pokecube.config.powerFunction.tooltip": "Function of power and level to RF output, a = maximum offensive stat, x = level",
-    "pokecube.config.warpPadEnergy.tooltip": "Do warppads require RF to work",
-    "pokecube.config.warpPadRange.tooltip": "Maximum distance a warppad can send to, use -1 for no limit",
+    "pokecube.config.warpPadEnergy.tooltip": "Do warp_pads require RF to work",
+    "pokecube.config.warpPadRange.tooltip": "Maximum distance a warp_pad can send to, use -1 for no limit",
     "pokecube.config.theft.tooltip": "Can the trading table be used to trade tame Pokémobs for a stack of emeralds, thereby \"stealing\" it",
     "pokecube.config.ranchables.tooltip": "Outputs from MFR rancher from Pokémobs",
 

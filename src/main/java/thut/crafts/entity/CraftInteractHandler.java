@@ -2,19 +2,20 @@ package thut.crafts.entity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -31,29 +32,29 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     }
 
     @Override
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vector3d vec, final ItemStack stack,
-            final Hand hand)
+    public InteractionResult applyPlayerInteraction(final Player player, Vec3 vec, final ItemStack stack,
+            final InteractionHand hand)
     {
-        if (player.isCrouching()) return ActionResultType.PASS;
-        final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
-        boolean passed = result == ActionResultType.SUCCESS;
+        if (player.isCrouching()) return InteractionResult.PASS;
+        final InteractionResult result = super.applyPlayerInteraction(player, vec, stack, hand);
+        boolean passed = result == InteractionResult.SUCCESS;
         passed = passed || this.processInitialInteract(player, player.getItemInHand(hand),
-                hand) == ActionResultType.SUCCESS;
-        if (passed) return ActionResultType.SUCCESS;
+                hand) == InteractionResult.SUCCESS;
+        if (passed) return InteractionResult.SUCCESS;
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
         if (this.trace == null)
         {
-            final Vector3d playerPos = player.position().add(0, player.getEyeHeight(), 0);
-            final Vector3d start = playerPos.subtract(this.craft.position());
-            final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
+            final Vec3 playerPos = player.position().add(0, player.getEyeHeight(), 0);
+            final Vec3 start = playerPos.subtract(this.craft.position());
+            final HitResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
                     .position()), vec.add(this.craft.position()), this.craft);
-            this.trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;
+            this.trace = hit instanceof BlockHitResult ? (BlockHitResult) hit : null;
         }
         BlockPos pos;
         if (this.trace == null) pos = this.craft.blockPosition();
         else pos = this.trace.getBlockPos();
-        if (this.trace != null && this.interactInternal(player, pos, stack, hand) == ActionResultType.SUCCESS)
-            return ActionResultType.SUCCESS;
+        if (this.trace != null && this.interactInternal(player, pos, stack, hand) == InteractionResult.SUCCESS)
+            return InteractionResult.SUCCESS;
         else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
         {
             final Seat seat = this.craft.getSeat(i);
@@ -61,22 +62,22 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
             {
                 this.craft.setSeatID(i, player.getUUID());
                 player.startRiding(this.craft);
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    public ActionResultType interactInternal(final PlayerEntity player, BlockPos pos, final ItemStack stack,
-            final Hand hand)
+    public InteractionResult interactInternal(final Player player, BlockPos pos, final ItemStack stack,
+            final InteractionHand hand)
     {
         final BlockState state = this.craft.getFakeWorld().getBlock(pos);
-        if (state != null && state.getBlock() instanceof StairsBlock)
+        if (state != null && state.getBlock() instanceof StairBlock)
         {
             if (this.craft.getSeatCount() == 0)
             {
-                final BlockPos.Mutable pos1 = new BlockPos.Mutable();
+                final BlockPos.MutableBlockPos pos1 = new BlockPos.MutableBlockPos();
                 final int sizeX = this.craft.getTiles().length;
                 final int sizeY = this.craft.getTiles()[0].length;
                 final int sizeZ = this.craft.getTiles()[0][0].length;
@@ -86,7 +87,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                         {
                             pos1.set(i + this.craft.getX(), j + this.craft.getY(), k + this.craft.getZ());
                             final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
-                            if (state1.getBlock() instanceof StairsBlock)
+                            if (state1.getBlock() instanceof StairBlock)
                             {
                                 final Vector3f seat = new Vector3f(i + 0.5f, j + 0.5f, k + 0.5f);
                                 this.craft.addSeat(seat);
@@ -107,25 +108,25 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     {
                         this.craft.setSeatID(i, player.getUUID());
                         player.startRiding(this.craft);
-                        return ActionResultType.SUCCESS;
+                        return InteractionResult.SUCCESS;
                     }
                     break;
                 }
             }
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    public ActionResultType processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack,
-            final Hand hand)
+    public InteractionResult processInitialInteract(final Player player, @Nullable final ItemStack stack,
+            final InteractionHand hand)
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.level.isClientSide)
         {
-            player.sendMessage(new TranslationTextComponent("msg.craft.killed"), Util.NIL_UUID);
-            this.craft.remove();
-            return ActionResultType.SUCCESS;
+            player.sendMessage(new TranslatableComponent("msg.craft.killed"), Util.NIL_UUID);
+            this.craft.remove(RemovalReason.KILLED);
+            return InteractionResult.SUCCESS;
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 }

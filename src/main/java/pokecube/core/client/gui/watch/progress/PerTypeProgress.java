@@ -8,15 +8,15 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.command.CommandSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -32,15 +32,15 @@ import thut.core.common.ThutCore;
 public class PerTypeProgress extends Progress
 {
     private static final List<String> NAMES = Lists.newArrayList();
-    TextFieldWidget                   text;
+    EditBox                   text;
     PokeType                          type;
 
-    SuggestionProvider<CommandSource> TYPESUGGESTER = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
+    SuggestionProvider<CommandSourceStack> TYPESUGGESTER = (ctx, sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(
             PerTypeProgress.NAMES, sb);
 
     public PerTypeProgress(final GuiPokeWatch watch)
     {
-        super(new TranslationTextComponent("pokewatch.progress.type.title"), watch);
+        super(new TranslatableComponent("pokewatch.progress.type.title"), watch);
         if (PerTypeProgress.NAMES.isEmpty()) for (final PokeType type : PokeType.values())
             PerTypeProgress.NAMES.add(PokeType.getTranslatedName(type).getString());
     }
@@ -85,8 +85,8 @@ public class PerTypeProgress extends Progress
         super.init();
         final int x = this.watch.width / 2 - 30;
         final int y = this.watch.height / 2 + 53;
-        this.text = new TextFieldWidget(this.font, x, y - 30, 60, 10, new StringTextComponent(""));
-        this.addButton(this.text);
+        this.text = new EditBox(this.font, x, y - 30, 60, 10, new TextComponent(""));
+        this.addRenderableWidget(this.text);
     }
 
     @Override
@@ -98,8 +98,8 @@ public class PerTypeProgress extends Progress
             final int index = PokeType.values().length == 0 ? 0 : 1;
             this.type = PokeType.values()[index];
         }
-        PlayerEntity player = this.watch.player;
-        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
+        Player player = this.watch.player;
+        if (this.watch.target instanceof Player) player = (Player) this.watch.target;
         this.text.setValue(PokeType.getTranslatedName(this.type).getString());
 
         final int total_of_type = SpecialCaseRegister.countSpawnableTypes(this.type);
@@ -113,37 +113,37 @@ public class PerTypeProgress extends Progress
         this.killed0 = KillStats.getUniqueOfTypeKilledBy(player.getUUID(), this.type);
         this.killed1 = KillStats.getTotalOfTypeKilledBy(player.getUUID(), this.type);
 
-        final TranslationTextComponent captureLine = new TranslationTextComponent("pokewatch.progress.type.caught",
+        final TranslatableComponent captureLine = new TranslatableComponent("pokewatch.progress.type.caught",
                 this.caught1, this.caught0, this.type, total_of_type);
-        final TranslationTextComponent killLine = new TranslationTextComponent("pokewatch.progress.type.killed",
+        final TranslatableComponent killLine = new TranslatableComponent("pokewatch.progress.type.killed",
                 this.killed1, this.killed0, this.type, total_of_type);
-        final TranslationTextComponent hatchLine = new TranslationTextComponent("pokewatch.progress.type.hatched",
+        final TranslatableComponent hatchLine = new TranslatableComponent("pokewatch.progress.type.hatched",
                 this.hatched1, this.hatched0, this.type, total_of_type);
 
-        final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+        final AABB centre = this.watch.player.getBoundingBox();
+        final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getCommandSenderWorld().getEntities(this.watch.player,
                 bb, input ->
                 {
                     IPokemob pokemob;
-                    if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                    if (!(input instanceof Animal && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
                         return false;
                     return pokemob.isType(PerTypeProgress.this.type);
                 });
-        final TranslationTextComponent nearbyLine = new TranslationTextComponent("pokewatch.progress.global.nearby",
+        final TranslatableComponent nearbyLine = new TranslatableComponent("pokewatch.progress.global.nearby",
                 otherMobs.size());
 
-        for (final IFormattableTextComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
+        for (final MutableComponent line : ListHelper.splitText(captureLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(killLine, 190, this.font, false))
+        for (final MutableComponent line : ListHelper.splitText(killLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
+        for (final MutableComponent line : ListHelper.splitText(hatchLine, 190, this.font, false))
             this.lines.add(line.getString());
         this.lines.add("");
-        for (final IFormattableTextComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
+        for (final MutableComponent line : ListHelper.splitText(nearbyLine, 190, this.font, false))
             this.lines.add(line.getString());
     }
 

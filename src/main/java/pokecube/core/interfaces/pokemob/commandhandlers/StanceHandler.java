@@ -1,7 +1,7 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.interfaces.IPokemob;
@@ -46,14 +46,14 @@ public class StanceHandler extends DefaultHandler
         case GUARD:
             if (PokecubeCore.getConfig().guardModeEnabled) pokemob.setCombatState(CombatStates.GUARDING, !pokemob
                     .getCombatState(CombatStates.GUARDING));
-            else pokemob.displayMessageToOwner(new TranslationTextComponent("pokecube.config.guarddisabled"));
+            else pokemob.displayMessageToOwner(new TranslatableComponent("pokecube.config.guarddisabled"));
             break;
         case SIT:
             pokemob.setLogicState(LogicStates.SITTING, !pokemob.getLogicState(LogicStates.SITTING));
             break;
         case GZMOVE:
             pokemob.setCombatState(CombatStates.USINGGZMOVE, !pokemob.getCombatState(CombatStates.USINGGZMOVE));
-            pokemob.displayMessageToOwner(new TranslationTextComponent("pokecube.gzmode." + (pokemob.getCombatState(
+            pokemob.displayMessageToOwner(new TranslatableComponent("pokecube.gzmode." + (pokemob.getCombatState(
                     CombatStates.USINGGZMOVE) ? "set" : "unset")));
             break;
         }

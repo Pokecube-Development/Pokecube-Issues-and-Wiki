@@ -3,12 +3,12 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
@@ -16,8 +16,8 @@ import pokecube.core.entity.npc.NpcType;
 
 public class Spawn extends Page
 {
-    TextFieldWidget type;
-    TextFieldWidget level;
+    EditBox type;
+    EditBox level;
 
     LivingEntity mob = null;
 
@@ -28,19 +28,19 @@ public class Spawn extends Page
 
     public Spawn(final EditorGui parent)
     {
-        super(new StringTextComponent(""), parent);
+        super(new TextComponent(""), parent);
     }
 
     @Override
     public void onPageOpened()
     {
         this.children.clear();
-        this.buttons.clear();
+        this.renderables.clear();
         super.onPageOpened();
         int yOffset = this.height / 2;
         int xOffset = this.width / 2;
-        this.type = new TextFieldWidget(this.font, xOffset - 45, yOffset, 100, 10, new StringTextComponent(""));
-        this.level = new TextFieldWidget(this.font, xOffset - 45, yOffset + 20, 100, 10, new StringTextComponent(""));
+        this.type = new EditBox(this.font, xOffset - 45, yOffset, 100, 10, new TextComponent(""));
+        this.level = new EditBox(this.font, xOffset - 45, yOffset + 20, 100, 10, new TextComponent(""));
 
         this.index = this.index % NpcType.typeMap.size();
         final List<String> types = Lists.newArrayList(NpcType.typeMap.keySet());
@@ -67,44 +67,44 @@ public class Spawn extends Page
 
         this.type.setEditable(false);
 
-        this.addButton(this.level);
-        this.addButton(this.type);
+        this.addRenderableWidget(this.level);
+        this.addRenderableWidget(this.type);
 
-        this.addButton(new Button(xOffset + 75 - 15, yOffset, 40, 20, new StringTextComponent("next"), b ->
+        this.addRenderableWidget(new Button(xOffset + 75 - 15, yOffset, 40, 20, new TextComponent("next"), b ->
         {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
 
         }));
-        this.addButton(new Button(xOffset - 75 - 15, yOffset, 40, 20, new StringTextComponent("prev"), b ->
+        this.addRenderableWidget(new Button(xOffset - 75 - 15, yOffset, 40, 20, new TextComponent("prev"), b ->
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
         }));
-        this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, new StringTextComponent("stands"), b ->
+        this.addRenderableWidget(new Button(xOffset - 5, yOffset + 40, 40, 20, new TextComponent("stands"), b ->
         {
-            if (b.getMessage().getString().equals("wanders")) b.setMessage(new StringTextComponent("stands"));
-            else b.setMessage(new StringTextComponent("wanders"));
+            if (b.getMessage().getString().equals("wanders")) b.setMessage(new TextComponent("stands"));
+            else b.setMessage(new TextComponent("wanders"));
             this.stand = b.getMessage().getString().equals("stands");
         }));
-        this.addButton(new Button(xOffset - 45, yOffset + 40, 40, 20, new StringTextComponent("random"), b ->
+        this.addRenderableWidget(new Button(xOffset - 45, yOffset + 40, 40, 20, new TextComponent("random"), b ->
         {
-            if (b.getMessage().getString().equals("male")) b.setMessage(new StringTextComponent("female"));
-            else if (b.getMessage().getString().equals("female")) b.setMessage(new StringTextComponent("random"));
-            else b.setMessage(new StringTextComponent("male"));
+            if (b.getMessage().getString().equals("male")) b.setMessage(new TextComponent("female"));
+            else if (b.getMessage().getString().equals("female")) b.setMessage(new TextComponent("random"));
+            else b.setMessage(new TextComponent("male"));
             this.gender = b.getMessage().getString();
         }));
 
         xOffset -= 20;
         yOffset += 10;
 
-        this.addButton(new Button(xOffset - 100, yOffset - 80, 80, 20, new StringTextComponent("Spawn NPC"), b -> this
+        this.addRenderableWidget(new Button(xOffset - 100, yOffset - 80, 80, 20, new TextComponent("Spawn NPC"), b -> this
                 .send("npc")));
-        this.addButton(new Button(xOffset - 20, yOffset - 80, 80, 20, new StringTextComponent("Spawn Trainer"),
+        this.addRenderableWidget(new Button(xOffset - 20, yOffset - 80, 80, 20, new TextComponent("Spawn Trainer"),
                 b -> this.send("trainer")));
-        this.addButton(new Button(xOffset + 60, yOffset - 80, 80, 20, new StringTextComponent("Spawn Leader"), b -> this
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset - 80, 80, 20, new TextComponent("Spawn Leader"), b -> this
                 .send("leader")));
     }
 
@@ -121,7 +121,7 @@ public class Spawn extends Page
     }
 
     @Override
-    public void render(final MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }

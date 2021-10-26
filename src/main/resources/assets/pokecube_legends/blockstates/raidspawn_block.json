@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "state=empty":  { "model": "pokecube_legends:block/raidspawn_block_empty"},
-    "state=normal": { "model": "pokecube_legends:block/raidspawn_block_normal"},
-    "state=rare":  { "model": "pokecube_legends:block/raidspawn_block_rare"}
-  }
-}

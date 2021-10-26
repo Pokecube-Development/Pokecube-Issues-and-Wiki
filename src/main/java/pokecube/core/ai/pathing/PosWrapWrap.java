@@ -1,24 +1,24 @@
 package pokecube.core.ai.pathing;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.IPosWrapper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.phys.Vec3;
 
-public class PosWrapWrap implements IPosWrapper
+public class PosWrapWrap implements PositionTracker
 {
     public final boolean canThrottle;
 
-    private final IPosWrapper wrapped;
+    private final PositionTracker wrapped;
 
-    public PosWrapWrap(final IPosWrapper toWrap, final boolean canThrottle)
+    public PosWrapWrap(final PositionTracker toWrap, final boolean canThrottle)
     {
         this.canThrottle = canThrottle;
         this.wrapped = toWrap;
     }
 
     @Override
-    public Vector3d currentPosition()
+    public Vec3 currentPosition()
     {
         return this.wrapped.currentPosition();
     }

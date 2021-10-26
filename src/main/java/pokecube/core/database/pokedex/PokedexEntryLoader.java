@@ -33,10 +33,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -102,22 +102,22 @@ public class PokedexEntryLoader
 
         public String ride;
 
-        public Vector3d __pos__;
-        public Vector3d __size__;
-        public Vector3d __ride__;
+        public Vec3 __pos__;
+        public Vec3 __size__;
+        public Vec3 __ride__;
 
         public void onLoad()
         {
             String[] args = this.offset.split(",");
-            this.__pos__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
+            this.__pos__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
                     args[2]));
             args = this.size.split(",");
-            this.__size__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
+            this.__size__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(
                     args[2]));
             if (this.ride != null)
             {
                 args = this.ride.split(",");
-                this.__ride__ = new Vector3d(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double
+                this.__ride__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double
                         .parseDouble(args[2]));
             }
         }

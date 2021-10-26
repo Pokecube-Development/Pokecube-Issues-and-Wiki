@@ -4,39 +4,39 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NatureCoreBlock extends Rotates implements IWaterLoggable
+public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
 {
     private static final EnumProperty<NatureCorePart> HALF        = EnumProperty.create("half", NatureCorePart.class);
     private static final BooleanProperty              WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty            FACING      = HorizontalBlock.FACING;
+    private static final DirectionProperty            FACING      = HorizontalDirectionalBlock.FACING;
 
     // Precise selection box
     private static final VoxelShape NATURE_CORE_TOP_NORTH =
@@ -48,7 +48,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     private static final VoxelShape NATURE_CORE_TOP_WEST  =
             Block.box(6, 1, 2, 10, 14, 14);
 
-    private static final VoxelShape NATURE_CORE_BOTTOM = VoxelShapes.or(
+    private static final VoxelShape NATURE_CORE_BOTTOM = Shapes.or(
             Block.box(0, 0, 4, 2, 2, 12),
             Block.box(0, 14, 4, 2, 16, 12),
             Block.box(2, 0, 4, 4, 4, 12),
@@ -69,8 +69,8 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         final NatureCorePart half = state.getValue(NatureCoreBlock.HALF);
         if (half == NatureCorePart.BOTTOM) return NatureCoreBlock.NATURE_CORE_BOTTOM;
@@ -100,7 +100,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
 
     // Places Nature Core Spawner with both top and bottom pieces
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
@@ -113,8 +113,8 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
 
     // Breaking Nature Core Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
-            final PlayerEntity player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+            final Player player)
     {
         final Direction facing = state.getValue(NatureCoreBlock.FACING);
         final BlockPos natureCorePos = this.getNatureCorePos(pos, state.getValue(NatureCoreBlock.HALF), facing);
@@ -148,7 +148,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     // Breaking the Nature Core Spawner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, Player player)
     {
         BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
@@ -163,7 +163,7 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     // Prevents the Nature Core Spawner from replacing blocks above it and
     // checks for water
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
@@ -179,9 +179,9 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(NatureCoreBlock.HALF, HorizontalBlock.FACING, NatureCoreBlock.WATERLOGGED);
+        builder.add(NatureCoreBlock.HALF, HorizontalDirectionalBlock.FACING, NatureCoreBlock.WATERLOGGED);
     }
 
     public NatureCoreBlock(final String name, final Properties props)
@@ -190,9 +190,9 @@ public class NatureCoreBlock extends Rotates implements IWaterLoggable
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
+                SoundEvents.AMBIENT_CAVE, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 }

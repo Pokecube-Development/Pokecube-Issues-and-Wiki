@@ -1,6 +1,6 @@
 package pokecube.adventures.capabilities.utils;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 

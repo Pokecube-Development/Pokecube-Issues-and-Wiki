@@ -14,12 +14,12 @@
                 "zspread": 7,
                 "whitelist": [],
                 "blacklist": [],
-                "tries": 4,
+                "tries": 32,
                 "state_provider": {
                   "state": {
                     "Properties": {
                       "half": "lower",
-                      "waterlogged": "false"
+                  	  "waterlogged": "false"
                     },
                     "Name": "pokecube_legends:tall_crystallized_bush"
                   },
@@ -45,7 +45,9 @@
               "type": "minecraft:square"
             },
             "inner": {
-              "config": {},
+              "config": {
+                "heightmap": "MOTION_BLOCKING"
+              },
               "type": "minecraft:heightmap"
             }
           },
@@ -56,7 +58,7 @@
     },
     "decorator": {
       "config": {
-        "count": 7
+        "count": 4
       },
       "type": "minecraft:count"
     }

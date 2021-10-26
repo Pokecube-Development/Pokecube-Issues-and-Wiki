@@ -4,17 +4,17 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketCommander;
 import pokecube.core.blocks.InteractableTile;
@@ -38,14 +38,14 @@ public class CommanderTile extends InteractableTile
     private String            prev_args      = "";
     protected int             power          = 0;
 
-    public CommanderTile()
+    public CommanderTile(final BlockPos pos, final BlockState state)
     {
-        super(PokecubeAdv.COMMANDER_TYPE.get());
+        this(PokecubeAdv.COMMANDER_TYPE.get(), pos, state);
     }
 
-    public CommanderTile(final TileEntityType<?> tileEntityTypeIn)
+    public CommanderTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, pos, state);
     }
 
     public void setCommand(final Command command, final String args) throws Exception
@@ -56,29 +56,29 @@ public class CommanderTile extends InteractableTile
     }
 
     @Override
-    public CompoundNBT getUpdateTag()
+    public CompoundTag getUpdateTag()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         return this.save(tag);
     }
 
     @Override
-    public void handleUpdateTag(final BlockState stateIn, final CompoundNBT tag)
+    public void handleUpdateTag(final CompoundTag tag)
     {
-        this.load(stateIn, tag);
+        this.load(tag);
     }
 
     @Override
-    public void load(final BlockState stateIn, final CompoundNBT nbt)
+    public void load(final CompoundTag nbt)
     {
-        super.load(stateIn, nbt);
+        super.load(nbt);
         if (nbt.hasUUID("pokeID")) this.pokeID = nbt.getUUID("pokeID");
         if (nbt.contains("cmd")) this.command = Command.valueOf(nbt.getString("cmd"));
         this.args = nbt.getString("args");
     }
 
     @Override
-    public CompoundNBT save(final CompoundNBT nbt)
+    public CompoundTag save(final CompoundTag nbt)
     {
         super.save(nbt);
         if (this.getPokeID() != null) nbt.putUUID("pokeID", this.getPokeID());
@@ -175,7 +175,7 @@ public class CommanderTile extends InteractableTile
         if (this.handler != null && clazz == this.handler.getClass() && this.prev_args.equals(this.args)) return;
         if (args == null)
         {
-            this.handler = clazz.newInstance();
+            this.handler = clazz.getConstructor().newInstance();
             return;
         }
         final Class<?>[] argTypes = new Class<?>[args.length];
@@ -188,12 +188,12 @@ public class CommanderTile extends InteractableTile
 
     public void sendCommand() throws Exception
     {
-        final World w = this.getLevel();
-        if (!(w instanceof ServerWorld)) return;
+        final Level w = this.getLevel();
+        if (!(w instanceof ServerLevel)) return;
         if (this.command != null && this.handler == null) this.initCommand();
         if (this.handler == null) throw new Exception("No CommandHandler has been set");
         if (this.pokeID == null) throw new Exception("No Pokemob Set, please set a UUID first.");
-        final ServerWorld world = (ServerWorld) w;
+        final ServerLevel world = (ServerLevel) w;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(world.getEntity(this.pokeID));
         if (pokemob == null) throw new Exception("Pokemob for given ID is not found.");
         try
@@ -208,18 +208,18 @@ public class CommanderTile extends InteractableTile
     }
 
     @Override
-    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
+            final BlockHitResult hit)
     {
         final UUID id = PokecubeManager.getUUID(player.getItemInHand(hand));
         if (id != null)
         {
             this.setPokeID(id);
             if (!player.getCommandSenderWorld().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        else if (!player.isCrouching() && player instanceof ServerPlayerEntity) PacketCommander.sendOpenPacket(pos,
-                (ServerPlayerEntity) player);
-        return !player.isCrouching()? ActionResultType.SUCCESS : ActionResultType.PASS;
+        else if (!player.isCrouching() && player instanceof ServerPlayer) PacketCommander.sendOpenPacket(pos,
+                (ServerPlayer) player);
+        return !player.isCrouching() ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 }

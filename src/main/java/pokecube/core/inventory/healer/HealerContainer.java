@@ -1,15 +1,15 @@
 package pokecube.core.inventory.healer;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IHealer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
@@ -17,18 +17,18 @@ import thut.api.inventory.BaseContainer;
 public class HealerContainer extends BaseContainer implements IHealer
 {
     public static SoundEvent                           HEAL_SOUND = null;
-    public static final ContainerType<HealerContainer> TYPE       = new ContainerType<>(HealerContainer::new);
+    public static final MenuType<HealerContainer> TYPE       = new MenuType<>(HealerContainer::new);
 
-    private final Inventory         inv = new HealerInventory();
+    private final SimpleContainer         inv = new HealerInventory();
 
-    private final IWorldPosCallable pos;
+    private final ContainerLevelAccess pos;
 
-    public HealerContainer(final int id, final PlayerInventory invIn)
+    public HealerContainer(final int id, final Inventory invIn)
     {
-        this(id, invIn, IWorldPosCallable.NULL);
+        this(id, invIn, ContainerLevelAccess.NULL);
     }
 
-    public HealerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
+    public HealerContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
     {
         super(HealerContainer.TYPE, id);
         this.pos = pos;
@@ -47,13 +47,13 @@ public class HealerContainer extends BaseContainer implements IHealer
     }
 
     @Override
-    public boolean stillValid(final PlayerEntity playerIn)
+    public boolean stillValid(final Player playerIn)
     {
         return true;
     }
 
     @Override
-    public IInventory getInv()
+    public Container getInv()
     {
         return this.inv;
     }
@@ -64,7 +64,7 @@ public class HealerContainer extends BaseContainer implements IHealer
      * pokecubes.
      */
     @Override
-    public void heal(final World world)
+    public void heal(final Level world)
     {
         if (!world.isClientSide) for (int i = 0; i < 6; i++)
         {
@@ -74,12 +74,12 @@ public class HealerContainer extends BaseContainer implements IHealer
     }
 
     @Override
-    public void removed(final PlayerEntity playerIn)
+    public void removed(final Player playerIn)
     {
         super.removed(playerIn);
         this.pos.execute((world, pos) ->
         {
-            this.clearContainer(playerIn, world, this.inv);
+            this.clearContainer(playerIn, this.inv);
         });
     }
 }

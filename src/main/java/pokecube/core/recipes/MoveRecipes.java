@@ -7,25 +7,25 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
@@ -41,25 +41,25 @@ public class MoveRecipes
 {
     private static final ResourceLocation ID = new ResourceLocation("pokecube:move_recipe");
 
-    public static final IRecipeType<MoveRecipe> MOVE_TYPE = IRecipeType.register(MoveRecipes.ID.toString());
+    public static final RecipeType<MoveRecipe> MOVE_TYPE = RecipeType.register(MoveRecipes.ID.toString());
 
     public static final RegistryObject<Serializer> SERIALIZER = RecipeHandler.RECIPE_SERIALIZERS.register("move_recipe",
             () -> new Serializer());
 
     public static Map<String, List<MoveRecipe>> MOVE_TO_RECIPES_MAP = Maps.newHashMap();
 
-    public static class WorldCraftInventory extends CraftingInventory
+    public static class WorldCraftInventory extends CraftingContainer
     {
         final IPokemob pokemob;
 
-        public WorldCraftInventory(final Container container, final int x, final int y, final IPokemob pokemob)
+        public WorldCraftInventory(final AbstractContainerMenu container, final int x, final int y, final IPokemob pokemob)
         {
             super(container, x, y);
             this.pokemob = pokemob;
         }
     }
 
-    public static class MoveRecipe implements IRecipe<WorldCraftInventory>
+    public static class MoveRecipe implements Recipe<WorldCraftInventory>
     {
         private final ShapelessRecipe wrapped;
 
@@ -69,10 +69,10 @@ public class MoveRecipes
 
         final boolean isCustom;
 
-        final Container c = new Container(null, 0)
+        final AbstractContainerMenu c = new AbstractContainerMenu(null, 0)
         {
             @Override
-            public boolean stillValid(final PlayerEntity playerIn)
+            public boolean stillValid(final Player playerIn)
             {
                 return false;
             }
@@ -89,7 +89,7 @@ public class MoveRecipes
         }
 
         @Override
-        public boolean matches(final WorldCraftInventory inventory, final World world)
+        public boolean matches(final WorldCraftInventory inventory, final Level world)
         {
             return this.wrapped.matches(inventory, world);
         }
@@ -127,13 +127,13 @@ public class MoveRecipes
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer()
+        public RecipeSerializer<?> getSerializer()
         {
             return MoveRecipes.SERIALIZER.get();
         }
 
         @Override
-        public IRecipeType<?> getType()
+        public RecipeType<?> getType()
         {
             return MoveRecipes.MOVE_TYPE;
         }
@@ -149,7 +149,7 @@ public class MoveRecipes
             if (!MoveEventsHandler.canAffectBlock(user, location, name, false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
-            final World world = user.getEntity().getCommandSenderWorld();
+            final Level world = user.getEntity().getCommandSenderWorld();
             final BlockState block = location.getBlockState(world);
             if (block == null || world.isEmptyBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
@@ -168,7 +168,7 @@ public class MoveRecipes
             return true;
         }
 
-        private int tryCraft(final List<ItemStack> items, final Vector3 location, final World world, int depth,
+        private int tryCraft(final List<ItemStack> items, final Vector3 location, final Level world, int depth,
                 final IPokemob user)
         {
             boolean allMatch = false;
@@ -217,7 +217,7 @@ public class MoveRecipes
         {
             // This should look for items near the location, and try to stuff
             // them into a shapeless recipe.
-            final World world = attacker.getEntity().getCommandSenderWorld();
+            final Level world = attacker.getEntity().getCommandSenderWorld();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(2));
             final List<ItemStack> stacks = Lists.newArrayList();
             items.forEach(e -> stacks.add(e.getItem()));
@@ -226,18 +226,18 @@ public class MoveRecipes
         }
     }
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements
-            IRecipeSerializer<MoveRecipe>
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements
+            RecipeSerializer<MoveRecipe>
     {
 
         @Override
         public MoveRecipe fromJson(final ResourceLocation id, final JsonObject json)
         {
-            final ShapelessRecipe wrap = IRecipeSerializer.SHAPELESS_RECIPE.fromJson(id, json);
-            final int cost = JSONUtils.getAsInt(json, "hungerCost", 50);
-            final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(JSONUtils.getAsJsonObject(json, "move"),
+            final ShapelessRecipe wrap = RecipeSerializer.SHAPELESS_RECIPE.fromJson(id, json);
+            final int cost = GsonHelper.getAsInt(json, "hungerCost", 50);
+            final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(GsonHelper.getAsJsonObject(json, "move"),
                     MoveMatcher.class);
-            final boolean isCustom = JSONUtils.getAsBoolean(json, "loading_from_other", false);
+            final boolean isCustom = GsonHelper.getAsBoolean(json, "loading_from_other", false);
             final MoveRecipe recipe = new MoveRecipe(wrap, cost, matcher, isCustom);
             if (!isCustom)
             {
@@ -250,9 +250,9 @@ public class MoveRecipes
         }
 
         @Override
-        public MoveRecipe fromNetwork(final ResourceLocation id, final PacketBuffer buffer)
+        public MoveRecipe fromNetwork(final ResourceLocation id, final FriendlyByteBuf buffer)
         {
-            final ShapelessRecipe wrap = IRecipeSerializer.SHAPELESS_RECIPE.fromNetwork(id, buffer);
+            final ShapelessRecipe wrap = RecipeSerializer.SHAPELESS_RECIPE.fromNetwork(id, buffer);
             final int cost = buffer.readInt();
             final boolean isCustom = buffer.readBoolean();
             final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(buffer.readUtf(), MoveMatcher.class);
@@ -268,9 +268,9 @@ public class MoveRecipes
         }
 
         @Override
-        public void toNetwork(final PacketBuffer buffer, final MoveRecipe recipe)
+        public void toNetwork(final FriendlyByteBuf buffer, final MoveRecipe recipe)
         {
-            IRecipeSerializer.SHAPELESS_RECIPE.toNetwork(buffer, recipe.wrapped);
+            RecipeSerializer.SHAPELESS_RECIPE.toNetwork(buffer, recipe.wrapped);
             buffer.writeInt(recipe.hungerCost);
             buffer.writeBoolean(recipe.isCustom);
             buffer.writeUtf(PokedexEntryLoader.gson.toJson(recipe.match));

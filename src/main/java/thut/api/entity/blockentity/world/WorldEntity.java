@@ -4,53 +4,56 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.DimensionType;
-import net.minecraft.world.ITickList;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
-import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.chunk.AbstractChunkProvider;
-import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.lighting.WorldLightManager;
-import net.minecraft.world.storage.IWorldInfo;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.TickList;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkSource;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.lighting.LevelLightEngine;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
 
 public class WorldEntity implements IBlockEntityWorld
 {
 
-    final World    world;
-    IBlockEntity   mob;
-    public boolean creating;
+    final Level              world;
+    IBlockEntity             mob;
+    public boolean           creating;
     BlockEntityChunkProvider chunks;
 
-    public WorldEntity(final World world)
+    public WorldEntity(final Level world)
     {
         this.world = world;
         this.chunks = new BlockEntityChunkProvider(this);
     }
 
     @Override
-    public World getWorld()
+    public Level getWorld()
     {
         return this.world;
     }
@@ -62,7 +65,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public int getBrightness(final LightType type, final BlockPos pos)
+    public int getBrightness(final LightLayer type, final BlockPos pos)
     {
         return this.world.getBrightness(type, pos);
     }
@@ -70,7 +73,7 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public boolean setBlock(final BlockPos pos, final BlockState newState, final int flags)
     {
-        final IChunk c = this.getChunk(pos);
+        final ChunkAccess c = this.getChunk(pos);
         return c.setBlockState(pos, newState, (flags & 64) != 0) != null;
     }
 
@@ -83,9 +86,9 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public TileEntity getBlockEntity(final BlockPos pos)
+    public BlockEntity getBlockEntity(final BlockPos pos)
     {
-        final TileEntity tile = this.getTile(pos);
+        final BlockEntity tile = this.getTile(pos);
         if (tile == null) return this.world.getBlockEntity(pos);
         return tile;
     }
@@ -104,31 +107,31 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public ITickList<Block> getBlockTicks()
+    public TickList<Block> getBlockTicks()
     {
         return this.world.getBlockTicks();
     }
 
     @Override
-    public ITickList<Fluid> getLiquidTicks()
+    public TickList<Fluid> getLiquidTicks()
     {
         return this.world.getLiquidTicks();
     }
 
     @Override
-    public void levelEvent(final PlayerEntity player, final int type, final BlockPos pos, final int data)
+    public void levelEvent(final Player player, final int type, final BlockPos pos, final int data)
     {
         this.world.levelEvent(player, type, pos, data);
     }
 
     @Override
-    public List<? extends PlayerEntity> players()
+    public List<? extends Player> players()
     {
         return this.world.players();
     }
 
     @Override
-    public IChunk getChunk(final int x, final int z, final ChunkStatus requiredStatus, final boolean nonnull)
+    public ChunkAccess getChunk(final int x, final int z, final ChunkStatus requiredStatus, final boolean nonnull)
     {
         return new EntityChunk(this, new ChunkPos(x, z));
     }
@@ -164,35 +167,28 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public void playSound(final PlayerEntity player, final BlockPos pos, final SoundEvent soundIn,
-            final SoundCategory category, final float volume, final float pitch)
+    public void playSound(final Player player, final BlockPos pos, final SoundEvent soundIn, final SoundSource category,
+            final float volume, final float pitch)
     {
         this.world.playSound(player, pos, soundIn, category, volume, pitch);
     }
 
     @Override
-    public void addParticle(final IParticleData particleData, final double x, final double y, final double z,
+    public void addParticle(final ParticleOptions particleData, final double x, final double y, final double z,
             final double xSpeed, final double ySpeed, final double zSpeed)
     {
         this.world.addParticle(particleData, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @Override
-    public List<Entity> getEntities(final Entity entityIn, final AxisAlignedBB boundingBox,
+    public List<Entity> getEntities(final Entity entityIn, final AABB boundingBox,
             final Predicate<? super Entity> predicate)
     {
         return this.world.getEntities(entityIn, boundingBox, predicate);
     }
 
     @Override
-    public <T extends Entity> List<T> getEntitiesOfClass(final Class<? extends T> clazz, final AxisAlignedBB aabb,
-            final Predicate<? super T> filter)
-    {
-        return this.world.getEntitiesOfClass(clazz, aabb, filter);
-    }
-
-    @Override
-    public int getHeight(final Type heightmapType, final int x, final int z)
+    public int getHeight(final Types heightmapType, final int x, final int z)
     {
         return this.world.getHeight(heightmapType, x, z);
     }
@@ -222,7 +218,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public WorldLightManager getLightEngine()
+    public LevelLightEngine getLightEngine()
     {
         return this.world.getLightEngine();
     }
@@ -234,13 +230,13 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public AbstractChunkProvider getChunkSource()
+    public ChunkSource getChunkSource()
     {
         return this.chunks;
     }
 
     @Override
-    public DynamicRegistries registryAccess()
+    public RegistryAccess registryAccess()
     {
         return this.world.registryAccess();
     }
@@ -252,7 +248,7 @@ public class WorldEntity implements IBlockEntityWorld
     }
 
     @Override
-    public IWorldInfo getLevelData()
+    public LevelData getLevelData()
     {
         return this.world.getLevelData();
     }
@@ -292,5 +288,30 @@ public class WorldEntity implements IBlockEntityWorld
             final int recursionLeft)
     {
         return false;
+    }
+
+    @Override
+    public MinecraftServer getServer()
+    {
+        return this.world.getServer();
+    }
+
+    @Override
+    public void gameEvent(final Entity p_151549_, final GameEvent p_151550_, final BlockPos p_151551_)
+    {
+        this.world.gameEvent(p_151549_, p_151550_, p_151551_);
+    }
+
+    @Override
+    public <T extends Entity> List<T> getEntities(final EntityTypeTest<Entity, T> p_151464_, final AABB p_151465_,
+            final Predicate<? super T> p_151466_)
+    {
+        return this.world.getEntities(p_151464_, p_151465_, p_151466_);
+    }
+
+    @Override
+    public boolean isFluidAtPosition(final BlockPos p_151584_, final Predicate<FluidState> p_151585_)
+    {
+        return this.world.isFluidAtPosition(p_151584_, p_151585_);
     }
 }

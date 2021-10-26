@@ -2,17 +2,17 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,7 +22,7 @@ public class LegendsSword extends SwordItem
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
 
-    public LegendsSword(final IItemTier material, final int bonusDamage, final float attackSpeed, final Properties properties, final ItemGroup group)
+    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, final Properties properties, final CreativeModeTab group)
     {
         super(material, bonusDamage, attackSpeed, properties.tab(group));
     }
@@ -46,14 +46,14 @@ public class LegendsSword extends SwordItem
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
-            final ITooltipFlag flagIn)
+    public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
+            final TooltipFlag flagIn)
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", TextFormatting.GOLD, TextFormatting.BOLD, TextFormatting.RESET);
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD, ChatFormatting.BOLD, ChatFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslationTextComponent(message));
+        tooltip.add(new TranslatableComponent(message));
     }
 
     @Override

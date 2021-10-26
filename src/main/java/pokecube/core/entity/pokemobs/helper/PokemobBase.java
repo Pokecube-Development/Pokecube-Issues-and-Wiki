@@ -1,13 +1,13 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.passive.IFlyingAnimal;
-import net.minecraft.entity.passive.ShoulderRidingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.animal.ShoulderRidingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
@@ -16,17 +16,17 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.IMobColourable;
 
-public abstract class PokemobBase extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, IFlyingAnimal,
+public abstract class PokemobBase extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, FlyingAnimal,
         IMobColourable
 {
     public final DefaultPokemob pokemobCap;
 
-    public PokemobBase(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
+    public PokemobBase(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
-        this.dimensions = EntitySize.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
+        this.dimensions = EntityDimensions.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
         this.setPersistenceRequired();
     }
 
@@ -52,7 +52,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
     }
 
     @Override
-    public EntitySize getDimensions(final Pose poseIn)
+    public EntityDimensions getDimensions(final Pose poseIn)
     {
         return this.dimensions.scale(this.getScale());
     }

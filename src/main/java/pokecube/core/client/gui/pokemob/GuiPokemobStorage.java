@@ -5,19 +5,21 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
@@ -28,19 +30,19 @@ import thut.core.common.ThutCore;
 
 public class GuiPokemobStorage extends GuiPokemobBase
 {
-    final PlayerInventory playerInventory;
-    final IInventory      pokeInventory;
+    final Inventory playerInventory;
+    final Container      pokeInventory;
     final IPokemob        pokemob;
     final Entity          entity;
-    TextFieldWidget       berry;
-    TextFieldWidget       storage;
-    TextFieldWidget       storageFace;
-    TextFieldWidget       empty;
+    EditBox       berry;
+    EditBox       storage;
+    EditBox       storageFace;
+    EditBox       empty;
     StoreTask          ai;
-    TextFieldWidget       emptyFace;
-    List<TextFieldWidget> textBoxes = Lists.newArrayList();
+    EditBox       emptyFace;
+    List<EditBox> textBoxes = Lists.newArrayList();
 
-    public GuiPokemobStorage(final ContainerPokemob container, final PlayerInventory playerInv)
+    public GuiPokemobStorage(final ContainerPokemob container, final Inventory playerInv)
     {
         super(container, playerInv);
         this.pokemob = container.pokemob;
@@ -48,7 +50,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
         this.ai = new StoreTask(this.pokemob);
-        final CompoundNBT tag = container.data.readNbt();
+        final CompoundTag tag = container.data.readNbt();
         this.ai.deserializeNBT(tag);
         container.setMode(PacketPokemobGui.STORAGE);
     }
@@ -83,7 +85,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
      * the items)
      */
     @Override
-    protected void renderLabels(final MatrixStack mat,final int mouseX, final int mouseY)
+    protected void renderLabels(final PoseStack mat,final int mouseX, final int mouseY)
     {
         super.renderLabels(mat,mouseX, mouseY);
         final int x = 83;
@@ -99,31 +101,31 @@ public class GuiPokemobStorage extends GuiPokemobBase
     public void init()
     {
         super.init();
-        this.buttons.clear();
+        this.renderables.clear();
         int xOffset = this.width / 2 - 10;
         final int yOffset = this.height / 2 - 77;
-        this.addButton(new Button(xOffset + 60, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.inventory"),
+        this.addRenderableWidget(new Button(xOffset + 60, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.inventory"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.MAIN, this.entity.getId())));
-        this.addButton(new Button(xOffset + 30, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.ai"), b -> PacketPokemobGui
+        this.addRenderableWidget(new Button(xOffset + 30, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.ai"), b -> PacketPokemobGui
                 .sendPagePacket(PacketPokemobGui.AI, this.entity.getId())));
-        this.addButton(new Button(xOffset + 00, yOffset, 30, 10, new TranslationTextComponent("pokemob.gui.routes"),
+        this.addRenderableWidget(new Button(xOffset + 00, yOffset, 30, 10, new TranslatableComponent("pokemob.gui.routes"),
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES, this.entity.getId())));
         xOffset += 29;
         final int dy = 13;
         final int ds = 10;
-        this.addButton(this.berry = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10, new StringTextComponent("")));
-        this.addButton(this.storage = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10, new StringTextComponent("")));
-        this.addButton(this.storageFace = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
-                new StringTextComponent("")));
-        this.addButton(this.empty = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10, new StringTextComponent("")));
-        this.addButton(this.emptyFace = new TextFieldWidget(this.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
-                new StringTextComponent("")));
+        this.addRenderableWidget(this.berry = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 0, 50, 10, new TextComponent("")));
+        this.addRenderableWidget(this.storage = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 1, 50, 10, new TextComponent("")));
+        this.addRenderableWidget(this.storageFace = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 2, 50, 10,
+                new TextComponent("")));
+        this.addRenderableWidget(this.empty = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 3, 50, 10, new TextComponent("")));
+        this.addRenderableWidget(this.emptyFace = new EditBox(this.font, xOffset + 10, yOffset + dy + ds * 4, 50, 10,
+                new TextComponent("")));
         this.textBoxes = Lists.newArrayList(this.berry, this.storage, this.storageFace, this.empty, this.emptyFace);
 
-        final CompoundNBT nbt = this.ai.serializeNBT();
-        final CompoundNBT berry = nbt.getCompound("b");
-        final CompoundNBT storage = nbt.getCompound("s");
-        final CompoundNBT empty = nbt.getCompound("e");
+        final CompoundTag nbt = this.ai.serializeNBT();
+        final CompoundTag berry = nbt.getCompound("b");
+        final CompoundTag storage = nbt.getCompound("s");
+        final CompoundTag empty = nbt.getCompound("e");
         if (!berry.isEmpty()) this.berry.setValue(berry.getInt("x") + " " + berry.getInt("y") + " " + berry.getInt("z"));
         if (!storage.isEmpty())
         {
@@ -152,18 +154,18 @@ public class GuiPokemobStorage extends GuiPokemobBase
         try
         {
             BlockPos newLink = null;
-            final PlayerInventory inv = this.playerInventory;
             boolean effect = false;
-            if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
+            final ItemStack carried = Minecraft.getInstance().player.containerMenu.getCarried();
+            if (!carried.isEmpty() && carried.hasTag())
             {
-                final CompoundNBT link = inv.getCarried().getTag().getCompound("link_pos");
+                final CompoundTag link = carried.getTag().getCompound("link_pos");
                 if (!link.isEmpty())
                 {
                     final Vector4 pos = new Vector4(link);
                     newLink = new BlockPos((int) (pos.x - 0.5), (int) pos.y, (int) (pos.z - 0.5));
                 }
             }
-            for (final TextFieldWidget text : this.textBoxes)
+            for (final EditBox text : this.textBoxes)
             {
                 if (newLink != null && text.isFocused() && (text == this.berry || text == this.storage
                         || text == this.empty))
@@ -209,7 +211,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
     }
 
     @Override
-    public void render(final MatrixStack mat, final int i, final int j, final float f)
+    public void render(final PoseStack mat, final int i, final int j, final float f)
     {
         super.render(mat,i, j, f);
         this.renderTooltip(mat,i, j);
@@ -235,6 +237,6 @@ public class GuiPokemobStorage extends GuiPokemobBase
         PacketUpdateAI.sendUpdatePacket(this.pokemob, this.ai);
 
         // Send status message thingy
-        this.minecraft.player.displayClientMessage(new TranslationTextComponent("pokemob.gui.updatestorage"), true);
+        this.minecraft.player.displayClientMessage(new TranslatableComponent("pokemob.gui.updatestorage"), true);
     }
 }

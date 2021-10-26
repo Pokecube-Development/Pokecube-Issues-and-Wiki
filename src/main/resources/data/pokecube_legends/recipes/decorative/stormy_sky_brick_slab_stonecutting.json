@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:stormy_sky_bricks"
+  },
+  "result": "pokecube_legends:stormy_sky_brick_slab",
+  "count": 2
+}

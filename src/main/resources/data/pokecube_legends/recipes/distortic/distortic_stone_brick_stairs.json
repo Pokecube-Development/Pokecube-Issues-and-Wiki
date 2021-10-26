@@ -8,11 +8,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:distortic_stonebrick"
+      "item": "pokecube_legends:distortic_stone_bricks"
     }
   },
   "result": {
-    "item": "pokecube_legends:distortic_stonebrick_stairs",
+    "item": "pokecube_legends:distortic_stone_brick_stairs",
     "count": 4
   }
 }

@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.a;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -12,7 +12,7 @@ public class Airlock extends Ability
     {
         if (!move.pre) return;
 
-        final World world = mob.getEntity().getCommandSenderWorld();
+        final Level world = mob.getEntity().getCommandSenderWorld();
         final boolean rain = world.isRaining();
         if (!rain)
         {

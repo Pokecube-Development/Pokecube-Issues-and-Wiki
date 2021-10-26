@@ -2,8 +2,8 @@ package thut.core.common.world.mobs.data.types;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
 
 public class Data_ItemStack extends Data_Base<ItemStack>
 {
@@ -31,7 +31,7 @@ public class Data_ItemStack extends Data_Base<ItemStack>
     {
         super.read(buf);
         final int num = buf.readInt();
-        final PacketBuffer wrapped = new PacketBuffer(Unpooled.buffer(0));
+        final FriendlyByteBuf wrapped = new FriendlyByteBuf(Unpooled.buffer(0));
         final byte[] dst = new byte[num];
         buf.readBytes(dst);
         try
@@ -62,7 +62,7 @@ public class Data_ItemStack extends Data_Base<ItemStack>
     public void write(ByteBuf buf)
     {
         super.write(buf);
-        final PacketBuffer wrapped = new PacketBuffer(Unpooled.buffer(0));
+        final FriendlyByteBuf wrapped = new FriendlyByteBuf(Unpooled.buffer(0));
         wrapped.writeItem(this.value);
         final int num = wrapped.readableBytes();
         buf.writeInt(num);

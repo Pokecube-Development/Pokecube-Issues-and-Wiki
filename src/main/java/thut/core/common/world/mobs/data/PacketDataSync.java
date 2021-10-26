@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.world.mobs.data.Data;
@@ -26,10 +26,10 @@ public class PacketDataSync extends Packet
         packet.data = list;
         packet.id = entity_id;
         ThutCore.packets.sendToTracking(packet, tracked);
-        if (tracked instanceof ServerPlayerEntity) ThutCore.packets.sendTo(packet, (ServerPlayerEntity) tracked);
+        if (tracked instanceof ServerPlayer) ThutCore.packets.sendTo(packet, (ServerPlayer) tracked);
     }
 
-    public static void sync(final ServerPlayerEntity syncTo, final DataSync data, final int entity_id, final boolean all)
+    public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)
     {
         final List<Data<?>> list = all ? data.getAll() : data.getDirty();
         // Nothing to sync.
@@ -49,7 +49,7 @@ public class PacketDataSync extends Packet
         super(null);
     }
 
-    public PacketDataSync(final PacketBuffer buf)
+    public PacketDataSync(final FriendlyByteBuf buf)
     {
         super(buf);
         this.id = buf.readInt();
@@ -74,7 +74,7 @@ public class PacketDataSync extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        final World world = net.minecraft.client.Minecraft.getInstance().level;
+        final Level world = net.minecraft.client.Minecraft.getInstance().level;
         final Entity mob = world.getEntity(this.id);
         if (mob == null) return;
         final DataSync sync = SyncHandler.getData(mob);
@@ -84,7 +84,7 @@ public class PacketDataSync extends Packet
     }
 
     @Override
-    public void write(final PacketBuffer buf)
+    public void write(final FriendlyByteBuf buf)
     {
         buf.writeInt(this.id);
         final byte num = (byte) this.data.size();

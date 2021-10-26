@@ -1,8 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
-public enum PortalWarpPart implements IStringSerializable
+public enum PortalWarpPart implements StringRepresentable
 {
     //@formatter:off
     TOP("top"),

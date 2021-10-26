@@ -8,22 +8,23 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -40,7 +41,7 @@ import thut.core.common.ThutCore;
 
 public class WormholeSpawns implements IWorldTickListener
 {
-    public static interface IWormholeWorld extends INBTSerializable<CompoundNBT>
+    public static interface IWormholeWorld extends INBTSerializable<CompoundTag>
     {
         Collection<BlockPos> getWormholes();
 
@@ -62,23 +63,23 @@ public class WormholeSpawns implements IWorldTickListener
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT nbt = new CompoundNBT();
-            final ListNBT list = new ListNBT();
+            final CompoundTag nbt = new CompoundTag();
+            final ListTag list = new ListTag();
             for (final BlockPos pos : this.getWormholes())
-                list.add(NBTUtil.writeBlockPos(pos));
+                list.add(NbtUtils.writeBlockPos(pos));
             nbt.put("wormholes", list);
             return nbt;
         }
 
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             this.getWormholes().clear();
-            final ListNBT list = nbt.getList("wormholes", 10);
-            for (final INBT tag : list)
-                this.getWormholes().add(NBTUtil.readBlockPos((CompoundNBT) tag));
+            final ListTag list = nbt.getList("wormholes", 10);
+            for (final Tag tag : list)
+                this.getWormholes().add(NbtUtils.readBlockPos((CompoundTag) tag));
         }
 
         @Override
@@ -101,27 +102,9 @@ public class WormholeSpawns implements IWorldTickListener
 
     }
 
-    public static class Storage implements Capability.IStorage<IWormholeWorld>
+    public static final Capability<IWormholeWorld> WORMHOLES_CAP = CapabilityManager.get(new CapabilityToken<>()
     {
-
-        @Override
-        public void readNBT(final Capability<IWormholeWorld> capability, final IWormholeWorld instance,
-                final Direction side, final INBT nbt)
-        {
-            if (nbt instanceof CompoundNBT) instance.deserializeNBT((CompoundNBT) nbt);
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IWormholeWorld> capability, final IWormholeWorld instance,
-                final Direction side)
-        {
-            return instance.serializeNBT();
-        }
-
-    }
-
-    @CapabilityInject(IWormholeWorld.class)
-    public static final Capability<IWormholeWorld> WORMHOLES_CAP = null;
+    });
 
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
@@ -136,19 +119,22 @@ public class WormholeSpawns implements IWorldTickListener
 
     public static void init()
     {
-        CapabilityManager.INSTANCE.register(IWormholeWorld.class, new Storage(), Wormholes::new);
-
         WorldTickManager.registerStaticData(() -> WormholeSpawns.INSTANCE, p -> true);
-        MinecraftForge.EVENT_BUS.addGenericListener(World.class, WormholeSpawns::onWorldCaps);
+        MinecraftForge.EVENT_BUS.addGenericListener(Level.class, WormholeSpawns::onWorldCaps);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, WormholeEntity::onTeleport);
     }
 
-    private static void onWorldCaps(final AttachCapabilitiesEvent<World> event)
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        event.register(IWormholeWorld.class);
+    }
+
+    private static void onWorldCaps(final AttachCapabilitiesEvent<Level> event)
     {
         event.addCapability(new ResourceLocation(Reference.ID, "wormholes"), new Wormholes());
     }
 
-    public static BlockPos getWormholePos(final ServerWorld world, final BlockPos base)
+    public static BlockPos getWormholePos(final ServerLevel world, final BlockPos base)
     {
         final Random rng = ThutCore.newRandom();
 
@@ -157,7 +143,7 @@ public class WormholeSpawns implements IWorldTickListener
 
         final int x = base.getX();
         final int z = base.getZ();
-        final int h = world.getHeight(Type.WORLD_SURFACE, x, z);
+        final int h = world.getHeight(Types.WORLD_SURFACE, x, z);
 
         // If h<10 or so we need to find a new spot.
 
@@ -168,7 +154,7 @@ public class WormholeSpawns implements IWorldTickListener
     }
 
     @Override
-    public void onTickEnd(final ServerWorld world)
+    public void onTickEnd(final ServerLevel world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
 
@@ -182,7 +168,7 @@ public class WormholeSpawns implements IWorldTickListener
 
         final double wormholeSpacing = WormholeSpawns.randomWormholeSpacing;
 
-        final List<ServerPlayerEntity> players = world.players();
+        final List<ServerPlayer> players = world.players();
         if (players.isEmpty()) return;
         Collections.shuffle(players);
 

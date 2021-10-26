@@ -23,6 +23,9 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
+eclipseJdtApt.enabled = false
+eclipseFactoryPath.enabled = false
+
 mixin { add sourceSets.main, "pokecube.refmap.json" }
 
 ext {
@@ -36,7 +39,7 @@ version = "${version_minecraft}-${VERSION_COMPILE}"
 group = 'thut'
 archivesBaseName = "${compile_name}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
     mappings channel: "${channel_mappings}", version: "${version_mappings}"
@@ -114,8 +117,10 @@ minecraft {
 
 repositories {
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
     flatDir {
         dirs 'libs'
@@ -159,10 +164,10 @@ dependencies {
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
     
     //Lost Cities
-    implementation "blank:lostcities-1.16-4.0.7-beta"
+    //implementation "blank:lostcities-1.16-4.0.7-beta"
     
     //Thut Essentials
-    implementation "blank:thutessentials-1.16.5-4.1.5-deobf"
+    implementation "${depstr_thutessentials}"
     
     //JEI
     // compile against the JEI API but do not include it at runtime
@@ -171,22 +176,20 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
     
     //WHYLA
-    compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}:api")
-    runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
+    implementation fg.deobf("curse.maven:Jade-${version_jade}")
     
     //Minecolonies
-    implementation "blank:minecolonies-0.13.437-RELEASE-api"
+    implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
     
     //Immersive Enginnering
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"
     
     // Advanced Rocketry
-    implementation "blank:AdvancedRocketry-1.16.5-1.7.1-4-api"
-    implementation "blank:LibVulpes-1.16.5-1.0.1-6-api"
+    //implementation "blank:AdvancedRocketry-1.16.5-1.7.1-4-api"
+    //implementation "blank:LibVulpes-1.16.5-1.0.1-6-api"
 
     // Curios - Wearables Support
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+    implementation fg.deobf("curse.maven:curios-${version_curios}")
 }
 
 sourceSets {
@@ -264,7 +267,7 @@ def cleanTOML()
 def gitVersion(value) {
     if("${pre_release}".toBoolean())
     {
-        return "${value}.0.d"
+        return "${value}.${pre_ver}"
     }
     def raw = grgit.describe(longDescr: true)
     def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List

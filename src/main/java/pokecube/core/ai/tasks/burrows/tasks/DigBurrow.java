@@ -7,15 +7,15 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -29,11 +29,11 @@ import thut.api.Tracker;
 
 public class DigBurrow extends AbstractBurrowTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
 
     static
     {
-        DigBurrow.mems.put(BurrowTasks.JOB_INFO, MemoryModuleStatus.VALUE_PRESENT);
+        DigBurrow.mems.put(BurrowTasks.JOB_INFO, MemoryStatus.VALUE_PRESENT);
     }
     protected int progressTimer = 0;
 
@@ -54,7 +54,7 @@ public class DigBurrow extends AbstractBurrowTask
         super(pokemob, DigBurrow.mems);
 
         this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
-                .above()).isPathfindable(this.world, p, PathType.LAND);
+                .above()).isPathfindable(this.world, p, PathComputationType.LAND);
 
         this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(
                 2, 2, 2)).anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
@@ -66,7 +66,7 @@ public class DigBurrow extends AbstractBurrowTask
             {
                 final BlockPos pos2 = pos.relative(dir);
                 final BlockState state = this.world.getBlockState(pos2);
-                if (state.isPathfindable(this.world, pos2, PathType.LAND)) return true;
+                if (state.isPathfindable(this.world, pos2, PathComputationType.LAND)) return true;
             }
             return false;
         };
@@ -132,13 +132,13 @@ public class DigBurrow extends AbstractBurrowTask
             final double dr = this.work_pos.distSqr(this.entity.blockPosition());
             final double dr2 = p == null ? dr : p.getEndNode().asBlockPos().distSqr(this.work_pos);
 
-            if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, MathHelper.ceil(this.dsMax - 1));
+            if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, Mth.ceil(this.dsMax - 1));
             else if (this.progressTimer > 20) this.progressTimer = 20;
 
             if (this.progressTimer > 0 && dr < this.ds2Max)
             {
                 this.tryHarvest(this.work_pos, true);
-                BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
+                BrainUtils.setLeapTarget(this.entity, new BlockPosTracker(this.work_pos));
                 // Mark it as done for the next few seconds or so
                 part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);
                 this.progressTimer = -10;

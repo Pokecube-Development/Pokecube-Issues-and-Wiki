@@ -1,8 +1,8 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * have blocks which are to be eaten by pokemon as berries implement this
@@ -19,5 +19,5 @@ public interface IBerryFruitBlock
      *            - block pos with block
      * @return - berry from pos and world
      */
-    public ItemStack getBerryStack(IBlockReader world, BlockPos pos);
+    public ItemStack getBerryStack(BlockGetter world, BlockPos pos);
 }

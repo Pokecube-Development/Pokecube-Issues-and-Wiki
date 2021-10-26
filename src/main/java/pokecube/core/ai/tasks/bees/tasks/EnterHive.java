@@ -2,9 +2,9 @@ package pokecube.core.ai.tasks.bees.tasks;
 
 import java.util.Optional;
 
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.level.Level;
 import pokecube.core.ai.tasks.bees.AbstractBeeTask;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.bees.sensors.HiveSensor;
@@ -33,7 +33,7 @@ public class EnterHive extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
         if (pos_opt.isPresent())
         {
-            final World world = this.entity.getCommandSenderWorld();
+            final Level world = this.entity.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
             final boolean clearHive = pos.dimension() != world.dimension();
             // This will be cleared by CheckHive, so lets just exit here.

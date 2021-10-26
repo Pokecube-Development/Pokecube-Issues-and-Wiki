@@ -10,25 +10,25 @@ import javax.xml.namespace.QName;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootTable;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -227,7 +227,7 @@ public class Tools
 
     public static int getExp(final float coef, final int baseXP, final int level)
     {
-        return MathHelper.floor(coef * baseXP * level / 7F);
+        return Mth.floor(coef * baseXP * level / 7F);
     }
 
     private static int getLevelFromTable(final int index, final int exp)
@@ -261,8 +261,8 @@ public class Tools
         final Vector3 pos = Vector3.getNewVector().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
         if (loc != null) distance = loc.distanceTo(pos);
-        final Vector3d vec31 = entity.getViewVector(0);
-        Predicate<Entity> predicate = EntityPredicates.NO_SPECTATORS.and(c -> entity.isPickable());
+        final Vec3 vec31 = entity.getViewVector(0);
+        Predicate<Entity> predicate = EntitySelector.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
         predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(
                 entity, c));
@@ -273,13 +273,13 @@ public class Tools
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)
     {
-        final Vector3d vec3 = new Vector3d(entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ());
+        final Vec3 vec3 = new Vec3(entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ());
         final double d0 = distance;
-        final Vector3d vec31 = entity.getViewVector(0);
-        final Vector3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        final World world = entity.getCommandSenderWorld();
-        final BlockRayTraceResult result = world.clip(new RayTraceContext(vec3, vec32,
-                RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, entity));
+        final Vec3 vec31 = entity.getViewVector(0);
+        final Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
+        final Level world = entity.getCommandSenderWorld();
+        final BlockHitResult result = world.clip(new ClipContext(vec3, vec32,
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result == null || result.getBlockPos() == null) return null;
         final Vector3 vec = Vector3.getNewVector().set(result.getLocation());
         return vec;
@@ -327,7 +327,7 @@ public class Tools
         return Tools.getStack(values, null);
     }
 
-    public static ItemStack getStack(final Map<QName, String> values, final ServerWorld world)
+    public static ItemStack getStack(final Map<QName, String> values, final ServerLevel world)
     {
         String id = "";
         int size = 1;
@@ -390,7 +390,7 @@ public class Tools
         stack.setCount(size);
         if (!tag.isEmpty()) try
         {
-            stack.setTag(JsonToNBT.parseTag(tag));
+            stack.setTag(TagParser.parseTag(tag));
         }
         catch (final CommandSyntaxException e)
         {
@@ -435,13 +435,13 @@ public class Tools
         return 0;
     }
 
-    public static void giveItem(final PlayerEntity PlayerEntity, final ItemStack itemstack)
+    public static void giveItem(final Player PlayerEntity, final ItemStack itemstack)
     {
-        final boolean flag = PlayerEntity.inventory.add(itemstack);
+        final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.getCommandSenderWorld().playSound((PlayerEntity) null, PlayerEntity.getX(), PlayerEntity
-                    .getY(), PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
+            PlayerEntity.getCommandSenderWorld().playSound((Player) null, PlayerEntity.getX(), PlayerEntity
+                    .getY(), PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((PlayerEntity
                             .getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             PlayerEntity.inventoryMenu.broadcastChanges();
         }
@@ -471,14 +471,14 @@ public class Tools
     }
 
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
-            final World world, final Vector3 location)
+            final Level world, final Vector3 location)
     {
         final double dhm = rangeHorizontal * rangeHorizontal;
         final double dvm = rangeVertical * rangeVertical;
         for (int i = 0; i < world.players().size(); ++i)
         {
-            final PlayerEntity PlayerEntity = world.players().get(i);
-            if (EntityPredicates.NO_SPECTATORS.test(PlayerEntity) || PokecubeCore.getConfig().debug)
+            final Player PlayerEntity = world.players().get(i);
+            if (EntitySelector.NO_SPECTATORS.test(PlayerEntity) || PokecubeCore.getConfig().debug)
             {
                 final double d0 = PlayerEntity.getX() - location.x;
                 final double d1 = PlayerEntity.getZ() - location.z;
@@ -493,9 +493,9 @@ public class Tools
 
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
-        final World world = entity.getCommandSenderWorld();
+        final Level world = entity.getCommandSenderWorld();
         return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
-                EntityPredicates.NO_SPECTATORS) != null;
+                EntitySelector.NO_SPECTATORS) != null;
     }
 
     public static boolean isSameStack(final ItemStack a, final ItemStack b)
@@ -545,7 +545,7 @@ public class Tools
         return Tools.getLevelFromTable(index, exp);
     }
 
-    public static Predicate<CommandSource> hasPerm(final String perm)
+    public static Predicate<CommandSourceStack> hasPerm(final String perm)
     {
         return cs -> CommandTools.hasPerm(cs, perm);
     }

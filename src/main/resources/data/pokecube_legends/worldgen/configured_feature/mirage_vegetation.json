@@ -2,7 +2,18 @@
   "config": {
     "feature": {
       "config": {
-        "feature": "pokecube_legends:mirage_tree",
+        "feature": {
+          "config": {
+           "features": [
+              {
+                "feature": "pokecube_legends:mirage_tree",
+                "chance": 0.2
+              }
+            ],
+            "default": "pokecube_legends:mirage_tree"
+          },
+          "type": "minecraft:random_selector"
+        },
         "decorator": {
           "config": {
             "outer": {
@@ -10,8 +21,21 @@
               "type": "minecraft:square"
             },
             "inner": {
-              "config": {},
-              "type": "minecraft:heightmap"
+              "config": {
+                "outer": {
+                  "config": {
+                    "max_water_depth": 0
+                  },
+                  "type": "minecraft:water_depth_threshold"
+                },
+                "inner": {
+                  "config": {
+                    "heightmap": "OCEAN_FLOOR"
+                  },
+                  "type": "minecraft:heightmap"
+                }
+              },
+              "type": "minecraft:decorated"
             }
           },
           "type": "minecraft:decorated"
@@ -21,7 +45,7 @@
     },
     "decorator": {
       "config": {
-        "count": 0.3,
+        "count": 1,
         "extra_chance": 0.1,
         "extra_count": 1
       },

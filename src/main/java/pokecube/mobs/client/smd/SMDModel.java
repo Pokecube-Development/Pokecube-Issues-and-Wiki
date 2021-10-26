@@ -9,15 +9,15 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.Entity;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.entity.Entity;
 import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
@@ -117,7 +117,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         try
         {
             // Check if the model even exists
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            final Resource res = Minecraft.getInstance().getResourceManager().getResource(model);
             if (res == null)
             {
                 this.valid = false;
@@ -239,14 +239,14 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final IModelRenderer<?> renderer,
+    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer,
             final String... excludedGroupNames)
     {
         // SMD Renders whole thing at once, so no part rendering.
         this.render(mat, buffer, renderer);
     }
 
-    public void render(final MatrixStack mat, final IVertexBuilder buffer, final IModelRenderer<?> renderer)
+    public void render(final PoseStack mat, final VertexConsumer buffer, final IModelRenderer<?> renderer)
     {
         if (this.wrapped != null)
         {
@@ -342,7 +342,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void applyTexture(final IRenderTypeBuffer bufferIn, final ResourceLocation tex, final IPartTexturer texer)
+    public void applyTexture(final MultiBufferSource bufferIn, final ResourceLocation tex, final IPartTexturer texer)
     {
         for (final Material mat : this.mats)
         {

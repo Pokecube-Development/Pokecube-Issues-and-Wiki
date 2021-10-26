@@ -1,8 +1,8 @@
 package pokecube.adventures.init;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -11,21 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.BlockEventHandler;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
-import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasTrades;
-import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
-import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
-import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.events.CompatEvent;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
@@ -94,20 +80,14 @@ public class SetupHandler
     }
 
     @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        TrainerCaps.registerCapabilities(event);
+    }
+
+    @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
-
-        // Register capabilities
-        CapabilityManager.INSTANCE.register(IHasPokemobs.class,
-                CapabilityHasPokemobs.storage = new CapabilityHasPokemobs.Storage(), DefaultPokemobs::new);
-        CapabilityManager.INSTANCE.register(IHasNPCAIStates.class,
-                CapabilityNPCAIStates.storage = new CapabilityNPCAIStates.Storage(), DefaultAIStates::new);
-        CapabilityManager.INSTANCE.register(IHasMessages.class,
-                CapabilityNPCMessages.storage = new CapabilityNPCMessages.Storage(), DefaultMessager::new);
-        CapabilityManager.INSTANCE.register(IHasRewards.class,
-                CapabilityHasRewards.storage = new CapabilityHasRewards.Storage(), DefaultRewards::new);
-        CapabilityManager.INSTANCE.register(IHasTrades.class,
-                CapabilityHasTrades.storage = new CapabilityHasTrades.Storage(), DefaultTrades::new);
 
         // Register packets
         PokecubeAdv.packets.registerMessage(PacketBag.class, PacketBag::new);
@@ -116,7 +96,7 @@ public class SetupHandler
         PokecubeAdv.packets.registerMessage(PacketAFA.class, PacketAFA::new);
 
         OwnableCaps.TILES.add(PokecubeAdv.AFA_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeAdv.WARPPAD_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeAdv.WARP_PAD_TYPE.get());
 
         PacketTrainer.register();
         Tasks.init();

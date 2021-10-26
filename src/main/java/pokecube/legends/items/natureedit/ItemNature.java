@@ -4,8 +4,8 @@ package pokecube.legends.items.natureedit;
 import java.util.Locale;
 
 // import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 // import net.minecraft.util.text.ITextComponent;
 // import net.minecraft.util.text.TranslationTextComponent;
 // import net.minecraft.world.World;

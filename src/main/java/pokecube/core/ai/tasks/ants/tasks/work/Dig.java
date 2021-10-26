@@ -3,8 +3,8 @@ package pokecube.core.ai.tasks.ants.tasks.work;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -172,7 +172,7 @@ public class Dig extends AbstractConstructTask
     protected void doWork()
     {
         final boolean dug = this.tryHarvest(this.work_pos, true);
-        BrainUtils.setLeapTarget(this.entity, new BlockPosWrapper(this.work_pos));
+        BrainUtils.setLeapTarget(this.entity, new BlockPosTracker(this.work_pos));
         final Part part = this.n == null ? this.e : this.n;
         // Mark it as done for the next few seconds or so
         part.markDug(this.work_pos, Tracker.instance().getTick() + 2400);

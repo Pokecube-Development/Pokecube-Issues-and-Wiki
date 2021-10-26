@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_legends:ultra_helmet"
+            "items": [ "pokecube_legends:ultra_helmet" ]
           }
         ]
       }
@@ -31,7 +31,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_legends:ultra_chestplate"
+            "items": [ "pokecube_legends:ultra_chestplate" ]
           }
         ]
       }
@@ -41,7 +41,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_legends:ultra_leggings"
+            "items": [ "pokecube_legends:ultra_leggings" ]
           }
         ]
       }
@@ -51,7 +51,7 @@
       "conditions": {
         "items": [
           {
-            "item": "pokecube_legends:ultra_boots"
+            "items": [ "pokecube_legends:ultra_boots" ]
           }
         ]
       }

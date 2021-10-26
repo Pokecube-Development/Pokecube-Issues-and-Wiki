@@ -6,15 +6,15 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.BrainUtil;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
@@ -24,11 +24,11 @@ import thut.api.OwnableCaps;
 
 public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryModuleStatus.VALUE_ABSENT);
+        BaseAgroTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryStatus.VALUE_ABSENT);
     }
 
     private int timer = 0;
@@ -48,7 +48,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         final Brain<?> brain = this.entity.getBrain();
@@ -63,17 +63,17 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
         this.timer++;
     }
 
     @Override
-    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         if (this.trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final List<LivingEntity> mobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> mobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
         final Predicate<LivingEntity> tameChecker = mob ->
@@ -86,9 +86,9 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
             return true;
         };
         final double s = this.trainer.getAgressDistance();
-        final Vector3d start = entityIn.getEyePosition(1);
-        Vector3d line = entityIn.getViewVector(1).multiply(s, s, s);
-        Vector3d end = start.add(line);
+        final Vec3 start = entityIn.getEyePosition(1);
+        Vec3 line = entityIn.getViewVector(1).multiply(s, s, s);
+        Vec3 end = start.add(line);
 
         final int rep_base = PokecubeAdv.config.trainer_min_rep;
         final int rep_cap = PokecubeAdv.config.trainer_max_rep;
@@ -97,10 +97,10 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         for (LivingEntity mob : mobs)
             if (this.isValidTarget(mob) && tameChecker.test(mob))
             {
-                if (mob instanceof PlayerEntity && this.entity instanceof VillagerEntity)
+                if (mob instanceof Player && this.entity instanceof Villager)
                 {
-                    final VillagerEntity villager = (VillagerEntity) this.entity;
-                    final int rep = villager.getPlayerReputation((PlayerEntity) mob) + rep_base;
+                    final Villager villager = (Villager) this.entity;
+                    final int rep = villager.getPlayerReputation((Player) mob) + rep_base;
                     double s1 = s;
                     if (rep > rep_cap) s1 = 0;
                     else if (rep < rep_base) s1 *= 2;
@@ -112,7 +112,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
                 final boolean lookingAt = mob.getBoundingBox().clip(start, end).isPresent();
                 if (!lookingAt)
                 {
-                    BrainUtil.lookAtEntity(this.entity, mob);
+                    BehaviorUtils.lookAtEntity(this.entity, mob);
                     return;
                 }
                 final IOwnable owned = OwnableCaps.getOwnable(mob);
@@ -128,16 +128,16 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
         final Brain<?> brain = owner.getBrain();
         if (brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
         if (owner.tickCount % PokecubeAdv.config.trainerAgroRate != 0) return false;
-        return this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES);
+        return this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }
 
     @Override
-    protected void stop(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void stop(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         this.timer = 0;
         this.target = null;

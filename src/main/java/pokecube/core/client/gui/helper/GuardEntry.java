@@ -5,36 +5,35 @@ import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.AbstractList;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector4;
 
-public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> implements INotifiedEntry
+public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implements INotifiedEntry
 {
 
     final int                                index;
-    public final TextFieldWidget             location;
-    public final TextFieldWidget             timeperiod;
-    public final TextFieldWidget             variation;
+    public final EditBox             location;
+    public final EditBox             timeperiod;
+    public final EditBox             variation;
     final Screen                             parent;
     final IGuardAICapability                 guard;
     final Entity                             entity;
@@ -43,14 +42,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     final Button                             moveUp;
     final Button                             moveDown;
     final Button                             update;
-    final Function<CompoundNBT, CompoundNBT> function;
+    final Function<CompoundTag, CompoundTag> function;
     final int                                guiX;
     final int                                guiY;
     final int                                guiHeight;
 
     public GuardEntry(final int index, final IGuardAICapability guard, final Entity entity, final Screen parent,
-            final TextFieldWidget location, final TextFieldWidget timeperiod, final TextFieldWidget variation,
-            final Function<CompoundNBT, CompoundNBT> function, final int dx, final int dy, final int dh)
+            final EditBox location, final EditBox timeperiod, final EditBox variation,
+            final Function<CompoundTag, CompoundTag> function, final int dx, final int dy, final int dh)
     {
         this.guard = guard;
         this.parent = parent;
@@ -59,17 +58,17 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(0, 0, 10, 10, new StringTextComponent("x"), b -> this.deleteClicked(b));
+        this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b -> this.deleteClicked(b));
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(0, 0, 10, 10, new StringTextComponent("Y"), b -> this.confirmClicked(b));
+        this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b -> this.confirmClicked(b));
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button(0, 0, 10, 10, new StringTextComponent("\u21e7"), b -> this.moveUpClicked(b));
-        this.moveDown = new Button(0, 0, 10, 10, new StringTextComponent("\u21e9"), b -> this.moveDownClicked(b));
+        this.moveUp = new Button(0, 0, 10, 10, new TextComponent("\u21e7"), b -> this.moveUpClicked(b));
+        this.moveDown = new Button(0, 0, 10, 10, new TextComponent("\u21e9"), b -> this.moveDownClicked(b));
 
-        this.update = new Button(0, 0, 20, 10, new StringTextComponent("btn"), b -> this.update());
+        this.update = new Button(0, 0, 20, 10, new TextComponent("btn"), b -> this.update());
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
@@ -88,18 +87,18 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation.visible = false;
 
         @SuppressWarnings("unchecked")
-        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.children();
+        final List<GuiEventListener> list = (List<GuiEventListener>) parent.children();
         // Add us first so we can add linker-clicking to the location field
         list.add(this);
 
-        parent.addButton(this.delete);
-        parent.addButton(this.confirm);
-        parent.addButton(this.moveUp);
-        parent.addButton(this.update);
-        parent.addButton(this.moveDown);
-        parent.addButton(this.location);
-        parent.addButton(this.timeperiod);
-        parent.addButton(this.variation);
+        parent.addRenderableWidget(this.delete);
+        parent.addRenderableWidget(this.confirm);
+        parent.addRenderableWidget(this.moveUp);
+        parent.addRenderableWidget(this.update);
+        parent.addRenderableWidget(this.moveDown);
+        parent.addRenderableWidget(this.location);
+        parent.addRenderableWidget(this.timeperiod);
+        parent.addRenderableWidget(this.variation);
 
     }
 
@@ -124,8 +123,8 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
 
     private void delete()
     {
-        final CompoundNBT data = new CompoundNBT();
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag data = new CompoundTag();
+        final CompoundTag tag = new CompoundTag();
         tag.putBoolean("GU", true);
         tag.putInt("I", this.index);
         data.put("T", tag);
@@ -145,18 +144,18 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     {
         final boolean ret = false;
         BlockPos newLink = null;
-        final PlayerInventory inv = Minecraft.getInstance().player.inventory;
+        final ItemStack carried = Minecraft.getInstance().player.containerMenu.getCarried();
         boolean effect = false;
-        if (!inv.getCarried().isEmpty() && inv.getCarried().hasTag())
+        if (!carried.isEmpty() && carried.hasTag())
         {
-            final CompoundNBT link = inv.getCarried().getTag().getCompound("link_pos");
+            final CompoundTag link = carried.getTag().getCompound("link_pos");
             if (!link.isEmpty())
             {
                 final Vector4 pos = new Vector4(link);
                 newLink = new BlockPos((int) (pos.x - 0.5), (int) pos.y, (int) (pos.z - 0.5));
             }
         }
-        final TextFieldWidget text = this.location;
+        final EditBox text = this.location;
         {
             if (newLink != null && text.isFocused())
             {
@@ -201,13 +200,13 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final ITextComponent mess = new TranslationTextComponent("traineredit.info.pos.formaterror");
+            final Component mess = new TranslatableComponent("traineredit.info.pos.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final ITextComponent mess = new TranslationTextComponent("traineredit.info.pos.formatinfo");
+            final Component mess = new TranslatableComponent("traineredit.info.pos.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
@@ -228,7 +227,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     }
 
     @Override
-    public void render(final MatrixStack mat, final int slotIndex, int y, int x, final int listWidth,
+    public void render(final PoseStack mat, final int slotIndex, int y, int x, final int listWidth,
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
@@ -265,7 +264,6 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.update.y = y - 5 - 20;
         this.update.x = x - 1 + this.location.getWidth();
 
-        RenderHelper.turnOff();
         this.location.render(mat, mouseX, mouseY, partialTicks);
         this.timeperiod.render(mat, mouseX, mouseY, partialTicks);
         this.variation.render(mat, mouseX, mouseY, partialTicks);
@@ -279,8 +277,8 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
 
     public void reOrder(final int dir)
     {
-        final CompoundNBT data = new CompoundNBT();
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag data = new CompoundTag();
+        final CompoundTag tag = new CompoundTag();
         tag.putBoolean("GU", true);
         tag.putInt("I", this.index);
         tag.putInt("N", dir);
@@ -307,13 +305,13 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         catch (final NumberFormatException e)
         {
             // Send status message about not working here.
-            final ITextComponent mess = new TranslationTextComponent("traineredit.info.time.formaterror");
+            final Component mess = new TranslatableComponent("traineredit.info.time.formaterror");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         else if (args.length != 0)
         {
             // Send status message about not working here.
-            final ITextComponent mess = new TranslationTextComponent("traineredit.info.time.formatinfo");
+            final Component mess = new TranslatableComponent("traineredit.info.time.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, true);
         }
         return null;
@@ -330,14 +328,14 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         }
         catch (final NumberFormatException e)
         {
-            final ITextComponent mess = new TranslationTextComponent("traineredit.info.dist.formatinfo");
+            final Component mess = new TranslatableComponent("traineredit.info.dist.formatinfo");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
             return;
         }
         if (loc != null && time != null)
         {
-            final CompoundNBT data = new CompoundNBT();
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag data = new CompoundTag();
+            final CompoundTag tag = new CompoundTag();
             tag.putBoolean("GU", true);
             tag.putInt("I", this.index);
             // TODO generalize this maybe?
@@ -347,12 +345,12 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
             task.setPos(loc);
             task.setActiveTime(time);
             task.setRoamDistance(dist);
-            final INBT var = task.serialze();
+            final Tag var = task.serialze();
             tag.put("V", var);
             data.put("T", tag);
             data.putInt("I", this.entity.getId());
             this.function.apply(data);
-            final ITextComponent mess = new TranslationTextComponent("pokemob.route.updated");
+            final Component mess = new TranslatableComponent("pokemob.route.updated");
             this.parent.getMinecraft().player.displayClientMessage(mess, false);
         }
     }

@@ -3,10 +3,10 @@ package pokecube.core.world.gen.jigsaw;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 
-public class JigsawConfig implements IFeatureConfig
+public class JigsawConfig implements FeatureConfiguration
 {
     public static final Codec<JigsawConfig> CODEC = RecordCodecBuilder.create((builder) ->
     {
@@ -21,5 +21,11 @@ public class JigsawConfig implements IFeatureConfig
     public JigsawConfig(final JigSawConfig struct)
     {
         this.struct_config = struct;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.struct_config.serialize();
     }
 }

@@ -8,22 +8,22 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -69,7 +69,7 @@ public class LogicMiscUpdate extends LogicBase
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar
             .getInstance().get(Calendar.MONTH) == 11;
 
-    public static void getStatModifiers(final EquipmentSlotType slot, final ItemStack stack,
+    public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack,
             final Map<Stats, Float> vals)
     {
         if (stack.isEmpty()) return;
@@ -139,11 +139,11 @@ public class LogicMiscUpdate extends LogicBase
                     "pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
             {
-                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.timeout.revert", this.pokemob
+                Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert", this.pokemob
                         .getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
                 this.pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslationTextComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
+                mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 final PokedexEntry newEntry = this.pokemob.getMegaBase();
                 if (newEntry != this.pokemob.getPokedexEntry()) ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry,
                         mess, true);
@@ -157,7 +157,7 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget(
-                (AgeableEntity) this.entity)) this.pokemob.setGeneralState(GeneralStates.MATING, false);
+                (AgeableMob) this.entity)) this.pokemob.setGeneralState(GeneralStates.MATING, false);
 
         // Check if we are sheared every second or so
         if (this.entity.tickCount % 20 == 0) this.pokemob.isSheared();
@@ -173,7 +173,7 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.getModifiers().outOfCombatReset();
                 this.pokemob.getMoveStats().reset();
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
-                if (this.pokemob.getOwner() instanceof ServerPlayerEntity) PacketSyncModifier.sendUpdate(
+                if (this.pokemob.getOwner() instanceof ServerPlayer) PacketSyncModifier.sendUpdate(
                         StatModifiers.DEFAULT, this.pokemob);
             }
             this.combatTimer--;
@@ -228,9 +228,9 @@ public class LogicMiscUpdate extends LogicBase
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
-        if (this.entity instanceof TameableEntity)
+        if (this.entity instanceof TamableAnimal)
         {
-            final boolean tameSitting = ((TameableEntity) this.entity).isOrderedToSit();
+            final boolean tameSitting = ((TamableAnimal) this.entity).isOrderedToSit();
             this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
     }
@@ -272,7 +272,7 @@ public class LogicMiscUpdate extends LogicBase
         }
     }
 
-    private void checkInventory(final World world)
+    private void checkInventory(final Level world)
     {
         for (int i = 0; i < this.pokemob.getInventory().getContainerSize(); i++)
         {
@@ -283,7 +283,7 @@ public class LogicMiscUpdate extends LogicBase
     }
 
     @Override
-    public void tick(final World world)
+    public void tick(final Level world)
     {
         super.tick(world);
         this.entry = this.pokemob.getPokedexEntry();
@@ -315,7 +315,7 @@ public class LogicMiscUpdate extends LogicBase
 
         // Here we apply worn/held equipment modifiers
         final Map<Stats, Float> vals = Maps.newHashMap();
-        for (final EquipmentSlotType type : EquipmentSlotType.values())
+        for (final EquipmentSlot type : EquipmentSlot.values())
             LogicMiscUpdate.getStatModifiers(type, this.entity.getItemBySlot(type), vals);
         if (this.mods == null) this.mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
         for (final Stats stat : Stats.values())
@@ -371,7 +371,7 @@ public class LogicMiscUpdate extends LogicBase
             this.initHome = true;
             if (this.pokemob.getHome() != null)
             {
-                final TileEntity te = world.getBlockEntity(this.pokemob.getHome());
+                final BlockEntity te = world.getBlockEntity(this.pokemob.getHome());
                 if (te != null && te instanceof NestTile)
                 {
                     final NestTile nest = (NestTile) te;
@@ -385,7 +385,7 @@ public class LogicMiscUpdate extends LogicBase
         this.checkAnimationStates();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
-        if (this.entity.getCommandSenderWorld() instanceof ServerWorld)
+        if (this.entity.getCommandSenderWorld() instanceof ServerLevel)
         {
             if (targ != null && targ.isAlive())
             {
@@ -545,7 +545,7 @@ public class LogicMiscUpdate extends LogicBase
         if (holder == null) return;
         final List<String> anims = holder.getChoices();
         anims.clear();
-        final Vector3d velocity = this.entity.getDeltaMovement();
+        final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed - this.entity.animationSpeedOld;
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
         final float stationary = 1e-5f;

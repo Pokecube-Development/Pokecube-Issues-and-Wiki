@@ -1,56 +1,60 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+import thut.api.block.ITickTile;
 
-public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLoggable
+public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
 {
     public static final EnumProperty<ClonerBlockPart> HALF        = EnumProperty.create("half", ClonerBlockPart.class);
     public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box @formatter:off
-    private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(
+    private static final VoxelShape CLONER_BOTTOM = Shapes.or(
             Block.box(0, 0, 0, 16, 12, 16),
             Block.box(0.5, 12, 0.5, 15.5, 13, 15.5),
             Block.box(1, 13, 1, 15, 16, 15)).optimize();
 
-    private static final VoxelShape CLONER_TOP = VoxelShapes.or(
+    private static final VoxelShape CLONER_TOP = Shapes.or(
             Block.box(0, 12, 0, 16, 16, 16),
             Block.box(0.5, 11, 0.5, 15.5, 12, 15.5),
             Block.box(1, 0, 1, 15, 11, 15)).optimize();
     // Precise selection box @formatter:on
 
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
         final ClonerBlockPart half = state.getValue(ClonerBlock.HALF);
         if (half == ClonerBlockPart.BOTTOM) return ClonerBlock.CLONER_BOTTOM;
@@ -62,12 +66,12 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
-                .setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
+                .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH).setValue(ClonerBlock.WATERLOGGED, false));
     }
 
     // Places Cloner with both top and bottom pieces
     @Override
-    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state, final LivingEntity placer,
+    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state, final LivingEntity placer,
             final ItemStack stack)
     {
         if (placer != null)
@@ -75,32 +79,23 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(ClonerBlock.HALF, ClonerBlockPart.TOP).setValue(
                     ClonerBlock.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
-            final TileEntity tile = world.getBlockEntity(pos.above());
-            if (tile != null)
-            {
-                // Refresh the block state for the tile, incase it wasn't set
-                // properly and is needed.
-                tile.clearCache();
-                tile.getBlockState();
-            }
 
         }
         super.setPlacedBy(world, pos, state, placer, stack);
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
-            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         return super.use(state, world, pos, player, hand, hit);
     }
 
     // Breaking Cloner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
-            final PlayerEntity player)
+    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
-        final Direction facing = state.getValue(HorizontalBlock.FACING);
+        final Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
         final BlockPos clonerPos = this.getClonerPos(pos, state.getValue(ClonerBlock.HALF), facing);
         BlockState clonerBlockState = world.getBlockState(clonerPos);
         if (clonerBlockState.getBlock() == this && !pos.equals(clonerPos)) this.removeHalf(world, clonerPos,
@@ -113,7 +108,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     }
 
     // Breaking the Cloner leaves water if underwater
-    private void removeHalf(final World world, final BlockPos pos, final BlockState state, final PlayerEntity player)
+    private void removeHalf(final Level world, final BlockPos pos, final BlockState state, final Player player)
     {
         final BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
@@ -146,14 +141,14 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
 
     // Prevents the Cloner from replacing blocks above it and checks for water
     @Override
-    public BlockState getStateForPlacement(final BlockItemUseContext context)
+    public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
 
         final BlockPos clonerPos = this.getClonerTopPos(pos, context.getHorizontalDirection().getOpposite());
         if (pos.getY() < 255 && clonerPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                context)) return this.defaultBlockState().setValue(HorizontalBlock.FACING, context
+                context)) return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context
                         .getHorizontalDirection().getOpposite()).setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
                         .setValue(ClonerBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
                                 .getAmount() == 8);
@@ -163,7 +158,7 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
-            final IWorld world, final BlockPos currentPos, final BlockPos facingPos)
+            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
         if (state.getValue(ClonerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER,
                 Fluids.WATER.getTickDelay(world));
@@ -178,26 +173,26 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(ClonerBlock.HALF, HorizontalBlock.FACING, ClonerBlock.WATERLOGGED);
+        builder.add(ClonerBlock.HALF, HorizontalDirectionalBlock.FACING, ClonerBlock.WATERLOGGED);
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new ClonerTile();
+        return new ClonerTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
     {
-        return true;// state.getValue(ClonerBlock.HALF) ==
-                    // ClonerBlockPart.BOTTOM;
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(final BlockState state, final IWorldReader world, final BlockPos pos,
+    public float[] getBeaconColorMultiplier(final BlockState state, final LevelReader world, final BlockPos pos,
             final BlockPos beaconPos)
     {
         return new float[] { 0.62f, 0.85f, 1.00f };

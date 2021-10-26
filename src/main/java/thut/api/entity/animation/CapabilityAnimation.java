@@ -9,19 +9,19 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 
 public class CapabilityAnimation
 {
-    public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundNBT>
+    public static class DefaultImpl implements IAnimationHolder, ICapabilitySerializable<CompoundTag>
     {
         private static final List<Animation> EMPTY = Collections.emptyList();
 
@@ -53,7 +53,7 @@ public class CapabilityAnimation
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityAnimation.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.ANIMCAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -128,9 +128,9 @@ public class CapabilityAnimation
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putString("pl", this.playing);
             tag.putString("pn", this.pending);
             tag.putBoolean("f", this.fixed);
@@ -146,7 +146,7 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             this.playing = nbt.getString("pl");
             this.pending = nbt.getString("pn");
@@ -171,7 +171,4 @@ public class CapabilityAnimation
             return this.head;
         }
     }
-
-    @CapabilityInject(IAnimationHolder.class)
-    public static final Capability<IAnimationHolder> CAPABILITY = null;
 }

@@ -1,15 +1,15 @@
 package pokecube.adventures.blocks.commander;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.core.interfaces.PokecubeMod;
 
-public class CommanderBlock extends InteractableHorizontalBlock
+public class CommanderBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
     public CommanderBlock(final Properties properties)
@@ -18,23 +18,17 @@ public class CommanderBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new CommanderTile();
+        return new CommanderTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
-    }
-
-    @Override
-    public void neighborChanged(final BlockState state, final World world, final BlockPos pos, final Block blockIn,
+    public void neighborChanged(final BlockState state, final Level world, final BlockPos pos, final Block blockIn,
             final BlockPos neighbor, final boolean isMoving)
     {
         final int power = world.getBestNeighborSignal(pos);
-        final TileEntity tile = world.getBlockEntity(pos);
+        final BlockEntity tile = world.getBlockEntity(pos);
         if (!(tile instanceof CommanderTile)) return;
         final CommanderTile commander = (CommanderTile) tile;
         // Trigger on rising signal

@@ -1,44 +1,48 @@
 package thut.api.entity.blockentity.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
+import thut.api.block.ITickTile;
 import net.minecraftforge.eventbus.api.EventPriority;
 
-public class TempBlock extends AirBlock
+public class TempBlock extends AirBlock implements EntityBlock
 {
     public static final IntegerProperty LIGHTLEVEL  = IntegerProperty.create("light", 0, 15);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static TempBlock make()
     {
-        return new TempBlock(AbstractBlock.Properties.of(Material.AIR).noDrops().isRedstoneConductor(TempBlock::solidCheck)
-                .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(BlockBehaviour.Properties.of(Material.AIR).noDrops().isRedstoneConductor(
+                TempBlock::solidCheck).dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
-    private static boolean solidCheck(final BlockState state, final IBlockReader reader, final BlockPos pos)
+    private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
     {
         return false;
     }
@@ -51,40 +55,41 @@ public class TempBlock extends AirBlock
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onPlayerInteract);
     }
 
+    @Override
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    {
+        return new TempTile(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
+    {
+        return ITickTile.getTicker(world, state, type);
+    }
+
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
     {
-        final BlockRayTraceResult trace = event.getHitVec();
+        final BlockHitResult trace = event.getHitVec();
         if (trace == null) return;
-        final World world = event.getPlayer().getCommandSenderWorld();
-        final TileEntity tile = world.getBlockEntity(event.getPos());
+        final Level world = event.getPlayer().getCommandSenderWorld();
+        final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile)
         {
             final TempTile temp = (TempTile) tile;
-            final PlayerEntity player = event.getPlayer();
-            final Hand hand = event.getHand();
-            ActionResultType result = temp.blockEntity.interact(player, hand);
+            final Player player = event.getPlayer();
+            final InteractionHand hand = event.getHand();
+            InteractionResult result = temp.blockEntity.interact(player, hand);
             // Otherwise forward the interaction to the block entity;
-            if (result != ActionResultType.PASS && event.getPlayer().isShiftKeyDown()) result = temp.blockEntity
+            if (result != InteractionResult.PASS && event.getPlayer().isShiftKeyDown()) result = temp.blockEntity
                     .interactAtFromTile(player, trace.getLocation(), hand);
-            if (result != ActionResultType.PASS)
+            if (result != InteractionResult.PASS)
             {
                 event.setCanceled(true);
                 event.setUseBlock(Result.ALLOW);
                 event.setUseItem(Result.ALLOW);
             }
         }
-    }
-
-    @Override
-    public boolean hasTileEntity(final BlockState state)
-    {
-        return true;
-    }
-
-    @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
-    {
-        return new TempTile();
     }
 
     /**
@@ -97,51 +102,50 @@ public class TempBlock extends AirBlock
      */
     @Deprecated
     @Override
-    public BlockRenderType getRenderShape(final BlockState state)
+    public RenderShape getRenderShape(final BlockState state)
     {
-        return BlockRenderType.INVISIBLE;
+        return RenderShape.INVISIBLE;
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
-            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
-        final TileEntity tile = world.getBlockEntity(pos);
+        final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof TempTile)
         {
             final TempTile temp = (TempTile) tile;
             final BlockState eff = temp.getEffectiveState();
             if (eff != null)
             {
-                final ActionResultType res = eff.use(world, player, hand, hit);
-                if (res != ActionResultType.PASS) return res;
+                final InteractionResult res = eff.use(world, player, hand, hit);
+                if (res != InteractionResult.PASS) return res;
             }
             // Otherwise forward the interaction to the block entity;
             return temp.blockEntity.interactAt(player, hit.getLocation(), hand);
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(TempBlock.LIGHTLEVEL, TempBlock.WATERLOGGED);
     }
 
     @Override
-    public void entityInside(final BlockState state, final World worldIn, final BlockPos pos,
-            final Entity entityIn)
+    public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos, final Entity entityIn)
     {
-        final TileEntity te = worldIn.getBlockEntity(pos);
+        final BlockEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
     }
 
     @Override
-    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
-            final ISelectionContext context)
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
     {
-        final TileEntity te = worldIn.getBlockEntity(pos);
+        final BlockEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile) return ((TempTile) te).getShape();
-        return VoxelShapes.empty();
+        return Shapes.empty();
     }
 }

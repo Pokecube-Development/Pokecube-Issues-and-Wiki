@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/sky_brick_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/skybrick"
+      "model": "pokecube_legends:block/sky_bricks"
     },
     "type=top": {
       "model": "pokecube_legends:block/sky_brick_slab_top"

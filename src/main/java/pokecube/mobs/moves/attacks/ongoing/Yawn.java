@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.ongoing;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;

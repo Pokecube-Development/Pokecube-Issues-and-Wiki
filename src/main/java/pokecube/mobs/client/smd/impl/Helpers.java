@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.vecmath.Matrix4f;

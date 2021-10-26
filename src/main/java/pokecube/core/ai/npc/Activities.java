@@ -1,6 +1,6 @@
 package pokecube.core.ai.npc;
 
-import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.world.entity.schedule.Activity;
 import net.minecraftforge.event.RegistryEvent;
 
 public class Activities

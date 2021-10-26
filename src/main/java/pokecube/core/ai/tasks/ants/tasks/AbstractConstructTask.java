@@ -6,17 +6,17 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.ants.AntTasks;
@@ -30,10 +30,10 @@ import pokecube.core.interfaces.PokecubeMod;
 
 public abstract class AbstractConstructTask extends AbstractWorkTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
-        AbstractConstructTask.mems.put(AntTasks.JOB_INFO, MemoryModuleStatus.VALUE_PRESENT);
+        AbstractConstructTask.mems.put(AntTasks.JOB_INFO, MemoryStatus.VALUE_PRESENT);
     }
 
     protected int progressTimer    = 0;
@@ -58,7 +58,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         this(pokemob, AbstractConstructTask.mems, job, range);
     }
 
-    public AbstractConstructTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems,
+    public AbstractConstructTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems,
             final Predicate<AntJob> job, final double range)
     {
         super(pokemob, RootTask.merge(mems, AbstractConstructTask.mems), job);
@@ -66,7 +66,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         this.ds2Max = this.dsMax * this.dsMax;
 
         this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
-                .above()).isPathfindable(this.world, p, PathType.LAND);
+                .above()).isPathfindable(this.world, p, PathComputationType.LAND);
 
         this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
                 .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
@@ -78,7 +78,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
             {
                 final BlockPos pos2 = pos.relative(dir);
                 final BlockState state = this.world.getBlockState(pos2);
-                if (state.isPathfindable(this.world, pos2, PathType.LAND)) return true;
+                if (state.isPathfindable(this.world, pos2, PathComputationType.LAND)) return true;
             }
             return false;
         };
@@ -141,10 +141,10 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
         if (!(edge || node))
         {
-            final CompoundNBT tag = brain.getMemory(AntTasks.JOB_INFO).get();
+            final CompoundTag tag = brain.getMemory(AntTasks.JOB_INFO).get();
             edge = tag.getString("type").equals("edge");
             node = tag.getString("type").equals("node");
-            final CompoundNBT data = tag.getCompound("data");
+            final CompoundTag data = tag.getCompound("data");
             if (edge)
             {
                 this.e = new Edge();
@@ -254,7 +254,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " WORK! (" + dr + "/" + dr2 + ") "
                 + this.ds2Max);
 
-        if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, MathHelper.ceil(this.dsMax - 1));
+        if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, Mth.ceil(this.dsMax - 1));
         else if (this.progressTimer > 20) this.progressTimer = 20;
 
         if (this.shouldGiveUp(dr2))

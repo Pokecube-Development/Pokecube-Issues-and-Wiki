@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.ants.AntTasks;
@@ -24,11 +24,11 @@ import pokecube.core.interfaces.IPokemob;
 
 public class CheckNest extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
     static
     {
         // Only run if we have a nest
-        CheckNest.mems.put(AntTasks.NEST_POS, MemoryModuleStatus.VALUE_PRESENT);
+        CheckNest.mems.put(AntTasks.NEST_POS, MemoryStatus.VALUE_PRESENT);
     }
     protected int new_hive_cooldown = 0;
 
@@ -67,16 +67,16 @@ public class CheckNest extends BaseIdleTask
                 clearHive = clearHive || dist > 10000;
                 if (!clearHive)
                 {
-                    final PointOfInterestManager pois = this.world.getPoiManager();
+                    final PoiManager pois = this.world.getPoiManager();
                     final long n = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), pos.pos(), 1,
-                            PointOfInterestManager.Status.ANY);
+                            PoiManager.Occupancy.ANY);
                     clearHive = n == 0;
 
                     if (clearHive && dist < 256 && this.nest != null)
                     {
                         // Lets remake the hive.
                         this.world.setBlockAndUpdate(pos.pos(), PokecubeItems.NESTBLOCK.get().defaultBlockState());
-                        final TileEntity tile = this.world.getBlockEntity(pos.pos());
+                        final BlockEntity tile = this.world.getBlockEntity(pos.pos());
                         if (tile instanceof NestTile)
                         {
                             final NestTile nest = (NestTile) tile;

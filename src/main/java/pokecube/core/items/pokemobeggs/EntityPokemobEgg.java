@@ -2,24 +2,24 @@ package pokecube.core.items.pokemobeggs;
 
 import java.util.UUID;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.HopperTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -29,13 +29,13 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */
-public class EntityPokemobEgg extends AgeableEntity
+public class EntityPokemobEgg extends AgeableMob
 {
     public static final EntityType<EntityPokemobEgg> TYPE;
 
     static
     {
-        TYPE = EntityType.Builder.of(EntityPokemobEgg::new, EntityClassification.CREATURE).noSummon()
+        TYPE = EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon()
                 .fireImmune().sized(0.35f, 0.35f).build("egg");
     }
 
@@ -54,7 +54,7 @@ public class EntityPokemobEgg extends AgeableEntity
      *
      * @param world
      */
-    public EntityPokemobEgg(final EntityType<EntityPokemobEgg> type, final World world)
+    public EntityPokemobEgg(final EntityType<EntityPokemobEgg> type, final Level world)
     {
         super(type, world);
         final int hatch = 1000 + this.getCommandSenderWorld().random.nextInt(PokecubeCore.getConfig().eggHatchTime);
@@ -69,19 +69,19 @@ public class EntityPokemobEgg extends AgeableEntity
     public boolean hurt(final DamageSource source, final float damage)
     {
         final Entity e = source.getDirectEntity();
-        if (!this.getCommandSenderWorld().isClientSide && e instanceof PlayerEntity)
+        if (!this.getCommandSenderWorld().isClientSide && e instanceof Player)
         {
             if (this.delayBeforeCanPickup > 0) return false;
 
             final ItemStack itemstack = this.getMainHandItem();
             final int i = itemstack.getCount();
-            final PlayerEntity player = (PlayerEntity) e;
+            final Player player = (Player) e;
             if (this.mother != null && this.mother.getOwner() != player) BrainUtils.initiateCombat(this.mother
                     .getEntity(), player);
-            if (i <= 0 || player.inventory.add(itemstack))
+            if (i <= 0 || player.getInventory().add(itemstack))
             {
                 player.take(this, i);
-                if (itemstack.isEmpty()) this.remove();
+                if (itemstack.isEmpty()) this.discard();
                 return true;
             }
         }
@@ -102,7 +102,7 @@ public class EntityPokemobEgg extends AgeableEntity
     {
         if (this.getCommandSenderWorld().isClientSide) return super.getMainHandItem();
         if (this.eggCache == null) this.eggCache = super.getMainHandItem();
-        if (!this.eggCache.hasTag()) this.eggCache.setTag(new CompoundNBT());
+        if (!this.eggCache.hasTag()) this.eggCache.setTag(new CompoundTag());
         this.eggCache.getTag().putInt("timer", this.getAge());
         return this.eggCache;
     }
@@ -124,7 +124,7 @@ public class EntityPokemobEgg extends AgeableEntity
      *         should be added.
      */
     @Override
-    public ItemStack getPickedResult(final RayTraceResult target)
+    public ItemStack getPickedResult(final HitResult target)
     {
         return this.getMainHandItem().copy();
     }
@@ -146,7 +146,7 @@ public class EntityPokemobEgg extends AgeableEntity
             }
             this.sounds = ItemPokemobEgg.getFakePokemob(this.getCommandSenderWorld(), this.here, this.getMainHandItem());
             if (this.sounds == null) return null;
-            this.sounds.getEntity().setLevel(this.getCommandSenderWorld());
+            this.sounds.getEntity().level = this.getCommandSenderWorld();
             return this.sounds;
         }
 
@@ -168,24 +168,24 @@ public class EntityPokemobEgg extends AgeableEntity
     }
 
     @Override
-    public ActionResultType interactAt(final PlayerEntity player, final Vector3d pos, final Hand hand)
+    public InteractionResult interactAt(final Player player, final Vec3 pos, final InteractionHand hand)
     {
-        if (this.delayBeforeCanPickup > 0) return ActionResultType.FAIL;
+        if (this.delayBeforeCanPickup > 0) return InteractionResult.FAIL;
         final ItemStack itemstack = this.getMainHandItem();
         final int i = itemstack.getCount();
         if (this.mother != null && this.mother.getOwner() != player) BrainUtils.initiateCombat(this.mother.getEntity(),
                 player);
-        if (i <= 0 || player.inventory.add(itemstack))
+        if (i <= 0 || player.getInventory().add(itemstack))
         {
             player.take(this, i);
-            if (itemstack.isEmpty()) this.remove();
-            return ActionResultType.SUCCESS;
+            if (itemstack.isEmpty()) this.discard();
+            return InteractionResult.SUCCESS;
         }
         return super.interactAt(player, pos, hand);
     }
 
     @Override
-    public void setItemInHand(final Hand hand, final ItemStack stack)
+    public void setItemInHand(final InteractionHand hand, final ItemStack stack)
     {
         super.setItemInHand(hand, stack);
         this.eggCache = stack;
@@ -204,7 +204,7 @@ public class EntityPokemobEgg extends AgeableEntity
 
     public EntityPokemobEgg setStack(final ItemStack stack)
     {
-        this.setItemInHand(Hand.MAIN_HAND, stack);
+        this.setItemInHand(InteractionHand.MAIN_HAND, stack);
         if (stack.hasTag() && stack.getTag().contains("timer")) this.setAge(stack.getTag().getInt("timer"));
         return this;
     }
@@ -214,7 +214,7 @@ public class EntityPokemobEgg extends AgeableEntity
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(placer);
         final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob);
         ItemPokemobEgg.initStack(placer, father, itemstack);
-        this.setItemInHand(Hand.MAIN_HAND, itemstack);
+        this.setItemInHand(InteractionHand.MAIN_HAND, itemstack);
         return this;
     }
 
@@ -230,7 +230,7 @@ public class EntityPokemobEgg extends AgeableEntity
 
         if (this.getMainHandItem().hasTag())
         {
-            final CompoundNBT nbt = this.getMainHandItem().getTag();
+            final CompoundTag nbt = this.getMainHandItem().getTag();
             final boolean hasNest = nbt.contains("nestLoc");
             if (!hasNest) ItemPokemobEgg.tryImprint(this.getPokemob(true));
         }
@@ -238,7 +238,7 @@ public class EntityPokemobEgg extends AgeableEntity
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this
                 .getCommandSenderWorld(), this);
-        this.remove();
+        this.discard();
     }
 
     @Override
@@ -252,7 +252,7 @@ public class EntityPokemobEgg extends AgeableEntity
 
         if (this.isInWater() || this.isInLava())
         {
-            final Vector3d motion = this.getDeltaMovement();
+            final Vec3 motion = this.getDeltaMovement();
             double dy = motion.y + 0.1;
             dy = Math.min(dy, 0.1);
             this.setDeltaMovement(motion.x, dy, motion.z);
@@ -261,29 +261,29 @@ public class EntityPokemobEgg extends AgeableEntity
         if (this.getCommandSenderWorld().isClientSide) return;
         if (this.getMainHandItem().isEmpty() || this.getAge() > 0)
         {
-            this.remove();
+            this.discard();
             return;
         }
         this.delayBeforeCanPickup--;
         if (this.random.nextInt(20 - this.getAge()) == 0)
         {
             final IPokemob mob = this.getPokemob(false);
-            if (mob == null) this.remove();
+            if (mob == null) this.discard();
             else mob.getEntity().playAmbientSound();
         }
-        TileEntity te = this.here.getTileEntity(this.getCommandSenderWorld(), Direction.DOWN);
+        BlockEntity te = this.here.getTileEntity(this.getCommandSenderWorld(), Direction.DOWN);
         if (te == null) te = this.here.getTileEntity(this.getCommandSenderWorld());
-        if (te instanceof HopperTileEntity)
+        if (te instanceof HopperBlockEntity)
         {
-            final HopperTileEntity hopper = (HopperTileEntity) te;
+            final HopperBlockEntity hopper = (HopperBlockEntity) te;
             final ItemEntity item = new ItemEntity(this.getCommandSenderWorld(), this.getX(), this.getY(), this
                     .getZ(), this.getMainHandItem());
-            if (HopperTileEntity.addItem(hopper, item)) this.remove();
+            if (HopperBlockEntity.addItem(hopper, item)) this.discard();
         }
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
+    public AgeableMob getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob p_241840_2_)
     {
         // This is the child.
         return null;

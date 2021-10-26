@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.projectile.FishingHook;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -73,7 +73,7 @@ public class PokecubeHelper
 
     public double level(final IPokemob mob)
     {
-        final MobEntity entity = mob.getEntity();
+        final Mob entity = mob.getEntity();
         final int level = mob.getLevel();
         int otherLevel = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
@@ -86,25 +86,25 @@ public class PokecubeHelper
 
     public double love(final IPokemob mob)
     {
-        final MobEntity entity = mob.getEntity();
+        final Mob entity = mob.getEntity();
         final LivingEntity target = BrainUtils.getAttackTarget(entity);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-        if (targetMob == null || !(target instanceof AnimalEntity) || !(mob instanceof IBreedingMob)) return 1;
-        if (((IBreedingMob) mob).canMate((AnimalEntity) target)) return 8;
+        if (targetMob == null || !(target instanceof Animal) || !(mob instanceof IBreedingMob)) return 1;
+        if (((IBreedingMob) mob).canMate((Animal) target)) return 8;
         return 1;
     }
 
     public double lure(final IPokemob mob)
     {
-        final MobEntity entity = mob.getEntity();
+        final Mob entity = mob.getEntity();
         if (mob.getPokedexEntry().swims())
         {// grow in 1.12
-            final AxisAlignedBB bb = Vector3.getNewVector().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
+            final AABB bb = Vector3.getNewVector().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
                     .inflate(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingBobberEntity> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(
-                    FishingBobberEntity.class, bb);
-            if (!hooks.isEmpty()) for (final FishingBobberEntity hook : hooks)
-                if (hook.hookedIn == entity) return 5;
+            final List<FishingHook> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(
+                    FishingHook.class, bb);
+            if (!hooks.isEmpty()) for (final FishingHook hook : hooks)
+                if (hook.getHookedIn() == entity) return 5;
         }
         return 1;
     }

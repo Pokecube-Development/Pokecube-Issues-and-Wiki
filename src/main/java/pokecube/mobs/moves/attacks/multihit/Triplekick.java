@@ -3,7 +3,7 @@ package pokecube.mobs.moves.attacks.multihit;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.templates.Move_MultiHit;
 

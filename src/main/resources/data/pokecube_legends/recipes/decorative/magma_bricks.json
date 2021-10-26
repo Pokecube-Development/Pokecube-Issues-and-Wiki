@@ -2,20 +2,16 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " 0 ",
-    "040",
-    " 0 "
+    "44",
+    "44"
   ],
   "key": {
-    "0": {
-      "tag": "minecraft:stone_bricks"
-    },
     "4": {
       "item": "minecraft:magma_block"
     }
   },
   "result": {
-    "item": "pokecube_legends:magmabrick",
+    "item": "pokecube_legends:magma_bricks",
     "count": 4
   }
 }

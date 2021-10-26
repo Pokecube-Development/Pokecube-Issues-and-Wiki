@@ -4,11 +4,11 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -18,10 +18,10 @@ import thut.core.common.commands.CommandTools;
 public class Meteor
 {
 
-    public static int execute(final CommandSource source, final int power) throws CommandSyntaxException
+    public static int execute(final CommandSourceStack source, final int power) throws CommandSyntaxException
     {
-        final ServerWorld world = source.getLevel();
-        final Vector3d pos = source.getPosition();
+        final ServerLevel world = source.getLevel();
+        final Vec3 pos = source.getPosition();
 
         final Vector3 v = Vector3.getNewVector().set(pos);
         v.x = v.intX() + 0.5;
@@ -42,11 +42,11 @@ public class Meteor
         // /fill ~-11 ~-11 ~-11 ~11 ~11 ~11 minecraft:dirt replace air
         // @formatter:on
 
-        source.sendSuccess(new TranslationTextComponent("pokecube.meteor.spawned", pos, power), true);
+        source.sendSuccess(new TranslatableComponent("pokecube.meteor.spawned", pos, power), true);
         return 0;
     }
 
-    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.meteor";
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");

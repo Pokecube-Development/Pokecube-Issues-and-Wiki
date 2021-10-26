@@ -1,6 +1,6 @@
 package pokecube.core.ai.tasks;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public interface IRunnable
 {
@@ -8,5 +8,5 @@ public interface IRunnable
      * @param world
      * @return task ran sucessfully
      */
-    boolean run(World world);
+    boolean run(Level world);
 }

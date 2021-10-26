@@ -8,25 +8,26 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
+import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
@@ -82,14 +83,14 @@ public class BlingItem extends Item implements IWearable
      * description */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(final ItemStack stack, @Nullable final World playerIn, final List<ITextComponent> list,
-            final ITooltipFlag advanced)
+    public void appendHoverText(final ItemStack stack, @Nullable final Level playerIn, final List<Component> list,
+            final TooltipFlag advanced)
     {
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            list.add(new TranslationTextComponent(colour.getName()));
+            list.add(new TranslatableComponent(colour.getName()));
         }
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
@@ -106,25 +107,25 @@ public class BlingItem extends Item implements IWearable
     }
 
     @Override
-    public ActionResultType useOn(final ItemUseContext context)
+    public InteractionResult useOn(final UseOnContext context)
     {
         if (this.slot == EnumWearable.BACK)
         {
-            final World worldIn = context.getLevel();
-            final PlayerEntity playerIn = context.getPlayer();
+            final Level worldIn = context.getLevel();
+            final Player playerIn = context.getPlayer();
             if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, context.getItemInHand());
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }
 
     @Override
-    public ActionResult<ItemStack> use(final World worldIn, final PlayerEntity playerIn, final Hand hand)
+    public InteractionResultHolder<ItemStack> use(final Level worldIn, final Player playerIn, final InteractionHand hand)
     {
         if (this.slot == EnumWearable.BACK)
         {
             if (!worldIn.isClientSide) PacketBag.sendOpenPacket(playerIn, playerIn.getItemInHand(hand));
-            return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(hand));
+            return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(hand));
         }
         return super.use(worldIn, playerIn, hand);
     }
@@ -137,11 +138,11 @@ public class BlingItem extends Item implements IWearable
 
     @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+    public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
             final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
             final int brightness, final int overlay)
     {
-        ThutBling.PROXY.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+        ClientSetupHandler.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
     }
 
     @Override

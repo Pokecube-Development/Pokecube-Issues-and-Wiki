@@ -1,7 +1,7 @@
 package pokecube.legends.conditions;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.Entity;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.utils.PokeType;
@@ -43,7 +43,7 @@ public abstract class AbstractTypedCondition extends AbstractCondition
     }
 
     @Override
-    public IFormattableTextComponent getFailureMessage(final Entity trainer)
+    public MutableComponent getFailureMessage(final Entity trainer)
     {
         final int count1 = this.caughtNumber(trainer, PokeType.getType(this.type));
         final int count2 = this.spawnNumber(PokeType.getType(this.type));

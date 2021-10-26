@@ -1,26 +1,28 @@
 package thut.api.terrain;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
 import thut.core.common.network.TerrainUpdate;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerrainManager
 {
     public static final String EDIT_SUBBIOMES_PERM = "thutcore.subbiome.can_edit";
@@ -44,20 +46,20 @@ public class TerrainManager
         return TerrainManager.terrain;
     }
 
-    public static boolean isAreaLoaded(final IWorld world, final Vector3 centre, final double distance)
+    public static boolean isAreaLoaded(final LevelAccessor world, final Vector3 centre, final double distance)
     {
         return TerrainManager.isAreaLoaded(world, centre.getPos(), distance);
     }
 
-    public static boolean isAreaLoaded(final IWorld world, final BlockPos blockPos, final double distance)
+    public static boolean isAreaLoaded(final LevelAccessor world, final BlockPos blockPos, final double distance)
     {
         if (world.isClientSide()) return world.getChunk(blockPos) != null;
-        RegistryKey<World> dim = null;
-        if (world instanceof World) dim = ((World) world).dimension();
+        ResourceKey<Level> dim = null;
+        if (world instanceof Level) dim = ((Level) world).dimension();
         return TerrainManager.isAreaLoaded(dim, blockPos, distance);
     }
 
-    public static boolean isAreaLoaded(final RegistryKey<World> dim, final BlockPos blockPos, final double distance)
+    public static boolean isAreaLoaded(final ResourceKey<Level> dim, final BlockPos blockPos, final double distance)
     {
         if (dim == null) return false;
         final int r = (int) distance >> 4;
@@ -72,19 +74,19 @@ public class TerrainManager
         return true;
     }
 
-    public static boolean chunkIsReal(final IWorld world, final BlockPos blockPos)
+    public static boolean chunkIsReal(final LevelAccessor world, final BlockPos blockPos)
     {
         return TerrainManager.chunkIsReal(world, new ChunkPos(blockPos));
     }
 
-    public static boolean chunkIsReal(final IWorld world, final ChunkPos pos)
+    public static boolean chunkIsReal(final LevelAccessor world, final ChunkPos pos)
     {
-        RegistryKey<World> dim = null;
-        if (world instanceof World) dim = ((World) world).dimension();
+        ResourceKey<Level> dim = null;
+        if (world instanceof Level) dim = ((Level) world).dimension();
         return TerrainManager.chunkIsReal(dim, pos);
     }
 
-    public static boolean chunkIsReal(final RegistryKey<World> dim, final ChunkPos pos)
+    public static boolean chunkIsReal(final ResourceKey<Level> dim, final ChunkPos pos)
     {
         if (dim == null) return false;
         return ITerrainProvider.getChunk(dim, pos) != null;
@@ -93,8 +95,8 @@ public class TerrainManager
     @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
-        RegistryKey<World> dim = null;
-        if (evt.getWorld() instanceof World && !evt.getWorld().isClientSide()) dim = ((World) evt.getWorld())
+        ResourceKey<Level> dim = null;
+        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide()) dim = ((Level) evt.getWorld())
                 .dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
@@ -104,8 +106,8 @@ public class TerrainManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        RegistryKey<World> dim = null;
-        if (evt.getWorld() instanceof World && !evt.getWorld().isClientSide()) dim = ((World) evt.getWorld())
+        ResourceKey<Level> dim = null;
+        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide()) dim = ((Level) evt.getWorld())
                 .dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
@@ -113,7 +115,7 @@ public class TerrainManager
     @SubscribeEvent
     public static void onChunkWatch(final ChunkWatchEvent.Watch event)
     {
-        final ServerPlayerEntity player = event.getPlayer();
+        final ServerPlayer player = event.getPlayer();
         TerrainUpdate.sendTerrainToClient(event.getPos(), player);
     }
 
@@ -124,10 +126,10 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
+    public static void onCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
     {
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP)) return;
-        final Chunk chunk = event.getObject();
+        final LevelChunk chunk = event.getObject();
         final DefaultProvider terrain = new DefaultProvider(chunk);
         event.addCapability(TerrainManager.TERRAINCAP, terrain);
     }
@@ -136,16 +138,16 @@ public class TerrainManager
     {
     };
 
-    public TerrainSegment getTerrain(final IWorld world, final BlockPos p)
+    public TerrainSegment getTerrain(final LevelAccessor world, final BlockPos p)
     {
         return this.provider.getTerrain(world, p);
     }
 
-    public TerrainSegment getTerrain(final IWorld world, final double x, final double y, final double z)
+    public TerrainSegment getTerrain(final LevelAccessor world, final double x, final double y, final double z)
     {
         final BlockPos pos = new BlockPos(x, y, z);
         final TerrainSegment ret = this.getTerrain(world, pos);
-        if (world instanceof ServerWorld) ret.initBiomes(world);
+        if (world instanceof ServerLevel) ret.initBiomes(world);
         return ret;
     }
 
@@ -155,7 +157,7 @@ public class TerrainManager
         return this.getTerrain(e.getCommandSenderWorld(), e.getX(), e.getY(), e.getZ());
     }
 
-    public TerrainSegment getTerrian(final IWorld world, final Vector3 v)
+    public TerrainSegment getTerrian(final LevelAccessor world, final Vector3 v)
     {
         return this.getTerrain(world, v.x, v.y, v.z);
     }

@@ -6,16 +6,16 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 
-public interface IOngoingAffected extends INBTSerializable<ListNBT>
+public interface IOngoingAffected extends INBTSerializable<ListTag>
 {
-    public static interface IOngoingEffect extends INBTSerializable<CompoundNBT>
+    public static interface IOngoingEffect extends INBTSerializable<CompoundTag>
     {
         public static enum AddType
         {
@@ -57,13 +57,13 @@ public interface IOngoingAffected extends INBTSerializable<ListNBT>
          * @param affected
          * @return can this effect be added to the mob.
          */
-        default AddType canAdd(IOngoingAffected affected, IOngoingEffect toAdd)
+        default AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
         {
             return AddType.ACCEPT;
         }
 
         @Override
-        default void deserializeNBT(CompoundNBT nbt)
+        default void deserializeNBT(final CompoundTag nbt)
         {
             this.setDuration(nbt.getInt("D"));
         }
@@ -85,9 +85,9 @@ public interface IOngoingAffected extends INBTSerializable<ListNBT>
         }
 
         @Override
-        default CompoundNBT serializeNBT()
+        default CompoundTag serializeNBT()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putInt("D", this.getDuration());
             return tag;
         }
@@ -103,19 +103,19 @@ public interface IOngoingAffected extends INBTSerializable<ListNBT>
     void clearEffects();
 
     @Override
-    default void deserializeNBT(ListNBT nbt)
+    default void deserializeNBT(final ListTag nbt)
     {
         this.clearEffects();
         for (int i = 0; i < nbt.size(); i++)
         {
-            final CompoundNBT tag = nbt.getCompound(i);
+            final CompoundTag tag = nbt.getCompound(i);
             final String key = tag.getString("K");
-            final CompoundNBT value = tag.getCompound("V");
+            final CompoundTag value = tag.getCompound("V");
             final ResourceLocation loc = new ResourceLocation(key);
             final Class<? extends IOngoingEffect> effectClass = IOngoingAffected.EFFECTS.get(loc);
             if (effectClass != null) try
             {
-                final IOngoingEffect effect = effectClass.newInstance();
+                final IOngoingEffect effect = effectClass.getConstructor().newInstance();
                 effect.deserializeNBT(value);
                 this.addEffect(effect);
             }
@@ -139,16 +139,16 @@ public interface IOngoingAffected extends INBTSerializable<ListNBT>
     void removeEffects(ResourceLocation id);
 
     @Override
-    default ListNBT serializeNBT()
+    default ListTag serializeNBT()
     {
-        final ListNBT list = new ListNBT();
+        final ListTag list = new ListTag();
         for (final IOngoingEffect effect : this.getEffects())
             if (effect.onSavePersistant())
             {
-                final CompoundNBT tag = effect.serializeNBT();
+                final CompoundTag tag = effect.serializeNBT();
                 if (tag != null)
                 {
-                    final CompoundNBT nbt = new CompoundNBT();
+                    final CompoundTag nbt = new CompoundTag();
                     nbt.putString("K", effect.getID() + "");
                     nbt.put("V", tag);
                     list.add(nbt);

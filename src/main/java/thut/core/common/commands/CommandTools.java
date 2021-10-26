@@ -2,24 +2,24 @@ package thut.core.common.commands;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 
 public class CommandTools
 {
-    public static boolean hasPerm(final CommandSource source, final String permission)
+    public static boolean hasPerm(final CommandSourceStack source, final String permission)
     {
         try
         {
-            final ServerPlayerEntity player = source.getPlayerOrException();
+            final ServerPlayer player = source.getPlayerOrException();
             return CommandTools.hasPerm(player, permission);
         }
         catch (final CommandSyntaxException e)
@@ -29,7 +29,7 @@ public class CommandTools
         }
     }
 
-    public static boolean hasPerm(final ServerPlayerEntity player, final String permission)
+    public static boolean hasPerm(final ServerPlayer player, final String permission)
     { /*
        * Check if the node is registered, if not, register it as OP, and send
        * error message about this.
@@ -43,22 +43,22 @@ public class CommandTools
         return PermissionAPI.hasPermission(player, permission);
     }
 
-    public static ITextComponent makeError(final String text)
+    public static Component makeError(final String text)
     {
         return CommandTools.makeTranslatedMessage(text, "red:italic");
     }
 
-    public static ITextComponent makeTranslatedMessage(final String key, String formatting, final Object... args)
+    public static Component makeTranslatedMessage(final String key, String formatting, final Object... args)
     {
         if (formatting == null) formatting = "";
         for (int i = 0; i < args.length; i++)
-            if (args[i] instanceof String) args[i] = new TranslationTextComponent((String) args[i]);
-        final TranslationTextComponent translated = new TranslationTextComponent(key, args);
+            if (args[i] instanceof String) args[i] = new TranslatableComponent((String) args[i]);
+        final TranslatableComponent translated = new TranslatableComponent(key, args);
         if (!formatting.isEmpty())
         {
             final String[] args2 = formatting.split(":");
             final String colour = args2[0].toUpperCase(java.util.Locale.ROOT);
-            translated.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.getByName(colour)));
+            translated.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.getByName(colour)));
             if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
             {
                 final String arg = args2[i1];
@@ -72,33 +72,33 @@ public class CommandTools
         return translated;
     }
 
-    public static void sendBadArgumentsMissingArg(final ICommandSource sender)
+    public static void sendBadArgumentsMissingArg(final CommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"), Util.NIL_UUID);
     }
 
-    public static void sendBadArgumentsTryTab(final ICommandSource sender)
+    public static void sendBadArgumentsTryTab(final CommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"), Util.NIL_UUID);
     }
 
-    public static void sendError(final CommandSource sender, final String text)
+    public static void sendError(final CommandSourceStack sender, final String text)
     {
         sender.sendFailure(CommandTools.makeError(text));
     }
 
-    public static void sendError(final ICommandSource sender, final String text)
+    public static void sendError(final CommandSource sender, final String text)
     {
         sender.sendMessage(CommandTools.makeError(text), Util.NIL_UUID);
     }
 
-    public static void sendMessage(final ICommandSource sender, final String text)
+    public static void sendMessage(final CommandSource sender, final String text)
     {
-        final ITextComponent message = CommandTools.makeTranslatedMessage(text, null);
+        final Component message = CommandTools.makeTranslatedMessage(text, null);
         sender.sendMessage(message, Util.NIL_UUID);
     }
 
-    public static void sendNoPermissions(final ICommandSource sender)
+    public static void sendNoPermissions(final CommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"), Util.NIL_UUID);
     }

@@ -1,9 +1,9 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -45,9 +45,9 @@ public class ActionDig implements IMoveAction
         int ret = 0;
 
         final LivingEntity owner = digger.getOwner();
-        PlayerEntity player = null;
-        final World world = digger.getEntity().getCommandSenderWorld();
-        if (owner instanceof PlayerEntity) player = (PlayerEntity) owner;
+        Player player = null;
+        final Level world = digger.getEntity().getCommandSenderWorld();
+        if (owner instanceof Player) player = (Player) owner;
         else player = PokecubeMod.getFakePlayer(world);
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
         final boolean dropAll = this.shouldDropAll(digger);

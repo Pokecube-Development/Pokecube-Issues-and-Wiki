@@ -2,15 +2,17 @@ package pokecube.core.events;
 
 import java.util.Random;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraft.world.gen.feature.template.Template.EntityInfo;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
@@ -23,26 +25,27 @@ public class StructureEvent extends Event
     {
         public final ChunkGenerator chunkGen;
         public final Random         rand;
-        public final int            chunkPosX;
-        public final int            chunkPosZ;
+        public final ChunkPos       pos;
         public final JigSawConfig   struct;
 
-        private RegistryKey<World> key;
+        public final LevelHeightAccessor heightAccessor;
 
-        public PickLocation(final ChunkGenerator chunkGen, final Random rand, final int chunkPosX, final int chunkPosZ,
-                final JigSawConfig struct)
+        private ResourceKey<Level> key;
+
+        public PickLocation(final ChunkGenerator chunkGen, final Random rand, final ChunkPos pos,
+                final JigSawConfig struct, final LevelHeightAccessor heightAccessor)
         {
             this.chunkGen = chunkGen;
             this.rand = rand;
-            this.chunkPosX = chunkPosX;
-            this.chunkPosZ = chunkPosZ;
+            this.pos = pos;
             this.struct = struct;
-            final World world = JigsawAssmbler.getForGen(chunkGen);
-            if(world!=null) this.key = world.dimension();
-            else this.key = World.OVERWORLD;
+            this.heightAccessor = heightAccessor;
+            final Level world = JigsawAssmbler.getForGen(chunkGen);
+            if (world != null) this.key = world.dimension();
+            else this.key = Level.OVERWORLD;
         }
 
-        public RegistryKey<World> getDimensionKey()
+        public ResourceKey<Level> getDimensionKey()
         {
             return this.key;
         }
@@ -50,14 +53,14 @@ public class StructureEvent extends Event
 
     public static class BuildStructure extends StructureEvent
     {
-        private final MutableBoundingBox bounds;
-        private final PlacementSettings  settings;
-        private final String             structure;
-        private String                   structureOverride;
-        private final IWorld             world;
+        private final BoundingBox            bounds;
+        private final StructurePlaceSettings settings;
+        private final String                 structure;
+        private String                       structureOverride;
+        private final LevelAccessor          world;
 
-        public BuildStructure(final MutableBoundingBox bounds, final IWorld world, final String name,
-                final PlacementSettings settings)
+        public BuildStructure(final BoundingBox bounds, final LevelAccessor world, final String name,
+                final StructurePlaceSettings settings)
         {
             this.structure = name;
             this.world = world;
@@ -70,12 +73,12 @@ public class StructureEvent extends Event
             return this.structureOverride;
         }
 
-        public MutableBoundingBox getBoundingBox()
+        public BoundingBox getBoundingBox()
         {
             return this.bounds;
         }
 
-        public PlacementSettings getSettings()
+        public StructurePlaceSettings getSettings()
         {
             return this.settings;
         }
@@ -85,7 +88,7 @@ public class StructureEvent extends Event
             return this.structure;
         }
 
-        public IWorld getWorld()
+        public LevelAccessor getWorld()
         {
             return this.world;
         }
@@ -98,21 +101,21 @@ public class StructureEvent extends Event
 
     public static class SpawnEntity extends StructureEvent
     {
-        private final EntityInfo info;
-        private final EntityInfo raw;
+        private final StructureEntityInfo info;
+        private final StructureEntityInfo raw;
 
-        public SpawnEntity(final EntityInfo entity, final EntityInfo raw)
+        public SpawnEntity(final StructureEntityInfo entity, final StructureEntityInfo raw)
         {
             this.info = entity;
             this.raw = raw;
         }
 
-        public EntityInfo getRawInfo()
+        public StructureEntityInfo getRawInfo()
         {
             return this.raw;
         }
 
-        public EntityInfo getInfo()
+        public StructureEntityInfo getInfo()
         {
             return this.info;
         }
@@ -124,15 +127,15 @@ public class StructureEvent extends Event
      */
     public static class ReadTag extends StructureEvent
     {
-        public String             function;
-        public IWorld             worldBlocks;
-        public ServerWorld        worldActual;
-        public BlockPos           pos;
-        public MutableBoundingBox sbb;
-        public Random             rand;
+        public String        function;
+        public LevelAccessor worldBlocks;
+        public ServerLevel   worldActual;
+        public BlockPos      pos;
+        public BoundingBox   sbb;
+        public Random        rand;
 
-        public ReadTag(final String function, final BlockPos pos, final IWorld worldIn, final ServerWorld world,
-                final Random rand, final MutableBoundingBox sbb)
+        public ReadTag(final String function, final BlockPos pos, final LevelAccessor worldIn, final ServerLevel world,
+                final Random rand, final BoundingBox sbb)
         {
             this.function = function;
             this.worldBlocks = worldIn;

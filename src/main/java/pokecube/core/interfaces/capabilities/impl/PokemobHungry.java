@@ -1,9 +1,9 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemobUseable;
@@ -36,7 +36,7 @@ public abstract class PokemobHungry extends PokemobMoves
             final IPokemobUseable usable = IPokemobUseable.getUsableFor(item);
             if (usable != null)
             {
-                final ActionResult<ItemStack> result = usable.onUse(this, item, this.getEntity());
+                final InteractionResultHolder<ItemStack> result = usable.onUse(this, item, this.getEntity());
                 if (e instanceof ItemEntity) ((ItemEntity) e).setItem(result.getObject());
                 else e = this.cast(result.getObject());
             }

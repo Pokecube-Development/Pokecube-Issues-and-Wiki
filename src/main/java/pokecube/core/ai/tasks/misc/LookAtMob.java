@@ -4,14 +4,14 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.util.math.EntityPosWrapper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.ai.brain.RootTask;
 
 public class LookAtMob extends RootTask<LivingEntity>
@@ -20,7 +20,7 @@ public class LookAtMob extends RootTask<LivingEntity>
 
     private final float distance_squared;
 
-    public LookAtMob(final EntityClassification type, final float distance)
+    public LookAtMob(final MobCategory type, final float distance)
     {
         this((mob) ->
         {
@@ -38,8 +38,8 @@ public class LookAtMob extends RootTask<LivingEntity>
 
     public LookAtMob(final Predicate<LivingEntity> matcher, final float distance)
     {
-        super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleStatus.VALUE_ABSENT,
-                MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT));
+        super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryStatus.VALUE_ABSENT,
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT));
         this.matcher = matcher;
         this.distance_squared = distance * distance;
     }
@@ -51,23 +51,23 @@ public class LookAtMob extends RootTask<LivingEntity>
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
-        return owner.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get().stream().anyMatch(this.matcher);
+        return owner.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().stream().anyMatch(this.matcher);
     }
 
     @Override
-    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        brain.getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).ifPresent((list) ->
+        brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).ifPresent((list) ->
         {
             list.stream().filter(this.matcher).filter((mob) ->
             {
                 return mob.distanceToSqr(entityIn) <= this.distance_squared;
             }).findFirst().ifPresent((mob) ->
             {
-                brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(mob, true));
+                brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityTracker(mob, true));
             });
         });
     }

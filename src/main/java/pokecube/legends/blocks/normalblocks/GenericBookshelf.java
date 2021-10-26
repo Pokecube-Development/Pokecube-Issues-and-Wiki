@@ -1,9 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class GenericBookshelf extends Block
 {
@@ -13,7 +13,7 @@ public class GenericBookshelf extends Block
     }
 
     @Override
-    public float getEnchantPowerBonus(BlockState state, IWorldReader world, BlockPos pos) {
+    public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos) {
         return 1f;
     }
 }

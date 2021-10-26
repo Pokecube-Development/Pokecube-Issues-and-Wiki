@@ -1,11 +1,11 @@
 package pokecube.mobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.interfaces.IPokemob;
@@ -35,16 +35,16 @@ public class MiscItemHelper
          * @return
          */
         @Override
-        public ActionResult<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
+        public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
                 final MovePacket moveuse)
         {
             if (pokemob == moveuse.attacker && moveuse.pre) if (moveuse.getMove().getType(
                     pokemob) == CharcoalEffect.FIRE)
             {
                 moveuse.PWR *= 1.2;
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
+                return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
             }
-            return new ActionResult<>(ActionResultType.FAIL, stack);
+            return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
         }
     }
 
@@ -52,7 +52,7 @@ public class MiscItemHelper
 
     static ItemStack CHARCOALSTACK;
 
-    private static ActionResult<ItemStack> applyEVs(final byte[] evs, final ItemStack stack, final IPokemob pokemob)
+    private static InteractionResultHolder<ItemStack> applyEVs(final byte[] evs, final ItemStack stack, final IPokemob pokemob)
     {
         boolean fed = false;
         for (int i = 0; i < evs.length; i++)
@@ -70,10 +70,10 @@ public class MiscItemHelper
                 break;
             }
         }
-        return new ActionResult<>(fed ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);
+        return new InteractionResultHolder<>(fed ? InteractionResult.SUCCESS : InteractionResult.FAIL, stack);
     }
 
-    private static ActionResult<ItemStack> feedVitamin(final ItemStack stack, final Entity entity)
+    private static InteractionResultHolder<ItemStack> feedVitamin(final ItemStack stack, final Entity entity)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
@@ -91,7 +91,7 @@ public class MiscItemHelper
             if (ItemList.is(new ResourceLocation("pokecube:vit_carbos"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 0, 0, 0, 10 }, stack, pokemob);
         }
-        return new ActionResult<>(ActionResultType.FAIL, stack);
+        return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
     }
 
     public static void init()
@@ -106,9 +106,9 @@ public class MiscItemHelper
         final VitaminEffect value = new VitaminEffect()
         {
             @Override
-            public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+            public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
             {
-                final ActionResult<ItemStack> result = MiscItemHelper.feedVitamin(stack, pokemob.getEntity());
+                final InteractionResultHolder<ItemStack> result = MiscItemHelper.feedVitamin(stack, pokemob.getEntity());
                 // TODO decide on whether to send a message if it fails?
                 return result;
             }

@@ -1,13 +1,18 @@
 package pokecube.adventures.blocks.daycare;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.blocks.InteractableHorizontalBlock;
+import thut.api.block.ITickTile;
 
-public class DaycareBlock extends InteractableHorizontalBlock
+public class DaycareBlock extends InteractableHorizontalBlock implements EntityBlock
 {
 
     public DaycareBlock(final Properties properties)
@@ -16,15 +21,16 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new DaycareTile();
+        return new DaycareTile(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state)
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
+            final BlockEntityType<T> type)
     {
-        return true;
+        return ITickTile.getTicker(world, state, type);
     }
 
     @Override
@@ -34,20 +40,20 @@ public class DaycareBlock extends InteractableHorizontalBlock
     }
 
     @Override
-    public int getSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos, final Direction side)
+    public int getSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos, final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getBlockEntity(pos);
+        final BlockEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }
 
     @Override
-    public int getDirectSignal(final BlockState blockState, final IBlockReader blockAccess, final BlockPos pos,
+    public int getDirectSignal(final BlockState blockState, final BlockGetter blockAccess, final BlockPos pos,
             final Direction side)
     {
         if (side == Direction.UP || side == Direction.DOWN) return 0;
-        final TileEntity tile = blockAccess.getBlockEntity(pos);
+        final BlockEntity tile = blockAccess.getBlockEntity(pos);
         if (tile instanceof DaycareTile) return ((DaycareTile) tile).redstonePower;
         return 0;
     }

@@ -3,10 +3,10 @@
   "group": "pokecube_legends",
   "ingredients": [
     {
-      "item": "pokecube_legends:ultrasandstone"
+      "item": "pokecube_legends:crystallized_sandstone"
     }
   ],
   "result": {
-    "item": "pokecube_legends:ultra_sandstone_button"
+    "item": "pokecube_legends:crystallized_sandstone_button"
   }
 }

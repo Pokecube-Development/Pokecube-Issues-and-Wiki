@@ -1,7 +1,7 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -23,7 +23,7 @@ public class LogicInMaterials extends LogicBase
     }
 
     @Override
-    public void tick(final World world)
+    public void tick(final Level world)
     {
         super.tick(world);
         if (this.pokemob.getPokedexEntry().hatedMaterial != null)
@@ -40,7 +40,7 @@ public class LogicInMaterials extends LogicBase
                     final String action = this.pokemob.getPokedexEntry().hatedMaterial[2];
                     final float f = this.entity.getBrightness();
                     if (f > value && this.entity.getCommandSenderWorld().canSeeSkyFromBelowWater(this.entity.blockPosition())) if (action
-                            .equalsIgnoreCase("despawn")) this.entity.remove();
+                            .equalsIgnoreCase("despawn")) this.entity.discard();
                     else if (action.equalsIgnoreCase("hurt") && Math.random() < 0.1) this.entity.hurt(
                             DamageSource.ON_FIRE, 1);
                 }

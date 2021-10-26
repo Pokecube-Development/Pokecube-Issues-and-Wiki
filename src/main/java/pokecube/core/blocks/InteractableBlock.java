@@ -1,20 +1,20 @@
 package pokecube.core.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -22,7 +22,7 @@ public abstract class InteractableBlock extends Block
 {
     public static final VoxelShape PARTIAL_BASE  = Block.box(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
     public static final VoxelShape CENTRALCOLUMN = Block.box(4.0D, 2.0D, 4.0D, 12.0D, 14.0D, 12.0D);
-    public static final VoxelShape RENDERSHAPE   = VoxelShapes.or(InteractableBlock.PARTIAL_BASE,
+    public static final VoxelShape RENDERSHAPE   = Shapes.or(InteractableBlock.PARTIAL_BASE,
             InteractableBlock.CENTRALCOLUMN);
 
     public InteractableBlock(final Properties properties)
@@ -31,37 +31,37 @@ public abstract class InteractableBlock extends Block
     }
 
     @Override
-    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
-            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
-        final TileEntity tile = world.getBlockEntity(pos);
+        final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    public void stepOn(final World worldIn, final BlockPos pos, final Entity entityIn)
+    public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
     {
-        final TileEntity tile = worldIn.getBlockEntity(pos);
+        final BlockEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
+    public void onRemove(final BlockState state, final Level worldIn, final BlockPos pos, final BlockState newState,
             final boolean isMoving)
     {
         if (state.getBlock() != newState.getBlock())
         {
-            final TileEntity tileentity = worldIn.getBlockEntity(pos);
+            final BlockEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
             if (tileentity == null)
             {
 
             }
-            else if (tileentity instanceof IInventory)
+            else if (tileentity instanceof Container)
             {
-                InventoryHelper.dropContents(worldIn, pos, (IInventory) tileentity);
+                Containers.dropContents(worldIn, pos, (Container) tileentity);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
@@ -71,7 +71,7 @@ public abstract class InteractableBlock extends Block
                 if (items != null)
                 {
 
-                    final IInventory inventory = new IInventory()
+                    final Container inventory = new Container()
                     {
 
                         @Override
@@ -96,7 +96,7 @@ public abstract class InteractableBlock extends Block
                         }
 
                         @Override
-                        public boolean stillValid(final PlayerEntity player)
+                        public boolean stillValid(final Player player)
                         {
                             return false;
                         }
@@ -125,7 +125,7 @@ public abstract class InteractableBlock extends Block
                             return ItemStack.EMPTY;
                         }
                     };
-                    InventoryHelper.dropContents(worldIn, pos, inventory);
+                    Containers.dropContents(worldIn, pos, inventory);
                     worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
             }

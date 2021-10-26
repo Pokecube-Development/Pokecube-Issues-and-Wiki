@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:ultra_sandbrick"
+    "item": "pokecube_legends:crystallized_sandstone"
   },
-  "result": "pokecube_legends:ultra_sandbrick_stairs",
+  "result": "pokecube_legends:crystallized_sandstone_brick_stairs",
   "count": 1
 }

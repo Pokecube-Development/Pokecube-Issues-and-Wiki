@@ -1,17 +1,17 @@
 package pokecube.nbtedit.gui;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TextComponent;
 
-public class TextFieldWidget2 extends TextFieldWidget
+public class TextFieldWidget2 extends EditBox
 {
     private final boolean allowSection;
 
-    public TextFieldWidget2(final FontRenderer font, final int x, final int y, final int w, final int h,
+    public TextFieldWidget2(final Font font, final int x, final int y, final int w, final int h,
             final boolean allowSection)
     {
-        super(font, x, y, w, h, new StringTextComponent(""));
+        super(font, x, y, w, h, new TextComponent(""));
         this.allowSection = allowSection;
     }
 

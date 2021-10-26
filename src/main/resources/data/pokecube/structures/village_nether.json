@@ -1,0 +1,88 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:nether",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/town_centers/center_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/town_centers/top_1",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/town_centers/top_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/town_centers/top_2",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/town_centers/top_2"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/pokecenter",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/pokecenter/center_01;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/bottom",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/bottom/bottom_1",
+        "pokecube:village/nether/bottom/bottom_2"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/gym",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/nether/gym/gym_01;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube:village/nether/houses",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/nether/houses/house_1;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_2;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_3;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_4;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_5;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_6;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_7;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/nether/houses/house_8;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube:village/nether",
+      "root": "pokecube:nether",
+      "distance": 32,
+      "separation": 12,
+      "surface": false,
+      "base_under": false,
+      "biomeType": "village",
+      "size": 10,
+      "dimBlacklist": [
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "category": "nether"
+        }
+      }
+    }
+  ]
+}

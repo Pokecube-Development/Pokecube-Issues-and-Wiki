@@ -1,44 +1,57 @@
 {
-  "bedrock_roof_position": -10,
-  "bedrock_floor_position": -10,
-  "sea_level": 0,
+  "noise_caves_enabled": true,
+  "deepslate_enabled": false,
+  "ore_veins_enabled": false,
+  "noodle_caves_enabled": true,
+  "min_surface_level": 0,
   "disable_mob_generation": false,
-  "structures": {
-  	"structures": {}
+  "aquifers_enabled": false,
+  "default_fluid":
+  {
+    "Properties":
+    {
+      "level": "0"
+    },
+    "Name": "pokecube_legends:distortic_water"
   },
-  "noise": {
-    "density_factor": 0.0,
-    "density_offset": 0.0,
-    "simplex_surface_noise": false,
-    "random_density_offset": true,
-    "bottom_slide": {
+  "bedrock_roof_position": -2147483648,
+  "bedrock_floor_position": -2147483648,
+  "sea_level": 0,
+  "structures":
+  {
+    "structures": {}
+  },
+  "noise":
+  {
+    "simplex_surface_noise": true,
+    "size_vertical": 1,
+    "density_factor": 0,
+    "density_offset": 0,
+    "top_slide":
+    {
+      "target": -3000,
+      "size": 64,
+      "offset": -46
+    },
+    "bottom_slide":
+    {
       "target": -30,
       "size": 7,
       "offset": 1
     },
     "size_horizontal": 2,
-    "size_vertical": 1,
-    "height": 158,
-    "sampling": {
-      "xz_scale": 2.0,
-      "y_scale": 1.0,
-      "xz_factor": 80.0,
-      "y_factor": 160.0
-    },
-    "top_slide": {
-      "target": -3000,
-      "size": 64,
-      "offset": -46
-    }
-  },
-  "default_block": {
-    "Name": "pokecube_legends:distortic_stone"
-  },
-  "default_fluid": {
-    "Name": "pokecube_legends:distortic_water",
-    "Properties":
+    "min_y": 0,
+    "height": 128,
+    "sampling":
     {
-      "level": "0"
+      "xz_scale": 2,
+      "y_scale": 1,
+      "xz_factor": 80,
+      "y_factor": 160
     }
+  },
+  "default_block":
+  {
+    "Name": "pokecube_legends:distortic_stone"
   }
 }

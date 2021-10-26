@@ -1,0 +1,10 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/common/trainers",
+      "options": [
+        "pokecube:village/common/trainers/trainer_1"
+      ]
+    }
+  ]
+}

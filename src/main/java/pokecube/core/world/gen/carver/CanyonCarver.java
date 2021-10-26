@@ -2,15 +2,15 @@ package pokecube.core.world.gen.carver;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.world.gen.carver.CanyonWorldCarver;
-import net.minecraft.world.gen.feature.ProbabilityConfig;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.carver.CanyonCarverConfiguration;
+import net.minecraft.world.level.levelgen.carver.CanyonWorldCarver;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class CanyonCarver extends CanyonWorldCarver
 {
 
-    public CanyonCarver(final Codec<ProbabilityConfig> codec)
+    public CanyonCarver(final Codec<CanyonCarverConfiguration> codec)
     {
         super(codec);
     }

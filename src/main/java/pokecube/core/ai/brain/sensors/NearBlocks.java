@@ -7,20 +7,20 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.ClipContext.Block;
+import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -64,7 +64,7 @@ public class NearBlocks extends Sensor<LivingEntity>
     }
 
     @Override
-    protected void doTick(final ServerWorld worldIn, final LivingEntity entityIn)
+    protected void doTick(final ServerLevel worldIn, final LivingEntity entityIn)
     {
         try
         {
@@ -89,16 +89,16 @@ public class NearBlocks extends Sensor<LivingEntity>
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
 
-        final Vector3d start = entityIn.getEyePosition(1);
+        final Vec3 start = entityIn.getEyePosition(1);
 
         final Predicate<BlockPos> visible = input ->
         {
-            final Vector3d end = new Vector3d(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
-            final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
+            final Vec3 end = new Vec3(input.getX() + 0.5, input.getY() + 0.5, input.getZ() + 0.5);
+            final ClipContext context = new ClipContext(start, end, Block.COLLIDER, Fluid.NONE,
                     entityIn);
-            final RayTraceResult result = worldIn.clip(context);
+            final HitResult result = worldIn.clip(context);
             if (result.getType() == Type.MISS) return true;
-            final BlockRayTraceResult hit = (BlockRayTraceResult) result;
+            final BlockHitResult hit = (BlockHitResult) result;
             return hit.getBlockPos().equals(input);
         };
 

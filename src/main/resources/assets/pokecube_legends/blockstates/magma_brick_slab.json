@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/magma_brick_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/magmabrick"
+      "model": "pokecube_legends:block/magma_bricks"
     },
     "type=top": {
       "model": "pokecube_legends:block/magma_brick_slab_top"

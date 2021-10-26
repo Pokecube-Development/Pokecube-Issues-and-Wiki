@@ -6,14 +6,14 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
@@ -24,8 +24,8 @@ import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.entity.genetics.Alleles;
-import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.genetics.DefaultGenetics;
 
 public class RecipeExtract extends PoweredRecipe
 {
@@ -75,7 +75,7 @@ public class RecipeExtract extends PoweredRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingInventory inv)
+    public ItemStack assemble(final CraftingContainer inv)
     {
         if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
@@ -98,7 +98,7 @@ public class RecipeExtract extends PoweredRecipe
                 {
                     final DNAPack pack = ClonerHelper.DNAITEMS.get(stack);
                     final Alleles<?, ?> alleles = pack.alleles;
-                    genes = GeneRegistry.GENETICS_CAP.getDefaultInstance();
+                    genes = new DefaultGenetics();
                     genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
                     forcedGenes = true;
                     if (pack.chance > Math.random()) break source;
@@ -108,7 +108,7 @@ public class RecipeExtract extends PoweredRecipe
         final ItemStack output = destination.copy();
         output.setCount(1);
         if (source.isEmpty() || genes == null || selector.isEmpty()) return ItemStack.EMPTY;
-        if (output.getTag() == null) output.setTag(new CompoundNBT());
+        if (output.getTag() == null) output.setTag(new CompoundTag());
         ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(selector), forcedGenes);
         output.setCount(1);
         return output;
@@ -121,13 +121,13 @@ public class RecipeExtract extends PoweredRecipe
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
+    public RecipeSerializer<?> getSerializer()
     {
         return RecipePokeAdv.EXTRACT.get();
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
+    public NonNullList<ItemStack> getRemainingItems(final CraftingContainer inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
         if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;

@@ -1,11 +1,11 @@
 package pokecube.core.items.revive;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
 
@@ -17,15 +17,15 @@ public class ItemRevive extends Item
     }
 
     @Override
-    public ActionResultType interactLivingEntity(final ItemStack stack, final PlayerEntity playerIn,
-            final LivingEntity target, final Hand hand)
+    public InteractionResult interactLivingEntity(final ItemStack stack, final Player playerIn,
+            final LivingEntity target, final InteractionHand hand)
     {
         if (target.deathTime > 0)
         {
             PokecubeManager.heal(target);
             target.getPersistentData().putBoolean(TagNames.REVIVED, true);
             stack.grow(-1);
-            return ActionResultType.CONSUME;
+            return InteractionResult.CONSUME;
         }
         return super.interactLivingEntity(stack, playerIn, target, hand);
     }

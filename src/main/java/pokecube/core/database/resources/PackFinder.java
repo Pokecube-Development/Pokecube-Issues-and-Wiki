@@ -16,24 +16,25 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.resources.FolderPackFinder;
-import net.minecraft.resources.IPackFinder;
-import net.minecraft.resources.IPackNameDecorator;
-import net.minecraft.resources.IResource;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackInfo.IFactory;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.repository.FolderRepositorySource;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.Pack.PackConstructor;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.fml.packs.ModFileResourcePack;
+import net.minecraftforge.fmllegacy.packs.ModFileResourcePack;
+import net.minecraftforge.forgespi.locating.IModFile;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
-public class PackFinder implements IPackFinder
+@SuppressWarnings("removal")
+public class PackFinder implements RepositorySource
 {
-    static final IPackNameDecorator DECORATOR = IPackNameDecorator.decorating("pack.source.pokecube.data");
+    static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
 
     public static Collection<ResourceLocation> getJsonResources(final String path)
     {
@@ -52,33 +53,34 @@ public class PackFinder implements IPackFinder
         return Database.resourceManager.getResource(l).getInputStream();
     }
 
-    public static List<IResource> getResources(ResourceLocation l) throws IOException
+    public static List<Resource> getResources(ResourceLocation l) throws IOException
     {
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
         return Database.resourceManager.getResources(l);
     }
 
-    private Map<ModFile, IResourcePack> modResourcePacks = Maps.newHashMap();
-    public final List<IResourcePack>    allPacks         = Lists.newArrayList();
-    public Set<IResourcePack>           folderPacks      = Sets.newHashSet();
+    private Map<IModFile, ModFileResourcePack> modResourcePacks = Maps.newHashMap();
+    public final List<PackResources>           allPacks         = Lists.newArrayList();
+    public Set<PackResources>                  folderPacks      = Sets.newHashSet();
 
-    private final FolderPackFinder folderFinder_old;
-    private final FolderPackFinder folderFinder_new;
+    private final FolderRepositorySource folderFinder_old;
+    private final FolderRepositorySource folderFinder_new;
 
-    public PackFinder(final ResourcePackInfo.IFactory packInfoFactoryIn)
+    public PackFinder(final Pack.PackConstructor packInfoFactoryIn)
     {
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderPackFinder(folder, PackFinder.DECORATOR);
+        this.folderFinder_old = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
         PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderPackFinder(folder, PackFinder.DECORATOR);
+        this.folderFinder_new = new FolderRepositorySource(folder, PackFinder.DECORATOR);
         this.init(packInfoFactoryIn);
     }
 
-    public void init(final ResourcePackInfo.IFactory packInfoFactoryIn)
+    @SuppressWarnings({ "deprecation" })
+    public void init(final Pack.PackConstructor packInfoFactoryIn)
     {
         try
         {
@@ -91,7 +93,7 @@ public class PackFinder implements IPackFinder
             throw new RuntimeException(e);
         }
 
-        final Map<String, ResourcePackInfo> map = Maps.newHashMap();
+        final Map<String, Pack> map = Maps.newHashMap();
         try
         {
             this.folderFinder_old.loadPacks(a -> map.put(a.getId(), a), packInfoFactoryIn);
@@ -109,9 +111,9 @@ public class PackFinder implements IPackFinder
             PokecubeCore.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
         }
 
-        for (final ResourcePackInfo info : map.values())
+        for (final Pack info : map.values())
         {
-            final IResourcePack pack = info.open();
+            final PackResources pack = info.open();
             if (pack != null)
             {
                 this.allPacks.add(pack);
@@ -122,7 +124,7 @@ public class PackFinder implements IPackFinder
     }
 
     @Override
-    public void loadPacks(final Consumer<ResourcePackInfo> infoConsumer, final IFactory infoFactory)
+    public void loadPacks(final Consumer<Pack> infoConsumer, final PackConstructor infoFactory)
     {
         throw new RuntimeException("Opps we, don't do this yet!");
     }

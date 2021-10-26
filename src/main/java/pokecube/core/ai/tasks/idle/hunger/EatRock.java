@@ -3,13 +3,13 @@ package pokecube.core.ai.tasks.idle.hunger;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
@@ -33,14 +33,14 @@ public class EatRock extends EatBlockBase
     {
         if (!pokemob.isLithotroph()) return EatResult.NOEAT;
 
-        final MobEntity entity = pokemob.getEntity();
+        final Mob entity = pokemob.getEntity();
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
         final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRock.checker.test(current)) return EatResult.NOEAT;
 

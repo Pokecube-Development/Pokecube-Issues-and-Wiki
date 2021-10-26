@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainSegment;
@@ -32,7 +32,7 @@ public class ConfigTerrainChecker implements ISubBiomeChecker
     }
 
     @Override
-    public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+    public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
         if (caveAdjusted)

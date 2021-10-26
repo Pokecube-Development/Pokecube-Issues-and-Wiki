@@ -5,25 +5,23 @@ import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.ByteNBT;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -32,12 +30,14 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import thut.api.block.IOwnableTE;
 import thut.core.common.ThutCore;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class OwnableCaps
 {
-    public abstract static class VanillaWrapper<M extends MobEntity> implements IOwnable, ICapabilitySerializable<INBT>
+    public abstract static class VanillaWrapper<M extends Mob> implements IOwnable, ICapabilitySerializable<Tag>
     {
         private final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
 
@@ -57,26 +57,26 @@ public class OwnableCaps
         }
 
         @Override
-        public INBT serializeNBT()
+        public Tag serializeNBT()
         {
-            final CompoundNBT tag = new CompoundNBT();
+            final CompoundTag tag = new CompoundTag();
             tag.putBoolean("p", this.playerOwned);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(final INBT nbt)
+        public void deserializeNBT(final Tag nbt)
         {
-            if (nbt instanceof ByteNBT) this.playerOwned = ((ByteNBT) nbt).getAsByte() != 0;
-            else if (nbt instanceof CompoundNBT) this.playerOwned = ((CompoundNBT) nbt).getBoolean("p");
+            if (nbt instanceof ByteTag) this.playerOwned = ((ByteTag) nbt).getAsByte() != 0;
+            else if (nbt instanceof CompoundTag) this.playerOwned = ((CompoundTag) nbt).getBoolean("p");
         }
     }
 
-    public static class HorseWrapper extends VanillaWrapper<AbstractHorseEntity>
+    public static class HorseWrapper extends VanillaWrapper<AbstractHorse>
     {
         LivingEntity owner;
 
-        public HorseWrapper(final AbstractHorseEntity toWrap)
+        public HorseWrapper(final AbstractHorse toWrap)
         {
             super(toWrap);
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
@@ -88,8 +88,8 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null && this.owner == null && this.wrapped
-                    .getCommandSenderWorld() instanceof ServerWorld) return this.owner = this.getOwner(
-                            (ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
+                    .getCommandSenderWorld() instanceof ServerLevel) return this.owner = this.getOwner(
+                            (ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
@@ -102,7 +102,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
-            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof Player;
             return this.playerOwned;
         }
 
@@ -121,14 +121,14 @@ public class OwnableCaps
 
     }
 
-    public static class TameWrapper extends VanillaWrapper<TameableEntity>
+    public static class TameWrapper extends VanillaWrapper<TamableAnimal>
     {
         LivingEntity owner = null;
 
-        public TameWrapper(final TameableEntity toWrap)
+        public TameWrapper(final TamableAnimal toWrap)
         {
             super(toWrap);
-            this.playerOwned = toWrap.getOwner() instanceof PlayerEntity;
+            this.playerOwned = toWrap.getOwner() instanceof Player;
             if (!this.playerOwned && toWrap.getOwnerUUID() != null && toWrap.getServer() != null)
                 this.playerOwned = toWrap.getServer().getProfileCache().get(this.getOwnerId()) != null;
         }
@@ -138,8 +138,8 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.wrapped.getCommandSenderWorld() instanceof ServerWorld)
-                return this.owner = this.getOwner((ServerWorld) this.wrapped.getCommandSenderWorld(), this.owner);
+            if (this.getOwnerId() != null && this.wrapped.getCommandSenderWorld() instanceof ServerLevel)
+                return this.owner = this.getOwner((ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
@@ -152,7 +152,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
-            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof Player;
             return this.playerOwned;
         }
 
@@ -161,7 +161,7 @@ public class OwnableCaps
         {
             this.setOwner(e == null ? null : e.getUUID());
             this.owner = e;
-            this.playerOwned = e instanceof PlayerEntity;
+            this.playerOwned = e instanceof Player;
         }
 
         @Override
@@ -203,14 +203,14 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
-            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof Player;
             return this.playerOwned;
         }
 
         @Override
         public void setOwner(final LivingEntity e)
         {
-            this.playerOwned = e instanceof PlayerEntity;
+            this.playerOwned = e instanceof Player;
             this.ownerMob = e;
             if (e != null) this.setOwner(e.getUUID());
             else this.setOwner((UUID) null);
@@ -223,10 +223,10 @@ public class OwnableCaps
         }
     }
 
-    public static class Impl extends BaseImpl implements IOwnable, ICapabilitySerializable<CompoundNBT>
+    public static class Impl extends BaseImpl implements IOwnable, ICapabilitySerializable<CompoundTag>
     {
         @Override
-        public void deserializeNBT(final CompoundNBT nbt)
+        public void deserializeNBT(final CompoundTag nbt)
         {
             if (nbt.contains("p"))
             {
@@ -244,9 +244,9 @@ public class OwnableCaps
         }
 
         @Override
-        public CompoundNBT serializeNBT()
+        public CompoundTag serializeNBT()
         {
-            final CompoundNBT nbt = new CompoundNBT();
+            final CompoundTag nbt = new CompoundTag();
             if (this.ownerId != null)
             {
                 nbt.putUUID("o", this.ownerId);
@@ -260,27 +260,8 @@ public class OwnableCaps
     {
     }
 
-    public static class Storage implements Capability.IStorage<IOwnable>
-    {
-        @SuppressWarnings({ "rawtypes", "unchecked" })
-        @Override
-        public void readNBT(final Capability<IOwnable> capability, final IOwnable instance, final Direction side,
-                final INBT nbt)
-        {
-            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
-        }
-
-        @Override
-        public INBT writeNBT(final Capability<IOwnable> capability, final IOwnable instance, final Direction side)
-        {
-            if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
-                    .serializeNBT();
-            return null;
-        }
-    }
-
     public static final Set<EntityType<?>>     MOBS  = Sets.newHashSet();
-    public static final Set<TileEntityType<?>> TILES = Sets.newHashSet();
+    public static final Set<BlockEntityType<?>> TILES = Sets.newHashSet();
 
     public static final ResourceLocation LOCBASE  = new ResourceLocation("thutcore:ownable_base");
     public static final ResourceLocation LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
@@ -288,8 +269,8 @@ public class OwnableCaps
 
     public static ICapabilitySerializable<?> makeMobOwnable(final Entity mob, final boolean nonNull)
     {
-        if (mob instanceof TameableEntity) return new TameWrapper((TameableEntity) mob);
-        else if (mob instanceof AbstractHorseEntity) return new HorseWrapper((AbstractHorseEntity) mob);
+        if (mob instanceof TamableAnimal) return new TameWrapper((TamableAnimal) mob);
+        else if (mob instanceof AbstractHorse) return new HorseWrapper((AbstractHorse) mob);
         else if (OwnableCaps.MOBS.contains(mob.getType())) return new Impl();
         return nonNull ? new Impl() : null;
     }
@@ -320,7 +301,7 @@ public class OwnableCaps
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void attachTEs(final AttachCapabilitiesEvent<TileEntity> event)
+    public static void attachTEs(final AttachCapabilitiesEvent<BlockEntity> event)
     {
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
@@ -332,7 +313,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onblockPlace(final BlockEvent.EntityPlaceEvent event)
     {
-        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null && event.getEntity() instanceof LivingEntity)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
@@ -344,7 +325,7 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockHit(final PlayerInteractEvent.LeftClickBlock event)
     {
-        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
@@ -357,18 +338,12 @@ public class OwnableCaps
     @SubscribeEvent
     public static void onBlockBreak(final BlockEvent.BreakEvent event)
     {
-        final TileEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer())) event.setCanceled(
                     true);
         }
-    }
-
-    public static void setup()
-    {
-        CapabilityManager.INSTANCE.register(IOwnable.class, new Storage(), BaseImpl::new);
-        MinecraftForge.EVENT_BUS.register(OwnableCaps.class);
     }
 }

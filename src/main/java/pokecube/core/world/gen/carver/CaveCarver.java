@@ -2,17 +2,17 @@ package pokecube.core.world.gen.carver;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.world.gen.carver.CaveWorldCarver;
-import net.minecraft.world.gen.feature.ProbabilityConfig;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
+import net.minecraft.world.level.levelgen.carver.CaveWorldCarver;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class CaveCarver extends CaveWorldCarver
 {
 
-    public CaveCarver(final Codec<ProbabilityConfig> codec, final int maxHeight)
+    public CaveCarver(final Codec<CaveCarverConfiguration> codec)
     {
-        super(codec, maxHeight);
+        super(codec);
     }
 
     @Override

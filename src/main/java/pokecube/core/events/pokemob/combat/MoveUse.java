@@ -2,8 +2,8 @@ package pokecube.core.events.pokemob.combat;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.interfaces.IPokemob;

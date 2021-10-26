@@ -1,39 +1,53 @@
 {
   "config": {
-    "max_water_depth": 0,
+    "decorators": [],
     "ignore_vines": false,
-    "heightmap": "MOTION_BLOCKING_NO_LEAVES",
+    "force_dirt": false,
+    "dirt_provider": {
+      "state": {
+        "Name": "pokecube_legends:jungle_dirt"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
     "minimum_size": {
       "limit": 0,
       "lower_size": 0,
       "upper_size": 0,
       "type": "minecraft:two_layers_feature_size"
     },
-    "decorators": [],
-    "trunk_provider": {
-      "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:ultra_log02"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "leaves_provider": {
+    "foliage_provider": {
       "state": {
         "Properties": {
           "persistent": "false",
           "distance": "7"
         },
-        "Name": "pokecube_legends:ultra_leave02"
+        "Name": "pokecube_legends:temporal_leaves"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "sapling_provider": {
+      "state": {
+        "Properties": {
+          "stage": "0"
+        },
+        "Name": "pokecube_legends:temporal_sapling"
       },
       "type": "minecraft:simple_state_provider"
     },
     "foliage_placer": {
-      "radius": 1,
+      "radius": 2,
       "offset": 1,
       "height": 2,
       "type": "minecraft:jungle_foliage_placer"
+    },
+    "trunk_provider": {
+      "state": {
+        "Properties": {
+          "axis": "y"
+        },
+        "Name": "pokecube_legends:temporal_log"
+      },
+      "type": "minecraft:simple_state_provider"
     },
     "trunk_placer": {
       "base_height": 1,

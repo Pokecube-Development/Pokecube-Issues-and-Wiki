@@ -6,14 +6,14 @@
         "project": false,
         "need_water": false,
         "xspread": 7,
-        "yspread": 5,
+        "yspread": 3,
         "zspread": 7,
         "whitelist": [
           {
             "Properties": {
               "snowy": "false"
             },
-            "Name": "pokecube_legends:ultragrass2"
+            "Name": "pokecube_legends:jungle_grass_block"
           }
         ],
         "blacklist": [],
@@ -37,7 +37,9 @@
           "type": "minecraft:square"
         },
         "inner": {
-          "config": {},
+          "config": {
+            "heightmap": "MOTION_BLOCKING"
+          },
           "type": "minecraft:heightmap_spread_double"
         }
       },

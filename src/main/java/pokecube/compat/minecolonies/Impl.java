@@ -9,11 +9,9 @@ import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerChunkProvider;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerChunkCache;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
@@ -71,20 +69,20 @@ public class Impl
         }
 
         @Override
-        public BiomeType getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+        public BiomeType getSubBiome(final LevelAccessor world, final Vector3 v, final TerrainSegment segment,
                 final boolean caveAdjusted)
         {
-            if (!(world instanceof World)) return BiomeType.NONE;
-            final World rworld = (World) world;
+            if (!(world instanceof Level)) return BiomeType.NONE;
+            final Level rworld = (Level) world;
             check:
-            if (caveAdjusted) if (world.getChunkSource() instanceof ServerChunkProvider)
+            if (caveAdjusted) if (world.getChunkSource() instanceof ServerChunkCache)
             {
                 if (!Impl.instance.getColonyManager().isCoordinateInAnyColony(rworld, v.getPos())) break check;
 
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(rworld, v.getPos());
                 if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
                         .getBuildings() == null) break check;
-                final Vector3d vec = new Vector3d(v.x, v.y, v.z);
+                // final Vec3 vec = new Vec3(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
                     String type = b.getSchematicName();
@@ -93,8 +91,9 @@ public class Impl
                     if (PokecubeTerrainChecker.structureSubbiomeMap.containsKey(type))
                         type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
                     else continue;
-                    final AxisAlignedBB box = b.getTargetableArea(colony.getWorld());
-                    if (box.contains(vec)) return BiomeType.getBiome(type, true);
+
+                    // final AABB box = b.getTargetableArea(colony.getWorld());
+                    if (b.isInBuilding(v.getPos())) return BiomeType.getBiome(type, true);
                 }
             }
             return this.parent.getSubBiome(world, v, segment, caveAdjusted);

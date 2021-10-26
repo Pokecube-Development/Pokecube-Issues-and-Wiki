@@ -1,34 +1,34 @@
 package thut.core.common.genetics.genes;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import thut.api.entity.genetics.Gene;
 
-public abstract class GeneTagCompound implements Gene<CompoundNBT>
+public abstract class GeneTagCompound implements Gene<CompoundTag>
 {
-    protected CompoundNBT value = new CompoundNBT();
+    protected CompoundTag value = new CompoundTag();
 
     @Override
-    public CompoundNBT getValue()
+    public CompoundTag getValue()
     {
         return this.value;
     }
 
     @Override
-    public void load(final CompoundNBT tag)
+    public void load(final CompoundTag tag)
     {
         this.value = tag.getCompound("V");
     }
 
     @Override
-    public CompoundNBT save()
+    public CompoundTag save()
     {
-        final CompoundNBT tag = new CompoundNBT();
+        final CompoundTag tag = new CompoundTag();
         tag.put("V", this.value);
         return tag;
     }
 
     @Override
-    public void setValue(final CompoundNBT value)
+    public void setValue(final CompoundTag value)
     {
         this.value = value;
     }
