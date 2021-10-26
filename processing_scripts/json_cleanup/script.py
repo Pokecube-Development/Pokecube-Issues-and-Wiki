@@ -46,10 +46,12 @@ for file in jsons:
         for key, val in reps.items():
             (json_str, num) = re.subn(key, val, json_str, flags=re.M)
             replaced = replaced + num
+            if num > 0:
+                print("    Replacement in: {} ({})".format(file, num))
         json_obj = json.loads(json_str)
     except Exception as e:
         print("Error with: {}".format(file))
-        print(json_str)
+        #print(json_str)
         print(e)
         continue
 
