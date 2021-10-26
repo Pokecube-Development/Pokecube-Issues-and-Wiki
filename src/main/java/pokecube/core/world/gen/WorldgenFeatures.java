@@ -23,6 +23,8 @@ import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePo
 import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool.Projection;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -35,17 +37,22 @@ import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.world.gen.carver.CanyonCarver;
 import pokecube.core.world.gen.carver.CaveCarver;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
+import pokecube.core.world.gen.surface_builders.MirageDesertSurfaceBuilder;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 
 public class WorldgenFeatures
 {
     public static final DeferredRegister<WorldCarver<?>> CARVERS = DeferredRegister.create(
             ForgeRegistries.WORLD_CARVERS, PokecubeCore.MODID);
+    public static final DeferredRegister<SurfaceBuilder<?>> SURFACE_BUILDERS = DeferredRegister.create(
+            ForgeRegistries.SURFACE_BUILDERS, PokecubeCore.MODID);
 
     public static final RegistryObject<WorldCarver<?>> CAVE   = WorldgenFeatures.CARVERS.register("cave",
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
     public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.CARVERS.register("canyon",
             () -> new CanyonCarver(CanyonCarverConfiguration.CODEC));
+    public static final RegistryObject<SurfaceBuilder<?>> MIRAGE_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("mirage_desert",
+            () -> new MirageDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
     public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
@@ -68,6 +75,7 @@ public class WorldgenFeatures
     public static void init(final IEventBus bus)
     {
         WorldgenFeatures.CARVERS.register(bus);
+        WorldgenFeatures.SURFACE_BUILDERS.register(bus);
     }
 
     public static StructureProcessorList getProcList(final String value)
