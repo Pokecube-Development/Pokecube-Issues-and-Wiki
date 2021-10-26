@@ -188,12 +188,12 @@ public class PokecubeLegends
         PokecubeLegends.CONTAINER.register(modEventBus);
 
         // Biomes Dictionary
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB3, Type.SANDY, Type.WASTELAND, Type.HOT);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB4, Type.HILLS, Type.DEAD, Type.SPOOKY);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB5, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB6, Type.MAGICAL, Type.FOREST, Type.SPARSE);
+        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.JUNGLE, Type.FOREST, Type.DENSE);
+        BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.SANDY, Type.WASTELAND, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HILLS, Type.DEAD, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.MAGICAL, Type.FOREST, Type.SPARSE);
 
         BlockInit.init();
         ItemInit.init();

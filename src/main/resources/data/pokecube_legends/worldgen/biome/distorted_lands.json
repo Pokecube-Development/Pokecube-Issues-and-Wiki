@@ -24,7 +24,7 @@
       "sound": "minecraft:ambient.cave"
     }
   },
-  "surface_builder": "pokecube_legends:distorted_place",
+  "surface_builder": "pokecube_legends:distorted_lands",
   "carvers": {
     "air": [
       "pokecube_legends:cave",

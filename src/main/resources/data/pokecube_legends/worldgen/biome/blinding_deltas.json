@@ -1,7 +1,7 @@
 {
  "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.nether_wastes.mood",
+      "sound": "minecraft:ambient.basalt_deltas.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
@@ -18,9 +18,9 @@
       },
       "probability": 0.01
     },
-    "ambient_sound": "minecraft:ambient.nether_wastes.loop"
+    "ambient_sound": "minecraft:ambient.basalt_deltas.loop"
   },
-  "surface_builder": "pokecube_legends:dark_valley",
+  "surface_builder": "pokecube_legends:blinding_deltas",
   "carvers": {
     "air": [
       "pokecube_legends:cave",
@@ -54,12 +54,12 @@
   ],
   "starts": [],
   "spawners": {},
-  "category": "mesa",
-  "precipitation": "snow",
-  "scale": 0.04,
+  "category": "desert",
+  "precipitation": "none",
+  "scale": 0.08,
   "downfall": 0.1,
   "depth": 0.1,
-  "temperature": 0.1,
+  "temperature": 2.0,
   "player_spawn_friendly": false,
   "spawn_costs": {}
 }

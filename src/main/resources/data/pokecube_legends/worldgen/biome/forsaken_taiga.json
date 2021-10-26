@@ -24,7 +24,7 @@
     },
     "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
-  "surface_builder": "pokecube_legends:forgotten_plains",
+  "surface_builder": "pokecube_legends:forsaken_taiga",
   "carvers": {
     "air": [
       "pokecube_legends:cave",
@@ -63,9 +63,9 @@
   "spawn_costs": {},
   "category": "plains",
   "precipitation": "none",
-  "scale": 0.05,
+  "scale": 0.2,
   "downfall": 0.7,
-  "depth": 0.14,
+  "depth": 0.2,
   "temperature": 0.9,
   "player_spawn_friendly": false
 }

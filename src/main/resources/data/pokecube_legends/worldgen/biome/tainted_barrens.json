@@ -21,7 +21,7 @@
     },
     "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
   },
-  "surface_builder": "pokecube_legends:deep_hills",
+  "surface_builder": "pokecube_legends:tainted_barrens",
   "carvers": {
     "air": [
       "pokecube_legends:cave",
@@ -49,8 +49,8 @@
     ],
     [],
     [
-      "pokecube_legends:deep_flower",
-      "pokecube_legends:deep_hills_vegetation",
+      "pokecube_legends:mushrooms_and_flowers",
+      "pokecube_legends:tainted_barrens_vegetation",
       "pokecube_legends:spring_water",
       "pokecube_legends:spring_lava"
     ],
@@ -60,9 +60,9 @@
   "spawners": {},
   "category": "swamp",
   "precipitation": "none",
-  "scale": 0.05,
+  "scale": 0.08,
   "downfall": 0.2,
-  "depth": 0.45,
+  "depth": -0.2,
   "temperature": 0.3,
   "player_spawn_friendly": false,
   "spawn_costs": {}

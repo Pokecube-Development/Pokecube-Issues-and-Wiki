@@ -7,14 +7,14 @@
       "block_search_extent": 8,
       "offset": 2.0
     },
-    "sky_color": 14797895,
-    "fog_color": 7292427,
+    "sky_color": 8892184,
+    "fog_color": 11391558,
     "water_color": 8892184,
     "water_fog_color": 8892184,
     "grass_color": 4896398,
     "foliage_color": 4896398
   },
-  "surface_builder": "pokecube_legends:ultra_jungle",
+  "surface_builder": "pokecube_legends:temporal_jungle",
   "carvers": {
     "air": [
       "pokecube_legends:cave",

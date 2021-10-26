@@ -12,9 +12,9 @@
     "water_fog_color": 65484,
     "foliage_color": 35327,
     "grass_color": 2542847,
-    "ambient_sound": "minecraft:ambient.basalt_deltas.mood"
+    "ambient_sound": "minecraft:ambient.nether_wastes.loop"
   },
-  "surface_builder": "pokecube_legends:ultra_desert",
+  "surface_builder": "pokecube_legends:mirage_desert",
   "carvers": {
     "air": [
       "pokecube_legends:cave",

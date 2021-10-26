@@ -6,7 +6,7 @@
           "config": {
             "features": [
               {
-                "feature": "pokecube_legends:deep_flower",
+                "feature": "pokecube_legends:mushrooms_and_flowers",
                 "chance": 0.25
               },
 			  {

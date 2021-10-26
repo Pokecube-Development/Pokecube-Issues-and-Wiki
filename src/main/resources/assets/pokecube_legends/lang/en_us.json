@@ -163,13 +163,13 @@
 	"item.pokecube_legends.ultra_boots": "Ultra Armor Boots",
 	
     // Biome Names  
-    "biome.pokecube_legends.distorted_biome": "Distorted World",   
-    "biome.pokecube_legends.ultra_deep_cave": "Deep Mushroom Caves",
-    "biome.pokecube_legends.ultra_jungle": "Temporal Jungle",
-    "biome.pokecube_legends.ultra_desert": "Crystallized Desert",
-    "biome.pokecube_legends.ultra_dark_valley": "Deep Dark Valley",
-    "biome.pokecube_legends.ultra_deep_hills": "Deep Hills",
-    "biome.pokecube_legends.ultra_forgotten_plains": "Forgotten Forest",
+    "biome.pokecube_legends.distorted_lands": "Distorted Lands",   
+    "biome.pokecube_legends.fungal_forest": "Fungal Forest",
+    "biome.pokecube_legends.temporal_jungle": "Temporal Jungle",
+    "biome.pokecube_legends.mirage_desert": "Mirage Desert",
+    "biome.pokecube_legends.blinding_deltas": "Blinding Deltas",
+    "biome.pokecube_legends.tainted_barrens": "Tainted Barrens",
+    "biome.pokecube_legends.forsaken_taiga": "Forsaken Taiga",
 
     // Plants
     "block.pokecube_legends.distorced_mushroom": "Distorced Mushroom",
