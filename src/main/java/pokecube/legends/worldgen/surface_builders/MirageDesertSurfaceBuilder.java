@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.surface_builders;
+package pokecube.legends.worldgen.surface_builders;
 
 import java.util.Random;
 
@@ -15,12 +15,14 @@ import pokecube.legends.init.BlockInit;
 
 public class MirageDesertSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderBaseConfiguration> 
 {
-	public MirageDesertSurfaceBuilder(Codec<SurfaceBuilderBaseConfiguration> config) {
+	public MirageDesertSurfaceBuilder(Codec<SurfaceBuilderBaseConfiguration> config) 
+	{
 		super(config);
 	}
 	
 	public void apply(Random random, ChunkAccess chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState block, 
-			BlockState fluid, int seaLevel, int num, long seed, SurfaceBuilderBaseConfiguration config) {
+			BlockState fluid, int seaLevel, int num, long seed, SurfaceBuilderBaseConfiguration config) 
+	{
 		this.apply(random, chunk, biome, x, z, startHeight, noise, block, fluid, config.getTopMaterial(), config.getUnderMaterial(), config.getUnderwaterMaterial(), seaLevel, num);
 	}
 	

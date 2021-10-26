@@ -71,6 +71,7 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
+import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
@@ -187,7 +188,7 @@ public class PokecubeLegends
         PokecubeLegends.TILES.register(modEventBus);
         PokecubeLegends.CONTAINER.register(modEventBus);
 
-        // Biomes Dictionary
+        // Biome Dictionary
         BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
         BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.JUNGLE, Type.FOREST, Type.DENSE);
         BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.SANDY, Type.WASTELAND, Type.HOT);
@@ -195,6 +196,7 @@ public class PokecubeLegends
         BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
         BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.MAGICAL, Type.FOREST, Type.SPARSE);
 
+        WorldgenFeatures.init(modEventBus);
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
