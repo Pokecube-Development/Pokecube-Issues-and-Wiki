@@ -56,7 +56,7 @@
   "spawners": {},
   "category": "desert",
   "precipitation": "none",
-  "scale": 0.08,
+  "scale": 0.15,
   "downfall": 0.1,
   "depth": 0.1,
   "temperature": 2.0,

@@ -6,7 +6,7 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 16763520,
+    "sky_color": 4182244,
     "fog_color": 16643037,
     "water_color": 4182244,
     "water_fog_color": 4182244,
@@ -49,8 +49,8 @@
     ],
     [],
     [
-      "pokecube_legends:aged_vegetation",
-      "pokecube_legends:aged_flower",
+      "pokecube_legends:forsaken_taiga_vegetation",
+      "pokecube_legends:forsaken_taiga_flowers",
       "minecraft:patch_grass_taiga",
       "minecraft:patch_large_fern",
       "pokecube_legends:spring_water",
@@ -62,10 +62,10 @@
   "spawners": {},
   "spawn_costs": {},
   "category": "plains",
-  "precipitation": "none",
+  "precipitation": "rain",
   "scale": 0.2,
   "downfall": 0.7,
   "depth": 0.2,
-  "temperature": 0.9,
+  "temperature": 0.3,
   "player_spawn_friendly": false
 }
