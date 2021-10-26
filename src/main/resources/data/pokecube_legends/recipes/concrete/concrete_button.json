@@ -12,7 +12,7 @@
         "group": "pokecube_legends",
         "ingredients": [
           {
-            "item": "pokecube_legends:concrete_planks"
+            "item": "pokecube_legends:concrete_plank"
           }
         ],
         "result": {

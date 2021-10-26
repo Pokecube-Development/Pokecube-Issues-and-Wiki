@@ -1,29 +1,29 @@
 package pokecube.core.network.packets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.inventory.tms.TMContainer;
 import thut.core.common.network.Packet;
 
 public class PacketTMs extends Packet
 {
-    public CompoundTag data = new CompoundTag();
+    public CompoundNBT data = new CompoundNBT();
 
     public PacketTMs()
     {
     }
 
-    public PacketTMs(final FriendlyByteBuf buf)
+    public PacketTMs(final PacketBuffer buf)
     {
         this.data = buf.readNbt();
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        final AbstractContainerMenu cont = player.containerMenu;
+        final Container cont = player.containerMenu;
         if (!(cont instanceof TMContainer)) return;
         final TMContainer container = (TMContainer) cont;
         final String[] moves = container.moves;
@@ -33,9 +33,9 @@ public class PacketTMs extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeNbt(this.data);
     }
 }

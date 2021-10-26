@@ -4,26 +4,28 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.item.trading.MerchantOffers;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class CapabilityHasTrades
 {
-    public static class DefaultTrades implements IHasTrades, ICapabilitySerializable<CompoundTag>
+    public static class DefaultTrades implements IHasTrades, ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IHasTrades> cap_holder = LazyOptional.of(() -> this);
         public Consumer<ItemStack>             onTraded   = t ->
                                                           {
                                                           };
         @Nullable
-        private Player                   customer;
+        private PlayerEntity                   customer;
         @Nullable
         protected MerchantOffers               offers;
 
@@ -34,13 +36,13 @@ public class CapabilityHasTrades
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            return new CompoundTag();
+            return new CompoundNBT();
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
 
         }
@@ -52,13 +54,13 @@ public class CapabilityHasTrades
         }
 
         @Override
-        public void setCustomer(final Player player)
+        public void setCustomer(final PlayerEntity player)
         {
             this.customer = player;
         }
 
         @Override
-        public Player getCustomer()
+        public PlayerEntity getCustomer()
         {
             return this.customer;
         }
@@ -96,13 +98,35 @@ public class CapabilityHasTrades
 
     }
 
+    public static class Storage implements Capability.IStorage<IHasTrades>
+    {
+
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @Override
+        public void readNBT(final Capability<IHasTrades> capability, final IHasTrades instance, final Direction side,
+                final INBT base)
+        {
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IHasTrades> capability, final IHasTrades instance, final Direction side)
+        {
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
+        }
+
+    }
+
+    public static Storage storage;
+
     public static interface IHasTrades
     {
         void applyTrade(MerchantOffer trade);
 
-        void setCustomer(Player player);
+        void setCustomer(PlayerEntity player);
 
-        Player getCustomer();
+        PlayerEntity getCustomer();
 
         default boolean hasCustomer()
         {

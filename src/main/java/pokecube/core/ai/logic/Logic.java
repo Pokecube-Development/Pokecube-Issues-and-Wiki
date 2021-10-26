@@ -1,6 +1,6 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
 
 public interface Logic
 {
@@ -9,5 +9,5 @@ public interface Logic
         return true;
     }
 
-    void tick(Level world);
+    void tick(World world);
 }

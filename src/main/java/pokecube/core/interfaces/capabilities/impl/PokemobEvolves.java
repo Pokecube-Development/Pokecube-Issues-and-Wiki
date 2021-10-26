@@ -1,6 +1,6 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 
 public abstract class PokemobEvolves extends PokemobHungry
 {

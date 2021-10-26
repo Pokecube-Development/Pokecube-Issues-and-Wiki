@@ -5,13 +5,14 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ClickType;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
@@ -52,14 +53,14 @@ public class BagContainer extends BaseContainer
 
     public final BagInventory inv;
 
-    public final Inventory invPlayer;
+    public final PlayerInventory invPlayer;
 
-    public BagContainer(final int id, final Inventory ivplay, final FriendlyByteBuf data)
+    public BagContainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
         this(id, ivplay, new BagInventory(BagManager.INSTANCE, data));
     }
 
-    public BagContainer(final int id, final Inventory ivplay, final BagInventory pc)
+    public BagContainer(final int id, final PlayerInventory ivplay, final BagInventory pc)
     {
         super(PokecubeAdv.BAG_CONT.get(), id);
         BagContainer.xOffset = 0;
@@ -89,7 +90,7 @@ public class BagContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final Player PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }
@@ -111,7 +112,7 @@ public class BagContainer extends BaseContainer
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.inv;
     }
@@ -154,13 +155,20 @@ public class BagContainer extends BaseContainer
     }
 
     @Override
-    public void removed(final Player player)
+    public void removed(final PlayerEntity player)
     {
         super.removed(player);
         this.inv.stopOpen(player);
     }
 
-    public void updateInventoryPages(final int dir, final Inventory invent)
+    @Override
+    public ItemStack clicked(final int slotId, final int dragType, final ClickType clickTypeIn,
+            final PlayerEntity player)
+    {
+        return super.clicked(slotId, dragType, clickTypeIn, player);
+    }
+
+    public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
         int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
                 : (this.inv.getPage() + dir) % this.inv.boxCount();

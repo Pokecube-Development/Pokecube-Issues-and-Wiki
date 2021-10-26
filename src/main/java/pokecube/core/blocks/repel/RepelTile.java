@@ -1,15 +1,15 @@
 package pokecube.core.blocks.repel;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
@@ -25,14 +25,14 @@ public class RepelTile extends InteractableTile
     public int     range   = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 
-    public RepelTile(final BlockPos pos, final BlockState state)
+    public RepelTile()
     {
-        this(PokecubeItems.REPEL_TYPE.get(), pos, state);
+        super(PokecubeItems.REPEL_TYPE.get());
     }
 
-    public RepelTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    public RepelTile(final TileEntityType<?> tileEntityTypeIn)
     {
-        super(tileEntityTypeIn, pos, state);
+        super(tileEntityTypeIn);
     }
 
     public boolean addForbiddenSpawningCoord()
@@ -43,8 +43,8 @@ public class RepelTile extends InteractableTile
     }
 
     @Override
-    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
-            final BlockHitResult hit)
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
     {
         final ItemStack stack = player.getItemInHand(hand);
         if (stack.getItem() instanceof ItemBerry)
@@ -55,24 +55,24 @@ public class RepelTile extends InteractableTile
             this.range = Math.max(1, berry.type.index);
             this.addForbiddenSpawningCoord();
             if (!player.isCreative() && old != this.range) stack.split(1);
-            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslatableComponent("repel.info.setrange",
+            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslationTextComponent("repel.info.setrange",
                     this.range, this.enabled), true);
-            return InteractionResult.SUCCESS;
+            return ActionResultType.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
-            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslatableComponent("repel.info.getrange",
+            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslationTextComponent("repel.info.getrange",
                     this.range, this.enabled), true);
-            return InteractionResult.SUCCESS;
+            return ActionResultType.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void load(final CompoundTag nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.load(nbt);
+        super.load(state, nbt);
         this.removeForbiddenSpawningCoord();
         this.range = nbt.getInt("range");
         this.addForbiddenSpawningCoord();
@@ -105,7 +105,7 @@ public class RepelTile extends InteractableTile
      * @return
      */
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
         super.save(nbt);
         nbt.putInt("range", this.range);

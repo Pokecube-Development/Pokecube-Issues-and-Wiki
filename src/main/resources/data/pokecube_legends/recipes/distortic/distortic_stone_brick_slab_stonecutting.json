@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:distortic_stone_bricks"
+    "item": "pokecube_legends:distortic_stonebrick"
   },
-  "result": "pokecube_legends:distortic_stone_brick_slab",
+  "result": "pokecube_legends:distortic_stonebrick_slab",
   "count": 2
 }

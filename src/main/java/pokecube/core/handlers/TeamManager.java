@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.scores.Team;
+import net.minecraft.entity.Entity;
+import net.minecraft.scoreboard.Team;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 

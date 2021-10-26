@@ -7,11 +7,11 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -21,7 +21,7 @@ import thut.wearables.IActiveWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
-public class PlayerWearables implements IWearableInventory, IItemHandlerModifiable, ICapabilitySerializable<CompoundTag>
+public class PlayerWearables implements IWearableInventory, IItemHandlerModifiable, ICapabilitySerializable<CompoundNBT>
 {
     private static class WearableSlot
     {
@@ -57,14 +57,14 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
             return this.slots.get(slot);
         }
 
-        void loadFromNBT(final CompoundTag tag)
+        void loadFromNBT(final CompoundNBT tag)
         {
             for (int n = 0; n < this.slots.size(); n++)
             {
-                final Tag temp = tag.get("slot" + n);
-                if (temp instanceof CompoundTag)
+                final INBT temp = tag.get("slot" + n);
+                if (temp instanceof CompoundNBT)
                 {
-                    final CompoundTag tag1 = (CompoundTag) temp;
+                    final CompoundNBT tag1 = (CompoundNBT) temp;
                     this.setStack(n, ItemStack.of(tag1));
                 }
             }
@@ -81,16 +81,16 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
             return ItemStack.EMPTY;
         }
 
-        CompoundTag saveToNBT()
+        CompoundNBT saveToNBT()
         {
-            final CompoundTag tag = new CompoundTag();
+            final CompoundNBT tag = new CompoundNBT();
             tag.putByte("type", (byte) this.type.ordinal());
             for (int n = 0; n < this.slots.size(); n++)
             {
                 final ItemStack i = this.getStack(n);
                 if (!i.isEmpty())
                 {
-                    final CompoundTag tag1 = new CompoundTag();
+                    final CompoundNBT tag1 = new CompoundNBT();
                     i.save(tag1);
                     tag.put("slot" + n, tag1);
                 }
@@ -120,7 +120,7 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         this.readFromNBT(nbt);
     }
@@ -199,21 +199,21 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
         return false;
     }
 
-    public void readFromNBT(final CompoundTag tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         for (final EnumWearable type : EnumWearable.values())
             this.slots.put(type, new WearableSlot(type));
         for (final EnumWearable slot : this.slots.keySet())
         {
-            final CompoundTag compound = tag.getCompound(slot.ordinal() + "");
+            final CompoundNBT compound = tag.getCompound(slot.ordinal() + "");
             this.slots.get(slot).loadFromNBT(compound);
         }
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        return this.writeToNBT(new CompoundTag());
+        return this.writeToNBT(new CompoundNBT());
     }
 
     @Override
@@ -237,11 +237,11 @@ public class PlayerWearables implements IWearableInventory, IItemHandlerModifiab
         return true;
     }
 
-    public CompoundTag writeToNBT(final CompoundTag tag)
+    public CompoundNBT writeToNBT(final CompoundNBT tag)
     {
         for (final EnumWearable slot : this.slots.keySet())
         {
-            final CompoundTag compound = this.slots.get(slot).saveToNBT();
+            final CompoundNBT compound = this.slots.get(slot).saveToNBT();
             tag.put(slot.ordinal() + "", compound);
         }
         return tag;

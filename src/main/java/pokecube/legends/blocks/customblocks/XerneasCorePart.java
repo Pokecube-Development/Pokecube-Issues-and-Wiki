@@ -1,8 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.IStringSerializable;
 
-public enum XerneasCorePart implements StringRepresentable
+public enum XerneasCorePart implements IStringSerializable
 {
     TOP("top"), TOP_LEFT("top_left"), TOP_RIGHT("top_right"),
     MIDDLE_LEFT("middle_left"), MIDDLE_RIGHT("middle_right"), BOTTOM("bottom");

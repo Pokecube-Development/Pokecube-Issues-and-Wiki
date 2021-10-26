@@ -5,27 +5,26 @@ import java.util.function.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,8 +37,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -71,7 +70,6 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
-import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
@@ -97,13 +95,13 @@ public class PokecubeLegends
             ForgeRegistries.ENTITIES, Reference.ID);
 
     // Barrels Inventory/Container
-    public static final DeferredRegister<BlockEntityType<?>> TILES     = DeferredRegister.create(
-            ForgeRegistries.BLOCK_ENTITIES, Reference.ID);
-    public static final DeferredRegister<MenuType<?>>        CONTAINER = DeferredRegister.create(
+    public static final DeferredRegister<TileEntityType<?>> TILES     = DeferredRegister.create(
+            ForgeRegistries.TILE_ENTITIES, Reference.ID);
+    public static final DeferredRegister<ContainerType<?>>  CONTAINER = DeferredRegister.create(
             ForgeRegistries.CONTAINERS, Reference.ID);
 
     // Recipes
-    public static final DeferredRegister<RecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(
+    public static final DeferredRegister<IRecipeSerializer<?>> LEGENDS_SERIALIZERS = DeferredRegister.create(
             ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
@@ -125,37 +123,37 @@ public class PokecubeLegends
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
 
             // Register the ruby and sapphire ores
-            final Predicate<ResourceKey<Biome>> check = k -> PokecubeLegends.config.generateOres && (BiomeDatabase
+            final Predicate<RegistryKey<Biome>> check = k -> PokecubeLegends.config.generateOres && (BiomeDatabase
                     .contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS")
                     || BiomeDatabase.contains(k, "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase
                             .contains(k, "MOUNTAIN") || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k,
                                     "SPOOKY"));
 
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get()
-                            .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
-                    .squared().count(2), new ResourceLocation("pokecube_legends:ruby_ore"));
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.SAPPHIRE_ORE.get()
-                            .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
-                    .squared().count(2), new ResourceLocation("pokecube_legends:sapphire_ore"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                    .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
+                            .get().defaultBlockState(), 5)).range(32).squared().count(2), new ResourceLocation(
+                                    "pokecube_legends:ruby_ore"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                    .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                            BlockInit.SAPPHIRE_ORE.get().defaultBlockState(), 5)).range(32).squared().count(2),
+                    new ResourceLocation("pokecube_legends:sapphire_ore"));
 
             Trees.register();
         }
 
         @SubscribeEvent
-        public static void registerTiles(final RegistryEvent.Register<BlockEntityType<?>> event)
+        public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
-            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null);
-            RingTile.TYPE = BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
-            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWNER.get().getRegistryName()));
+            RaidSpawn.TYPE = TileEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            RingTile.TYPE = TileEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
+            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
         }
 
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes();
+            final AttributeModifierMap.MutableAttribute attribs = LivingEntity.createLivingAttributes();
             event.put(EntityInit.WORMHOLE.get(), attribs.build());
         }
     }
@@ -188,15 +186,14 @@ public class PokecubeLegends
         PokecubeLegends.TILES.register(modEventBus);
         PokecubeLegends.CONTAINER.register(modEventBus);
 
-        // Biome Dictionary
-        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
-        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.JUNGLE, Type.FOREST, Type.DENSE);
-        BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.SANDY, Type.WASTELAND, Type.HOT);
-        BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HILLS, Type.DEAD, Type.SPOOKY);
-        BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
-        BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.MAGICAL, Type.FOREST, Type.SPARSE);
+        // Biomes Dictionary
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB3, Type.SANDY, Type.WASTELAND, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB4, Type.HILLS, Type.DEAD, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB5, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB6, Type.MAGICAL, Type.FOREST, Type.SPARSE);
 
-        WorldgenFeatures.init(modEventBus);
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
@@ -226,7 +223,7 @@ public class PokecubeLegends
         UsableItemGigantShard.registerCapabilities(event);
     }
 
-    public static final CreativeModeTab TAB = new CreativeModeTab("ultratab")
+    public static final ItemGroup TAB = new ItemGroup("ultratab")
     {
 
         @Override
@@ -236,17 +233,17 @@ public class PokecubeLegends
         }
     };
 
-    public static final CreativeModeTab DECO_TAB = new CreativeModeTab("decotab")
+    public static final ItemGroup DECO_TAB = new ItemGroup("decotab")
     {
 
         @Override
         public ItemStack makeIcon()
         {
-            return new ItemStack(BlockInit.SKY_BRICKS.get());
+            return new ItemStack(BlockInit.SKY_BRICK.get());
         }
     };
 
-    public static final CreativeModeTab LEGEND_TAB = new CreativeModeTab("legendtab")
+    public static final ItemGroup LEGEND_TAB = new ItemGroup("legendtab")
     {
 
         @Override
@@ -333,10 +330,10 @@ public class PokecubeLegends
         if (event.getWorld().isClientSide) return;
         if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
-        if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
+        if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
-                    new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);
+                    new TranslationTextComponent("msg.notaraidspot.info"), Util.NIL_UUID);
             return;
         }
         final boolean active = hit.getValue(RaidSpawnBlock.ACTIVE).active();

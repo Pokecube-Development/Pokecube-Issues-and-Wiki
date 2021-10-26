@@ -1,6 +1,6 @@
 package pokecube.core.ai.brain;
 
-import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.InterestingMobs;

@@ -7,13 +7,13 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.util.Hand;
+import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.interfaces.PokecubeMod;
@@ -26,7 +26,7 @@ public class NpcType
 {
     public static interface IInteract
     {
-        boolean processInteract(final Player player, final InteractionHand hand, NpcMob mob);
+        boolean processInteract(final PlayerEntity player, final Hand hand, NpcMob mob);
 
         default IInteract and(final IInteract other)
         {
@@ -69,14 +69,14 @@ public class NpcType
         };
         final IInteract starter = (player, hand, mob) ->
         {
-            if (player instanceof ServerPlayer && !PokecubeSerializer.getInstance().hasStarter(player))
+            if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
                 if (player.isShiftKeyDown()) return false;
                 PacketChoose packet;
                 final boolean special = false;
                 final boolean pick = false;
                 packet = PacketChoose.createOpenPacket(special, pick, Database.getStarters());
-                PokecubeCore.packets.sendTo(packet, (ServerPlayer) player);
+                PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
                 return true;
             }
             return false;
@@ -84,8 +84,8 @@ public class NpcType
         final IInteract heal = (player, hand, mob) ->
         {
             if (player.isShiftKeyDown()) return false;
-            if (player instanceof ServerPlayer) player.openMenu(new SimpleMenuProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, ContainerLevelAccess.create(
+            if (player instanceof ServerPlayerEntity) player.openMenu(new SimpleNamedContainerProvider((id,
+                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.create(
                             mob.level, mob.blockPosition())), player.getDisplayName()));
             return true;
         };

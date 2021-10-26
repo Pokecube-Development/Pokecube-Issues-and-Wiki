@@ -1,47 +1,46 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkSource;
-import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.lighting.LevelLightEngine;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.palette.UpgradeData;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.chunk.AbstractChunkProvider;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.chunk.ChunkSection;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.lighting.WorldLightManager;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public class BlockEntityChunkProvider extends ChunkSource
+public class BlockEntityChunkProvider extends AbstractChunkProvider
 {
-    private final WorldEntity world;
+    private final WorldEntity          world;
+    private final WorldLightManager    lightManager;
 
-    private final LevelLightEngine lightManager;
-
-    private final Map<BlockPos, LevelChunk> chunks = Maps.newHashMap();
-
-    private BlockPos lastOrigin = null;
+    private final Map<BlockPos, Chunk> chunks     = Maps.newHashMap();
+    private BlockPos                   lastOrigin = null;
 
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-        this.lightManager = new LevelLightEngine(this, true, worldIn.getWorld().dimensionType().hasSkyLight());
+        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().dimensionType().hasSkyLight());
     }
 
     @Override
-    public ChunkAccess getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
+    public IChunk getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
-        final AABB chunkBox = new AABB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15, this.world.getWorld()
-                .getMaxBuildHeight(), chunkZ * 16 + 15);
+        final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
+                this.world.getWorld().getMaxBuildHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
@@ -53,12 +52,13 @@ public class BlockEntityChunkProvider extends ChunkSource
             this.chunks.clear();
         }
 
-        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
         pos.set(chunkX, 0, chunkZ);
         final BlockPos immut = pos.immutable();
         if (this.chunks.containsKey(immut)) return this.chunks.get(immut);
-        final ChunkPos cpos = new ChunkPos(chunkX, chunkZ);
-        final LevelChunk ret = new EntityChunk(this.world, cpos);
+        final ChunkPrimer primer = new ChunkPrimer(new ChunkPos(chunkX, chunkZ), UpgradeData.EMPTY);
+
+        final Chunk ret = new Chunk(this.world.getWorld(), primer);
         this.chunks.put(immut, ret);
         for (int i = 0; i < 16; i++)
             for (int j = 0; j < 256; j++)
@@ -70,35 +70,35 @@ public class BlockEntityChunkProvider extends ChunkSource
                     pos.set(x, y, z);
                     final BlockState state = this.world.getBlockState(pos);
                     if (state.getBlock() == Blocks.AIR) continue;
-                    LevelChunkSection storage = ret.getSections()[j >> 4];
+                    ChunkSection storage = ret.getSections()[j >> 4];
                     if (storage == null)
                     {
-                        storage = new LevelChunkSection(j >> 4 << 4);
+                        storage = new ChunkSection(j >> 4 << 4);
                         ret.getSections()[j >> 4] = storage;
                     }
                     storage.setBlockState(i & 15, j & 15, k & 15, state, false);
-                    final BlockEntity tile = this.world.getBlockEntity(pos);
-                    if (tile != null) ret.setBlockEntity(tile);
+                    final TileEntity tile = this.world.getBlockEntity(pos);
+                    if (tile != null) ret.addBlockEntity(tile);
                 }
         return ret;
     }
 
     @Override
-    public LevelLightEngine getLightEngine()
+    public WorldLightManager getLightEngine()
     {
         return this.lightManager;
     }
 
     @Override
-    public BlockGetter getLevel()
+    public IBlockReader getLevel()
     {
         return this.world;
     }
 
-    private boolean intersects(final AABB other)
+    private boolean intersects(final AxisAlignedBB other)
     {
         final IBlockEntity mob = this.world.getBlockEntity();
-        final AABB thisBox = ((Entity) mob).getBoundingBox();
+        final AxisAlignedBB thisBox = ((Entity) mob).getBoundingBox();
         if (thisBox.intersects(other)) return true;
         return false;
     }
@@ -110,13 +110,8 @@ public class BlockEntityChunkProvider extends ChunkSource
     }
 
     @Override
-    public void tick(final BooleanSupplier p_156184_)
+    public boolean isTickingChunk(final BlockPos pos)
     {
-    }
-
-    @Override
-    public int getLoadedChunksCount()
-    {
-        return 0;
+        return false;
     }
 }

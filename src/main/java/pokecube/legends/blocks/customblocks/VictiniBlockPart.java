@@ -1,8 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.IStringSerializable;
 
-public enum VictiniBlockPart implements StringRepresentable
+public enum VictiniBlockPart implements IStringSerializable
 {
     TOP("top"), BOTTOM("bottom");
 

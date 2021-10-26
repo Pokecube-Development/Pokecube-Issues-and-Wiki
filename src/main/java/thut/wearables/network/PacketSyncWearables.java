@@ -1,10 +1,10 @@
 package thut.wearables.network;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,11 +14,11 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class PacketSyncWearables extends Packet
 {
-    CompoundTag data;
+    CompoundNBT data;
 
     public PacketSyncWearables()
     {
-        this.data = new CompoundTag();
+        this.data = new CompoundNBT();
     }
 
     public PacketSyncWearables(final LivingEntity player)
@@ -34,7 +34,7 @@ public class PacketSyncWearables extends Packet
         else this.data.putInt("I", -1);
     }
 
-    public PacketSyncWearables(final FriendlyByteBuf buffer)
+    public PacketSyncWearables(final PacketBuffer buffer)
     {
         this.data = buffer.readNbt();
 
@@ -44,7 +44,7 @@ public class PacketSyncWearables extends Packet
     @Override
     public void handleClient()
     {
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         if (world == null) return;
         final Entity p = world.getEntity(this.data.getInt("I"));
         if (p instanceof LivingEntity)
@@ -56,7 +56,7 @@ public class PacketSyncWearables extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeNbt(this.data);
     }

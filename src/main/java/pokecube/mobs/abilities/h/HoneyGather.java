@@ -3,18 +3,18 @@ package pokecube.mobs.abilities.h;
 import java.util.Optional;
 import java.util.Random;
 
-import net.minecraft.core.Direction;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
@@ -50,17 +50,17 @@ public class HoneyGather extends Ability
         final Random rand = entity.getRandom();
 
         final Brain<?> brain = entity.getBrain();
-        if (brain.checkMemory(BeeTasks.FLOWER_POS, MemoryStatus.REGISTERED))
+        if (brain.checkMemory(BeeTasks.FLOWER_POS, MemoryModuleStatus.REGISTERED))
         {
             final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.FLOWER_POS);
             if (pos_opt.isPresent())
             {
                 here.set(pos_opt.get().pos());
-                final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
+                final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
                 player.setPos(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
-                player.getInventory().items.set(player.getInventory().selected, new ItemStack(Items.BONE_MEAL));
-                final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(
-                        new Vec3(0.5, 1, 0.5), Direction.UP, here.getPos(), false));
+                player.inventory.items.set(player.inventory.selected, new ItemStack(Items.BONE_MEAL));
+                final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
+                        new Vector3d(0.5, 1, 0.5), Direction.UP, here.getPos(), false));
                 // Attempt to plant it.
                 Items.BONE_MEAL.useOn(context);
             }
@@ -69,10 +69,10 @@ public class HoneyGather extends Ability
         here.set(entity).addTo(this.range * (rand.nextDouble() - 0.5), Math.min(10, this.range) * (rand.nextDouble()
                 - 0.5), this.range * (rand.nextDouble() - 0.5));
 
-        final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
+        final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
         player.setPos(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
-        player.getInventory().items.set(player.getInventory().selected, new ItemStack(Items.BONE_MEAL));
-        final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(
+        player.inventory.items.set(player.inventory.selected, new ItemStack(Items.BONE_MEAL));
+        final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vector3d(
                 0.5, 1, 0.5), Direction.UP, here.getPos(), false));
         // Attempt to plant it.
         Items.BONE_MEAL.useOn(context);

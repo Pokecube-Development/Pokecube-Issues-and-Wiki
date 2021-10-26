@@ -1,6 +1,6 @@
 package pokecube.core.interfaces.pokemob.moves;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.AttackEvent;
 import pokecube.core.interfaces.IPokemob;

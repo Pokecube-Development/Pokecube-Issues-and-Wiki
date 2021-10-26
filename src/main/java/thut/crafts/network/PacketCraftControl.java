@@ -2,10 +2,10 @@ package thut.crafts.network;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 import thut.core.common.network.Packet;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
@@ -23,7 +23,7 @@ public class PacketCraftControl extends Packet
     private static final short RLEFT   = 64;
     private static final short RRIGHT  = 128;
 
-    public static void sendControlPacket(final Entity pokemob, final CraftController controller)
+    public static void sendControlPacket(Entity pokemob, CraftController controller)
     {
         final PacketCraftControl packet = new PacketCraftControl();
         packet.entityId = pokemob.getId();
@@ -47,7 +47,7 @@ public class PacketCraftControl extends Packet
         super(null);
     }
 
-    public PacketCraftControl(final FriendlyByteBuf buffer)
+    public PacketCraftControl(PacketBuffer buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -55,11 +55,11 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void handle(final Supplier<Context> ctx)
+    public void handle(Supplier<Context> ctx)
     {
         ctx.get().enqueueWork(() ->
         {
-            final Player player = ctx.get().getSender();
+            final PlayerEntity player = ctx.get().getSender();
             final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
             if (mob != null && mob instanceof EntityCraft)
             {
@@ -78,7 +78,7 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeShort(this.message);

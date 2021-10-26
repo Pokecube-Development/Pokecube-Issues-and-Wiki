@@ -7,27 +7,25 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.ClickEvent.Action;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -52,9 +50,9 @@ public class GuiPokedex extends Screen
     public static PokedexEntry pokedexEntry = null;
 
     public IPokemob                pokemob      = null;
-    protected Player               PlayerEntity = null;
+    protected PlayerEntity         PlayerEntity = null;
     protected ScrollGui<LineEntry> list;
-    protected EditBox              pokemobTextField;
+    protected TextFieldWidget      pokemobTextField;
     /** The X size of the inventory window in pixels. */
     protected int                  xSize;
 
@@ -67,9 +65,9 @@ public class GuiPokedex extends Screen
     /**
      *
      */
-    public GuiPokedex(final IPokemob pokemob, final Player PlayerEntity)
+    public GuiPokedex(final IPokemob pokemob, final PlayerEntity PlayerEntity)
     {
-        super(new TranslatableComponent("pokecube.pokedex.gui"));
+        super(new TranslationTextComponent("pokecube.pokedex.gui"));
         this.xSize = 256;
         this.ySize = 197;
         this.pokemob = pokemob;
@@ -156,13 +154,14 @@ public class GuiPokedex extends Screen
         final int yOffset = this.height / 2 - 80;
         final int xOffset = this.width / 2;
 
-        this.pokemobTextField = new EditBox(this.font, xOffset - 65, yOffset + 123, 110, 10, new TextComponent(""));
+        this.pokemobTextField = new TextFieldWidget(this.font, xOffset - 65, yOffset + 123, 110, 10,
+                new StringTextComponent(""));
         this.pokemobTextField.setBordered(false);
         this.pokemobTextField.setEditable(true);
 
         if (GuiPokedex.pokedexEntry != null) this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry
                 .getUnlocalizedName()));
-        this.addRenderableWidget(this.pokemobTextField);
+        this.addButton(this.pokemobTextField);
         this.initList();
     }
 
@@ -172,10 +171,10 @@ public class GuiPokedex extends Screen
         final int offsetX = (this.width - 160) / 2 + 90;
         final int offsetY = (this.height - 160) / 2 + 12;
         final int height = 15 * this.font.lineHeight;
-        MutableComponent line;
-        final MutableComponent page = (MutableComponent) GuiPokedex.pokedexEntry.getDescription();
+        IFormattableTextComponent line;
+        final IFormattableTextComponent page = (IFormattableTextComponent) GuiPokedex.pokedexEntry.getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 110, height, this.font.lineHeight, offsetX, offsetY);
-        final List<MutableComponent> list = ListHelper.splitText(page, 100, this.font, false);
+        final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
 
         final IClickListener listen = new IClickListener()
         {
@@ -199,15 +198,14 @@ public class GuiPokedex extends Screen
                 }
                 return false;
             }
-
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
             }
         };
-        for (final Component element : list)
+        for (final ITextComponent element : list)
         {
-            line = (MutableComponent) element;
+            line = (IFormattableTextComponent) element;
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF).setClickListner(listen));
         }
         this.children.add(this.list);
@@ -274,11 +272,11 @@ public class GuiPokedex extends Screen
         if (ret) return true;
         final int button = this.getButtonId(x, y);
 
-        if (button != 0) this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK,
-                1.0F));
+        if (button != 0) this.minecraft.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         if (button == 14)
         {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()
+                    .getCode());
             return true;
         }
 
@@ -296,11 +294,11 @@ public class GuiPokedex extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTick)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTick)
     {
         // Draw background
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderSystem.setShaderTexture(0, Resources.GUI_POKEDEX);
+        final Minecraft minecraft = Minecraft.getInstance();
+        minecraft.getTextureManager().bind(Resources.GUI_POKEDEX);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
         this.blit(mat, j2, k2, 0, 0, this.xSize, this.ySize);
@@ -308,15 +306,15 @@ public class GuiPokedex extends Screen
         // Draw mob
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
                 .getCommandSenderWorld());
-        if (!renderMob.getEntity().isAddedToWorld()) EntityTools.copyEntityTransforms(renderMob.getEntity(),
+        if (!renderMob.getEntity().inChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
                 this.PlayerEntity);
 
         final PokedexEntry pokedexEntry = renderMob.getPokedexEntry();
         final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
                 .getData(PokecubePlayerStats.class);
         boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
-                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0 || this.minecraft.player
-                        .getAbilities().instabuild;
+                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
+                || this.minecraft.player.abilities.instabuild;
 
         // Megas Inherit colouring from the base form.
         if (!fullColour && pokedexEntry.isMega()) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
@@ -344,12 +342,12 @@ public class GuiPokedex extends Screen
         final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
                 ? this.pokemob.getType2()
                 : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
-        GuiComponent.drawCenteredString(mat, this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
+        AbstractGui.drawCenteredString(mat, this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
         try
         {
-            GuiComponent.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset
                     + 137, type1.colour);
-            GuiComponent.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset
+            AbstractGui.drawCenteredString(mat, this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset
                     + 137, type2.colour);
         }
         catch (final Exception e)

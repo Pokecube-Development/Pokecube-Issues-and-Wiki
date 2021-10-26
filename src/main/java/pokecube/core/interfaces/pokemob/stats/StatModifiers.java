@@ -43,7 +43,7 @@ public class StatModifiers
         for (final String s : StatModifiers.modifierClasses.keySet())
             try
             {
-                this.modifiers.put(s, StatModifiers.modifierClasses.get(s).getConstructor().newInstance());
+                this.modifiers.put(s, StatModifiers.modifierClasses.get(s).newInstance());
             }
             catch (final Exception e)
             {

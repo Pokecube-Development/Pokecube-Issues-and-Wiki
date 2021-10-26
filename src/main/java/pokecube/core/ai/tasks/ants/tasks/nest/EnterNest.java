@@ -3,9 +3,9 @@ package pokecube.core.ai.tasks.ants.tasks.nest;
 import java.util.List;
 import java.util.Optional;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.Node;

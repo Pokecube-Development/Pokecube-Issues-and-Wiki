@@ -5,12 +5,17 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import thut.core.common.ThutCore;
 
 public class GeneRegistry
 {
+    @CapabilityInject(IMobGenetics.class)
+    public static final Capability<IMobGenetics> GENETICS_CAP = null;
+
     static Map<ResourceLocation, Class<? extends Gene<?>>> geneMap = Maps.newHashMap();
 
     public static Class<? extends Gene<?>> getClass(final ResourceLocation location)
@@ -23,7 +28,7 @@ public class GeneRegistry
         return GeneRegistry.geneMap.values();
     }
 
-    public static Gene<?> load(final CompoundTag tag) throws Exception
+    public static Gene<?> load(final CompoundNBT tag) throws Exception
     {
         Gene<?> ret = null;
         final ResourceLocation resource = new ResourceLocation(tag.getString("K"));
@@ -47,9 +52,9 @@ public class GeneRegistry
         }
     }
 
-    public static CompoundTag save(final Gene<?> gene)
+    public static CompoundNBT save(final Gene<?> gene)
     {
-        final CompoundTag tag = gene.save();
+        final CompoundNBT tag = gene.save();
         tag.putString("K", gene.getKey().toString());
         return tag;
     }

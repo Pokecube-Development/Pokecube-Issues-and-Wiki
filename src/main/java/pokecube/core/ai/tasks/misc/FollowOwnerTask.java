@@ -5,16 +5,16 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
-import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.ai.brain.BrainUtil;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
@@ -36,20 +36,20 @@ public class FollowOwnerTask extends TaskBase
             FollowOwnerTask.FOLLOW_SPEED_BOOST_ID, "following speed boost", 0.5F,
             AttributeModifier.Operation.MULTIPLY_TOTAL);
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Dont run if have a combat target
-        FollowOwnerTask.mems.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if have a target location for moves
-        FollowOwnerTask.mems.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     public static double speedMult = 2;
 
     private LivingEntity theOwner;
 
-    private PathNavigation petPathfinder;
+    private PathNavigator petPathfinder;
 
     private final double speed;
     private boolean      pathing = false;
@@ -76,7 +76,7 @@ public class FollowOwnerTask extends TaskBase
         this.ownerPos.set(this.theOwner);
         this.entity.setSprinting(false);
 
-        final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        final ModifiableAttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
                 .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
 
@@ -94,7 +94,7 @@ public class FollowOwnerTask extends TaskBase
             this.pathing = true;
         }
         // Look at owner.
-        if (BrainUtils.canSee(this.entity, this.theOwner)) BehaviorUtils.lookAtEntity(this.entity, this.theOwner);
+        if (BrainUtils.canSee(this.entity, this.theOwner)) BrainUtil.lookAtEntity(this.entity, this.theOwner);
         else if (!this.petPathfinder.isDone() && this.petPathfinder.getPath().getNextNodeIndex() < this.petPathfinder
                 .getPath().getNodeCount() - 3)
         {
@@ -111,13 +111,13 @@ public class FollowOwnerTask extends TaskBase
         final boolean hasTarget = this.entity.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET);
         WalkTarget target = hasTarget ? this.entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get() : null;
         if (target == null || target.getTarget().currentPosition().distanceToSqr(this.theOwner.position()) > 1)
-            target = new WalkTarget(new EntityTracker(this.theOwner, false), (float) this.speed, 1);
+            target = new WalkTarget(new EntityPosWrapper(this.theOwner, false), (float) this.speed, 1);
 
         final boolean isSprinting = this.entity.isSprinting();
         final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
         final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
         if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
-        final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        final ModifiableAttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
                 .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
         if (this.entity.isSprinting()) iattributeinstance.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);

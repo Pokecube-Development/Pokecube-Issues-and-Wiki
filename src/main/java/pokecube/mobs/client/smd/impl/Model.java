@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import thut.core.common.ThutCore;
 
@@ -123,7 +123,7 @@ public class Model
             b.invertRestMatrix();
     }
 
-    public void renderAll(final PoseStack mat, final VertexConsumer buffer, final int[] rgbbro)
+    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbbro)
     {
         this.body.render(mat, buffer, rgbbro);
     }

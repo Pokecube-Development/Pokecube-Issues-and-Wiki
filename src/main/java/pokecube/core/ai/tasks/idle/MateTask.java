@@ -6,13 +6,13 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.ai.behavior.PositionTracker;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.util.math.EntityPosWrapper;
+import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -31,30 +31,30 @@ import thut.api.entity.IBreedingMob;
  */
 public class MateTask extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // only run this if we have mate targets.
-        MateTask.mems.put(MemoryModules.POSSIBLE_MATES, MemoryStatus.VALUE_PRESENT);
+        MateTask.mems.put(MemoryModules.POSSIBLE_MATES, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     int spawnBabyDelay = 0;
 
-    List<AgeableMob> mates = Lists.newArrayList();
+    List<AgeableEntity> mates = Lists.newArrayList();
 
-    AgeableMob mate;
+    AgeableEntity mate;
 
-    AgeableMob mobA = null;
-    AgeableMob mobB = null;
+    AgeableEntity mobA = null;
+    AgeableEntity mobB = null;
 
-    AgeableMob entity;
+    AgeableEntity entity;
 
     WalkTarget startSpot = null;
 
     public MateTask(final IPokemob mob)
     {
         super(mob, MateTask.mems);
-        this.entity = (AgeableMob) mob.getEntity();
+        this.entity = (AgeableEntity) mob.getEntity();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MateTask extends BaseIdleTask
             return;
 
         // Flag them all as valid mates
-        for (final AgeableMob mob : this.mates)
+        for (final AgeableEntity mob : this.mates)
             BrainUtils.setMateTarget(mob, this.entity);
 
         // Battle between the first two on the list.
@@ -164,7 +164,7 @@ public class MateTask extends BaseIdleTask
 
     void approach(final LivingEntity living, final LivingEntity target, final float speed)
     {
-        final PositionTracker entityposwrapper = new PosWrapWrap(new EntityTracker(target, false), this.loadThrottle());
+        final IPosWrapper entityposwrapper = new PosWrapWrap(new EntityPosWrapper(target, false), this.loadThrottle());
         final WalkTarget walktarget = new WalkTarget(entityposwrapper, speed, 0);
         living.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
         living.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);

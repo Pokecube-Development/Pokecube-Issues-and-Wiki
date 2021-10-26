@@ -1,44 +1,15 @@
 {
   "config": {
-    "decorators": [],
-    "ignore_vines": false,
-    "force_dirt": false,
-    "dirt_provider": {
-      "state": {
-        "Name": "pokecube_legends:corrupted_dirt"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
+    "max_water_depth": 0,
+    "ignore_vines": true,
+    "heightmap": "MOTION_BLOCKING_NO_LEAVES",
     "minimum_size": {
       "limit": 0,
       "lower_size": 0,
       "upper_size": 0,
       "type": "minecraft:two_layers_feature_size"
     },
-    "foliage_provider": {
-      "state": {
-        "Properties": {
-          "persistent": "false",
-          "distance": "7"
-        },
-        "Name": "pokecube_legends:corrupted_leaves"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "sapling_provider": {
-      "state": {
-        "Properties": {
-          "stage": "0"
-        },
-        "Name": "pokecube_legends:corrupted_sapling"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "foliage_placer": {
-      "radius": 2,
-      "offset": 0,
-      "type": "acacia_foliage_placer"
-    },
+    "decorators": [],
     "trunk_provider": {
       "state": {
         "Properties": {
@@ -47,6 +18,22 @@
         "Name": "pokecube_legends:corrupted_log"
       },
       "type": "minecraft:simple_state_provider"
+    },
+    "leaves_provider": {
+      "state": {
+        "Properties": {
+          "persistent": "false",
+          "distance": "1"
+        },
+        "Name": "pokecube_legends:corrupted_leave"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "foliage_placer": {
+      "radius": 1,
+      "offset": 0,
+      "height": 1,
+      "type": "minecraft:jungle_foliage_placer"
     },
     "trunk_placer": {
       "base_height": 1,

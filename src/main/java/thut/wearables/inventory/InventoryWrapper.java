@@ -1,11 +1,11 @@
 package thut.wearables.inventory;
 
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import thut.wearables.EnumWearable;
 
-public class InventoryWrapper extends SimpleContainer
+public class InventoryWrapper extends Inventory
 {
     final PlayerWearables wearable;
 
@@ -21,7 +21,7 @@ public class InventoryWrapper extends SimpleContainer
     }
 
     @Override
-    public void stopOpen(final Player player)
+    public void stopOpen(final PlayerEntity player)
     {
     }
 
@@ -62,7 +62,7 @@ public class InventoryWrapper extends SimpleContainer
     }
 
     @Override
-    public boolean stillValid(final Player player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return true;
     }
@@ -73,7 +73,7 @@ public class InventoryWrapper extends SimpleContainer
     }
 
     @Override
-    public void startOpen(final Player player)
+    public void startOpen(final PlayerEntity player)
     {
     }
 

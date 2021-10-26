@@ -8,8 +8,8 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 

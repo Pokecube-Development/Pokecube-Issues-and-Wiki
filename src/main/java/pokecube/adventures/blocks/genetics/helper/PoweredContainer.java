@@ -1,8 +1,8 @@
 package pokecube.adventures.blocks.genetics.helper;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ContainerType;
 import thut.api.inventory.BaseContainer;
 
 public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseContainer
@@ -13,9 +13,9 @@ public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseC
     }
 
     public T          tile;
-    public Container inv;
+    public IInventory inv;
 
-    protected PoweredContainer(final MenuType<?> type, final int id, final TileProvider<T> provider)
+    protected PoweredContainer(final ContainerType<?> type, final int id, final TileProvider<T> provider)
     {
         super(type, id);
         this.tile = provider.getTile(this);
@@ -25,13 +25,13 @@ public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseC
     }
 
     @Override
-    public boolean stillValid(final Player playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.inv;
     }

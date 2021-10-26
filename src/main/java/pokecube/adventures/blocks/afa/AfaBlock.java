@@ -1,16 +1,11 @@
 package pokecube.adventures.blocks.afa;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockReader;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import thut.api.block.ITickTile;
 
-public class AfaBlock extends InteractableHorizontalBlock implements EntityBlock
+public class AfaBlock extends InteractableHorizontalBlock
 {
 
     public AfaBlock(final Properties properties)
@@ -19,16 +14,15 @@ public class AfaBlock extends InteractableHorizontalBlock implements EntityBlock
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return new AfaTile(pos, state);
+        return new AfaTile();
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
-            final BlockEntityType<T> type)
+    public boolean hasTileEntity(final BlockState state)
     {
-        return ITickTile.getTicker(world, state, type);
+        return true;
     }
 
 }

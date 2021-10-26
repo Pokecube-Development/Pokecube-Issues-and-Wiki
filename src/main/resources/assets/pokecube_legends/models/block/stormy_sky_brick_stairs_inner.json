@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/stormy_sky_bricks",
-    "top": "pokecube_legends:blocks/stormy_sky_bricks",
-    "side": "pokecube_legends:blocks/stormy_sky_bricks"
-  }
-}

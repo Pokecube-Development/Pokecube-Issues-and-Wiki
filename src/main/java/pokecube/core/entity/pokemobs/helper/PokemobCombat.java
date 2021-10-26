@@ -1,14 +1,14 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.world.damagesource.CombatRules;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.CombatRules;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.moves.damage.PokemobDamageSource;
@@ -16,7 +16,7 @@ import pokecube.core.moves.damage.PokemobDamageSource;
 public abstract class PokemobCombat extends PokemobBase
 {
 
-    public PokemobCombat(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobCombat(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
     }
@@ -60,9 +60,9 @@ public abstract class PokemobCombat extends PokemobBase
             i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, i);
             while (i > 0)
             {
-                final int j = ExperienceOrb.getExperienceValue(i);
+                final int j = ExperienceOrbEntity.getExperienceValue(i);
                 i -= j;
-                this.level.addFreshEntity(new ExperienceOrb(this.level, this.getX(), this.getY(), this.getZ(),
+                this.level.addFreshEntity(new ExperienceOrbEntity(this.level, this.getX(), this.getY(), this.getZ(),
                         j));
             }
         }
@@ -70,7 +70,7 @@ public abstract class PokemobCombat extends PokemobBase
 
     @Override
     /** Get the experience points the entity currently has. */
-    protected int getExperienceReward(final Player player)
+    protected int getExperienceReward(final PlayerEntity player)
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
         final int exp = (int) Math.max(1, this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap

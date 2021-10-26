@@ -2,14 +2,14 @@ package pokecube.nbtedit.packets;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
@@ -28,28 +28,28 @@ public class PacketHandler
      * @param entityId
      *            The id of the Entity.
      */
-    public static void sendCustomTag(final ServerPlayer player, final int entityId, final String customType)
+    public static void sendCustomTag(final ServerPlayerEntity player, final int entityId, final String customType)
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
             final Entity entity = player.getLevel().getEntity(entityId);
 
-            if (entity != null && !(entity instanceof Player)) NBTEdit.proxy.sendMessage(player,
-                    "\"Error- Target must be a player", ChatFormatting.RED);
+            if (entity != null && !(entity instanceof PlayerEntity)) NBTEdit.proxy.sendMessage(player,
+                    "\"Error- Target must be a player", TextFormatting.RED);
             else if (entity != null)
             {
-                final CompoundTag tag = new CompoundTag();
+                final CompoundNBT tag = new CompoundNBT();
                 final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getStringUUID())
                         .getData(customType);
                 if (data == null) NBTEdit.proxy.sendMessage(player, "\"Error - Unknown DataType " + customType,
-                        ChatFormatting.RED);
+                        TextFormatting.RED);
                 else
                 {
                     data.writeToNBT(tag);
                     CustomNBTPacket.ASSEMBLER.sendTo(new CustomNBTPacket(entityId, customType, tag), player);
                 }
             }
-            else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, ChatFormatting.RED);
+            else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, TextFormatting.RED);
 
         }
     }
@@ -62,25 +62,25 @@ public class PacketHandler
      * @param entityId
      *            The id of the Entity.
      */
-    public static void sendEntity(final ServerPlayer player, final int entityId)
+    public static void sendEntity(final ServerPlayerEntity player, final int entityId)
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
             final Entity entity = player.getLevel().getEntity(entityId);
-            if (entity instanceof Player && entity != player)
+            if (entity instanceof PlayerEntity && entity != player)
             {
                 NBTEdit.proxy.sendMessage(player, "Error - You may not use NBTEdit on other Players",
-                        ChatFormatting.RED);
+                        TextFormatting.RED);
                 NBTEdit.log(Level.WARN, player.getName().getString() + " tried to use NBTEdit on another player, "
                         + entity.getName());
             }
             if (entity != null)
             {
-                final CompoundTag tag = new CompoundTag();
+                final CompoundNBT tag = new CompoundNBT();
                 entity.saveWithoutId(tag);
                 EntityNBTPacket.ASSEMBLER.sendTo(new EntityNBTPacket(entityId, tag), player);
             }
-            else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, ChatFormatting.RED);
+            else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, TextFormatting.RED);
         }
     }
 
@@ -92,19 +92,19 @@ public class PacketHandler
      * @param pos
      *            The block containing the TileEntity.
      */
-    public static void sendTile(final ServerPlayer player, final BlockPos pos)
+    public static void sendTile(final ServerPlayerEntity player, final BlockPos pos)
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final BlockEntity te = player.getLevel().getBlockEntity(pos);
+            final TileEntity te = player.getLevel().getBlockEntity(pos);
             if (te != null)
             {
-                final CompoundTag tag = new CompoundTag();
+                final CompoundNBT tag = new CompoundNBT();
                 te.save(tag);
                 TileNBTPacket.ASSEMBLER.sendTo(new TileNBTPacket(pos, tag), player);
             }
             else NBTEdit.proxy.sendMessage(player, "Error - There is no TileEntity at " + pos.getX() + ", " + pos.getY()
-                    + ", " + pos.getZ(), ChatFormatting.RED);
+                    + ", " + pos.getZ(), TextFormatting.RED);
         }
     }
 

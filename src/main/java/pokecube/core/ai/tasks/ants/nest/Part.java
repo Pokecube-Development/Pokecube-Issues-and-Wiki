@@ -6,13 +6,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.interfaces.PokecubeMod;
 
-public abstract class Part implements INBTSerializable<CompoundTag>
+public abstract class Part implements INBTSerializable<CompoundNBT>
 {
 
     // Persistant value to track if we have started being mined.
@@ -20,8 +20,8 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     public long    dig_done   = 0;
     public long    build_done = 0;
 
-    private AABB inBounds  = null;
-    private AABB outBounds = null;
+    private AxisAlignedBB inBounds  = null;
+    private AxisAlignedBB outBounds = null;
 
     private final List<BlockPos> digBounds   = Lists.newArrayList();
     private final List<BlockPos> buildBounds = Lists.newArrayList();
@@ -34,9 +34,9 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     private Tree _tree = null;
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag nbt = new CompoundTag();
+        final CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("s", this.started);
         nbt.putLong("dd", this.dig_done);
         nbt.putLong("bd", this.build_done);
@@ -44,7 +44,7 @@ public abstract class Part implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         this.started = nbt.getBoolean("s");
         if (!PokecubeMod.debug)
@@ -89,12 +89,12 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         return this.buildBounds;
     }
 
-    public AABB getOutBounds()
+    public AxisAlignedBB getOutBounds()
     {
         return this.outBounds;
     }
 
-    public void setOutBounds(final AABB outBounds)
+    public void setOutBounds(final AxisAlignedBB outBounds)
     {
         this.outBounds = outBounds;
         this.buildBounds.clear();
@@ -107,7 +107,7 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         });
     }
 
-    public AABB getInBounds()
+    public AxisAlignedBB getInBounds()
     {
         return this.inBounds;
     }
@@ -142,7 +142,7 @@ public abstract class Part implements INBTSerializable<CompoundTag>
         return this.buildBlocks;
     }
 
-    public void setInBounds(final AABB inBounds)
+    public void setInBounds(final AxisAlignedBB inBounds)
     {
         this.inBounds = inBounds;
         this.digBounds.clear();

@@ -1,46 +1,49 @@
 package pokecube.legends.blocks.customblocks.taputotem;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.World;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.TapuBuluCore;
 import thut.api.item.ItemList;
 
 public class BuluTotem extends TapuBuluCore{
 
-	public BuluTotem(final Properties props) {
+	public BuluTotem(Properties props) {
 		super(props);
 	}
 	
 	@Override
-	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
-			final BlockHitResult hit)
+	public ActionResultType use(BlockState stack, World world, BlockPos pos, PlayerEntity entity, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
 		{
-			BuluTotem.addEffectTotem(entity);
-			return InteractionResult.SUCCESS;
+			addEffectTotem(entity);
+			return ActionResultType.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ActionResultType.PASS;
 	}
 	
-	public static void addEffectTotem(final Player entity)
+	public static void addEffectTotem(PlayerEntity entity)
 	{
 		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
 		{
-			entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1));
-			final ItemStack _stktoremove = entity instanceof LivingEntity ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY;
-			if (!entity.isCreative()) entity.getInventory().clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
-            	entity.inventoryMenu.getCraftSlots());
+			entity.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 400, 1));
+			ItemStack _stktoremove = ((entity instanceof LivingEntity) ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY);
+			if (!entity.isCreative())
+			{
+				entity.inventory.clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
+					entity.inventoryMenu.getCraftSlots());
+			}
 		}
 	}
 }

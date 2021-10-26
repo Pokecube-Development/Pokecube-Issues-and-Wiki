@@ -1,8 +1,8 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -31,7 +31,7 @@ public class PacketAIRoutine extends Packet
         super(null);
     }
 
-    public PacketAIRoutine(final FriendlyByteBuf buf)
+    public PacketAIRoutine(final PacketBuffer buf)
     {
         this.entityId = buf.readInt();
         this.routine = AIRoutine.values()[buf.readByte()];
@@ -39,7 +39,7 @@ public class PacketAIRoutine extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
@@ -48,7 +48,7 @@ public class PacketAIRoutine extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.routine.ordinal());

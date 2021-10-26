@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -14,12 +14,12 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
 public abstract class AbstractBeeTask extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_PRESENT);
+        AbstractBeeTask.mems.put(BeeTasks.HIVE_POS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     public AbstractBeeTask(final IPokemob pokemob)
@@ -27,7 +27,7 @@ public abstract class AbstractBeeTask extends BaseIdleTask
         super(pokemob);
     }
 
-    public AbstractBeeTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public AbstractBeeTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
         super(pokemob, RootTask.merge(AbstractBeeTask.mems, mems));
     }

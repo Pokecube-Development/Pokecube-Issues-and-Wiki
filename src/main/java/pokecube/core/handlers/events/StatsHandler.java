@@ -1,10 +1,10 @@
 package pokecube.core.handlers.events;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.server.permission.IPermissionHandler;
@@ -67,16 +67,16 @@ public class StatsHandler
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+            if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                     "pokecube.denied"), Util.NIL_UUID);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
             return;
         }
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (catcher instanceof Player && (config.permsCapture || config.permsCaptureSpecific))
+        if (catcher instanceof PlayerEntity && (config.permsCapture || config.permsCaptureSpecific))
         {
-            final Player player = (Player) catcher;
+            final PlayerEntity player = (PlayerEntity) catcher;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             boolean denied = false;
@@ -87,7 +87,7 @@ public class StatsHandler
             if (denied)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+                if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.NIL_UUID);
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
@@ -110,7 +110,7 @@ public class StatsHandler
             if (deny)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
+                if (catcher instanceof PlayerEntity) ((PlayerEntity) catcher).sendMessage(new TranslationTextComponent(
                         "pokecube.denied"), Util.NIL_UUID);
                 condition.onCaptureFail(catcher, evt.getCaught());
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);

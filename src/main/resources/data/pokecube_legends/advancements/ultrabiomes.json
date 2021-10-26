@@ -2,7 +2,7 @@
   "display": {
     "background": "minecraft:textures/block/stone.png",
     "icon": {
-      "item": "pokecube_legends:aged_grass_block"
+      "item": "pokecube_legends:ultragrass3"
     },
     "title": {
       "translate": "advancements.intotespace.title"
@@ -19,37 +19,37 @@
     "biome_1": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:blinding_deltas"
+        "biome": "pokecube_legends:ultra_dark_valley"
       }
     },
     "biome_2": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:fungal_forest"
+        "biome": "pokecube_legends:ultra_deep_cave"
       }
     },
     "biome_3": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:tainted_barrens"
+        "biome": "pokecube_legends:ultra_deep_hills"
       }
     },
     "biome_4": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:mirage_desert"
+        "biome": "pokecube_legends:ultra_desert"
       }
     },
 	"biome_5": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:forsaken_taiga"
+        "biome": "pokecube_legends:ultra_forgotten_plains"
       }
     },
 	"biome_6": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:temporal_jungle"
+        "biome": "pokecube_legends:ultra_jungle"
       }
     }
   },

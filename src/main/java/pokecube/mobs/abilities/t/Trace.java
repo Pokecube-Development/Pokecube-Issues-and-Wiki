@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.t;
 
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;

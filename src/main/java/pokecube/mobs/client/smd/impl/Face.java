@@ -2,12 +2,12 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector4f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
@@ -42,7 +42,7 @@ public class Face
         this.uvs = uvs;
     }
 
-    private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
+    private final net.minecraft.util.math.vector.Vector3f dummy3 = new net.minecraft.util.math.vector.Vector3f();
     private final Vector4f                                dummy4 = new Vector4f();
 
     /**
@@ -54,7 +54,7 @@ public class Face
      *            - if false, this will render entire face with constant
      *            normal.
      */
-    public void addForRender(final PoseStack mat, final VertexConsumer buffer, final int[] rgbabro,
+    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,
             final double[] uvShift, final boolean smoothShading)
     {
         if (!smoothShading) this.normal = this.calculateNormal();
@@ -65,11 +65,11 @@ public class Face
         final float alpha = rgbabro[3] / 255f;
         final int lightmapUV = rgbabro[4];
         final int overlayUV = rgbabro[5];
-        final PoseStack.Pose matrixstack$entry = mat.last();
+        final MatrixStack.Entry matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();
         final Vector4f dp = this.dummy4;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final net.minecraft.util.math.vector.Vector3f dn = this.dummy3;
 
         for (int i = 0; i < 3; i++)
         {

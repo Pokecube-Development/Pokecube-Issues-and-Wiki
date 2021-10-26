@@ -1,13 +1,13 @@
 package pokecube.adventures.inventory.trainer;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
@@ -19,7 +19,7 @@ public class ContainerTrainer extends BaseContainer
 {
     IHasPokemobs pokemobs;
 
-    public ContainerTrainer(final int id, final Inventory ivplay, final FriendlyByteBuf data)
+    public ContainerTrainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
         super(PokecubeAdv.TRAINER_CONT.get(), id);
         final LivingEntity entity = ivplay.player;
@@ -37,7 +37,7 @@ public class ContainerTrainer extends BaseContainer
                         return PokecubeManager.isFilled(stack);
                     }
                     @Override
-                    public void onTake(final Player thePlayer, final ItemStack stack)
+                    public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
                     {
                         final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getCommandSenderWorld());
                         if (pokemob != null)
@@ -46,20 +46,20 @@ public class ContainerTrainer extends BaseContainer
                             final ItemStack edited = PokecubeManager.pokemobToItem(pokemob);
                             stack.setTag(edited.getTag());
                         }
-                        super.onTake(thePlayer, stack);
+                        return super.onTake(thePlayer, stack);
                     }
                 });
         this.bindPlayerInventory(ivplay, -19);
     }
 
     @Override
-    public boolean stillValid(final Player playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return this.pokemobs.stillValid(playerIn);
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.pokemobs;
     }

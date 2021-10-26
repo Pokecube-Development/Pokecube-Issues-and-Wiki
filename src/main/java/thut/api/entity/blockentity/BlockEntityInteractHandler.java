@@ -2,21 +2,21 @@ package thut.api.entity.blockentity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 
 public abstract class BlockEntityInteractHandler
 {
     final IBlockEntity blockEntity;
     final Entity       theEntity;
 
-    protected BlockHitResult trace;
+    protected BlockRayTraceResult trace;
 
     public BlockEntityInteractHandler(final IBlockEntity entity)
     {
@@ -24,23 +24,23 @@ public abstract class BlockEntityInteractHandler
         this.theEntity = (Entity) entity;
     }
 
-    public BlockHitResult getLastTrace()
+    public BlockRayTraceResult getLastTrace()
     {
         return this.trace;
     }
 
-    public InteractionResult applyPlayerInteraction(final Player player, final Vec3 vec, final ItemStack stack,
-            final InteractionHand hand)
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vector3d vec, final ItemStack stack,
+            final Hand hand)
     {
-        return InteractionResult.PASS;
+        return ActionResultType.PASS;
     }
 
-    public abstract InteractionResult interactInternal(Player player, BlockPos pos, @Nullable ItemStack stack,
-            InteractionHand hand);
+    public abstract ActionResultType interactInternal(PlayerEntity player, BlockPos pos, @Nullable ItemStack stack,
+            Hand hand);
 
-    public InteractionResult processInitialInteract(final Player player, @Nullable final ItemStack stack,
-            final InteractionHand hand)
+    public ActionResultType processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack,
+            final Hand hand)
     {
-        return InteractionResult.PASS;
+        return ActionResultType.PASS;
     }
 }

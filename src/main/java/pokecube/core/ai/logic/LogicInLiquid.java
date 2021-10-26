@@ -1,6 +1,6 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Matrix3;
@@ -19,7 +19,7 @@ public class LogicInLiquid extends LogicBase
     }
 
     @Override
-    public void tick(Level world)
+    public void tick(World world)
     {
         if (world == null) return;
         this.pokemob.setLogicState(LogicStates.INLAVA, this.entity.isInLava());

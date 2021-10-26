@@ -2,10 +2,10 @@ package pokecube.core.network.packets;
 
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
@@ -18,21 +18,21 @@ public class PacketDataSync extends Packet
     {
         final PacketDataSync packet = new PacketDataSync();
         packet.data.putString("type", data.getIdentifier());
-        final CompoundTag tag1 = new CompoundTag();
+        final CompoundNBT tag1 = new CompoundNBT();
         data.writeToNBT(tag1);
         packet.data.put("data", tag1);
         packet.data.putUUID("uuid", owner);
         return packet;
     }
 
-    public static void syncData(final PlayerData data, final UUID owner, final ServerPlayer sendTo,
+    public static void syncData(final PlayerData data, final UUID owner, final ServerPlayerEntity sendTo,
             final boolean toTracking)
     {
         PokecubeCore.packets.sendTo(PacketDataSync.makePacket(data, owner), sendTo);
         if (toTracking) PokecubeCore.packets.sendToTracking(PacketDataSync.makePacket(data, owner), sendTo);
     }
 
-    public static void syncData(final Player player, final String dataType)
+    public static void syncData(final PlayerEntity player, final String dataType)
     {
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         final PlayerData data = manager.getData(dataType);
@@ -41,17 +41,17 @@ public class PacketDataSync extends Packet
             PokecubeCore.LOGGER.error("No datatype for " + dataType);
             return;
         }
-        PacketDataSync.syncData(data, player.getUUID(), (ServerPlayer) player, true);
+        PacketDataSync.syncData(data, player.getUUID(), (ServerPlayerEntity) player, true);
     }
 
-    public CompoundTag data = new CompoundTag();
+    public CompoundNBT data = new CompoundNBT();
 
     public PacketDataSync()
     {
         super(null);
     }
 
-    public PacketDataSync(final FriendlyByteBuf buffer)
+    public PacketDataSync(final PacketBuffer buffer)
     {
         super(buffer);
         this.data = buffer.readNbt();
@@ -61,14 +61,13 @@ public class PacketDataSync extends Packet
     public void handleClient()
     {
         final UUID id = this.data.hasUUID("uuid") ? this.data.getUUID("uuid") : null;
-        final Player player = id == null ? PokecubeCore.proxy.getPlayer() : PokecubeCore.proxy.getPlayer(id);
-        if(player==null) return;
+        final PlayerEntity player = id == null ? PokecubeCore.proxy.getPlayer() : PokecubeCore.proxy.getPlayer(id);
         final PlayerDataManager manager = PlayerDataHandler.getInstance().getPlayerData(player);
         manager.getData(this.data.getString("type")).readFromNBT(this.data.getCompound("data"));
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeNbt(this.data);
     }

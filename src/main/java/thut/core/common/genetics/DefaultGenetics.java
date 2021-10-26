@@ -1,19 +1,14 @@
 package thut.core.common.genetics;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
@@ -88,45 +83,6 @@ public class DefaultGenetics implements IMobGenetics
                 // Make the new allele.
                 final Alleles<?, ?> allele = new Alleles<>(gene1, gene2);
                 this.getAlleles().put(gene1.getKey(), allele);
-            }
-        }
-    }
-
-    @Override
-    public ListTag serializeNBT()
-    {
-        final ListTag genes = new ListTag();
-
-        final List<ResourceLocation> keys = Lists.newArrayList(this.getKeys());
-        Collections.sort(keys);
-
-        for (final ResourceLocation key : keys)
-        {
-            final CompoundTag tag = new CompoundTag();
-            final Alleles<?, ?> gene = this.getAlleles(key);
-            tag.putString("K", key.toString());
-            tag.put("V", gene.save());
-            genes.add(tag);
-        }
-        return genes;
-    }
-
-    @Override
-    public void deserializeNBT(final ListTag list)
-    {
-        for (int i = 0; i < list.size(); i++)
-        {
-            final CompoundTag tag = list.getCompound(i);
-            final Alleles<?, ?> alleles = new Alleles<>();
-            final ResourceLocation key = new ResourceLocation(tag.getString("K"));
-            try
-            {
-                alleles.load(tag.getCompound("V"));
-                this.getAlleles().put(key, alleles);
-            }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error loading gene for key: " + key, e);
             }
         }
     }

@@ -1,25 +1,25 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 
 public interface IInhabitable
 {
 
-    void onExitHabitat(Mob mob);
+    void onExitHabitat(MobEntity mob);
 
-    boolean onEnterHabitat(Mob mob);
+    boolean onEnterHabitat(MobEntity mob);
 
-    boolean canEnterHabitat(Mob mob);
+    boolean canEnterHabitat(MobEntity mob);
 
     /**
      * Called when the habitat is broken due to the block being removed
      */
-    default void onBroken(final ServerLevel world)
+    default void onBroken(final ServerWorld world)
     {
 
     }
@@ -28,7 +28,7 @@ public interface IInhabitable
      * This may not be called for all types of this, only ones on custom tile
      * entities which tick it themselves will be called!
      */
-    default void onTick(final ServerLevel world)
+    default void onTick(final ServerWorld world)
     {
 
     }
@@ -49,12 +49,12 @@ public interface IInhabitable
 
     }
 
-    default ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
+    default ForbidRegion getRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
         return null;
     }
 
-    default void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
+    default void updateRepelledRegion(final TileEntity tile, final ServerWorld world)
     {
 
     }

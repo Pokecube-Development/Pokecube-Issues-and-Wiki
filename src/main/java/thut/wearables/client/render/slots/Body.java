@@ -1,21 +1,21 @@
 package thut.wearables.client.render.slots;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
 public class Body
 {
-    public static void render(final PoseStack mat, final MultiBufferSource buff, final IWearable wearable,
+    public static void render(final MatrixStack mat, final IRenderTypeBuffer buff, final IWearable wearable,
             final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
             final float partialTicks, final boolean thinArms, final int brightness, final int overlay,
-            final HumanoidModel<?> theModel)
+            final BipedModel<?> theModel)
     {
         if (wearable == null) return;
 

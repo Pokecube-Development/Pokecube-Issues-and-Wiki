@@ -1,10 +1,10 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IWorldPosCallable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
@@ -12,24 +12,23 @@ import pokecube.core.inventory.TexturedSlot;
 
 public class ClonerContainer extends PoweredContainer<ClonerTile>
 {
-    public ClonerContainer(final int id, final Inventory invIn)
+    public ClonerContainer(final int id, final PlayerInventory invIn)
     {
-        this(id, invIn, ContainerLevelAccess.NULL);
+        this(id, invIn, IWorldPosCallable.NULL);
     }
 
-    public ClonerContainer(final int id, final Inventory invIn, final ContainerLevelAccess pos)
+    public ClonerContainer(final int id, final PlayerInventory invIn, final IWorldPosCallable pos)
     {
         super(PokecubeAdv.CLONER_CONT.get(), id, (c) ->
         {
             pos.execute((w, p) ->
             {
-                final BlockEntity temp = w.getBlockEntity(p);
+                final TileEntity temp = w.getBlockEntity(p);
                 // Server side
                 if (temp instanceof ClonerTile) c.tile = (ClonerTile) temp;
             });
             // Client side
-            if (c.tile == null) c.tile = new ClonerTile(invIn.player.blockPosition(), PokecubeAdv.CLONER.get()
-                    .defaultBlockState());
+            if (c.tile == null) c.tile = new ClonerTile();
             return c.tile;
         });
 

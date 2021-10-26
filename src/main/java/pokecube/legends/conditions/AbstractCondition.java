@@ -7,18 +7,18 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
@@ -40,14 +40,14 @@ import thut.api.maths.Vector3;
 public abstract class AbstractCondition implements ISpecialCaptureCondition, ISpecialSpawnCondition
 {
 
-    protected static boolean isBlock(final Level world, final ArrayList<Vector3> blocks, final Block toTest)
+    protected static boolean isBlock(final World world, final ArrayList<Vector3> blocks, final Block toTest)
     {
         for (final Vector3 v : blocks)
             if (v.getBlock(world) != toTest) return false;
         return true;
     }
 
-    protected static boolean isBlock(final Level world, final ArrayList<Vector3> blocks, final ResourceLocation toTest)
+    protected static boolean isBlock(final World world, final ArrayList<Vector3> blocks, final ResourceLocation toTest)
     {
         for (final Vector3 v : blocks)
             if (!ItemList.is(toTest, v.getBlockState(world))) return false;
@@ -63,7 +63,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
      *            doesn't match.
      * @return
      */
-    protected static boolean isMaterial(final Level world, final ArrayList<Vector3> blocks, final Material material,
+    protected static boolean isMaterial(final World world, final ArrayList<Vector3> blocks, final Material material,
             final boolean bool)
     {
         final boolean ret = true;
@@ -171,9 +171,9 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         // Already have one, cannot spawn again.
         if (this.alreadyHas(trainer)) return CanSpawn.ALREADYHAVE;
 
-        if (trainer instanceof ServerPlayer)
+        if (trainer instanceof ServerPlayerEntity)
         {
-            final ServerPlayer player = (ServerPlayer) trainer;
+            final ServerPlayerEntity player = (ServerPlayerEntity) trainer;
             final String tag = "spwned:" + this.getEntry().getTrimmedName();
             final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).contains(tag);
             if (!prevSpawn) return CanSpawn.YES;
@@ -233,82 +233,82 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         if (trainer != null) trainer.sendMessage(this.getFailureMessage(trainer), Util.NIL_UUID);
     }
 
-    public MutableComponent sendNoTrust(final Entity trainer)
+    public IFormattableTextComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
                 this.getEntry().getUnlocalizedName()));
         return component;
     }
 
-    public MutableComponent sendNoHere(final Entity trainer)
+    public IFormattableTextComponent sendNoHere(final Entity trainer)
     {
         final String message = "msg.nohere.info";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
                 this.getEntry().getUnlocalizedName()));
         trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
 
     // Basic Legend
-    public MutableComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
+    public IFormattableTextComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
+        final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 type)));
-        final TranslatableComponent component = new TranslatableComponent(message, typeMess, numA + 1, numB);
+        final TranslationTextComponent component = new TranslationTextComponent(message, typeMess, numA + 1, numB);
         return component;
     }
 
     // Duo Type Legend
-    public MutableComponent sendLegendDuo(final Entity trainer, final String type, final String kill,
+    public IFormattableTextComponent sendLegendDuo(final Entity trainer, final String type, final String kill,
             final int numA, final int numB, final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
+        final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 type)));
-        final Component killMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
+        final ITextComponent killMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
                 kill)));
-        final TranslatableComponent component = new TranslatableComponent(message, typeMess, killMess, numA + 1,
+        final TranslationTextComponent component = new TranslationTextComponent(message, typeMess, killMess, numA + 1,
                 numB, killa + 1, killb);
         return component;
     }
 
     // Catch specific Legend
-    public MutableComponent sendLegendExtra(final Entity trainer, final String names)
+    public IFormattableTextComponent sendLegendExtra(final Entity trainer, final String names)
     {
         final String message = "msg.infolegendextra.info";
         final String[] split = names.split(", ");
-        MutableComponent namemes = null;
+        IFormattableTextComponent namemes = null;
         for (final String s : split)
         {
             PokedexEntry entry = Database.getEntry(s);
             if (entry == null) entry = Database.missingno;
-            if (namemes == null) namemes = new TranslatableComponent(entry.getUnlocalizedName());
-            else namemes = namemes.append(", ").append(new TranslatableComponent(entry.getUnlocalizedName()));
+            if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
+            else namemes = namemes.append(", ").append(new TranslationTextComponent(entry.getUnlocalizedName()));
         }
-        final TranslatableComponent component = new TranslatableComponent(message, namemes);
+        final TranslationTextComponent component = new TranslationTextComponent(message, namemes);
         return component;
     }
 
     // Build Legend
-    public MutableComponent sendLegendBuild(final Entity trainer, final String name)
+    public IFormattableTextComponent sendLegendBuild(final Entity trainer, final String name)
     {
         final String message = "msg.reginotlookright.info";
-        final TranslatableComponent component = new TranslatableComponent(message, name);
-        if (trainer instanceof Player)
+        final TranslationTextComponent component = new TranslationTextComponent(message, name);
+        if (trainer instanceof PlayerEntity)
         {
-            final Player player = (Player) trainer;
+            final PlayerEntity player = (PlayerEntity) trainer;
             player.displayClientMessage(component, true);
         }
         else trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
 
-    public MutableComponent sendAngered(final Entity trainer)
+    public IFormattableTextComponent sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
+        final TranslationTextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(
                 this.getEntry().getUnlocalizedName()));
         return component;
     }

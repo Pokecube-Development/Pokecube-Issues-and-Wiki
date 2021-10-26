@@ -6,14 +6,14 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.util.SharedSeedRandom;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -34,7 +34,7 @@ public class Build extends AbstractConstructTask
 {
     public static interface IRoomHandler
     {
-        default boolean validWall(final Tree tree, final ServerLevel world, final BlockPos pos,
+        default boolean validWall(final Tree tree, final ServerWorld world, final BlockPos pos,
                 final AbstractWorkTask task, final boolean checkAir)
         {
             final Node node = tree.getEffectiveNode(pos, null);
@@ -43,7 +43,7 @@ public class Build extends AbstractConstructTask
             return this.validWall(node, world, pos, task, checkAir);
         }
 
-        default boolean place(final Tree tree, final ServerLevel world, final BlockPos pos, final BlockState state,
+        default boolean place(final Tree tree, final ServerWorld world, final BlockPos pos, final BlockState state,
                 final AbstractWorkTask task)
         {
             final Node node = tree.getEffectiveNode(pos, null);
@@ -52,7 +52,7 @@ public class Build extends AbstractConstructTask
             return this.place(node, world, state, pos, task);
         }
 
-        default boolean validWall(final Node node, final ServerLevel world, final BlockPos pos,
+        default boolean validWall(final Node node, final ServerWorld world, final BlockPos pos,
                 final AbstractWorkTask task, final boolean checkAir)
         {
             final BlockState state = world.getBlockState(pos);
@@ -62,7 +62,7 @@ public class Build extends AbstractConstructTask
             final int dz = pos.getZ() - mid.getZ();
 
             boolean light = false;
-            final WorldgenRandom rng = new WorldgenRandom();
+            final SharedSeedRandom rng = new SharedSeedRandom();
             rng.setDecorationSeed(world.getSeed(), pos.getX(), pos.getZ());
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)
@@ -125,7 +125,7 @@ public class Build extends AbstractConstructTask
             return valid;
         }
 
-        default boolean place(final Node node, final ServerLevel world, BlockState state, final BlockPos pos,
+        default boolean place(final Node node, final ServerWorld world, BlockState state, final BlockPos pos,
                 final AbstractWorkTask task)
         {
             final BlockPos mid = node.getCenter();
@@ -134,7 +134,7 @@ public class Build extends AbstractConstructTask
             final int dz = pos.getZ() - mid.getZ();
 
             boolean light = false;
-            final WorldgenRandom rng = new WorldgenRandom();
+            final SharedSeedRandom rng = new SharedSeedRandom();
             rng.setDecorationSeed(world.getSeed(), pos.getX(), pos.getZ());
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)

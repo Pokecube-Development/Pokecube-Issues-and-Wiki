@@ -6,13 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -60,14 +60,14 @@ public class CapabilitySync extends NBTPacket
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return null;
         }
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putInt("id", entity.getId());
-        final CompoundTag nbt = new CompoundTag();
+        final CompoundNBT nbt = new CompoundNBT();
         try
         {
             final CapabilityDispatcher disp = (CapabilityDispatcher) CapabilitySync.GETMOBCAPS.invoke(entity);
             @SuppressWarnings("unchecked")
-            final INBTSerializable<Tag>[] writers = (INBTSerializable<Tag>[]) CapabilitySync.CAPWRITERS.get(disp);
+            final INBTSerializable<INBT>[] writers = (INBTSerializable<INBT>[]) CapabilitySync.CAPWRITERS.get(disp);
             final String[] names = (String[]) CapabilitySync.CAPNAMES.get(disp);
             for (int x = 0; x < writers.length; x++)
                 if (toSync.contains(names[x])) nbt.put(names[x], writers[x].serializeNBT());
@@ -92,23 +92,23 @@ public class CapabilitySync extends NBTPacket
         if (message != null)
         {
             CapabilitySync.ASSEMBLER.sendToTracking(message, entity);
-            if (entity instanceof ServerPlayer) CapabilitySync.ASSEMBLER.sendTo(message,
-                    (ServerPlayer) entity);
+            if (entity instanceof ServerPlayerEntity) CapabilitySync.ASSEMBLER.sendTo(message,
+                    (ServerPlayerEntity) entity);
         }
     }
 
     private static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         if (event.getWorld().isClientSide()) return;
-        if (event.getWorld() instanceof ServerLevel) CapabilitySync.sendUpdate(event.getEntity());
+        if (event.getWorld() instanceof ServerWorld) CapabilitySync.sendUpdate(event.getEntity());
     }
 
     private static void onStartTracking(final StartTracking event)
     {
-        if (event.getPlayer() instanceof ServerPlayer)
+        if (event.getPlayer() instanceof ServerPlayerEntity)
         {
             final CapabilitySync message = CapabilitySync.makePacket(event.getTarget(), CapabilitySync.TO_SYNC);
-            if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, (ServerPlayer) event.getPlayer());
+            if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, (ServerPlayerEntity) event.getPlayer());
         }
     }
 
@@ -118,7 +118,7 @@ public class CapabilitySync extends NBTPacket
         MinecraftForge.EVENT_BUS.addListener(CapabilitySync::onJoinWorld);
     }
 
-    private static void readMob(final Entity mob, final CompoundTag tag)
+    private static void readMob(final Entity mob, final CompoundNBT tag)
     {
         // Then try the capabilities
         try
@@ -139,12 +139,12 @@ public class CapabilitySync extends NBTPacket
         super();
     }
 
-    public CapabilitySync(final CompoundTag tag)
+    public CapabilitySync(final CompoundNBT tag)
     {
         super(tag);
     }
 
-    public CapabilitySync(final FriendlyByteBuf buffer)
+    public CapabilitySync(final PacketBuffer buffer)
     {
         super(buffer);
     }
@@ -154,7 +154,7 @@ public class CapabilitySync extends NBTPacket
     protected void onCompleteClient()
     {
         final int id = this.getTag().getInt("id");
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         final Entity mob = world.getEntity(id);
         if (mob != null) CapabilitySync.readMob(mob, this.getTag().getCompound("tag"));
     }

@@ -4,16 +4,16 @@ import java.awt.Color;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -69,7 +69,7 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
@@ -82,7 +82,7 @@ public class WearablesCompat
     public abstract static class WearablesRenderer
     {
         @OnlyIn(Dist.CLIENT)
-        public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                 final LivingEntity wearer, final ItemStack stack, final float partialTicks, final int brightness,
                 final int overlay)
         {
@@ -90,7 +90,7 @@ public class WearablesCompat
         }
 
         @OnlyIn(Dist.CLIENT)
-        public abstract void renderWearable(final PoseStack mat, final MultiBufferSource buff,
+        public abstract void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff,
                 final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
                 final float partialTicks, int brightness, int overlay);
     }
@@ -119,7 +119,7 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
@@ -147,7 +147,7 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -167,8 +167,8 @@ public class WearablesCompat
                 sx = 1.05f * s / 2;
                 sy = s * 1.8f / 2;
                 sz = s / 2;
-                mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
-                mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
 
                 mat.pushPose();
                 mat.translate(dx, dy, dz);
@@ -179,7 +179,7 @@ public class WearablesCompat
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                VertexConsumer buf;
+                IVertexBuilder buf;
                 final Color colour = new Color(ret.getTextColor());
                 this.model.getParts().get("strap").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
                         brightness, overlay);
@@ -203,14 +203,14 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.FINGER) return;
                 if (this.ring == null) this.ring = new ModelRing();
                 this.ring.stack = stack;
-                VertexConsumer buf;
+                IVertexBuilder buf;
                 float s, dx, dy, dz;
                 dx = 0;
                 dy = -.10f;
@@ -218,7 +218,7 @@ public class WearablesCompat
                 s = .2f;
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
-                mat.mulPose(com.mojang.math.Vector3f.YP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.YP.rotationDegrees(90));
                 buf = ModelRing.makeBuilder(buff, ModelRing.texture_1);
                 this.ring.pass = 1;
                 this.ring.renderToBuffer(mat, buf, brightness, overlay, 1, 1, 1, 1);
@@ -239,7 +239,7 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {
@@ -256,13 +256,13 @@ public class WearablesCompat
                 dy = -.0f;
                 dz = -0.6f;
                 s = 1.1f;
-                if (wearer.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) s = .95f;
-                mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
-                mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
+                if (wearer.getItemBySlot(EquipmentSlotType.LEGS).isEmpty()) s = .95f;
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.XP.rotationDegrees(90));
+                mat.mulPose(net.minecraft.util.math.vector.Vector3f.ZP.rotationDegrees(180));
                 mat.pushPose();
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
-                VertexConsumer buf = Util.makeBuilder(buff, this.keystone);
+                IVertexBuilder buf = Util.makeBuilder(buff, this.keystone);
                 this.belt.renderOnly(mat, buf, "stone");
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -291,7 +291,7 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
                     final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                     final int brightness, final int overlay)
             {

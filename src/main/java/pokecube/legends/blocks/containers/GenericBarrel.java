@@ -4,36 +4,37 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.piglin.PiglinTasks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.piglin.PiglinAi;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.legends.tileentity.GenericBarrelTile;
 
-public class GenericBarrel extends BaseEntityBlock
+public class GenericBarrel extends ContainerBlock
 {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty   OPEN   = BlockStateProperties.OPEN;
@@ -46,58 +47,58 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public boolean hasTileEntity(final BlockState state)
     {
-        return new GenericBarrelTile(pos, state);
+        return true;
     }
 
     @Override
-    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity livingEntity, final ItemStack stack)
     {
         if (stack.hasCustomHoverName())
         {
-            final BlockEntity tileentity = world.getBlockEntity(pos);
+            final TileEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).setCustomName(stack
                     .getHoverName());
         }
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> state)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> state)
     {
         state.add(GenericBarrel.FACING, GenericBarrel.OPEN);
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult blockRayTraceResult)
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity player, final Hand hand, final BlockRayTraceResult blockRayTraceResult)
     {
-        if (world.isClientSide) return InteractionResult.SUCCESS;
+        if (world.isClientSide) return ActionResultType.SUCCESS;
         else
         {
-            final BlockEntity tileentity = world.getBlockEntity(pos);
+            final TileEntity tileentity = world.getBlockEntity(pos);
             if (tileentity instanceof GenericBarrelTile)
             {
                 player.openMenu((GenericBarrelTile) tileentity);
                 player.awardStat(Stats.OPEN_BARREL);
-                PiglinAi.angerNearbyPiglins(player, true);
+                PiglinTasks.angerNearbyPiglins(player, true);
             }
-            return InteractionResult.CONSUME;
+            return ActionResultType.CONSUME;
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(final BlockState state, final Level world, final BlockPos pos, final BlockState state2,
+    public void onRemove(final BlockState state, final World world, final BlockPos pos, final BlockState state2,
             final boolean remove)
     {
         if (!state.is(state2.getBlock()))
         {
-            final BlockEntity tileentity = world.getBlockEntity(pos);
-            if (tileentity instanceof Container)
+            final TileEntity tileentity = world.getBlockEntity(pos);
+            if (tileentity instanceof IInventory)
             {
-                Containers.dropContents(world, pos, (Container) tileentity);
+                InventoryHelper.dropContents(world, pos, (IInventory) tileentity);
                 world.updateNeighbourForOutputSignal(pos, this);
             }
             super.onRemove(state, world, pos, state2, remove);
@@ -105,9 +106,9 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public void tick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
+    public void tick(final BlockState state, final ServerWorld world, final BlockPos pos, final Random random)
     {
-        final BlockEntity tileentity = world.getBlockEntity(pos);
+        final TileEntity tileentity = world.getBlockEntity(pos);
         if (tileentity instanceof GenericBarrelTile) ((GenericBarrelTile) tileentity).recheckOpen();
     }
 
@@ -119,16 +120,22 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext blockItemUseContext)
+    public TileEntity newBlockEntity(final IBlockReader reader)
+    {
+        return new GenericBarrelTile();
+    }
+
+    @Override
+    public BlockState getStateForPlacement(final BlockItemUseContext blockItemUseContext)
     {
         return this.defaultBlockState().setValue(GenericBarrel.FACING, blockItemUseContext.getNearestLookingDirection()
                 .getOpposite());
     }
 
     @Override
-    public RenderShape getRenderShape(final BlockState state)
+    public BlockRenderType getRenderShape(final BlockState state)
     {
-        return RenderShape.MODEL;
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -138,9 +145,9 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public int getAnalogOutputSignal(final BlockState state, final Level world, final BlockPos pos)
+    public int getAnalogOutputSignal(final BlockState state, final World world, final BlockPos pos)
     {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+        return Container.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
     }
 
     @Override

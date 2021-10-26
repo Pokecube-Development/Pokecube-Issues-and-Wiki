@@ -3,15 +3,15 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
@@ -54,7 +54,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
     public ProgressPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
+        super(new TranslationTextComponent("pokewatch.progress.main.title"), watch, ProgressPage.TEX_DM,
                 ProgressPage.TEX_NM);
     }
 
@@ -71,18 +71,18 @@ public class ProgressPage extends PageWithSubPages<Progress>
     }
 
     @Override
-    public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
+        AbstractGui.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
+        AbstractGui.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
                 colour);
 
-        Player player = this.watch.player;
-        if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        GuiComponent.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
+        PlayerEntity player = this.watch.player;
+        if (this.watch.target instanceof PlayerEntity) player = (PlayerEntity) this.watch.target;
+        AbstractGui.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
     }
 
     @Override
@@ -98,13 +98,13 @@ public class ProgressPage extends PageWithSubPages<Progress>
     {
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final Component next = new TextComponent(">");
-        final Component prev = new TextComponent("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 90, y - 70, 12, 12, next, b ->
+        final ITextComponent next = new StringTextComponent(">");
+        final ITextComponent prev = new StringTextComponent("<");
+        final TexButton nextBtn = this.addButton(new TexButton(x + 90, y - 70, 12, 12, next, b ->
         {
             this.changePage(this.index + 1);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
+        final TexButton prevBtn = this.addButton(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
         {
             this.changePage(this.index - 1);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));

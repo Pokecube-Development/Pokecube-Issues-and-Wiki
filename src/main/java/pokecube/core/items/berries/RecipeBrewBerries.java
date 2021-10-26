@@ -1,8 +1,8 @@
 package pokecube.core.items.berries;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 import pokecube.core.PokecubeItems;
 
@@ -25,7 +25,7 @@ public class RecipeBrewBerries implements IBrewingRecipe
     @Override
     public boolean isInput(ItemStack input)
     {
-        final CompoundTag tag = input.getTag();
+        final CompoundNBT tag = input.getTag();
         if (tag != null && tag.contains("pokebloc")) return true;
         return input.getItem() == Items.GLASS_BOTTLE;
     }
@@ -33,7 +33,7 @@ public class RecipeBrewBerries implements IBrewingRecipe
     private ItemStack makeOutput(ItemStack input, ItemStack ingredient)
     {
 
-        final CompoundTag pokebloc = new CompoundTag();
+        final CompoundNBT pokebloc = new CompoundNBT();
         final ItemStack stack = PokecubeItems.getStack("revive");
 
         if (ingredient.getItem() instanceof ItemBerry)
@@ -48,7 +48,7 @@ public class RecipeBrewBerries implements IBrewingRecipe
                 if (old != null) for (int i = 0; i < Math.min(old.length, flav.length); i++)
                     flav[i] += old[i];
                 pokebloc.putIntArray("pokebloc", flav);
-                final CompoundTag tag = input.hasTag() ? input.getTag().copy() : new CompoundTag();
+                final CompoundNBT tag = input.hasTag() ? input.getTag().copy() : new CompoundNBT();
                 tag.put("pokebloc", pokebloc);
                 stack.setTag(tag);
             }

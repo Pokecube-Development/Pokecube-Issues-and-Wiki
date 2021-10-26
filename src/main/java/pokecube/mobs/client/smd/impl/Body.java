@@ -9,10 +9,10 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
@@ -270,7 +270,7 @@ public class Body implements IRetexturableModel
         }
     }
 
-    public void render(final PoseStack mat, final VertexConsumer buffer, final int[] rgbabro)
+    public void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro)
     {
         this.uvShift[0] = this.uvShift[1] = 0;
         if (!this.parent.usesMaterials) for (final Face f : this.faces)
@@ -292,7 +292,7 @@ public class Body implements IRetexturableModel
         }
     }
 
-    private void render(final PoseStack mat, final VertexConsumer buffer, final int[] rgbabro,
+    private void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,
             final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
         for (final Face face : entry.getValue())

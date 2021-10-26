@@ -4,11 +4,11 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Button.OnTooltip;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.Button.ITooltip;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ImgRender;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
@@ -28,7 +28,7 @@ public class StartPage extends WatchPage
         public int buttonX = 0;
         public int buttonY = 0;
 
-        public OnTooltip hover = TexButton.NAMEONHOVER;
+        public ITooltip hover = TexButton.NAMEONHOVER;
 
         public ImgRender render = new ImgRender()
         {
@@ -41,7 +41,7 @@ public class StartPage extends WatchPage
 
     public StartPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.start"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
+        super(new TranslationTextComponent("pokewatch.title.start"), watch, GuiPokeWatch.TEX_DM, GuiPokeWatch.TEX_NM);
 
         final UVHolder pokemobInfoLoc = new UVHolder();
         pokemobInfoLoc.render = new UVImgRender(0, 0, 24, 24);
@@ -90,7 +90,7 @@ public class StartPage extends WatchPage
     public void onPageOpened()
     {
         this.children.clear();
-        this.renderables.clear();
+        this.buttons.clear();
         super.onPageOpened();
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
@@ -105,7 +105,7 @@ public class StartPage extends WatchPage
                 final Button buttons = new TexButton(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24, newPage
                         .getTitle(), b -> this.watch.changePage(index), loc.hover).noName().setTex(tex).setRender(
                                 loc.render);
-                this.addRenderableWidget(buttons);
+                this.addButton(buttons);
             }
 
         final UVHolder loc = new UVHolder();
@@ -115,11 +115,11 @@ public class StartPage extends WatchPage
         loc.buttonY = 100;
         final ResourceLocation tex = GuiPokeWatch.getWidgetTex();
         final Button buttons = new TexButton(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12,
-                new TextComponent(""), b ->
+                new StringTextComponent(""), b ->
                 {
                     GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
                     this.watch.init();
                 }, loc.hover).noName().setTex(tex).setRender(loc.render);
-        this.addRenderableWidget(buttons);
+        this.addButton(buttons);
     }
 }

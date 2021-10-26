@@ -1,7 +1,7 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
@@ -57,7 +57,7 @@ public class AbilityGene implements Gene<AbilityObject>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final CompoundNBT tag)
     {
         this.ability.abilityIndex = tag.getByte("I");
         this.ability.ability = tag.getString("A");
@@ -73,9 +73,9 @@ public class AbilityGene implements Gene<AbilityObject>
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putByte("I", this.ability.abilityIndex);
         tag.putString("A", this.ability.ability);
         return tag;

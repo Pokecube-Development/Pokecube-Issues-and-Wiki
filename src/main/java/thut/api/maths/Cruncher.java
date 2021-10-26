@@ -2,7 +2,7 @@ package thut.api.maths;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.util.Mth;
+import net.minecraft.util.math.MathHelper;
 
 public class Cruncher
 {
@@ -52,9 +52,9 @@ public class Cruncher
                 final float phi_k = (float) (k > 1 && k < N ? (phi_k_1 + C / Math.sqrt(N * (1 - h_k * h_k))) % (2
                         * Math.PI) : 0);
                 phi_k_1 = phi_k;
-                final double x = sin_theta * Mth.cos(phi_k) * radius;
+                final double x = sin_theta * MathHelper.cos(phi_k) * radius;
                 final double y = h_k * radius;
-                final double z = sin_theta * Mth.sin(phi_k) * radius;
+                final double z = sin_theta * MathHelper.sin(phi_k) * radius;
                 temp.set(x, y, z);
                 final int index = Cruncher.getVectorInt(temp);
                 if (!added.add(index)) continue;

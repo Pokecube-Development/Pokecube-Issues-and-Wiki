@@ -1,15 +1,15 @@
 package pokecube.core.network.packets;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -22,9 +22,9 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncRoutes extends Packet
 {
-    public static void applyServerPacket(final Tag tag, final Entity mob, final IGuardAICapability guard)
+    public static void applyServerPacket(final INBT tag, final Entity mob, final IGuardAICapability guard)
     {
-        final CompoundTag nbt = (CompoundTag) tag;
+        final CompoundNBT nbt = (CompoundNBT) tag;
         final int index = nbt.getInt("I");
         if (nbt.contains("V"))
         {
@@ -46,15 +46,15 @@ public class PacketSyncRoutes extends Packet
         EntityUpdate.sendEntityUpdate(mob);
     }
 
-    public static void sendServerPacket(final Entity mob, final Tag tag)
+    public static void sendServerPacket(final Entity mob, final INBT tag)
     {
         final PacketSyncRoutes packet = new PacketSyncRoutes();
         packet.entityId = mob.getId();
-        if (tag instanceof CompoundTag) packet.data = (CompoundTag) tag;
+        if (tag instanceof CompoundNBT) packet.data = (CompoundNBT) tag;
         PokecubeCore.packets.sendToServer(packet);
     }
 
-    public static void sendUpdateClientPacket(final Entity mob, final ServerPlayer player, final boolean gui)
+    public static void sendUpdateClientPacket(final Entity mob, final ServerPlayerEntity player, final boolean gui)
     {
         final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         final PacketSyncRoutes packet = new PacketSyncRoutes();
@@ -66,15 +66,15 @@ public class PacketSyncRoutes extends Packet
 
     public int entityId;
 
-    public CompoundTag data = new CompoundTag();
+    public CompoundNBT data = new CompoundNBT();
 
     public PacketSyncRoutes()
     {
     }
 
-    public PacketSyncRoutes(final FriendlyByteBuf buf)
+    public PacketSyncRoutes(final PacketBuffer buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         this.entityId = buffer.readInt();
         this.data = buffer.readNbt();
     }
@@ -82,31 +82,31 @@ public class PacketSyncRoutes extends Packet
     @Override
     public void handleClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
-        final CompoundTag data = this.data;
+        final CompoundNBT data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
-        guard.loadTasks((ListTag) data.get("R"));
+        guard.loadTasks((ListNBT) data.get("R"));
         if (data.getBoolean("O")) PacketSyncRoutes.sendServerPacket(e, null);
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final int id = this.entityId;
-        final CompoundTag data = this.data;
+        final CompoundNBT data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 
         if (guard != null) if (data.isEmpty())
         {
-            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+            final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
             buffer.writeInt(e.getId());
             buffer.writeByte(PacketPokemobGui.ROUTES);
-            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
+            final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                     a) -> new ContainerPokemob(i, p, buffer), e.getDisplayName());
             NetworkHooks.openGui(player, provider, buf ->
             {
@@ -118,9 +118,9 @@ public class PacketSyncRoutes extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);
         buffer.writeNbt(this.data);
     }

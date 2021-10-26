@@ -5,9 +5,9 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.RootTask;
@@ -17,11 +17,11 @@ import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public abstract class UtilTask extends TaskBase
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_ABSENT);
+        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     public static Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)
@@ -34,7 +34,7 @@ public abstract class UtilTask extends TaskBase
         super(pokemob, UtilTask.MEMS);
     }
 
-    public UtilTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public UtilTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
         super(pokemob, RootTask.merge(UtilTask.MEMS, mems));
     }

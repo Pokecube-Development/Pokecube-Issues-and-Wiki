@@ -2,41 +2,40 @@ package pokecube.legends.blocks.plants;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import pokecube.core.handlers.ItemGenerator;
 
-public class PottedCrystallizedBush extends ItemGenerator.GenericPottedPlant
-{
-    public PottedCrystallizedBush(final Block pottedPlant, final BlockBehaviour.Properties properties)
-    {
+public class PottedCrystallizedBush extends ItemGenerator.GenericPottedPlant {
+    public PottedCrystallizedBush(Block pottedPlant, AbstractBlock.Properties properties) {
         super(pottedPlant, properties);
     }
 
     @Nullable
     @Override
-    public BlockPathTypes getAiPathNodeType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
+    public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
     {
-        return BlockPathTypes.DAMAGE_OTHER;
+        return PathNodeType.DAMAGE_OTHER;
     }
 
     @Override
-    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
-    {
-        if (entity instanceof LivingEntity)
-        {
-            entity.makeStuckInBlock(state, new Vec3(0.9D, 0.75D, 0.9D));
-            if (!world.isClientSide) entity.hurt(DamageSource.CACTUS, 1.0F);
+    public void stepOn(final World world, final BlockPos pos, final Entity entity) {
+        if (entity instanceof LivingEntity) {
+            final BlockState state = world.getBlockState(pos);
+            entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
+            if (!world.isClientSide) {
+                entity.hurt(DamageSource.CACTUS, 1.0F);
+            }
         }
     }
 }

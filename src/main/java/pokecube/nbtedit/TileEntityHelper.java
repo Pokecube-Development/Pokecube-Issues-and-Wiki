@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityHelper
 {
@@ -19,7 +19,7 @@ public class TileEntityHelper
         return s;
     }
 
-    public static <T extends BlockEntity> void copyData(T from, T into) throws Exception
+    public static <T extends TileEntity> void copyData(T from, T into) throws Exception
     {
         final Class<?> clazz = from.getClass();
         final Set<Field> fields = TileEntityHelper.asSet(clazz.getFields(), clazz.getDeclaredFields());

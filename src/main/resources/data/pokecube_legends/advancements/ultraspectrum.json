@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [ "pokecube_legends:spectrum_ore" ]
+            "item": "pokecube_legends:spectrum_ore"
           }
         ]
       }

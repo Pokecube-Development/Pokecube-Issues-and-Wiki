@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.PokedexEntry;
@@ -17,7 +17,7 @@ public class StarterEvent extends Event
     @HasResult
     public static class Pick extends StarterEvent
     {
-        public Pick(Player player, Collection<ItemStack> starterPack, PokedexEntry entry)
+        public Pick(PlayerEntity player, Collection<ItemStack> starterPack, PokedexEntry entry)
         {
             super(player, starterPack, entry);
         }
@@ -27,18 +27,18 @@ public class StarterEvent extends Event
     @HasResult
     public static class Pre extends StarterEvent
     {
-        public Pre(Player player)
+        public Pre(PlayerEntity player)
         {
             super(player, null, null);
         }
     }
 
-    public final Player player;
+    public final PlayerEntity player;
     public List<ItemStack>    starterPack = Lists.newArrayList();
 
     public final PokedexEntry pick;
 
-    public StarterEvent(Player player, Collection<ItemStack> pack, PokedexEntry numberPicked)
+    public StarterEvent(PlayerEntity player, Collection<ItemStack> pack, PokedexEntry numberPicked)
     {
         this.player = player;
         if (pack != null) this.starterPack.addAll(pack);

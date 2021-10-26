@@ -7,14 +7,14 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
 import pokecube.core.ai.tasks.ants.nest.AntHabitat;
@@ -25,19 +25,19 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.Tracker;
 
-public class EggSensor extends Sensor<Mob>
+public class EggSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(AntTasks.NEST_POS,
-            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, AntTasks.EGG, AntTasks.WORK_POS);
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES, AntTasks.EGG, AntTasks.WORK_POS);
 
     @Override
-    protected void doTick(final ServerLevel worldIn, final Mob entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
         if (brain.hasMemoryValue(AntTasks.EGG)) return;
         if (brain.hasMemoryValue(AntTasks.WORK_POS)) return;
         if (!brain.hasMemoryValue(AntTasks.NEST_POS)) return;
-        if (!brain.hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return;
+        if (!brain.hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return;
         final Optional<AntNest> nest = NestSensor.getNest(entityIn);
         if (nest.isPresent())
         {
@@ -48,7 +48,7 @@ public class EggSensor extends Sensor<Mob>
             if (!eggRoom.isPresent()) return;
 
             final List<EntityPokemobEgg> eggs = Lists.newArrayList();
-            final List<LivingEntity> mobs = brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+            final List<LivingEntity> mobs = brain.getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
             mobs.forEach(e -> this.addIfEgg(e, eggs));
             eggs.removeIf(egg -> EggSensor.isInEggRoomOrCarried(tile, hab, egg));
             if (!eggs.isEmpty())

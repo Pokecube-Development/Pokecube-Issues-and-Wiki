@@ -5,21 +5,21 @@ package pokecube.core.moves.templates;
 
 import java.util.Random;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.npc.Npc;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.INPC;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
@@ -55,8 +55,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         return pokemob.getLevel() >= 90 && ability.toString().equalsIgnoreCase("hypercutter");
     }
 
-    public static void silkHarvest(final BlockState state, final BlockPos pos, final Level worldIn,
-            final Player player)
+    public static void silkHarvest(final BlockState state, final BlockPos pos, final World worldIn,
+            final PlayerEntity player)
     {
         final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
         pickaxe.enchant(Enchantments.SILK_TOUCH, 1);
@@ -121,13 +121,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
-            final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, attacked
+            final LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, attacked
                     .getCommandSenderWorld());
-            attacked.thunderHit((ServerLevel) attacked.getCommandSenderWorld(), lightning);
+            attacked.thunderHit((ServerWorld) attacked.getCommandSenderWorld(), lightning);
         }
-        if (attacked instanceof Creeper)
+        if (attacked instanceof CreeperEntity)
         {
-            final Creeper creeper = (Creeper) attacked;
+            final CreeperEntity creeper = (CreeperEntity) attacked;
             if (this.move.type == PokeType.getType("psychic") && creeper.getHealth() > 0) creeper.explodeCreeper();
         }
         this.playSounds(attacker.getEntity(), attacked, null);
@@ -349,12 +349,12 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         final boolean wild = !attacker.getGeneralState(GeneralStates.TAMED);
 
-        if (PokecubeCore.getConfig().maxWildPlayerDamage >= 0 && wild && attacked instanceof Player)
+        if (PokecubeCore.getConfig().maxWildPlayerDamage >= 0 && wild && attacked instanceof PlayerEntity)
             finalAttackStrength = Math.min(PokecubeCore.getConfig().maxWildPlayerDamage, finalAttackStrength);
-        else if (PokecubeCore.getConfig().maxOwnedPlayerDamage >= 0 && !wild && attacked instanceof Player)
+        else if (PokecubeCore.getConfig().maxOwnedPlayerDamage >= 0 && !wild && attacked instanceof PlayerEntity)
             finalAttackStrength = Math.min(PokecubeCore.getConfig().maxOwnedPlayerDamage, finalAttackStrength);
         double scaleFactor = 1;
-        if (attacked instanceof Player)
+        if (attacked instanceof PlayerEntity)
         {
             final boolean owner = attacked == attacker.getOwner();
             if (!owner || PokecubeCore.getConfig().pokemobsDamageOwner) scaleFactor = PokecubeCore
@@ -362,7 +362,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                             : PokecubeCore.getConfig().ownedPlayerDamageRatio : 0;
             else scaleFactor = 0;
         }
-        else if (targetPokemob == null) scaleFactor = attacked instanceof Npc ? PokecubeCore
+        else if (targetPokemob == null) scaleFactor = attacked instanceof INPC ? PokecubeCore
                 .getConfig().pokemobToNPCDamageRatio : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio;
         finalAttackStrength *= scaleFactor;
 
@@ -377,7 +377,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 && !attacked.isInvulnerable())
         {
             // Apply attack damage to players.
-            if (attacked instanceof Player)
+            if (attacked instanceof PlayerEntity)
             {
                 final DamageSource source1 = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
                         .setType(type);

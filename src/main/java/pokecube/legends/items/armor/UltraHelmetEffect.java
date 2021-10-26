@@ -1,20 +1,20 @@
 package pokecube.legends.items.armor;
 
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class UltraHelmetEffect extends ArmorItem
 {
-	public UltraHelmetEffect(final ArmorMaterial materialIn, final EquipmentSlot slot, final Properties builder) {
+	public UltraHelmetEffect(final IArmorMaterial materialIn, final EquipmentSlotType slot, final Properties builder) {
 		super(materialIn, slot, builder);
 	}
 
 	@Override
-	public void onArmorTick(final ItemStack itemstack, final Level world, final Player entity) {
+	public void onArmorTick(final ItemStack itemstack, final World world, final PlayerEntity entity) {
 		super.onArmorTick(itemstack, world, entity);
 		{
 			final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();

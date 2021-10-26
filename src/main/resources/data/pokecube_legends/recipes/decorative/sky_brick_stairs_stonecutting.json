@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:sky_bricks"
+    "item": "pokecube_legends:skybrick"
   },
   "result": "pokecube_legends:sky_brick_stairs",
   "count": 1

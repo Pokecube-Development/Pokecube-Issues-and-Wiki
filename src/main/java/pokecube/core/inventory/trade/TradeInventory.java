@@ -1,10 +1,10 @@
 package pokecube.core.inventory.trade;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -16,7 +16,7 @@ import pokecube.core.interfaces.IPokecube;
 import pokecube.core.inventory.InvHelper;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
-public class TradeInventory extends SimpleContainer implements ICapabilitySerializable<CompoundTag>
+public class TradeInventory extends Inventory implements ICapabilitySerializable<CompoundNBT>
 {
     private final LazyOptional<IItemHandler> holder;
 
@@ -35,14 +35,14 @@ public class TradeInventory extends SimpleContainer implements ICapabilitySerial
     }
 
     @Override
-    public void stopOpen(final Player player)
+    public void stopOpen(final PlayerEntity player)
     {
         super.stopOpen(player);
         if (this.tile != null) this.tile.users.remove(player.getUUID());
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         InvHelper.load(this, nbt);
     }
@@ -65,16 +65,16 @@ public class TradeInventory extends SimpleContainer implements ICapabilitySerial
     }
 
     @Override
-    public void startOpen(final Player player)
+    public void startOpen(final PlayerEntity player)
     {
         super.startOpen(player);
         if (this.tile != null) this.tile.users.add(player.getUUID());
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         InvHelper.save(this, tag);
         return tag;
     }

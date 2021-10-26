@@ -1,17 +1,19 @@
 package pokecube.core.interfaces.capabilities;
 
-import net.minecraft.core.Direction;
-import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.interfaces.IInhabitor;
 
 public class CapabilityInhabitor
 {
-    public static final Capability<IInhabitor> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    @CapabilityInject(IInhabitor.class)
+    public static final Capability<IInhabitor> CAPABILITY = null;
 
     public static class InhabitorProvider implements ICapabilityProvider
     {
@@ -57,4 +59,27 @@ public class CapabilityInhabitor
         {
         }
     }
+
+    public static class Storage implements Capability.IStorage<IInhabitor>
+    {
+
+        @SuppressWarnings({ "unchecked" })
+        @Override
+        public void readNBT(final Capability<IInhabitor> capability, final IInhabitor instance,
+                final Direction side, final INBT nbt)
+        {
+            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable<INBT>) instance).deserializeNBT(
+                    nbt);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IInhabitor> capability, final IInhabitor instance,
+                final Direction side)
+        {
+            if (instance instanceof ICapabilitySerializable) return ((ICapabilitySerializable<?>) instance)
+                    .serializeNBT();
+            return null;
+        }
+    }
+
 }

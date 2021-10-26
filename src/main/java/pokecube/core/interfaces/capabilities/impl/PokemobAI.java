@@ -7,17 +7,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -43,8 +43,8 @@ import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
-import thut.api.ThutCaps;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -256,7 +256,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.cachedLogicState = state;
         this.dataSync().set(this.params.LOGICSTATESDW, state);
         // Sync sitting status over to the TameableEntity
-        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity()).setOrderedToSit(
+        if (this.getEntity() instanceof TameableEntity) ((TameableEntity) this.getEntity()).setOrderedToSit(
                 (this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
     }
 
@@ -284,13 +284,13 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
         // If brain was cleared at some point, this memory is removed.
-        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryStatus.REGISTERED)) return;
+        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryModuleStatus.REGISTERED)) return;
 
-        final Mob entity = this.getEntity();
+        final MobEntity entity = this.getEntity();
         final PokedexEntry entry = this.getPokedexEntry();
 
         this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        this.genes = entity.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+        this.genes = entity.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
         if (this.getOwnerHolder() == null) PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! "
                 + this.getPokedexEntry());
         if (this.guardCap == null) PokecubeCore.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this
@@ -317,24 +317,24 @@ public abstract class PokemobAI extends PokemobEvolves
         // Set the pathing priorities for various blocks
         if (entity.fireImmune())
         {
-            entity.setPathfindingMalus(BlockPathTypes.LAVA, 0);
-            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0);
-            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0);
+            entity.setPathfindingMalus(PathNodeType.LAVA, 0);
+            entity.setPathfindingMalus(PathNodeType.DAMAGE_FIRE, 0);
+            entity.setPathfindingMalus(PathNodeType.DANGER_FIRE, 0);
         }
         else
         {
-            entity.setPathfindingMalus(BlockPathTypes.LAVA, -1);
-            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
-            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16);
+            entity.setPathfindingMalus(PathNodeType.LAVA, -1);
+            entity.setPathfindingMalus(PathNodeType.DAMAGE_FIRE, -1);
+            entity.setPathfindingMalus(PathNodeType.DANGER_FIRE, 16);
         }
-        if (this.swims()) entity.setPathfindingMalus(BlockPathTypes.WATER, 0);
+        if (this.swims()) entity.setPathfindingMalus(PathNodeType.WATER, 0);
         if (this.getPokedexEntry().hatedMaterial != null) for (final String material : this
                 .getPokedexEntry().hatedMaterial)
-            if (material.equalsIgnoreCase("water")) entity.setPathfindingMalus(BlockPathTypes.WATER, -1);
+            if (material.equalsIgnoreCase("water")) entity.setPathfindingMalus(PathNodeType.WATER, -1);
             else if (material.equalsIgnoreCase("fire"))
             {
-                entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
-                entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1);
+                entity.setPathfindingMalus(PathNodeType.DAMAGE_FIRE, -1);
+                entity.setPathfindingMalus(PathNodeType.DANGER_FIRE, -1);
             }
 
         // DOLATER decide on speed scaling here?
@@ -343,13 +343,13 @@ public abstract class PokemobAI extends PokemobEvolves
         this.tasks = Lists.newArrayList();
         Tasks.initBrain(brain);
 
-        final Set<Pair<MemoryModuleType<?>, MemoryStatus>> idleMems = Sets.newHashSet();
-        final Set<Pair<MemoryModuleType<?>, MemoryStatus>> workMems = Sets.newHashSet();
-        final Set<Pair<MemoryModuleType<?>, MemoryStatus>> coreMems = Sets.newHashSet();
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> idleMems = Sets.newHashSet();
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> workMems = Sets.newHashSet();
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> coreMems = Sets.newHashSet();
 
-        idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryStatus.VALUE_ABSENT));
-        workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryStatus.VALUE_ABSENT));
-        coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryStatus.VALUE_PRESENT));
+        idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+        workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+        coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_PRESENT));
 
         brain.addActivityWithConditions(Activity.IDLE, Tasks.idle(this, 1), idleMems);
         brain.addActivityWithConditions(Activity.WORK, Tasks.utility(this, 1), workMems);

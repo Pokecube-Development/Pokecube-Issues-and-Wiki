@@ -1,0 +1,61 @@
+{
+  "scale": 0.3,
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "sky_color": 14797895,
+    "fog_color": 7292427,
+    "water_color": 8892184,
+    "water_fog_color": 6839064,
+    "grass_color": 4896398,
+    "foliage_color": 4896398
+  },
+  "surface_builder": "pokecube_legends:ultra_jungle",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_water",
+      "minecraft:lake_lava"
+    ],
+    [],
+    [
+    ],
+    [],
+    [],
+    [
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_gold",
+      "pokecube_legends:ore_ultra_diamond"
+    ],
+    [],
+    [
+      "pokecube_legends:patch_melon",
+      "pokecube_legends:jungle_vegetation",
+      "minecraft:patch_grass_jungle",
+      "minecraft:patch_large_fern"
+    ],
+    [
+    ]
+  ],
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "player_spawn_friendly": true,
+  "precipitation": "rain",
+  "temperature": 0.95,
+  "downfall": 0.9,
+  "category": "jungle",
+  "depth": 0.45
+}

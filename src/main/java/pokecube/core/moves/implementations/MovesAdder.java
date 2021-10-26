@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -75,43 +74,35 @@ public class MovesAdder implements IMoveConstants
     // Finds all Move_Basics inside this package and registers them.
     static void registerAutodetect()
     {
-        final List<Class<?>> foundClasses = Lists.newArrayList();
-
-        for (final Package pack : MovesAdder.packages)
-        {
-            if (pack == null) continue;
-            try
-            {
-                foundClasses.addAll(ClassFinder.find(pack.getName()));
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
+        List<Class<?>> foundClasses;
         // Register moves.
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Autodecting Moves...");
         try
         {
             int num = 0;
-            for (final Class<?> candidateClass : foundClasses)
-                if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null) try
-                {
-                    final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
-                    if (MovesUtils.isMoveImplemented(move.name))
-                    {
-                        PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
-                                + " Replacing old entry with new one.");
-                        num--;
-                    }
-                    num++;
-                    MovesAdder.registerMove(move);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Skipping Move Class {}", candidateClass, e);
-                }
+            for (final Package pack : MovesAdder.packages)
+            {
+                if (pack == null) continue;
+                foundClasses = ClassFinder.find(pack.getName());
+                for (final Class<?> candidateClass : foundClasses)
+                    if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
+                        try
+                        {
+                            final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
+                            if (MovesUtils.isMoveImplemented(move.name))
+                            {
+                                PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
+                                        + " Replacing old entry with new one.");
+                                num--;
+                            }
+                            num++;
+                            MovesAdder.registerMove(move);
+                        }
+                        catch (final Exception e)
+                        {
+                            PokecubeCore.LOGGER.error("Skipping Move Class {}", candidateClass, e);
+                        }
+            }
             PokecubeCore.LOGGER.debug("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)
@@ -121,12 +112,18 @@ public class MovesAdder implements IMoveConstants
         // Register Move Actions.
         try
         {
-            for (final Class<?> candidateClass : foundClasses)
-                if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
-                {
-                    final IMoveAction move = (IMoveAction) candidateClass.getConstructor().newInstance();
-                    MoveEventsHandler.register(move);
-                }
+            for (final Package pack : MovesAdder.packages)
+            {
+                if (pack == null) continue;
+                foundClasses = ClassFinder.find(pack.getName());
+                for (final Class<?> candidateClass : foundClasses)
+                    if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass
+                            .getEnclosingClass() == null)
+                    {
+                        final IMoveAction move = (IMoveAction) candidateClass.getConstructor().newInstance();
+                        MoveEventsHandler.register(move);
+                    }
+            }
         }
         catch (final Exception e)
         {

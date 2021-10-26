@@ -1,17 +1,17 @@
 package thut.core.common.network;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerChunkCache;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor;
 import thut.core.common.ThutCore;
 
 public class TileUpdate extends NBTPacket
@@ -19,22 +19,22 @@ public class TileUpdate extends NBTPacket
     public static final PacketAssembly<TileUpdate> ASSEMBLER = PacketAssembly.registerAssembler(TileUpdate.class,
             TileUpdate::new, ThutCore.packets);
 
-    public static void sendUpdate(final BlockEntity tile)
+    public static void sendUpdate(final TileEntity tile)
     {
         if (tile.getLevel().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!");
             return;
         }
-        final CompoundTag tag = new CompoundTag();
-        final CompoundTag pos = NbtUtils.writeBlockPos(tile.getBlockPos());
+        final CompoundNBT tag = new CompoundNBT();
+        final CompoundNBT pos = NBTUtil.writeBlockPos(tile.getBlockPos());
         tag.put("pos", pos);
-        final CompoundTag mobtag = tile.getUpdateTag();
+        final CompoundNBT mobtag = tile.getUpdateTag();
         tag.put("tag", mobtag);
         final TileUpdate message = new TileUpdate(tag);
-        final ChunkAccess chunk = tile.getLevel().getChunk(tile.getBlockPos());
-        if (chunk instanceof LevelChunk && ((LevelChunk) chunk).getLevel().getChunkSource() instanceof ServerChunkCache)
-            TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> (LevelChunk) chunk));
+        final IChunk chunk = tile.getLevel().getChunk(tile.getBlockPos());
+        if (chunk instanceof Chunk && ((Chunk) chunk).getLevel().getChunkSource() instanceof ServerChunkProvider)
+            TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) chunk));
     }
 
     public TileUpdate()
@@ -42,13 +42,13 @@ public class TileUpdate extends NBTPacket
         super();
     }
 
-    public TileUpdate(final CompoundTag tag)
+    public TileUpdate(final CompoundNBT tag)
     {
         super();
         this.tag = tag;
     }
 
-    public TileUpdate(final FriendlyByteBuf buffer)
+    public TileUpdate(final PacketBuffer buffer)
     {
         super(buffer);
     }
@@ -57,9 +57,9 @@ public class TileUpdate extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
-        final BlockPos pos = NbtUtils.readBlockPos(this.tag.getCompound("pos"));
-        final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile != null) tile.handleUpdateTag(this.tag.getCompound("tag"));
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
+        final BlockPos pos = NBTUtil.readBlockPos(this.tag.getCompound("pos"));
+        final TileEntity tile = world.getBlockEntity(pos);
+        if (tile != null) tile.handleUpdateTag(world.getBlockState(pos), this.tag.getCompound("tag"));
     }
 }

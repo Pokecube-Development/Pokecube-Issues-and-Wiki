@@ -4,25 +4,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.ParticleStatus;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -201,7 +202,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (EventsHandler.COOLDOWN_BASED && Tracker.instance().getTick() % (2 * PokecubeCore
                 .getConfig().attackCooldown) != 0) return;
-        if (!AITools.validTargets.test(entity) || !(entity.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!AITools.validTargets.test(entity) || !(entity.getCommandSenderWorld() instanceof ServerWorld)) return;
 
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
         boolean immune = false;
@@ -232,7 +233,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             mob.setHealth(Math.min(thisMaxHP, thisHP + damage));
         }
 
-        if (!(entity instanceof ServerPlayer))
+        if (!(entity instanceof ServerPlayerEntity))
         {
             if (this.effects.containsKey(TerrainEffectType.ELECTRIC.getIndex()) && onGround && mob != null) if (mob
                     .getStatus() == IMoveConstants.STATUS_SLP) mob.healStatus();
@@ -242,7 +243,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         else if (!PokecubeCore.getConfig().pokemobsDamagePlayers) immune = true;
 
         if (source != null && !immune) entity.hurt(source, damage);
-        this.dropDurations((ServerLevel) entity.getCommandSenderWorld());
+        this.dropDurations((ServerWorld) entity.getCommandSenderWorld());
     }
 
     public boolean isEffectActive(final EffectType effect)
@@ -289,7 +290,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         }
     }
 
-    private void dropDurations(final ServerLevel world)
+    private void dropDurations(final ServerWorld world)
     {
         final long time = Tracker.instance().getTick();
         boolean send = false;
@@ -321,12 +322,12 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @Override
-    public void readFromNBT(final CompoundTag nbt)
+    public void readFromNBT(final CompoundNBT nbt)
     {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderEffect(final VertexConsumer builder, final Matrix4f pos, final Vector3 origin,
+    private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, final Vector3 origin,
             final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
     {
         if (Minecraft.getInstance().player == null) return;
@@ -407,7 +408,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (this.hasEffects())
         {
-            final PoseStack mat = event.getMatrixStack();
+            final MatrixStack mat = event.getMatrixStack();
             assert Minecraft.getInstance().player != null;
             final int time = Minecraft.getInstance().player.tickCount;
 
@@ -415,14 +416,14 @@ public class PokemobTerrainEffects implements ITerrainEffect
             final float partialTicks = Minecraft.getInstance().getFrameTime();
             final float tick = (time + partialTicks) / 10f;
 
-            final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-            // FIXME decide on shader
             final RenderType effectType = RenderType.create("pokecube:terrain_effects",
-                    DefaultVertexFormat.POSITION_COLOR, Mode.QUADS, 256, RenderType.CompositeState.builder()
-                            .setShaderState(RenderStateShard.POSITION_COLOR_SHADER).createCompositeState(false));
+                    DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, RenderType.State.builder()
+                            .setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
+                                    new RenderState.AlphaState(0.003921569F)).createCompositeState(false));
 
-            final VertexConsumer builder = buffer.getBuffer(effectType);
+            final IVertexBuilder builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.last().pose();
 
             mat.pushPose();
@@ -478,7 +479,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @Override
-    public void writeToNBT(final CompoundTag nbt)
+    public void writeToNBT(final CompoundNBT nbt)
     {
 
     }

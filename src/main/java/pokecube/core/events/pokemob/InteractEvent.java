@@ -1,6 +1,6 @@
 package pokecube.core.events.pokemob;
 
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.HasResult;
@@ -20,9 +20,9 @@ public class InteractEvent extends Event
 {
     public final IPokemob            pokemob;
     public final PlayerInteractEvent event;
-    public final Player        player;
+    public final PlayerEntity        player;
 
-    public InteractEvent(IPokemob pokemob, Player player, PlayerInteractEvent event)
+    public InteractEvent(IPokemob pokemob, PlayerEntity player, PlayerInteractEvent event)
     {
         this.pokemob = pokemob;
         this.player = player;

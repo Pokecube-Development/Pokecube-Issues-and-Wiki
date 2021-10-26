@@ -10,41 +10,40 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
@@ -64,7 +63,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -81,7 +80,6 @@ import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
 import pokecube.core.handlers.Config;
-import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IPokemob;
@@ -106,10 +104,10 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
-import thut.api.ThutCaps;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -119,7 +117,7 @@ import thut.core.common.network.EntityUpdate;
 
 public class PokemobEventsHandler
 {
-    private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
+    private static Map<DyeColor, ITag<Item>> DYETAGS = Maps.newHashMap();
 
     public static void register()
     {
@@ -151,7 +149,6 @@ public class PokemobEventsHandler
         // This deals with pokemob initialization, it initializes the AI, and
         // also does some checks for things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onJoinWorld);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onStartTracking);
@@ -184,9 +181,9 @@ public class PokemobEventsHandler
     private static void onMobAddedToWorld(final EntityJoinWorldEvent event)
     {
         // We only consider MobEntities
-        if (!(event.getEntity() instanceof Mob)) return;
+        if (!(event.getEntity() instanceof MobEntity)) return;
 
-        final Mob mob = (Mob) event.getEntity();
+        final MobEntity mob = (MobEntity) event.getEntity();
 
         if (mob.getCommandSenderWorld().isClientSide()) return;
 
@@ -199,7 +196,7 @@ public class PokemobEventsHandler
 
         // No Home spot, so definitely not leaving home
         if (inhabitor.getHome() == null) return;
-        final Level world = event.getEntity().getCommandSenderWorld();
+        final World world = event.getEntity().getCommandSenderWorld();
 
         final GlobalPos pos = inhabitor.getHome();
         // not same dimension, not a bee leaving hive
@@ -216,7 +213,7 @@ public class PokemobEventsHandler
             try
             {
                 c = Class.forName(element.getClassName());
-                fromHive = BlockEntity.class.isAssignableFrom(c);
+                fromHive = TileEntity.class.isAssignableFrom(c);
             }
             catch (final ClassNotFoundException e)
             {
@@ -230,7 +227,7 @@ public class PokemobEventsHandler
         final Class<?> clss = c;
         // not loaded, definitely not a bee leaving hive
         if (!world.isAreaLoaded(pos.pos(), 8)) return;
-        final BlockEntity tile = world.getBlockEntity(pos.pos());
+        final TileEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
         // Not the same class, so return as well.
@@ -289,7 +286,7 @@ public class PokemobEventsHandler
     private static void onLivingHurt(final LivingHurtEvent evt)
     {
         // Only process these server side
-        if (!(evt.getEntity().getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(evt.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
         /*
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
@@ -307,29 +304,29 @@ public class PokemobEventsHandler
             return;
         }
         // Apply scaling from config for this
-        if (pokemob != null && evt.getSource().getEntity() instanceof Player) evt.setAmount((float) (evt.getAmount()
-                * PokecubeCore.getConfig().playerToPokemobDamageScale));
+        if (pokemob != null && evt.getSource().getEntity() instanceof PlayerEntity) evt.setAmount((float) (evt
+                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
 
         // Some special handling for in wall stuff
         if (evt.getSource() == DamageSource.IN_WALL)
         {
-            Mob toPush = pokemob != null ? pokemob.getEntity() : null;
+            MobEntity toPush = pokemob != null ? pokemob.getEntity() : null;
 
             // Check if a player riding something, if so, compute a larger
             // hitbox and try to push out of the wall
             pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getVehicle());
-            final boolean playerRiding = evt.getEntity() instanceof Player && pokemob != null;
+            final boolean playerRiding = evt.getEntity() instanceof PlayerEntity && pokemob != null;
             if (playerRiding) toPush = pokemob.getEntity();
 
             if (toPush != null)
             {
                 evt.setCanceled(true);
-                final ServerLevel world = (ServerLevel) evt.getEntity().getCommandSenderWorld();
-                final AABB oldBox = evt.getEntity().getBoundingBox();
-                final AABB newBox = toPush.getBoundingBox();
+                final ServerWorld world = (ServerWorld) evt.getEntity().getCommandSenderWorld();
+                final AxisAlignedBB oldBox = evt.getEntity().getBoundingBox();
+                final AxisAlignedBB newBox = toPush.getBoundingBox();
 
                 // Take the larger of the boxes, collide off that.
-                final AABB biggerBox = oldBox.minmax(newBox);
+                final AxisAlignedBB biggerBox = oldBox.minmax(newBox);
 
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
@@ -344,15 +341,16 @@ public class PokemobEventsHandler
                 // collidedw
                 if (hits.size() > 0)
                 {
-                    VoxelShape total = Shapes.empty();
+                    VoxelShape total = VoxelShapes.empty();
                     // Merge the found shapes into a single one
                     for (final VoxelShape s : hits)
-                        total = Shapes.joinUnoptimized(total, s, BooleanOp.OR);
-                    final List<AABB> aabbs = Lists.newArrayList();
+                        total = VoxelShapes.joinUnoptimized(total, s, IBooleanFunction.OR);
+                    final List<AxisAlignedBB> aabbs = Lists.newArrayList();
                     // Convert to colliding AABBs
                     BlockEntityUpdater.fill(aabbs, biggerBox, total);
                     // Push off the AABBS if needed
-                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs, Vec3.ZERO);
+                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs,
+                            Vector3d.ZERO);
 
                     // This gives us an indication if if we did actually
                     // collide, if this occured, then we need to do some extra
@@ -422,40 +420,30 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && evt.getEntity()
-                .getCommandSenderWorld() instanceof ServerLevel) damageSource.getDirectEntity().killed((ServerLevel) evt
+                .getCommandSenderWorld() instanceof ServerWorld) damageSource.getDirectEntity().killed((ServerWorld) evt
                         .getEntity().getCommandSenderWorld(), (LivingEntity) evt.getEntity());
 
         // Handle exp gain for the mob.
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getDirectEntity());
-        if (attacker != null && damageSource.getDirectEntity() instanceof Mob) PokemobEventsHandler.handleExp(
-                (Mob) damageSource.getDirectEntity(), attacker, (LivingEntity) evt.getEntity());
-    }
-
-    private static void onJoinWorldLast(final EntityJoinWorldEvent event)
-    {
-        final Entity mob = event.getEntity();
-        if (!(mob instanceof final EntityPokemob pokemob)) return;
-        PokemobTracker.addPokemob(pokemob.pokemobCap);
-        if (pokemob.pokemobCap.isPlayerOwned() && pokemob.pokemobCap.getOwnerId() != null) PlayerPokemobCache
-                .UpdateCache(pokemob.pokemobCap);
+        if (attacker != null && damageSource.getDirectEntity() instanceof MobEntity) PokemobEventsHandler.handleExp(
+                (MobEntity) damageSource.getDirectEntity(), attacker, (LivingEntity) evt.getEntity());
     }
 
     private static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         final Entity mob = event.getEntity();
-        final Level world = mob.level;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
-        pokemob.setEntity((Mob) mob);
+        pokemob.setEntity((MobEntity) mob);
         final IPokemob modified = pokemob.onAddedInit();
-        if (modified.getEntity() != mob)
+        if (modified != pokemob)
         {
             pokemob.markRemoved();
-            final Mob newMob = modified.getEntity();
-            if (world instanceof ServerLevel && !newMob.isAddedToWorld()) world.addFreshEntity(newMob);
+            if (mob.getCommandSenderWorld() instanceof ServerWorld) mob.getCommandSenderWorld().addFreshEntity(modified
+                    .getEntity());
         }
         // This initializes logics on the client side.
-        if (!(world instanceof ServerLevel)) pokemob.initAI();
+        if (!(mob.getCommandSenderWorld() instanceof ServerWorld)) pokemob.initAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
@@ -471,12 +459,12 @@ public class PokemobEventsHandler
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
-        if (!(event.getEntity() instanceof ServerPlayer)) return;
+        if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
         final PokedexEntry entry = pokemob.getPokedexEntry();
 
-        final IMobGenetics genes = event.getTarget().getCapability(ThutCaps.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = event.getTarget().getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
         for (final Alleles<?, ?> allele : genes.getAlleles().values())
-            PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayer) event.getPlayer());
+            PacketSyncGene.syncGene(event.getTarget(), allele, (ServerPlayerEntity) event.getPlayer());
 
         // Send the whole thing over in this case, as it means it won't
         // auto-sync things like IPokemob, etc.
@@ -484,7 +472,7 @@ public class PokemobEventsHandler
         if (!entry.stock) EntityUpdate.sendEntityUpdate(event.getTarget());
 
         // If the mob has a boss bar, add the player to track from that as well
-        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer((ServerPlayer) event.getEntity());
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer((ServerPlayerEntity) event.getEntity());
     }
 
     private static void onStopTracking(final StopTracking event)
@@ -492,13 +480,13 @@ public class PokemobEventsHandler
         // Sync genes over to players when they start tracking a pokemob
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getTarget());
         if (pokemob == null) return;
-        if (!(event.getEntity() instanceof ServerPlayer)) return;
-        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer((ServerPlayer) event.getEntity());
+        if (!(event.getEntity() instanceof ServerPlayerEntity)) return;
+        if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer((ServerPlayerEntity) event.getEntity());
     }
 
     private static void onWorldTick(final WorldTickEvent evt)
     {
-        for (final Player player : evt.world.players())
+        for (final PlayerEntity player : evt.world.players())
             if (player.getVehicle() instanceof LivingEntity && CapabilityPokemob.getPokemobFor(player
                     .getVehicle()) != null)
             {
@@ -551,7 +539,7 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingUpdateEvent evt)
     {
         final LivingEntity living = evt.getEntityLiving();
-        final Level dim = living.getCommandSenderWorld();
+        final World dim = living.getCommandSenderWorld();
         // Prevent moving if it is liable to take us out of a loaded area
         double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x + living.getDeltaMovement().z
                 * living.getDeltaMovement().z);
@@ -561,18 +549,18 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
-        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel)
+        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerWorld)
         {
             final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
             final EntityPokemob mob = (EntityPokemob) living;
             if (pokemobCap.returning)
             {
-                mob.remove(RemovalReason.DISCARDED);
+                mob.remove(false);
                 evt.setCanceled(true);
                 return;
             }
             if (pokemobCap.getOwnerId() != null) mob.setPersistenceRequired();
-            final Player near = mob.getCommandSenderWorld().getNearestPlayer(mob, -1);
+            final PlayerEntity near = mob.getCommandSenderWorld().getNearestPlayer(mob, -1);
             if (near != null && pokemob.getOwnerId() == null)
             {
                 dist = near.distanceTo(mob);
@@ -603,15 +591,15 @@ public class PokemobEventsHandler
         {
             if (pokemob.isRemoved())
             {
-                pokemob.getEntity().remove(RemovalReason.DISCARDED);
+                pokemob.getEntity().remove(false);
                 return;
             }
 
-            if (pokemob.getBossInfo() != null) pokemob.getBossInfo().setProgress(living.getHealth() / living
+            if (pokemob.getBossInfo() != null) pokemob.getBossInfo().setPercent(living.getHealth() / living
                     .getMaxHealth());
             else if (pokemob.getOwnerId() == null && pokemob.getCombatState(CombatStates.DYNAMAX)
-                    && dim instanceof ServerLevel) pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(),
-                            BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS));
+                    && dim instanceof ServerWorld) pokemob.setBossInfo(new ServerBossInfo(living.getDisplayName(),
+                            BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
@@ -621,7 +609,7 @@ public class PokemobEventsHandler
         }
     }
 
-    private static Map<DyeColor, Tag<Item>> getDyeTagMap()
+    private static Map<DyeColor, ITag<Item>> getDyeTagMap()
     {
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
@@ -631,7 +619,7 @@ public class PokemobEventsHandler
         return PokemobEventsHandler.DYETAGS;
     }
 
-    private static void handleExp(final Mob pokemob, final IPokemob attacker, final LivingEntity attacked)
+    private static void handleExp(final MobEntity pokemob, final IPokemob attacker, final LivingEntity attacked)
     {
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
         if (PokecubeCore.getConfig().nonPokemobExp && attackedMob == null)
@@ -658,7 +646,7 @@ public class PokemobEventsHandler
             attacked.getPersistentData().putInt("lastDeathTick", attacked.tickCount);
             boolean giveExp = !attackedMob.isShadow();
             final boolean pvp = attackedMob.getGeneralState(GeneralStates.TAMED) && attackedMob
-                    .getOwner() instanceof Player;
+                    .getOwner() instanceof PlayerEntity;
             if (pvp && !PokecubeCore.getConfig().pvpExp) giveExp = false;
             if (attackedMob.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().trainerExp)
                 giveExp = false;
@@ -678,10 +666,10 @@ public class PokemobEventsHandler
                 attacker.addEVs(evsToAdd);
             }
             final Entity targetOwner = attackedMob.getOwner();
-            attacker.displayMessageToOwner(new TranslatableComponent("pokemob.action.faint.enemy", attackedMob
+            attacker.displayMessageToOwner(new TranslationTextComponent("pokemob.action.faint.enemy", attackedMob
                     .getDisplayName()));
-            if (targetOwner instanceof Player && attacker.getOwner() != targetOwner) BrainUtils.initiateCombat(pokemob,
-                    (LivingEntity) targetOwner);
+            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) BrainUtils.initiateCombat(
+                    pokemob, (LivingEntity) targetOwner);
             else BrainUtils.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
@@ -693,7 +681,7 @@ public class PokemobEventsHandler
         }
     }
 
-    private static boolean handleHmAndSaddle(final Player PlayerEntity, final IPokemob pokemob)
+    private static boolean handleHmAndSaddle(final PlayerEntity PlayerEntity, final IPokemob pokemob)
     {
         if (PokemobEventsHandler.isRidable(PlayerEntity, pokemob))
         {
@@ -716,9 +704,9 @@ public class PokemobEventsHandler
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
         if (pokemob.getInventory().getItem(0).isEmpty()) return false;
 
-        if (rider instanceof ServerPlayer && rider == pokemob.getOwner())
+        if (rider instanceof ServerPlayerEntity && rider == pokemob.getOwner())
         {
-            final Player player = (Player) rider;
+            final PlayerEntity player = (PlayerEntity) rider;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             final Config config = PokecubeCore.getConfig();
@@ -735,29 +723,29 @@ public class PokemobEventsHandler
 
     private static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayerEntity)) return;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(target);
         if (pokemob == null) return;
 
-        final ServerPlayer player = (ServerPlayer) evt.getPlayer();
-        final InteractionHand hand = evt.getHand();
+        final ServerPlayerEntity player = (ServerPlayerEntity) evt.getPlayer();
+        final Hand hand = evt.getHand();
         final ItemStack held = player.getItemInHand(hand);
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
 
         final InteractEvent event = new InteractEvent(pokemob, player, evt);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.getResult() != Result.DEFAULT)
         {
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
             return;
         }
 
         // Item has custom entity interaction, let that run instead.
-        if (held.getItem().interactLivingEntity(held, player, entity, hand) != InteractionResult.PASS)
+        if (held.getItem().interactLivingEntity(held, player, entity, hand) != ActionResultType.PASS)
         {
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
             return;
         }
 
@@ -767,7 +755,7 @@ public class PokemobEventsHandler
         if (entry.interact(player, pokemob, true))
         {
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
             return;
         }
 
@@ -775,7 +763,7 @@ public class PokemobEventsHandler
         // opening pokemob inventory while holding empty cubes, etc.
         if (ItemList.is(new ResourceLocation("pokecube", "pokemob_no_interact"), held)) return;
         // check of other hand is holding a blackisted item as well.
-        final InteractionHand other = InteractionHand.values()[(hand.ordinal() + 1) % 2];
+        final Hand other = Hand.values()[(hand.ordinal() + 1) % 2];
         final ItemStack otherheld = player.getItemInHand(other);
         if (ItemList.is(new ResourceLocation("pokecube", "pokemob_no_interact"), otherheld)) return;
 
@@ -800,21 +788,21 @@ public class PokemobEventsHandler
                 return;
             }
             // Debug thing to maximize happiness
-            if (held.getItem() == Items.APPLE) if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob
+            if (held.getItem() == Items.APPLE) if (player.abilities.instabuild && player.isShiftKeyDown()) pokemob
                     .addHappiness(255);
             // Debug thing to increase hunger time
-            if (held.getItem() == Items.GOLDEN_HOE) if (player.getAbilities().instabuild && player.isShiftKeyDown())
-                pokemob.applyHunger(+4000);
+            if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.instabuild && player.isShiftKeyDown()) pokemob
+                    .applyHunger(+4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
                 if (player.isShiftKeyDown())
                 {
                     pokemob.setShiny(!pokemob.isShiny());
-                    if (!player.getAbilities().instabuild) held.split(1);
+                    if (!player.abilities.instabuild) held.split(1);
                 }
                 evt.setCanceled(true);
-                evt.setCancellationResult(InteractionResult.SUCCESS);
+                evt.setCancellationResult(ActionResultType.SUCCESS);
                 return;
             }
         }
@@ -824,11 +812,11 @@ public class PokemobEventsHandler
         {
             final IOptionalNamedTag<Item> dyeTag = Tags.Items.DYES;
             DyeColor dye = null;
-            if (held.is(dyeTag))
+            if (held.getItem().is(dyeTag))
             {
-                final Map<DyeColor, Tag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
+                final Map<DyeColor, ITag<Item>> tags = PokemobEventsHandler.getDyeTagMap();
                 for (final DyeColor colour : DyeColor.values())
-                    if (held.is(tags.get(colour)))
+                    if (held.getItem().is(tags.get(colour)))
                     {
                         dye = colour;
                         break;
@@ -837,9 +825,9 @@ public class PokemobEventsHandler
             if (dye != null && (entry.validDyes.isEmpty() || entry.validDyes.contains(dye)))
             {
                 pokemob.setDyeColour(dye.getId());
-                if (!player.getAbilities().instabuild) held.shrink(1);
+                if (!player.abilities.instabuild) held.shrink(1);
                 evt.setCanceled(true);
-                evt.setCancellationResult(InteractionResult.SUCCESS);
+                evt.setCancellationResult(ActionResultType.SUCCESS);
                 return;
             }
             else if (held.getItem() == Items.SHEARS) return;
@@ -856,7 +844,7 @@ public class PokemobEventsHandler
         if (deny)
         {
             // Add message here about cannot use items right now
-            player.sendMessage(new TranslatableComponent("pokemob.action.cannotuse"), Util.NIL_UUID);
+            player.sendMessage(new TranslationTextComponent("pokemob.action.cannotuse"), Util.NIL_UUID);
             return;
         }
 
@@ -877,16 +865,16 @@ public class PokemobEventsHandler
                     && !hasTarget && held.getItem() instanceof ItemBerry && (fav == -1 || fav == ((ItemBerry) held
                             .getItem()).type.index))
             {
-                if (!player.getAbilities().instabuild)
+                if (!player.abilities.instabuild)
                 {
                     held.shrink(1);
-                    if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
+                    if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
                 }
                 pokemob.setReadyToMate(player);
                 BrainUtils.clearAttackTarget(entity);
                 entity.getCommandSenderWorld().broadcastEntityEvent(entity, (byte) 18);
                 evt.setCanceled(true);
-                evt.setCancellationResult(InteractionResult.SUCCESS);
+                evt.setCancellationResult(ActionResultType.SUCCESS);
                 return;
             }
         }
@@ -915,27 +903,26 @@ public class PokemobEventsHandler
                     if (!valid) break evo;
 
                     final IPokemob evolution = pokemob.evolve(true, false, held);
-                    if (evolution != null) if (!player.getAbilities().instabuild)
+                    if (evolution != null) if (!player.abilities.instabuild)
                     {
                         held.shrink(1);
-                        if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected,
-                                ItemStack.EMPTY);
+                        if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
                     }
                     evt.setCanceled(true);
-                    evt.setCancellationResult(InteractionResult.SUCCESS);
+                    evt.setCancellationResult(ActionResultType.SUCCESS);
                     return;
                 }
                 // Otherwise check if useable item.
                 final IPokemobUseable usable = IPokemobUseable.getUsableFor(held);
                 if (usable != null)
                 {
-                    final InteractionResultHolder<ItemStack> result = usable.onUse(pokemob, held, player);
-                    if (result.getResult() == InteractionResult.SUCCESS)
+                    final ActionResult<ItemStack> result = usable.onUse(pokemob, held, player);
+                    if (result.getResult() == ActionResultType.SUCCESS)
                     {
                         player.setItemInHand(hand, result.getObject());
                         pokemob.setCombatState(CombatStates.NOITEMUSE, true);
                         evt.setCanceled(true);
-                        evt.setCancellationResult(InteractionResult.SUCCESS);
+                        evt.setCancellationResult(ActionResultType.SUCCESS);
                         return;
                     }
                 }
@@ -945,7 +932,7 @@ public class PokemobEventsHandler
             {
                 PacketPokemobGui.sendOpenPacket(entity, player);
                 evt.setCanceled(true);
-                evt.setCancellationResult(InteractionResult.SUCCESS);
+                evt.setCancellationResult(ActionResultType.SUCCESS);
                 return;
             }
         }
@@ -954,7 +941,7 @@ public class PokemobEventsHandler
         {
             entity.setJumping(false);
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(ActionResultType.SUCCESS);
             return;
         }
     }

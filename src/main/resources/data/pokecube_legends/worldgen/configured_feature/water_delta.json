@@ -12,25 +12,19 @@
           "Name": "minecraft:blackstone"
         },
         "size": {
-          "type": "minecraft:uniform",
-          "value": {
-            "min_inclusive": 3,
-            "max_inclusive": 7
-          }
+          "base": 3,
+          "spread": 4
         },
         "rim_size": {
-          "type": "minecraft:uniform",
-          "value": {
-            "min_inclusive": 0,
-            "max_inclusive": 2
-          }
+          "base": 0,
+          "spread": 2
         }
       },
       "type": "minecraft:delta_feature"
     },
     "decorator": {
       "config": {
-        "count": 40
+        "count": 25
       },
       "type": "minecraft:count_multilayer"
     }

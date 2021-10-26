@@ -2,7 +2,7 @@ package pokecube.core.interfaces;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.GlobalPos;
+import net.minecraft.util.math.GlobalPos;
 
 public interface IInhabitor
 {

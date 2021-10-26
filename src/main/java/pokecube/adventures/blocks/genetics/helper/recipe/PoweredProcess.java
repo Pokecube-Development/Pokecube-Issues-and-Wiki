@@ -1,16 +1,16 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.utils.RecipePokeAdv;
 import thut.core.common.network.TileUpdate;
 
 public class PoweredProcess
 {
-    public static PoweredRecipe findRecipe(final IPoweredProgress tile, final Level world)
+    public static PoweredRecipe findRecipe(final IPoweredProgress tile, final World world)
     {
         if (!tile.getItem(tile.getOutputSlot()).isEmpty()) return null;
         PoweredRecipe output = null;
@@ -28,7 +28,7 @@ public class PoweredProcess
         return output;
     }
 
-    public static PoweredProcess load(final CompoundTag tag, final BaseGeneticsTile tile)
+    public static PoweredProcess load(final CompoundNBT tag, final BaseGeneticsTile tile)
     {
         // TODO load what is saved in save()
         return null;
@@ -36,7 +36,7 @@ public class PoweredProcess
 
     public PoweredRecipe recipe;
     IPoweredProgress     tile;
-    Level                world;
+    World                world;
     BlockPos             pos;
 
     public int needed = 0;
@@ -55,12 +55,12 @@ public class PoweredProcess
                     .getCraftMatrix()));
             if (this.tile.getCraftMatrix().eventHandler != null) this.tile.getCraftMatrix().eventHandler
                     .slotsChanged(this.tile);
-            TileUpdate.sendUpdate((BlockEntity) this.tile);
+            TileUpdate.sendUpdate((TileEntity) this.tile);
         }
         if (ret)
         {
             this.setTile(this.tile);
-            TileUpdate.sendUpdate((BlockEntity) this.tile);
+            TileUpdate.sendUpdate((TileEntity) this.tile);
         }
         return ret;
     }
@@ -79,9 +79,9 @@ public class PoweredProcess
         if (this.tile != null) this.tile.setProgress(this.getProgress());
     }
 
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         // TODO save things here
         return tag;
     }
@@ -89,8 +89,8 @@ public class PoweredProcess
     public PoweredProcess setTile(final IPoweredProgress tile)
     {
         this.tile = tile;
-        this.world = ((BlockEntity) tile).getLevel();
-        this.pos = ((BlockEntity) tile).getBlockPos();
+        this.world = ((TileEntity) tile).getLevel();
+        this.pos = ((TileEntity) tile).getBlockPos();
         this.recipe = PoweredProcess.findRecipe(tile, this.world);
         if (this.recipe != null) this.needed = this.recipe.getEnergyCost(this.tile);
         return this;

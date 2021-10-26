@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "EOE",
+    "EEE"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:pink_terracotta"
+    },
+    "E": {
+      "item": "minecraft:iron_block"
+    },
+    "O": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:magearna_block",
+    "count": 1
+  }
+}

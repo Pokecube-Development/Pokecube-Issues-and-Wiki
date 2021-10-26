@@ -2,36 +2,19 @@ package pokecube.core.proxy;
 
 import java.util.UUID;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
-import pokecube.core.PokecubeCore;
+import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.nbtedit.NBTEdit;
 
 public class CommonProxy
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void onStart(final NewRegistry event)
-        {
-            if (PokecubeCore.proxy == null)
-            {
-                PokecubeCore.proxy = new CommonProxy();
-                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
-            }
-        }
-    }
 
-    public Player getPlayer(final UUID uuid)
+    public PlayerEntity getPlayer(final UUID uuid)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         return server.getPlayerList().getPlayer(uuid);
@@ -47,15 +30,21 @@ public class CommonProxy
         return null;
     }
 
-    public Level getWorld()
+    public World getWorld()
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getLevel(Level.OVERWORLD);
+        return server.getLevel(World.OVERWORLD);
     }
 
-    public Player getPlayer()
+    public PlayerEntity getPlayer()
     {
         return null;
+    }
+
+    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    {
+        // Do nothing here, the client side uses this to clear some things for
+        // single player
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)

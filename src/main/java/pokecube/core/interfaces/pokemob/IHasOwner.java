@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.IOwnable;
@@ -18,7 +18,7 @@ public interface IHasOwner extends IHasMobAIStates, IOwnable
      *
      * @param message
      */
-    void displayMessageToOwner(Component message);
+    void displayMessageToOwner(ITextComponent message);
 
     /** @return the controller object for when this is ridden */
     default LogicMountedControl getController()

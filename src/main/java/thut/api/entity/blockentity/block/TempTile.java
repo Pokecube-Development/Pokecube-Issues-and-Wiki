@@ -1,42 +1,40 @@
 package thut.api.entity.blockentity.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.maths.Vector3;
 
-public class TempTile extends BlockEntity implements ITickTile
+public class TempTile extends TileEntity implements ITickableTileEntity
 {
-    public static BlockEntityType<TempTile> TYPE;
+    public static TileEntityType<TempTile> TYPE;
 
     public BlockEntityBase blockEntity;
 
     public VoxelShape shape = null;
 
-    public TempTile(final BlockPos pos, final BlockState state)
+    public TempTile()
     {
-        super(TempTile.TYPE, pos, state);
+        super(TempTile.TYPE);
     }
 
-    public TempTile(final BlockEntityBase blockEntity, final BlockPos pos, final BlockState state)
+    public TempTile(final BlockEntityBase blockEntity)
     {
-        this(pos, state);
-        this.blockEntity = blockEntity;
+        super(TempTile.TYPE);
     }
 
     @Override
@@ -51,16 +49,16 @@ public class TempTile extends BlockEntity implements ITickTile
             final BlockState real = this.getBlockState();
             if (fake != null)
             {
-                final int lightR = real.getLightEmission(this.getLevel(), this.getBlockPos());
+                final int lightR = real.getLightValue(this.getLevel(), this.getBlockPos());
                 @SuppressWarnings("deprecation")
                 final int lightF = fake.getLightEmission();
-                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(
-                        TempBlock.LIGHTLEVEL, lightF));
+                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL,
+                        lightF));
             }
         }
     }
 
-    public BlockEntity getEffectiveTile()
+    public TileEntity getEffectiveTile()
     {
         if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getTile(this.getBlockPos());
         return null;
@@ -75,7 +73,7 @@ public class TempTile extends BlockEntity implements ITickTile
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
-        final BlockEntity effective = this.getEffectiveTile();
+        final TileEntity effective = this.getEffectiveTile();
         if (effective != null) return effective.getCapability(cap, side);
         return super.getCapability(cap, side);
     }
@@ -89,18 +87,17 @@ public class TempTile extends BlockEntity implements ITickTile
         if (top > 1 || top < 0) return;
         top = top + this.worldPosition.getY();
         final Vector3 v = Vector3.getNewVector().set(this.worldPosition);
-        final AABB box = v.getAABB().expandTowards(1, 1, 1);
-        final Vec3 ev = entityIn.getDeltaMovement();
+        final AxisAlignedBB box = v.getAABB().expandTowards(1, 1, 1);
+        final Vector3d ev = entityIn.getDeltaMovement();
 
         boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
-        final boolean isPlayer = entityIn instanceof Player;
-        if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
+        final boolean isPlayer = entityIn instanceof PlayerEntity;
+        if (isPlayer) serverSide = entityIn instanceof ServerPlayerEntity;
 
-        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds()
-                .intersects(box))
+        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds().intersects(box))
         {
-            final Vec3 bv = this.blockEntity.getDeltaMovement();
-            final Vec3 dr = new Vec3(0, top - entityIn.getY(), 0);
+            final Vector3d bv = this.blockEntity.getDeltaMovement();
+            final Vector3d dr = new Vector3d(0, top - entityIn.getY(), 0);
             entityIn.setPos(entityIn.getX() + dr.x, entityIn.getY() + dr.y, entityIn.getZ() + dr.z);
             final double vx = ev.x;
             final double vy = bv.y;
@@ -109,7 +106,7 @@ public class TempTile extends BlockEntity implements ITickTile
 
             if (isPlayer && serverSide)
             {
-                final ServerPlayer serverplayer = (ServerPlayer) entityIn;
+                final ServerPlayerEntity serverplayer = (ServerPlayerEntity) entityIn;
                 // Meed to set floatingTickCount to prevent being kicked
                 serverplayer.connection.aboveGroundVehicleTickCount = 0;
                 serverplayer.connection.aboveGroundTickCount = 0;
@@ -120,12 +117,13 @@ public class TempTile extends BlockEntity implements ITickTile
 
     public VoxelShape getShape()
     {
-        VoxelShape ret = Shapes.empty();
+        VoxelShape ret = VoxelShapes.empty();
         if (this.blockEntity != null)
         {
             final Vector3 r = Vector3.getNewVector().set(this.worldPosition);
             final VoxelShape shape = this.blockEntity.collider.buildShape();
-            if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x, -r.y, -r.z), BooleanOp.AND);
+            if (!shape.isEmpty()) ret = VoxelShapes.join(VoxelShapes.block(), shape.move(-r.x,
+                    -r.y, -r.z), IBooleanFunction.AND);
         }
         this.shape = ret;
         return ret;

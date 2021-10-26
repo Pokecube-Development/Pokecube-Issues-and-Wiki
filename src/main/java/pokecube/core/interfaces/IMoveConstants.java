@@ -5,9 +5,9 @@ package pokecube.core.interfaces;
 
 import java.util.function.Predicate;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.PokedexEntry;
 import thut.api.item.ItemList;
 
@@ -20,7 +20,7 @@ public interface IMoveConstants extends IMoveNames
 
     static final Predicate<IPokemob> isBee = pokemob ->
     {
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
         final boolean isBee = EntityTypeTags.BEEHIVE_INHABITORS.contains(entity.getType());
         // Only care about bees
         if (!isBee) return false;
@@ -31,7 +31,7 @@ public interface IMoveConstants extends IMoveNames
 
     static final Predicate<IPokemob> isAnt = pokemob ->
     {
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
         final boolean isAnt = ItemList.is(IMoveConstants.ANTS, entity);
         // Only care about bees
         if (!isAnt) return false;
@@ -42,7 +42,7 @@ public interface IMoveConstants extends IMoveNames
 
     static final Predicate<IPokemob> burrows = pokemob ->
     {
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
         final boolean isAnt = ItemList.is(IMoveConstants.BURROWS, entity);
         // Only care about bees
         if (!isAnt) return false;

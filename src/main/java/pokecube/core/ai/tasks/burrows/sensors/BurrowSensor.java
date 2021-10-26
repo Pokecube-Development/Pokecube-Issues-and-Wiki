@@ -6,17 +6,17 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.Sensor;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestManager.Status;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
@@ -24,7 +24,7 @@ import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.interfaces.IInhabitable;
 import thut.core.common.ThutCore;
 
-public class BurrowSensor extends Sensor<Mob>
+public class BurrowSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(BurrowTasks.BURROW, BurrowTasks.NO_HOME_TIMER);
 
@@ -41,18 +41,18 @@ public class BurrowSensor extends Sensor<Mob>
         }
     }
 
-    public static Optional<Burrow> getNest(final Mob mob)
+    public static Optional<Burrow> getNest(final MobEntity mob)
     {
         final Brain<?> brain = mob.getBrain();
         if (!brain.hasMemoryValue(BurrowTasks.BURROW)) return Optional.empty();
         final Optional<GlobalPos> pos_opt = brain.getMemory(BurrowTasks.BURROW);
         if (pos_opt.isPresent())
         {
-            final Level world = mob.getCommandSenderWorld();
+            final World world = mob.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
             if (notHere || !world.isAreaLoaded(pos.pos(), 0)) return Optional.empty();
-            final BlockEntity tile = world.getBlockEntity(pos.pos());
+            final TileEntity tile = world.getBlockEntity(pos.pos());
             if (tile instanceof NestTile)
             {
                 final NestTile nest = (NestTile) tile;
@@ -65,16 +65,16 @@ public class BurrowSensor extends Sensor<Mob>
     }
 
     @Override
-    protected void doTick(final ServerLevel worldIn, final Mob entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
         if (brain.hasMemoryValue(BurrowTasks.BURROW)) return;
 
-        final PoiManager pois = worldIn.getPoiManager();
+        final PointOfInterestManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
         final Random rand = ThutCore.newRandom();
         final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
-                worldIn, entityIn), Occupancy.ANY, pos, 64, rand);
+                worldIn, entityIn), Status.ANY, pos, 64, rand);
         if (opt.isPresent())
         {
             // Randomize this so we don't always pick the same hive if it was
@@ -91,9 +91,9 @@ public class BurrowSensor extends Sensor<Mob>
         }
     }
 
-    private boolean validNest(final BlockPos p, final ServerLevel worldIn, final Mob entityIn)
+    private boolean validNest(final BlockPos p, final ServerWorld worldIn, final MobEntity entityIn)
     {
-        final BlockEntity tile = worldIn.getBlockEntity(p);
+        final TileEntity tile = worldIn.getBlockEntity(p);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
         if (!nest.isType(BurrowTasks.BURROWLOC)) return false;

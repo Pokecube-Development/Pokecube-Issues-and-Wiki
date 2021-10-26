@@ -8,7 +8,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;

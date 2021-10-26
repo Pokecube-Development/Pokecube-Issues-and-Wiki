@@ -5,11 +5,11 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.tasks.AbstractWorkTask;
@@ -19,12 +19,12 @@ import thut.api.Tracker;
 
 public class CarryEgg extends AbstractWorkTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Only run this if we have an egg to carry
-        CarryEgg.mems.put(AntTasks.EGG, MemoryStatus.VALUE_PRESENT);
-        CarryEgg.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        CarryEgg.mems.put(AntTasks.EGG, MemoryModuleStatus.VALUE_PRESENT);
+        CarryEgg.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     // Any that is not a guard ant is allowed to carry eggs

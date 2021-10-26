@@ -1,45 +1,15 @@
 {
   "config": {
-    "decorators": [],
+    "max_water_depth": 0,
     "ignore_vines": true,
-    "force_dirt": false,
-    "dirt_provider": {
-      "state": {
-        "Name": "pokecube_legends:distortic_stone"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
+    "heightmap": "OCEAN_FLOOR",
     "minimum_size": {
       "limit": 1,
       "lower_size": 0,
       "upper_size": 1,
       "type": "minecraft:two_layers_feature_size"
     },
-    "foliage_provider": {
-      "state": {
-        "Properties": {
-          "persistent": "false",
-          "distance": "7"
-        },
-        "Name": "pokecube_legends:distortic_leaves"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "sapling_provider": {
-      "state": {
-        "Properties": {
-          "stage": "0"
-        },
-        "Name": "pokecube_legends:distortic_sapling"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "foliage_placer": {
-      "radius": 4,
-      "offset": 0,
-      "height": 6,
-      "type": "minecraft:fancy_foliage_placer"
-    },
+    "decorators": [],
     "trunk_provider": {
       "state": {
         "Properties": {
@@ -49,10 +19,26 @@
       },
       "type": "minecraft:simple_state_provider"
     },
+    "leaves_provider": {
+      "state": {
+        "Properties": {
+          "persistent": "false",
+          "distance": "7"
+        },
+        "Name": "pokecube_legends:distortic_leave"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "foliage_placer": {
+      "radius": 4,
+      "offset": 0,
+      "height": 6,
+      "type": "minecraft:fancy_foliage_placer"
+    },
     "trunk_placer": {
-      "base_height": 14,
-      "height_rand_a": 2,
-      "height_rand_b": 10,
+      "base_height": 13,
+      "height_rand_a": 10,
+      "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"
     }
   },

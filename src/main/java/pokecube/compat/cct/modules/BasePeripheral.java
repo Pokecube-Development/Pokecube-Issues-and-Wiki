@@ -1,9 +1,9 @@
 package pokecube.compat.cct.modules;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.tileentity.TileEntity;
 
-public abstract class BasePeripheral<T extends BlockEntity> implements IPeripheral
+public abstract class BasePeripheral<T extends TileEntity> implements IPeripheral
 {
     private final String name;
     public final T       tile;

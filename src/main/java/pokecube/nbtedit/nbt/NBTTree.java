@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTHelper;
 import pokecube.nbtedit.NBTStringHelper;
@@ -25,30 +25,30 @@ public class NBTTree
         return b.toString();
     }
 
-    private final CompoundTag baseTag;
+    private final CompoundNBT baseTag;
 
     private Node<NamedNBT> root;
 
-    public NBTTree(CompoundTag tag)
+    public NBTTree(CompoundNBT tag)
     {
         this.baseTag = tag;
         this.construct();
     }
 
-    public void addChildrenToList(Node<NamedNBT> parent, ListTag list)
+    public void addChildrenToList(Node<NamedNBT> parent, ListNBT list)
     {
         for (final Node<NamedNBT> child : parent.getChildren())
         {
-            final Tag base = child.getObject().getNBT();
-            if (base instanceof CompoundTag)
+            final INBT base = child.getObject().getNBT();
+            if (base instanceof CompoundNBT)
             {
-                final CompoundTag newTag = new CompoundTag();
+                final CompoundNBT newTag = new CompoundNBT();
                 this.addChildrenToTag(child, newTag);
                 list.add(newTag);
             }
-            else if (base instanceof ListTag)
+            else if (base instanceof ListNBT)
             {
-                final ListTag newList = new ListTag();
+                final ListNBT newList = new ListNBT();
                 this.addChildrenToList(child, newList);
                 list.add(newList);
             }
@@ -56,21 +56,21 @@ public class NBTTree
         }
     }
 
-    public void addChildrenToTag(Node<NamedNBT> parent, CompoundTag tag)
+    public void addChildrenToTag(Node<NamedNBT> parent, CompoundNBT tag)
     {
         for (final Node<NamedNBT> child : parent.getChildren())
         {
-            final Tag base = child.getObject().getNBT();
+            final INBT base = child.getObject().getNBT();
             final String name = child.getObject().getName();
-            if (base instanceof CompoundTag)
+            if (base instanceof CompoundNBT)
             {
-                final CompoundTag newTag = new CompoundTag();
+                final CompoundNBT newTag = new CompoundNBT();
                 this.addChildrenToTag(child, newTag);
                 tag.put(name, newTag);
             }
-            else if (base instanceof ListTag)
+            else if (base instanceof ListNBT)
             {
-                final ListTag list = new ListTag();
+                final ListNBT list = new ListNBT();
                 this.addChildrenToList(child, list);
                 tag.put(name, list);
             }
@@ -80,25 +80,25 @@ public class NBTTree
 
     public void addChildrenToTree(Node<NamedNBT> parent)
     {
-        final Tag tag = parent.getObject().getNBT();
-        if (tag instanceof CompoundTag)
+        final INBT tag = parent.getObject().getNBT();
+        if (tag instanceof CompoundNBT)
         {
-            final Map<String, Tag> map = NBTHelper.getMap((CompoundTag) tag);
-            for (final Entry<String, Tag> entry : map.entrySet())
+            final Map<String, INBT> map = NBTHelper.getMap((CompoundNBT) tag);
+            for (final Entry<String, INBT> entry : map.entrySet())
             {
-                final Tag base = entry.getValue();
+                final INBT base = entry.getValue();
                 final Node<NamedNBT> child = new Node<>(parent, new NamedNBT(entry.getKey(), base));
                 parent.addChild(child);
                 this.addChildrenToTree(child);
             }
 
         }
-        else if (tag instanceof ListTag)
+        else if (tag instanceof ListNBT)
         {
-            final ListTag list = (ListTag) tag;
+            final ListNBT list = (ListNBT) tag;
             for (int i = 0; i < list.size(); ++i)
             {
-                final Tag base = NBTHelper.getTagAt(list, i);
+                final INBT base = NBTHelper.getTagAt(list, i);
                 final Node<NamedNBT> child = new Node<>(parent, new NamedNBT(base));
                 parent.addChild(child);
                 this.addChildrenToTree(child);
@@ -164,9 +164,9 @@ public class NBTTree
             this.sort(c);
     }
 
-    public CompoundTag toCompoundNBT()
+    public CompoundNBT toCompoundNBT()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         this.addChildrenToTag(this.root, tag);
         return tag;
     }

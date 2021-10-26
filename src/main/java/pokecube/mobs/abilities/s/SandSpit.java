@@ -1,7 +1,7 @@
 package pokecube.mobs.abilities.s;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -21,7 +21,7 @@ public class SandSpit extends Ability
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         final IPokemob attacker = move.attacker;
-        final Level world = mob.getEntity().getCommandSenderWorld();
+        final World world = mob.getEntity().getCommandSenderWorld();
 
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, Vector3.getNewVector());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");
@@ -34,7 +34,7 @@ public class SandSpit extends Ability
             teffect.setEffectDuration(PokemobTerrainEffects.WeatherEffectType.SAND, this.duration + Tracker.instance()
                     .getTick(), mob);
 
-            if (world instanceof ServerLevel) PacketSyncTerrain.sendTerrainEffects((ServerLevel) world, segment.chunkX,
+            if (world instanceof ServerWorld) PacketSyncTerrain.sendTerrainEffects((ServerWorld) world, segment.chunkX,
                     segment.chunkY, segment.chunkZ, teffect);
         }
     }

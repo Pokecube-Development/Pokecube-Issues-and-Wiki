@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.handlers.events.MoveEventsHandler.UseContext;
@@ -23,7 +23,7 @@ import thut.core.common.ThutCore;
 
 public class HoopaPortalSpawn 
 {
-    public static void portalSpawnTick(final Level world, final int distance)
+    public static void portalSpawnTick(final World world, final int distance)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.players());
@@ -37,7 +37,7 @@ public class HoopaPortalSpawn
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
-        v.y = world.getHeight(Types.WORLD_SURFACE, (int) v.x, (int) v.z) + 2;
+        v.y = world.getHeight(Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 2;
         if (v.isAir(world))
         {
 

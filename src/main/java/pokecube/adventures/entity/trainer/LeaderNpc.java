@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
@@ -24,11 +24,11 @@ public class LeaderNpc extends TrainerNpc
 
     static
     {
-        TYPE = EntityType.Builder.of(LeaderNpc::new, MobCategory.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(LeaderNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> LeaderNpc.TYPE.create(w)).build("leader");
     }
 
-    public LeaderNpc(final EntityType<? extends TrainerBase> type, final Level worldIn)
+    public LeaderNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
         // Stuff below here is not null for real worlds, null for fake ones, so

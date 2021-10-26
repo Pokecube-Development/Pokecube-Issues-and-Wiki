@@ -1,11 +1,11 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.AbstractList;
 
-public class PageEntry extends AbstractSelectionList.Entry<PageEntry>
+public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
 {
     public final Button button;
     final int           top;
@@ -17,11 +17,11 @@ public class PageEntry extends AbstractSelectionList.Entry<PageEntry>
                 .changePage(index));
         this.button.visible = false;
         this.button.active = false;
-        parent.addRenderableWidget(this.button);
+        parent.addButton(this.button);
     }
 
     @Override
-    public void render(final PoseStack mat, final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+    public void render(final MatrixStack mat, final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
         this.button.visible = false;

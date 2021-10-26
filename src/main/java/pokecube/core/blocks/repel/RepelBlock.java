@@ -1,14 +1,14 @@
 package pokecube.core.blocks.repel;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableBlock;
 
-public class RepelBlock extends InteractableBlock implements EntityBlock
+public class RepelBlock extends InteractableBlock
 {
 
     public RepelBlock(final Properties properties)
@@ -17,17 +17,23 @@ public class RepelBlock extends InteractableBlock implements EntityBlock
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return new RepelTile(pos, state);
+        return new RepelTile();
     }
 
     @Override
-    public void neighborChanged(final BlockState state, final Level worldIn, final BlockPos pos, final Block blockIn,
+    public boolean hasTileEntity(final BlockState state)
+    {
+        return true;
+    }
+
+    @Override
+    public void neighborChanged(final BlockState state, final World worldIn, final BlockPos pos, final Block blockIn,
             final BlockPos fromPos, final boolean isMoving)
     {
         final int power = worldIn.getBestNeighborSignal(pos);
-        final BlockEntity tile = worldIn.getBlockEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile == null || !(tile instanceof RepelTile)) return;
         final RepelTile repel = (RepelTile) tile;
         if (power != 0)

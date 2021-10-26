@@ -1,6 +1,6 @@
 package pokecube.core.items.vitamins;
 
-import net.minecraft.world.item.Item;
+import net.minecraft.item.Item;
 
 public class ItemCandy extends Item
 {

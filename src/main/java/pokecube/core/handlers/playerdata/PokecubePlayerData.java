@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
@@ -56,16 +56,16 @@ public class PokecubePlayerData extends PlayerData
     }
 
     @Override
-    public void readFromNBT(final CompoundTag tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         this.hasStarter = tag.getBoolean("hasStarter");
         this.teleIndex = tag.getInt("teleIndex");
-        final Tag temp2 = tag.get("telelocs");
+        final INBT temp2 = tag.get("telelocs");
         this.telelocs.clear();
-        if (temp2 instanceof ListTag)
+        if (temp2 instanceof ListNBT)
         {
-            final ListTag tagListOptions = (ListTag) temp2;
-            CompoundTag pokemobData2 = null;
+            final ListNBT tagListOptions = (ListNBT) temp2;
+            CompoundNBT pokemobData2 = null;
             for (int j = 0; j < tagListOptions.size(); j++)
             {
                 pokemobData2 = tagListOptions.getCompound(j);
@@ -92,15 +92,15 @@ public class PokecubePlayerData extends PlayerData
     }
 
     @Override
-    public void writeToNBT(final CompoundTag tag)
+    public void writeToNBT(final CompoundNBT tag)
     {
         tag.putBoolean("hasStarter", this.hasStarter);
         tag.putInt("teleIndex", this.teleIndex);
-        final ListTag list = new ListTag();
+        final ListNBT list = new ListNBT();
         for (final TeleDest d : this.telelocs)
             if (d != null && d.loc != null)
             {
-                final CompoundTag loc = new CompoundTag();
+                final CompoundNBT loc = new CompoundNBT();
                 d.writeToNBT(loc);
                 list.add(loc);
             }

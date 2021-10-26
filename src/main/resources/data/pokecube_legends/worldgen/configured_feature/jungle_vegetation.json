@@ -25,21 +25,8 @@
               "type": "minecraft:square"
             },
             "inner": {
-              "config": {
-                "outer": {
-                  "config": {
-                    "max_water_depth": 0
-                  },
-                  "type": "minecraft:water_depth_threshold"
-                },
-                "inner": {
-                  "config": {
-                    "heightmap": "OCEAN_FLOOR"
-                  },
-                  "type": "minecraft:heightmap"
-                }
-              },
-              "type": "minecraft:decorated"
+              "config": {},
+              "type": "minecraft:heightmap"
             }
           },
           "type": "minecraft:decorated"
@@ -49,8 +36,8 @@
     },
     "decorator": {
       "config": {
-        "count": 20,
-        "extra_chance": 0.5,
+        "count": 30,
+        "extra_chance": 0.1,
         "extra_count": 1
       },
       "type": "minecraft:count_extra"

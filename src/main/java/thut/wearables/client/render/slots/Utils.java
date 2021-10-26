@@ -1,11 +1,12 @@
 package thut.wearables.client.render.slots;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix3f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.util.math.vector.Matrix3f;
 
 public class Utils
 {
-    public static void mirror(float x, float y, float z, final PoseStack mat)
+    public static void mirror(float x, float y, float z, final MatrixStack mat)
     {
         if (x == 0) x = 1;
         else x = -1;

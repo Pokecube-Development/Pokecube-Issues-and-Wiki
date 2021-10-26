@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "pokecube_legends:distortic_chiseled_stone_bricks"
-  },
-  "result": "pokecube_legends:chiseled_distortic_stone_bricks",
-  "count": 1
-}

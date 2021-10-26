@@ -2,8 +2,8 @@ package thut.bling.bag.small;
 
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import thut.api.inventory.big.BigInventory;
 import thut.api.inventory.big.Manager;
 
@@ -15,12 +15,12 @@ public class SmallInventory extends BigInventory
         super(manager, id);
     }
 
-    public SmallInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
+    public SmallInventory(final Manager<? extends BigInventory> manager, final CompoundNBT tag)
     {
         super(manager, tag);
     }
 
-    public SmallInventory(final Manager<? extends BigInventory> manager, final FriendlyByteBuf buffer)
+    public SmallInventory(final Manager<? extends BigInventory> manager, final PacketBuffer buffer)
     {
         super(manager, buffer);
     }

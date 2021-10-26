@@ -4,10 +4,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.server.level.ServerLevel;
+import com.google.common.collect.Lists;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ClassInheritanceMultiMap;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
@@ -22,6 +25,9 @@ import pokecube.core.events.pokemob.SpawnCheckEvent;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.TeamManager.ITeamProvider;
 import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -41,9 +47,9 @@ public class Impl
         public MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
         {
             if (matcher._validStructures.isEmpty()) return MatchResult.PASS;
-            if (checker.world instanceof ServerLevel)
+            if (checker.world instanceof ServerWorld)
             {
-                final LazyOptional<IHasStructures> opt = ((ServerLevel) checker.world).getCapability(
+                final LazyOptional<IHasStructures> opt = ((ServerWorld) checker.world).getCapability(
                         WorldStructures.CAPABILITY);
                 if (opt.isPresent())
                 {
@@ -132,8 +138,8 @@ public class Impl
 
     public static void recallOutMobsOnLogout(final PlayerLoggedOutEvent event)
     {
-        if (!(event.getPlayer().getCommandSenderWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getPlayer().getCommandSenderWorld();
+        if (!(event.getPlayer().getCommandSenderWorld() instanceof ServerWorld)) return;
+        final ServerWorld world = (ServerWorld) event.getPlayer().getCommandSenderWorld();
         if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
         final List<Entity> mobs = PokemobTracker.getMobs(event.getPlayer(), e -> Essentials.config.versioned_dim_keys
                 .contains(e.getCommandSenderWorld().dimension().location()));
@@ -143,20 +149,17 @@ public class Impl
     public static void recallOutMobsOnUnload(final ChunkEvent.Unload event)
     {
         if (event.getWorld() == null || event.getWorld().isClientSide()) return;
-        if (!(event.getWorld() instanceof ServerLevel && event.getChunk() instanceof LevelChunk)) return;
-        final ServerLevel world = (ServerLevel) event.getWorld();
+        if (!(event.getWorld() instanceof ServerWorld && event.getChunk() instanceof Chunk)) return;
+        final ServerWorld world = (ServerWorld) event.getWorld();
         if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
-        // FIXME decide on how to best deal with this, now that EntitySections
-        // are separate!
-        // final List<Entity> mobs = Lists.newArrayList();
-        // final LevelChunk chunk = (LevelChunk) event.getChunk();
-        // for (final ClassInstanceMultiMap<Entity> list : chunk.getSections())
-        // list.forEach(e ->
-        // {
-        // final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
-        // if (pokemob != null && pokemob.getOwnerId() != null || e instanceof
-        // EntityPokecube) mobs.add(e);
-        // });
-        // PCEventsHandler.recallAll(mobs, true);
+        final List<Entity> mobs = Lists.newArrayList();
+        final Chunk chunk = (Chunk) event.getChunk();
+        for (final ClassInheritanceMultiMap<Entity> list : chunk.getEntitySections())
+            list.forEach(e ->
+            {
+                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+                if (pokemob != null && pokemob.getOwnerId() != null || e instanceof EntityPokecube) mobs.add(e);
+            });
+        PCEventsHandler.recallAll(mobs, true);
     }
 }

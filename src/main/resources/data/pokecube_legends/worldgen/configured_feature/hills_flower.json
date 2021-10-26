@@ -18,10 +18,10 @@
                 "state_provider": {
                   "entries": [
                     {
+                      "weight": 2,
                       "data": {
-                        "Name": "pokecube_legends:inverted_orchid"
-                      },
-                      "weight": 2
+                        "Name": "pokecube_legends:b1_flower"
+                      }
                     }
                   ],
                   "type": "minecraft:weighted_state_provider"
@@ -46,9 +46,7 @@
               "type": "minecraft:square"
             },
             "inner": {
-              "config": {
-                "heightmap": "MOTION_BLOCKING"
-              },
+              "config": {},
               "type": "minecraft:heightmap"
             }
           },

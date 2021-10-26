@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/crystal_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/crystal_block"
+      "model": "pokecube_legends:block/temporal_crystal"
     },
     "type=top": {
       "model": "pokecube_legends:block/crystal_slab_top"

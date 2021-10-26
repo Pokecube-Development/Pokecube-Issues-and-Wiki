@@ -1,6 +1,6 @@
 package thut.core.common.genetics.genes;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.CompoundNBT;
 import thut.api.entity.genetics.Gene;
 
 public abstract class GeneBoolean implements Gene<Boolean>
@@ -14,15 +14,15 @@ public abstract class GeneBoolean implements Gene<Boolean>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final CompoundNBT tag)
     {
         this.value = tag.getBoolean("V");
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putBoolean("V", this.value);
         return tag;
     }

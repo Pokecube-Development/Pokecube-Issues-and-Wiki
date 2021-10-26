@@ -2,8 +2,8 @@ package pokecube.core.entity.pokemobs.genetics.genes;
 
 import java.util.Random;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.interfaces.Nature;
 import thut.api.entity.genetics.Gene;
@@ -105,7 +105,7 @@ public class NatureGene implements Gene<Nature>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final CompoundNBT tag)
     {
         this.nature = Nature.values()[tag.getByte("V")];
     }
@@ -118,9 +118,9 @@ public class NatureGene implements Gene<Nature>
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putByte("V", (byte) this.nature.ordinal());
         return tag;
     }

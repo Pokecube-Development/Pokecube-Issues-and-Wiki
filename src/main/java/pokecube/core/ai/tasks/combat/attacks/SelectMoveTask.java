@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;

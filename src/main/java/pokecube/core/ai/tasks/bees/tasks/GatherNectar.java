@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.GlobalPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.bees.AbstractBeeTask;
 import pokecube.core.ai.tasks.bees.BeeTasks;
@@ -22,13 +22,13 @@ import thut.api.maths.Vector3;
 
 public class GatherNectar extends AbstractBeeTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // No gathering nectar if we have it
-        GatherNectar.mems.put(BeeTasks.HAS_NECTAR, MemoryStatus.VALUE_ABSENT);
+        GatherNectar.mems.put(BeeTasks.HAS_NECTAR, MemoryModuleStatus.VALUE_ABSENT);
         // Only gather nectar if we have a flower
-        GatherNectar.mems.put(BeeTasks.FLOWER_POS, MemoryStatus.VALUE_PRESENT);
+        GatherNectar.mems.put(BeeTasks.FLOWER_POS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     // Timer for gathering stuff, when this reaches 400, we end gathering, by
@@ -56,7 +56,7 @@ public class GatherNectar extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = this.entity.getBrain().getMemory(BeeTasks.FLOWER_POS);
         if (pos_opt.isPresent())
         {
-            final Level world = this.entity.getCommandSenderWorld();
+            final World world = this.entity.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
             boolean clearPos = pos.dimension() != world.dimension();
             // Once a second check if flower is still valid.
@@ -99,7 +99,7 @@ public class GatherNectar extends AbstractBeeTask
             {
                 final BlockState state = this.flowerSpot.getBlockState(world);
                 if (state.isRandomlyTicking() && this.entity.getRandom().nextInt(10) == 0) state.randomTick(
-                        (ServerLevel) world, pos.pos(), this.entity.getRandom());
+                        (ServerWorld) world, pos.pos(), this.entity.getRandom());
                 this.entity.getMoveControl().setWantedPosition(this.gatherSpot.x, this.gatherSpot.y, this.gatherSpot.z, 0.35F);
             }
             else this.setWalkTo(this.gatherSpot, 1, 0);

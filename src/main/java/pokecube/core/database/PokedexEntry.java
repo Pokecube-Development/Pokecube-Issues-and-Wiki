@@ -19,30 +19,30 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -138,44 +138,44 @@ public class PokedexEntry
             this.evolution = evol;
         }
 
-        public Entity getEvolution(final LevelAccessor world)
+        public Entity getEvolution(final IWorld world)
         {
             if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, (Level) world);
+            final Entity ret = PokecubeCore.createPokemob(this.evolution, (World) world);
             return ret;
         }
 
         @OnlyIn(Dist.CLIENT)
-        public List<MutableComponent> getEvoClauses()
+        public List<IFormattableTextComponent> getEvoClauses()
         {
-            final List<MutableComponent> comps = Lists.newArrayList();
-            if (this.level > 0) comps.add(new TranslatableComponent("pokemob.description.evolve.level", this.level));
-            if (this.traded) comps.add(new TranslatableComponent("pokemob.description.evolve.traded"));
-            if (this.gender == 1) comps.add(new TranslatableComponent("pokemob.description.evolve.male"));
-            if (this.gender == 2) comps.add(new TranslatableComponent("pokemob.description.evolve.female"));
-            if (!this.item.isEmpty()) comps.add(new TranslatableComponent("pokemob.description.evolve.item",
+            final List<IFormattableTextComponent> comps = Lists.newArrayList();
+            if (this.level > 0) comps.add(new TranslationTextComponent("pokemob.description.evolve.level", this.level));
+            if (this.traded) comps.add(new TranslationTextComponent("pokemob.description.evolve.traded"));
+            if (this.gender == 1) comps.add(new TranslationTextComponent("pokemob.description.evolve.male"));
+            if (this.gender == 2) comps.add(new TranslationTextComponent("pokemob.description.evolve.female"));
+            if (!this.item.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item",
                     this.item.getHoverName().getString()));
             else if (this.preset != null)
             {
                 final ItemStack stack = PokecubeItems.getStack(this.preset);
-                if (!stack.isEmpty()) comps.add(new TranslatableComponent("pokemob.description.evolve.item", stack
+                if (!stack.isEmpty()) comps.add(new TranslationTextComponent("pokemob.description.evolve.item", stack
                         .getHoverName().getString()));
             }
-            if (this.happy) comps.add(new TranslatableComponent("pokemob.description.evolve.happy"));
-            if (this.dawnOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.dawn"));
-            if (this.duskOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.dusk"));
-            if (this.dayOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.day"));
-            if (this.nightOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.night"));
-            if (this.rainOnly) comps.add(new TranslatableComponent("pokemob.description.evolve.rain"));
+            if (this.happy) comps.add(new TranslationTextComponent("pokemob.description.evolve.happy"));
+            if (this.dawnOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dawn"));
+            if (this.duskOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.dusk"));
+            if (this.dayOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.day"));
+            if (this.nightOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.night"));
+            if (this.rainOnly) comps.add(new TranslationTextComponent("pokemob.description.evolve.rain"));
 
             // TODO add in info related to needed formes.
 
             if (this.randomFactor != 1)
             {
                 final String var = (int) (100 * this.randomFactor) + "%";
-                comps.add(new TranslatableComponent("pokemob.description.evolve.chance", var));
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.chance", var));
             }
-            if (this.move != null && !this.move.isEmpty()) comps.add(new TranslatableComponent(
+            if (this.move != null && !this.move.isEmpty()) comps.add(new TranslationTextComponent(
                     "pokemob.description.evolve.move", MovesUtils.getMoveName(this.move).getString()));
             if (this.matcher != null)
             {
@@ -184,7 +184,7 @@ public class PokedexEntry
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher._validSubBiomes)
                     biomeNames.add(I18n.get(t.readableName));
-                for (final ResourceKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
+                for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                 {
                     final boolean valid = this.matcher.getValidBiomes().contains(test);
                     if (valid)
@@ -198,7 +198,7 @@ public class PokedexEntry
                 {
                     for (final BiomeType t : matcher._validSubBiomes)
                         biomeNames.add(I18n.get(t.readableName));
-                    for (final ResourceKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
+                    for (final RegistryKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                     {
                         final boolean valid = matcher.getValidBiomes().contains(test);
                         if (valid)
@@ -209,13 +209,13 @@ public class PokedexEntry
                         }
                     }
                 }
-                comps.add(new TranslatableComponent("pokemob.description.evolve.locations", biomeNames));
+                comps.add(new TranslationTextComponent("pokemob.description.evolve.locations", biomeNames));
             }
             return comps;
         }
 
         @OnlyIn(Dist.CLIENT)
-        public MutableComponent getEvoString()
+        public IFormattableTextComponent getEvoString()
         {
             /*
              * //@formatter:off
@@ -233,10 +233,10 @@ public class PokedexEntry
             // @formatter:on
             final PokedexEntry entry = this.preEvolution;
             final PokedexEntry nex = this.evolution;
-            final MutableComponent subEvo = new TranslatableComponent("pokemob.description.evolve.to", entry
+            final IFormattableTextComponent subEvo = new TranslationTextComponent("pokemob.description.evolve.to", entry
                     .getTranslatedName(), nex.getTranslatedName());
-            final List<MutableComponent> list = this.getEvoClauses();
-            for (final MutableComponent item : list)
+            final List<IFormattableTextComponent> list = this.getEvoClauses();
+            for (final IFormattableTextComponent item : list)
                 subEvo.append("\n").append(item);
             return subEvo;
         }
@@ -247,7 +247,7 @@ public class PokedexEntry
             {
                 final LivingEntity entity = mob.getEntity();
                 final Vector3 loc = Vector3.getNewVector().set(entity);
-                final Level world = entity.getCommandSenderWorld();
+                final World world = entity.getCommandSenderWorld();
                 if (!world.isAreaLoaded(loc.getPos(), 0))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
@@ -326,7 +326,7 @@ public class PokedexEntry
             }
             if (this.rainOnly)
             {
-                final Level world = mob.getEntity().getCommandSenderWorld();
+                final World world = mob.getEntity().getCommandSenderWorld();
                 final boolean rain = world.isRaining();
                 if (!rain)
                 {
@@ -542,19 +542,19 @@ public class PokedexEntry
             return null;
         }
 
-        public boolean applyInteraction(final Player player, final IPokemob pokemob, final boolean consumeInput)
+        public boolean applyInteraction(final PlayerEntity player, final IPokemob pokemob, final boolean consumeInput)
         {
-            final Mob entity = pokemob.getEntity();
+            final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getMainHandItem();
-            final CompoundTag data = entity.getPersistentData();
+            final CompoundNBT data = entity.getPersistentData();
             final Interaction action = this.getFor(held);
             ItemStack result = null;
             if (action.lootTable != null)
             {
                 final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables().get(
                         action.lootTable);
-                final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) pokemob
-                        .getEntity().getCommandSenderWorld()).withParameter(LootContextParams.THIS_ENTITY, pokemob
+                final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) pokemob
+                        .getEntity().getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, pokemob
                                 .getEntity());
                 for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
                         .getParamSet())))
@@ -579,15 +579,15 @@ public class PokedexEntry
             data.putLong("lastInteract", timer);
             pokemob.applyHunger((int) (action.hunger * PokecubeCore.getConfig().interactHungerScale));
             if (consumeInput) held.shrink(1);
-            if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, result);
-            else if (!player.getInventory().add(result)) player.drop(result, false);
+            if (held.isEmpty()) player.inventory.setItem(player.inventory.selected, result);
+            else if (!player.inventory.add(result)) player.drop(result, false);
             if (player != pokemob.getOwner()) BrainUtils.initiateCombat(entity, player);
             return true;
         }
 
-        boolean interact(final Player player, final IPokemob pokemob, final boolean doInteract)
+        boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
         {
-            final Mob entity = pokemob.getEntity();
+            final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getMainHandItem();
             final Interaction action = this.getFor(held);
             if (action == null || action.stacks.isEmpty())
@@ -598,7 +598,7 @@ public class PokedexEntry
                 pokemob.megaEvolve(forme);
                 return true;
             }
-            final CompoundTag data = entity.getPersistentData();
+            final CompoundNBT data = entity.getPersistentData();
             if (data.contains("lastInteract"))
             {
                 final long now = Tracker.instance().getTick();
@@ -694,7 +694,7 @@ public class PokedexEntry
             return null;
         }
 
-        public SpawnBiomeMatcher getMatcher(final LevelAccessor world, final Vector3 location)
+        public SpawnBiomeMatcher getMatcher(final IWorld world, final Vector3 location)
         {
             final SpawnCheck checker = new SpawnCheck(location, world);
             return this.getMatcher(checker);
@@ -731,7 +731,7 @@ public class PokedexEntry
             return false;
         }
 
-        public boolean isValid(final ResourceKey<Biome> biome)
+        public boolean isValid(final RegistryKey<Biome> biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
                 if (matcher.getValidBiomes().contains(biome)) return true;
@@ -756,7 +756,7 @@ public class PokedexEntry
          * @param b
          * @return
          */
-        public boolean isValid(final LevelAccessor world, final Vector3 location)
+        public boolean isValid(final IWorld world, final Vector3 location)
         {
             return this.getMatcher(world, location) != null;
         }
@@ -1096,7 +1096,7 @@ public class PokedexEntry
     public PokeType type2;
 
     @CopyToGender
-    public EntityType<? extends Mob> entity_type;
+    public EntityType<? extends MobEntity> entity_type;
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
@@ -1105,7 +1105,7 @@ public class PokedexEntry
     /** Cached trimmed name. */
     private String trimmedName;
 
-    private Component description;
+    private ITextComponent description;
 
     // "" for automatic assignment
     public String           modelExt  = "";
@@ -1543,17 +1543,17 @@ public class PokedexEntry
     }
 
     @OnlyIn(Dist.CLIENT)
-    public Component getDescription()
+    public ITextComponent getDescription()
     {
         if (this.description == null)
         {
             final PokedexEntry entry = this;
-            final MutableComponent typeString = PokeType.getTranslatedName(entry.getType1());
+            final IFormattableTextComponent typeString = PokeType.getTranslatedName(entry.getType1());
             if (entry.getType2() != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(entry
                     .getType2()));
-            final MutableComponent typeDesc = new TranslatableComponent("pokemob.description.type", entry
+            final IFormattableTextComponent typeDesc = new TranslationTextComponent("pokemob.description.type", entry
                     .getTranslatedName(), typeString);
-            MutableComponent evoString = null;
+            IFormattableTextComponent evoString = null;
             if (entry.canEvolve()) for (final EvolutionData d : entry.evolutions)
             {
                 if (d.evolution == null) continue;
@@ -1561,9 +1561,9 @@ public class PokedexEntry
                 else evoString = evoString.append("\n").append(d.getEvoString());
                 evoString.append("\n");
             }
-            MutableComponent descString = typeDesc;
+            IFormattableTextComponent descString = typeDesc;
             if (evoString != null) descString = descString.append("\n").append(evoString);
-            if (entry._evolvesFrom != null) descString = descString.append("\n").append(new TranslatableComponent(
+            if (entry._evolvesFrom != null) descString = descString.append("\n").append(new TranslationTextComponent(
                     "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
                             .getTranslatedName()));
             this.description = descString;
@@ -1571,7 +1571,7 @@ public class PokedexEntry
         return this.description;
     }
 
-    public EntityType<? extends Mob> getEntityType()
+    public EntityType<? extends MobEntity> getEntityType()
     {
         return this.entity_type;
     }
@@ -1709,15 +1709,15 @@ public class PokedexEntry
         return this.pokedexNb;
     }
 
-    public ItemStack getRandomHeldItem(final Mob mob)
+    public ItemStack getRandomHeldItem(final MobEntity mob)
     {
         if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null) try
         {
             final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob
-                    .getCommandSenderWorld()).withParameter(LootContextParams.THIS_ENTITY, mob).withParameter(
-                            LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC).withParameter(LootContextParams.ORIGIN, mob
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob
+                    .getCommandSenderWorld()).withParameter(LootParameters.THIS_ENTITY, mob).withParameter(
+                            LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC).withParameter(LootParameters.ORIGIN, mob
                                     .position());
             for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
                     .getParamSet())))
@@ -1805,17 +1805,17 @@ public class PokedexEntry
         return ret;
     }
 
-    private MutableComponent nameComp;
+    private IFormattableTextComponent nameComp;
 
-    public MutableComponent getTranslatedName()
+    public IFormattableTextComponent getTranslatedName()
     {
         if (this.nameComp == null)
         {
             String key = this.getUnlocalizedName();
             if (!(this.getEntityType() instanceof PokemobType<?>)) key = this.getEntityType().getDescriptionId();
-            this.nameComp = new TranslatableComponent(key);
+            this.nameComp = new TranslationTextComponent(key);
             this.nameComp.setStyle(this.nameComp.getStyle().withClickEvent(new ClickEvent(
-                    net.minecraft.network.chat.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
+                    net.minecraft.util.text.event.ClickEvent.Action.CHANGE_PAGE, this.getTrimmedName())));
         }
         return this.nameComp;
     }
@@ -1956,7 +1956,7 @@ public class PokedexEntry
      *            - if false, will not actually do anything.
      * @return
      */
-    public boolean interact(final Player player, final IPokemob pokemob, final boolean doInteract)
+    public boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
     {
         return this.interactionLogic.interact(player, pokemob, doInteract);
     }
@@ -2029,7 +2029,7 @@ public class PokedexEntry
         this.baseForme = baseForme;
     }
 
-    public void setEntityType(final EntityType<? extends Mob> type)
+    public void setEntityType(final EntityType<? extends MobEntity> type)
     {
         this.entity_type = type;
     }

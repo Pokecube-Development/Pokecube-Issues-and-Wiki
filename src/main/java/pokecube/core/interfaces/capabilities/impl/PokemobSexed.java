@@ -2,15 +2,15 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.UUID;
 
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.TickTask;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -33,7 +33,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     private final UUID loveCause = null;
 
     @Override
-    public boolean canMate(final AgeableMob otherAnimal)
+    public boolean canMate(final AgeableEntity otherAnimal)
     {
         if (otherAnimal == this.getEntity()) return false;
         // Not allowed to mate!
@@ -88,9 +88,9 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     }
 
     @Override
-    public AgeableMob getEntity()
+    public AgeableEntity getEntity()
     {
-        return (AgeableMob) this.entity;
+        return (AgeableEntity) this.entity;
     }
 
     @Override
@@ -116,7 +116,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         if (this.getEntity().getCommandSenderWorld().isClientSide) return;
         final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here, PokecubeCore
                 .getConfig().maxSpawnRadius);
-        if (!(this.getOwner() instanceof Player) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
+        if (!(this.getOwner() instanceof PlayerEntity) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
         if (num > PokecubeCore.getConfig().mobSpawnNumber * 10) return;
         final Vector3 pos = this.here.set(this.getEntity()).addTo(0, Math.max(this.getPokedexEntry().height * this
                 .getSize() / 4, 0.5f), 0);
@@ -139,9 +139,9 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                 MinecraftForge.EVENT_BUS.post(event);
                 if (!event.isCanceled())
                 {
-                    final ServerPlayer player = (ServerPlayer) (this
-                            .getOwner() instanceof ServerPlayer ? this.getOwner()
-                                    : male.getOwner() instanceof ServerPlayer ? male.getOwner() : null);
+                    final ServerPlayerEntity player = (ServerPlayerEntity) (this
+                            .getOwner() instanceof ServerPlayerEntity ? this.getOwner()
+                                    : male.getOwner() instanceof ServerPlayerEntity ? male.getOwner() : null);
                     if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
                     this.egg = eggItem;
                     this.getEntity().getCommandSenderWorld().addFreshEntity(this.egg);
@@ -175,7 +175,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     {
         if (ThutCore.proxy.isClientSide()) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        server.tell(new TickTask(0, () -> this.mate(male)));
+        server.tell(new TickDelayedTask(0, () -> this.mate(male)));
     }
 
     @Override
@@ -193,19 +193,19 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     }
 
     @Override
-    public void setReadyToMate(final Player cause)
+    public void setReadyToMate(final PlayerEntity cause)
     {
         this.loveTimer = 0;
     }
 
     @Override
-    public ServerPlayer getCause()
+    public ServerPlayerEntity getCause()
     {
         if (this.loveCause == null) return null;
         else
         {
-            final Player playerentity = this.getEntity().getCommandSenderWorld().getPlayerByUUID(this.loveCause);
-            return playerentity instanceof ServerPlayer ? (ServerPlayer) playerentity : null;
+            final PlayerEntity playerentity = this.getEntity().getCommandSenderWorld().getPlayerByUUID(this.loveCause);
+            return playerentity instanceof ServerPlayerEntity ? (ServerPlayerEntity) playerentity : null;
         }
     }
 

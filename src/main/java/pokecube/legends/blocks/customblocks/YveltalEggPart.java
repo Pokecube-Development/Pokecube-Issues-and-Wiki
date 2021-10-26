@@ -1,8 +1,8 @@
 package pokecube.legends.blocks.customblocks;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.IStringSerializable;
 
-public enum YveltalEggPart implements StringRepresentable
+public enum YveltalEggPart implements IStringSerializable
 {
   TOP("top"),
   BOTTOM("bottom");

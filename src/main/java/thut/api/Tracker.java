@@ -6,19 +6,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 
 public class Tracker
 {
@@ -58,7 +58,7 @@ public class Tracker
     private static void onServerStart(final FMLServerStartedEvent event)
     {
         final MinecraftServer server = event.getServer();
-        Path path = server.getWorldPath(new LevelResource("thutcore"));
+        Path path = server.getWorldPath(new FolderName("thutcore"));
         final File dir = path.toFile();
         // and this if the file itself
         path = path.resolve("worlddata.dat");
@@ -71,9 +71,9 @@ public class Tracker
         try
         {
             final FileInputStream fileinputstream = new FileInputStream(file);
-            final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
+            final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
             fileinputstream.close();
-            final CompoundTag tag = CompoundNBT.getCompound("Data");
+            final CompoundNBT tag = CompoundNBT.getCompound("Data");
             Tracker.read(tag);
         }
         catch (final IOException e)
@@ -85,25 +85,25 @@ public class Tracker
 
     private static void onWorldSave(final WorldEvent.Save event)
     {
-        if (!(event.getWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getWorld();
-        if (world.dimension() != Level.OVERWORLD) return;
+        if (!(event.getWorld() instanceof ServerWorld)) return;
+        final ServerWorld world = (ServerWorld) event.getWorld();
+        if (world.dimension() != World.OVERWORLD) return;
 
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.getWorldPath(new LevelResource("thutcore"));
+        Path path = server.getWorldPath(new FolderName("thutcore"));
         final File dir = path.toFile();
         // and this if the file itself
         path = path.resolve("worlddata.dat");
         final File file = path.toFile();
         if (!file.exists()) dir.mkdirs();
 
-        final CompoundTag tag = Tracker.write();
-        final CompoundTag CompoundNBT1 = new CompoundTag();
+        final CompoundNBT tag = Tracker.write();
+        final CompoundNBT CompoundNBT1 = new CompoundNBT();
         CompoundNBT1.put("Data", tag);
         try
         {
             final FileOutputStream fileoutputstream = new FileOutputStream(file);
-            NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+            CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
             fileoutputstream.close();
         }
         catch (final IOException e)
@@ -112,14 +112,14 @@ public class Tracker
         }
     }
 
-    public static void read(final CompoundTag nbt)
+    public static void read(final CompoundNBT nbt)
     {
         Tracker.instance().time = nbt.getLong("tick_timer");
     }
 
-    public static CompoundTag write()
+    public static CompoundNBT write()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putLong("tick_timer", Tracker.instance().time);
         return tag;
     }

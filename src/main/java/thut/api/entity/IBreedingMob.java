@@ -2,9 +2,9 @@ package thut.api.entity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 
 /**
  * This interface is used for mobs which can breed with other mobs.
@@ -13,9 +13,9 @@ import net.minecraft.world.entity.player.Player;
  */
 public interface IBreedingMob
 {
-    AgeableMob getEntity();
+    AgeableEntity getEntity();
 
-    default boolean canMate(final AgeableMob AnimalEntity)
+    default boolean canMate(final AgeableEntity AnimalEntity)
     {
         return false;
     }
@@ -48,12 +48,12 @@ public interface IBreedingMob
     {
     }
 
-    default void setReadyToMate(@Nullable final Player cause)
+    default void setReadyToMate(@Nullable final PlayerEntity cause)
     {
     }
 
     @Nullable
-    default ServerPlayer getCause()
+    default ServerPlayerEntity getCause()
     {
         return null;
     }

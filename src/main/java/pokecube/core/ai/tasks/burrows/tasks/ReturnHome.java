@@ -1,8 +1,8 @@
 package pokecube.core.ai.tasks.burrows.tasks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.interfaces.IPokemob;

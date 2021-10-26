@@ -338,7 +338,7 @@
             "values": {
               "maxLight": "0.5",
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "3",
               "rate": "0.25",
               "max": "8",
@@ -1983,7 +1983,7 @@
           },
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands",
+              "biomes": "pokecube_legends:distorted_biome",
               "rate": "0.3"
             },
             "model": {
@@ -4609,7 +4609,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands",
+              "biomes": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -4633,7 +4633,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.001",
               "max": "1"
@@ -4690,7 +4690,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6220,7 +6220,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_biome",
               "rate": "0.05",
               "night": "false"
             }
@@ -7397,7 +7397,7 @@
           },
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest,pokecube_legends:temporal_jungle,pokecube_legends:mirage_desert,pokecube_legends:tainted_barrens,pokecube_legends:blinding_deltas,pokecube_legends:forsaken_taiga",
+              "biomes": "pokecube_legends:ultra_deep_cave,pokecube_legends:ultra_jungle,pokecube_legends:ultra_desert,pokecube_legends:ultra_deep_hills,pokecube_legends:ultra_dark_valley,pokecube_legends:ultra_forgotten_plains",
               "min": "1",
               "rate": "0.007",
               "max": "1"
@@ -7412,7 +7412,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest",
+              "biomes": "pokecube_legends:ultra_deep_cave",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7427,7 +7427,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:temporal_jungle",
+              "biomes": "pokecube_legends:ultra_jungle",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7442,7 +7442,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:mirage_desert",
+              "biomes": "pokecube_legends:ultra_desert",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7457,7 +7457,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:tainted_barrens",
+              "biomes": "pokecube_legends:ultra_deep_hills",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7472,7 +7472,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:mirage_desert",
+              "biomes": "pokecube_legends:ultra_desert",
               "min": "1",
               "rate": "0.1",
               "max": "1"
@@ -7487,7 +7487,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:forsaken_taiga",
+              "biomes": "pokecube_legends:ultra_forgotten_plains",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7502,7 +7502,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:blinding_deltas",
+              "biomes": "pokecube_legends:ultra_dark_valley",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7547,7 +7547,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:temporal_jungle",
+              "biomes": "pokecube_legends:ultra_jungle",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7562,7 +7562,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:tainted_barrens",
+              "biomes": "pokecube_legends:ultra_deep_hills",
               "min": "1",
               "rate": "0.2",
               "max": "1"
@@ -7577,7 +7577,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:fungal_forest",
+              "biomes": "pokecube_legends:ultra_deep_cave",
               "min": "1",
               "rate": "0.2",
               "max": "1"

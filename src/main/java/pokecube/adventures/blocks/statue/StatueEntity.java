@@ -2,33 +2,31 @@ package pokecube.adventures.blocks.statue;
 
 import java.util.UUID;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.core.common.network.TileUpdate;
 
-public class StatueEntity extends BlockEntity
+public class StatueEntity extends TileEntity
 {
-    public StatueEntity(final BlockEntityType<?> type, final BlockPos pos, final BlockState state)
+    public StatueEntity(final TileEntityType<?> type)
     {
-        super(type, pos, state);
+        super(type);
     }
 
-    public StatueEntity(final BlockPos pos, final BlockState state)
+    public StatueEntity()
     {
-        this(PokecubeAdv.STATUE_TYPE.get(), pos, state);
+        super(PokecubeAdv.STATUE_TYPE.get());
     }
 
     public void checkMob()
@@ -54,7 +52,7 @@ public class StatueEntity extends BlockEntity
                 final LivingEntity mob = copy.getCopiedMob();
                 mob.setUUID(UUID.randomUUID());
                 mob.setPos(pos.getX(), pos.getY(), pos.getZ());
-                final Direction dir = this.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+                final Direction dir = this.getBlockState().getValue(HorizontalBlock.FACING);
                 switch (dir)
                 {
                 case EAST:
@@ -79,31 +77,31 @@ public class StatueEntity extends BlockEntity
     }
 
     @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket()
+    public SUpdateTileEntityPacket getUpdatePacket()
     {
         this.checkMob();
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 6, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.worldPosition, 6, this.getUpdateTag());
     }
 
     @Override
-    public CompoundTag getUpdateTag()
+    public CompoundNBT getUpdateTag()
     {
         this.checkMob();
-        return this.save(new CompoundTag());
+        return this.save(new CompoundNBT());
     }
 
     @Override
-    public void handleUpdateTag(final CompoundTag tag)
+    public void handleUpdateTag(final BlockState state, final CompoundNBT tag)
     {
-        super.handleUpdateTag(tag);
+        super.handleUpdateTag(state, tag);
         final ICopyMob copy = CopyCaps.get(this);
         if (copy != null) copy.onBaseTick(this.level, null);
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final BlockState state, final CompoundNBT tag)
     {
-        super.load(tag);
-        if (this.level instanceof ServerLevel) TileUpdate.sendUpdate(this);
+        super.load(state, tag);
+        if (this.level instanceof ServerWorld) TileUpdate.sendUpdate(this);
     }
 }

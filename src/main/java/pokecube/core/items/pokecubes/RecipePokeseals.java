@@ -2,22 +2,22 @@ package pokecube.core.items.pokecubes;
 
 import java.util.Locale;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.Level;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipe;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 
-public class RecipePokeseals extends CustomRecipe
+public class RecipePokeseals extends SpecialRecipe
 {
     public static final ResourceLocation   ANYDYE = new ResourceLocation("forge", "dyes");
     public static final ResourceLocation[] DYES   = new ResourceLocation[DyeColor.values().length];
@@ -35,16 +35,16 @@ public class RecipePokeseals extends CustomRecipe
     public static ItemStack process(final ItemStack cube, final ItemStack seal)
     {
         if (!seal.hasTag()) return cube;
-        final CompoundTag pokecubeTag = TagNames.getPokecubePokemobTag(cube.getTag()).getCompound(TagNames.VISUALSTAG)
+        final CompoundNBT pokecubeTag = TagNames.getPokecubePokemobTag(cube.getTag()).getCompound(TagNames.VISUALSTAG)
                 .getCompound(TagNames.POKECUBE);
         if (!pokecubeTag.contains("id"))
         {
             final ItemStack blank = cube.copy();
-            blank.setTag(new CompoundTag());
+            blank.setTag(new CompoundNBT());
             blank.save(pokecubeTag);
         }
-        if (!pokecubeTag.contains("tag")) pokecubeTag.put("tag", new CompoundTag());
-        final CompoundTag cubeTag = pokecubeTag.getCompound("tag");
+        if (!pokecubeTag.contains("tag")) pokecubeTag.put("tag", new CompoundNBT());
+        final CompoundNBT cubeTag = pokecubeTag.getCompound("tag");
         cubeTag.put(TagNames.POKESEAL, seal.getTag().getCompound(TagNames.POKESEAL));
         pokecubeTag.put("tag", cubeTag);
         TagNames.getPokecubePokemobTag(cube.getTag()).getCompound(TagNames.VISUALSTAG).put(TagNames.POKECUBE,
@@ -65,11 +65,11 @@ public class RecipePokeseals extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         final ItemStack toCraft = new ItemStack(PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL), 1);
-        final CompoundTag tag = new CompoundTag();
-        final CompoundTag tag1 = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
+        final CompoundNBT tag1 = new CompoundNBT();
         boolean dye;
         for (int l1 = 0; l1 < inv.getContainerSize(); ++l1)
         {
@@ -101,13 +101,13 @@ public class RecipePokeseals extends CustomRecipe
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
+    public IRecipeSerializer<?> getSerializer()
     {
         return RecipeHandler.APPLYSEAL.get();
     }
 
     @Override
-    public boolean matches(final CraftingContainer inv, final Level worldIn)
+    public boolean matches(final CraftingInventory inv, final World worldIn)
     {
         int cube = 0;
         int addons = 0;

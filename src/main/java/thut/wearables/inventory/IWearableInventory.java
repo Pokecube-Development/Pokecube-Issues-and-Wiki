@@ -2,7 +2,7 @@ package thut.wearables.inventory;
 
 import java.util.Set;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 import thut.wearables.EnumWearable;
 
 public interface IWearableInventory

@@ -1,6 +1,6 @@
 package pokecube.core.events;
 
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class BrainInitEvent extends LivingEvent

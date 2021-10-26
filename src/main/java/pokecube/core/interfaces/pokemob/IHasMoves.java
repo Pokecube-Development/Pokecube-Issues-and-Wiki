@@ -1,9 +1,9 @@
 package pokecube.core.interfaces.pokemob;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.MoveUse;
@@ -244,8 +244,8 @@ public interface IHasMoves extends IHasStats
 
         if (thisMob.getOwner() != null && thisEntity.isAlive())
         {
-            final Component move = new TranslatableComponent(MovesUtils.getUnlocalizedMove(moveName));
-            final Component mess = new TranslatableComponent("pokemob.move.notify.learn", thisMob
+            final ITextComponent move = new TranslationTextComponent(MovesUtils.getUnlocalizedMove(moveName));
+            final ITextComponent mess = new TranslationTextComponent("pokemob.move.notify.learn", thisMob
                     .getDisplayName(), move);
             thisMob.displayMessageToOwner(mess);
         }
@@ -262,8 +262,8 @@ public interface IHasMoves extends IHasStats
                     if (s == null) continue;
                     if (s.equals(moveName)) return;
                 }
-                final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "", thisMob
-                        .getDisplayName().getString(), new TranslatableComponent(MovesUtils
+                final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "", thisMob
+                        .getDisplayName().getString(), new TranslationTextComponent(MovesUtils
                                 .getUnlocalizedMove(moveName)));
                 thisMob.displayMessageToOwner(mess);
                 if (!this.getMoveStats().newMoves.contains(moveName))

@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IBlockReader;
 
 public class Matrix3
 {
@@ -53,7 +53,7 @@ public class Matrix3
         return ret;
     }
 
-    public static AABB copyAndChange(final AABB box, final int index, final double value)
+    public static AxisAlignedBB copyAndChange(final AxisAlignedBB box, final int index, final double value)
     {
         double x1 = box.minX;
         double x2 = box.maxX;
@@ -68,7 +68,7 @@ public class Matrix3
         if (index == 4) y2 = value;
         if (index == 5) z2 = value;
 
-        return new AABB(x1, y1, z1, x2, y2, z2);
+        return new AxisAlignedBB(x1, y1, z1, x2, y2, z2);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Matrix3
      * @param temp1
      * @return
      */
-    public static boolean doCollision(final List<AABB> aabbs, final AABB entityBox, final Entity e,
+    public static boolean doCollision(final List<AxisAlignedBB> aabbs, final AxisAlignedBB entityBox, final Entity e,
             final double yShift, final Vector3 diffs, final Vector3 temp1)
     {
         final double minX = entityBox.minX;
@@ -91,12 +91,12 @@ public class Matrix3
         final double maxY = entityBox.maxY;
         final double maxZ = entityBox.maxZ;
         final double factor = 0.75d;
-        final Vec3 motion = e.getDeltaMovement();
+        final Vector3d motion = e.getDeltaMovement();
         double dx = Math.max(maxX - minX, 0.5) / factor + motion.x, dz = Math.max(maxZ - minZ, 0.5) / factor + motion.z,
                 r;
 
         final boolean collide = false;
-        final AABB boundingBox = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+        final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
 
         Matrix3.mergeAABBs(aabbs, maxX - minX, maxY - minY, maxZ - minZ);
 
@@ -106,7 +106,7 @@ public class Matrix3
         boolean ceiling = false;
         double yMaxFloor = minY;
 
-        for (final AABB aabb : aabbs)
+        for (final AxisAlignedBB aabb : aabbs)
         {
             dx = 10e3;
             dz = 10e3;
@@ -171,7 +171,7 @@ public class Matrix3
         return collide;
     }
 
-    public static void expandAABBs(final List<AABB> aabbs, final AABB reference)
+    public static void expandAABBs(final List<AxisAlignedBB> aabbs, final AxisAlignedBB reference)
     {
         final double mx = reference.minX + (reference.maxX - reference.minX) / 2;
         final double my = reference.minY + (reference.maxY - reference.minY) / 2;
@@ -190,7 +190,7 @@ public class Matrix3
 
         for (int i = 0; i < aabbs.size(); i++)
         {
-            final AABB box = aabbs.get(i);
+            final AxisAlignedBB box = aabbs.get(i);
             final boolean yMinus = box.minY - to <= reference.minY && reference.minY >= box.minY;
             final boolean yPlus = box.maxY + to >= reference.maxY && reference.maxY <= box.maxY;
             if (yMinus && !yPlus) y0 = yMin;
@@ -209,14 +209,14 @@ public class Matrix3
             else z0 = box.minZ;
             if (zPlus && !zMinus) z1 = zMax;
             else z1 = box.maxZ;
-            aabbs.set(i, new AABB(x0, y0, z0, x1, y1, z1));
+            aabbs.set(i, new AxisAlignedBB(x0, y0, z0, x1, y1, z1));
         }
     }
 
-    public static AABB getAABB(final double minX, final double minY, final double minZ, final double maxX,
+    public static AxisAlignedBB getAABB(final double minX, final double minY, final double minZ, final double maxX,
             final double maxY, final double maxZ)
     {
-        return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     /**
@@ -292,9 +292,9 @@ public class Matrix3
      * @param dy
      * @param dz
      */
-    public static void mergeAABBs(final List<AABB> aabbs, final double dx, final double dy, final double dz)
+    public static void mergeAABBs(final List<AxisAlignedBB> aabbs, final double dx, final double dy, final double dz)
     {
-        final Comparator<AABB> comparator = (arg0, arg1) ->
+        final Comparator<AxisAlignedBB> comparator = (arg0, arg1) ->
         {
             final int minX0 = (int) (arg0.minX * 16);
             final int minY0 = (int) (arg0.minY * 16);
@@ -309,11 +309,11 @@ public class Matrix3
             }
             return minX0 - minX1;
         };
-        final AABB[] boxes = aabbs.toArray(new AABB[aabbs.size()]);
+        final AxisAlignedBB[] boxes = aabbs.toArray(new AxisAlignedBB[aabbs.size()]);
         aabbs.clear();
         Arrays.sort(boxes, comparator);
-        AABB b1;
-        AABB b2;
+        AxisAlignedBB b1;
+        AxisAlignedBB b2;
         for (int i = 0; i < boxes.length; i++)
         {
             b1 = boxes[i];
@@ -383,7 +383,7 @@ public class Matrix3
                 }
             }
         }
-        for (final AABB b : boxes)
+        for (final AxisAlignedBB b : boxes)
             if (b != null) aabbs.add(b);
     }
 
@@ -595,7 +595,7 @@ public class Matrix3
         return this.rows[i].get(j);
     }
 
-    public AABB getBoundingBox()
+    public AxisAlignedBB getBoundingBox()
     {
         final Vector3 v1 = this.boxCentre();
         final Vector3[] corners = this.corners(v1);
@@ -612,7 +612,7 @@ public class Matrix3
             if (v.y < minY) minY = v.y;
             if (v.z < minZ) minZ = v.z;
         }
-        return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     public Matrix3 getOctant(final int octant)
@@ -685,7 +685,7 @@ public class Matrix3
         return this.intersects(cornersB);
     }
 
-    public boolean isInMaterial(final BlockGetter world, final Vector3 location, final Vector3 offset,
+    public boolean isInMaterial(final IBlockReader world, final Vector3 location, final Vector3 offset,
             final Material m)
     {
         boolean ret = false;
@@ -731,7 +731,7 @@ public class Matrix3
         return ret;
     }
 
-    public void set(final AABB aabb)
+    public void set(final AxisAlignedBB aabb)
     {
         this.rows[0].x = aabb.minX;
         this.rows[0].y = aabb.minY;

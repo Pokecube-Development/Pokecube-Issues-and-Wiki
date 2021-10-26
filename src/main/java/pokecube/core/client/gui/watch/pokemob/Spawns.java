@@ -1,8 +1,8 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
@@ -27,7 +27,7 @@ public class Spawns extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedMob.size())

@@ -1,15 +1,15 @@
 package pokecube.core.items.pokecubes;
 
-import net.minecraft.core.BlockSource;
-import net.minecraft.core.Direction;
-import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.BlockState;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.dispenser.IDispenseItemBehavior;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.state.Property;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokecube;
@@ -17,11 +17,11 @@ import pokecube.core.interfaces.PokecubeMod;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
-public class DispenserBehaviorPokecube implements DispenseItemBehavior
+public class DispenserBehaviorPokecube implements IDispenseItemBehavior
 {
 
     @Override
-    public ItemStack dispense(final BlockSource source, final ItemStack stack)
+    public ItemStack dispense(final IBlockSource source, final ItemStack stack)
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();
@@ -48,12 +48,12 @@ public class DispenserBehaviorPokecube implements DispenseItemBehavior
 
         if (ItemList.is(PokecubeItems.POKEMOBEGG, stack))
         {
-            player.setItemInHand(InteractionHand.MAIN_HAND, stack);
-            final BlockHitResult result = new BlockHitResult(new Vec3(0.5, 0.5, 0.5), Direction.UP, source
+            player.setItemInHand(Hand.MAIN_HAND, stack);
+            final BlockRayTraceResult result = new BlockRayTraceResult(new Vector3d(0.5, 0.5, 0.5), Direction.UP, source
                     .getPos().relative(dir), false);
-            final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, result);
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, result);
             stack.useOn(context);
-            player.getInventory().clearContent();
+            player.inventory.clearContent();
         }
         else if (stack.getItem() instanceof IPokecube)
         {

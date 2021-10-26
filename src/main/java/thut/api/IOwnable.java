@@ -4,9 +4,9 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.server.ServerWorld;
 
 public interface IOwnable
 {
@@ -24,12 +24,12 @@ public interface IOwnable
      * world.
      */
     @Nullable
-    default LivingEntity getOwner(final ServerLevel world)
+    default LivingEntity getOwner(final ServerWorld world)
     {
         return this.getOwner(world, this.getOwner());
     }
 
-    default LivingEntity getOwner(final ServerLevel world, final LivingEntity _default)
+    default LivingEntity getOwner(final ServerWorld world, final LivingEntity _default)
     {
         if (_default == null && this.getOwnerId() != null)
         {

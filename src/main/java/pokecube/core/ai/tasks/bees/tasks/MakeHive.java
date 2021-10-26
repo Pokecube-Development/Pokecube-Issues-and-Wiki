@@ -8,14 +8,14 @@ import java.util.stream.Stream;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -27,15 +27,15 @@ import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class MakeHive extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Don't run if we have a hive, we will make one if needed.
-        MakeHive.mems.put(BeeTasks.HIVE_POS, MemoryStatus.VALUE_ABSENT);
+        MakeHive.mems.put(BeeTasks.HIVE_POS, MemoryModuleStatus.VALUE_ABSENT);
         // We use this memory to determine how long since we had a hive
-        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(BeeTasks.NO_HIVE_TIMER, MemoryModuleStatus.VALUE_PRESENT);
         // We use this memory to decide where to put the hive
-        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        MakeHive.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     public MakeHive(final IPokemob pokemob)

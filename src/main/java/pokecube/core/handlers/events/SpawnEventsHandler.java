@@ -17,23 +17,23 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -81,7 +81,7 @@ public class SpawnEventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, SpawnEventsHandler::onStructureSpawn);
     }
 
-    private static void CapLevel(final SpawnEvent.PickLevel event)
+    private static void CapLevel(final SpawnEvent.Level event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);
@@ -95,13 +95,13 @@ public class SpawnEventsHandler
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld((Level) event.world, event.forSpawn)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((World) event.world, event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
-        final LevelAccessor world = event.world;
+        final IWorld world = event.world;
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
         Collections.shuffle(entries);
         int index = 0;
@@ -140,7 +140,7 @@ public class SpawnEventsHandler
         if (random > weight || v == null) return;
         if (dbe.isLegendary())
         {
-            final int level = SpawnHandler.getSpawnLevel((Level) world, v, dbe);
+            final int level = SpawnHandler.getSpawnLevel((World) world, v, dbe);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;
         }
         event.setLocation(v);
@@ -160,8 +160,8 @@ public class SpawnEventsHandler
 
         mob.setPersistenceRequired();
         mob.moveTo(event.pos, 0.0F, 0.0F);
-        mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
-                MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
+        mob.finalizeSpawn((IServerWorld) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
+                SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
 
         JsonObject thing = new JsonObject();
         if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
@@ -187,7 +187,7 @@ public class SpawnEventsHandler
 
     private static void spawnNpc(final StructureEvent.ReadTag event, final NpcMob mob, final JsonObject thing)
     {
-        if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE,
+        if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual, SpawnReason.STRUCTURE,
                 thing)))
         {
             event.setResult(Result.ALLOW);
@@ -195,7 +195,7 @@ public class SpawnEventsHandler
         }
     }
 
-    private static void spawnMob(final StructureEvent.ReadTag event, final Mob mob, final JsonObject thing)
+    private static void spawnMob(final StructureEvent.ReadTag event, final MobEntity mob, final JsonObject thing)
     {
         EventsHandler.Schedule(event.worldActual, w ->
         {
@@ -222,14 +222,14 @@ public class SpawnEventsHandler
 
             final Entity entity = type.create(event.worldActual);
 
-            if (entity instanceof Mob) ((Mob) entity).setPersistenceRequired();
+            if (entity instanceof MobEntity) ((MobEntity) entity).setPersistenceRequired();
             entity.moveTo(event.pos, 0.0F, 0.0F);
-            if (entity instanceof Mob) ((Mob) entity).finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
-                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null,
-                    (CompoundTag) null);
+            if (entity instanceof MobEntity) ((MobEntity) entity).finalizeSpawn((IServerWorld) event.worldBlocks,
+                    event.worldBlocks.getCurrentDifficultyAt(event.pos), SpawnReason.STRUCTURE,
+                    (ILivingEntityData) null, (CompoundNBT) null);
 
             if (entity instanceof NpcMob) SpawnEventsHandler.spawnNpc(event, (NpcMob) entity, thing);
-            else if (entity instanceof Mob) SpawnEventsHandler.spawnMob(event, (Mob) entity, thing);
+            else if (entity instanceof MobEntity) SpawnEventsHandler.spawnMob(event, (MobEntity) entity, thing);
             else PokecubeCore.LOGGER.warn("Unsupported Entity for spawning! {}", function);
         }
     }
@@ -248,29 +248,27 @@ public class SpawnEventsHandler
             {
                 PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
             }
-            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}",
-                    function, event.pos);
+            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
             else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
 
     private static void onStructureSpawn(final StructureEvent.BuildStructure event)
     {
-        if (event.getBiomeType() == null) return;
-        if (event.getWorld() instanceof ServerLevel)
+        if (event.getBiomeType() != null) if (event.getWorld() instanceof ServerWorld)
         {
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
-            final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
-            SpawnEventsHandler.queueForUpdate(poses, subbiome, (Level) event.getWorld());
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
+            SpawnEventsHandler.queueForUpdate(poses, subbiome, (World) event.getWorld());
         }
         else
         {
             PokecubeCore.LOGGER.warn("Warning, world is not server world, things may break!");
             final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
-            final BoundingBox box = event.getBoundingBox();
-            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
-            final LevelAccessor world = event.getWorld();
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.x0, box.y0, box.z0, box.x1, box.y1, box.z1);
+            final IWorld world = event.getWorld();
             poses.forEach((p) ->
             {
                 TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
@@ -278,7 +276,7 @@ public class SpawnEventsHandler
         }
     }
 
-    private static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
+    private static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final World level)
     {
         final Map<ChunkPos, Set<BlockPos>> byChunk = Maps.newHashMap();
         poses.forEach((p) ->
@@ -309,7 +307,7 @@ public class SpawnEventsHandler
 
     public static interface INpcProcessor
     {
-        void process(final Mob mob, final JsonObject thing);
+        void process(final MobEntity mob, final JsonObject thing);
     }
 
     public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) ->
@@ -348,7 +346,7 @@ public class SpawnEventsHandler
                     final String tagStr = thing.get("copyTag").getAsString();
                     try
                     {
-                        final CompoundTag tag = new TagParser(new StringReader(tagStr)).readStruct();
+                        final CompoundNBT tag = new JsonToNBT(new StringReader(tagStr)).readStruct();
                         copyMob.setCopiedNBT(tag);
                     }
                     catch (final CommandSyntaxException e)
@@ -385,7 +383,7 @@ public class SpawnEventsHandler
         }
     });
 
-    public static void applyFunction(final Mob npc, final JsonObject thing)
+    public static void applyFunction(final MobEntity npc, final JsonObject thing)
     {
         SpawnEventsHandler.processors.forEach(i -> i.process(npc, thing));
     }

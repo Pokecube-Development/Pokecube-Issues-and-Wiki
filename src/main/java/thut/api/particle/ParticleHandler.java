@@ -3,11 +3,11 @@ package thut.api.particle;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.settings.ParticleStatus;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -59,7 +59,7 @@ public class ParticleHandler
         {
             synchronized (ParticleHandler.particles)
             {
-                final PoseStack mat = event.getMatrixStack();
+                final MatrixStack mat = event.getMatrixStack();
                 mat.pushPose();
                 final List<ParticlePacket> list = Lists.newArrayList();
                 for (int i = 0; i < ParticleHandler.particles.size(); i++)
@@ -73,7 +73,7 @@ public class ParticleHandler
                         list.add(packet);
                         continue;
                     }
-                    final Player player = Minecraft.getInstance().player;
+                    final PlayerEntity player = Minecraft.getInstance().player;
                     final Vector3 source = Vector3.getNewVector().set(player.xOld, player.yOld,
                             player.zOld);
                     mat.pushPose();

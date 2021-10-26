@@ -2,18 +2,18 @@ package thut.api.terrain;
 
 import java.util.Objects;
 
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
 
 public class GlobalChunkPos
 {
-    private final ResourceKey<Level> world;
+    private final RegistryKey<World> world;
     private final ChunkPos      pos;
 
     private final int hash;
 
-    public GlobalChunkPos(final ResourceKey<Level> world, final ChunkPos pos)
+    public GlobalChunkPos(final RegistryKey<World> world, final ChunkPos pos)
     {
         this.world = world;
         this.pos = pos;

@@ -12,19 +12,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import thut.core.common.ThutCore;
 
 public class PlayerDataHandler
@@ -35,7 +35,7 @@ public class PlayerDataHandler
 
         String getIdentifier();
 
-        void readFromNBT(CompoundTag tag);
+        void readFromNBT(CompoundNBT tag);
 
         void readSync(ByteBuf data);
 
@@ -43,7 +43,7 @@ public class PlayerDataHandler
 
         void writeSync(ByteBuf data);
 
-        void writeToNBT(CompoundTag tag);
+        void writeToNBT(CompoundNBT tag);
 
         default void onPlayerTick(final PlayerTickEvent event)
         {
@@ -86,11 +86,15 @@ public class PlayerDataHandler
             for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap)
                 try
                 {
-                    final PlayerData toAdd = type.getConstructor().newInstance();
+                    final PlayerData toAdd = type.newInstance();
                     this.data.put(type, toAdd);
                     this.idMap.put(toAdd.getIdentifier(), toAdd);
                 }
-                catch (final Exception e)
+                catch (final InstantiationException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (final IllegalAccessException e)
                 {
                     e.printStackTrace();
                 }
@@ -130,10 +134,10 @@ public class PlayerDataHandler
             PlayerData toAdd;
             try
             {
-                toAdd = type.getConstructor().newInstance();
+                toAdd = type.newInstance();
                 PlayerDataHandler.dataIds.add(toAdd.getIdentifier());
             }
-            catch (final Exception e)
+            catch (InstantiationException | IllegalAccessException e)
             {
                 e.printStackTrace();
             }
@@ -144,7 +148,7 @@ public class PlayerDataHandler
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.getWorldPath(new LevelResource("thutcore"));
+        Path path = server.getWorldPath(new FolderName("thutcore"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
         final File dir = path.toFile();
@@ -169,7 +173,7 @@ public class PlayerDataHandler
         PlayerDataHandler.dataMap.add(data);
     }
 
-    public static void saveCustomData(final Player player)
+    public static void saveCustomData(final PlayerEntity player)
     {
         PlayerDataHandler.saveCustomData(player.getStringUUID());
     }
@@ -197,7 +201,7 @@ public class PlayerDataHandler
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         for (final String uuid : this.data.keySet())
         {
-            final ServerPlayer player = server.getPlayerList().getPlayer(UUID.fromString(uuid));
+            final ServerPlayerEntity player = server.getPlayerList().getPlayer(UUID.fromString(uuid));
             if (player == null) toUnload.add(uuid);
         }
         for (final String s : toUnload)
@@ -207,7 +211,7 @@ public class PlayerDataHandler
         }
     }
 
-    public PlayerDataManager getPlayerData(final Player player)
+    public PlayerDataManager getPlayerData(final PlayerEntity player)
     {
         return this.getPlayerData(player.getStringUUID());
     }
@@ -242,7 +246,7 @@ public class PlayerDataHandler
             if (file != null && file.exists()) try
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
-                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
+                final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
                 fileinputstream.close();
                 data.readFromNBT(CompoundNBT.getCompound("Data"));
             }
@@ -266,14 +270,14 @@ public class PlayerDataHandler
             final File file = PlayerDataHandler.getFileForUUID(uuid, fileName);
             if (file != null)
             {
-                final CompoundTag CompoundNBT = new CompoundTag();
+                final CompoundNBT CompoundNBT = new CompoundNBT();
                 data.writeToNBT(CompoundNBT);
-                final CompoundTag CompoundNBT1 = new CompoundTag();
+                final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 try
                 {
                     final FileOutputStream fileoutputstream = new FileOutputStream(file);
-                    NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+                    CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                     fileoutputstream.close();
                 }
                 catch (final Exception e)
@@ -296,14 +300,14 @@ public class PlayerDataHandler
             final File file = PlayerDataHandler.getFileForUUID(uuid, fileName);
             if (file != null)
             {
-                final CompoundTag CompoundNBT = new CompoundTag();
+                final CompoundNBT CompoundNBT = new CompoundNBT();
                 data.writeToNBT(CompoundNBT);
-                final CompoundTag CompoundNBT1 = new CompoundTag();
+                final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 try
                 {
                     final FileOutputStream fileoutputstream = new FileOutputStream(file);
-                    NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+                    CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                     fileoutputstream.close();
                 }
                 catch (final Exception e)

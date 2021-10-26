@@ -3,7 +3,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "pokecube_legends:crystal_block"
+      "item": "pokecube_legends:temporal_crystal"
     }
   ],
   "result": {

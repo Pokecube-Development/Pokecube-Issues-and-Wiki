@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -28,20 +28,21 @@ public class TrainerTracker
 
         public BlockPos getPos()
         {
-            return this.npc.blockPosition();
+            return this.npc.getEntity().blockPosition();
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof Entry) return ((Entry) obj).npc.getUUID().equals(this.npc.getUUID());
+            if (obj instanceof Entry) return ((Entry) obj).npc.getEntity().getUUID().equals(this.npc.getEntity()
+                    .getUUID());
             return false;
         }
 
         @Override
         public int hashCode()
         {
-            return this.npc.getUUID().hashCode();
+            return this.npc.getEntity().getUUID().hashCode();
         }
 
         @Override
@@ -51,14 +52,14 @@ public class TrainerTracker
         }
     }
 
-    private static Map<ResourceKey<Level>, List<Entry>> mobMap = new HashMap<>();
+    private static Map<RegistryKey<World>, List<Entry>> mobMap = new HashMap<>();
 
     public static void add(final TrainerBase npc)
     {
         // First remove the mob from all maps, incase it is in one.
         TrainerTracker.removeTrainer(npc);
 
-        final ResourceKey<Level> dim = npc.getCommandSenderWorld().dimension();
+        final RegistryKey<World> dim = npc.getEntity().getCommandSenderWorld().dimension();
         // Find the appropriate map
         final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
@@ -74,9 +75,9 @@ public class TrainerTracker
         TrainerTracker.mobMap.forEach((d, m) -> m.remove(e));
     }
 
-    public static int countTrainers(final Level world, final AABB box, final Predicate<TrainerBase> matches)
+    public static int countTrainers(final World world, final AxisAlignedBB box, final Predicate<TrainerBase> matches)
     {
-        final ResourceKey<Level> dim = world.dimension();
+        final RegistryKey<World> dim = world.dimension();
         final Entry[] mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>()).toArray(new Entry[0]);
         int num = 0;
         for (final Entry e : mobList)
@@ -84,22 +85,22 @@ public class TrainerTracker
         return num;
     }
 
-    public static int countTrainers(final Level world, final AABB box)
+    public static int countTrainers(final World world, final AxisAlignedBB box)
     {
         return TrainerTracker.countTrainers(world, box, e -> true);
     }
 
-    public static int countTrainers(final Level world, final Vector3 location, final double radius)
+    public static int countTrainers(final World world, final Vector3 location, final double radius)
     {
-        final AABB box = location.getAABB().inflate(radius, radius, radius);
+        final AxisAlignedBB box = location.getAABB().inflate(radius, radius, radius);
         return TrainerTracker.countTrainers(world, box);
     }
 
     @SubscribeEvent
     public static void worldLoadEvent(final Load evt)
     {
-        if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof Level)) return;
+        if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof World)) return;
         // Reset the tracked map for this world
-        TrainerTracker.mobMap.put(((Level) evt.getWorld()).dimension(), new ArrayList<>());
+        TrainerTracker.mobMap.put(((World)evt.getWorld()).dimension(), new ArrayList<>());
     }
 }

@@ -4,12 +4,12 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -27,13 +27,13 @@ import thut.core.common.world.mobs.data.types.Data_String;
 
 public class PlayerPokemobs extends DefaultPokemobs
 {
-    public static Function<Player, IHasPokemobs> PLAYERPOKEMOBS = (p) -> new PlayerPokemobs(p);
+    public static Function<PlayerEntity, IHasPokemobs> PLAYERPOKEMOBS = (p) -> new PlayerPokemobs(p);
 
     public static void register(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof Player)) return;
+        if (!(event.getObject() instanceof PlayerEntity)) return;
         if (event.getCapabilities().containsKey(TrainerEventHandler.POKEMOBSCAP)) return;
-        final IHasPokemobs mobs = PlayerPokemobs.PLAYERPOKEMOBS.apply((Player) event.getObject());
+        final IHasPokemobs mobs = PlayerPokemobs.PLAYERPOKEMOBS.apply((PlayerEntity) event.getObject());
         event.addCapability(TrainerEventHandler.POKEMOBSCAP, mobs);
         DataSync data = TrainerEventHandler.getData(event);
         if (data == null)
@@ -45,12 +45,12 @@ public class PlayerPokemobs extends DefaultPokemobs
         if (mobs instanceof PlayerPokemobs) ((PlayerPokemobs) mobs).holder.TYPE = data.register(new Data_String(), "");
     }
 
-    Player player;
+    PlayerEntity player;
     LivingEntity target = null;
 
     long setTargetTime = 0;
 
-    public PlayerPokemobs(final Player player)
+    public PlayerPokemobs(final PlayerEntity player)
     {
         this.player = player;
         this.init(player, new DefaultAIStates(), new DefaultMessager(), new DefaultRewards());
@@ -79,7 +79,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public int getMaxPokemobCount()
     {
-        return this.player.getInventory().getContainerSize();
+        return this.player.inventory.getContainerSize();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class PlayerPokemobs extends DefaultPokemobs
             final ItemStack stack = this.getPokemob(i);
             if (!stack.isEmpty())
             {
-                final CompoundTag pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
+                final CompoundNBT pokeTag = stack.getTag().getCompound(TagNames.POKEMOB);
                 final float health = pokeTag.getFloat("Health");
                 if (health > 0) return stack;
             }
@@ -101,22 +101,22 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public ItemStack getPokemob(final int slot)
     {
-        final ItemStack stack = this.player.getInventory().getItem(slot);
+        final ItemStack stack = this.player.inventory.getItem(slot);
         if (PokecubeManager.isFilled(stack)) return stack;
         return ItemStack.EMPTY;
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag nbt = new CompoundTag();
+        final CompoundNBT nbt = new CompoundNBT();
         if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
         if (this.getType() != null) nbt.putString("type", this.getType().getName());
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
         if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
@@ -126,7 +126,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     public void onSetTarget(final LivingEntity target)
     {
         if (target != null && target.getServer() != null) this.setTargetTime = target.getServer().getLevel(
-                Level.OVERWORLD).getGameTime();
+                World.OVERWORLD).getGameTime();
         if (target == this.target) return;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
@@ -145,7 +145,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     public LivingEntity getTarget()
     {
         if (this.target != null && this.target.getServer() != null) if (this.target.getServer().getLevel(
-                Level.OVERWORLD).getGameTime() - this.setTargetTime > 50) this.target = null;
+                World.OVERWORLD).getGameTime() - this.setTargetTime > 50) this.target = null;
         return this.target;
     }
 

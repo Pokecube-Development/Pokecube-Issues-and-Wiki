@@ -1,13 +1,13 @@
 package pokecube.core.ai.pathing;
 
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.pathfinding.ClimberPathNavigator;
+import net.minecraft.world.World;
 
-public class ClimbPathNavi extends WallClimberNavigation
+public class ClimbPathNavi extends ClimberPathNavigator
 {
 
-    public ClimbPathNavi(final Mob entityLivingIn, final Level worldIn)
+    public ClimbPathNavi(final MobEntity entityLivingIn, final World worldIn)
     {
         super(entityLivingIn, worldIn);
     }

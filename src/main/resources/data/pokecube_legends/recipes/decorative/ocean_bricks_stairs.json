@@ -1,0 +1,18 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+	"## ",
+	"###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:oceanbrick"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:ocean_brick_stairs",
+    "count": 4
+  }
+}

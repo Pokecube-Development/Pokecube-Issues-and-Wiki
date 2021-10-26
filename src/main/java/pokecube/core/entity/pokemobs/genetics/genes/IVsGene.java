@@ -2,7 +2,7 @@ package pokecube.core.entity.pokemobs.genetics.genes;
 
 import java.util.Random;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;

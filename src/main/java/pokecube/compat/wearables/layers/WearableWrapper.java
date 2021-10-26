@@ -3,16 +3,16 @@ package pokecube.compat.wearables.layers;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
@@ -80,9 +80,9 @@ public class WearableWrapper
         }
 
         @Override
-        public void render(final PoseStack mat, final VertexConsumer buffer)
+        public void render(final MatrixStack mat, final IVertexBuilder buffer)
         {
-            final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
+            final IRenderTypeBuffer buff = Minecraft.getInstance().renderBuffers().bufferSource();
             final float pt = 0;
             final int br = this.brightness;
             final int ol = this.overlay;
@@ -158,7 +158,7 @@ public class WearableWrapper
     public static void applyWearables(final LivingEntity wearer, final IModelRenderer<?> renderer, final IModel imodel)
     {
         // No Render invisible.
-        if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
+        if (wearer.getEffect(Effects.INVISIBILITY) != null) return;
         WornOffsets offsets = null;
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);

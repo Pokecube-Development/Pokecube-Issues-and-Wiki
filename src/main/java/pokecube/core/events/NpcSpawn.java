@@ -2,9 +2,9 @@ package pokecube.core.events;
 
 import com.google.gson.JsonObject;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.entity.npc.NpcMob;
@@ -13,10 +13,10 @@ public class NpcSpawn extends Event
 {
     private final NpcMob      trainer;
     private final BlockPos    location;
-    private final LevelAccessor      world;
-    private final MobSpawnType reason;
+    private final IWorld      world;
+    private final SpawnReason reason;
 
-    private NpcSpawn(final NpcMob trainer, final BlockPos location, final LevelAccessor world, final MobSpawnType reason)
+    private NpcSpawn(final NpcMob trainer, final BlockPos location, final IWorld world, final SpawnReason reason)
     {
         this.location = location;
         this.world = world;
@@ -34,12 +34,12 @@ public class NpcSpawn extends Event
         return this.trainer;
     }
 
-    public LevelAccessor getWorld()
+    public IWorld getWorld()
     {
         return this.world;
     }
 
-    public MobSpawnType getReason()
+    public SpawnReason getReason()
     {
         return this.reason;
     }
@@ -49,7 +49,7 @@ public class NpcSpawn extends Event
     {
         public final JsonObject args;
 
-        public Check(final NpcMob trainer, final BlockPos location, final LevelAccessor world, final MobSpawnType reason,
+        public Check(final NpcMob trainer, final BlockPos location, final IWorld world, final SpawnReason reason,
                 final JsonObject args)
         {
             super(trainer, location, world, reason);
@@ -59,7 +59,7 @@ public class NpcSpawn extends Event
 
     public static class Spawn extends NpcSpawn
     {
-        public Spawn(final NpcMob trainer, final BlockPos location, final LevelAccessor world, final MobSpawnType reason)
+        public Spawn(final NpcMob trainer, final BlockPos location, final IWorld world, final SpawnReason reason)
         {
             super(trainer, location, world, reason);
         }

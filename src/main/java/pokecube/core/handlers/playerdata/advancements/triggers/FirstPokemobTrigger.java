@@ -9,21 +9,21 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.ICriterionTrigger;
+import net.minecraft.advancements.PlayerAdvancements;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.interfaces.PokecubeMod;
 
-public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger.Instance>
+public class FirstPokemobTrigger implements ICriterionTrigger<FirstPokemobTrigger.Instance>
 {
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public static class Instance extends CriterionInstance
     {
-        public Instance(final Composite pred)
+        public Instance(final AndPredicate pred)
         {
             super(FirstPokemobTrigger.ID, pred);
         }
@@ -38,14 +38,14 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
     static class Listeners
     {
         private final PlayerAdvancements                                            playerAdvancements;
-        private final Set<CriterionTrigger.Listener<FirstPokemobTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newHashSet();
+        private final Set<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -55,24 +55,24 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(final ServerPlayer player)
+        public void trigger(final ServerPlayerEntity player)
         {
-            List<CriterionTrigger.Listener<FirstPokemobTrigger.Instance>> list = null;
+            List<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> list = null;
 
-            for (final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener : this.listeners)
+            for (final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener : this.listeners)
                 if (listener.getTriggerInstance().test())
                 {
                     if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newArrayList();
+                        list = Lists.<ICriterionTrigger.Listener<FirstPokemobTrigger.Instance>> newArrayList();
 
                     list.add(listener);
                 }
-            if (list != null) for (final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener1 : list)
+            if (list != null) for (final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener1 : list)
                 listener1.run(this.playerAdvancements);
         }
     }
@@ -87,7 +87,7 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -102,9 +102,9 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
 
 
     @Override
-    public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         return new FirstPokemobTrigger.Instance(pred);
     }
 
@@ -122,7 +122,7 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<FirstPokemobTrigger.Instance> listener)
     {
         final FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -134,7 +134,7 @@ public class FirstPokemobTrigger implements CriterionTrigger<FirstPokemobTrigger
         }
     }
 
-    public void trigger(final ServerPlayer player)
+    public void trigger(final ServerPlayerEntity player)
     {
         final FirstPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player);

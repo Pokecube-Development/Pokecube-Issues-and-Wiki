@@ -5,13 +5,13 @@ import javax.annotation.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.StructureProcessor;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.Template.EntityInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.events.StructureEvent;
 
@@ -31,16 +31,16 @@ public class PokecubeStructureProcessor extends StructureProcessor
 
     @Override
     @Nullable
-    public StructureTemplate.StructureBlockInfo process(final LevelReader world, final BlockPos pos1, final BlockPos pos2,
-            final StructureTemplate.StructureBlockInfo rawInfo, final StructureTemplate.StructureBlockInfo modInfo, final StructurePlaceSettings settings,
-            @Nullable final StructureTemplate template)
+    public Template.BlockInfo process(final IWorldReader world, final BlockPos pos1, final BlockPos pos2,
+            final Template.BlockInfo rawInfo, final Template.BlockInfo modInfo, final PlacementSettings settings,
+            @Nullable final Template template)
     {
         return modInfo;
     }
 
     @Override
-    public StructureEntityInfo processEntity(final LevelReader world, final BlockPos seedPos, final StructureEntityInfo rawEntityInfo,
-            final StructureEntityInfo entityInfo, final StructurePlaceSettings placementSettings, final StructureTemplate template)
+    public EntityInfo processEntity(final IWorldReader world, final BlockPos seedPos, final EntityInfo rawEntityInfo,
+            final EntityInfo entityInfo, final PlacementSettings placementSettings, final Template template)
     {
         final StructureEvent.SpawnEntity event = new StructureEvent.SpawnEntity(entityInfo, rawEntityInfo);
         MinecraftForge.EVENT_BUS.post(event);
@@ -48,7 +48,7 @@ public class PokecubeStructureProcessor extends StructureProcessor
     }
 
     @Override
-    protected StructureProcessorType<?> getType()
+    protected IStructureProcessorType<?> getType()
     {
         return PokecubeStructureProcessors.STRUCTS;
     }

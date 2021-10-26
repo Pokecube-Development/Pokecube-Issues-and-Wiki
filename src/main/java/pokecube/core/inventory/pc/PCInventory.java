@@ -2,13 +2,13 @@ package pokecube.core.inventory.pc;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -17,14 +17,14 @@ import thut.api.inventory.big.Manager;
 
 public class PCInventory extends BigInventory
 {
-    public static void addPokecubeToPC(final ItemStack mob, final Level world)
+    public static void addPokecubeToPC(final ItemStack mob, final World world)
     {
         if (!PokecubeManager.isFilled(mob)) return;
         final UUID id = PokecubeManager.getOwnerId(mob);
         if (id != null) PCInventory.addStackToPC(id, mob, world);
     }
 
-    public static void addStackToPC(final UUID uuid, final ItemStack mob, final Level world)
+    public static void addStackToPC(final UUID uuid, final ItemStack mob, final World world)
     {
         if (uuid == null || mob.isEmpty())
         {
@@ -41,7 +41,7 @@ public class PCInventory extends BigInventory
             if (world != null) PokecubeManager.heal(stack, world);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
-                    new TranslatableComponent("block.pc.sentto", mob.getHoverName()), Util.NIL_UUID);
+                    new TranslationTextComponent("block.pc.sentto", mob.getHoverName()), Util.NIL_UUID);
         }
         pc.addItem(mob.copy());
     }
@@ -64,12 +64,12 @@ public class PCInventory extends BigInventory
         super(manager, id);
     }
 
-    public PCInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
+    public PCInventory(final Manager<? extends BigInventory> manager, final CompoundNBT tag)
     {
         super(manager, tag);
     }
 
-    public PCInventory(final Manager<? extends BigInventory> manager, final FriendlyByteBuf buffer)
+    public PCInventory(final Manager<? extends BigInventory> manager, final PacketBuffer buffer)
     {
         super(manager, buffer);
     }
@@ -81,7 +81,7 @@ public class PCInventory extends BigInventory
     }
 
     @Override
-    public void serializeBoxInfo(final CompoundTag boxes)
+    public void serializeBoxInfo(final CompoundNBT boxes)
     {
         super.serializeBoxInfo(boxes);
         boxes.putBoolean("seenOwner", this.seenOwner);
@@ -89,7 +89,7 @@ public class PCInventory extends BigInventory
     }
 
     @Override
-    public void deserializeBoxInfo(final CompoundTag boxes)
+    public void deserializeBoxInfo(final CompoundNBT boxes)
     {
         super.deserializeBoxInfo(boxes);
         this.autoToPC = boxes.getBoolean("autoSend");

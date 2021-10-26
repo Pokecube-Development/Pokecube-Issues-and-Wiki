@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -18,12 +18,12 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
 public abstract class AbstractAntTask extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Don't run if we don't have a hive
         // The HiveSensor will try to set this if it is invalid.
-        AbstractAntTask.mems.put(AntTasks.NEST_POS, MemoryStatus.VALUE_PRESENT);
+        AbstractAntTask.mems.put(AntTasks.NEST_POS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     protected AntNest nest;
@@ -36,7 +36,7 @@ public abstract class AbstractAntTask extends BaseIdleTask
         super(pokemob, AbstractAntTask.mems);
     }
 
-    public AbstractAntTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public AbstractAntTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
         super(pokemob, RootTask.merge(AbstractAntTask.mems, mems));
     }

@@ -1,9 +1,9 @@
 package pokecube.core.interfaces;
 
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
 
 public interface IHealer
 {
     /** Should check your criteria and heal things accordingly */
-    void heal(Level world);
+    void heal(World world);
 }

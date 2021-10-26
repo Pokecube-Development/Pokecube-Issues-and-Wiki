@@ -8,14 +8,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
@@ -65,22 +65,22 @@ public class ItemMegawearable extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level playerIn, List<Component> tooltip,
-            TooltipFlag advanced)
+    public void appendHoverText(ItemStack stack, @Nullable World playerIn, List<ITextComponent> tooltip,
+            ITooltipFlag advanced)
     {
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
         {
             final int damage = stack.getTag().getInt("dyeColour");
             final DyeColor colour = DyeColor.byId(damage);
-            tooltip.add(new TranslatableComponent(colour.getName()));
+            tooltip.add(new TranslationTextComponent(colour.getName()));
         }
     }
 
     @Override
-    public EquipmentSlot getEquipmentSlot(ItemStack stack)
+    public EquipmentSlotType getEquipmentSlot(ItemStack stack)
     {
         final String name = this.getRegistryName().getPath().replace("mega_", "");
-        if (name.equals("megahat")) return EquipmentSlot.HEAD;
+        if (name.equals("megahat")) return EquipmentSlotType.HEAD;
         return super.getEquipmentSlot(stack);
     }
 }

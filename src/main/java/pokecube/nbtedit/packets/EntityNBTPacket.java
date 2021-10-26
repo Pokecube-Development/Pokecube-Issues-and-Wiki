@@ -2,14 +2,14 @@ package pokecube.nbtedit.packets;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundSetExperiencePacket;
-import net.minecraft.network.protocol.game.ClientboundSetHealthPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.GameType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SSetExperiencePacket;
+import net.minecraft.network.play.server.SUpdateHealthPacket;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.GameType;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
@@ -29,14 +29,14 @@ public class EntityNBTPacket extends NBTPacket
         super();
     }
 
-    public EntityNBTPacket(final int entityID, final CompoundTag tag)
+    public EntityNBTPacket(final int entityID, final CompoundNBT tag)
     {
         super();
         tag.putInt("_nbtedit_id", entityID);
         this.tag = tag;
     }
 
-    public EntityNBTPacket(final FriendlyByteBuf buf)
+    public EntityNBTPacket(final PacketBuffer buf)
     {
         super(buf);
     }
@@ -50,7 +50,7 @@ public class EntityNBTPacket extends NBTPacket
     }
 
     @Override
-    protected void onCompleteServer(final ServerPlayer player)
+    protected void onCompleteServer(final ServerPlayerEntity player)
     {
         this.entityID = this.getTag().getInt("_nbtedit_id");
         this.getTag().remove("_nbtedit_id");
@@ -69,25 +69,25 @@ public class EntityNBTPacket extends NBTPacket
               // receive entity edit events and provide
               // feedback/send packets as necessary.
 
-                player.inventoryMenu.sendAllDataToRemote();
+                player.refreshContainer(player.inventoryMenu);
                 final GameType type = player.gameMode.getGameModeForPlayer();
                 if (preGameType != type) player.setGameMode(type);
-                player.connection.send(new ClientboundSetHealthPacket(player.getHealth(), player.getFoodData()
+                player.connection.send(new SUpdateHealthPacket(player.getHealth(), player.getFoodData()
                         .getFoodLevel(), player.getFoodData().getSaturationLevel()));
-                player.connection.send(new ClientboundSetExperiencePacket(player.experienceProgress, player.totalExperience,
+                player.connection.send(new SSetExperiencePacket(player.experienceProgress, player.totalExperience,
                         player.experienceLevel));
                 player.onUpdateAbilities();
             }
             EntityUpdate.sendEntityUpdate(entity);
-            NBTEdit.proxy.sendMessage(player, "Your changes have been saved", ChatFormatting.WHITE);
+            NBTEdit.proxy.sendMessage(player, "Your changes have been saved", TextFormatting.WHITE);
         }
         catch (final Throwable t)
         {
-            NBTEdit.proxy.sendMessage(player, "Save Failed - Invalid NBT format for Entity", ChatFormatting.RED);
+            NBTEdit.proxy.sendMessage(player, "Save Failed - Invalid NBT format for Entity", TextFormatting.RED);
             NBTEdit.log(Level.WARN, player.getName().getString() + " edited a tag and caused an exception");
             NBTEdit.logTag(this.getTag());
             NBTEdit.throwing("EntityNBTPacket", "Handler.onMessage", t);
         }
-        else NBTEdit.proxy.sendMessage(player, "Save Failed - Entity does not exist", ChatFormatting.RED);
+        else NBTEdit.proxy.sendMessage(player, "Save Failed - Entity does not exist", TextFormatting.RED);
     }
 }

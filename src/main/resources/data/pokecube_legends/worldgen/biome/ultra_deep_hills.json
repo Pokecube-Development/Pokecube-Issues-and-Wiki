@@ -1,0 +1,65 @@
+{
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "sky_color": 1704752,
+    "fog_color": 1710113,
+    "water_color": 3883333,
+    "water_fog_color": 1908000,
+    "foliage_color": 4143695,
+    "grass_color": 3288639,
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.011
+    },
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
+  },
+  "surface_builder": "pokecube_legends:deep_hills",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava"
+    ],
+    [],
+    [
+    ],
+    [
+    ],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic",
+     "pokecube_legends:ore_ultra_iron",
+     "pokecube_legends:ore_ultra_gold",
+     "pokecube_legends:ore_ultra_lazuli",
+     "pokecube_legends:ore_ultra_diamond"
+    ],
+    [],
+    [
+     "pokecube_legends:deep_hills_vegetation"
+    ],
+    []
+  ],
+  "starts": [],
+  "spawners": {},
+  "category": "swamp",
+  "precipitation": "none",
+  "scale": 0.05,
+  "downfall": 0.2,
+  "depth": 0.16,
+  "temperature": 0.3,
+  "player_spawn_friendly": false,
+  "spawn_costs": {}
+}

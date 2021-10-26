@@ -1,54 +1,57 @@
 package pokecube.legends.blocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import pokecube.legends.init.ItemInit;
 
 public class EffectBlockBase extends BlockBase
-{
-    private final MobEffect effect;
-
-    public EffectBlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
-    {
-        super(name, material, color, hardness, resistance, sound, hadDrop, effects);
-        this.effect = effects;
-    }
-
-    public EffectBlockBase(final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
-    {
-        super(material, color, hardness, resistance, sound, hadDrop, effects);
-        this.effect = effects;
-    }
+{		
+	private final Effect effect;
+	
+	public EffectBlockBase(String name, Material material, MaterialColor color, float hardness, float resistance,
+			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, Effect effects) 
+	{
+		super(name, material, color, hardness, resistance, sound, tool, harvestLevel, hadDrop, effects);
+		effect = effects;
+	}
+	
+	public EffectBlockBase(Material material, MaterialColor color, float hardness, float resistance,
+			SoundType sound, ToolType tool, int harvestLevel, boolean hadDrop, Effect effects) 
+	{
+		super(material, color, hardness, resistance, sound, tool, harvestLevel, hadDrop, effects);
+		effect = effects;
+	}
 
     @Override
-    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
+    public void stepOn(final World world, final BlockPos pos, final Entity entity)
     {
-        super.stepOn(world, pos, state, entity);
-        EffectBlockBase.applyEffects(entity, this.effect);
+        super.stepOn(world, pos, entity);
+        {
+            applyEffects(entity, effect);
+        }
     }
 
-    public static void applyEffects(final Entity entity, final MobEffect effects)
+    public static void applyEffects(Entity entity, Effect effects)
     {
-        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
-                .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
-                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
-                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
-                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
-                                                .getInventory().armor.get(0).getItem() != new ItemStack(
-                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
-            ((LivingEntity) entity).addEffect(new MobEffectInstance(effects, 120, 1));
+        if (entity instanceof ServerPlayerEntity) {
+        	if ((((PlayerEntity) entity).inventory.armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()) ||
+                (((PlayerEntity) entity).inventory.armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()) ||
+                (((PlayerEntity) entity).inventory.armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()) || 
+                (((PlayerEntity) entity).inventory.armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())) 
+            {
+            	((LivingEntity) entity).addEffect(new EffectInstance(effects, 120, 1));
+           }
+        }
     }
 }

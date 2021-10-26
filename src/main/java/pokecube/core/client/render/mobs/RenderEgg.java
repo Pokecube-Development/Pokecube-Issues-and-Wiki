@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.RenderStateShard;
+import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -38,7 +39,7 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>> implements
+public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>> implements
         IModelRenderer<EntityPokemobEgg>
 {
     static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "entity/textures/egg.png");
@@ -119,7 +120,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     IAnimationHolder animHolder = new CapabilityAnimation.DefaultImpl();
 
-    public RenderEgg(final EntityRendererProvider.Context manager)
+    public RenderEgg(final EntityRendererManager manager)
     {
         super(manager, null, 0.1f);
         this.model = this.makeModel();
@@ -139,22 +140,21 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        // FIXME decide on shader
-        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
-                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
-                .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
-                {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
-                    RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
-                        new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
-        return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
-                bool_b, rendertype$state);
+        final RenderType.State rendertype$state = RenderType.State.builder().setTextureState(
+                new RenderState.TextureState(this.getTextureLocation(entity), false, false)).setTransparencyState(
+                        new RenderState.TransparencyState("translucent_transparency", () ->
+                        {
+                            RenderSystem.enableBlend();
+                            RenderSystem.defaultBlendFunc();
+                        }, () ->
+                        {
+                            RenderSystem.disableBlend();
+                        })).setDiffuseLightingState(new RenderState.DiffuseLightingState(true)).setAlphaState(
+                                new RenderState.AlphaState(0.003921569F)).setCullState(new RenderState.CullState(false))
+                .setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(
+                        true)).createCompositeState(false);
+        return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormats.NEW_ENTITY, GL11.GL_TRIANGLES, 256,
+                bool_a, bool_b, rendertype$state);
     }
 
     @Override
@@ -200,7 +200,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+    public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 0.15f;
         float sx = (float) this.getScale().x;

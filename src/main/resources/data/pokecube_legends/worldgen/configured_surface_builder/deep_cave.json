@@ -1,0 +1,17 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:ultragrass1",
+      "Properties": {
+        "snowy" : "false"
+      }
+    },
+    "under_material": {
+      "Name": "pokecube_legends:ultradirt1"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:ultradirt1"
+    }
+  },
+  "type": "minecraft:default"
+}

@@ -5,16 +5,16 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CUseEntityPacket;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.entity.pokemobs.helper.PokemobPart;
 import thut.core.common.network.Packet;
@@ -25,11 +25,11 @@ import thut.core.common.network.Packet;
  */
 public class PacketPartInteract extends Packet
 {
-    int                                          entityId;
-    boolean                                      sneaking;
-    private Vec3                                 hitVec;
-    private ServerboundInteractPacket.ActionType action;
-    private InteractionHand                      hand;
+    int                             entityId;
+    boolean                         sneaking;
+    private Vector3d                hitVec;
+    private CUseEntityPacket.Action action;
+    private Hand                    hand;
 
     private String id;
 
@@ -41,80 +41,78 @@ public class PacketPartInteract extends Packet
     public PacketPartInteract(final String name, final Entity entityIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.ActionType.ATTACK;
+        this.action = CUseEntityPacket.Action.ATTACK;
         this.sneaking = sneak;
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
-            final boolean sneak)
+    public PacketPartInteract(final String name, final Entity entityIn, final Hand handIn, final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.ActionType.INTERACT;
+        this.action = CUseEntityPacket.Action.INTERACT;
         this.hand = handIn;
         this.sneaking = sneak;
         this.id = name;
     }
 
-    public PacketPartInteract(final String name, final Entity entityIn, final InteractionHand handIn,
-            final Vec3 hitVecIn, final boolean sneak)
+    public PacketPartInteract(final String name, final Entity entityIn, final Hand handIn, final Vector3d hitVecIn,
+            final boolean sneak)
     {
         this.entityId = entityIn.getId();
-        this.action = ServerboundInteractPacket.ActionType.INTERACT_AT;
+        this.action = CUseEntityPacket.Action.INTERACT_AT;
         this.hand = handIn;
         this.hitVec = hitVecIn;
         this.sneaking = sneak;
         this.id = name;
     }
 
-    public PacketPartInteract(final FriendlyByteBuf buf)
+    public PacketPartInteract(final PacketBuffer buf)
     {
         this.entityId = buf.readVarInt();
-        this.action = buf.readEnum(ServerboundInteractPacket.ActionType.class);
-        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hitVec = new Vec3(buf.readFloat(), buf
+        this.action = buf.readEnum(CUseEntityPacket.Action.class);
+        if (this.action == CUseEntityPacket.Action.INTERACT_AT) this.hitVec = new Vector3d(buf.readFloat(), buf
                 .readFloat(), buf.readFloat());
-        if (this.action == ServerboundInteractPacket.ActionType.INTERACT
-                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hand = buf.readEnum(
-                        InteractionHand.class);
+        if (this.action == CUseEntityPacket.Action.INTERACT || this.action == CUseEntityPacket.Action.INTERACT_AT)
+            this.hand = buf.readEnum(Hand.class);
         this.sneaking = buf.readBoolean();
         this.id = buf.readUtf(32767);
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeVarInt(this.entityId);
         buf.writeEnum(this.action);
-        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT)
+        if (this.action == CUseEntityPacket.Action.INTERACT_AT)
         {
             buf.writeFloat((float) this.hitVec.x);
             buf.writeFloat((float) this.hitVec.y);
             buf.writeFloat((float) this.hitVec.z);
         }
-        if (this.action == ServerboundInteractPacket.ActionType.INTERACT
-                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) buf.writeEnum(this.hand);
+        if (this.action == CUseEntityPacket.Action.INTERACT || this.action == CUseEntityPacket.Action.INTERACT_AT) buf
+                .writeEnum(this.hand);
         buf.writeBoolean(this.sneaking);
         buf.writeUtf(this.id);
     }
 
     @Nullable
-    public Entity getEntityFromWorld(final Level worldIn)
+    public Entity getEntityFromWorld(final World worldIn)
     {
         return worldIn.getEntity(this.entityId);
     }
 
-    public ServerboundInteractPacket.ActionType getAction()
+    public CUseEntityPacket.Action getAction()
     {
         return this.action;
     }
 
     @Nullable
-    public InteractionHand getHand()
+    public Hand getHand()
     {
         return this.hand;
     }
 
-    public Vec3 getHitVec()
+    public Vector3d getHitVec()
     {
         return this.hitVec;
     }
@@ -125,9 +123,9 @@ public class PacketPartInteract extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        final ServerLevel serverworld = player.getLevel();
+        final ServerWorld serverworld = player.getLevel();
         Entity entity = this.getEntityFromWorld(serverworld);
 
         // Most of the stuff from here is copied from CUseEntityPacket!
@@ -150,19 +148,20 @@ public class PacketPartInteract extends Packet
             final double d0 = 36.0D;
             if (player.distanceToSqr(entity) < d0)
             {
-                final InteractionHand hand = this.getHand();
+                final Hand hand = this.getHand();
                 final ItemStack itemstack = hand != null ? player.getItemInHand(hand).copy() : ItemStack.EMPTY;
-                Optional<InteractionResult> optional = Optional.empty();
+                Optional<ActionResultType> optional = Optional.empty();
 
-                if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT) optional = Optional.of(player
-                        .interactOn(entity, hand));
-                else if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT_AT)
+                if (this.getAction() == CUseEntityPacket.Action.INTERACT) optional = Optional.of(player.interactOn(
+                        entity, hand));
+                else if (this.getAction() == CUseEntityPacket.Action.INTERACT_AT)
                 {
                     if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, this.getHitVec(),
                             hand) != null) return;
                     optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }
-                else if (this.getAction() == ServerboundInteractPacket.ActionType.ATTACK) player.attack(entity);
+                else if (this.getAction() == CUseEntityPacket.Action.ATTACK) player.attack(
+                        entity);
 
                 if (optional.isPresent() && optional.get().consumesAction())
                 {

@@ -1,0 +1,69 @@
+{
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "sky_color": 1250367,
+    "fog_color": 3943523,
+    "water_color": 4010074,
+    "water_fog_color": 10987433,
+    "foliage_color": 9169902,
+    "grass_color": 6235691,
+    "particle": {
+      "options": {
+        "type": "minecraft:falling_dust",
+        "Name": "minecraft:gravel"
+      },
+      "probability": 0.005
+    },
+    "ambient_sound": "minecraft:ambient.cave"
+  },
+  "surface_builder": "pokecube_legends:deep_cave",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_water"
+    ],
+    [],
+    [
+    ],
+    [],
+    [],
+    [
+     "pokecube_legends:ore_spectrum",
+     "pokecube_legends:ore_cosmic",
+     "pokecube_legends:ore_ultra_coal",
+     "pokecube_legends:ore_ultra_iron",
+     "pokecube_legends:ore_ultra_gold",
+     "pokecube_legends:ore_ultra_emerald"
+    ],
+    [],
+    [
+     "pokecube_legends:deep_cave_vegetation",
+     "pokecube_legends:deep_flower",
+     "minecraft:patch_grass_plain",
+     "minecraft:brown_mushroom_normal",
+     "minecraft:red_mushroom_normal"
+    ],
+    []
+  ],
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "category": "extreme_hills",
+  "precipitation": "rain",
+  "scale": 0.05,
+  "downfall": 0.4,
+  "depth": 0.12,
+  "temperature": 0.8,
+  "player_spawn_friendly": true
+}

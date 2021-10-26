@@ -1,12 +1,12 @@
 package pokecube.core.items.revive;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.Level;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipe;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.RecipeHandler;
@@ -16,7 +16,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 
-public class RecipeRevive extends CustomRecipe
+public class RecipeRevive extends SpecialRecipe
 {
     public static final ResourceLocation REVIVETAG = new ResourceLocation("pokecube:revive");
 
@@ -32,7 +32,7 @@ public class RecipeRevive extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingInventory inv)
     {
         ItemStack healed = ItemStack.EMPTY;
         boolean revive = false;
@@ -58,8 +58,8 @@ public class RecipeRevive extends CustomRecipe
             if (seal.hasTag())
             {
                 final IPokemob mob = PokecubeManager.itemToPokemob(other, PokecubeCore.proxy.getWorld());
-                final CompoundTag tag = seal.getTag().getCompound(TagNames.POKESEAL);
-                final CompoundTag mobtag = mob.getEntity().getPersistentData();
+                final CompoundNBT tag = seal.getTag().getCompound(TagNames.POKESEAL);
+                final CompoundNBT mobtag = mob.getEntity().getPersistentData();
                 mobtag.put("sealtag", tag);
                 other = PokecubeManager.pokemobToItem(mob);
                 healed = other;
@@ -78,13 +78,13 @@ public class RecipeRevive extends CustomRecipe
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
+    public IRecipeSerializer<?> getSerializer()
     {
         return RecipeHandler.REVIVE.get();
     }
 
     @Override
-    public boolean matches(final CraftingContainer inv, final Level worldIn)
+    public boolean matches(final CraftingInventory inv, final World worldIn)
     {
         boolean revive = false;
         boolean pokeseal = false;

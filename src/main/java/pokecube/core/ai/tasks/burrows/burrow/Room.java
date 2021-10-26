@@ -1,10 +1,10 @@
 package pokecube.core.ai.tasks.burrows.burrow;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class Room extends Part
 {
@@ -13,10 +13,10 @@ public class Room extends Part
 
     private BlockPos centre;
 
-    public Vec3 mid;
+    public Vector3d mid;
 
-    private Vec3 entrance;
-    private Vec3 exit;
+    private Vector3d entrance;
+    private Vector3d exit;
 
     public Room()
     {
@@ -30,16 +30,16 @@ public class Room extends Part
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
-        this.setCenter(NbtUtils.readBlockPos(nbt), nbt.getFloat("size"), nbt.getFloat("dir"));
+        this.setCenter(NBTUtil.readBlockPos(nbt), nbt.getFloat("size"), nbt.getFloat("dir"));
         super.deserializeNBT(nbt);
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag nbt = super.serializeNBT();
+        final CompoundNBT nbt = super.serializeNBT();
         nbt.putInt("X", this.getCenter().getX());
         nbt.putInt("Y", this.getCenter().getY());
         nbt.putInt("Z", this.getCenter().getZ());
@@ -53,11 +53,11 @@ public class Room extends Part
         final double minY = this.centre.getY();
         final double maxY = minY + 7;
         if (pos.getY() > maxY || pos.getY() < minY) return false;
-        final Vec3 e1 = new Vec3(this.entrance.x(), this.entrance.y(), this.entrance.z());
-        final Vec3 e2 = new Vec3(this.exit.x(), this.exit.y(), this.exit.z());
-        final Vec3 e3 = new Vec3(pos.getX(), pos.getY(), pos.getZ());
-        Vec3 n = e2.subtract(e1).normalize();
-        final Vec3 diff = e1.subtract(e3);
+        final Vector3d e1 = new Vector3d(this.entrance.x(), this.entrance.y(), this.entrance.z());
+        final Vector3d e2 = new Vector3d(this.exit.x(), this.exit.y(), this.exit.z());
+        final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+        Vector3d n = e2.subtract(e1).normalize();
+        final Vector3d diff = e1.subtract(e3);
         n = n.cross(diff);
         return n.length() < size;
     }
@@ -66,8 +66,8 @@ public class Room extends Part
     public boolean isInside(final BlockPos pos)
     {
         if (!this.getInBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
-        final Vec3 x0 = this.mid;
-        Vec3 x = new Vec3(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
+        final Vector3d x0 = this.mid;
+        Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
         x = x.multiply(1, this.size / 2, 1);
         // check if in the main room
         final double r = x.length();
@@ -81,8 +81,8 @@ public class Room extends Part
     public boolean isOnShell(final BlockPos pos)
     {
         if (!this.getOutBounds().contains(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) return false;
-        final Vec3 x0 = this.mid;
-        Vec3 x = new Vec3(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
+        final Vector3d x0 = this.mid;
+        Vector3d x = new Vector3d(pos.getX(), pos.getY(), pos.getZ()).subtract(x0);
         x = x.multiply(1, this.size / 2, 1);
         // check if in the main room
         final double r = x.length();
@@ -97,7 +97,7 @@ public class Room extends Part
     public void setCenter(final BlockPos centre, final float size, final float direction)
     {
         this.centre = centre;
-        this.mid = new Vec3(centre.getX() + 0.5, centre.getY(), centre.getZ() + 0.5);
+        this.mid = new Vector3d(centre.getX() + 0.5, centre.getY(), centre.getZ() + 0.5);
         this.direction = direction;
         this.size = size;
         final double dx = Math.sin(Math.toRadians(direction));
@@ -105,7 +105,7 @@ public class Room extends Part
         this.entrance = this.mid.add(dx * size, 0, dz * size);
         final float dr = size + 7;
         this.exit = this.entrance.add(dx * dr, dr, dz * dr);
-        final AABB min = new AABB(this.mid.add(-dr * 2, -2, -dr * 2), this.mid.add(dr * 2, dr, dr
+        final AxisAlignedBB min = new AxisAlignedBB(this.mid.add(-dr * 2, -2, -dr * 2), this.mid.add(dr * 2, dr, dr
                 * 2));
         this.setInBounds(min);
         this.setOutBounds(min);

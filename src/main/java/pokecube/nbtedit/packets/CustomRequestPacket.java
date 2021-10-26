@@ -2,8 +2,8 @@ package pokecube.nbtedit.packets;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.network.Packet;
 
@@ -25,23 +25,23 @@ public class CustomRequestPacket extends Packet
         this.customName = customName;
     }
 
-    public CustomRequestPacket(final FriendlyByteBuf buf)
+    public CustomRequestPacket(final PacketBuffer buf)
     {
         this.entityID = buf.readInt();
-        this.customName = new FriendlyByteBuf(buf).readUtf(30);
+        this.customName = new PacketBuffer(buf).readUtf(30);
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         NBTEdit.log(Level.TRACE, player.getName().getString() + " requested entity with Id #" + this.entityID);
         PacketHandler.sendCustomTag(player, this.entityID, this.customName);
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityID);
-        new FriendlyByteBuf(buf).writeUtf(this.customName);
+        new PacketBuffer(buf).writeUtf(this.customName);
     }
 }

@@ -1,27 +1,26 @@
 package pokecube.core.blocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 
-public abstract class InteractableTile extends BlockEntity
+public abstract class InteractableTile extends TileEntity
 {
 
-    public InteractableTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    public InteractableTile(final TileEntityType<?> tileEntityTypeIn)
     {
-        super(tileEntityTypeIn, pos, state);
+        super(tileEntityTypeIn);
     }
 
-    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
-            final BlockHitResult hit)
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
     {
-        return InteractionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     public void onWalkedOn(final Entity entityIn)

@@ -1,7 +1,7 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
@@ -10,20 +10,20 @@ import thut.core.common.ThutCore;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
-    public static class DynaObject implements INBTSerializable<CompoundTag>
+    public static class DynaObject implements INBTSerializable<CompoundNBT>
     {
         public boolean gigantamax = false;
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            final CompoundTag tag = new CompoundTag();
+            final CompoundNBT tag = new CompoundNBT();
             tag.putBoolean("gmax", this.gigantamax);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
             this.gigantamax = nbt.getBoolean("gmax");
         }
@@ -58,7 +58,7 @@ public class DynamaxGene implements Gene<DynaObject>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final CompoundNBT tag)
     {
         this.value.deserializeNBT(tag);
     }
@@ -72,7 +72,7 @@ public class DynamaxGene implements Gene<DynaObject>
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundNBT save()
     {
         return this.value.serializeNBT();
     }

@@ -1,12 +1,12 @@
 package thut.api.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public interface IHardenableFluid
 {
-    public BlockState getSolidState(Level world, BlockPos location);
+    public BlockState getSolidState(World world, BlockPos location);
 
-    public void tryHarden(Level world, BlockPos vec);
+    public void tryHarden(World world, BlockPos vec);
 }

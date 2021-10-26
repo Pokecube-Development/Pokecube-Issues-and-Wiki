@@ -7,13 +7,13 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.PokedexEntry;
@@ -70,16 +70,16 @@ public abstract class PokemobMoves extends PokemobStats
 
         // Check ranged vs contact and set cooldown accordinly.
         final boolean distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
-        this.setAttackCooldown(MovesUtils.getAttackDelay(this, attack, distanced, target instanceof Player));
+        this.setAttackCooldown(MovesUtils.getAttackDelay(this, attack, distanced, target instanceof PlayerEntity));
         // Syncs that the move has at least been attempted, this is used for the
         // graphical indicator of move cooldowns
         PacketSyncMoveUse.sendUpdate(this);
 
         if (target != this.getEntity())
         {
-            if (target instanceof Mob)
+            if (target instanceof MobEntity)
             {
-                final Mob t = (Mob) target;
+                final MobEntity t = (MobEntity) target;
                 if (BrainUtils.getAttackTarget(t) != this.getEntity()) BrainUtils.initiateCombat(t, this.getEntity());
             }
             if (target instanceof LivingEntity) if (((LivingEntity) target).getLastHurtByMob() != this.getEntity())
@@ -92,7 +92,7 @@ public abstract class PokemobMoves extends PokemobStats
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
         {
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this
+            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this
                     .getDisplayName());
             this.displayMessageToOwner(mess);
             if (targetMob != null)
@@ -107,7 +107,7 @@ public abstract class PokemobMoves extends PokemobStats
         if ((statusChange & IMoveConstants.CHANGE_CONFUSED) != 0) if (Math.random() > 0.75)
         {
             this.removeChange(IMoveConstants.CHANGE_CONFUSED);
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green", this
+            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green", this
                     .getDisplayName());
             if (targetMob != null)
             {
@@ -120,7 +120,7 @@ public abstract class PokemobMoves extends PokemobStats
         else if (Math.random() > 0.5)
         {
             MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red", this
+            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red", this
                     .getDisplayName());
             if (targetMob != null)
             {
@@ -135,7 +135,7 @@ public abstract class PokemobMoves extends PokemobStats
                 .getMoveStats().infatuateTarget = null;
         else if (Math.random() > 0.5)
         {
-            final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red", this
+            final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red", this
                     .getDisplayName());
             this.displayMessageToOwner(mess);
             return;
@@ -383,7 +383,7 @@ public abstract class PokemobMoves extends PokemobStats
         this.setType2(newEntry.getType2());
         if (!this.getEntity().level.isClientSide())
         {
-            final CompoundTag tag = new CompoundTag();
+            final CompoundNBT tag = new CompoundNBT();
             if (to != null) to.addAdditionalSaveData(tag);
             this.setCopiedNBT(tag);
         }
@@ -443,7 +443,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public CompoundTag getCopiedNBT()
+    public CompoundNBT getCopiedNBT()
     {
         return this.getCopy().getCopiedNBT();
     }
@@ -461,7 +461,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public void setCopiedNBT(final CompoundTag tag)
+    public void setCopiedNBT(final CompoundNBT tag)
     {
         this.getCopy().setCopiedNBT(tag);
     }

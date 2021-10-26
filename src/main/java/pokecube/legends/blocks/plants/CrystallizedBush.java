@@ -2,34 +2,33 @@ package pokecube.legends.blocks.plants;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DeadBushBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.pathfinding.PathType;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DeadBushBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.PlantType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
-public class CrystallizedBush extends DeadBushBlock implements SimpleWaterloggedBlock
+public class CrystallizedBush extends DeadBushBlock implements IWaterLoggable
 {
 	private static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -41,15 +40,15 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
     }
 
 	@Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter block, final BlockPos pos, final CollisionContext context) {
-		final Vec3 vector = state.getOffset(block, pos);
+    public VoxelShape getShape(final BlockState state, final IBlockReader block, final BlockPos pos, final ISelectionContext context) {
+		final Vector3d vector = state.getOffset(block, pos);
 		return CrystallizedBush.SHAPE.move(vector.x, vector.y, vector.z);
 	}
 
 	@Override
-	public void entityInside(final BlockState state, final Level world, final BlockPos pos, final Entity entity) {
+	public void entityInside(final BlockState state, final World world, final BlockPos pos, final Entity entity) {
 		if (entity instanceof LivingEntity) {
-			entity.makeStuckInBlock(state, new Vec3(0.9D, 0.75D, 0.9D));
+			entity.makeStuckInBlock(state, new Vector3d(0.9D, 0.75D, 0.9D));
 			if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
 				final double d0 = Math.abs(entity.getX() - entity.xOld);
 				final double d1 = Math.abs(entity.getZ() - entity.zOld);
@@ -59,26 +58,26 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 	}
 
 	@Override
-	public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
+	public boolean isPathfindable(final BlockState state, final IBlockReader worldIn, final BlockPos pos, final PathType path)
 	{
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+	public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity)
 	{
-		return BlockPathTypes.DAMAGE_OTHER;
+		return PathNodeType.DAMAGE_OTHER;
 	}
 
 	@Override
-	protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(CrystallizedBush.WATERLOGGED);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(final BlockPlaceContext context)
+	public BlockState getStateForPlacement(final BlockItemUseContext context)
 	{
 		final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
 		return this.defaultBlockState().setValue(CrystallizedBush.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
@@ -91,12 +90,12 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 	}
 
 	@Override
-	public boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos) {
+	public boolean mayPlaceOn(final BlockState state, final IBlockReader worldIn, final BlockPos pos) {
 		return state.isFaceSturdy(worldIn, pos, Direction.UP);
 	}
 
 	@Override
-	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
+	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
 								  final BlockPos facingPos)
 	{
 		if (state.getValue(CrystallizedBush.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -109,10 +108,5 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 	public FluidState getFluidState(final BlockState state)
 	{
 		return state.getValue(CrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
-
-	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
-	    return PlantType.DESERT;
 	}
 }

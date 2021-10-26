@@ -1,17 +1,17 @@
 package thut.crafts.entity;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.world.World;
 
-public class EntityTest extends Mob
+public class EntityTest extends MobEntity
 {
     public static final EntityType<EntityTest> TYPE = EntityType.Builder
-            .of(EntityTest::new, MobCategory.CREATURE)
+            .of(EntityTest::new, EntityClassification.CREATURE)
             .setCustomClientFactory((s, w) -> EntityTest.TYPE.create(w)).build("thutcrafts:testmob");
 
-    protected EntityTest(EntityType<? extends Mob> type, Level worldIn)
+    protected EntityTest(EntityType<? extends MobEntity> type, World worldIn)
     {
         super(type, worldIn);
     }

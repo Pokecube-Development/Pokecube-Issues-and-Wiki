@@ -1,8 +1,8 @@
 package thut.wearables;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 
 public interface IWearableChecker
 {
@@ -19,7 +19,7 @@ public interface IWearableChecker
     }
 
     public void onInteract(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex,
-            UseOnContext context);
+            ItemUseContext context);
 
     public void onPutOn(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex);
 

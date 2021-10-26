@@ -1,9 +1,9 @@
 package pokecube.core.inventory.pc;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -12,7 +12,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.blocks.pc.PCTile;
 
-public class PCWrapper implements ICapabilityProvider, Container
+public class PCWrapper implements ICapabilityProvider, IInventory
 {
     private final LazyOptional<IItemHandler> holder;
     final PCTile                             tile;
@@ -72,7 +72,7 @@ public class PCWrapper implements ICapabilityProvider, Container
     }
 
     @Override
-    public boolean stillValid(final Player player)
+    public boolean stillValid(final PlayerEntity player)
     {
         return this.tile.isBound() ? player.getUUID().equals(this.tile.boundId) : true;
     }

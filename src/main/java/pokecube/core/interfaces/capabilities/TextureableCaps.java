@@ -5,11 +5,11 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.database.PokedexEntry;
@@ -18,7 +18,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
 import thut.core.common.ThutCore;
 
@@ -49,7 +48,7 @@ public class TextureableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return ThutCaps.MOBTEX_CAP.orEmpty(cap, this.holder);
+            return TextureableCaps.CAPABILITY.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -106,7 +105,7 @@ public class TextureableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return ThutCaps.MOBTEX_CAP.orEmpty(cap, this.holder);
+            return TextureableCaps.CAPABILITY.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -176,11 +175,7 @@ public class TextureableCaps
         }
     }
 
-    private static final List<String> STATES = Lists.newArrayList();
-
-    public static IMobTexturable forMob(final Entity mob)
-    {
-        if (mob == null) return null;
-        return mob.getCapability(ThutCaps.MOBTEX_CAP).orElse(null);
-    }
+    @CapabilityInject(IMobTexturable.class)
+    public static final Capability<IMobTexturable> CAPABILITY = null;
+    private static final List<String>              STATES     = Lists.newArrayList();
 }

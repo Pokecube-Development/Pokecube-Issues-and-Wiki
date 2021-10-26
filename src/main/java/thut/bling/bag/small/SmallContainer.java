@@ -1,24 +1,24 @@
 package thut.bling.bag.small;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ChestContainer;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.IContainerFactory;
 import thut.api.item.ItemList;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.BagSlot;
 import thut.bling.bag.large.LargeContainer;
 
-public class SmallContainer extends ChestMenu
+public class SmallContainer extends ChestContainer
 {
     public static final ResourceLocation INVALID = new ResourceLocation(ThutBling.MODID, "not_bagable");
 
-    public static final MenuType<SmallContainer> TYPE = new MenuType<>(
+    public static final ContainerType<SmallContainer> TYPE = new ContainerType<>(
             (IContainerFactory<SmallContainer>) SmallContainer::new);
 
     public static int STACKLIMIT = 64;
@@ -40,14 +40,14 @@ public class SmallContainer extends ChestMenu
 
     public final SmallInventory inv;
 
-    public final Inventory invPlayer;
+    public final PlayerInventory invPlayer;
 
-    public SmallContainer(final int id, final Inventory ivplay, final FriendlyByteBuf data)
+    public SmallContainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
         this(id, ivplay, new SmallInventory(SmallManager.INSTANCE, data));
     }
 
-    public SmallContainer(final int id, final Inventory ivplay, final SmallInventory pc)
+    public SmallContainer(final int id, final PlayerInventory ivplay, final SmallInventory pc)
     {
         super(SmallContainer.TYPE, id, ivplay, pc, 3);
         SmallContainer.xOffset = 0;
@@ -69,7 +69,7 @@ public class SmallContainer extends ChestMenu
         this.bindPlayerInventory(this.invPlayer, -18);
     }
 
-    public void bindPlayerInventory(final Inventory playerInv, final int yOffset)
+    public void bindPlayerInventory(final PlayerInventory playerInv, final int yOffset)
     {
         for (int i1 = 0; i1 < 9; ++i1)
             this.addSlot(new Slot(playerInv, i1, 8 + i1 * 18, 161 + yOffset));
@@ -92,7 +92,7 @@ public class SmallContainer extends ChestMenu
     }
 
     @Override
-    public boolean stillValid(final Player PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }

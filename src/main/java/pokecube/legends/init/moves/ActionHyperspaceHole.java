@@ -1,14 +1,14 @@
 package pokecube.legends.init.moves;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.handlers.events.MoveEventsHandler.UseContext;
@@ -33,8 +33,8 @@ public class ActionHyperspaceHole implements IMoveAction
     {
         if (user.inCombat()) return false;
         final LivingEntity owner = user.getOwner();
-        if (!(owner instanceof ServerPlayer)) return false;
-        final TranslatableComponent message;
+        if (!(owner instanceof ServerPlayerEntity)) return false;
+        final TranslationTextComponent message;
         final IHungrymob mob = user;
         int count = 1;
         final int level = user.getLevel();
@@ -42,10 +42,10 @@ public class ActionHyperspaceHole implements IMoveAction
         count = (int) Math.max(1, Math.ceil(count * Math.pow((100 - level) / 100d, 3))) * hungerValue;
         if (level < PokecubeLegends.config.levelCreatePortal)
         {
-            message = new TranslatableComponent("msg.hoopaportal.deny.too_weak");
-            if (owner instanceof Player)
+            message = new TranslationTextComponent("msg.hoopaportal.deny.too_weak");
+            if (owner instanceof PlayerEntity)
             {
-                final Player player = (Player) owner;
+                final PlayerEntity player = (PlayerEntity) owner;
                 player.displayClientMessage(message, true);
             } else
             {
@@ -55,7 +55,7 @@ public class ActionHyperspaceHole implements IMoveAction
         }
         else
         {
-            final Level world = user.getEntity().getCommandSenderWorld();
+            final World world = user.getEntity().getCommandSenderWorld();
             final long lastUse = user.getEntity().getPersistentData().getLong("pokecube_legends:last_portal_make");
             final long now = Tracker.instance().getTick();
             if (lastUse != 0)
@@ -63,11 +63,11 @@ public class ActionHyperspaceHole implements IMoveAction
                 final long diff = now - lastUse;
                 if (diff < PokecubeLegends.config.ticksPerPortalSpawn)
                 {
-                    message = new TranslatableComponent("msg.hoopaportal.deny.too_soon");
+                    message = new TranslationTextComponent("msg.hoopaportal.deny.too_soon");
 
-                    if (owner instanceof Player)
+                    if (owner instanceof PlayerEntity)
                     {
-                        final Player player = (Player) owner;
+                        final PlayerEntity player = (PlayerEntity) owner;
                         player.displayClientMessage(message, true);
                     } else
                     {
@@ -85,21 +85,21 @@ public class ActionHyperspaceHole implements IMoveAction
             // Didn't place, so lets skip
             if (state == null)
             {
-                message = new TranslatableComponent("msg.hoopaportal.deny.invalid");
+                message = new TranslationTextComponent("msg.hoopaportal.deny.invalid");
                 mob.applyHunger(count);
             }
             else
             {
                 user.getEntity().getPersistentData().putLong("pokecube_legends:last_portal_make", now);
                 block.place(world, prevPos, context.getHorizontalDirection());
-                final BlockEntity tile = world.getBlockEntity(prevPos.above());
+                final TileEntity tile = world.getBlockEntity(prevPos.above());
                 if (tile instanceof RingTile) ((RingTile) tile).despawns = true;
-                message = new TranslatableComponent("msg.hoopaportal.accept.info");
+                message = new TranslationTextComponent("msg.hoopaportal.accept.info");
                 mob.applyHunger(count);
             }
-            if (owner instanceof Player)
+            if (owner instanceof PlayerEntity)
             {
-                final Player player = (Player) owner;
+                final PlayerEntity player = (PlayerEntity) owner;
                 player.displayClientMessage(message, true);
             } else
             {

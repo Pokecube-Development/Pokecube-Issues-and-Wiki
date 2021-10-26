@@ -1,5 +1,14 @@
 {
   "config": {
+    "max_water_depth": 0,
+    "ignore_vines": true,
+    "heightmap": "OCEAN_FLOOR",
+    "minimum_size": {
+      "limit": 2,
+      "lower_size": 0,
+      "upper_size": 2,
+      "type": "minecraft:two_layers_feature_size"
+    },
     "decorators": [
       {
         "type": "minecraft:trunk_vine"
@@ -8,40 +17,26 @@
         "type": "minecraft:leave_vine"
       },
       {
-        "probability": 0.002,
+        "probability": 0.01,
         "type": "minecraft:beehive"
       }
     ],
-    "ignore_vines": false,
-    "force_dirt": false,
-    "dirt_provider": {
+    "trunk_provider": {
       "state": {
-        "Name": "pokecube_legends:jungle_dirt"
+        "Properties": {
+          "axis": "y"
+        },
+        "Name": "pokecube_legends:ultra_log02"
       },
       "type": "minecraft:simple_state_provider"
     },
-    "minimum_size": {
-      "limit": 2,
-      "lower_size": 0,
-      "upper_size": 2,
-      "type": "minecraft:two_layers_feature_size"
-    },
-    "foliage_provider": {
+    "leaves_provider": {
       "state": {
         "Properties": {
           "persistent": "false",
           "distance": "7"
         },
-        "Name": "pokecube_legends:temporal_leaves"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
-    "sapling_provider": {
-      "state": {
-        "Properties": {
-          "stage": "0"
-        },
-        "Name": "pokecube_legends:temporal_sapling"
+        "Name": "pokecube_legends:ultra_leave02"
       },
       "type": "minecraft:simple_state_provider"
     },
@@ -51,17 +46,8 @@
       "height": 3,
       "type": "minecraft:jungle_foliage_placer"
     },
-    "trunk_provider": {
-      "state": {
-        "Properties": {
-          "axis": "y"
-        },
-        "Name": "pokecube_legends:temporal_log"
-      },
-      "type": "minecraft:simple_state_provider"
-    },
     "trunk_placer": {
-      "base_height": 6,
+      "base_height": 8,
       "height_rand_a": 8,
       "height_rand_b": 0,
       "type": "minecraft:straight_trunk_placer"

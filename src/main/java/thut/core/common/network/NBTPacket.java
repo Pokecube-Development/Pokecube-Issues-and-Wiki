@@ -1,12 +1,12 @@
 package thut.core.common.network;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 
 public abstract class NBTPacket extends Packet
 {
-    protected CompoundTag   tag = new CompoundTag();
+    protected CompoundNBT   tag = new CompoundNBT();
     final PacketAssembly<?> assembler;
 
     public NBTPacket()
@@ -14,34 +14,34 @@ public abstract class NBTPacket extends Packet
         this.assembler = PacketAssembly.ASSEMBLERS.get(this.getClass());
     }
 
-    public NBTPacket(final CompoundTag tag)
+    public NBTPacket(final CompoundNBT tag)
     {
         this();
         this.tag = tag;
     }
 
-    public NBTPacket(final FriendlyByteBuf buffer)
+    public NBTPacket(final PacketBuffer buffer)
     {
         this();
         this.tag = buffer.readNbt();
-        if (this.assembler != null) this.assembler.onRead(this.getTag());
+        this.assembler.onRead(this.getTag());
     }
 
     @Override
-    public final void write(final FriendlyByteBuf buffer)
+    public final void write(final PacketBuffer buffer)
     {
         buffer.writeNbt(this.getTag());
     }
 
-    public final void setTag(final CompoundTag tag)
+    public final void setTag(final CompoundNBT tag)
     {
         this.tag = tag;
     }
 
     @Override
-    public final void handleServer(final ServerPlayer player)
+    public final void handleServer(final ServerPlayerEntity player)
     {
-        final CompoundTag complete = this.assembler.onRead(this.getTag());
+        final CompoundNBT complete = this.assembler.onRead(this.getTag());
         if (complete != null)
         {
             this.tag = complete;
@@ -52,7 +52,7 @@ public abstract class NBTPacket extends Packet
     @Override
     public final void handleClient()
     {
-        final CompoundTag complete = this.assembler.onRead(this.getTag());
+        final CompoundNBT complete = this.assembler.onRead(this.getTag());
         if (complete != null)
         {
             this.tag = complete;
@@ -65,12 +65,12 @@ public abstract class NBTPacket extends Packet
 
     }
 
-    protected void onCompleteServer(final ServerPlayer player)
+    protected void onCompleteServer(final ServerPlayerEntity player)
     {
 
     }
 
-    public final CompoundTag getTag()
+    public final CompoundNBT getTag()
     {
         return this.tag;
     }

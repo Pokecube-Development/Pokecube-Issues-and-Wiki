@@ -7,13 +7,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.sensing.DummySensor;
-import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.DummySensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.Task;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.battle.ChooseAttacks;
@@ -46,7 +46,7 @@ public class Tasks
 
     @SuppressWarnings("unchecked")
     public static void addBattleTasks(final LivingEntity mob,
-            final List<Pair<Integer, Behavior<? super LivingEntity>>> tasks)
+            final List<Pair<Integer, Task<? super LivingEntity>>> tasks)
     {
         final Brain<?> brain = mob.getBrain();
 
@@ -57,27 +57,27 @@ public class Tasks
         BrainUtils.removeSensors(brain, Tasks.REMOVE);
         BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, senses);
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> battle_list = Lists.newArrayList();
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> other_list = Lists.newArrayList();
-        for (final Pair<Integer, ? extends Behavior<? super LivingEntity>> task_pair : tasks)
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> battle_list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> other_list = Lists.newArrayList();
+        for (final Pair<Integer, ? extends Task<? super LivingEntity>> task_pair : tasks)
             if (task_pair.getSecond() instanceof BaseAgroTask) other_list.add(task_pair);
             else battle_list.add(task_pair);
 
-        Behavior<?> task = new DeAgro(mob);
-        battle_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+        Task<?> task = new DeAgro(mob);
+        battle_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         task = new Retaliate(mob);
-        other_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+        other_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         task = new ChooseAttacks(mob);
-        battle_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+        battle_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
         task = new ManageOutMob(mob);
-        battle_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+        battle_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
         task = new ManagePokemobTarget(mob);
-        battle_list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+        battle_list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         brain.addActivityWithConditions(Activities.BATTLE, ImmutableList.copyOf(battle_list), ImmutableSet.of(Pair.of(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT)));
+                MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT)));
 
         brain.activeActivities.forEach(a ->
         {

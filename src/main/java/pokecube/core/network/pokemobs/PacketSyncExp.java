@@ -1,8 +1,8 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -26,7 +26,7 @@ public class PacketSyncExp extends Packet
     {
     }
 
-    public PacketSyncExp(FriendlyByteBuf buf)
+    public PacketSyncExp(PacketBuffer buf)
     {
         this.entityId = buf.readInt();
         this.exp = buf.readInt();
@@ -35,7 +35,7 @@ public class PacketSyncExp extends Packet
     @Override
     public void handleClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final int exp = this.exp;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
@@ -44,7 +44,7 @@ public class PacketSyncExp extends Packet
     }
 
     @Override
-    public void write(FriendlyByteBuf buf)
+    public void write(PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeInt(this.exp);

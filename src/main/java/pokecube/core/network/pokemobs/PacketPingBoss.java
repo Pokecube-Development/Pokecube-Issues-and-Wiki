@@ -1,8 +1,8 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -23,13 +23,13 @@ public class PacketPingBoss extends Packet
     {
     }
 
-    public PacketPingBoss(final FriendlyByteBuf buffer)
+    public PacketPingBoss(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final int id = this.entityId;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
@@ -46,7 +46,7 @@ public class PacketPingBoss extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
     }

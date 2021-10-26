@@ -3,35 +3,35 @@ package thut.api.entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
 
-public interface ICopyMob extends INBTSerializable<CompoundTag>
+public interface ICopyMob extends INBTSerializable<CompoundNBT>
 {
     ResourceLocation getCopiedID();
 
     LivingEntity getCopiedMob();
 
-    CompoundTag getCopiedNBT();
+    CompoundNBT getCopiedNBT();
 
     void setCopiedID(ResourceLocation id);
 
     void setCopiedMob(LivingEntity mob);
 
-    void setCopiedNBT(CompoundTag tag);
+    void setCopiedNBT(CompoundNBT tag);
 
     @Override
-    default void deserializeNBT(final CompoundTag nbt)
+    default void deserializeNBT(final CompoundNBT nbt)
     {
         if (nbt.contains("id")) this.setCopiedID(new ResourceLocation(nbt.getString("id")));
         else this.setCopiedID(null);
@@ -39,15 +39,15 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
     }
 
     @Override
-    default CompoundTag serializeNBT()
+    default CompoundNBT serializeNBT()
     {
-        final CompoundTag nbt = new CompoundTag();
+        final CompoundNBT nbt = new CompoundNBT();
         if (this.getCopiedID() != null) nbt.putString("id", this.getCopiedID().toString());
         if (!this.getCopiedNBT().isEmpty()) nbt.put("tag", this.getCopiedNBT());
         return nbt;
     }
 
-    default void onBaseTick(final @Nonnull Level level, final @Nullable LivingEntity holder)
+    default void onBaseTick(final @Nonnull World level, final @Nullable LivingEntity holder)
     {
         if (this.getCopiedID() == null)
         {
@@ -65,7 +65,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                     }
                 }
                 this.setCopiedMob(null);
-                this.setCopiedNBT(new CompoundTag());
+                this.setCopiedNBT(new CompoundNBT());
             }
             return;
         }
@@ -79,7 +79,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 if (MinecraftForge.EVENT_BUS.post(new CopySetEvent(holder, null, mob)))
                 {
                     this.setCopiedID(null);
-                    this.setCopiedNBT(new CompoundTag());
+                    this.setCopiedNBT(new CompoundNBT());
                     return;
                 }
                 this.setCopiedMob(mob);
@@ -96,7 +96,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             else
             {
                 this.setCopiedID(null);
-                this.setCopiedNBT(new CompoundTag());
+                this.setCopiedNBT(new CompoundNBT());
                 return;
             }
         }
@@ -105,21 +105,21 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         {
             living.setId(-(holder.getId() + 100));
 
-            living.onAddedToWorld();
+            living.inChunk = true;
             living.baseTick();
-            living.onRemovedFromWorld();
+            living.inChunk = false;
 
             final float eye = living.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()));
             if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder
                     .refreshDimensions();
 
-            living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
-            living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));
+            living.setItemInHand(Hand.MAIN_HAND, holder.getItemInHand(Hand.MAIN_HAND));
+            living.setItemInHand(Hand.OFF_HAND, holder.getItemInHand(Hand.OFF_HAND));
 
             living.noPhysics = true;
             ICopyMob.copyEntityTransforms(living, holder);
             ICopyMob.copyPositions(living, holder);
-            living.level = holder.level;
+            living.setLevel(holder.level);
 
             if (!MinecraftForge.EVENT_BUS.post(new CopyUpdateEvent(living, holder)))
             {
@@ -138,6 +138,10 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.xo = from.xo;
         to.yo = from.yo;
         to.zo = from.zo;
+
+        to.xChunk = from.xChunk;
+        to.yChunk = from.yChunk;
+        to.zChunk = from.zChunk;
 
         to.setPos(from.getX(), from.getY(), from.getZ());
         to.setDeltaMovement(from.getDeltaMovement());
@@ -166,8 +170,5 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.animationSpeed = from.animationSpeed;
 
         to.setOnGround(from.isOnGround());
-        to.wasTouchingWater = from.wasTouchingWater;
-        to.fluidHeight = from.fluidHeight;
-        to.fluidOnEyes = from.fluidOnEyes;
     }
 }

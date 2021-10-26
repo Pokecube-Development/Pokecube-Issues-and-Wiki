@@ -5,56 +5,56 @@ import java.util.Random;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.RuleEntry;
+import net.minecraft.world.gen.feature.template.RuleStructureProcessor;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 
-public class NotRuleProcessor extends RuleProcessor
+public class NotRuleProcessor extends RuleStructureProcessor
 {
     public static final Codec<NotRuleProcessor> CODEC;
 
-    private final List<ProcessorRule> rules;
+    private final List<RuleEntry> rules;
 
-    public NotRuleProcessor(final List<ProcessorRule> rules)
+    public NotRuleProcessor(final List<RuleEntry> rules)
     {
         super(rules);
         this.rules = rules;
     }
 
     @Override
-    public StructureBlockInfo processBlock(final LevelReader worldReaderIn, final BlockPos pos, final BlockPos pos2,
-            final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2, final StructurePlaceSettings placementSettingsIn)
+    public BlockInfo processBlock(final IWorldReader worldReaderIn, final BlockPos pos, final BlockPos pos2,
+            final BlockInfo blockInfo1, final BlockInfo blockInfo2, final PlacementSettings placementSettingsIn)
     {
-        final Random random = new Random(Mth.getSeed(blockInfo2.pos));
+        final Random random = new Random(MathHelper.getSeed(blockInfo2.pos));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos);
-        if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)
+        if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final RuleEntry ruleentry : this.rules)
             if (!ruleentry.test(blockInfo2.state, blockstate, blockInfo1.pos, blockInfo2.pos, pos2, random))
             {
                 final BlockState output = ruleentry.getOutputState();
                 if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
-                return new StructureTemplate.StructureBlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
+                return new Template.BlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
 
             }
         return blockInfo2;
     }
 
     @Override
-    protected StructureProcessorType<?> getType()
+    protected IStructureProcessorType<?> getType()
     {
         return PokecubeStructureProcessors.NOTRULE;
     }
 
     static
     {
-        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
+        CODEC = RuleEntry.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) ->
         {
             return p_237126_0_.rules;
         }).codec();

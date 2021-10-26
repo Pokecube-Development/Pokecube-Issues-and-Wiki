@@ -2,8 +2,8 @@ package pokecube.core.interfaces.pokemob;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.entity.IBreedingMob;
@@ -11,7 +11,7 @@ import thut.api.entity.IBreedingMob;
 public interface IHasEntry extends IHasMobAIStates
 {
     /** @return the minecraft entity associated with this pokemob */
-    Mob getEntity();
+    MobEntity getEntity();
 
     /** @return the {@link PokedexEntry} of the species of this Pokemob */
     PokedexEntry getPokedexEntry();
@@ -35,7 +35,7 @@ public interface IHasEntry extends IHasMobAIStates
      * @param entityIn
      *            Sets the vanilla entity for this pokemob
      */
-    void setEntity(Mob entityIn);
+    void setEntity(MobEntity entityIn);
 
     /** @return the {@link PokedexEntry} of the species of this Pokemob */
     IPokemob setPokedexEntry(PokedexEntry newEntry);
@@ -57,7 +57,7 @@ public interface IHasEntry extends IHasMobAIStates
 
     }
 
-    default void setReadyToMate(@Nullable final Player cause)
+    default void setReadyToMate(@Nullable final PlayerEntity cause)
     {
     }
 

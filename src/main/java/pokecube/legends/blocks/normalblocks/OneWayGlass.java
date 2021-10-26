@@ -1,16 +1,16 @@
 package pokecube.legends.blocks.normalblocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.GlassBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.GlassBlock;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockDisplayReader;
 
 public class OneWayGlass extends GlassBlock
 {
@@ -23,19 +23,19 @@ public class OneWayGlass extends GlassBlock
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(FACING);
     }
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext context)
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         Direction direction = context.getNearestLookingDirection().getOpposite();
         return (BlockState)((BlockState)this.defaultBlockState().setValue(FACING, direction));
     }
 
 	@Override
-	public boolean shouldDisplayFluidOverlay(final BlockState state, final BlockAndTintGetter world, final BlockPos pos, final FluidState fluidstate) {
+	public boolean shouldDisplayFluidOverlay(final BlockState state, final IBlockDisplayReader world, final BlockPos pos, final FluidState fluidstate) {
 		return true;
 	}
 }

@@ -13,8 +13,8 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.mojang.authlib.GameProfile;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -34,25 +34,25 @@ public abstract class PokecubeMod
 
     public final static String GIFTURL = PokecubeMod.GIST + "gift";
 
-    private static HashMap<Level, FakePlayer> fakePlayers = new HashMap<>();
+    private static HashMap<World, FakePlayer> fakePlayers = new HashMap<>();
 
     public static final UUID fakeUUID = new UUID(1234, 4321);
 
     public static Logger  LOGGER = null;
     public static boolean debug;
 
-    private static FakePlayer makeNewFakePlayer(final ServerLevel world)
+    private static FakePlayer makeNewFakePlayer(final ServerWorld world)
     {
         return FakePlayerFactory.get(world, new GameProfile(PokecubeMod.fakeUUID, "[Pokecube]DispenserPlayer"));
     }
 
-    public static FakePlayer getFakePlayer(final Level world)
+    public static FakePlayer getFakePlayer(final World world)
     {
-        if (!(world instanceof ServerLevel)) throw new IllegalArgumentException("Must be called server side!");
-        return PokecubeMod.getFakePlayer((ServerLevel) world);
+        if (!(world instanceof ServerWorld)) throw new IllegalArgumentException("Must be called server side!");
+        return PokecubeMod.getFakePlayer((ServerWorld) world);
     }
 
-    public static FakePlayer getFakePlayer(final ServerLevel world)
+    public static FakePlayer getFakePlayer(final ServerWorld world)
     {
         final FakePlayer player = PokecubeMod.fakePlayers.getOrDefault(world, PokecubeMod.makeNewFakePlayer(world));
         PokecubeMod.fakePlayers.put(world, player);

@@ -2,10 +2,10 @@ package pokecube.core.ai.tasks.idle.hunger;
 
 import java.util.function.Predicate;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.interfaces.IPokemob;
@@ -22,14 +22,14 @@ public class EatRedstone extends EatBlockBase
     {
         if (!pokemob.isElectrotroph()) return EatResult.NOEAT;
 
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
         double diff = 3;
         diff = Math.max(diff, entity.getBbWidth());
         final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRedstone.checker.test(current)) return EatResult.NOEAT;
 

@@ -5,14 +5,14 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
@@ -52,18 +52,18 @@ public class EntityUpdate extends NBTPacket
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return;
         }
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putInt("id", entity.getId());
-        final CompoundTag mobtag = new CompoundTag();
+        final CompoundNBT mobtag = new CompoundNBT();
         entity.saveWithoutId(mobtag);
         tag.put("tag", mobtag);
         final EntityUpdate message = new EntityUpdate(tag);
         EntityUpdate.ASSEMBLER.sendToTracking(message, entity);
     }
 
-    public static void readMob(final Entity mob, final CompoundTag tag)
+    public static void readMob(final Entity mob, final CompoundNBT tag)
     {
-        if ((mob.getCommandSenderWorld() instanceof ServerLevel || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
+        if ((mob.getCommandSenderWorld() instanceof ServerWorld || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
                 .contains(mob.getType())) try
         {
             mob.load(tag);
@@ -85,7 +85,7 @@ public class EntityUpdate extends NBTPacket
 
             try
             {
-                mob.setCustomName(Component.Serializer.fromJson(s));
+                mob.setCustomName(ITextComponent.Serializer.fromJson(s));
             }
             catch (final Exception exception)
             {
@@ -112,12 +112,12 @@ public class EntityUpdate extends NBTPacket
         super();
     }
 
-    public EntityUpdate(final CompoundTag tag)
+    public EntityUpdate(final CompoundNBT tag)
     {
         super(tag);
     }
 
-    public EntityUpdate(final FriendlyByteBuf buffer)
+    public EntityUpdate(final PacketBuffer buffer)
     {
         super(buffer);
     }
@@ -127,7 +127,7 @@ public class EntityUpdate extends NBTPacket
     protected void onCompleteClient()
     {
         final int id = this.getTag().getInt("id");
-        final Level world = net.minecraft.client.Minecraft.getInstance().level;
+        final World world = net.minecraft.client.Minecraft.getInstance().level;
         final Entity mob = world.getEntity(id);
         if (mob != null) EntityUpdate.readMob(mob, this.getTag().getCompound("tag"));
     }

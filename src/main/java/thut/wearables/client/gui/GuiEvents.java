@@ -4,11 +4,11 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.gui.DisplayEffectsScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.CreativeScreen;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -47,21 +47,21 @@ public class GuiEvents
         if (event.getGui() instanceof InventoryScreen || event.getGui() instanceof GuiWearables)
         {
             this.active = event.getGui() instanceof GuiWearables;
-            final EffectRenderingInventoryScreen<?> gui = (EffectRenderingInventoryScreen<?>) event.getGui();
+            final DisplayEffectsScreen<?> gui = (DisplayEffectsScreen<?>) event.getGui();
             final GuiWearableButton button;
-            event.getGui().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + ThutWearables.config.buttonPos
+            event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + ThutWearables.config.buttonPos
                     .get(0), gui.getGuiTop() + ThutWearables.config.buttonPos.get(1), 9, 9,
-                    new TranslatableComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+                    new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
         }
-        else if (event.getGui() instanceof CreativeModeInventoryScreen)
+        else if (event.getGui() instanceof CreativeScreen)
         {
-            final CreativeModeInventoryScreen gui = (CreativeModeInventoryScreen) event.getGui();
+            final CreativeScreen gui = (CreativeScreen) event.getGui();
             this.active = event.getGui() instanceof GuiWearables;
             GuiWearableButton button;
-            event.getGui().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 37, gui.getGuiTop() + 9, 9, 9,
-                    new TranslatableComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
+            event.getGui().addButton(button = new GuiWearableButton(gui.getGuiLeft() + 37, gui.getGuiTop() + 9, 9, 9,
+                    new TranslationTextComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);
             button.visible = button.active = gui.getSelectedTab() == 11;

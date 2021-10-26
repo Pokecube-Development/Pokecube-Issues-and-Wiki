@@ -2,15 +2,15 @@ package pokecube.mobs.moves.world;
 
 import java.util.List;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -48,7 +48,7 @@ public class ActionSmash implements IMoveAction
         }
         if (!used)
         {
-            final Level world = user.getEntity().getCommandSenderWorld();
+            final World world = user.getEntity().getCommandSenderWorld();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
             if (!items.isEmpty())
             {
@@ -59,8 +59,8 @@ public class ActionSmash implements IMoveAction
         return used;
     }
 
-    private void doFortuneDrop(final BlockState state, final BlockPos pos, final Level worldIn,
-            final Player player, final int fortune)
+    private void doFortuneDrop(final BlockState state, final BlockPos pos, final World worldIn,
+            final PlayerEntity player, final int fortune)
     {
 
         final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
@@ -79,11 +79,11 @@ public class ActionSmash implements IMoveAction
     {
         int ret = 0;
         final LivingEntity owner = digger.getOwner();
-        Player player = null;
-        if (owner instanceof Player) player = (Player) owner;
+        PlayerEntity player = null;
+        if (owner instanceof PlayerEntity) player = (PlayerEntity) owner;
         final int fortune = digger.getLevel() / 30;
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
-        final Level world = digger.getEntity().getCommandSenderWorld();
+        final World world = digger.getEntity().getCommandSenderWorld();
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
         final int range = 1;

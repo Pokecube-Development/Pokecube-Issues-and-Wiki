@@ -3,10 +3,10 @@ package thut.core.common.network;
 import java.util.Collection;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * This code is taken from
@@ -39,16 +39,16 @@ public class NetworkTools
     /// This function supports itemstacks with more then 64 items.
     public static ItemStack readItemStack(ByteBuf dataIn)
     {
-        final FriendlyByteBuf buf = new FriendlyByteBuf(dataIn);
-        final CompoundTag nbt = buf.readNbt();
+        final PacketBuffer buf = new PacketBuffer(dataIn);
+        final CompoundNBT nbt = buf.readNbt();
         final ItemStack stack = ItemStack.of(nbt);
         stack.setCount(buf.readInt());
         return stack;
     }
 
-    public static CompoundTag readNBT(ByteBuf dataIn)
+    public static CompoundNBT readNBT(ByteBuf dataIn)
     {
-        final FriendlyByteBuf buf = new FriendlyByteBuf(dataIn);
+        final PacketBuffer buf = new PacketBuffer(dataIn);
         return buf.readNbt();
     }
 
@@ -103,8 +103,8 @@ public class NetworkTools
     /// This function supports itemstacks with more then 64 items.
     public static void writeItemStack(ByteBuf dataOut, ItemStack itemStack)
     {
-        final FriendlyByteBuf buf = new FriendlyByteBuf(dataOut);
-        final CompoundTag nbt = new CompoundTag();
+        final PacketBuffer buf = new PacketBuffer(dataOut);
+        final CompoundNBT nbt = new CompoundNBT();
         itemStack.save(nbt);
         try
         {
@@ -117,9 +117,9 @@ public class NetworkTools
         }
     }
 
-    public static void writeNBT(ByteBuf dataOut, CompoundTag nbt)
+    public static void writeNBT(ByteBuf dataOut, CompoundNBT nbt)
     {
-        final FriendlyByteBuf buf = new FriendlyByteBuf(dataOut);
+        final PacketBuffer buf = new PacketBuffer(dataOut);
         try
         {
             buf.writeNbt(nbt);

@@ -1,6 +1,6 @@
 package thut.core.common.genetics.genes;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.CompoundNBT;
 import thut.api.entity.genetics.Gene;
 
 public abstract class GeneString implements Gene<String>
@@ -14,15 +14,15 @@ public abstract class GeneString implements Gene<String>
     }
 
     @Override
-    public void load(final CompoundTag tag)
+    public void load(final CompoundNBT tag)
     {
         this.value = tag.getString("V");
     }
 
     @Override
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.putString("V", this.value);
         return tag;
     }

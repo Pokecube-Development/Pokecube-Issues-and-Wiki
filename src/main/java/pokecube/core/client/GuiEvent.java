@@ -1,8 +1,8 @@
 package pokecube.core.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
@@ -12,9 +12,17 @@ public class GuiEvent extends Event
     @Cancelable
     public static class RenderMoveMessages extends GuiEvent
     {
-        public RenderMoveMessages(final PoseStack mat, final ForgeIngameGui gui)
+        final ElementType type;
+
+        public RenderMoveMessages(final MatrixStack mat, final ElementType type)
         {
-            super(mat, gui);
+            super(mat);
+            this.type = type;
+        }
+
+        public ElementType getType()
+        {
+            return this.type;
         }
 
     }
@@ -22,47 +30,35 @@ public class GuiEvent extends Event
     @Cancelable
     public static class RenderSelectedInfo extends GuiEvent
     {
-        public RenderSelectedInfo(final PoseStack mat, final ForgeIngameGui gui)
+        public RenderSelectedInfo(final MatrixStack mat)
         {
-            super(mat, gui);
+            super(mat);
         }
     }
 
     @Cancelable
     public static class RenderTargetInfo extends GuiEvent
     {
-        public RenderTargetInfo(final PoseStack mat, final ForgeIngameGui gui)
+        public RenderTargetInfo(final MatrixStack mat)
         {
-            super(mat, gui);
+            super(mat);
         }
     }
 
     @Cancelable
     public static class RenderTeleports extends GuiEvent
     {
-        public RenderTeleports(final PoseStack mat, final ForgeIngameGui gui)
+        public RenderTeleports(final MatrixStack mat)
         {
-            super(mat, gui);
+            super(mat);
         }
     }
 
-    private final PoseStack      mat;
-    private final ForgeIngameGui gui;
+    public final MatrixStack mat;
 
-    public GuiEvent(final PoseStack mat, final ForgeIngameGui gui)
+    public GuiEvent(final MatrixStack mat)
     {
         this.mat = mat;
-        this.gui = gui;
-    }
-
-    public ForgeIngameGui getGui()
-    {
-        return this.gui;
-    }
-
-    public PoseStack getMat()
-    {
-        return this.mat;
     }
 
 }

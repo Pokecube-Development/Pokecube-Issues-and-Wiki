@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -66,7 +66,7 @@ public class AntTasks
 
     public static final MemoryModuleType<Integer> JOB_TYPE = MemoryModules.JOB_TYPE;
 
-    public static final MemoryModuleType<CompoundTag> JOB_INFO = MemoryModules.JOB_INFO;
+    public static final MemoryModuleType<CompoundNBT> JOB_INFO = MemoryModules.JOB_INFO;
 
     public static final MemoryModuleType<Boolean> GOING_HOME = MemoryModules.GOING_HOME;
 
@@ -123,7 +123,7 @@ public class AntTasks
         return pokemob.isRoutineEnabled(AIRoutine.ANTAI);
     }
 
-    public static AntJob getJob(final Mob ant)
+    public static AntJob getJob(final MobEntity ant)
     {
         int index = 0;
         if (ant.getBrain().hasMemoryValue(AntTasks.JOB_TYPE)) index = ant.getBrain().getMemory(AntTasks.JOB_TYPE).get();
@@ -131,23 +131,23 @@ public class AntTasks
         return job;
     }
 
-    public static void setJob(final Mob ant, final AntJob job)
+    public static void setJob(final MobEntity ant, final AntJob job)
     {
         ant.getBrain().setMemory(AntTasks.JOB_TYPE, job.ordinal());
     }
 
-    public static boolean shouldAntBeInNest(final ServerLevel world, final BlockPos pos)
+    public static boolean shouldAntBeInNest(final ServerWorld world, final BlockPos pos)
     {
         return !world.isDay() || world.isRainingAt(pos);
     }
 
     public static class AntInhabitor implements IInhabitor
     {
-        final Mob ant;
+        final MobEntity ant;
 
         public AntJob job = AntJob.NONE;
 
-        public AntInhabitor(final Mob ant)
+        public AntInhabitor(final MobEntity ant)
         {
             this.ant = ant;
         }

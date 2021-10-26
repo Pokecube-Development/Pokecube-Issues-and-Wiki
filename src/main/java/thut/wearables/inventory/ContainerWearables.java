@@ -4,26 +4,26 @@ import javax.annotation.Nullable;
 
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.fml.network.IContainerFactory;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 
-public class ContainerWearables extends AbstractContainerMenu
+public class ContainerWearables extends Container
 {
     public static final ResourceLocation    LOCATION_BLOCKS_TEXTURE     = new ResourceLocation(
             "textures/atlas/blocks.png");
@@ -58,7 +58,7 @@ public class ContainerWearables extends AbstractContainerMenu
 
         @Override
         /** Return whether this slot's stack can be taken from this slot. */
-        public boolean mayPickup(final Player playerIn)
+        public boolean mayPickup(final PlayerEntity playerIn)
         {
             return EnumWearable.canTakeOff(this.wearer, this.getItem(), this.getSlotIndex());
         }
@@ -67,7 +67,7 @@ public class ContainerWearables extends AbstractContainerMenu
         @OnlyIn(Dist.CLIENT)
         public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
         {
-            return Pair.of(InventoryMenu.BLOCK_ATLAS, this.LOCATION);
+            return Pair.of(PlayerContainer.BLOCK_ATLAS, this.LOCATION);
         }
 
         @Override
@@ -81,11 +81,11 @@ public class ContainerWearables extends AbstractContainerMenu
         }
 
         @Override
-        public void onTake(final Player thePlayer, final ItemStack stack)
+        public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
         {
             if (!this.wearer.getCommandSenderWorld().isClientSide) EnumWearable.takeOff(thePlayer, stack, this
                     .getSlotIndex());
-            super.onTake(thePlayer, stack);
+            return super.onTake(thePlayer, stack);
         }
 
         @Override
@@ -97,9 +97,9 @@ public class ContainerWearables extends AbstractContainerMenu
         }
     }
 
-    private static final EquipmentSlot[]              VALID_EQUIPMENT_SLOTS = new EquipmentSlot[] {
-            EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET };
-    public static final MenuType<ContainerWearables> TYPE                  = new MenuType<>(
+    private static final EquipmentSlotType[]              VALID_EQUIPMENT_SLOTS = new EquipmentSlotType[] {
+            EquipmentSlotType.HEAD, EquipmentSlotType.CHEST, EquipmentSlotType.LEGS, EquipmentSlotType.FEET };
+    public static final ContainerType<ContainerWearables> TYPE                  = new ContainerType<>(
             (IContainerFactory<ContainerWearables>) ContainerWearables::new);
 
     public PlayerWearables wearables;
@@ -107,7 +107,7 @@ public class ContainerWearables extends AbstractContainerMenu
     public LivingEntity    wearer;
     final boolean          hasPlayerSlots;
 
-    public ContainerWearables(final int id, final Inventory player, final FriendlyByteBuf extraData)
+    public ContainerWearables(final int id, final PlayerInventory player, final PacketBuffer extraData)
     {
         super(ContainerWearables.TYPE, id);
         LivingEntity wearer = player.player;
@@ -150,12 +150,12 @@ public class ContainerWearables extends AbstractContainerMenu
         if (this.hasPlayerSlots) this.bindVanillaInventory(player);
     }
 
-    private void bindVanillaInventory(final Inventory playerInventory)
+    private void bindVanillaInventory(final PlayerInventory playerInventory)
     {
         // Player armour slots.
         for (int k = 0; k < 4; ++k)
         {
-            final EquipmentSlot entityequipmentslot = ContainerWearables.VALID_EQUIPMENT_SLOTS[k];
+            final EquipmentSlotType entityequipmentslot = ContainerWearables.VALID_EQUIPMENT_SLOTS[k];
             this.addSlot(new Slot(playerInventory, 39 - k, 8, 8 + k * 18)
             {
                 /**
@@ -163,7 +163,7 @@ public class ContainerWearables extends AbstractContainerMenu
                  * slot.
                  */
                 @Override
-                public boolean mayPickup(final Player playerIn)
+                public boolean mayPickup(final PlayerEntity playerIn)
                 {
                     final ItemStack itemstack = this.getItem();
                     return !itemstack.isEmpty() && !playerIn.isCreative() && EnchantmentHelper.hasBindingCurse(
@@ -186,7 +186,7 @@ public class ContainerWearables extends AbstractContainerMenu
                 @OnlyIn(Dist.CLIENT)
                 public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
                 {
-                    return Pair.of(InventoryMenu.BLOCK_ATLAS,
+                    return Pair.of(PlayerContainer.BLOCK_ATLAS,
                             ContainerWearables.ARMOR_SLOT_TEXTURES[entityequipmentslot.getIndex()]);
                 }
 
@@ -219,20 +219,20 @@ public class ContainerWearables extends AbstractContainerMenu
             @OnlyIn(Dist.CLIENT)
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
             {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+                return Pair.of(PlayerContainer.BLOCK_ATLAS, PlayerContainer.EMPTY_ARMOR_SLOT_SHIELD);
             }
         });
     }
 
     @Override
-    public boolean stillValid(final Player playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
 
     /** Called when the container is closed. */
     @Override
-    public void removed(final Player player)
+    public void removed(final PlayerEntity player)
     {
         super.removed(player);
         if (!player.level.isClientSide) ThutWearables.syncWearables(this.wearer);
@@ -243,7 +243,7 @@ public class ContainerWearables extends AbstractContainerMenu
      * you will crash when someone does that.
      */
     @Override
-    public ItemStack quickMoveStack(final Player par1PlayerEntity, final int index)
+    public ItemStack quickMoveStack(final PlayerEntity par1PlayerEntity, final int index)
     {
         ItemStack itemstack = ItemStack.EMPTY;
         final Slot slot = this.slots.get(index);

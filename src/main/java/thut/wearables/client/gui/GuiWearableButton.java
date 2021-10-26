@@ -1,17 +1,16 @@
 package thut.wearables.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
 
 public class GuiWearableButton extends Button
 {
 
     public GuiWearableButton(final int xIn, final int yIn, final int widthIn, final int heightIn,
-            final Component nameIn, final OnPress onPress)
+            final ITextComponent nameIn, final IPressable onPress)
     {
         super(xIn, yIn, widthIn, heightIn, nameIn, onPress);
     }
@@ -23,11 +22,11 @@ public class GuiWearableButton extends Button
     }
 
     @Override
-    public void renderButton(final PoseStack mat, final int p_renderButton_1_, final int p_renderButton_2_,
+    public void renderButton(final MatrixStack mat, final int p_renderButton_1_, final int p_renderButton_2_,
             final float p_renderButton_3_)
     {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, GuiWearables.background);
+        final Minecraft minecraft = Minecraft.getInstance();
+        minecraft.getTextureManager().bind(GuiWearables.background);
         final int i = this.getYImage(this.isHovered());
         this.blit(mat, this.x, this.y, 0, i, this.width, this.height);
     }

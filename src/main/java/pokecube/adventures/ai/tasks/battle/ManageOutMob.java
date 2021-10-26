@@ -2,12 +2,12 @@ package pokecube.adventures.ai.tasks.battle;
 
 import java.util.List;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.BrainUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.capabilities.utils.ActionContext;
@@ -49,7 +49,7 @@ public class ManageOutMob extends BaseBattleTask
         }
         if (this.aiTracker.getAIState(AIState.THROWING)) return;
 
-        final int cooldown = this.trainer.getTarget() instanceof Player ? this.trainer.getAttackCooldown() : 0;
+        final int cooldown = this.trainer.getTarget() instanceof PlayerEntity ? this.trainer.getAttackCooldown() : 0;
 
         // If no mob was found, then it means trainer was not throwing cubes, as
         // those are counted along with active pokemobs.
@@ -124,18 +124,18 @@ public class ManageOutMob extends BaseBattleTask
     }
 
     @Override
-    protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         final boolean hasMob = this.trainer.getOutMob() != null;
 
-        BehaviorUtils.lookAtEntity(this.entity, this.target);
+        BrainUtil.lookAtEntity(this.entity, this.target);
 
         if (hasMob) this.considerSwapPokemob();
         else this.doAggression();
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return super.checkExtraStartConditions(worldIn, entityIn);
     }

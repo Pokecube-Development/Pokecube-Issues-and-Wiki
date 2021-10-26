@@ -4,17 +4,15 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
@@ -23,18 +21,13 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
-public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItemRenderProperties
+public class StatueItem extends ItemStackTileEntityRenderer
 {
-    public StatueItem()
-    {
-        super(null, null);
-    }
-
     static Map<UUID, LivingEntity> CACHE = Maps.newHashMap();
 
     @Override
-    public void renderByItem(final ItemStack stack, final ItemTransforms.TransformType transform, final PoseStack mat,
-            final MultiBufferSource bufs, final int light, final int overlay)
+    public void renderByItem(final ItemStack stack, final TransformType transform, final MatrixStack mat,
+            final IRenderTypeBuffer bufs, final int light, final int overlay)
     {
         final boolean flag = stack.getTagElement("BlockEntityTag") != null;
         LivingEntity mob = null;
@@ -42,13 +35,13 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
         tag:
         if (flag)
         {
-            final CompoundTag blockTag = stack.getTagElement("BlockEntityTag");
+            final CompoundNBT blockTag = stack.getTagElement("BlockEntityTag");
             if (blockTag.contains("ForgeCaps"))
             {
-                final CompoundTag capsTag = blockTag.getCompound("ForgeCaps");
+                final CompoundNBT capsTag = blockTag.getCompound("ForgeCaps");
                 if (capsTag.contains("thutcore:copymob"))
                 {
-                    final CompoundTag copyTag = capsTag.getCompound("thutcore:copymob");
+                    final CompoundNBT copyTag = capsTag.getCompound("thutcore:copymob");
                     final ICopyMob copy = new CopyCaps.Impl();
                     copy.deserializeNBT(copyTag);
                     if (copy.getCopiedNBT().hasUUID("UUID"))
@@ -99,11 +92,5 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
         mob.yRot = 0;
         mc.getEntityRenderDispatcher().setRenderShadow(false);
         mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 0, mat, bufs, light);
-    }
-
-    @Override
-    public BlockEntityWithoutLevelRenderer getItemStackRenderer()
-    {
-        return this;
     }
 }

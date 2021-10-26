@@ -1,7 +1,7 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.entity.Entity;
+import net.minecraft.pathfinding.PathPoint;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -52,7 +52,7 @@ public class CicleTask extends CombatTask implements IAICombat
     {
         // Figure out where centre of combat is
         this.calculateCentre();
-        Node point = null;
+        PathPoint point = null;
         // If the mob has a path already, check if it is near the end, if not,
         // return early, getFinalPathPoint() is nullable!
         if (!this.entity.getNavigation().isDone() && (point = this.entity.getNavigation().getPath()

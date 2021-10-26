@@ -6,16 +6,16 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.projectile.FishingHook;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.projectile.FishingBobberEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -57,7 +57,7 @@ public class HungerTask extends BaseIdleTask
         }
 
         @Override
-        public boolean run(final Level world)
+        public boolean run(final World world)
         {
             final ItemStack stack = BerryGenManager.getRandomBerryForBiome(world, this.pokemob.getEntity()
                     .blockPosition());
@@ -133,21 +133,21 @@ public class HungerTask extends BaseIdleTask
     {
         if (this.pokemob.getPokedexEntry().swims())
         {
-            final AABB bb = this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0).getAABB().inflate(
+            final AxisAlignedBB bb = this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0).getAABB().inflate(
                     PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = this.entity.getCommandSenderWorld().getEntitiesOfClass(
-                    FishingHook.class, bb);
+            final List<FishingBobberEntity> hooks = this.entity.getCommandSenderWorld().getEntitiesOfClass(
+                    FishingBobberEntity.class, bb);
             if (!hooks.isEmpty())
             {
                 final double moveSpeed = 1.5;
                 Collections.shuffle(hooks);
-                final FishingHook hook = hooks.get(0);
+                final FishingBobberEntity hook = hooks.get(0);
                 if (this.v.isVisible(this.world, this.v1.set(hook)))
                 {
                     this.setWalkTo(hook.position(), moveSpeed, 0);
                     if (this.entity.distanceToSqr(hook) < 2)
                     {
-                        hook.setHookedEntity(this.entity);
+                        hook.hookedIn = this.entity;
                         this.pokemob.eat(hook);
                     }
                     return true;
@@ -172,10 +172,10 @@ public class HungerTask extends BaseIdleTask
             if (task.tryEat(this.pokemob, this.blocks).test()) return true;
         // If none of these, then lets actually try to hunt.
         if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain().hasMemoryValue(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+                MemoryModuleType.VISIBLE_LIVING_ENTITIES))
         {
             final List<LivingEntity> targets = this.entity.getBrain().getMemory(
-                    MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+                    MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
             for (final LivingEntity mob : targets)
             {
                 final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
@@ -432,14 +432,14 @@ public class HungerTask extends BaseIdleTask
                         if (this.lastMessageTick1 < this.entity.getCommandSenderWorld().getGameTime())
                         {
                             this.lastMessageTick1 = (int) (this.entity.getCommandSenderWorld().getGameTime() + 100);
-                            this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.hurt",
+                            this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.hurt",
                                     this.pokemob.getDisplayName()));
                         }
                     }
                     else if (this.lastMessageTick2 < this.entity.getCommandSenderWorld().getGameTime())
                     {
                         this.lastMessageTick2 = (int) (this.entity.getCommandSenderWorld().getGameTime() + 100);
-                        this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead",
+                        this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.dead",
                                 this.pokemob.getDisplayName()));
                     }
                 }

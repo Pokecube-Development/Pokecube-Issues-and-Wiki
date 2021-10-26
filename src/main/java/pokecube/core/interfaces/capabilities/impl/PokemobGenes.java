@@ -2,7 +2,7 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.Random;
 
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;
@@ -515,7 +515,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMove(final int i, final String moveName)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel) || this.getTransformedTo() != null)
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null)
             return;
 
         final String[] moves = this.getMoves();
@@ -527,7 +527,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMoves(final String[] moves)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel) || this.getTransformedTo() != null)
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerWorld) || this.getTransformedTo() != null)
             return;
         if (moves != null && moves.length == 4)
         {

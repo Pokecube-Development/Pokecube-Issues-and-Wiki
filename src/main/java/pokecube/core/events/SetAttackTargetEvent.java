@@ -1,6 +1,6 @@
 package pokecube.core.events;
 
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
 
 public class SetAttackTargetEvent extends Event

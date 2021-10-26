@@ -4,37 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import thut.api.block.ITickTile;
 
-public class SplicerBlock extends InteractableHorizontalBlock implements SimpleWaterloggedBlock, EntityBlock
+public class SplicerBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> SPLICER = new HashMap<>();
-    public static final DirectionProperty           FACING  = HorizontalDirectionalBlock.FACING;
+    public static final DirectionProperty           FACING  = HorizontalBlock.FACING;
     public static final BooleanProperty             FIXED   = BooleanProperty.create("fixed");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -56,7 +51,7 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
 				Block.box(6, 11, 7, 7, 15, 8),
 				Block.box(5, 11, 5, 6, 15, 6),
 				Block.box(1, 11, 7, 2, 15, 8)
-				).reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get()
+				).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.EAST,
     	Stream.of(
@@ -73,7 +68,7 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
     	        Block.box(8, 11, 6, 9, 15, 7),
     	        Block.box(10, 11, 5, 11, 15, 6),
     	        Block.box(8, 11, 1, 9, 15, 2)
-    	        ).reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get()
+    	        ).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.SOUTH,
 		Stream.of(
@@ -90,7 +85,7 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
 				Block.box(9, 11, 8, 10, 15, 9),
 				Block.box(10, 11, 10, 11, 15, 11),
 				Block.box(14, 11, 8, 15, 15, 9)
-				).reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get()
+				).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         );
     	SplicerBlock.SPLICER.put(Direction.WEST,
 		Stream.of(
@@ -107,14 +102,14 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
 				Block.box(7, 11, 9, 8, 15, 10),
 				Block.box(5, 11, 10, 6, 15, 11),
 				Block.box(7, 11, 14, 8, 15, 15)
-				).reduce((v1, v2) -> {return Shapes.join(v1, v2, BooleanOp.OR);}).get()
+				).reduce((v1, v2) -> {return VoxelShapes.join(v1, v2, IBooleanFunction.OR);}).get()
         );
     }// @formatter:on
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
         return SplicerBlock.SPLICER.get(state.getValue(SplicerBlock.FACING));
     }
@@ -123,24 +118,17 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(SplicerBlock.FACING, Direction.NORTH).setValue(
-                SplicerBlock.FIXED, false).setValue(SplicerBlock.WATERLOGGED, false));
+                SplicerBlock.FIXED, false).setValue(WATERLOGGED, false));
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return new SplicerTile(pos, state);
+        return new SplicerTile();
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
-            final BlockEntityType<T> type)
-    {
-        return ITickTile.getTicker(world, state, type);
-    }
-
-    @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(SplicerBlock.FACING);
         builder.add(SplicerBlock.FIXED);
@@ -148,27 +136,35 @@ public class SplicerBlock extends InteractableHorizontalBlock implements SimpleW
     }
 
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext context)
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
-        final boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
+        boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
         return this.defaultBlockState().setValue(SplicerBlock.FACING, context.getHorizontalDirection().getOpposite())
-                .setValue(SplicerBlock.FIXED, false).setValue(SplicerBlock.WATERLOGGED, flag);
+                .setValue(SplicerBlock.FIXED, false).setValue(WATERLOGGED, flag);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
-            final BlockPos facingPos)
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos,
+            BlockPos facingPos) 
     {
-        if (state.getValue(SplicerBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(WATERLOGGED)) {
+            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        }
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public FluidState getFluidState(final BlockState state)
+    public FluidState getFluidState(BlockState state) 
     {
-        return state.getValue(SplicerBlock.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public boolean hasTileEntity(final BlockState state)
+    {
+        return true;
     }
 
 }

@@ -16,15 +16,15 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.Util;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -64,7 +64,7 @@ public class XMLRewardsHandler
                 this.percent = percent;
             }
 
-            private boolean check(final Entity entity, final CompoundTag tag, final ItemStack reward, final int num,
+            private boolean check(final Entity entity, final CompoundNBT tag, final ItemStack reward, final int num,
                     final boolean giveReward)
             {
                 if (reward == null || tag.getBoolean(this.tagString)) return false;
@@ -73,8 +73,8 @@ public class XMLRewardsHandler
                     if (giveReward)
                     {
                         tag.putBoolean(this.tagString, true);
-                        entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
-                        final Player PlayerEntity = (Player) entity;
+                        entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
+                        final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                         Tools.giveItem(PlayerEntity, reward.copy());
                         PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                     }
@@ -192,8 +192,8 @@ public class XMLRewardsHandler
                 {
                     final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
-                    entity.sendMessage(new TranslatableComponent(this.message), Util.NIL_UUID);
-                    final Player PlayerEntity = (Player) entity;
+                    entity.sendMessage(new TranslationTextComponent(this.message), Util.NIL_UUID);
+                    final PlayerEntity PlayerEntity = (PlayerEntity) entity;
                     Tools.giveItem(PlayerEntity, book);
                     PokecubePlayerDataHandler.saveCustomData(entity.getStringUUID());
                 }
@@ -227,7 +227,7 @@ public class XMLRewardsHandler
                         final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
                         try
                         {
-                            stack.setTag(TagParser.parseTag(json));
+                            stack.setTag(JsonToNBT.parseTag(json));
                             this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)

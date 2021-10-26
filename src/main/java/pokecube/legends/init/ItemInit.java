@@ -1,21 +1,14 @@
 package pokecube.legends.init;
 
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.StandingAndWallBlockItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.*;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
@@ -35,12 +28,12 @@ import pokecube.legends.items.tools.ZamazentaShieldItem;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
-{
+{	
     // Materials
-    public static final Tier MATERIAL_RAINBOW = Tiers.DIAMOND;
-    public static final Tier MATERIAL_JUSTISE = Tiers.DIAMOND;
-
-    // Keys
+    public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
+    public static final IItemTier MATERIAL_JUSTISE = ItemTier.DIAMOND;
+    
+    // Keys   
     // Orbs
     public static final RegistryObject<Item> BLUE_ORB;
     public static final RegistryObject<Item> GREEN_ORB;
@@ -59,7 +52,7 @@ public class ItemInit
     public static final RegistryObject<Item> FINI_ORB;
     public static final RegistryObject<Item> SOUL_HEART;
     public static final RegistryObject<Item> SOUL_DEW;
-
+    
     // Cores
     public static final RegistryObject<Item> ROCK_CORE;
     public static final RegistryObject<Item> ICE_CORE;
@@ -69,7 +62,7 @@ public class ItemInit
     public static final RegistryObject<Item> MAGMA_CORE;
     public static final RegistryObject<Item> KYUREM_CORE;
     public static final RegistryObject<Item> STEAM_CORE;
-
+    
     // Misc
     public static final RegistryObject<Item> LIGHT_STONE;
     public static final RegistryObject<Item> DARK_STONE;
@@ -81,14 +74,14 @@ public class ItemInit
     public static final RegistryObject<Item> SHADOW_CARROT;
     public static final RegistryObject<Item> ANCIENT_STONE;
     public static final RegistryObject<Item> IMPRISIONMENT_HELMET;
-
+    
     public static final RegistryObject<Item> FIRE_WING;
     public static final RegistryObject<Item> DARK_FIRE_WING;
     public static final RegistryObject<Item> ELECTRIC_WING;
     public static final RegistryObject<Item> STATIC_WING;
     public static final RegistryObject<Item> ICE_WING;
     public static final RegistryObject<Item> ICE_DARK_WING;
-
+    
     public static final RegistryObject<Item> FLAME_GEM;
     public static final RegistryObject<Item> WATER_GEM;
     public static final RegistryObject<Item> THUNDER_GEM;
@@ -96,24 +89,24 @@ public class ItemInit
     public static final RegistryObject<Item> AZELF_GEM;
     public static final RegistryObject<Item> MESPRIT_GEM;
     public static final RegistryObject<Item> UXIE_GEM;
-
+    
     public static final RegistryObject<Item> NIGHTMARE_BOOK;
     public static final RegistryObject<Item> LUNAR_WING;
-
+    
     public static final RegistryObject<Item> MANAPHY_NECKLACE;
-
+    
     public static final RegistryObject<Item> MELOETTA_OCARINA;
-
+    
     public static final RegistryObject<Item> METEOR_SHARD;
-
+    
     public static final RegistryObject<Item> STAR_CORE;
-
+    
     public static final RegistryObject<Item> COSMIC_ORB;
     public static final RegistryObject<Item> LIGHTING_CRYSTAL;
-
+    
     public static final RegistryObject<Item> GRAY_SCARF;
     public static final RegistryObject<Item> WOODEN_CROWN;
-
+    
     // Gens_ores
     public static final RegistryObject<Item> SAPPHIRE;
     public static final RegistryObject<Item> RUBY;
@@ -136,7 +129,7 @@ public class ItemInit
     public static final RegistryObject<Item> RSHIELD;
     public static final RegistryObject<Item> RSWORD;
     public static final RegistryObject<Item> REINS_U;
-
+    
     // Evolutions
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
@@ -157,19 +150,19 @@ public class ItemInit
     public static final RegistryObject<Item> TERRAKION_SWORD;
     public static final RegistryObject<Item> ZAMAZENTA_SHIELD;
     public static final RegistryObject<Item> ZACIAN_SWORD;
-
+    
     // Dimensions
     public static final RegistryObject<Item> SPECTRUM_SHARD;
     public static final RegistryObject<Item> ULTRAKEY;
     public static final RegistryObject<Item> COSMIC_DUST;
     public static final RegistryObject<Item> FRACTAL_SHARD;
-
+    
     //Giratina
     public static final RegistryObject<Item> GIRATINA_MIRROR;
     public static final RegistryObject<Item> HEAD_MIRROR;
     public static final RegistryObject<Item> BODY_MIRROR;
     public static final RegistryObject<Item> GLASS_MIRROR;
-
+    
     // Armor
     public static final RegistryObject<ArmorItem> ULTRA_HELMET;
     public static final RegistryObject<ArmorItem> ULTRA_CHESTPLATE;
@@ -178,7 +171,7 @@ public class ItemInit
 
     // Torch
     public static final RegistryObject<Item> INFECTED_TORCH;
-
+    
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
 
@@ -201,11 +194,11 @@ public class ItemInit
     public static final RegistryObject<Item> POKEPUFF_NORMAL;
     public static final RegistryObject<Item> POKEPUFF_ELECTRIC;
     public static final RegistryObject<Item> POKEPUFF_POISON;
-
+    
     static
     {
         // Keys
-
+    	
     	// Orbs
         BLUE_ORB = PokecubeLegends.ITEMS.register("blueorb", () -> new ItemBase("blueorb", 1,PokecubeLegends.LEGEND_TAB));
         GREEN_ORB = PokecubeLegends.ITEMS.register("greenorb", () -> new ItemBase("greenorb", 1,PokecubeLegends.LEGEND_TAB));
@@ -226,7 +219,7 @@ public class ItemInit
         COSMIC_ORB = PokecubeLegends.ITEMS.register("cosmic_orb", () -> new ItemBase("cosmic_orb", 1,PokecubeLegends.LEGEND_TAB));
         SOUL_HEART = PokecubeLegends.ITEMS.register("soul_heart", () -> new ItemBase("soul_heart", 1,PokecubeLegends.LEGEND_TAB));
         SOUL_DEW = PokecubeLegends.ITEMS.register("soul_dew", () -> new ItemBase("soul_dew", 1,PokecubeLegends.LEGEND_TAB));
-
+        
         // Gem
         FLAME_GEM = PokecubeLegends.ITEMS.register("flame_gem", () -> new ItemBase("flame_gem", 1,PokecubeLegends.LEGEND_TAB));
         THUNDER_GEM = PokecubeLegends.ITEMS.register("thunder_gem", () -> new ItemBase("thunder_gem", 1,PokecubeLegends.LEGEND_TAB));
@@ -235,15 +228,15 @@ public class ItemInit
         MESPRIT_GEM = PokecubeLegends.ITEMS.register("mesprit_gem", () -> new ItemBase("mesprit_gem", 1,PokecubeLegends.LEGEND_TAB));
         UXIE_GEM = PokecubeLegends.ITEMS.register("uxie_gem", () -> new ItemBase("uxie_gem", 1,PokecubeLegends.LEGEND_TAB));
         DIAMOND_GEM = PokecubeLegends.ITEMS.register("diamond_gem", () -> new ItemBase("diamond_gem", 1,PokecubeLegends.LEGEND_TAB));
-
-
+        
+        
         // Stones
         LIGHT_STONE = PokecubeLegends.ITEMS.register("lightstone", () -> new ItemBase("lightstone", 1,PokecubeLegends.LEGEND_TAB));
         DARK_STONE = PokecubeLegends.ITEMS.register("darkstone", () -> new ItemBase("darkstone", 1,PokecubeLegends.LEGEND_TAB));
         ROCK_CORE = PokecubeLegends.ITEMS.register("rockcore", () -> new ItemBase("rockcore", 1,PokecubeLegends.LEGEND_TAB));
         ANCIENT_STONE = PokecubeLegends.ITEMS.register("ancient_stone", () -> new ItemBase("ancient_stone", 1,PokecubeLegends.LEGEND_TAB));
-
-
+        
+        
         // Cores
         ICE_CORE = PokecubeLegends.ITEMS.register("icecore", () -> new ItemBase("icecore", 1,PokecubeLegends.LEGEND_TAB));
         STEEL_CORE = PokecubeLegends.ITEMS.register("steelcore", () -> new ItemBase("steelcore", 1,PokecubeLegends.LEGEND_TAB));
@@ -260,7 +253,7 @@ public class ItemInit
         BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune", () -> new ItemBase("blue_rune", 1, PokecubeLegends.LEGEND_TAB) );
         GREEN_RUNE = PokecubeLegends.ITEMS.register("green_rune", () -> new ItemBase("green_rune", 1, PokecubeLegends.LEGEND_TAB) );
 
-
+        
         //Wings
         SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase("silver_wing", 5,PokecubeItems.POKECUBEITEMS));
         RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase("rainbow_wing", 5,PokecubeItems.POKECUBEITEMS).setShiny());
@@ -271,7 +264,7 @@ public class ItemInit
         ICE_WING = PokecubeLegends.ITEMS.register("ice_wing", () -> new ItemBase("ice_wing", 1, PokecubeLegends.LEGEND_TAB) );
         ICE_DARK_WING = PokecubeLegends.ITEMS.register("ice_dark_wing", () -> new ItemBase("ice_dark_wing", 1, PokecubeLegends.LEGEND_TAB) );
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing", () -> new ItemBase("lunar_wing", 1,PokecubeLegends.LEGEND_TAB));
-
+        
         // Misc
         WOODEN_CROWN = PokecubeLegends.ITEMS.register("wooden_crown", () -> new ItemBase("wooden_crown", 1,PokecubeLegends.LEGEND_TAB));
         GRAY_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn", () -> new ItemBase("kubfu_spawn", 1,PokecubeLegends.LEGEND_TAB));
@@ -280,7 +273,7 @@ public class ItemInit
         MANAPHY_NECKLACE = PokecubeLegends.ITEMS.register("manaphy_necklace", () -> new ItemBase("manaphy_necklace", 1,PokecubeLegends.LEGEND_TAB));
         NIGHTMARE_BOOK = PokecubeLegends.ITEMS.register("nightmare_book", () -> new ItemBase("nightmare_book", 1,PokecubeLegends.LEGEND_TAB));
         MELOETTA_OCARINA = PokecubeLegends.ITEMS.register("meloetta_ocarina", () -> new ItemBase("meloetta_ocarina", 1,PokecubeLegends.LEGEND_TAB));
-
+        
         ZYGARDE_CUBE = PokecubeLegends.ITEMS.register("zygardecube", () -> new ItemBase("zygardecube", 1,PokecubeLegends.LEGEND_TAB));
         PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle", () -> new ItemBase("prisonbottle", 1,PokecubeItems.POKECUBEITEMS));
         REVEAL_GLASS = PokecubeLegends.ITEMS.register("revealglass", () -> new ItemBase("revealglass", 1,PokecubeItems.POKECUBEITEMS));
@@ -301,7 +294,7 @@ public class ItemInit
         PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1,PokecubeItems.POKECUBEITEMS));
         REINS_U = PokecubeLegends.ITEMS.register("reins_u", () -> new ItemBase("reins_u", 1,PokecubeItems.POKECUBEITEMS));
         GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(1,PokecubeItems.POKECUBEITEMS));
-
+        
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1,PokecubeItems.POKECUBEITEMS));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
@@ -310,60 +303,60 @@ public class ItemInit
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", 1,PokecubeLegends.LEGEND_TAB));
         SHADOW_CARROT   = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 1,PokecubeLegends.LEGEND_TAB));
         IMPRISIONMENT_HELMET   = PokecubeLegends.ITEMS.register("imprisonment_helmet", () -> new ItemBase("imprisonment_helmet", 1,PokecubeLegends.LEGEND_TAB));
-
+        
         // Swords
         KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-            2, -2.4F, new Item.Properties(), PokecubeLegends.LEGEND_TAB).setTooltipName("keldeo_sword").setShiny());
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("keldeo_sword").setShiny());
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-            2, -2.4F, new Item.Properties(), PokecubeLegends.LEGEND_TAB).setTooltipName("terrakion_sword"));
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("terrakion_sword"));
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-            3, -2.4F, new Item.Properties(), PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
+            3, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("virizion_sword"));
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword", () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE,
-            2, -2.4F, new Item.Properties(), PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
-        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(Tiers.NETHERITE,
+            2, -2.4F, (new Item.Properties()), PokecubeLegends.LEGEND_TAB).setTooltipName("cobalion_sword"));
+        ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword", () -> new LegendsSword(ItemTier.NETHERITE,
             3, -2.4F, new Item.Properties().fireResistant(), PokecubeLegends.LEGEND_TAB).setTooltipName("zacian_sword"));
-
+        
         //Shields
-        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem(Tiers.NETHERITE,"zamazenta_shield",
+        ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield", () -> new ZamazentaShieldItem(ItemTier.NETHERITE,"zamazenta_shield",
         		new Item.Properties().durability(200).tab(PokecubeLegends.LEGEND_TAB).fireResistant()));
-
-
+        
+        
         // Ores
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase(64,PokecubeItems.POKECUBEITEMS));
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase(64,PokecubeItems.POKECUBEITEMS));
         SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase(64, PokecubeItems.POKECUBEITEMS));
-
-
+        
+        
         // Dimensions
         // UltraSpace
         CRYSTAL_SHARD = PokecubeLegends.ITEMS.register("crystal_shard", () -> new ItemBase(35,PokecubeItems.POKECUBEITEMS));
         ULTRAKEY 		= PokecubeLegends.ITEMS.register("ultrakey", () -> new UltraKey("ultrakey",1) );
         COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase(30, PokecubeItems.POKECUBEITEMS));
         FRACTAL_SHARD 	= PokecubeLegends.ITEMS.register("fractal_shard", () -> new ItemBase(64, PokecubeItems.POKECUBEITEMS));
-
+        
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
-                ItemInit.armormaterial, EquipmentSlot.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.HEAD, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlot.CHEST, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.CHEST, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(
-                ItemInit.armormaterial, EquipmentSlot.LEGS, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.LEGS, new Item.Properties().tab(PokecubeLegends.TAB)));
         ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(
-                ItemInit.armormaterial, EquipmentSlot.FEET, new Item.Properties().tab(PokecubeLegends.TAB)));
+                ItemInit.armormaterial, EquipmentSlotType.FEET, new Item.Properties().tab(PokecubeLegends.TAB)));
 
         //Distortic World
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror", () -> new DistortedMirror("giratina_mirror", 1));
         HEAD_MIRROR = PokecubeLegends.ITEMS.register("head_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
         BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
         GLASS_MIRROR = PokecubeLegends.ITEMS.register("glass_mirror", () -> new ItemBase(1, PokecubeItems.POKECUBEITEMS));
-
+        
         // Torch
-        INFECTED_TORCH = PokecubeLegends.ITEMS.register("infected_torch", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
+        INFECTED_TORCH = PokecubeLegends.ITEMS.register("ultra_torch1", () -> new WallOrFloorItem(BlockInit.INFECTED_TORCH
                 .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB)));
-
+        
         // Plants
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(BlockInit.DISTORTIC_VINES.get(),
         		new Item.Properties().tab(PokecubeLegends.TAB)));
-
+        
         // Foods
         POKEPUFF_GRASS = PokecubeLegends.ITEMS.register("pokepuff_grass", () -> new ItemBase("pokepuff_grass", 32, PokecubeItems.POKECUBEBERRIES, FoodInit.POKEPUFF_GREEN));
         POKEPUFF_FIRE = PokecubeLegends.ITEMS.register("pokepuff_fire", () -> new ItemBase("pokepuff_fire", 32, PokecubeItems.POKECUBEBERRIES, FoodInit.POKEPUFF_GREEN));
@@ -383,19 +376,19 @@ public class ItemInit
        	POKEPUFF_DRAGON = PokecubeLegends.ITEMS.register("pokepuff_dragon", () -> new ItemBase("pokepuff_dragon", 32, PokecubeItems.POKECUBEBERRIES, FoodInit.POKEPUFF_BLUE));
        	POKEPUFF_NORMAL = PokecubeLegends.ITEMS.register("pokepuff_normal", () -> new ItemBase("pokepuff_normal", 32, PokecubeItems.POKECUBEBERRIES, FoodInit.POKEPUFF_ORANGE));
        	POKEPUFF_ICE = PokecubeLegends.ITEMS.register("pokepuff_ice", () -> new ItemBase("pokepuff_ice", 32, PokecubeItems.POKECUBEBERRIES, FoodInit.POKEPUFF_GREEN));
-
+              
     }
 
-    public static final ArmorMaterial armormaterial = new ArmorMaterial()
+    public static final IArmorMaterial armormaterial = new IArmorMaterial()
     {
         @Override
-        public int getDurabilityForSlot(final EquipmentSlot slot)
+        public int getDurabilityForSlot(final EquipmentSlotType slot)
         {
             return new int[] { 13, 15, 16, 11 }[slot.getIndex()] * 25;
         }
 
         @Override
-        public int getDefenseForSlot(final EquipmentSlot slot)
+        public int getDefenseForSlot(final EquipmentSlotType slot)
         {
             return new int[] { 2, 5, 6, 2 }[slot.getIndex()];
         }
@@ -407,7 +400,7 @@ public class ItemInit
         }
 
         @Override
-        public net.minecraft.sounds.SoundEvent getEquipSound()
+        public net.minecraft.util.SoundEvent getEquipSound()
         {
             return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
         }
@@ -430,7 +423,7 @@ public class ItemInit
         {
             return 1.5f;
         }
-
+		
 		@Override
 		public float getKnockbackResistance() {
 			return 2;
@@ -438,15 +431,14 @@ public class ItemInit
     };
 
     public static void init() {}
-
+    
     //Properties
     @OnlyIn(Dist.CLIENT)
     public static void addItemModelProperties() {
-        ItemProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world,
-                entity, intu) ->
+    	ItemModelsProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world, entity) ->
     	entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
-
+    
     // Nature Item
     public static void addMint(final RegistryEvent.Register<Item> event)
     {

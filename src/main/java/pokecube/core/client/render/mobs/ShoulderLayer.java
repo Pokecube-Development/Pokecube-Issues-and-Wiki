@@ -4,23 +4,23 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -28,22 +28,39 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.EntityTools;
 
-public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<T>>
+public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, PlayerModel<T>>
 {
     public interface IShoulderHolder
     {
+        public static Capability.IStorage<IShoulderHolder> STORAGE = new Capability.IStorage<IShoulderHolder>()
+        {
+            @Override
+            public INBT writeNBT(final Capability<IShoulderHolder> capability, final IShoulderHolder instance,
+                    final Direction side)
+            {
+                return null;
+            }
+
+            @Override
+            public void readNBT(final Capability<IShoulderHolder> capability, final IShoulderHolder instance,
+                    final Direction side, final INBT nbt)
+            {
+            }
+        };
+
         IPokemob getLeft();
 
         IPokemob getRight();
     }
 
-    public static Capability<IShoulderHolder> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    @CapabilityInject(IShoulderHolder.class)
+    public static Capability<IShoulderHolder> CAPABILITY = null;
 
     public static class ShoulderHolder implements IShoulderHolder, ICapabilityProvider
     {
         private final LazyOptional<IShoulderHolder> holder = LazyOptional.of(() -> this);
 
-        Player player;
+        PlayerEntity player;
         IPokemob     left  = null;
         IPokemob     right = null;
 
@@ -52,7 +69,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
         {
         }
 
-        public ShoulderHolder(@Nonnull final Player player)
+        public ShoulderHolder(@Nonnull final PlayerEntity player)
         {
             this.player = player;
         }
@@ -60,7 +77,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
         @Override
         public IPokemob getLeft()
         {
-            final CompoundTag tag = this.player.getShoulderEntityLeft();
+            final CompoundNBT tag = this.player.getShoulderEntityLeft();
             EntityType.byString(tag.getString("id")).filter((type) ->
             {
                 return type instanceof PokemobType;
@@ -77,7 +94,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
         @Override
         public IPokemob getRight()
         {
-            final CompoundTag tag = this.player.getShoulderEntityRight();
+            final CompoundNBT tag = this.player.getShoulderEntityRight();
             EntityType.byString(tag.getString("id")).filter((type) ->
             {
                 return type instanceof PokemobType;
@@ -99,13 +116,13 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
 
     }
 
-    public ShoulderLayer(final RenderLayerParent<T, PlayerModel<T>> entityRendererIn)
+    public ShoulderLayer(final IEntityRenderer<T, PlayerModel<T>> entityRendererIn)
     {
         super(entityRendererIn);
     }
 
     @Override
-    public void render(final PoseStack matrixStackIn, final MultiBufferSource bufferIn, final int packedLightIn,
+    public void render(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn,
             final T player, final float limbSwing, final float limbSwingAmount, final float partialTicks,
             final float ageInTicks, final float netHeadYaw, final float headPitch)
     {
@@ -115,12 +132,12 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
                 ageInTicks, netHeadYaw, headPitch, false);
     }
 
-    private void renderShoulder(final PoseStack matrixStackIn, final MultiBufferSource bufferIn,
+    private void renderShoulder(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
             final int packedLightIn, final T player, final float limbSwing, final float limbSwingAmount,
             final float partialTicks, final float ageInTicks, final float netHeadYaw, final float headPitch,
             final boolean leftside)
     {
-        final CompoundTag compoundnbt = leftside ? player.getShoulderEntityLeft() : player.getShoulderEntityRight();
+        final CompoundNBT compoundnbt = leftside ? player.getShoulderEntityLeft() : player.getShoulderEntityRight();
         EntityType.byString(compoundnbt.getString("id")).filter((type) ->
         {
             return type instanceof PokemobType;
@@ -132,7 +149,7 @@ public class ShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<
             final IPokemob pokemob = leftside ? holder.getLeft() : holder.getRight();
             if (pokemob == null) return;
             @SuppressWarnings("unchecked")
-            final LivingEntityRenderer<LivingEntity, ?> render = (LivingEntityRenderer<LivingEntity, ?>) Minecraft.getInstance()
+            final LivingRenderer<LivingEntity, ?> render = (LivingRenderer<LivingEntity, ?>) Minecraft.getInstance()
                     .getEntityRenderDispatcher().getRenderer(pokemob.getEntity());
             final LivingEntity to = pokemob.getEntity();
 

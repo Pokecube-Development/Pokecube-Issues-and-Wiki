@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -90,7 +90,7 @@ public class PokemobPageWriter
                 builder.append("=");
             builder.append("\n");
 
-            final Component var = entry.getDescription();
+            final ITextComponent var = entry.getDescription();
             String desc = PokemobPageWriter.replaceWithRefs(var.getString(), entry);
             desc = desc.replace("\n", "\n| ");
             desc = desc.replace("| - ", "|  - ");

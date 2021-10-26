@@ -2,14 +2,13 @@ package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
@@ -24,10 +23,9 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     protected boolean isDummy       = false;
     protected boolean checkedParent = false;
 
-    public GeneticsTileParentable(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state,
-            final int size, final int output)
+    public GeneticsTileParentable(final TileEntityType<?> tileEntityTypeIn, final int size, final int output)
     {
-        super(tileEntityTypeIn, pos, state, size, output);
+        super(tileEntityTypeIn, size, output);
         this.isDummy = true;
     }
 
@@ -45,7 +43,7 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
         if (!this.isDummy) return null;
         if (this.getLevel() == null) return null;
         // No parent if we are the state to save!
-        if (this.saveInv(super.getBlockState()))
+        if (this.saveInv(this.loaded == null ? super.getBlockState() : this.loaded))
         {
             this.isDummy = false;
             return null;
@@ -107,7 +105,7 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public void stopOpen(final Player player)
+    public void stopOpen(final PlayerEntity player)
     {
         if (this.getParent() != null) this.getParent().stopOpen(player);
         super.stopOpen(player);
@@ -256,14 +254,14 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public boolean stillValid(final Player player)
+    public boolean stillValid(final PlayerEntity player)
     {
         if (this.getParent() != null) return this.getParent().stillValid(player);
         return super.stillValid(player);
     }
 
     @Override
-    public Player getUser()
+    public PlayerEntity getUser()
     {
         if (this.getParent() != null) return this.getParent().getUser();
         return super.getUser();
@@ -277,7 +275,7 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public void startOpen(final Player player)
+    public void startOpen(final PlayerEntity player)
     {
         if (this.getParent() != null) this.getParent().startOpen(player);
         else super.startOpen(player);
@@ -307,14 +305,15 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public void load(final CompoundTag nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
         if (nbt.contains("isDummy")) this.isDummy = nbt.getBoolean("isDummy");
-        super.load(nbt);
+        super.load(state, nbt);
+        this.loaded = null;
     }
 
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
         nbt.putBoolean("isDummy", this.isDummy);
         super.save(nbt);

@@ -10,6 +10,8 @@
  */
 package org.nfunk.jep;
 
+import java.util.Observable;
+
 /**
  * Information about a variable.
  * Each variable has a name, a value.
@@ -19,13 +21,13 @@ package org.nfunk.jep;
  * variable is valid, if the variable is initialised without a value
  * then its value is said to be invalid.
  * <p>
- *
+ * 
  * @author Rich Morris
  *         Created on 18-Nov-2003
  * @version 2.3.0 beta 2 Now extends Observable so observers can track if the
  *          value has been changed.
  */
-public class Variable// extends Observable
+public class Variable extends Observable
 {
     protected String name;
     private Object   value;
@@ -38,7 +40,7 @@ public class Variable// extends Observable
      * be created through the associated {@link VariableFactory}
      * which are in turned called by {@link SymbolTable}.
      */
-    protected Variable(final String name)
+    protected Variable(String name)
     {
         this.name = name;
         this.value = null;
@@ -50,7 +52,7 @@ public class Variable// extends Observable
      * be created through the associated {@link VariableFactory}
      * which are in turned called by {@link SymbolTable}.
      */
-    protected Variable(final String name, final Object value)
+    protected Variable(String name, Object value)
     {
         this.name = name;
         this.value = value;
@@ -79,13 +81,13 @@ public class Variable// extends Observable
         return this.isConstant;
     }
 
-    public void setIsConstant(final boolean b)
+    public void setIsConstant(boolean b)
     {
         this.isConstant = b;
     }
 
     /** Sets whether the value of variable is valid. **/
-    public void setValidValue(final boolean val)
+    public void setValidValue(boolean val)
     {
         this.validValue = val;
     }
@@ -97,14 +99,15 @@ public class Variable// extends Observable
      * to indicate to anyone interested that the value has been changed.
      * Note subclasses should override setValueRaw rather than this
      * method so they do not need to handle the Observable methods.
-     *
+     * 
      * @return false if tried to change a constant value.
      * @since 2.3.0 beta 2 added Observable
      */
-    public boolean setValue(final Object object)
+    public boolean setValue(Object object)
     {
         if (!this.setValueRaw(object)) return false;
-        // TODO see if we actually wanted to know about observers?
+        this.setChanged();
+        this.notifyObservers();
         return true;
     }
 
@@ -112,12 +115,12 @@ public class Variable// extends Observable
      * In general subclasses should override this method rather than
      * setValue. This is because setValue notifies any observers
      * and then calls this method.
-     *
+     * 
      * @param object
      * @return false if tried to change a constant value.
      * @since 2.3.0 beta 2
      */
-    protected boolean setValueRaw(final Object object)
+    protected boolean setValueRaw(Object object)
     {
         if (this.isConstant) return false;
         this.validValue = true;
@@ -129,13 +132,13 @@ public class Variable// extends Observable
      * Returns a string with the variable name followed by it's value.
      * For example for the variable "a" with the value 10, the following
      * string is returned:
-     *
+     * 
      * <pre>
      * a: 10
      * </pre>
-     *
+     * 
      * If the variable is a constant the string " (Constant" is appended.
-     *
+     * 
      * @return A string with the variable name and value.
      */
     @Override

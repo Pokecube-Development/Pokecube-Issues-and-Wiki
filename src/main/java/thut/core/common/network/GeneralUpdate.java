@@ -1,8 +1,8 @@
 package thut.core.common.network;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -23,19 +23,19 @@ public class GeneralUpdate extends NBTPacket
 
     private static void onTick(final PlayerTickEvent event)
     {
-        if (event.player instanceof ServerPlayer && event.player.tickCount % 1000 == 0
-                && event.phase == Phase.END) GeneralUpdate.sendUpdate((ServerPlayer) event.player);
+        if (event.player instanceof ServerPlayerEntity && event.player.tickCount % 1000 == 0
+                && event.phase == Phase.END) GeneralUpdate.sendUpdate((ServerPlayerEntity) event.player);
     }
 
     private static void onLogin(final PlayerLoggedInEvent event)
     {
-        if (event.getPlayer() instanceof ServerPlayer) GeneralUpdate.sendUpdate((ServerPlayer) event
+        if (event.getPlayer() instanceof ServerPlayerEntity) GeneralUpdate.sendUpdate((ServerPlayerEntity) event
                 .getPlayer());
     }
 
-    private static void sendUpdate(final ServerPlayer player)
+    private static void sendUpdate(final ServerPlayerEntity player)
     {
-        final CompoundTag tag = Tracker.write();
+        final CompoundNBT tag = Tracker.write();
         GeneralUpdate.ASSEMBLER.sendTo(new GeneralUpdate(tag), player);
     }
 
@@ -44,12 +44,12 @@ public class GeneralUpdate extends NBTPacket
         super();
     }
 
-    public GeneralUpdate(final CompoundTag tag)
+    public GeneralUpdate(final CompoundNBT tag)
     {
         super(tag);
     }
 
-    public GeneralUpdate(final FriendlyByteBuf buffer)
+    public GeneralUpdate(final PacketBuffer buffer)
     {
         super(buffer);
     }

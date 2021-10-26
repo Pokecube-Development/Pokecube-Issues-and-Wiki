@@ -5,63 +5,63 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class ListHelper
 {
 
     public static String removeTextColorsIfConfigured(final String text, final boolean forceColor)
     {
-        return !forceColor && !Minecraft.getInstance().options.chatColors ? ChatFormatting
+        return !forceColor && !Minecraft.getInstance().options.chatColors ? TextFormatting
                 .stripFormatting(text) : text;
     }
 
-    public static void addSiblings(final Component base, final List<MutableComponent> toAdd)
+    public static void addSiblings(final ITextComponent base, final List<IFormattableTextComponent> toAdd)
     {
-        MutableComponent us = null;
-        if (base instanceof MutableComponent) us = (MutableComponent) base;
+        IFormattableTextComponent us = null;
+        if (base instanceof IFormattableTextComponent) us = (IFormattableTextComponent) base;
         else
         {
-            us = new TextComponent(base.getContents());
+            us = new StringTextComponent(base.getContents());
             us.setStyle(base.getStyle());
         }
         toAdd.add(us);
-        for (final Component sib : base.getSiblings())
+        for (final ITextComponent sib : base.getSiblings())
             ListHelper.addSiblings(sib, toAdd);
     }
 
-    public static List<MutableComponent> splitText(final MutableComponent textComponent,
-            final int maxTextLenght, final Font fontRendererIn, final boolean trimSpace)
+    public static List<IFormattableTextComponent> splitText(final IFormattableTextComponent textComponent,
+            final int maxTextLenght, final FontRenderer fontRendererIn, final boolean trimSpace)
     {
         int i = 0;
-        MutableComponent remainder = new TextComponent("");
-        final List<MutableComponent> list = Lists.newArrayList();
-        final List<MutableComponent> list1 = Lists.newArrayList();
+        IFormattableTextComponent remainder = new StringTextComponent("");
+        final List<IFormattableTextComponent> list = Lists.newArrayList();
+        final List<IFormattableTextComponent> list1 = Lists.newArrayList();
         ListHelper.addSiblings(textComponent, list1);
         for (int j = 0; j < list1.size(); ++j)
         {
-            final MutableComponent itextcomponent1 = list1.get(j);
+            final IFormattableTextComponent itextcomponent1 = list1.get(j);
             // This gets the raw copy, without siblings, etc
             String s = itextcomponent1.plainCopy().getString();
             Style style = itextcomponent1.getStyle();
 
             // This means it has arguments, that might have styles themselves!
-            if (itextcomponent1 instanceof TranslatableComponent)
+            if (itextcomponent1 instanceof TranslationTextComponent)
             {
-                final TranslatableComponent comp = (TranslatableComponent) itextcomponent1;
+                final TranslationTextComponent comp = (TranslationTextComponent) itextcomponent1;
                 boolean hasClick = comp.getStyle().getClickEvent() != null;
                 boolean hasHover = comp.getStyle().getHoverEvent() != null;
                 for (final Object o : comp.getArgs())
                 {
-                    if (!(o instanceof Component)) continue;
-                    final Component sub = (Component) o;
+                    if (!(o instanceof ITextComponent)) continue;
+                    final ITextComponent sub = (ITextComponent) o;
                     hasClick = sub.getStyle().getClickEvent() != null;
                     if (hasClick) style = style.withClickEvent(sub.getStyle().getClickEvent());
                     hasHover = sub.getStyle().getHoverEvent() != null;
@@ -74,7 +74,7 @@ public class ListHelper
                 final int k = s.indexOf(10);
                 final String s1 = s.substring(k + 1);
                 s = s.substring(0, k + 1);
-                final MutableComponent itextcomponent2 = new TextComponent(s1).setStyle(style);
+                final IFormattableTextComponent itextcomponent2 = new StringTextComponent(s1).setStyle(style);
                 list1.add(j + 1, itextcomponent2);
                 flag = true;
             }
@@ -82,7 +82,7 @@ public class ListHelper
             final String s4 = s;
             final String s5 = s4.endsWith("\n") ? s4.substring(0, s4.length() - 1) : s4;
             int i1 = fontRendererIn.width(s5);
-            MutableComponent itextcomponent3 = new TextComponent(s5).setStyle(itextcomponent1
+            IFormattableTextComponent itextcomponent3 = new StringTextComponent(s5).setStyle(itextcomponent1
                     .getStyle());
             if (i + i1 > maxTextLenght)
             {
@@ -104,12 +104,12 @@ public class ListHelper
                         s3 = s4;
                     }
                     s3 = ListHelper.getFormatString(s2) + s3;
-                    final MutableComponent itextcomponent4 = new TextComponent(s3).setStyle(style);
+                    final IFormattableTextComponent itextcomponent4 = new StringTextComponent(s3).setStyle(style);
                     list1.add(j + 1, itextcomponent4);
                 }
 
                 i1 = fontRendererIn.width(s2);
-                itextcomponent3 = new TextComponent(s2);
+                itextcomponent3 = new StringTextComponent(s2);
                 itextcomponent3.setStyle(style);
                 flag = true;
             }
@@ -125,7 +125,7 @@ public class ListHelper
             {
                 list.add(remainder);
                 i = 0;
-                remainder = new TextComponent("");
+                remainder = new StringTextComponent("");
             }
         }
         list.add(remainder);
@@ -141,29 +141,29 @@ public class ListHelper
         while ((i = stringIn.indexOf(167, i + 1)) != -1)
             if (i < j - 1)
             {
-                final ChatFormatting textformatting = ListHelper.fromFormattingCode(stringIn.charAt(i + 1));
+                final TextFormatting textformatting = ListHelper.fromFormattingCode(stringIn.charAt(i + 1));
                 if (textformatting != null)
                 {
                     if (!textformatting.isFormat()) stringbuilder.setLength(0);
 
-                    if (textformatting != ChatFormatting.RESET) stringbuilder.append(textformatting);
+                    if (textformatting != TextFormatting.RESET) stringbuilder.append(textformatting);
                 }
             }
 
         return stringbuilder.toString();
     }
 
-    public static ChatFormatting fromFormattingCode(final char formattingCodeIn)
+    public static TextFormatting fromFormattingCode(final char formattingCodeIn)
     {
         final char c0 = Character.toString(formattingCodeIn).toLowerCase(Locale.ROOT).charAt(0);
 
-        for (final ChatFormatting textformatting : ChatFormatting.values())
+        for (final TextFormatting textformatting : TextFormatting.values())
             if (textformatting.code == c0) return textformatting;
 
         return null;
     }
 
-    public static String trimStringToWidth(final Font fontRendererIn, final String text, final int width,
+    public static String trimStringToWidth(final FontRenderer fontRendererIn, final String text, final int width,
             final boolean reverse)
     {
         final StringBuilder stringbuilder = new StringBuilder();
@@ -179,8 +179,8 @@ public class ListHelper
             if (flag)
             {
                 flag = false;
-                final ChatFormatting textformatting = ChatFormatting.getByCode(c0);
-                if (textformatting == ChatFormatting.BOLD) flag1 = true;
+                final TextFormatting textformatting = TextFormatting.getByCode(c0);
+                if (textformatting == TextFormatting.BOLD) flag1 = true;
                 else if (textformatting != null && !textformatting.isFormat()) flag1 = false;
             }
             else if (c0 == 167) flag = true;

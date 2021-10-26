@@ -75,12 +75,16 @@ public class AnimationRegistry
         final Class<? extends Animation> toMake = AnimationRegistry.animations.get(name);
         if (toMake != null) try
         {
-            ret = toMake.getConstructor().newInstance();
+            ret = toMake.newInstance();
             ret.init(map, renamer);
             if (AnimationRegistry.animationPhases.containsKey(name)) ret.name = AnimationRegistry.animationPhases.get(
                     name);
         }
-        catch (final Exception e)
+        catch (final InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (final IllegalAccessException e)
         {
             e.printStackTrace();
         }

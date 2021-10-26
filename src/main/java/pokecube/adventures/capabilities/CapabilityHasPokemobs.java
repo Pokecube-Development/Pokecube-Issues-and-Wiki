@@ -9,25 +9,27 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.behavior.VillagerPanicTrigger;
-import net.minecraft.world.entity.ai.gossip.GossipType;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.task.PanicTask;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.village.GossipType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.Config;
@@ -73,7 +75,7 @@ public class CapabilityHasPokemobs
 
         public static class DefeatEntry implements Comparable<DefeatEntry>
         {
-            public static DefeatEntry createFromNBT(final CompoundTag nbt)
+            public static DefeatEntry createFromNBT(final CompoundNBT nbt)
             {
                 final String defeater = nbt.getString("name");
                 final long time = nbt.getLong("time");
@@ -108,7 +110,7 @@ public class CapabilityHasPokemobs
                 return this.id.hashCode();
             }
 
-            void writeToNBT(final CompoundTag nbt)
+            void writeToNBT(final CompoundNBT nbt)
             {
                 nbt.putString("name", this.id);
                 nbt.putLong("time", this.time);
@@ -145,7 +147,7 @@ public class CapabilityHasPokemobs
                 this.map.put(in.getStringUUID(), s);
             }
 
-            public void load(final ListTag list)
+            public void load(final ListNBT list)
             {
                 this.clear();
                 for (int i = 0; i < list.size(); i++)
@@ -156,12 +158,12 @@ public class CapabilityHasPokemobs
                 }
             }
 
-            public ListTag save()
+            public ListNBT save()
             {
-                final ListTag list = new ListTag();
+                final ListNBT list = new ListNBT();
                 for (final DefeatEntry entry : this.map.values())
                 {
-                    final CompoundTag CompoundNBT = new CompoundTag();
+                    final CompoundNBT CompoundNBT = new CompoundNBT();
                     entry.writeToNBT(CompoundNBT);
                     list.add(CompoundNBT);
                 }
@@ -247,21 +249,21 @@ public class CapabilityHasPokemobs
             return this.canMegaEvolve;
         }
 
-        public void checkDefeatAchievement(final Player player)
+        public void checkDefeatAchievement(final PlayerEntity player)
         {
             if (!(this.user instanceof TrainerBase)) return;
             final boolean leader = this.user instanceof LeaderNpc;
-            if (leader) Triggers.BEATLEADER.trigger((ServerPlayer) player, (TrainerBase) this.user);
-            else Triggers.BEATTRAINER.trigger((ServerPlayer) player, (TrainerBase) this.user);
+            if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
+            else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
             if (nbt.contains("pokemobs", 9))
             {
                 if (this.clearOnLoad()) this.clearContent();
-                final ListTag ListNBT = nbt.getList("pokemobs", 10);
+                final ListNBT ListNBT = nbt.getList("pokemobs", 10);
                 if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
                     this.setPokemob(i, ItemStack.of(ListNBT.getCompound(i)));
             }
@@ -283,12 +285,12 @@ public class CapabilityHasPokemobs
             if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
             if (nbt.contains("defeated", 9))
             {
-                final ListTag list = nbt.getList("defeated", 10);
+                final ListNBT list = nbt.getList("defeated", 10);
                 this.defeated.load(list);
             }
             if (nbt.contains("defeatedBy", 9))
             {
-                final ListTag list = nbt.getList("defeatedBy", 10);
+                final ListNBT list = nbt.getList("defeatedBy", 10);
                 this.defeatedBy.load(list);
             }
             this.notifyDefeat = nbt.getBoolean("notifyDefeat");
@@ -354,13 +356,13 @@ public class CapabilityHasPokemobs
         @Override
         public UUID getOutID()
         {
-            if (this.outID != null && this.outMob == null && this.user.getCommandSenderWorld() instanceof ServerLevel)
+            if (this.outID != null && this.outMob == null && this.user.getCommandSenderWorld() instanceof ServerWorld)
             {
-                this.outMob = CapabilityPokemob.getPokemobFor(((ServerLevel) this.user.getCommandSenderWorld())
+                this.outMob = CapabilityPokemob.getPokemobFor(((ServerWorld) this.user.getCommandSenderWorld())
                         .getEntity(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
-            if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity().isAddedToWorld()))
+            if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob.getEntity().inChunk))
                 this.setOutMob(null);
             return this.outID;
         }
@@ -395,7 +397,7 @@ public class CapabilityHasPokemobs
         @Override
         public TypeTrainer getType()
         {
-            if (!(this.user.getCommandSenderWorld() instanceof ServerLevel))
+            if (!(this.user.getCommandSenderWorld() instanceof ServerWorld))
             {
                 final String t = this.datasync.get(this.holder.TYPE);
                 // Handle possible null type for if things are called at wrong
@@ -477,12 +479,12 @@ public class CapabilityHasPokemobs
         public void onWin(final Entity lost)
         {
             // Only store for players
-            if (lost instanceof Player)
+            if (lost instanceof PlayerEntity)
             {
                 this.defeated.validate(lost);
 
                 // If available, we will increase reputation out of pity
-                if (this.user instanceof Villager) ((Villager) this.user).getGossips().add(lost.getUUID(),
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossips().add(lost.getUUID(),
                         GossipType.MINOR_POSITIVE, 10);
             }
             if (lost == this.getTarget()) this.onSetTarget(null);
@@ -516,31 +518,31 @@ public class CapabilityHasPokemobs
             if (!reward) return;
 
             // Only store for players
-            if (won instanceof Player)
+            if (won instanceof PlayerEntity)
             {
 
                 this.defeatedBy.validate(won);
                 if (this.rewards.getRewards() != null)
                 {
-                    final Player player = (Player) won;
+                    final PlayerEntity player = (PlayerEntity) won;
                     this.rewards.giveReward(player, this.user);
                     this.checkDefeatAchievement(player);
                 }
 
                 // If applicable, increase reputation for winning the battle.
-                if (this.user instanceof Villager) ((Villager) this.user).getGossips().add(won.getUUID(),
+                if (this.user instanceof VillagerEntity) ((VillagerEntity) this.user).getGossips().add(won.getUUID(),
                         GossipType.MINOR_POSITIVE, 20);
             }
 
             if (won != null)
             {
                 this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
-                if (this.notifyDefeat && won instanceof ServerPlayer)
+                if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                     packet.getTag().putInt("I", this.user.getId());
                     packet.getTag().putLong("L", Tracker.instance().getTick() + this.resetTimeLose);
-                    PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayer) won);
+                    PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) won);
                 }
                 if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, new ActionContext(
                         (LivingEntity) won, this.getTrainer()));
@@ -572,15 +574,15 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            final CompoundTag nbt = new CompoundTag();
-            final ListTag ListNBT = new ListTag();
+            final CompoundNBT nbt = new CompoundNBT();
+            final ListNBT ListNBT = new ListNBT();
             for (int index = 0; index < this.getMaxPokemobCount(); index++)
             {
                 final ItemStack i = this.getPokemob(index);
                 if (i.isEmpty()) continue;
-                final CompoundTag CompoundNBT = new CompoundTag();
+                final CompoundNBT CompoundNBT = new CompoundNBT();
                 ListNBT.add(i.save(CompoundNBT));
             }
 
@@ -766,7 +768,7 @@ public class CapabilityHasPokemobs
         public void throwCubeAt(final Entity target)
         {
             if (target == null || this.aiStates.getAIState(AIState.THROWING) || !(target
-                    .getCommandSenderWorld() instanceof ServerLevel)) return;
+                    .getCommandSenderWorld() instanceof ServerWorld)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
@@ -884,10 +886,10 @@ public class CapabilityHasPokemobs
             // NOOP
         }
 
-        Player usingPlayer = null;
+        PlayerEntity usingPlayer = null;
 
         @Override
-        public boolean stillValid(final Player player)
+        public boolean stillValid(final PlayerEntity player)
         {
             if (this.usingPlayer == player) return true;
             if (this.getLatestContext() == null || this.getLatestContext().target != player) this.setLatestContext(
@@ -907,14 +909,14 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void startOpen(final Player player)
+        public void startOpen(final PlayerEntity player)
         {
             IHasPokemobs.super.startOpen(player);
             this.usingPlayer = player;
         }
 
         @Override
-        public void stopOpen(final Player player)
+        public void stopOpen(final PlayerEntity player)
         {
             IHasPokemobs.super.stopOpen(player);
             this.usingPlayer = null;
@@ -942,7 +944,7 @@ public class CapabilityHasPokemobs
         }
     }
 
-    public static interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Container
+    public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>, IInventory
     {
         public static enum LevelMode
         {
@@ -967,7 +969,7 @@ public class CapabilityHasPokemobs
             UUID mobID = UUID.randomUUID();
             if (mob.hasTag()) if (mob.getTag().contains("Pokemob"))
             {
-                final CompoundTag nbt = mob.getTag().getCompound("Pokemob");
+                final CompoundNBT nbt = mob.getTag().getCompound("Pokemob");
                 mobID = nbt.getUUID("UUID");
             }
             UUID testID = UUID.randomUUID();
@@ -979,7 +981,7 @@ public class CapabilityHasPokemobs
                 if (ours.isEmpty() || !ours.hasTag()) continue;
                 if (ours.getTag().contains("Pokemob"))
                 {
-                    final CompoundTag nbt = ours.getTag().getCompound("Pokemob");
+                    final CompoundNBT nbt = ours.getTag().getCompound("Pokemob");
                     testID = nbt.getUUID("UUID");
                     if (testID.equals(mobID))
                     {
@@ -1199,14 +1201,14 @@ public class CapabilityHasPokemobs
 
         default void onTick()
         {
-            final boolean serverSide = this.getTrainer().level instanceof ServerLevel;
+            final boolean serverSide = this.getTrainer().level instanceof ServerWorld;
             if (!serverSide) return;
 
             // Every so often check if we have an out mob, and respond
             // accodingly
             mobcheck:
             if (this.getTrainer().tickCount % 600 == 10 && !this.isInBattle() && !(this
-                    .getTrainer() instanceof Player))
+                    .getTrainer() instanceof PlayerEntity))
             {
                 final List<Entity> mobs = PCEventsHandler.getOutMobs(this.getTrainer(), false);
                 if (mobs.isEmpty()) break mobcheck;
@@ -1217,7 +1219,7 @@ public class CapabilityHasPokemobs
             targetCheck:
             {
                 final boolean hasTarget = this.getTargetRaw() != null;
-                final boolean shouldHaveTarget = VillagerPanicTrigger.hasHostile(this.getTrainer());
+                final boolean shouldHaveTarget = PanicTask.hasHostile(this.getTrainer());
 
                 if (!(hasTarget || shouldHaveTarget)) break targetCheck;
                 // This means we should have a target, but it isn't kept.
@@ -1274,4 +1276,27 @@ public class CapabilityHasPokemobs
 
         }
     }
+
+    public static class Storage implements Capability.IStorage<IHasPokemobs>
+    {
+
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @Override
+        public void readNBT(final Capability<IHasPokemobs> capability, final IHasPokemobs instance,
+                final Direction side, final INBT base)
+        {
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IHasPokemobs> capability, final IHasPokemobs instance,
+                final Direction side)
+        {
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
+        }
+
+    }
+
+    public static Storage storage;
 }

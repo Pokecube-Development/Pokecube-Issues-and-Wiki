@@ -2,22 +2,22 @@ package thut.bling.client.render;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 
 public class Back
 {
-    public static void renderBack(final PoseStack mat, final MultiBufferSource buff, final LivingEntity wearer,
+    public static void renderBack(final MatrixStack mat, final IRenderTypeBuffer buff, final LivingEntity wearer,
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
             final int overlay)
     {
@@ -37,7 +37,7 @@ public class Back
         mat.translate(0, -.18, -0.85);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
-        final VertexConsumer buf0 = Util.makeBuilder(buff, tex[0]);
+        final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
         renderable.renderAll(mat, buf0);
         mat.popPose();
         mat.pushPose();
@@ -48,13 +48,13 @@ public class Back
             final int damage = stack.getTag().getInt("dyeColour");
             ret = DyeColor.byId(damage);
         }
-        colour = new Color(ret.getTextColor() + 0xFF000000);
+        colour = new Color(ret.getColorValue() + 0xFF000000);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
         mat.mulPose(Vector3f.XP.rotationDegrees(90));
         mat.mulPose(Vector3f.YP.rotationDegrees(180));
         mat.translate(0, -.18, -0.85);
-        final VertexConsumer buf1 = Util.makeBuilder(buff, tex[1]);
+        final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
         renderable.renderAll(mat, buf1);
         mat.popPose();
     }

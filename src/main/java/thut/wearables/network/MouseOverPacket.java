@@ -1,12 +1,12 @@
 package thut.wearables.network;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.HitResult.Type;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.wearables.ThutWearables;
@@ -18,7 +18,7 @@ public class MouseOverPacket extends Packet
     {
     }
 
-    public MouseOverPacket(final FriendlyByteBuf buf)
+    public MouseOverPacket(final PacketBuffer buf)
     {
     }
 
@@ -26,10 +26,10 @@ public class MouseOverPacket extends Packet
     @Override
     public void handleClient()
     {
-        final HitResult pos = Minecraft.getInstance().hitResult;
+        final RayTraceResult pos = Minecraft.getInstance().hitResult;
         if (pos != null && pos.getType() == Type.ENTITY)
         {
-            final EntityHitResult result = (EntityHitResult) pos;
+            final EntityRayTraceResult result = (EntityRayTraceResult) pos;
             if (result.getEntity() != null)
             {
                 final int id = result.getEntity().getId();
@@ -38,12 +38,12 @@ public class MouseOverPacket extends Packet
                 ThutWearables.packets.sendToServer(packet);
             }
         }
-        else Minecraft.getInstance().player.sendMessage(new TranslatableComponent("wearables.other.fail"),
+        else Minecraft.getInstance().player.sendMessage(new TranslationTextComponent("wearables.other.fail"),
                 Util.NIL_UUID);
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
     }
 }

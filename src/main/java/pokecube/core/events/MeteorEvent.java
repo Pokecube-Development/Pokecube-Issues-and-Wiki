@@ -1,7 +1,7 @@
 package pokecube.core.events;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.eventbus.api.Event;
 import thut.api.boom.ExplosionCustom;
 import thut.api.terrain.BiomeType;

@@ -1,11 +1,11 @@
 package thut.api.maths;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -34,7 +34,7 @@ public class Vector4
         this.quat = quat;
     }
 
-    public Vector4(final CompoundTag nbt)
+    public Vector4(final CompoundNBT nbt)
     {
         this();
         this.x = nbt.getFloat("x");
@@ -118,13 +118,13 @@ public class Vector4
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public void glRotate(final PoseStack mat)
+    public void glRotate(final MatrixStack mat)
     {
         mat.mulPose(this.toMCQ());
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public void glUnRotate(final PoseStack mat)
+    public void glUnRotate(final MatrixStack mat)
     {
         mat.mulPose(this.toMCQInv());
     }
@@ -224,8 +224,8 @@ public class Vector4
 
     public String toIntString()
     {
-        return "x:" + Mth.floor(this.x) + " y:" + Mth.floor(this.y) + " z:" + Mth.floor(this.z)
-                + " w:" + Mth.floor(this.w);
+        return "x:" + MathHelper.floor(this.x) + " y:" + MathHelper.floor(this.y) + " z:" + MathHelper.floor(this.z)
+                + " w:" + MathHelper.floor(this.w);
     }
 
     public Vector4 toQuaternion()
@@ -260,7 +260,7 @@ public class Vector4
         return false;
     }
 
-    public void writeToNBT(final CompoundTag nbt)
+    public void writeToNBT(final CompoundNBT nbt)
     {
         nbt.putFloat("x", this.x);
         nbt.putFloat("y", this.y);

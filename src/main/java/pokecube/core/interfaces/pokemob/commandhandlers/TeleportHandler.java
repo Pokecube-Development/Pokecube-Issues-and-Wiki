@@ -7,15 +7,15 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.GlobalPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.TeleportEvent;
 import pokecube.core.handlers.events.EventsHandler;
@@ -140,19 +140,19 @@ public class TeleportHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
-        final ServerPlayer player = (ServerPlayer) pokemob.getOwner();
+        final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
         final TeleDest d = TeleportHandler.getTeleport(player.getStringUUID());
         final boolean inCombat = pokemob.inCombat();
         if (inCombat)
         {
-            final Component text = new TranslatableComponent("pokemob.teleport.incombat", pokemob
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.incombat", pokemob
                     .getDisplayName());
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
         if (d == null) return;
-        final ResourceKey<Level> dim = d.getPos().dimension();
-        final ResourceKey<Level> oldDim = player.getCommandSenderWorld().dimension();
+        final RegistryKey<World> dim = d.getPos().dimension();
+        final RegistryKey<World> oldDim = player.getCommandSenderWorld().dimension();
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
         if (dim != oldDim)
         {
@@ -160,7 +160,7 @@ public class TeleportHandler extends DefaultHandler
             if (TeleportHandler.invalidDests.contains(dim.getRegistryName()) || TeleportHandler.invalidDests.contains(
                     oldDim.getRegistryName()))
             {
-                final Component text = new TranslatableComponent("pokemob.teleport.invalid");
+                final ITextComponent text = new TranslationTextComponent("pokemob.teleport.invalid");
                 if (this.fromOwner()) pokemob.displayMessageToOwner(text);
                 return;
             }
@@ -173,7 +173,7 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > count)
         {
-            final Component text = new TranslatableComponent("pokemob.teleport.noitems", needed);
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
@@ -195,13 +195,13 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > 0)
         {
-            final Component text = new TranslatableComponent("pokemob.teleport.noitems", needed);
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
-        final Component attackName = new TranslatableComponent(MovesUtils.getUnlocalizedMove(
+        final ITextComponent attackName = new TranslationTextComponent(MovesUtils.getUnlocalizedMove(
                 IMoveNames.MOVE_TELEPORT));
-        final Component text = new TranslatableComponent("pokemob.move.used.user", pokemob.getDisplayName(),
+        final ITextComponent text = new TranslationTextComponent("pokemob.move.used.user", pokemob.getDisplayName(),
                 attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
 

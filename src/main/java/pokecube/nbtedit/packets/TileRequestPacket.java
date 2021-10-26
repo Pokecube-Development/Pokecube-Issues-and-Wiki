@@ -2,9 +2,9 @@ package pokecube.nbtedit.packets;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.BlockPos;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.network.Packet;
 
@@ -23,13 +23,13 @@ public class TileRequestPacket extends Packet
         this.pos = pos;
     }
 
-    public TileRequestPacket(final FriendlyByteBuf buf)
+    public TileRequestPacket(final PacketBuffer buf)
     {
         this.pos = BlockPos.of(buf.readLong());
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         NBTEdit.log(Level.TRACE, player.getName().getString() + " requested tileEntity at " + this.pos.getX() + ", " + this.pos
                 .getY() + ", " + this.pos.getZ());
@@ -37,7 +37,7 @@ public class TileRequestPacket extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeLong(this.pos.asLong());
     }

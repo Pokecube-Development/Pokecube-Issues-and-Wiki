@@ -1,11 +1,11 @@
 package thut.api.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
-import com.mojang.math.Quaternion;
 
-import net.minecraft.client.Camera;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector4;
@@ -29,7 +29,7 @@ public class ParticleOrientable extends ParticleBase
     }
 
     @Override
-    public ParticleBase read(final FriendlyByteBuf buffer)
+    public ParticleBase read(final PacketBuffer buffer)
     {
         super.read(buffer);
         this.orientation = new Vector4(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
@@ -38,7 +38,7 @@ public class ParticleOrientable extends ParticleBase
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
+    public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo, final float partialTicks,
             final Vector3f offset)
     {
         Quaternion quaternion;
@@ -54,7 +54,7 @@ public class ParticleOrientable extends ParticleBase
     }
 
     @Override
-    public void writeToNetwork(final FriendlyByteBuf buffer)
+    public void writeToNetwork(final PacketBuffer buffer)
     {
         super.writeToNetwork(buffer);
         buffer.writeFloat(this.orientation.x);

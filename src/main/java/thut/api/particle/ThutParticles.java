@@ -1,8 +1,8 @@
 package thut.api.particle;
 
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -43,7 +43,7 @@ public class ThutParticles
         return ret;
     }
 
-    public static ParticleOptions makeParticle(String name, final Vector3 pos, final Vector3 vel, final int... args)
+    public static IParticleData makeParticle(String name, final Vector3 pos, final Vector3 vel, final int... args)
     {
         if (!name.toLowerCase().equals(name)) ThutCore.LOGGER.error("Error with particle name of: " + name);
 
@@ -137,7 +137,7 @@ public class ThutParticles
         {
             final ResourceLocation location = new ResourceLocation(name);
             final ParticleType<?> type = ForgeRegistries.PARTICLE_TYPES.getValue(location);
-            if (type != null) return (ParticleOptions) type;
+            if (type != null) return (IParticleData) type;
         }
 
         if (ret == null)

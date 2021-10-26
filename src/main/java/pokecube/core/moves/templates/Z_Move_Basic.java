@@ -1,6 +1,6 @@
 package pokecube.core.moves.templates;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.MovesUtils;

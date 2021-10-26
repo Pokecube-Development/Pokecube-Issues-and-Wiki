@@ -1,6 +1,6 @@
 package pokecube.mobs.abilities.s;
 
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
@@ -28,10 +28,10 @@ public class Swarm extends Ability
     @Override
     public void onUpdate(final IPokemob mob)
     {
-        if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerWorld)) return;
         if (mob.getEntity().tickCount % 20 == 0)
         {
-            final ServerLevel world = (ServerLevel) mob.getEntity().getCommandSenderWorld();
+            final ServerWorld world = (ServerWorld) mob.getEntity().getCommandSenderWorld();
             PokecubeCore.spawner.doSpawnForPoint(Vector3.getNewVector().set(mob.getEntity()), world, 0, this.range);
         }
     }

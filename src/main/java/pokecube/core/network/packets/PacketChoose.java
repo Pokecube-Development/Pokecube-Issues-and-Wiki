@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -66,15 +66,15 @@ public class PacketChoose extends Packet
         packet.data.putBoolean("C", true);
         packet.data.putBoolean("S", special);
         packet.data.putBoolean("P", pick);
-        final ListTag starters = new ListTag();
+        final ListNBT starters = new ListNBT();
         for (final PokedexEntry e : starts)
-            starters.add(StringTag.valueOf(e.getTrimmedName()));
+            starters.add(StringNBT.valueOf(e.getTrimmedName()));
         packet.data.put("L", starters);
         return packet;
     }
 
     byte               message;
-    public CompoundTag data = new CompoundTag();
+    public CompoundNBT data = new CompoundNBT();
 
     public PacketChoose()
     {
@@ -85,17 +85,17 @@ public class PacketChoose extends Packet
         this.message = message;
     }
 
-    public PacketChoose(final FriendlyByteBuf buf)
+    public PacketChoose(final PacketBuffer buf)
     {
         this.message = buf.readByte();
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         this.data = buffer.readNbt();
     }
 
     @Override
     public void handleClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         if (player == null) throw new NullPointerException("Null Player while recieving starter packet");
         final boolean openGui = this.data.getBoolean("C");
         if (openGui)
@@ -103,7 +103,7 @@ public class PacketChoose extends Packet
             final boolean special = this.data.getBoolean("S");
             final boolean pick = this.data.getBoolean("P");
             final ArrayList<PokedexEntry> starters = new ArrayList<>();
-            final ListTag starterList = this.data.getList("L", 8);
+            final ListNBT starterList = this.data.getList("L", 8);
             for (int i = 0; i < starterList.size(); i++)
             {
                 final PokedexEntry entry = Database.getEntry(starterList.getString(i));
@@ -115,7 +115,7 @@ public class PacketChoose extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         /** Ignore this packet if the player already has a starter. */
         if (PokecubeSerializer.getInstance().hasStarter(player)) return;
@@ -173,10 +173,10 @@ public class PacketChoose extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeByte(this.message);
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeNbt(this.data);
     }
 

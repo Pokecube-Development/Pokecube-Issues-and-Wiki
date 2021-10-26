@@ -1,9 +1,9 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -21,7 +21,7 @@ public class DodgeTask extends CombatTask implements IAICombat
 {
 
     // Location of the targetted attack
-    PositionTracker pos = null;
+    IPosWrapper pos = null;
 
     double dodgeSpeedFactor = 0.25f;
 
@@ -98,7 +98,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         perp.addVelocities(this.entity);
 
         new PlaySound(this.entity.getCommandSenderWorld().dimension(), Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
-                SoundSource.HOSTILE, 1, 1).run(this.world);
+                SoundCategory.HOSTILE, 1, 1).run(this.world);
     }
 
     /**

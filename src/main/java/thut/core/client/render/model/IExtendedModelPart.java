@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.util.ResourceLocation;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -46,19 +46,19 @@ public interface IExtendedModelPart extends IModelCustom
 
     List<Material> getMaterials();
 
-    void applyTexture(MultiBufferSource bufferIn, ResourceLocation tex, IPartTexturer texer);
+    void applyTexture(IRenderTypeBuffer bufferIn, ResourceLocation tex, IPartTexturer texer);
 
     default void addMaterial(final Material material)
     {
         this.getMaterials().add(material);
     }
 
-    default void rotateForChild(final PoseStack mat)
+    default void rotateForChild(final MatrixStack mat)
     {
 
     }
 
-    default void unRotateForChild(final PoseStack mat)
+    default void unRotateForChild(final MatrixStack mat)
     {
 
     }

@@ -4,14 +4,14 @@ import java.util.UUID;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public abstract class BigInventory implements Container, INBTSerializable<CompoundTag>
+public abstract class BigInventory implements IInventory, INBTSerializable<CompoundNBT>
 {
     public static interface NewFactory<T>
     {
@@ -20,7 +20,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
 
     public static interface LoadFactory<T>
     {
-        T create(Manager<?> manager, CompoundTag nbt);
+        T create(Manager<?> manager, CompoundNBT nbt);
     }
 
     UUID id;
@@ -64,7 +64,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
      * @param manager
      * @param id
      */
-    public BigInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
+    public BigInventory(final Manager<? extends BigInventory> manager, final CompoundNBT tag)
     {
         this.boxes = new String[this.boxCount()];
         for (int i = 0; i < this.boxCount(); i++)
@@ -82,7 +82,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
      * @param manager
      * @param id
      */
-    public BigInventory(final Manager<? extends BigInventory> manager, final FriendlyByteBuf buffer)
+    public BigInventory(final Manager<? extends BigInventory> manager, final PacketBuffer buffer)
     {
         this.boxes = new String[this.boxCount()];
         for (int i = 0; i < this.boxCount(); i++)
@@ -94,12 +94,12 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         this.isReal = false;
     }
 
-    public FriendlyByteBuf makeBuffer()
+    public PacketBuffer makeBuffer()
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
-        final CompoundTag boxInfo = new CompoundTag();
+        final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
+        final CompoundNBT boxInfo = new CompoundNBT();
         this.serializeBoxInfo(boxInfo);
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         tag.put("boxes", boxInfo);
         tag.putBoolean("Real", false);
         buffer.writeNbt(tag);
@@ -131,7 +131,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public void stopOpen(final Player player)
+    public void stopOpen(final PlayerEntity player)
     {
         if (this.isReal) this.manager.save(this.id);
     }
@@ -154,7 +154,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         return ItemStack.EMPTY;
     }
 
-    public void deserializeBox(final CompoundTag nbt)
+    public void deserializeBox(final CompoundNBT nbt)
     {
         this.loading = true;
         final int start = nbt.getInt("box") * 54;
@@ -162,7 +162,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         {
             this.setItem(i, ItemStack.EMPTY);
             if (!nbt.contains("item" + i)) continue;
-            final CompoundTag CompoundNBT = nbt.getCompound("item" + i);
+            final CompoundNBT CompoundNBT = nbt.getCompound("item" + i);
             final int j = CompoundNBT.getShort("Slot");
             if (j >= start && j < start + 54)
             {
@@ -173,7 +173,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         this.loading = false;
     }
 
-    public void deserializeBoxInfo(final CompoundTag boxes)
+    public void deserializeBoxInfo(final CompoundNBT boxes)
     {
         final String id = boxes.getString("UUID");
         this.id = UUID.fromString(id);
@@ -184,13 +184,13 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         }
     }
 
-    public void deserializeItems(final CompoundTag nbt)
+    public void deserializeItems(final CompoundNBT nbt)
     {
         this.contents.clear();
         for (final String key : nbt.getAllKeys())
         {
             if (!key.startsWith("item")) continue;
-            final CompoundTag CompoundNBT = nbt.getCompound(key);
+            final CompoundNBT CompoundNBT = nbt.getCompound(key);
             final int j = CompoundNBT.getShort("Slot");
             this.loading = true;
             if (j >= 0 && j < this.getContainerSize())
@@ -204,9 +204,9 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
-        final CompoundTag boxes = nbt.getCompound("boxes");
+        final CompoundNBT boxes = nbt.getCompound("boxes");
         this.deserializeBoxInfo(boxes);
         this.deserializeItems(nbt);
     }
@@ -241,7 +241,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public boolean stillValid(final Player PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }
@@ -252,7 +252,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public void startOpen(final Player player)
+    public void startOpen(final PlayerEntity player)
     {
     }
 
@@ -264,15 +264,15 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         return stack;
     }
 
-    public CompoundTag serializeBox(final int box)
+    public CompoundNBT serializeBox(final int box)
     {
-        final CompoundTag items = new CompoundTag();
+        final CompoundNBT items = new CompoundNBT();
         items.putInt("box", box);
         final int start = box * 54;
         for (int i = start; i < start + 54; i++)
         {
             final ItemStack itemstack = this.getItem(i);
-            final CompoundTag CompoundNBT = new CompoundTag();
+            final CompoundNBT CompoundNBT = new CompoundNBT();
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
@@ -283,7 +283,7 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
         return items;
     }
 
-    public void serializeBoxInfo(final CompoundTag boxes)
+    public void serializeBoxInfo(final CompoundNBT boxes)
     {
         boxes.putString("UUID", this.id.toString());
         boxes.putInt("page", this.page);
@@ -291,12 +291,12 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
             boxes.putString("name" + i, this.boxes[i]);
     }
 
-    public void serializeItems(final CompoundTag items)
+    public void serializeItems(final CompoundNBT items)
     {
         for (int i = 0; i < this.getContainerSize(); i++)
         {
             final ItemStack itemstack = this.getItem(i);
-            final CompoundTag CompoundNBT = new CompoundTag();
+            final CompoundNBT CompoundNBT = new CompoundNBT();
             if (!itemstack.isEmpty())
             {
                 CompoundNBT.putShort("Slot", (short) i);
@@ -307,10 +307,10 @@ public abstract class BigInventory implements Container, INBTSerializable<Compou
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag items = new CompoundTag();
-        final CompoundTag boxes = new CompoundTag();
+        final CompoundNBT items = new CompoundNBT();
+        final CompoundNBT boxes = new CompoundNBT();
         this.serializeBoxInfo(boxes);
         this.serializeItems(items);
         items.put("boxes", boxes);

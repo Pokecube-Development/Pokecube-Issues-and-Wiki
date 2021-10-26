@@ -6,11 +6,11 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.util.ResourceLocation;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -124,7 +124,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void applyTexture(final MultiBufferSource bufferIn, final ResourceLocation tex, final IPartTexturer texer)
+    public void applyTexture(final IRenderTypeBuffer bufferIn, final ResourceLocation tex, final IPartTexturer texer)
     {
         for (final Mesh shape : this.shapes)
         {
@@ -190,7 +190,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return this.parts;
     }
 
-    private void postRender(final PoseStack mat)
+    private void postRender(final MatrixStack mat)
     {
         // Pop ours first.
         mat.popPose();
@@ -198,7 +198,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (this.parent != null) this.parent.unRotateForChild(mat);
     }
 
-    private void preRender(final PoseStack mat)
+    private void preRender(final MatrixStack mat)
     {
         mat.pushPose();
         mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
@@ -219,7 +219,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
 
-    public void render(final PoseStack mat, final VertexConsumer buffer)
+    public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.hidden) return;
         for (final Mesh s : this.shapes)
@@ -232,13 +232,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderAll(final PoseStack mat, final VertexConsumer buffer)
+    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer)
     {
         this.renderAllExcept(mat, buffer, "");
     }
 
     @Override
-    public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
+    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
         boolean skip = this.hidden;
         for (final String s1 : excludedGroupNames)
@@ -257,7 +257,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
+    public void renderOnly(final MatrixStack mat, final IVertexBuilder buffer, final String... groupNames)
     {
         boolean rendered = false;
         for (final String s1 : groupNames)
@@ -281,7 +281,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderPart(final PoseStack mat, final VertexConsumer buffer, final String partName)
+    public void renderPart(final MatrixStack mat, final IVertexBuilder buffer, final String partName)
     {
         this.renderOnly(mat, buffer, partName);
     }
@@ -299,13 +299,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void rotateForChild(final PoseStack mat)
+    public void rotateForChild(final MatrixStack mat)
     {
         if (this.parent != null) this.parent.rotateForChild(mat);
     }
 
     @Override
-    public void unRotateForChild(final PoseStack mat)
+    public void unRotateForChild(final MatrixStack mat)
     {
         if (this.parent != null) this.parent.unRotateForChild(mat);
     }

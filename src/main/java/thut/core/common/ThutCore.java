@@ -13,22 +13,25 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.INBT;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.EntityRayTraceResult;
 // The value here should match an entry in the META-INF/mods.toml file
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -37,24 +40,33 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
-import thut.api.ThutCaps;
+import thut.api.OwnableCaps;
 import thut.api.Tracker;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
+import thut.api.entity.IMobColourable;
+import thut.api.entity.IMobTexturable;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.api.particle.ThutParticles;
+import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.StructureManager;
+import thut.api.world.mobs.data.DataSync;
 import thut.core.common.config.Config;
+import thut.core.common.genetics.DefaultGeneStorage;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.handlers.ConfigHandler;
+import thut.core.common.mobs.DefaultColourable;
+import thut.core.common.mobs.DefaultColourableStorage;
 import thut.core.common.network.CapabilitySync;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
@@ -62,7 +74,10 @@ import thut.core.common.network.PacketHandler;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
+import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.proxy.ClientProxy;
+import thut.core.proxy.CommonProxy;
 import thut.crafts.ThutCrafts;
 
 @Mod(ThutCore.MODID)
@@ -83,18 +98,19 @@ public class ThutCore
             event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
         }
 
-        public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec, final Vec3 endVec,
-                final AABB boundingBox, final Predicate<Entity> filter, final double distance)
+        public static EntityRayTraceResult rayTraceEntities(final Entity shooter, final Vector3d startVec,
+                final Vector3d endVec, final AxisAlignedBB boundingBox, final Predicate<Entity> filter,
+                final double distance)
         {
-            final Level world = shooter.level;
+            final World world = shooter.level;
             double d0 = distance;
             Entity entity = null;
-            Vec3 vector3d = null;
+            Vector3d vector3d = null;
 
             for (final Entity entity1 : world.getEntities(shooter, boundingBox, filter))
             {
-                final AABB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
-                final Optional<Vec3> optional = axisalignedbb.clip(startVec, endVec);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate(entity1.getPickRadius());
+                final Optional<Vector3d> optional = axisalignedbb.clip(startVec, endVec);
                 if (axisalignedbb.contains(startVec))
                 {
                     if (d0 >= 0.0D)
@@ -106,7 +122,7 @@ public class ThutCore
                 }
                 else if (optional.isPresent())
                 {
-                    final Vec3 vector3d1 = optional.get();
+                    final Vector3d vector3d1 = optional.get();
                     final double d1 = startVec.distanceToSqr(vector3d1);
                     if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1
                             .canRiderInteract())
@@ -125,7 +141,7 @@ public class ThutCore
                     }
                 }
             }
-            return entity == null ? null : new EntityHitResult(entity, vector3d);
+            return entity == null ? null : new EntityRayTraceResult(entity, vector3d);
         }
 
         @SubscribeEvent
@@ -134,23 +150,23 @@ public class ThutCore
             // Probably a block entity to interact with here.
             if (event.getWorld().isEmptyBlock(event.getPos()))
             {
-                final Player player = event.getPlayer();
-                final Vec3 face = event.getPlayer().getEyePosition(0);
-                final Vec3 look = event.getPlayer().getLookAngle();
-                final AABB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
-                final EntityHitResult var = MobEvents.rayTraceEntities(player, face, look, box,
+                final PlayerEntity player = event.getPlayer();
+                final Vector3d face = event.getPlayer().getEyePosition(0);
+                final Vector3d look = event.getPlayer().getLookAngle();
+                final AxisAlignedBB box = event.getPlayer().getBoundingBox().inflate(3, 3, 3);
+                final EntityRayTraceResult var = MobEvents.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
-                if (var != null && var.getType() == HitResult.Type.ENTITY)
+                if (var != null && var.getType() == RayTraceResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
                     if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
-                            .getHand()) != InteractionResult.PASS)
+                            .getHand()) != ActionResultType.PASS)
                     {
                         event.setCanceled(true);
                         return;
                     }
                     if (entity.getInteractor().interactInternal(event.getPlayer(), event.getPos(), event.getItemStack(),
-                            event.getHand()) != InteractionResult.PASS)
+                            event.getHand()) != ActionResultType.PASS)
                     {
                         event.setCanceled(true);
                         return;
@@ -166,12 +182,6 @@ public class ThutCore
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
     {
-        @SubscribeEvent
-        public static void registerCapabilities(final RegisterCapabilitiesEvent event)
-        {
-            ThutCaps.registerCapabilities(event);
-        }
-
         @SubscribeEvent
         public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> event)
         {
@@ -195,14 +205,13 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> thut.core.proxy.ClientProxy::new,
-            () -> thut.core.proxy.CommonProxy::new);
+    public static final Proxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final ConfigHandler conf = new ConfigHandler();
 
     public static ItemStack THUTICON = ItemStack.EMPTY;
 
-    public static final CreativeModeTab THUTITEMS = new CreativeModeTab("thut")
+    public static final ItemGroup THUTITEMS = new ItemGroup("thut")
     {
         @Override
         public ItemStack makeIcon()
@@ -294,12 +303,40 @@ public class ThutCore
         // Register capabilities.
 
         CapabilityTerrainAffected.init();
+        // Register genetics
+        CapabilityManager.INSTANCE.register(IMobGenetics.class, new DefaultGeneStorage(), DefaultGenetics::new);
+        // Register colourable
+        CapabilityManager.INSTANCE.register(IMobColourable.class, new DefaultColourableStorage(),
+                DefaultColourable::new);
+        // Register texturable
+        CapabilityManager.INSTANCE.register(IMobTexturable.class, new IMobTexturable.Storage(),
+                IMobTexturable.Defaults::new);
 
+        OwnableCaps.setup();
         LinkableCaps.setup();
         ShearableCaps.setup();
         BreedableCaps.setup();
         AnimatedCaps.setup();
         CopyCaps.setup();
+
+        // Register terrain capabilies
+        CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),
+                CapabilityTerrain.DefaultProvider::new);
+        // Datasync capability
+        CapabilityManager.INSTANCE.register(DataSync.class, new Capability.IStorage<DataSync>()
+        {
+            @Override
+            public void readNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side,
+                    final INBT nbt)
+            {
+            }
+
+            @Override
+            public INBT writeNBT(final Capability<DataSync> capability, final DataSync instance, final Direction side)
+            {
+                return null;
+            }
+        }, DataSync_Impl::new);
 
         ThutCore.proxy.setup(event);
 
@@ -307,9 +344,9 @@ public class ThutCore
         {
             // Register the mob serializers
             // for seats
-            EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
+            DataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
-            EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
+            DataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
         });
     }
 }

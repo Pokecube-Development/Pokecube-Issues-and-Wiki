@@ -1,10 +1,10 @@
 package pokecube.legends.init;
 
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import pokecube.legends.Reference;
 
 public class FeaturesInit
@@ -16,22 +16,22 @@ public class FeaturesInit
     private static final ResourceLocation IDLOC_DISTO = new ResourceLocation(FeaturesInit.ID_DISTO);
 
     // Dimensions
-    public static final ResourceKey<Level> ULTRASPACE_KEY = ResourceKey.create(
+    public static final RegistryKey<World> ULTRASPACE_KEY = RegistryKey.create(
     		Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_ULTRA);
 
-    public static final ResourceKey<Level> DISTORTEDWORLD_KEY = ResourceKey.create(
+    public static final RegistryKey<World> DISTORTEDWORLD_KEY = RegistryKey.create(
     		Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_DISTO);
     //
 
     // Biomes
-    public static final ResourceKey<Biome> FUNGAL_FOREST = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_forest"));
-    public static final ResourceKey<Biome> TEMPORAL_JUNGLE = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "temporal_jungle"));
-    public static final ResourceKey<Biome> MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "mirage_desert"));
-    public static final ResourceKey<Biome> BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "blinding_deltas"));
-    public static final ResourceKey<Biome> TAINTED_BARRENS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "tainted_barrens"));
-    public static final ResourceKey<Biome> FORSAKEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "forsaken_taiga"));
+    public static final RegistryKey<Biome> BIOME_UB1 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_deep_cave"));
+    public static final RegistryKey<Biome> BIOME_UB2 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_jungle"));
+    public static final RegistryKey<Biome> BIOME_UB3 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_desert"));
+    public static final RegistryKey<Biome> BIOME_UB4 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_dark_valley"));
+    public static final RegistryKey<Biome> BIOME_UB5 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_deep_hills"));
+    public static final RegistryKey<Biome> BIOME_UB6 = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_forgotten_plains"));
 
-    public static final ResourceKey<Biome> DISTORTED_LANDS = ResourceKey.create(Registry.BIOME_REGISTRY, FeaturesInit.IDLOC_DISTO);
+    public static final RegistryKey<Biome> BIOME_DISTORTED = RegistryKey.create(Registry.BIOME_REGISTRY, FeaturesInit.IDLOC_DISTO);
     //
 
 }

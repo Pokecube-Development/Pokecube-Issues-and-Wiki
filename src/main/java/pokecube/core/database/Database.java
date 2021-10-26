@@ -27,23 +27,21 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackResources;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.repository.ServerPacksSource;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.profiler.IProfiler;
+import net.minecraft.resources.IFutureReloadListener;
+import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourceManager;
+import net.minecraft.resources.IResourcePack;
+import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.resources.ResourcePackList;
+import net.minecraft.resources.ResourcePackType;
+import net.minecraft.resources.SimpleReloadableResourceManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.MovesDatabases;
@@ -142,14 +140,14 @@ public class Database
         private final List<Drop> drops = Lists.newArrayList();
     }
 
-    public static class ReloadListener implements PreparableReloadListener
+    public static class ReloadListener implements IFutureReloadListener
     {
-        public static final PreparableReloadListener INSTANCE = new ReloadListener();
+        public static final IFutureReloadListener INSTANCE = new ReloadListener();
 
         @Override
-        public final CompletableFuture<Void> reload(final PreparableReloadListener.PreparationBarrier stage,
-                final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
-                final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
+        public final CompletableFuture<Void> reload(final IFutureReloadListener.IStage stage,
+                final IResourceManager resourceManager, final IProfiler preparationsProfiler,
+                final IProfiler reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
         {
             return CompletableFuture.supplyAsync(() ->
             {
@@ -163,13 +161,13 @@ public class Database
         /**
          * Performs any reloading that can be done off-thread, such as file IO
          */
-        protected Object prepare(final ResourceManager resourceManagerIn, final ProfilerFiller profilerIn)
+        protected Object prepare(final IResourceManager resourceManagerIn, final IProfiler profilerIn)
         {
             return null;
         }
 
-        protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
-                final ProfilerFiller profilerIn)
+        protected void apply(final Object objectIn, final IResourceManager resourceManagerIn,
+                final IProfiler profilerIn)
         {
             Database.listener.add(resourceManagerIn);
             Database.onResourcesReloaded();
@@ -227,7 +225,8 @@ public class Database
 
     static int lastCount = -1;
 
-    public static ReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(PackType.SERVER_DATA);
+    public static IReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
+            ResourcePackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -810,8 +809,6 @@ public class Database
         toRemove.clear();
     }
 
-    public static long lastLoad = -1;
-
     public static void onResourcesReloaded()
     {
         // If this was not done, then lisener never reloaded correctly, so we
@@ -819,35 +816,18 @@ public class Database
         if (!Database.listener.loaded) return;
 
         long time = System.nanoTime();
-        long dt = time - Database.lastLoad;
-
-        if (dt < 5e11)
-        {
-            PokecubeCore.LOGGER.info("Skipping Load, too soon since last load.");
-            return;
-        }
-
-        StructureSpawnPresetLoader.loadDatabase();
-        dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.info("Resource Stage 1: {}s", dt / 1e9d);
-
-        // In this case, we are not acually a real datapack load, just an
-        // initial world check thing.
-        if (!StructureSpawnPresetLoader.validLoad) return;
-        time = System.nanoTime();
-
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
-        dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.info("Resource Stage 2: {}s", dt / 1e9d);
-        time = System.nanoTime();
+        StructureSpawnPresetLoader.loadDatabase();
+
+        long dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
-
-        BerryGenManager.parseConfig();
+        time = System.nanoTime();
 
         Database.spawnables.clear();
         PokedexInspector.rewards.clear();
@@ -895,9 +875,8 @@ public class Database
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
 
-        Database.lastLoad = System.nanoTime();
-        dt = Database.lastLoad - time;
-        PokecubeCore.LOGGER.info("Resource Stage 3: {}s", dt / 1e9d);
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
     }
 
     /**
@@ -906,9 +885,6 @@ public class Database
      */
     public static void onLoadComplete()
     {
-        Database.listener.loaded = true;
-        Database.lastLoad = -1;
-        Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -938,21 +914,19 @@ public class Database
         DefaultFormeHolder._main_init_ = true;
     }
 
-    public static Set<PackResources> customPacks = Sets.newHashSet();
+    public static Set<IResourcePack> customPacks = Sets.newHashSet();
 
     public static PackListener listener = new PackListener();
 
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
-        final PackRepository resourcePacks = new PackRepository(PackType.SERVER_DATA, new ServerPacksSource());
-        final PackFinder finder = new PackFinder((name, component, bool, supplier, metadata, source, p_143900_,
-                hidden) ->
-        {
-            return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source, p_143900_, hidden);
-        });
+        @SuppressWarnings("deprecation")
+        final ResourcePackList resourcePacks = new ResourcePackList(ResourcePackInfo::new);
+        @SuppressWarnings("deprecation")
+        final PackFinder finder = new PackFinder(ResourcePackInfo::new);
         resourcePacks.addPackFinder(finder);
-        for (final PackResources info : finder.allPacks)
+        for (final IResourcePack info : finder.allPacks)
             try
             {
                 if (applyToManager)

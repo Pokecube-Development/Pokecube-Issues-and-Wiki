@@ -2,7 +2,7 @@ package pokecube.core.database.moves;
 
 import java.util.Collection;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.resources.PackFinder;

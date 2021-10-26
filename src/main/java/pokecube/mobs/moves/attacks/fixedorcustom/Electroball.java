@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.fixedorcustom;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;

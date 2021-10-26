@@ -1,19 +1,14 @@
 package pokecube.core.blocks.nests;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.blocks.InteractableBlock;
-import thut.api.block.ITickTile;
 
-public class NestBlock extends InteractableBlock implements EntityBlock
+public class NestBlock extends InteractableBlock
 {
 
     public NestBlock(final Properties properties)
@@ -23,27 +18,26 @@ public class NestBlock extends InteractableBlock implements EntityBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getShadeBrightness(final BlockState state, final BlockGetter world, final BlockPos pos)
+    public float getShadeBrightness(BlockState state, IBlockReader world, BlockPos pos)
     {
         return 1.0F;
     }
 
     @Override
-    public boolean propagatesSkylightDown(final BlockState state, final BlockGetter reader, final BlockPos pos)
+    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos)
     {
         return true;
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return new NestTile(pos, state);
+        return new NestTile();
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
-            final BlockEntityType<T> type)
+    public boolean hasTileEntity(final BlockState state)
     {
-        return ITickTile.getTicker(world, state, type);
+        return true;
     }
 }

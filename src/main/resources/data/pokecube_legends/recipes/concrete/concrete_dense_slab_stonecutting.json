@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:concrete_dense_planks"
+    "item": "pokecube_legends:concrete_dense_plank"
   },
   "result": "pokecube_legends:concrete_dense_slab",
   "count": 2

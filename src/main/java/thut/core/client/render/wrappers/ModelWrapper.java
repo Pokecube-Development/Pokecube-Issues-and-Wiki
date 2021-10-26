@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -175,7 +175,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void renderToBuffer(final PoseStack mat, final VertexConsumer buffer, final int packedLightIn,
+    public void renderToBuffer(final MatrixStack mat, final IVertexBuilder buffer, final int packedLightIn,
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
@@ -217,13 +217,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         mat.popPose();
     }
 
-    protected void rotate(final PoseStack mat)
+    protected void rotate(final MatrixStack mat)
     {
         final Vector3f axis = new Vector3f(this.rotateAngleX, this.rotateAngleY, this.rotateAngleZ);
         mat.mulPose(new Quaternion(axis, this.rotateAngle, true));
     }
 
-    public void setMob(final T entity, final MultiBufferSource bufferIn, final ResourceLocation default_)
+    public void setMob(final T entity, final IRenderTypeBuffer bufferIn, final ResourceLocation default_)
     {
         final IPartTexturer texer = this.renderer.getTexturer();
         if (texer != null)
@@ -279,7 +279,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.rotationPointZ = par3;
     }
 
-    protected void transformGlobal(final PoseStack mat, final VertexConsumer buffer, final String currentPhase,
+    protected void transformGlobal(final MatrixStack mat, final IVertexBuilder buffer, final String currentPhase,
             final Entity entity, final float partialTick)
     {
         Vector5 rotations = this.renderer.getRotations();
@@ -292,7 +292,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.renderer.scaleEntity(mat, entity, this, partialTick);
     }
 
-    private void translate(final PoseStack mat)
+    private void translate(final MatrixStack mat)
     {
         mat.translate(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
     }

@@ -2,11 +2,11 @@ package pokecube.adventures.ai.tasks.battle.agro;
 
 import java.util.List;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.Config;
 import pokecube.adventures.ai.tasks.battle.BaseBattleTask;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -28,7 +28,7 @@ public class DeAgro extends BaseBattleTask
     }
 
     @Override
-    protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         boolean deagro = !this.target.isAlive() || this.target.getHealth() <= 0;
 
@@ -80,7 +80,7 @@ public class DeAgro extends BaseBattleTask
                 {
                     boolean found = false;
                     for (final Entity mob : mobs)
-                        if (mob.isAddedToWorld() && mob.distanceToSqr(this.target) < 32 * 32)
+                        if (mob.inChunk && mob.distanceToSqr(this.target) < 32 * 32)
                         {
                             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                             if (pokemob != null && !found)
@@ -108,14 +108,14 @@ public class DeAgro extends BaseBattleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         return this.checkExtraStartConditions(worldIn, entityIn);
     }
 
     @Override
-    protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         this.deagroTimer = 20;
         this.noSeeTicks = 0;

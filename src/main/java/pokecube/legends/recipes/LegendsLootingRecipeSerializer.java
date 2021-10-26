@@ -3,22 +3,22 @@ package pokecube.legends.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class LegendsLootingRecipeSerializer implements Recipe<Container> {
+public class LegendsLootingRecipeSerializer implements IRecipe<IInventory> {
     
     public static final SerializerLooting SERIALIZER_LOOTING = new SerializerLooting();
     
@@ -45,7 +45,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
     }
     
     @Override
-    public boolean matches (Container inv, Level worldIn) {
+    public boolean matches (IInventory inv, World worldIn) {
         return this.input.test(inv.getItem(0));
     }
     
@@ -55,12 +55,12 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
     }
     
     @Override
-    public RecipeSerializer<?> getSerializer () {      
+    public IRecipeSerializer<?> getSerializer () {      
         return LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE.get();
     }
     
     @Override
-    public RecipeType<?> getType () {
+    public IRecipeType<?> getType () {
         
         return LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE;
     }
@@ -71,7 +71,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
     }
 
     @Override
-	public ItemStack assemble(Container inventory) {
+	public ItemStack assemble(IInventory inventory) {
 		return ItemStack.EMPTY;
 	}
 
@@ -85,17 +85,17 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
 		return ItemStack.EMPTY;
 	}
 
-    public static class SerializerLooting extends ForgeRegistryEntry<RecipeSerializer<?>> implements
-	RecipeSerializer<LegendsLootingRecipeSerializer> 
+    public static class SerializerLooting extends ForgeRegistryEntry<IRecipeSerializer<?>> implements
+	IRecipeSerializer<LegendsLootingRecipeSerializer> 
 	{	
 		@Override
 		public LegendsLootingRecipeSerializer fromJson(ResourceLocation recipeId, JsonObject json) {
 	        
-	        final JsonElement inputElement = GsonHelper.isArrayNode(json, "input") ? GsonHelper.getAsJsonArray(json, "input") : GsonHelper.getAsJsonObject(json, "input");
+	        final JsonElement inputElement = JSONUtils.isArrayNode(json, "input") ? JSONUtils.getAsJsonArray(json, "input") : JSONUtils.getAsJsonObject(json, "input");
 	
 	        final Ingredient input = Ingredient.fromJson(inputElement);
 	        
-	        final ResourceLocation blockId = new ResourceLocation(GsonHelper.getAsString(json, "blockId"));
+	        final ResourceLocation blockId = new ResourceLocation(JSONUtils.getAsString(json, "blockId"));
             final Block block = ForgeRegistries.BLOCKS.getValue(blockId);
 	        
 	        final ResourceLocation output = new ResourceLocation("pokecube_legends", "cramobot/cramo_drop");
@@ -109,7 +109,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
 	    }
 	    
 	    @Override
-		public LegendsLootingRecipeSerializer fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) 
+		public LegendsLootingRecipeSerializer fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) 
 	    {      
 	        final Ingredient input = Ingredient.fromNetwork(buffer);
 	        final ResourceLocation output = buffer.readResourceLocation();
@@ -125,7 +125,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container> {
 	    }
 	    
 	    @Override
-	    public void toNetwork(FriendlyByteBuf buffer, LegendsLootingRecipeSerializer recipe) 
+	    public void toNetwork(PacketBuffer buffer, LegendsLootingRecipeSerializer recipe) 
 	    {
 	        recipe.input.toNetwork(buffer);
 	        buffer.writeResourceLocation(recipe.output);

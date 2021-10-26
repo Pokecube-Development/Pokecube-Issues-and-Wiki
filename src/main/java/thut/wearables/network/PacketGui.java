@@ -2,57 +2,57 @@ package thut.wearables.network;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.ClipContext.Block;
-import net.minecraft.world.level.ClipContext.Fluid;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.fml.network.NetworkHooks;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.ContainerWearables;
 
 public class PacketGui extends Packet
 {
-    public static class WearableContext extends UseOnContext
+    public static class WearableContext extends ItemUseContext
     {
-        private static BlockHitResult fromNBT(final Player player, final CompoundTag nbt)
+        private static BlockRayTraceResult fromNBT(final PlayerEntity player, final CompoundNBT nbt)
         {
-            final Vec3 origin = player.getEyePosition(1);
-            final Vec3 dir = player.getLookAngle();
-            final Vec3 end = origin.add(dir.scale(4));
-            final ClipContext context = new ClipContext(origin, end, Block.OUTLINE, Fluid.NONE, player);
+            final Vector3d origin = player.getEyePosition(1);
+            final Vector3d dir = player.getLookAngle();
+            final Vector3d end = origin.add(dir.scale(4));
+            final RayTraceContext context = new RayTraceContext(origin, end, BlockMode.OUTLINE, FluidMode.NONE, player);
             return player.level.clip(context);
         }
 
-        protected WearableContext(final Player player, final ItemStack heldItem, final CompoundTag nbt)
+        protected WearableContext(final PlayerEntity player, final ItemStack heldItem, final CompoundNBT nbt)
         {
-            super(player.getCommandSenderWorld(), player, InteractionHand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
+            super(player.getCommandSenderWorld(), player, Hand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
         }
 
     }
 
-    public CompoundTag data;
+    public CompoundNBT data;
 
     public PacketGui()
     {
-        this.data = new CompoundTag();
+        this.data = new CompoundNBT();
     }
 
-    public PacketGui(final FriendlyByteBuf buffer)
+    public PacketGui(final PacketBuffer buffer)
     {
         this.data = buffer.readNbt();
     }
@@ -65,7 +65,7 @@ public class PacketGui extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         if (this.data.contains("S"))
         {
@@ -73,7 +73,7 @@ public class PacketGui extends Packet
             final ItemStack stack = ThutWearables.getWearables(player).getStackInSlot(slot);
             if (!stack.isEmpty())
             {
-                final UseOnContext context = new WearableContext(player, stack, this.data);
+                final ItemUseContext context = new WearableContext(player, stack, this.data);
                 EnumWearable.interact(player, stack, slot, context);
             }
         }
@@ -84,9 +84,9 @@ public class PacketGui extends Packet
             else
             {
                 final LivingEntity t = player;
-                final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+                final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
                 buffer.writeInt(t.getId());
-                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
+                final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                         e) -> new ContainerWearables(i, p, buffer), t.getName());
                 NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
             }
@@ -100,16 +100,16 @@ public class PacketGui extends Packet
                 if (mob instanceof LivingEntity) target = (LivingEntity) mob;
             }
             final LivingEntity t = target;
-            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+            final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(0));
             buffer.writeInt(t.getId());
-            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
+            final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p,
                     e) -> new ContainerWearables(i, p, buffer), t.getName());
             NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
         }
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeNbt(this.data);
     }

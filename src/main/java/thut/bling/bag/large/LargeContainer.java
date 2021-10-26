@@ -1,16 +1,17 @@
 package thut.bling.bag.large;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ClickType;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.fml.network.IContainerFactory;
 import thut.api.inventory.BaseContainer;
 import thut.api.item.ItemList;
 import thut.bling.ThutBling;
@@ -21,7 +22,7 @@ public class LargeContainer extends BaseContainer
 {
     public static final ResourceLocation INVALID = new ResourceLocation(ThutBling.MODID, "not_bagable");
 
-    public static final MenuType<LargeContainer> TYPE = new MenuType<>(
+    public static final ContainerType<LargeContainer> TYPE = new ContainerType<>(
             (IContainerFactory<LargeContainer>) LargeContainer::new);
 
     public static int STACKLIMIT = 64;
@@ -43,14 +44,14 @@ public class LargeContainer extends BaseContainer
 
     public final LargeInventory inv;
 
-    public final Inventory invPlayer;
+    public final PlayerInventory invPlayer;
 
-    public LargeContainer(final int id, final Inventory ivplay, final FriendlyByteBuf data)
+    public LargeContainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
         this(id, ivplay, new LargeInventory(LargeManager.INSTANCE, data));
     }
 
-    public LargeContainer(final int id, final Inventory ivplay, final LargeInventory pc)
+    public LargeContainer(final int id, final PlayerInventory ivplay, final LargeInventory pc)
     {
         super(LargeContainer.TYPE, id);
         LargeContainer.xOffset = 0;
@@ -80,7 +81,7 @@ public class LargeContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final Player PlayerEntity)
+    public boolean stillValid(final PlayerEntity PlayerEntity)
     {
         return true;
     }
@@ -102,7 +103,7 @@ public class LargeContainer extends BaseContainer
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.inv;
     }
@@ -145,13 +146,20 @@ public class LargeContainer extends BaseContainer
     }
 
     @Override
-    public void removed(final Player player)
+    public void removed(final PlayerEntity player)
     {
         super.removed(player);
         this.inv.stopOpen(player);
     }
 
-    public void updateInventoryPages(final int dir, final Inventory invent)
+    @Override
+    public ItemStack clicked(final int slotId, final int dragType, final ClickType clickTypeIn,
+            final PlayerEntity player)
+    {
+        return super.clicked(slotId, dragType, clickTypeIn, player);
+    }
+
+    public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
         int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
                 : (this.inv.getPage() + dir) % this.inv.boxCount();

@@ -1,10 +1,10 @@
 package thut.wearables;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -46,7 +46,7 @@ public interface IWearable
      *            - The entity wearing the stack
      * @param stack
      *            - The stack being worn */
-    public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
             final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks, int brightness,
             int overlay);
 }

@@ -4,17 +4,17 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerListener;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
@@ -36,7 +36,7 @@ import thut.lib.ItemStackTools;
  * allows using pokemobs for automatic harvesting and storage of berries and
  * dropped items.
  */
-public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>, ContainerListener
+public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
 {
     public static int COOLDOWN = 10;
     public static int MAXSIZE  = 100;
@@ -70,16 +70,16 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     public StoreTask(final IPokemob entity)
     {
         super(entity);
-        if (entity.getInventory() instanceof SimpleContainer)
+        if (entity.getInventory() instanceof Inventory)
         {
-            ((SimpleContainer) entity.getInventory()).addListener(this);
+            ((Inventory) entity.getInventory()).addListener(this);
             // Initialize this.
             this.containerChanged(entity.getInventory());
         }
     }
 
     @Override
-    public void containerChanged(final Container invBasic)
+    public void containerChanged(final IInventory invBasic)
     {
         ItemStack stack;
         this.berrySlotIndex = -1;
@@ -110,7 +110,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         }
     }
 
-    private BlockPos checkDir(final BlockGetter world, final Direction dir, BlockPos centre, final Direction side)
+    private BlockPos checkDir(final IBlockReader world, final Direction dir, BlockPos centre, final Direction side)
     {
         if (centre == null) return null;
         if (dir != null) centre = centre.relative(dir);
@@ -119,11 +119,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
-        final CompoundTag berry = nbt.getCompound("b");
-        final CompoundTag storage = nbt.getCompound("s");
-        final CompoundTag empty = nbt.getCompound("e");
+        final CompoundNBT berry = nbt.getCompound("b");
+        final CompoundNBT storage = nbt.getCompound("s");
+        final CompoundNBT empty = nbt.getCompound("e");
         if (!berry.isEmpty()) this.berryLoc = new BlockPos(berry.getInt("x"), berry.getInt("y"), berry.getInt("z"));
         else this.berryLoc = null;
         if (!storage.isEmpty())
@@ -354,11 +354,11 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return "store_stuff";
     }
 
-    public IItemHandlerModifiable getInventory(final BlockGetter world, final BlockPos pos, final Direction side)
+    public IItemHandlerModifiable getInventory(final IBlockReader world, final BlockPos pos, final Direction side)
     {
         if (pos == null) return null;
         if (!this.canBreak(world, pos)) return null;
-        final BlockEntity tile = world.getBlockEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile == null) return null;
         IItemHandler handler;
         if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElse(
@@ -366,14 +366,14 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         return null;
     }
 
-    private boolean canBreak(final BlockGetter world, final BlockPos pos)
+    private boolean canBreak(final IBlockReader world, final BlockPos pos)
     {
         if (!this.pokemob.isPlayerOwned()) return true;
         if (this.knownValid.contains(pos)) return true;
         // TODO decide on what to do here later, for now, only let this run if
         // owner is online.
         if (this.pokemob.getOwner() == null) return false;
-        final Player player = (Player) this.pokemob.getOwner();
+        final PlayerEntity player = (PlayerEntity) this.pokemob.getOwner();
         final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled()) return false;
@@ -405,12 +405,12 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag tag = new CompoundTag();
-        final CompoundTag berry = new CompoundTag();
-        final CompoundTag storage = new CompoundTag();
-        final CompoundTag empty = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
+        final CompoundNBT berry = new CompoundNBT();
+        final CompoundNBT storage = new CompoundNBT();
+        final CompoundNBT empty = new CompoundNBT();
         if (this.berryLoc != null)
         {
             berry.putInt("x", this.berryLoc.getX());

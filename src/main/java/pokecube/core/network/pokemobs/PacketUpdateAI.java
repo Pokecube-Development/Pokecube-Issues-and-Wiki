@@ -1,10 +1,10 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -16,8 +16,8 @@ public class PacketUpdateAI extends Packet
 {
     public static void sendUpdatePacket(final IPokemob pokemob, final IAIRunnable ai)
     {
-        final CompoundTag tag = new CompoundTag();
-        final Tag base = INBTSerializable.class.cast(ai).serializeNBT();
+        final CompoundNBT tag = new CompoundNBT();
+        final INBT base = INBTSerializable.class.cast(ai).serializeNBT();
         tag.put(ai.getIdentifier(), base);
         final PacketUpdateAI packet = new PacketUpdateAI();
         packet.data = tag;
@@ -27,13 +27,13 @@ public class PacketUpdateAI extends Packet
 
     public int entityId;
 
-    public CompoundTag data = new CompoundTag();
+    public CompoundNBT data = new CompoundNBT();
 
     public PacketUpdateAI()
     {
     }
 
-    public PacketUpdateAI(final FriendlyByteBuf buffer)
+    public PacketUpdateAI(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
         this.data = buffer.readNbt();
@@ -41,10 +41,10 @@ public class PacketUpdateAI extends Packet
 
     @SuppressWarnings("unchecked")
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final int id = this.entityId;
-        final CompoundTag data = this.data;
+        final CompoundNBT data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null) for (final IAIRunnable runnable : pokemob.getTasks())
@@ -56,7 +56,7 @@ public class PacketUpdateAI extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeNbt(this.data);

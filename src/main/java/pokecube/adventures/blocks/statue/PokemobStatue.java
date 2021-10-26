@@ -5,36 +5,35 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 
-public class PokemobStatue extends InteractableHorizontalBlock implements EntityBlock, SimpleWaterloggedBlock
+public class PokemobStatue extends InteractableHorizontalBlock implements IWaterLoggable
 {
     static Map<UUID, VoxelShape> CACHE = Maps.newConcurrentMap();
 
@@ -42,8 +41,8 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
     {
         if (!PokemobStatue.CACHE.containsKey(mob.getUUID()))
         {
-            final AABB box = mob.getBoundingBox().move(-mob.getX() + 0.5, -mob.getY(), -mob.getZ() + 0.5);
-            PokemobStatue.CACHE.put(mob.getUUID(), Shapes.create(box));
+            final AxisAlignedBB box = mob.getBoundingBox().move(-mob.getX() + 0.5, -mob.getY(), -mob.getZ() + 0.5);
+            PokemobStatue.CACHE.put(mob.getUUID(), VoxelShapes.create(box));
         }
         return PokemobStatue.CACHE.get(mob.getUUID());
     }
@@ -51,29 +50,30 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
     public PokemobStatue(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING,
-                Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HorizontalBlock.FACING, Direction.NORTH).setValue(
+                BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
-    public ItemStack getCloneItemStack(final BlockGetter world, final BlockPos pos, final BlockState state)
+    public ItemStack getCloneItemStack(final IBlockReader world, final BlockPos pos, final BlockState state)
     {
         @SuppressWarnings("deprecation")
         final ItemStack itemstack = super.getCloneItemStack(world, pos, state);
-        final BlockEntity tileentity = world.getBlockEntity(pos);
-        final CompoundTag compoundnbt = tileentity.serializeNBT();
+        final TileEntity tileentity = world.getBlockEntity(pos);
+        final CompoundNBT compoundnbt = tileentity.serializeNBT();
         if (!compoundnbt.isEmpty()) itemstack.addTagElement("BlockEntityTag", compoundnbt);
         return itemstack;
     }
 
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state, final Player player)
+    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
+            final PlayerEntity player)
     {
-        final BlockEntity tileentity = world.getBlockEntity(pos);
+        final TileEntity tileentity = world.getBlockEntity(pos);
         if (tileentity != null && !world.isClientSide && !player.isCreative())
         {
             final ItemStack itemstack = new ItemStack(this);
-            final CompoundTag compoundnbt = tileentity.serializeNBT();
+            final CompoundNBT compoundnbt = tileentity.serializeNBT();
             if (!compoundnbt.isEmpty()) itemstack.addTagElement("BlockEntityTag", compoundnbt);
             final ItemEntity itementity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
                     itemstack);
@@ -84,38 +84,44 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
-        builder.add(HorizontalDirectionalBlock.FACING, BlockStateProperties.WATERLOGGED);
+        builder.add(HorizontalBlock.FACING, BlockStateProperties.WATERLOGGED);
     }
 
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext context)
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection()
-                .getOpposite()).setValue(BlockStateProperties.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
-                        && ifluidstate.getAmount() == 8);
+        return this.defaultBlockState().setValue(HorizontalBlock.FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(BlockStateProperties.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
+                        .getAmount() == 8);
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public boolean hasTileEntity(final BlockState state)
     {
-        return new StatueEntity(pos, state);
+        return true;
     }
 
     @Override
-    public RenderShape getRenderShape(final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return new StatueEntity();
+    }
+
+    @Override
+    public BlockRenderType getRenderShape(final BlockState state)
+    {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Deprecated
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
-        final BlockEntity tile = worldIn.getBlockEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         te:
         if (tile != null)
         {
@@ -136,6 +142,6 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
             }
             if (mob.getCopiedMob() != null) return PokemobStatue.forMob(mob.getCopiedMob());
         }
-        return Shapes.block();
+        return VoxelShapes.block();
     }
 }

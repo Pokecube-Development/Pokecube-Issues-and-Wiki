@@ -1,21 +1,21 @@
 package pokecube.core.blocks.berries;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BushBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import pokecube.core.items.berries.BerryManager;
 
 public class BerryFruit extends BushBlock
@@ -24,85 +24,85 @@ public class BerryFruit extends BushBlock
     public static final VoxelShape BERRY_DOWN = Block.box(2.5D, 0.0D, 2.5D, 13.5D, 6.0D, 13.5D);
 
     // Precise selection box
-    private static final VoxelShape PECHA_BERRY = Shapes.or(
+    private static final VoxelShape PECHA_BERRY = VoxelShapes.or(
       Block.box(5.5, 12, 6.5, 10.5, 16, 9.5),
       Block.box(6, 10.5, 6.5, 10, 12, 9.5))
       .optimize();
 
-    private static final VoxelShape ASPEAR_BERRY = Shapes.or(
+    private static final VoxelShape ASPEAR_BERRY = VoxelShapes.or(
       Block.box(5, 0, 5, 11, 6, 11))
       .optimize();
 
-    private static final VoxelShape LEPPA_BERRY = Shapes.or(
+    private static final VoxelShape LEPPA_BERRY = VoxelShapes.or(
       Block.box(7, 15.5, 7, 9, 16, 9),
       Block.box(6, 10.5, 6, 10, 15.5, 10))
       .optimize();
 
-    private static final VoxelShape ORAN_BERRY = Shapes.or(
+    private static final VoxelShape ORAN_BERRY = VoxelShapes.or(
       Block.box(7, 15.5, 7, 9, 16, 9),
       Block.box(5.5, 10.5, 5.5, 10.5, 15.5, 10.5))
       .optimize();
 
-    private static final VoxelShape LUM_BERRY = Shapes.or(
+    private static final VoxelShape LUM_BERRY = VoxelShapes.or(
       Block.box(2, 0, 2, 14, 6, 14))
       .optimize();
 
-    private static final VoxelShape SITRUS_BERRY = Shapes.or(
+    private static final VoxelShape SITRUS_BERRY = VoxelShapes.or(
       Block.box(7, 15.5, 7, 9, 16, 9),
       Block.box(6, 13.5, 6, 10, 15.5, 10),
       Block.box(5.5, 9.5, 5.5, 10.5, 13.5, 10.5))
       .optimize();
 
-    private static final VoxelShape NANAB_BERRY = Shapes.or(
+    private static final VoxelShape NANAB_BERRY = VoxelShapes.or(
       Block.box(4, 7.6, 4, 12, 16, 12))
       .optimize();
 
-    private static final VoxelShape PINAP_BERRY = Shapes.or(
+    private static final VoxelShape PINAP_BERRY = VoxelShapes.or(
       Block.box(4, 0, 4, 12, 15, 12))
       .optimize();
 
-    private static final VoxelShape POMEG_BERRY = Shapes.or(
+    private static final VoxelShape POMEG_BERRY = VoxelShapes.or(
       Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
       Block.box(6, 14, 6, 10, 15, 10),
       Block.box(5.5, 10, 5.5, 10.5, 14, 10.5),
       Block.box(6, 9, 6, 10, 10, 10))
       .optimize();
 
-    private static final VoxelShape KELPSY_BERRY = Shapes.or(
+    private static final VoxelShape KELPSY_BERRY = VoxelShapes.or(
       Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
       Block.box(6.5, 7, 6.5, 9.5, 15, 9.5),
       Block.box(7.5, 6, 7.5, 8.5, 7, 8.5))
       .optimize();
 
-    private static final VoxelShape QUALOT_BERRY = Shapes.or(
+    private static final VoxelShape QUALOT_BERRY = VoxelShapes.or(
       Block.box(7.5, 14.5, 7.5, 8.5, 16, 8.5),
       Block.box(6, 13.5, 6, 10, 14.5, 10),
       Block.box(5.5, 8.5, 5.5, 10.5, 13.5, 10.5),
       Block.box(6, 7.5, 6, 10, 8.5, 10))
       .optimize();
 
-    private static final VoxelShape HONDEW_BERRY = Shapes.or(
+    private static final VoxelShape HONDEW_BERRY = VoxelShapes.or(
       Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
       Block.box(5.5, 9, 5.5, 10.5, 15, 10.5))
       .optimize();
 
-    private static final VoxelShape GREPA_BERRY = Shapes.or(
+    private static final VoxelShape GREPA_BERRY = VoxelShapes.or(
       Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
       Block.box(5.5, 10, 5.5, 10.5, 15, 10.5))
       .optimize();
 
-    private static final VoxelShape TAMATO_BERRY = Shapes.or(
+    private static final VoxelShape TAMATO_BERRY = VoxelShapes.or(
       Block.box(6, 11.5, 6, 10, 15.5, 10),
       Block.box(7, 15.5, 7, 9, 16, 9))
       .optimize();
 
-    private static final VoxelShape ENIGMA_BERRY = Shapes.or(
+    private static final VoxelShape ENIGMA_BERRY = VoxelShapes.or(
       Block.box(7, 14, 7, 9, 16, 9),
       Block.box(6.5, 13, 6.5, 9.5, 14, 9.5),
       Block.box(6, 7, 6, 10, 13, 10))
       .optimize();
 
-    private static final VoxelShape ROWAP_BERRY = Shapes.or(
+    private static final VoxelShape ROWAP_BERRY = VoxelShapes.or(
       Block.box(0, 0, 0, 16, 7, 16))
       .optimize();
 
@@ -117,29 +117,29 @@ public class BerryFruit extends BushBlock
     }
 
     @Override
-    public VoxelShape getCollisionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
-        return Shapes.empty();
+        return VoxelShapes.empty();
     }
 
     @Override
-    public ItemStack getCloneItemStack(final BlockGetter worldIn, final BlockPos pos, final BlockState state)
+    public ItemStack getCloneItemStack(final IBlockReader worldIn, final BlockPos pos, final BlockState state)
     {
         return new ItemStack(BerryManager.berryItems.get(this.ind));
     }
 
     @Override
-    public VoxelShape getOcclusionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos)
+    public VoxelShape getOcclusionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
     {
         return state.getShape(worldIn, pos);
     }
 
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
-    	Vec3 vec3d = state.getOffset(worldIn, pos);
+    	Vector3d vec3d = state.getOffset(worldIn, pos);
         if (this.index == 3) { return BerryFruit.PECHA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
         else if (this.index == 5) { return BerryFruit.ASPEAR_BERRY; }
         else if (this.index == 6) { return BerryFruit.LEPPA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
@@ -160,27 +160,27 @@ public class BerryFruit extends BushBlock
     }
     
     @Override
-    public BlockBehaviour.OffsetType getOffsetType() {
+    public AbstractBlock.OffsetType getOffsetType() {
         if (this.index == 3 || this.index == 6 || this.index == 7 || this.index == 10 || this.index == 18 || this.index == 21 || 
         		this.index == 22 || this.index == 23 || this.index == 24 || this.index == 25 || this.index == 26 || this.index == 60)
         	{
-        		return BlockBehaviour.OffsetType.XZ;
+        		return AbstractBlock.OffsetType.XZ;
         	}
-        return BlockBehaviour.OffsetType.NONE;
+        return AbstractBlock.OffsetType.NONE;
     }
 
     @Override
-    protected boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos)
+    protected boolean mayPlaceOn(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
     {
         return state.getBlock() instanceof BerryCrop || worldIn.getBlockState(pos.above(2))
                 .getBlock() instanceof BerryLeaf;
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         if (!world.isClientSide) world.destroyBlock(pos, true);
-        return InteractionResult.SUCCESS;
+        return ActionResultType.SUCCESS;
     }
 }

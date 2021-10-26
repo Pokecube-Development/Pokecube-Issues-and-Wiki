@@ -4,11 +4,12 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
@@ -24,7 +25,7 @@ import pokecube.core.interfaces.PokecubeMod;
 
 public class CapabilityNPCMessages
 {
-    public static class DefaultMessager implements IHasMessages, ICapabilitySerializable<CompoundTag>
+    public static class DefaultMessager implements IHasMessages, ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IHasMessages> holder   = LazyOptional.of(() -> this);
         Map<MessageState, String>                messages = Maps.newHashMap();
@@ -46,13 +47,13 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
             if (!nbt.contains("messages")) return;
-            final CompoundTag messTag = nbt.getCompound("messages");
+            final CompoundNBT messTag = nbt.getCompound("messages");
             for (final MessageState state : MessageState.values())
                 if (messTag.contains(state.name())) this.setMessage(state, messTag.getString(state.name()));
-            final CompoundTag actionTag = nbt.getCompound("actions");
+            final CompoundNBT actionTag = nbt.getCompound("actions");
             for (final MessageState state : MessageState.values())
                 if (actionTag.contains(state.name())) this.setAction(state, new Action(actionTag.getString(state
                         .name())));
@@ -89,17 +90,17 @@ public class CapabilityNPCMessages
         {
             if (target instanceof FakePlayer || this.messages.get(state) == null || this.messages.get(state).trim()
                     .isEmpty()) return false;
-            target.sendMessage(new TranslatableComponent(this.messages.get(state), args), Util.NIL_UUID);
+            target.sendMessage(new TranslationTextComponent(this.messages.get(state), args), Util.NIL_UUID);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug(state + ": " + this.messages.get(state));
             return true;
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            final CompoundTag nbt = new CompoundTag();
-            final CompoundTag messTag = new CompoundTag();
-            final CompoundTag actionTag = new CompoundTag();
+            final CompoundNBT nbt = new CompoundNBT();
+            final CompoundNBT messTag = new CompoundNBT();
+            final CompoundNBT actionTag = new CompoundNBT();
             for (final MessageState state : MessageState.values())
             {
                 final String message = this.getMessage(state);
@@ -127,7 +128,7 @@ public class CapabilityNPCMessages
 
     }
 
-    public static interface IHasMessages extends INBTSerializable<CompoundTag>
+    public static interface IHasMessages
     {
         boolean doAction(MessageState state, ActionContext context);
 
@@ -141,4 +142,26 @@ public class CapabilityNPCMessages
 
         void setMessage(MessageState state, String message);
     }
+
+    public static class Storage implements Capability.IStorage<IHasMessages>
+    {
+
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @Override
+        public void readNBT(final Capability<IHasMessages> capability, final IHasMessages instance,
+                final Direction side, final INBT base)
+        {
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IHasMessages> capability, final IHasMessages instance,
+                final Direction side)
+        {
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
+        }
+    }
+
+    public static Storage storage;
 }

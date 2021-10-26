@@ -7,10 +7,10 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
@@ -23,11 +23,11 @@ import thut.api.maths.Vector3;
 
 public class Guard extends AbstractWorkTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
-        Guard.mems.put(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT);
-        Guard.mems.put(AntTasks.GOING_HOME, MemoryStatus.VALUE_ABSENT);
+        Guard.mems.put(MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModuleStatus.VALUE_PRESENT);
+        Guard.mems.put(AntTasks.GOING_HOME, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     public static double ANTGUARDDIST = 8;
@@ -73,7 +73,7 @@ public class Guard extends AbstractWorkTask
         if (!PokecubeCore.getConfig().guardModeEnabled) return false;
 
         // TODO find out why this happens, the needed memories should have dealt with it...
-        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
 
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
@@ -82,7 +82,7 @@ public class Guard extends AbstractWorkTask
         centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
             if (this.validGuardTarget.test(o)) ret.add(o);

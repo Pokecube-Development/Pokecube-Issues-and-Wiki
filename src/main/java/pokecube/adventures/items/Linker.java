@@ -2,18 +2,18 @@ package pokecube.adventures.items;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -53,7 +53,7 @@ public class Linker extends Item
         public GlobalPos getLinkedPos(final Entity user)
         {
             if (this.linker.getOrCreateTag().contains("thutcore:pos")) return GlobalPos.CODEC.decode(
-                    NbtOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")).result().get()
+                    NBTDynamicOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")).result().get()
                     .getFirst();
             else return null;
         }
@@ -66,31 +66,31 @@ public class Linker extends Item
                 this.linker.getOrCreateTag().remove("thutcore:pos");
                 if (!user.getCommandSenderWorld().isClientSide)
                 {
-                    if (user instanceof Player)
+                    if (user instanceof PlayerEntity)
                     {
-                        final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent(
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent(
                             "item.pokecube_adventures.linker.unset"), true);
                     } else
                     {
-                        user.sendMessage(new TranslatableComponent(
+                        user.sendMessage(new TranslationTextComponent(
                             "item.pokecube_adventures.linker.unset"), Util.NIL_UUID);
                     }
                 }
             }
             else
             {
-                this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE,
+                this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
                         pos).get().left().get());
                 if (!user.getCommandSenderWorld().isClientSide)
                 {
-                    if (user instanceof Player)
+                    if (user instanceof PlayerEntity)
                     {
-                        final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent(
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent(
                             "item.pokecube_adventures.linker.set"), true);
                     } else {
-                        user.sendMessage(new TranslatableComponent(
+                        user.sendMessage(new TranslationTextComponent(
                             "item.pokecube_adventures.linker.set"), Util.NIL_UUID);
                     }
                 }
@@ -99,13 +99,13 @@ public class Linker extends Item
                     final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos()
                             .getZ());
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
-                    if (user instanceof Player)
+                    if (user instanceof PlayerEntity)
                     {
-                        final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"), true);
+                        final PlayerEntity player = (PlayerEntity) user;
+                        player.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"), true);
                     } else
                     {
-                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                        user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"),
                             Util.NIL_UUID);
                     }
                 }
@@ -127,7 +127,7 @@ public class Linker extends Item
                 .getObject()));
     }
 
-    public static boolean interact(final ServerPlayer playerIn, final Entity target, final ItemStack stack)
+    public static boolean interact(final ServerPlayerEntity playerIn, final Entity target, final ItemStack stack)
     {
         final IGuardAICapability ai = target.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final LazyOptional<ILinkStorage> test_stack = stack.getCapability(ThutCaps.STORE, null);
@@ -146,11 +146,11 @@ public class Linker extends Item
             {
                 final BlockPos bpos = pos.pos().above();
                 ai.getPrimaryTask().setPos(pos.pos().above());
-                playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob", target
+                playerIn.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
                         .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
                 return true;
             }
-            else playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob.fail"),
+            else playerIn.displayClientMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"),
                     true);
         }
         return false;

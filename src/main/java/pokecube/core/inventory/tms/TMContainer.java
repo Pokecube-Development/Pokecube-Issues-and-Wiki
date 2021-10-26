@@ -1,16 +1,15 @@
 package pokecube.core.inventory.tms;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -19,25 +18,25 @@ import thut.api.inventory.BaseContainer;
 public class TMContainer extends BaseContainer
 {
 
-    public static final MenuType<TMContainer> TYPE  = new MenuType<>(TMContainer::new);
-    private Container                             inv;
-    private final ContainerLevelAccess                pos;
+    public static final ContainerType<TMContainer> TYPE  = new ContainerType<>(TMContainer::new);
+    private IInventory                             inv;
+    private final IWorldPosCallable                pos;
     public TMTile                                  tile;
     public String[]                                moves = new String[0];
 
-    public TMContainer(final int id, final Inventory inv)
+    public TMContainer(final int id, final PlayerInventory inv)
     {
-        this(id, inv, ContainerLevelAccess.NULL);
+        this(id, inv, IWorldPosCallable.NULL);
     }
 
-    public TMContainer(final int id, final Inventory inv, final ContainerLevelAccess pos)
+    public TMContainer(final int id, final PlayerInventory inv, final IWorldPosCallable pos)
     {
         super(TMContainer.TYPE, id);
         this.pos = pos;
 
         pos.execute((w, p) ->
         {
-            final BlockEntity tile = w.getBlockEntity(p);
+            final TileEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof TMTile)
             {
@@ -50,8 +49,8 @@ public class TMContainer extends BaseContainer
         // Client side
         if (this.inv == null)
         {
-            this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TMMACHINE.get().defaultBlockState());
-            this.tile.setLevel(PokecubeCore.proxy.getWorld());
+            this.tile = new TMTile();
+            this.tile.setLevelAndPosition(PokecubeCore.proxy.getWorld(), inv.player.blockPosition());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();
@@ -72,7 +71,7 @@ public class TMContainer extends BaseContainer
             }
 
             @Override
-            public boolean mayPickup(final Player playerIn)
+            public boolean mayPickup(final PlayerEntity playerIn)
             {
                 final String owner = PokecubeManager.getOwner(this.getItem());
                 if (owner.isEmpty()) return super.mayPickup(playerIn);
@@ -83,13 +82,13 @@ public class TMContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final Player playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return true;
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.inv;
     }
@@ -101,12 +100,12 @@ public class TMContainer extends BaseContainer
     }
 
     @Override
-    public void removed(final Player playerIn)
+    public void removed(final PlayerEntity playerIn)
     {
         super.removed(playerIn);
         this.pos.execute((world, pos) ->
         {
-            this.clearContainer(playerIn, this.inv);
+            this.clearContainer(playerIn, world, this.inv);
         });
     }
 }

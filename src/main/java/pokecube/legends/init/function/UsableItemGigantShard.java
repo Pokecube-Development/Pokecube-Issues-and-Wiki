@@ -1,11 +1,11 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -30,10 +30,10 @@ public class UsableItemGigantShard
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             System.out.println(user + " " + pokemob.getOwner());
-            if (user != pokemob.getOwner()) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
+            if (user != pokemob.getOwner()) return new ActionResult<>(ActionResultType.FAIL, stack);
             boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
             // Already able to gigantamax, no effect.
             if (gigant) return super.onUse(pokemob, stack, user);
@@ -43,7 +43,7 @@ public class UsableItemGigantShard
             if (!gigant) return super.onUse(pokemob, stack, user);
             pokemob.setCombatState(CombatStates.GIGANTAMAX, true);
             stack.split(1);
-            return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+            return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }
     }
 

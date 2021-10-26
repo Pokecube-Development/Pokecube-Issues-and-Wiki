@@ -4,7 +4,7 @@
       "model": "pokecube_legends:block/corrupted_slab"
     },
     "type=double": {
-      "model": "pokecube_legends:block/corrupted_planks"
+      "model": "pokecube_legends:block/corrupted_plank"
     },
     "type=top": {
       "model": "pokecube_legends:block/corrupted_slab_top"

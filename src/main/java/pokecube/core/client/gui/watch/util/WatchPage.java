@@ -4,26 +4,24 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 
-public abstract class WatchPage extends Screen implements GuiEventListener
+public abstract class WatchPage extends Screen implements IGuiEventListener
 {
-    public final GuiPokeWatch watch;
-    private final Component   title;
+    public final GuiPokeWatch    watch;
+    private final ITextComponent title;
 
     private final ResourceLocation tex_dm;
     private final ResourceLocation tex_nm;
 
-    public WatchPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day,
+    public WatchPage(final ITextComponent title, final GuiPokeWatch watch, final ResourceLocation day,
             final ResourceLocation night)
     {
         super(title);
@@ -41,18 +39,16 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     }
 
     @Override
-    public void renderBackground(final PoseStack matrixStack)
+    public void renderBackground(final MatrixStack matrixStack)
     {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, this.getBackgroundTex());
-
+        this.minecraft.textureManager.bind(this.getBackgroundTex());
         final int j2 = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int k2 = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         this.blit(matrixStack, j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
     }
 
     @Override
-    public Component getTitle()
+    public ITextComponent getTitle()
     {
         return this.title;
     }
@@ -92,7 +88,7 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     public void onPageOpened()
     {
         @SuppressWarnings("unchecked")
-        final List<GuiEventListener> list = (List<GuiEventListener>) this.watch.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.watch.children();
         list.add(this);
     }
 }

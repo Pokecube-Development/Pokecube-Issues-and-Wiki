@@ -1,9 +1,9 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -16,7 +16,7 @@ public class UsableItemZMoveEffects
     public static class ZMoveUsable extends BaseUseable
     {
         @Override
-        public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
+        public ActionResult<ItemStack> onMoveTick(final IPokemob attacker, final ItemStack stack,
                 final MovePacket moveuse)
         {
             if (moveuse.pre && stack == attacker.getHeldItem()) moveuse.criticalLevel = 0;

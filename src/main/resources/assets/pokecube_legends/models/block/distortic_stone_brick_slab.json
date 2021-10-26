@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/distortic_stone_bricks",
-    "top": "pokecube_legends:blocks/distortic_stone_bricks",
-    "side": "pokecube_legends:blocks/distortic_stone_bricks"
-  }
-}

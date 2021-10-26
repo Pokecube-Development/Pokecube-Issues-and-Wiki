@@ -3,22 +3,22 @@ package pokecube.adventures.client.gui.trainer.editor.pages.util;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 
-public abstract class Page extends Screen implements GuiEventListener
+public abstract class Page extends Screen implements IGuiEventListener
 {
     public final EditorGui       parent;
-    private final Component title;
+    private final ITextComponent title;
 
     // this can be easily called by buttons to go back to previous page.
     public Runnable closeCallback = () ->
     {
     };
 
-    public Page(final Component title, final EditorGui parent)
+    public Page(final ITextComponent title, final EditorGui parent)
     {
         super(title);
         this.title = title;
@@ -28,7 +28,7 @@ public abstract class Page extends Screen implements GuiEventListener
     }
 
     @Override
-    public Component getTitle()
+    public ITextComponent getTitle()
     {
         return this.title;
     }
@@ -52,7 +52,7 @@ public abstract class Page extends Screen implements GuiEventListener
     {
         this.parent.children().remove(this.parent.current_page);
         @SuppressWarnings("unchecked")
-        final List<GuiEventListener> list = (List<GuiEventListener>) this.parent.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.parent.children();
         list.add(this);
     }
 }

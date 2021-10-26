@@ -1,19 +1,16 @@
 package pokecube.core.moves.animations;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
-
-import org.objectweb.asm.Type;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -23,8 +20,6 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.maths.Vector3;
@@ -35,31 +30,18 @@ import thut.lib.CompatParser.ClassFinder;
 
 public class MoveAnimationHelper
 {
-    private static final Type PRESETANNOTATION = Type.getType("Lpokecube/core/moves/animations/AnimPreset;");
-
     static Map<String, Class<? extends MoveAnimationBase>> presets = Maps.newHashMap();
-
-    private static final BiFunction<ModFile, String, Boolean> validClass = (file, name) ->
-    {
-        for (final AnnotationData a : file.getScanResult().getAnnotations())
-            if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(
-                    MoveAnimationHelper.PRESETANNOTATION)) return true;
-        return false;
-    };
 
     static
     {
-        Collection<Class<?>> foundClasses;
+        List<Class<?>> foundClasses;
         try
         {
-            foundClasses = ClassFinder.find(MoveAnimationHelper.class.getPackage().getName(),
-                    MoveAnimationHelper.validClass);
+            foundClasses = ClassFinder.find(MoveAnimationHelper.class.getPackage().getName());
             for (final Class<?> candidateClass : foundClasses)
             {
-                if (!MoveAnimationBase.class.isAssignableFrom(candidateClass)) continue;
-                if (candidateClass.getAnnotations().length == 0) continue;
                 final AnimPreset preset = candidateClass.getAnnotation(AnimPreset.class);
-                if (preset != null)
+                if (preset != null && MoveAnimationBase.class.isAssignableFrom(candidateClass))
                 {
                     @SuppressWarnings("unchecked")
                     final Class<? extends MoveAnimationBase> presetClass = (Class<? extends MoveAnimationBase>) candidateClass;
@@ -83,7 +65,7 @@ public class MoveAnimationHelper
         final Class<? extends MoveAnimationBase> presetClass = MoveAnimationHelper.presets.get(preset);
         if (presetClass != null) try
         {
-            animation = presetClass.getConstructor().newInstance();
+            animation = presetClass.newInstance();
             ((MoveAnimationBase) animation).init(anim);
         }
         catch (final Exception e)
@@ -150,7 +132,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
+    public void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
     {
         if (!event.getObject().getLevel().isClientSide) return;
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP))
@@ -171,26 +153,21 @@ public class MoveAnimationHelper
         try
         {
             if (this.index == -1) return;
-            final Player player = Minecraft.getInstance().player;
+            final PlayerEntity player = Minecraft.getInstance().player;
             this.source.set(player);
             final int range = 4;
 
             final Minecraft mc = Minecraft.getInstance();
-            final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-            final PoseStack mat = event.getMatrixStack();
+            final Vector3d projectedView = mc.gameRenderer.getMainCamera().getPosition();
+            final MatrixStack mat = event.getMatrixStack();
             mat.pushPose();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-            final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-
-            final int x = player.getBlockX() >> 4;
-            final int y = player.getBlockY() >> 4;
-            final int z = player.getBlockZ() >> 4;
-
+            final BlockPos.Mutable pos = new BlockPos.Mutable();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)
                     {
-                        pos.set(x + i, y + j, z + k);
+                        pos.set(player.xChunk + i, player.yChunk + j, player.zChunk + k);
                         final TerrainSegment segment = this.terrainMap.get(pos.immutable());
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];

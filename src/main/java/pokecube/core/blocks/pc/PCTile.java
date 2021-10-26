@@ -2,11 +2,10 @@ package pokecube.core.blocks.pc;
 
 import java.util.UUID;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntityType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.PokecubeMod;
@@ -17,27 +16,27 @@ public class PCTile extends InteractableTile
     public UUID        boundId   = PokecubeMod.fakeUUID;
     public PCInventory inventory = PCInventory.getPC(this.boundId);
 
-    public PCTile(final BlockPos pos, final BlockState state)
+    public PCTile()
     {
-        this(PokecubeItems.PC_TYPE.get(), pos, state);
+        this(PokecubeItems.PC_TYPE.get());
     }
 
-    public PCTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    public PCTile(final TileEntityType<?> tileEntityTypeIn)
     {
-        super(tileEntityTypeIn, pos, state);
+        super(tileEntityTypeIn);
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         if (this.isBound()) compound.putString("boundid", this.boundId.toString());
         return super.save(compound);
     }
 
     @Override
-    public void load(final CompoundTag compound)
+    public void load(final BlockState state, final CompoundNBT compound)
     {
-        super.load(compound);
+        super.load(state, compound);
         if (compound.contains("boundid")) this.boundId = UUID.fromString(compound.getString("boundid"));
     }
 
@@ -46,7 +45,7 @@ public class PCTile extends InteractableTile
         return this.boundId != PokecubeMod.fakeUUID;
     }
 
-    public void bind(final ServerPlayer player)
+    public void bind(final ServerPlayerEntity player)
     {
         if (player == null) this.boundId = PokecubeMod.fakeUUID;
         else this.boundId = player.getUUID();

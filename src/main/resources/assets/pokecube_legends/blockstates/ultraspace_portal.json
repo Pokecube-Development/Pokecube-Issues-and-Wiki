@@ -1,0 +1,48 @@
+{
+  "variants": {
+    "facing=east,part=bottom":  { "model": "pokecube_legends:block/wormhole_bottom", "y":270 },
+    "facing=west,part=bottom":  { "model": "pokecube_legends:block/wormhole_bottom", "y":90 },
+    "facing=north,part=bottom": { "model": "pokecube_legends:block/wormhole_bottom", "y":180},
+    "facing=south,part=bottom": { "model": "pokecube_legends:block/wormhole_bottom", "y":0 },
+
+    "facing=east,part=bottom_left":  { "model": "pokecube_legends:block/wormhole_bottom_left", "y":270 },
+    "facing=west,part=bottom_left":  { "model": "pokecube_legends:block/wormhole_bottom_left", "y":90 },
+    "facing=north,part=bottom_left": { "model": "pokecube_legends:block/wormhole_bottom_left", "y":180},
+    "facing=south,part=bottom_left": { "model": "pokecube_legends:block/wormhole_bottom_left", "y":0 },
+
+    "facing=east,part=bottom_right":  { "model": "pokecube_legends:block/wormhole_bottom_right", "y":270 },
+    "facing=west,part=bottom_right":  { "model": "pokecube_legends:block/wormhole_bottom_right", "y":90 },
+    "facing=north,part=bottom_right": { "model": "pokecube_legends:block/wormhole_bottom_right", "y":180},
+    "facing=south,part=bottom_right": { "model": "pokecube_legends:block/wormhole_bottom_right", "y":0 },
+
+    "facing=east,part=middle":  { "model": "pokecube_legends:block/wormhole_middle", "y":270 },
+    "facing=west,part=middle":  { "model": "pokecube_legends:block/wormhole_middle", "y":90 },
+    "facing=north,part=middle": { "model": "pokecube_legends:block/wormhole_middle", "y":180},
+    "facing=south,part=middle": { "model": "pokecube_legends:block/wormhole_middle", "y":0 },
+
+    "facing=east,part=middle_left":  { "model": "pokecube_legends:block/wormhole_middle_left", "y":270 },
+    "facing=west,part=middle_left":  { "model": "pokecube_legends:block/wormhole_middle_left", "y":90 },
+    "facing=north,part=middle_left": { "model": "pokecube_legends:block/wormhole_middle_left", "y":180},
+    "facing=south,part=middle_left": { "model": "pokecube_legends:block/wormhole_middle_left", "y":0 },
+
+    "facing=east,part=middle_right":  { "model": "pokecube_legends:block/wormhole_middle_right", "y":270 },
+    "facing=west,part=middle_right":  { "model": "pokecube_legends:block/wormhole_middle_right", "y":90 },
+    "facing=north,part=middle_right": { "model": "pokecube_legends:block/wormhole_middle_right", "y":180},
+    "facing=south,part=middle_right": { "model": "pokecube_legends:block/wormhole_middle_right", "y":0 },
+
+    "facing=east,part=top":  { "model": "pokecube_legends:block/wormhole_top", "y":270 },
+    "facing=west,part=top":  { "model": "pokecube_legends:block/wormhole_top", "y":90 },
+    "facing=north,part=top": { "model": "pokecube_legends:block/wormhole_top", "y":180},
+    "facing=south,part=top": { "model": "pokecube_legends:block/wormhole_top", "y":0 },
+
+    "facing=east,part=top_left":  { "model": "pokecube_legends:block/wormhole_top_left", "y":270 },
+    "facing=west,part=top_left":  { "model": "pokecube_legends:block/wormhole_top_left", "y":90 },
+    "facing=north,part=top_left": { "model": "pokecube_legends:block/wormhole_top_left", "y":180},
+    "facing=south,part=top_left": { "model": "pokecube_legends:block/wormhole_top_left", "y":0 },
+
+    "facing=east,part=top_right":  { "model": "pokecube_legends:block/wormhole_top_right", "y":270 },
+    "facing=west,part=top_right":  { "model": "pokecube_legends:block/wormhole_top_right", "y":90 },
+    "facing=north,part=top_right": { "model": "pokecube_legends:block/wormhole_top_right", "y":180},
+    "facing=south,part=top_right": { "model": "pokecube_legends:block/wormhole_top_right", "y":0 }
+  }
+}

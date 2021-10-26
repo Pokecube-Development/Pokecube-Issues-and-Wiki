@@ -3,13 +3,13 @@ package pokecube.core.handlers;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -20,18 +20,18 @@ import pokecube.core.recipes.MoveRecipes;
 
 public class RecipeHandler
 {
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
             ForgeRegistries.RECIPE_SERIALIZERS, PokecubeCore.MODID);
 
-    private static <T extends Recipe<?>> Supplier<SimpleRecipeSerializer<T>> special(
+    private static <T extends IRecipe<?>> Supplier<SpecialRecipeSerializer<T>> special(
             final Function<ResourceLocation, T> create)
     {
-        return () -> new SimpleRecipeSerializer<>(create);
+        return () -> new SpecialRecipeSerializer<>(create);
     }
 
-    public static final RegistryObject<SimpleRecipeSerializer<RecipeRevive>>    REVIVE    = RecipeHandler.RECIPE_SERIALIZERS
+    public static final RegistryObject<SpecialRecipeSerializer<RecipeRevive>>    REVIVE    = RecipeHandler.RECIPE_SERIALIZERS
             .register("revive", RecipeHandler.special(RecipeRevive::new));
-    public static final RegistryObject<SimpleRecipeSerializer<RecipePokeseals>> APPLYSEAL = RecipeHandler.RECIPE_SERIALIZERS
+    public static final RegistryObject<SpecialRecipeSerializer<RecipePokeseals>> APPLYSEAL = RecipeHandler.RECIPE_SERIALIZERS
             .register("seal_apply", RecipeHandler.special(RecipePokeseals::new));
 
     public static void init(final IEventBus bus)

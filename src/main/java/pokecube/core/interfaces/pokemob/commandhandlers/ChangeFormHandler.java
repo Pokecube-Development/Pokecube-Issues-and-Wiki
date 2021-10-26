@@ -1,15 +1,15 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
@@ -37,21 +37,21 @@ public class ChangeFormHandler extends DefaultHandler
         final LivingEntity player = pokemob.getOwner();
 
         final Entity mob = pokemob.getEntity();
-        final Level world = mob.getCommandSenderWorld();
+        final World world = mob.getCommandSenderWorld();
         final BlockPos pos = mob.blockPosition();
         final MinecraftServer server = mob.getServer();
 
         if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || player == null) return;
 
-        final boolean hasRing = !(player instanceof Player) || MegaCapability.canMegaEvolve(player, pokemob);
+        final boolean hasRing = !(player instanceof PlayerEntity) || MegaCapability.canMegaEvolve(player, pokemob);
         if (!hasRing)
         {
-            player.sendMessage(new TranslatableComponent("pokecube.mega.noring", pokemob.getDisplayName()),
+            player.sendMessage(new TranslationTextComponent("pokecube.mega.noring", pokemob.getDisplayName()),
                     Util.NIL_UUID);
             return;
         }
         final PokedexEntry entry = pokemob.getPokedexEntry();
-        final Component oldName = pokemob.getDisplayName();
+        final ITextComponent oldName = pokemob.getDisplayName();
 
         // Check dynamax/gigantamax first.
         final ForbidReason reason = SpawnHandler.getNoSpawnReason(world, pos);
@@ -71,10 +71,10 @@ public class ChangeFormHandler extends DefaultHandler
 
             if (isDyna)
             {
-                Component mess = new TranslatableComponent("pokemob.dynamax.command.revert", oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslatableComponent("pokemob.dynamax.revert", oldName);
+                mess = new TranslationTextComponent("pokemob.dynamax.revert", oldName);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
             }
@@ -86,14 +86,14 @@ public class ChangeFormHandler extends DefaultHandler
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {
-                    player.sendMessage(new TranslatableComponent("pokemob.dynamax.too_soon", pokemob
+                    player.sendMessage(new TranslationTextComponent("pokemob.dynamax.too_soon", pokemob
                             .getDisplayName()), Util.NIL_UUID);
                     return;
                 }
 
-                Component mess = new TranslatableComponent("pokemob.dynamax.command.evolve", oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = new TranslatableComponent("pokemob.dynamax.success", oldName);
+                mess = new TranslationTextComponent("pokemob.dynamax.success", oldName);
                 if (gigant) pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
@@ -108,10 +108,10 @@ public class ChangeFormHandler extends DefaultHandler
         }
         if (isDyna || gigant)
         {
-            Component mess = new TranslatableComponent("pokemob.dynamax.command.revert", oldName);
+            ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.revert", oldName);
             pokemob.displayMessageToOwner(mess);
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = new TranslatableComponent("pokemob.dynamax.revert", oldName);
+            mess = new TranslationTextComponent("pokemob.dynamax.revert", oldName);
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
             return;
         }
@@ -121,18 +121,18 @@ public class ChangeFormHandler extends DefaultHandler
         {
             if (pokemob.getPokedexEntry() == newEntry)
             {
-                Component mess = new TranslatableComponent("pokemob.megaevolve.command.revert", oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslatableComponent("pokemob.megaevolve.revert", oldName, new TranslatableComponent(
+                mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, new TranslationTextComponent(
                         newEntry.getUnlocalizedName()));
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
             }
             else
             {
-                Component mess = new TranslatableComponent("pokemob.megaevolve.command.evolve", oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = new TranslatableComponent("pokemob.megaevolve.success", oldName, new TranslatableComponent(
+                mess = new TranslationTextComponent("pokemob.megaevolve.success", oldName, new TranslationTextComponent(
                         newEntry.getUnlocalizedName()));
                 pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
@@ -140,15 +140,15 @@ public class ChangeFormHandler extends DefaultHandler
         }
         else if (pokemob.getCombatState(CombatStates.MEGAFORME))
         {
-            Component mess = new TranslatableComponent("pokemob.megaevolve.command.revert", oldName);
+            ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.revert", oldName);
             pokemob.displayMessageToOwner(mess);
             newEntry = pokemob.getMegaBase();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = new TranslatableComponent("pokemob.megaevolve.revert", oldName, new TranslatableComponent(
+            mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, new TranslationTextComponent(
                     newEntry.getUnlocalizedName()));
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
-        else player.sendMessage(new TranslatableComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()),
+        else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()),
                 Util.NIL_UUID);
     }
 

@@ -1,21 +1,21 @@
 package pokecube.core.blocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -30,43 +30,43 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(DirectionalBlock.FACING);
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public ActionResultType use(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        final BlockEntity tile = world.getBlockEntity(pos);
+        final TileEntity tile = world.getBlockEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
-        return InteractionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     @Override
-    public void stepOn(final Level worldIn, final BlockPos pos, final BlockState state, final Entity entityIn)
+    public void stepOn(final World worldIn, final BlockPos pos, final Entity entityIn)
     {
-        final BlockEntity tile = worldIn.getBlockEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public void onRemove(final BlockState state, final Level worldIn, final BlockPos pos, final BlockState newState,
+    public void onRemove(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
             final boolean isMoving)
     {
         if (state.getBlock() != newState.getBlock())
         {
-            final BlockEntity tileentity = worldIn.getBlockEntity(pos);
+            final TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof InteractableTile) ((InteractableTile) tileentity).onBroken();
             if (tileentity == null)
             {
 
             }
-            else if (tileentity instanceof Container)
+            else if (tileentity instanceof IInventory)
             {
-                Containers.dropContents(worldIn, pos, (Container) tileentity);
+                InventoryHelper.dropContents(worldIn, pos, (IInventory) tileentity);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
             else
@@ -76,7 +76,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
                 if (items != null)
                 {
 
-                    final Container inventory = new Container()
+                    final IInventory inventory = new IInventory()
                     {
 
                         @Override
@@ -101,7 +101,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
                         }
 
                         @Override
-                        public boolean stillValid(final Player player)
+                        public boolean stillValid(final PlayerEntity player)
                         {
                             return false;
                         }
@@ -130,7 +130,7 @@ public abstract class InteractableDirectionalBlock extends DirectionalBlock
                             return ItemStack.EMPTY;
                         }
                     };
-                    Containers.dropContents(worldIn, pos, inventory);
+                    InventoryHelper.dropContents(worldIn, pos, inventory);
                     worldIn.updateNeighbourForOutputSignal(pos, this);
                 }
             }

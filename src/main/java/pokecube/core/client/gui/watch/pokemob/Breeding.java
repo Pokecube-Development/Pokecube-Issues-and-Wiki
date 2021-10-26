@@ -2,16 +2,16 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.Collections;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.ClickEvent.Action;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -40,7 +40,7 @@ public class Breeding extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
@@ -98,7 +98,7 @@ public class Breeding extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
                 thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
@@ -106,14 +106,14 @@ public class Breeding extends ListPage<LineEntry>
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.lineHeight / 2,
                 this.font.lineHeight, offsetX, offsetY);
-        MutableComponent main = new TranslatableComponent(ourEntry.getUnlocalizedName());
+        IFormattableTextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
         if (!PacketPokedex.noBreeding.contains(ourEntry)) for (final String name : PacketPokedex.relatedLists
                 .getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList()))
         {
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
-            main = new TranslatableComponent(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)).withClickEvent(
+            main = new TranslationTextComponent(entry.getUnlocalizedName());
+            main.setStyle(main.getStyle().withColor(Color.fromLegacyFormat(TextFormatting.GREEN)).withClickEvent(
                     new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }

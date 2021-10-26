@@ -1,6 +1,6 @@
 package pokecube.core.events;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;

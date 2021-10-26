@@ -1,9 +1,9 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.vector.Vector3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.interfaces.IPokemob;
@@ -40,7 +40,7 @@ public class PacketMountedControl extends Packet
     {
         final PacketMountedControl packet = new PacketMountedControl();
         packet.entityId = pokemob.getId();
-        final Vec3 pos = pokemob.position();
+        final Vector3d pos = pokemob.position();
         packet.message = 0;
         packet.x = (float) pos.x;
         packet.y = (float) pos.y;
@@ -69,7 +69,7 @@ public class PacketMountedControl extends Packet
         super(null);
     }
 
-    public PacketMountedControl(final FriendlyByteBuf buf)
+    public PacketMountedControl(final PacketBuffer buf)
     {
         super(buf);
         this.entityId = buf.readInt();
@@ -105,7 +105,7 @@ public class PacketMountedControl extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayer player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
@@ -129,7 +129,7 @@ public class PacketMountedControl extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.message);

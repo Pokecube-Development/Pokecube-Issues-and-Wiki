@@ -9,36 +9,36 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.PressurePlateBlock.Sensitivity;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.StoneButtonBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.WoodButtonBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.FenceBlock;
+import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FireBlock;
+import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.block.PressurePlateBlock.Sensitivity;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.StoneButtonBlock;
+import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.block.WoodButtonBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
@@ -126,21 +126,21 @@ public class ItemGenerator
             final String name = BerryManager.berryNames.get(index);
 
             // Crop
-            Block block = new BerryCrop(BlockBehaviour.Properties.of(Material.PLANT, ItemGenerator.berryFruits.get(name)).noCollission().randomTicks()
+            Block block = new BerryCrop(AbstractBlock.Properties.of(Material.PLANT, ItemGenerator.berryFruits.get(name)).noCollission().randomTicks()
                     .strength(0.0F).noOcclusion().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "crop_" + name);
             BerryManager.berryCrops.put(index, block);
             registry.register(block);
 
             // Fruit
-            block = new BerryFruit(BlockBehaviour.Properties.of(Material.PLANT, ItemGenerator.berryCrops.get(name)).noCollission().randomTicks()
+            block = new BerryFruit(AbstractBlock.Properties.of(Material.PLANT, ItemGenerator.berryCrops.get(name)).noCollission().randomTicks()
                     .strength(0.0F).noOcclusion().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "fruit_" + name);
             BerryManager.berryFruits.put(index, block);
             registry.register(block);
 
             block = new GenericPottedPlant(BerryManager.berryFruits.get(index),
-                    BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion());
+                    AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion());
             block.setRegistryName(PokecubeCore.MODID, "potted_" + name + "_berry");
             BerryManager.pottedBerries.put(index, block);
             registry.register(block);
@@ -154,7 +154,7 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
             // Leaves
-            Block block = new BerryLeaf(BlockBehaviour.Properties.of(Material.LEAVES, ItemGenerator.berryLeaves.get(name)).strength(0.2F)
+            Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, ItemGenerator.berryLeaves.get(name)).strength(0.2F)
                 .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
@@ -187,63 +187,63 @@ public class ItemGenerator
             registry.register(block);
 
             // Planks
-            block = new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, ItemGenerator.berryWoods.get(name))
+            block = new RotatedPillarBlock(AbstractBlock.Properties.of(Material.WOOD, ItemGenerator.berryWoods.get(name))
                     .strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "plank_" + name);
             ItemGenerator.planks.put(name, block);
             registry.register(block);
 
             // Stairs
-            block = new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(), BlockBehaviour.Properties.of(
+            block = new GenericStairs(Blocks.OAK_PLANKS.defaultBlockState(), AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_stairs");
             ItemGenerator.stairs.put(name, block);
             registry.register(block);
 
             // Slabs
-            block = new SlabBlock(BlockBehaviour.Properties.of(
+            block = new SlabBlock(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_slab");
             ItemGenerator.slabs.put(name, block);
             registry.register(block);
 
             // Fences
-            block = new FenceBlock(BlockBehaviour.Properties.of(
+            block = new FenceBlock(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_fence");
             ItemGenerator.fences.put(name, block);
             registry.register(block);
 
             // Fence Gates
-            block = new FenceGateBlock(BlockBehaviour.Properties.of(
+            block = new FenceGateBlock(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_fence_gate");
             ItemGenerator.fence_gates.put(name, block);
             registry.register(block);
 
             // Pressure Plates
-            block = new GenericPressurePlate(Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(
+            block = new GenericPressurePlate(Sensitivity.EVERYTHING, AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_pressure_plate");
             ItemGenerator.pressure_plates.put(name, block);
             registry.register(block);
 
             // Buttons
-            block = new GenericWoodButton(BlockBehaviour.Properties.of(
+            block = new GenericWoodButton(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
             registry.register(block);
 
             // Trapdoors
-            block = new GenericTrapDoor(BlockBehaviour.Properties.of(
+            block = new GenericTrapDoor(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
             block.setRegistryName(PokecubeCore.MODID, name + "_trapdoor");
             ItemGenerator.trapdoors.put(name, block);
             registry.register(block);
 
             // Doors
-            block = new GenericDoor(BlockBehaviour.Properties.of(
+            block = new GenericDoor(AbstractBlock.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD).noOcclusion());
             block.setRegistryName(PokecubeCore.MODID, name + "_door");
             ItemGenerator.doors.put(name, block);
@@ -255,7 +255,7 @@ public class ItemGenerator
         {
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
             // Leaves
-            final Block block = new BerryLeaf(BlockBehaviour.Properties.of(Material.LEAVES, ItemGenerator.onlyBerryLeaves.get(name)).strength(0.2F)
+            final Block block = new BerryLeaf(AbstractBlock.Properties.of(Material.LEAVES, ItemGenerator.onlyBerryLeaves.get(name)).strength(0.2F)
                 .randomTicks().noOcclusion().sound(SoundType.GRASS).isSuffocating((s, r, p)-> false)
                 .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
@@ -367,7 +367,7 @@ public class ItemGenerator
                     PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
 
-    public static class GenericStairs extends StairBlock
+    public static class GenericStairs extends StairsBlock
     {
         @SuppressWarnings("deprecation")
         public GenericStairs(final BlockState state, final Properties properties)
@@ -376,8 +376,8 @@ public class ItemGenerator
         }
     }
 
-    public static RotatedPillarBlock stoneLog(final MaterialColor color1, final MaterialColor color2, final BlockBehaviour.Properties properties) {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, (state) -> {
+    public static RotatedPillarBlock stoneLog(final MaterialColor color1, final MaterialColor color2, final AbstractBlock.Properties properties) {
+        return new RotatedPillarBlock(AbstractBlock.Properties.of(Material.STONE, (state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
         }).strength(2.4f, 6.0f).sound(SoundType.STONE).requiresCorrectToolForDrops());
     }
@@ -433,8 +433,8 @@ public class ItemGenerator
 
     public static void addStrippable(final Block logs, final Block strippedLogs)
     {
-        AxeItem.STRIPPABLES = Maps.newHashMap(AxeItem.STRIPPABLES);
-        AxeItem.STRIPPABLES.put(logs, strippedLogs);
+        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
+        AxeItem.STRIPABLES.put(logs, strippedLogs);
     }
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
@@ -453,7 +453,7 @@ public class ItemGenerator
         });
     }
 
-    public static void compostableBlocks(final float chance, final ItemLike item)
+    public static void compostableBlocks(final float chance, final IItemProvider item)
     {
         ComposterBlock.COMPOSTABLES.put(item, chance);
     }
@@ -511,7 +511,7 @@ public class ItemGenerator
     }
 
 
-    public static Boolean ocelotOrParrot(final BlockState state, final BlockGetter reader, final BlockPos pos, final EntityType<?> entity) {
+    public static Boolean ocelotOrParrot(final BlockState state, final IBlockReader reader, final BlockPos pos, final EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 

@@ -5,32 +5,32 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 
-public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
+public class XerneasCore extends Rotates implements IWaterLoggable
 {
     private static final EnumProperty<XerneasCorePart> PART = EnumProperty.create("part",
             XerneasCorePart.class);
@@ -40,10 +40,10 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
     private static final Map<Direction, VoxelShape>    XERNEAS_TOP_LEFT  = new HashMap<>();
     private static final Map<Direction, VoxelShape>    XERNEAS_TOP_RIGHT = new HashMap<>();
     private static final BooleanProperty               WATERLOGGED       = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty             FACING            = HorizontalDirectionalBlock.FACING;
+    private static final DirectionProperty             FACING            = HorizontalBlock.FACING;
 
     // Precise selection box
-    private static final VoxelShape XERNEAS_BOTTOM = Shapes.or(
+    private static final VoxelShape XERNEAS_BOTTOM = VoxelShapes.or(
             Block.box(2, 0, 2, 14, 16, 14),
             Block.box(0, 0, 4, 2, 8, 12),
             Block.box(4, 0, 14, 12, 8, 16),
@@ -52,88 +52,88 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
 
     static
     {
-        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.NORTH, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.NORTH, VoxelShapes.or(
             Block.box(0, 0, 4, 8, 12, 12),
             Block.box(0, 5, 5, 15, 16, 11)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.EAST, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.EAST, VoxelShapes.or(
             Block.box(4, 0, 0, 12, 12, 8),
             Block.box(5, 5, 0, 11, 16, 15)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.SOUTH, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.SOUTH, VoxelShapes.or(
             Block.box(8, 0, 4, 16, 12, 12),
             Block.box(1, 5, 5, 16, 16, 11)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.WEST, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_LEFT.put(Direction.WEST, VoxelShapes.or(
             Block.box(4, 0, 8, 12, 12, 16),
             Block.box(5, 5, 1, 11, 16, 16)).optimize());
 
-        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.NORTH, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.NORTH, VoxelShapes.or(
             Block.box(8, 0, 4, 16, 12, 12),
             Block.box(1, 5, 5, 16, 16, 11)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.EAST, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.EAST, VoxelShapes.or(
             Block.box(4, 0, 8, 12, 12, 16),
             Block.box(5, 5, 1, 11, 16, 16)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.SOUTH, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.SOUTH, VoxelShapes.or(
             Block.box(0, 0, 4, 8, 12, 12),
             Block.box(0, 5, 5, 15, 16, 11)).optimize());
-        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.WEST, Shapes.or(
+        XerneasCore.XERNEAS_MIDDLE_RIGHT.put(Direction.WEST, VoxelShapes.or(
             Block.box(4, 0, 0, 12, 12, 8),
             Block.box(5, 5, 0, 11, 16, 15)).optimize());
 
-        XerneasCore.XERNEAS_TOP.put(Direction.NORTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP.put(Direction.NORTH, VoxelShapes.or(
             Block.box(3, 0, 3, 13, 16, 13),
             Block.box(0, 0, 4, 3, 12, 12),
             Block.box(13, 0, 4, 16, 12, 12),
             Block.box(0, 12, 5, 3, 16, 11),
             Block.box(13, 12, 5, 16, 16, 11)).optimize());
-        XerneasCore.XERNEAS_TOP.put(Direction.EAST, Shapes.or(
+        XerneasCore.XERNEAS_TOP.put(Direction.EAST, VoxelShapes.or(
             Block.box(3, 0, 3, 13, 16, 13),
             Block.box(4, 0, 0, 12, 12, 3),
             Block.box(4, 0, 13, 12, 12, 16),
             Block.box(5, 12, 0, 11, 16, 3),
             Block.box(5, 12, 13, 11, 16, 16)).optimize());
-        XerneasCore.XERNEAS_TOP.put(Direction.SOUTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP.put(Direction.SOUTH, VoxelShapes.or(
             Block.box(3, 0, 3, 13, 16, 13),
             Block.box(0, 0, 4, 3, 12, 12),
             Block.box(13, 0, 4, 16, 12, 12),
             Block.box(0, 12, 5, 3, 16, 11),
             Block.box(13, 12, 5, 16, 16, 11)).optimize());
-        XerneasCore.XERNEAS_TOP.put(Direction.WEST, Shapes.or(
+        XerneasCore.XERNEAS_TOP.put(Direction.WEST, VoxelShapes.or(
             Block.box(3, 0, 3, 13, 16, 13),
             Block.box(4, 0, 0, 12, 12, 3),
             Block.box(4, 0, 13, 12, 12, 16),
             Block.box(5, 12, 0, 11, 16, 3),
             Block.box(5, 12, 13, 11, 16, 16)).optimize());
 
-        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.NORTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.NORTH, VoxelShapes.or(
             Block.box(0, 0, 5, 8, 16, 11),
             Block.box(8, 0, 6, 16, 10, 10)).optimize());
-        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.EAST, Shapes.or(
+        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.EAST, VoxelShapes.or(
             Block.box(5, 0, 0, 11, 16, 8),
             Block.box(6, 0, 8, 10, 10, 16)).optimize());
-        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.SOUTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.SOUTH, VoxelShapes.or(
             Block.box(8, 0, 5, 16, 16, 11),
             Block.box(0, 0, 6, 8, 10, 10)).optimize());
-        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.WEST, Shapes.or(
+        XerneasCore.XERNEAS_TOP_LEFT.put(Direction.WEST, VoxelShapes.or(
             Block.box(5, 0, 8, 11, 16, 16),
             Block.box(6, 0, 0, 10, 10, 8)).optimize());
 
-        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.NORTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.NORTH, VoxelShapes.or(
             Block.box(8, 0, 5, 16, 16, 11),
             Block.box(0, 0, 6, 8, 10, 10)).optimize());
-        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.EAST, Shapes.or(
+        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.EAST, VoxelShapes.or(
             Block.box(5, 0, 8, 11, 16, 16),
             Block.box(6, 0, 0, 10, 10, 8)).optimize());
-        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.SOUTH, Shapes.or(
+        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.SOUTH, VoxelShapes.or(
             Block.box(0, 0, 5, 8, 16, 11),
             Block.box(8, 0, 6, 16, 10, 10)).optimize());
-        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.WEST, Shapes.or(
+        XerneasCore.XERNEAS_TOP_RIGHT.put(Direction.WEST, VoxelShapes.or(
             Block.box(5, 0, 0, 11, 16, 8),
             Block.box(6, 0, 8, 10, 10, 16)).optimize());
     }
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
         final XerneasCorePart part = state.getValue(XerneasCore.PART);
         if (part == XerneasCorePart.BOTTOM) return XerneasCore.XERNEAS_BOTTOM;
@@ -157,7 +157,7 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
 
     // Places Xerneas Core Spawner with all pieces
     @Override
-    public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
+    public void setPlacedBy(final World world, final BlockPos pos, final BlockState state,
             @Nullable final LivingEntity entity, final ItemStack stack)
     {
         if (entity != null)
@@ -188,8 +188,8 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
 
     // Breaking Xerneas Core Spawner breaks both parts and returns one item only
     @Override
-    public void playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
-            final Player player)
+    public void playerWillDestroy(final World world, final BlockPos pos, final BlockState state,
+            final PlayerEntity player)
     {
         final Direction facing = state.getValue(XerneasCore.FACING);
 
@@ -386,7 +386,7 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
     }
 
     // Breaking the Xerneas Core Spawner leaves water if underwater
-    private void removePart(final Level world, final BlockPos pos, final BlockState state, Player player)
+    private void removePart(final World world, final BlockPos pos, final BlockState state, PlayerEntity player)
     {
         BlockState blockstate = world.getBlockState(pos);
         final FluidState fluidState = world.getFluidState(pos);
@@ -401,7 +401,7 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
     // Prevents the Xerneas Core Spawner from replacing blocks above it and
     // checks for water
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext context)
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
@@ -433,7 +433,7 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(XerneasCore.PART, XerneasCore.FACING, XerneasCore.WATERLOGGED);
     }

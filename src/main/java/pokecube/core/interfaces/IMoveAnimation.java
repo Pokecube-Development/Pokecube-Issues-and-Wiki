@@ -1,9 +1,9 @@
 package pokecube.core.interfaces;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
@@ -39,7 +39,7 @@ public interface IMoveAnimation
      * @param partialTick
      */
     @OnlyIn(Dist.CLIENT)
-    default public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer,
+    default public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer,
             final MovePacketInfo info, final float partialTick)
     {
     }

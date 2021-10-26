@@ -2,10 +2,10 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -30,16 +30,16 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
     }
 
     @Override
-    public void read(final CompoundTag tag)
+    public void read(final CompoundNBT tag)
     {
-        final CompoundTag ownerShipTag = tag.getCompound(TagNames.OWNERSHIPTAG);
-        final CompoundTag statsTag = tag.getCompound(TagNames.STATSTAG);
-        final CompoundTag movesTag = tag.getCompound(TagNames.MOVESTAG);
-        final CompoundTag inventoryTag = tag.getCompound(TagNames.INVENTORYTAG);
-        final CompoundTag breedingTag = tag.getCompound(TagNames.BREEDINGTAG);
-        final CompoundTag visualsTag = tag.getCompound(TagNames.VISUALSTAG);
-        final CompoundTag aiTag = tag.getCompound(TagNames.AITAG);
-        final CompoundTag miscTag = tag.getCompound(TagNames.MISCTAG);
+        final CompoundNBT ownerShipTag = tag.getCompound(TagNames.OWNERSHIPTAG);
+        final CompoundNBT statsTag = tag.getCompound(TagNames.STATSTAG);
+        final CompoundNBT movesTag = tag.getCompound(TagNames.MOVESTAG);
+        final CompoundNBT inventoryTag = tag.getCompound(TagNames.INVENTORYTAG);
+        final CompoundNBT breedingTag = tag.getCompound(TagNames.BREEDINGTAG);
+        final CompoundNBT visualsTag = tag.getCompound(TagNames.VISUALSTAG);
+        final CompoundNBT aiTag = tag.getCompound(TagNames.AITAG);
+        final CompoundNBT miscTag = tag.getCompound(TagNames.MISCTAG);
         // Read Ownership Tag
         if (!ownerShipTag.isEmpty())
         {
@@ -70,7 +70,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.getMoveStats().newMoves.clear();
             if (movesTag.contains(TagNames.NEWMOVES)) try
             {
-                final ListTag newMoves = (ListTag) movesTag.get(TagNames.NEWMOVES);
+                final ListNBT newMoves = (ListNBT) movesTag.get(TagNames.NEWMOVES);
                 for (int i = 0; i < newMoves.size(); i++)
                     if (!this.getMoveStats().newMoves.contains(newMoves.getString(i))) this.getMoveStats().newMoves.add(
                             newMoves.getString(i));
@@ -88,10 +88,10 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // Read Inventory tag
         if (!inventoryTag.isEmpty())
         {
-            final ListTag ListNBT = inventoryTag.getList(TagNames.ITEMS, 10);
+            final ListNBT ListNBT = inventoryTag.getList(TagNames.ITEMS, 10);
             for (int i = 0; i < ListNBT.size(); ++i)
             {
-                final CompoundTag CompoundNBT1 = ListNBT.getCompound(i);
+                final CompoundNBT CompoundNBT1 = ListNBT.getCompound(i);
                 final int j = CompoundNBT1.getByte("Slot") & 255;
                 if (j < this.getInventory().getContainerSize()) this.getInventory().setItem(j,
                         ItemStack.of(CompoundNBT1));
@@ -109,7 +109,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 this.setFlavourAmount(i, flavourAmounts[i]);
             if (visualsTag.contains(TagNames.POKECUBE))
             {
-                final CompoundTag pokecubeTag = visualsTag.getCompound(TagNames.POKECUBE);
+                final CompoundNBT pokecubeTag = visualsTag.getCompound(TagNames.POKECUBE);
                 this.setPokecube(ItemStack.of(pokecubeTag));
             }
             if (visualsTag.contains(TagNames.MODELHOLDER)) this.setCustomHolder(FormeHolder.load(visualsTag.getCompound(
@@ -126,7 +126,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.cleanLoadedAIStates();
 
             this.setHungerTime(aiTag.getInt(TagNames.HUNGER));
-            final CompoundTag routines = aiTag.getCompound(TagNames.AIROUTINES);
+            final CompoundNBT routines = aiTag.getCompound(TagNames.AIROUTINES);
             for (final String s : routines.getAllKeys())
                 // try/catch block incase addons add more routines to the enum.
                 try
@@ -150,12 +150,12 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
     }
 
     @Override
-    public CompoundTag write()
+    public CompoundNBT write()
     {
-        final CompoundTag pokemobTag = new CompoundTag();
+        final CompoundNBT pokemobTag = new CompoundNBT();
         pokemobTag.putInt(TagNames.VERSION, 1);
         // Write Ownership tag
-        final CompoundTag ownerShipTag = new CompoundTag();
+        final CompoundNBT ownerShipTag = new CompoundNBT();
         // This is still written for pokecubes to read from. Actual number is
         // stored in genes.
         ownerShipTag.putInt(TagNames.POKEDEXNB, this.getPokedexNb());
@@ -168,20 +168,20 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 .toString());
 
         // Write stats tag
-        final CompoundTag statsTag = new CompoundTag();
+        final CompoundNBT statsTag = new CompoundNBT();
         statsTag.putInt(TagNames.EXP, this.getExp());
         statsTag.putByte(TagNames.STATUS, this.getStatus());
         statsTag.putInt(TagNames.HAPPY, this.bonusHappiness);
         statsTag.putFloat(TagNames.DYNAPOWER, this.getDynamaxFactor());
 
         // Write moves tag
-        final CompoundTag movesTag = new CompoundTag();
+        final CompoundNBT movesTag = new CompoundNBT();
         movesTag.putInt(TagNames.MOVEINDEX, this.getMoveIndex());
         if (!this.getMoveStats().newMoves.isEmpty())
         {
-            final ListTag newMoves = new ListTag();
+            final ListNBT newMoves = new ListNBT();
             for (final String s : this.getMoveStats().newMoves)
-                newMoves.add(StringTag.valueOf(s));
+                newMoves.add(StringNBT.valueOf(s));
             movesTag.put(TagNames.NEWMOVES, newMoves);
         }
         movesTag.putInt(TagNames.COOLDOWN, this.getAttackCooldown());
@@ -195,15 +195,15 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (tag) movesTag.putIntArray(TagNames.DISABLED, disables);
 
         // Write Inventory tag
-        final CompoundTag inventoryTag = new CompoundTag();
-        final ListTag ListNBT = new ListTag();
+        final CompoundNBT inventoryTag = new CompoundNBT();
+        final ListNBT ListNBT = new ListNBT();
         this.getInventory().setItem(1, this.getHeldItem());
         for (int i = 0; i < this.getInventory().getContainerSize(); ++i)
         {
             final ItemStack itemstack = this.getInventory().getItem(i);
             if (!itemstack.isEmpty())
             {
-                final CompoundTag CompoundNBT1 = new CompoundTag();
+                final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.putByte("Slot", (byte) i);
                 itemstack.save(CompoundNBT1);
                 ListNBT.add(CompoundNBT1);
@@ -212,11 +212,11 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         inventoryTag.put(TagNames.ITEMS, ListNBT);
 
         // Write Breeding tag
-        final CompoundTag breedingTag = new CompoundTag();
+        final CompoundNBT breedingTag = new CompoundNBT();
         breedingTag.putInt(TagNames.SEXETIME, this.loveTimer);
 
         // Write visuals tag
-        final CompoundTag visualsTag = new CompoundTag();
+        final CompoundNBT visualsTag = new CompoundNBT();
 
         // This is still written for pokecubes to read from. Actual form is
         // stored in genes.
@@ -229,11 +229,11 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         visualsTag.putIntArray(TagNames.FLAVOURSTAG, flavourAmounts);
         if (!this.getPokecube().isEmpty())
         {
-            final CompoundTag pokecubeTag = this.getPokecube().save(new CompoundTag());
+            final CompoundNBT pokecubeTag = this.getPokecube().save(new CompoundNBT());
             visualsTag.put(TagNames.POKECUBE, pokecubeTag);
         }
         // Misc AI
-        final CompoundTag aiTag = new CompoundTag();
+        final CompoundNBT aiTag = new CompoundNBT();
 
         aiTag.putInt(TagNames.GENERALSTATE, this.getTotalGeneralState());
         aiTag.putInt(TagNames.LOGICSTATE, this.getTotalLogicState());
@@ -241,19 +241,19 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         aiTag.putInt(TagNames.COMBATTIME, this.timeSinceCombat);
 
         aiTag.putInt(TagNames.HUNGER, this.getHungerTime());
-        final CompoundTag aiRoutineTag = new CompoundTag();
+        final CompoundNBT aiRoutineTag = new CompoundNBT();
         for (final AIRoutine routine : AIRoutine.values())
             // Only save it if it was allowed anyway!
             if (routine.isAllowed(this)) aiRoutineTag.putBoolean(routine.toString(), this.isRoutineEnabled(routine));
         aiTag.put(TagNames.AIROUTINES, aiRoutineTag);
-        final CompoundTag taskTag = new CompoundTag();
+        final CompoundNBT taskTag = new CompoundNBT();
         for (final IAIRunnable task : this.getTasks())
             if (task instanceof INBTSerializable) taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task)
                     .serializeNBT());
         aiTag.put(TagNames.AITAG, taskTag);
 
         // Misc other
-        final CompoundTag miscTag = new CompoundTag();
+        final CompoundNBT miscTag = new CompoundNBT();
         miscTag.putInt(TagNames.RNGVAL, this.getRNGValue());
         miscTag.putInt(TagNames.UID, this.getPokemonUID());
         miscTag.putBoolean(TagNames.WASSHADOW, this.wasShadow);

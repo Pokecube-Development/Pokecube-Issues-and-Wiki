@@ -9,17 +9,17 @@ import java.util.Vector;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -201,7 +201,7 @@ public abstract class PokemobBase implements IPokemob
     /** Used for various cases where things at mobs location need checking */
     protected Vector3            here  = Vector3.getNewVector();
     /** The Entity this IPokemob is attached to. */
-    protected Mob          entity;
+    protected MobEntity          entity;
     /** RNG used, should be entity.getRNG() */
     protected Random             rand  = ThutCore.newRandom();
     /** Our original owner. */
@@ -217,7 +217,7 @@ public abstract class PokemobBase implements IPokemob
 
     protected ICopyMob transformed = new CopyCaps.Impl();
 
-    protected ServerBossEvent bossEvent = null;
+    protected ServerBossInfo bossEvent = null;
 
     /**
      * Used to cache current texture for quicker lookups, array to include any
@@ -231,7 +231,7 @@ public abstract class PokemobBase implements IPokemob
     /**
      * This is the nbt of searalizable tasks.
      */
-    protected CompoundTag loadedTasks;
+    protected CompoundNBT loadedTasks;
 
     protected List<Logic> logic = Lists.newArrayList();
 
@@ -261,7 +261,7 @@ public abstract class PokemobBase implements IPokemob
     }
 
     @Override
-    public void setEntity(final Mob entityIn)
+    public void setEntity(final MobEntity entityIn)
     {
         this.rand = entityIn.getRandom();
         this.entity = entityIn;
@@ -269,7 +269,7 @@ public abstract class PokemobBase implements IPokemob
 
     protected void setMaxHealth(final float maxHealth)
     {
-        final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
+        final ModifiableAttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
         for (final AttributeModifier modifier : health.getModifiers())
             health.removeModifier(modifier);
         final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax", this
@@ -302,15 +302,15 @@ public abstract class PokemobBase implements IPokemob
     }
 
     @Override
-    public ServerBossEvent getBossInfo()
+    public ServerBossInfo getBossInfo()
     {
         return this.bossEvent;
     }
 
     @Override
-    public void setBossInfo(final ServerBossEvent event)
+    public void setBossInfo(final ServerBossInfo event)
     {
         this.bossEvent = event;
-        if (this.getEntity().level instanceof ServerLevel && event != null) PacketPingBoss.onNewBossEvent(this);
+        if (this.getEntity().level instanceof ServerWorld && event != null) PacketPingBoss.onNewBossEvent(this);
     }
 }

@@ -2,23 +2,23 @@ package pokecube.core.blocks.bases;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
@@ -32,23 +32,23 @@ public class BaseTile extends InteractableTile
     public GlobalPos  last_base = null;
     public BlockState original  = Blocks.STONE.defaultBlockState();
 
-    public BaseTile(final BlockPos pos, final BlockState state)
+    public BaseTile()
     {
-        super(PokecubeItems.BASE_TYPE.get(), pos, state);
+        super(PokecubeItems.BASE_TYPE.get());
     }
 
     @Override
-    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
-            final BlockHitResult hit)
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
     {
-        if (!(player instanceof ServerPlayer)) return InteractionResult.SUCCESS;
+        if (!(player instanceof ServerPlayerEntity)) return ActionResultType.SUCCESS;
         final MinecraftServer server = player.getServer();
         UUID targetBase = player.getUUID();
         if (!this.any)
         {
             final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             targetBase = tile.getOwnerId();
-            if (targetBase == null) return InteractionResult.SUCCESS;
+            if (targetBase == null) return ActionResultType.SUCCESS;
             GlobalPos exit_here;
             try
             {
@@ -58,7 +58,7 @@ public class BaseTile extends InteractableTile
             catch (final Exception e)
             {
                 PokecubeCore.LOGGER.error(e);
-                return InteractionResult.FAIL;
+                return ActionResultType.FAIL;
             }
             if (this.last_base == null) this.last_base = exit_here;
             if (exit_here.pos().distSqr(this.last_base.pos().getX(), this.last_base.pos().getY(),
@@ -66,40 +66,40 @@ public class BaseTile extends InteractableTile
             {
                 // We need to remove the location.
                 this.level.setBlockAndUpdate(pos, this.original);
-                player.sendMessage(new TranslatableComponent("pokemob.removebase.stale"), Util.NIL_UUID);
-                return InteractionResult.FAIL;
+                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"), Util.NIL_UUID);
+                return ActionResultType.FAIL;
             }
         }
-        final ResourceKey<Level> dim = player.getCommandSenderWorld().dimension();
-        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayer) player,
+        final RegistryKey<World> dim = player.getCommandSenderWorld().dimension();
+        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayerEntity) player,
                 targetBase);
-        else SecretBaseDimension.sendToBase((ServerPlayer) player, targetBase);
-        return InteractionResult.SUCCESS;
+        else SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
+        return ActionResultType.SUCCESS;
     }
 
     @Override
-    public void load(final CompoundTag compound)
+    public void load(final BlockState stateIn, final CompoundNBT compound)
     {
-        super.load(compound);
+        super.load(stateIn, compound);
         this.any = compound.getBoolean("any_use");
-        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NbtOps.INSTANCE, compound
+        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, compound
                 .get("last_base")).result().get().getFirst();
         if (compound.contains("revert_to"))
         {
-            final CompoundTag tag = compound.getCompound("revert_to");
-            this.original = NbtUtils.readBlockState(tag);
+            final CompoundNBT tag = compound.getCompound("revert_to");
+            this.original = NBTUtil.readBlockState(tag);
         }
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         compound.putBoolean("any_use", this.any);
-        if (this.last_base != null) compound.put("last_base", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE,
+        if (this.last_base != null) compound.put("last_base", GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE,
                 this.last_base).get().left().get());
         if (this.original != null)
         {
-            final CompoundTag tag = NbtUtils.writeBlockState(this.original);
+            final CompoundNBT tag = NBTUtil.writeBlockState(this.original);
             compound.put("revert_to", tag);
         }
         return super.save(compound);

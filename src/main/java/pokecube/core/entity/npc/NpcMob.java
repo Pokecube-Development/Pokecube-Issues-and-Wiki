@@ -8,46 +8,46 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.merchant.villager.VillagerData;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.item.trading.MerchantOffers;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
@@ -58,18 +58,18 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
 
-public class NpcMob extends Villager implements IEntityAdditionalSpawnData
+public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 {
     public static final EntityType<NpcMob> TYPE;
 
     static
     {
-        TYPE = EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
 
-    static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String> defineId(NpcMob.class,
-            EntityDataSerializers.STRING);
+    static final DataParameter<String> NAMEDW = EntityDataManager.<String> defineId(NpcMob.class,
+            DataSerializers.STRING);
 
     private NpcType   type       = NpcType.byType("none");
     public String     playerName = "";
@@ -92,7 +92,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
     };
 
-    protected NpcMob(final EntityType<? extends NpcMob> type, final Level world)
+    protected NpcMob(final EntityType<? extends NpcMob> type, final World world)
     {
         super(type, world);
         this.setPersistenceRequired();
@@ -106,11 +106,11 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.entityData.define(NpcMob.NAMEDW, "");
     }
 
-    private ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> addGuard(final GuardAI guardai,
-            final ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> addTo)
+    private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,
+            final ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addTo)
     {
-        final List<Pair<Integer, ? extends Behavior<? super Villager>>> temp = Lists.newArrayList(addTo);
-        final Pair<Integer, GuardTask<Villager>> pair = Pair.of(0, new GuardTask<>(this, guardai));
+        final List<Pair<Integer, ? extends Task<? super VillagerEntity>>> temp = Lists.newArrayList(addTo);
+        final Pair<Integer, GuardTask<VillagerEntity>> pair = Pair.of(0, new GuardTask<>(this, guardai));
         temp.add(0, pair);
         return ImmutableList.copyOf(temp);
     }
@@ -121,7 +121,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void registerBrainGoals(final Brain<Villager> brain)
+    protected void registerBrainGoals(final Brain<VillagerEntity> brain)
     {
         final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)
@@ -140,11 +140,11 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             {
                 brain.setSchedule(Schedules.ADULT);
                 brain.addActivityWithConditions(Activity.WORK, this.addGuard(guardai, Tasks.work(profession, f)),
-                        ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_PRESENT)));
+                        ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
             brain.addActivity(Activity.CORE, this.addGuard(guardai, Tasks.core(profession, f)));
             brain.addActivityWithConditions(Activity.MEET, this.addGuard(guardai, Tasks.meet(profession, f)),
-                    ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryStatus.VALUE_PRESENT)));
+                    ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
             brain.addActivity(Activity.REST, this.addGuard(guardai, Tasks.rest(profession, f)));
             brain.addActivity(Activity.IDLE, this.addGuard(guardai, Tasks.idle(profession, f)));
             brain.addActivity(Activity.PANIC, this.addGuard(guardai, Tasks.panic(profession, f)));
@@ -161,13 +161,13 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public Villager getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob p_241840_2_)
+    public VillagerEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity p_241840_2_)
     {
         return null;
     }
 
     @Override
-    public void thunderHit(final ServerLevel p_241841_1_, final LightningBolt p_241841_2_)
+    public void thunderHit(final ServerWorld p_241841_1_, final LightningBoltEntity p_241841_2_)
     {
         this.setRemainingFireTicks(this.getRemainingFireTicks() + 1);
         if (this.getRemainingFireTicks() == 0) this.setSecondsOnFire(8);
@@ -178,10 +178,10 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     public boolean hurt(final DamageSource source, final float i)
     {
         final Entity e = source.getEntity();
-        if (e instanceof Player && ((Player) e).getAbilities().instabuild && e.isCrouching())
+        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.instabuild && e.isCrouching())
         {
-            final Player player = (Player) e;
-            if (player.getMainHandItem().isEmpty()) this.discard();
+            final PlayerEntity player = (PlayerEntity) e;
+            if (player.getMainHandItem().isEmpty()) this.remove();
         }
         if (this.invuln) return false;
         return super.hurt(source, i);
@@ -196,14 +196,14 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public Packet<?> getAddEntityPacket()
+    public IPacket<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,
-            final MobSpawnType reason, final SpawnGroupData spawnDataIn, final CompoundTag dataTag)
+    public ILivingEntityData finalizeSpawn(final IServerWorld worldIn, final DifficultyInstance difficultyIn,
+            final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
         final VillagerProfession proff = this.getNpcType().getProfession();
         this.setVillagerData(this.getVillagerData().setProfession(proff).setLevel(3));
@@ -223,7 +223,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public InteractionResult mobInteract(final Player player, final InteractionHand hand)
+    public ActionResultType mobInteract(final PlayerEntity player, final Hand hand)
     {
         // if () return ActionResultType
         // .sidedSuccess(this.world.isRemote);
@@ -244,9 +244,9 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundTag nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
-        if (this.level instanceof ServerLevel) super.readAdditionalSaveData(nbt);
+        if (this.level instanceof ServerWorld) super.readAdditionalSaveData(nbt);
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.setNPCName(nbt.getString("name"));
@@ -268,18 +268,18 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public Component getDisplayName()
+    public ITextComponent getDisplayName()
     {
         if (this.getNPCName() != null && !this.getNPCName().isEmpty())
         {
-            MutableComponent display;
+            IFormattableTextComponent display;
             if (this.getNPCName().startsWith("pokecube."))
             {
                 final String[] args = this.getNPCName().split(":");
-                if (args.length == 2) display = new TranslatableComponent(args[0], args[1]);
-                else display = new TextComponent(this.getNPCName());
+                if (args.length == 2) display = new TranslationTextComponent(args[0], args[1]);
+                else display = new StringTextComponent(this.getNPCName());
             }
-            else display = new TextComponent(this.getNPCName());
+            else display = new StringTextComponent(this.getNPCName());
             display.withStyle((style) ->
             {
                 return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
@@ -290,9 +290,9 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void readSpawnData(final FriendlyByteBuf additionalData)
+    public void readSpawnData(final PacketBuffer additionalData)
     {
-        final CompoundTag nbt = additionalData.readNbt();
+        final CompoundNBT nbt = additionalData.readNbt();
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.setNPCName(nbt.getString("name"));
@@ -312,7 +312,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void addAdditionalSaveData(final CompoundTag nbt)
+    public void addAdditionalSaveData(final CompoundNBT nbt)
     {
         super.addAdditionalSaveData(nbt);
         nbt.putBoolean("gender", this.isMale());
@@ -327,9 +327,9 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void writeSpawnData(final FriendlyByteBuf buffer)
+    public void writeSpawnData(final PacketBuffer buffer)
     {
-        final CompoundTag nbt = new CompoundTag();
+        final CompoundNBT nbt = new CompoundNBT();
         nbt.putBoolean("gender", this.isMale());
         nbt.putString("name", this.getNPCName());
         nbt.putBoolean("stationary", this.stationary);

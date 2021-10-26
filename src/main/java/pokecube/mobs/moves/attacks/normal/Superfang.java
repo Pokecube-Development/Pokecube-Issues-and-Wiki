@@ -1,7 +1,7 @@
 package pokecube.mobs.moves.attacks.normal;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.templates.Move_Basic;
 

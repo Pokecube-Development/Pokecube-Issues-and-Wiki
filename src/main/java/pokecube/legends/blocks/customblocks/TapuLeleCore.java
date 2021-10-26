@@ -3,30 +3,30 @@ package pokecube.legends.blocks.customblocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
-public class TapuLeleCore extends Rotates implements SimpleWaterloggedBlock
+public class TapuLeleCore extends Rotates implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> LELE  = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
     {
-    	TapuLeleCore.LELE.put(Direction.NORTH, Shapes.or(
+    	TapuLeleCore.LELE.put(Direction.NORTH, VoxelShapes.or(
     		Block.box(4, 0, 4, 12, 1, 12),
 			Block.box(3, 1, 3, 13, 11, 13),
 			Block.box(4, 11, 4, 12, 16, 12),
@@ -40,7 +40,7 @@ public class TapuLeleCore extends Rotates implements SimpleWaterloggedBlock
 			Block.box(11, 5, 13, 12, 10, 16),
 			Block.box(4, 2, 13, 5, 5, 15),
 			Block.box(11, 2, 13, 12, 5, 15)).optimize());
-    	TapuLeleCore.LELE.put(Direction.EAST, Shapes.or(
+    	TapuLeleCore.LELE.put(Direction.EAST, VoxelShapes.or(
 			Block.box(4, 0, 4, 12, 1, 12),
 			Block.box(3, 1, 3, 13, 11, 13),
 			Block.box(4, 11, 4, 12, 16, 12),
@@ -54,7 +54,7 @@ public class TapuLeleCore extends Rotates implements SimpleWaterloggedBlock
 			Block.box(0, 5, 11, 3, 10, 12),
 			Block.box(1, 2, 4, 3, 5, 5),
 			Block.box(1, 2, 11, 3, 5, 12)).optimize());
-    	TapuLeleCore.LELE.put(Direction.SOUTH, Shapes.or(
+    	TapuLeleCore.LELE.put(Direction.SOUTH, VoxelShapes.or(
 			Block.box(4, 0, 4, 12, 1, 12),
 			Block.box(3, 1, 3, 13, 11, 13),
 			Block.box(4, 11, 4, 12, 16, 12),
@@ -68,7 +68,7 @@ public class TapuLeleCore extends Rotates implements SimpleWaterloggedBlock
 			Block.box(4, 5, 0, 5, 10, 3),
 			Block.box(11, 2, 1, 12, 5, 3),
 			Block.box(4, 2, 1, 5, 5, 3)).optimize());
-    	TapuLeleCore.LELE.put(Direction.WEST, Shapes.or(
+    	TapuLeleCore.LELE.put(Direction.WEST, VoxelShapes.or(
 			Block.box(4, 0, 4, 12, 1, 12),
 			Block.box(3, 1, 3, 13, 11, 13),
 			Block.box(4, 11, 4, 12, 16, 12),
@@ -86,8 +86,8 @@ public class TapuLeleCore extends Rotates implements SimpleWaterloggedBlock
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
         return TapuLeleCore.LELE.get(state.getValue(TapuLeleCore.FACING));
     }

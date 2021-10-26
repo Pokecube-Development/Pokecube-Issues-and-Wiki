@@ -6,33 +6,22 @@
           "config": {
             "feature": {
               "config": {
-                "targets": [
-                  {
-                    "target": {
-                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
-                      "predicate_type": "minecraft:tag_match"
-                    },
-                    "state": {
-                      "Name": "pokecube_legends:ultra_iron_ore"
-                    }
-                  }
-                ],
-                "size": 9,
-                "discard_chance_on_air_exposure": 0.0
+               "target": {
+                  "tag": "minecraft:base_stone_overworld",
+                  "predicate_type": "minecraft:tag_match"
+                },
+                "state": {
+                  "Name": "pokecube_legends:ultra_iron_ore"
+                },
+                "size": 6
               },
               "type": "minecraft:ore"
             },
             "decorator": {
               "config": {
-                "height": {
-                  "min_inclusive": {
-                    "above_bottom": 0
-                  },
-                  "max_inclusive": {
-                    "absolute": 63
-                  },
-                  "type": "minecraft:uniform"
-                }
+                "bottom_offset": 0,
+                "top_offset": 0,
+                "maximum": 50
               },
               "type": "minecraft:range"
             }
@@ -48,7 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": 20
+        "count": 12
       },
       "type": "minecraft:count"
     }

@@ -2,15 +2,15 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.ClickEvent.Action;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -49,8 +49,8 @@ public class Description extends ListPage<LineEntry>
         {
             final int x = this.watch.width / 2 + 10;
             final int y = this.watch.height / 2 + 22;
-            final Component check_conditions = new TranslatableComponent("pokewatch.capture.check");
-            final TexButton button = this.addRenderableWidget(new TexButton(x, y, 100, 12, check_conditions, b ->
+            final ITextComponent check_conditions = new TranslationTextComponent("pokewatch.capture.check");
+            final TexButton button = this.addButton(new TexButton(x, y, 100, 12, check_conditions, b ->
             {
                 PacketPokedex.sendCaptureCheck(e);
             }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
@@ -99,19 +99,19 @@ public class Description extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
                 Description.this.renderComponentHoverEffect(mat, component, x, y);
             }
         };
-        MutableComponent line;
-        final MutableComponent page = (MutableComponent) this.parent.pokemob.getPokedexEntry()
+        IFormattableTextComponent line;
+        final IFormattableTextComponent page = (IFormattableTextComponent) this.parent.pokemob.getPokedexEntry()
                 .getDescription();
         this.list = new ScrollGui<>(this, this.minecraft, 107, height, this.font.lineHeight, offsetX, offsetY);
-        final List<MutableComponent> list = ListHelper.splitText(page, 100, this.font, false);
-        for (final Component element : list)
+        final List<IFormattableTextComponent> list = ListHelper.splitText(page, 100, this.font, false);
+        for (final ITextComponent element : list)
         {
-            line = (MutableComponent) element;
+            line = (IFormattableTextComponent) element;
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, textColour).setClickListner(listen));
         }
     }

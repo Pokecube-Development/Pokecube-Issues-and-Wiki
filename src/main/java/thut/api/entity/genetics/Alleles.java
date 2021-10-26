@@ -3,7 +3,7 @@ package thut.api.entity.genetics;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.CompoundNBT;
 import thut.core.common.ThutCore;
 
 public class Alleles<T, GENE extends Gene<T>>
@@ -58,7 +58,7 @@ public class Alleles<T, GENE extends Gene<T>>
     }
 
     @SuppressWarnings("unchecked")
-    public void load(final CompoundTag tag) throws Exception
+    public void load(final CompoundNBT tag) throws Exception
     {
         this.expressed = (GENE) GeneRegistry.load(tag.getCompound("expressed"));
         this.alleles.set(0, (GENE) GeneRegistry.load(tag.getCompound("gene1")));
@@ -76,9 +76,9 @@ public class Alleles<T, GENE extends Gene<T>>
         this.expressed = (GENE) a.interpolate(b);
     }
 
-    public CompoundTag save()
+    public CompoundNBT save()
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         try
         {
             tag.put("expressed", GeneRegistry.save(this.getExpressed()));

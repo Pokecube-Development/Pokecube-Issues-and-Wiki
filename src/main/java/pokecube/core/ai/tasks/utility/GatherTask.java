@@ -9,32 +9,32 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BeetrootBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.NetherWartBlock;
-import net.minecraft.world.level.block.SweetBerryBushBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.BeetrootBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CropsBlock;
+import net.minecraft.block.NetherWartBlock;
+import net.minecraft.block.SweetBerryBushBlock;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.state.Property;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
@@ -69,11 +69,11 @@ public class GatherTask extends UtilTask
      */
     public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
-    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock && input
-            .hasProperty(CropBlock.AGE) && input.getValue(CropBlock.AGE) >= ((CropBlock) input.getBlock()).getMaxAge();
+    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
+            .hasProperty(CropsBlock.AGE) && input.getValue(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
 
-    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock && input
-            .hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= ((CropBlock) input
+    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
+            .hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= ((CropsBlock) input
                     .getBlock()).getMaxAge();
 
     private static final Predicate<BlockState> fullCropNetherWart = input -> input.getBlock() instanceof NetherWartBlock
@@ -82,7 +82,7 @@ public class GatherTask extends UtilTask
     private static final Predicate<BlockState> sweetBerry = input -> input.getBlock() instanceof SweetBerryBushBlock
             && input.getValue(SweetBerryBushBlock.AGE) > 1;
 
-    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive()
+    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.inChunk
             || !input.isAddedToWorld();
 
     // Matcher used to determine if a block is a fruit or crop to be picked.
@@ -97,8 +97,8 @@ public class GatherTask extends UtilTask
 
     public static interface IHarvester
     {
-        default boolean isHarvestable(final Mob entity, final IPokemob pokemob, final BlockState state,
-                final BlockPos pos, final ServerLevel world)
+        default boolean isHarvestable(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                final BlockPos pos, final ServerWorld world)
         {
             final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
             PokecubeCore.POKEMOB_BUS.post(event);
@@ -107,8 +107,8 @@ public class GatherTask extends UtilTask
             return gatherable;
         }
 
-        default void harvest(final Mob entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
-                final ServerLevel world)
+        default void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state, final BlockPos pos,
+                final ServerWorld world)
         {
             world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             final List<ItemStack> list = Block.getDrops(state, world, pos, null);
@@ -165,16 +165,16 @@ public class GatherTask extends UtilTask
         }
 
         @Override
-        public boolean run(final Level world)
+        public boolean run(final World world)
         {
             if (this.seeds.isEmpty()) return false;
             final BlockPos down = this.pos.below();
             // Use the fakeplayer to plant it
-            final Player player = PokecubeMod.getFakePlayer(world);
+            final PlayerEntity player = PokecubeMod.getFakePlayer(world);
             player.setPos(this.pos.getX(), this.pos.getY(), this.pos.getZ());
-            player.getInventory().items.set(player.getInventory().selected, this.seeds);
-            final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(
-                    new Vec3(0.5, 1, 0.5), Direction.UP, down, false));
+            player.inventory.items.set(player.inventory.selected, this.seeds);
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
+                    new Vector3d(0.5, 1, 0.5), Direction.UP, down, false));
             check:
             if (this.seeds.getItem() instanceof BlockItem && !this.selfPlacement)
             {
@@ -200,8 +200,8 @@ public class GatherTask extends UtilTask
             }
 
             // Attempt to plant it.
-            final InteractionResult result = this.seeds.getItem().useOn(context);
-            return result == InteractionResult.SUCCESS;
+            final ActionResultType result = this.seeds.getItem().useOn(context);
+            return result == ActionResultType.SUCCESS;
         }
     }
 
@@ -220,22 +220,22 @@ public class GatherTask extends UtilTask
         GatherTask.REGISTRY.put(new ResourceLocation("pokecube:sweet_berries"), new IHarvester()
         {
             @Override
-            public void harvest(final Mob entity, final IPokemob pokemob, final BlockState state,
-                    final BlockPos pos, final ServerLevel world)
+            public void harvest(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                    final BlockPos pos, final ServerWorld world)
             {
                 final int i = state.getValue(SweetBerryBushBlock.AGE);
                 final boolean flag = i == 3;
                 world.setBlockAndUpdate(pos, state.setValue(SweetBerryBushBlock.AGE, 1));
                 final int j = 1 + world.random.nextInt(2);
                 final ItemStack stack = new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0));
-                world.playSound((Player) null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
-                        SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+                world.playSound((PlayerEntity) null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
+                        SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
                 new InventoryChange(entity, 2, stack, true).run(world);
             }
 
             @Override
-            public boolean isHarvestable(final Mob entity, final IPokemob pokemob, final BlockState state,
-                    final BlockPos pos, final ServerLevel world)
+            public boolean isHarvestable(final MobEntity entity, final IPokemob pokemob, final BlockState state,
+                    final BlockPos pos, final ServerWorld world)
             {
                 final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, state, pos);
                 PokecubeCore.POKEMOB_BUS.post(event);
@@ -350,7 +350,7 @@ public class GatherTask extends UtilTask
             if (this.targetItem.distanceTo(this.entity) < diff)
             {
                 ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2);
-                this.targetItem.discard();
+                this.targetItem.remove();
             }
             else this.setWalkTo(stuffLoc, speed, 0);
             this.reset();

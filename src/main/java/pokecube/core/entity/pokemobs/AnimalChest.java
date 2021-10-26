@@ -1,8 +1,8 @@
 package pokecube.core.entity.pokemobs;
 
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.inventory.Inventory;
 
-public class AnimalChest extends SimpleContainer
+public class AnimalChest extends Inventory
 {
     public static int INVENSIZE = 7;
 

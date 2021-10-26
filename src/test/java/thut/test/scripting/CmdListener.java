@@ -13,8 +13,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import thut.test.scripting.handlers.CmdHandler;
 import thut.test.scripting.handlers.GetBlockHandler;
 import thut.test.scripting.handlers.GetPlayerHandler;

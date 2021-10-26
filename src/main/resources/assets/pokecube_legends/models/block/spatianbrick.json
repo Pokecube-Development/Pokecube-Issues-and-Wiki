@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:blocks/spatianbrick",
+    "up": "pokecube_legends:blocks/spatianbrick",
+    "north": "pokecube_legends:blocks/spatianbrick",
+    "east": "pokecube_legends:blocks/spatianbrick",
+    "south": "pokecube_legends:blocks/spatianbrick",
+    "west": "pokecube_legends:blocks/spatianbrick",
+    "particle": "pokecube_legends:blocks/spatianbrick"
+   }
+}

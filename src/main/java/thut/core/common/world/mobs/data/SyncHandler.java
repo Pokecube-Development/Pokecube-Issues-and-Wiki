@@ -1,15 +1,19 @@
 package thut.core.common.world.mobs.data;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.ThutCaps;
 import thut.api.world.mobs.data.DataSync;
 
 public class SyncHandler
 {
+    @CapabilityInject(DataSync.class)
+    public static final Capability<DataSync> CAP = null;
+
     @SubscribeEvent
     public static void EntityUpdate(final LivingUpdateEvent event)
     {
@@ -21,7 +25,7 @@ public class SyncHandler
 
     public static DataSync getData(final Entity mob)
     {
-        return mob.getCapability(ThutCaps.DATASYNC, null).orElse(null);
+        return mob.getCapability(SyncHandler.CAP, null).orElse(null);
     }
 
     @SubscribeEvent
@@ -30,6 +34,6 @@ public class SyncHandler
         if (event.getTarget().getCommandSenderWorld().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
         if (data == null) return;
-        PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);
+        PacketDataSync.sync((ServerPlayerEntity) event.getEntity(), data, event.getTarget().getId(), true);
     }
 }

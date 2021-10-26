@@ -2,9 +2,9 @@ package pokecube.legends.conditions.custom;
 
 import java.util.ArrayList;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractEntriedCondition;
@@ -27,7 +27,7 @@ public class Regigigas extends AbstractEntriedCondition
         mob = mob.setForSpawn(54500);
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
-        final Level world = mob.getEntity().getCommandSenderWorld();
+        final World world = mob.getEntity().getCommandSenderWorld();
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(1, -1, 0));
@@ -51,7 +51,7 @@ public class Regigigas extends AbstractEntriedCondition
 
         final ArrayList<Vector3> locations = new ArrayList<>();
         boolean check = false;
-        final Level world = trainer.getCommandSenderWorld();
+        final World world = trainer.getCommandSenderWorld();
 
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));

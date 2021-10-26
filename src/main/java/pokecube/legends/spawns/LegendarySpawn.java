@@ -6,20 +6,20 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -63,8 +63,8 @@ public class LegendarySpawn
     private static SpawnResult trySpawn(final LegendarySpawn spawn, final ItemStack stack,
             final PlayerInteractEvent.RightClickBlock evt, final boolean message)
     {
-        final Player playerIn = evt.getPlayer();
-        final ServerLevel worldIn = (ServerLevel) evt.getWorld();
+        final PlayerEntity playerIn = evt.getPlayer();
+        final ServerWorld worldIn = (ServerWorld) evt.getWorld();
         final PokedexEntry entry = spawn.entry;
 
         final SpawnResult result = !spawn.heldItemChecker.test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
@@ -79,7 +79,7 @@ public class LegendarySpawn
             if (test.test())
             {
                 if (result == SpawnResult.WRONGITEM) return result;
-                Mob entity = PokecubeCore.createPokemob(entry, worldIn);
+                MobEntity entity = PokecubeCore.createPokemob(entry, worldIn);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
                 {
@@ -123,7 +123,7 @@ public class LegendarySpawn
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (!(evt.getWorld() instanceof ServerLevel)) return;
+        if (!(evt.getWorld() instanceof ServerWorld)) return;
         final BlockState state = evt.getWorld().getBlockState(evt.getPos());
         final List<LegendarySpawn> matches = LegendarySpawn.getForBlock(state);
         if (matches.isEmpty()) return;
@@ -151,8 +151,8 @@ public class LegendarySpawn
                 final Vector3 location = Vector3.getNewVector().set(evt.getPos());
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.noitem.info",
-                    new TranslatableComponent(match.entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.noitem.info",
+                    new TranslationTextComponent(match.entry.getUnlocalizedName())), true);
             evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", Tracker.instance().getTick());
             return;
         }
@@ -195,23 +195,23 @@ public class LegendarySpawn
         if (already_spawned.size() > 0)
         {
             Collections.shuffle(already_spawned);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.alreadyspawned.info",
-                    new TranslatableComponent(already_spawned.get(0).getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.alreadyspawned.info",
+                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())), true);
             return;
         }
 
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.wrongitem.info",
-                    new TranslatableComponent(wrong_items.get(0).getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.wrongitem.info",
+                    new TranslationTextComponent(wrong_items.get(0).getUnlocalizedName())), true);
             return;
         }
         if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
-            evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.nohere.info",
-                    new TranslatableComponent(matches.get(0).entry.getUnlocalizedName())), true);
+            evt.getPlayer().displayClientMessage(new TranslationTextComponent("msg.nohere.info",
+                    new TranslationTextComponent(matches.get(0).entry.getUnlocalizedName())), true);
             return;
         }
 

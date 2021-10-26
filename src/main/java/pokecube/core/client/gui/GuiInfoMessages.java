@@ -6,12 +6,14 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 import pokecube.core.client.gui.helper.ListHelper;
@@ -24,7 +26,7 @@ public class GuiInfoMessages
     static long       time   = 0;
     static public int offset = 0;
 
-    public static void addMessage(final Component message)
+    public static void addMessage(final ITextComponent message)
     {
         if (message == null)
         {
@@ -53,14 +55,18 @@ public class GuiInfoMessages
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;
         final Minecraft minecraft = Minecraft.getInstance();
+        // TODO see about this?
+        if (event.getType() == ElementType.CHAT && !(minecraft.screen instanceof ChatScreen)) return;
+        if (event.getType() != ElementType.CHAT && minecraft.screen != null) return;
 
-        event.getMat().pushPose();
+        event.mat.pushPose();
         final int texH = minecraft.font.lineHeight;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
 
-        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.getMat(), PokecubeCore.getConfig().messageRef,
+        // TODO possbly fix lighitng here?
+        final int[] mess = GuiDisplayPokecubeInfo.applyTransform(event.mat, PokecubeCore.getConfig().messageRef,
                 PokecubeCore.getConfig().messagePos, new int[] { PokecubeCore.getConfig().messageWidth, 7
                         * minecraft.font.lineHeight }, (float) PokecubeCore.getConfig().messageSize);
         int x = 0, y = 0;
@@ -91,12 +97,9 @@ public class GuiInfoMessages
         int h = 0;
         x = w;
         y = h;
-        event.getMat().translate(0, -texH * 7, 0);
+        event.mat.translate(0, -texH * 7, 0);
         int num = -1;
-        // TODO decide in chat?
-        final boolean inChat = false;
-
-        if (inChat)
+        if (event.getType() == ElementType.CHAT)
         {
             num = 7;
             if (GuiInfoMessages.offset < 0) GuiInfoMessages.offset = 0;
@@ -126,19 +129,19 @@ public class GuiInfoMessages
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
-            final TextComponent mess2 = new TextComponent(toUse.get(index));
-            final List<MutableComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
+            final StringTextComponent mess2 = new StringTextComponent(toUse.get(index));
+            final List<IFormattableTextComponent> mess1 = ListHelper.splitText(mess2, trim, minecraft.font, true);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                GuiComponent.fill(event.getMat(), w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.font.draw(event.getMat(), mess1.get(j).getString(), x - trim, ph, 0xffffff);
+                AbstractGui.fill(event.mat, w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                minecraft.font.draw(event.mat, mess1.get(j).getString(), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;
         }
-        event.getMat().popPose();
+        event.mat.popPose();
     }
 }

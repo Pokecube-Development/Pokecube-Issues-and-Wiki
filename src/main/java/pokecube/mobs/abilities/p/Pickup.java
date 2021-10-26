@@ -3,12 +3,12 @@ package pokecube.mobs.abilities.p;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootTable;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
@@ -37,7 +37,7 @@ public class Pickup extends Ability
         {
             final LootTable loottable = mob.getEntity().getCommandSenderWorld().getServer().getLootTables()
                     .get(Pickup.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.getEntity()
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity()
                     .getCommandSenderWorld()).withRandom(poke.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));

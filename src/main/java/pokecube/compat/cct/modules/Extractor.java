@@ -6,13 +6,13 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
@@ -68,10 +68,10 @@ public class Extractor extends BasePeripheral<ExtractorTile>
             for (final Class<? extends Gene<?>> geneC : getSelectors)
                 try
                 {
-                    final Gene<?> gene = geneC.getConstructor().newInstance();
+                    final Gene<?> gene = geneC.newInstance();
                     values.add(gene.getKey().getNamespace());
                 }
-                catch (final Exception e)
+                catch (InstantiationException | IllegalAccessException e)
                 {
                 }
             values.add(value.toString());
@@ -91,14 +91,14 @@ public class Extractor extends BasePeripheral<ExtractorTile>
                 values.add(s);
             if (values.isEmpty()) throw new LuaException("You need to specify some genes");
             final ItemStack newSelector = new ItemStack(Items.WRITTEN_BOOK);
-            newSelector.setTag(new CompoundTag());
-            final ListTag pages = new ListTag();
+            newSelector.setTag(new CompoundNBT());
+            final ListNBT pages = new ListNBT();
             for (final String s : values)
-                pages.add(StringTag.valueOf(String.format("{\"text\":\"%s\"}", s)));
+                pages.add(StringNBT.valueOf(String.format("{\"text\":\"%s\"}", s)));
             newSelector.getTag().put("pages", pages);
             value = RecipeSelector.getSelectorValue(this.tile.getItem(1));
             newSelector.getTag().put(ClonerHelper.SELECTORTAG, value.save());
-            newSelector.setHoverName(new TextComponent("Selector"));
+            newSelector.setHoverName(new StringTextComponent("Selector"));
             this.tile.override_selector = newSelector;
             return true;
         }

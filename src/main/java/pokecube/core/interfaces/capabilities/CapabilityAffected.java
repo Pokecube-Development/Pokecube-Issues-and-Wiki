@@ -9,11 +9,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -26,7 +27,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect.AddType;
 
 public class CapabilityAffected
 {
-    public static class DefaultAffected implements IOngoingAffected, ICapabilitySerializable<ListTag>
+    public static class DefaultAffected implements IOngoingAffected, ICapabilitySerializable<ListNBT>
     {
         private final LazyOptional<IOngoingAffected>     holder  = LazyOptional.of(() -> this);
         LivingEntity                                     entity;
@@ -145,6 +146,25 @@ public class CapabilityAffected
             for (final IOngoingEffect effect : stale)
                 this.removeEffect(effect);
         }
+    }
+
+    public static class Storage implements Capability.IStorage<IOngoingAffected>
+    {
+
+        @Override
+        public void readNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
+                final Direction side, final INBT nbt)
+        {
+            if (nbt instanceof ListNBT) instance.deserializeNBT((ListNBT) nbt);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
+                final Direction side)
+        {
+            return instance.serializeNBT();
+        }
+
     }
 
     public static boolean addEffect(final Entity mob, final IOngoingEffect effect)

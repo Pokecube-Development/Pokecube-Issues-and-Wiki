@@ -1,8 +1,8 @@
 package pokecube.adventures.ai.tasks.battle;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -71,7 +71,7 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     @Override
-    protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         // If trainer has a living, real mob out, tell it to do stuff.
         // Check if pokemob has a valid Pokemob as a target.
@@ -83,14 +83,14 @@ public class ChooseAttacks extends BaseBattleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final LivingEntity entityIn,
             final long gameTimeIn)
     {
         return this.trainer.getOutMob() != null;
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.getOutMob() != null;

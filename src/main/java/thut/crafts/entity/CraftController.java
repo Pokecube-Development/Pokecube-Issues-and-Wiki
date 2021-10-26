@@ -1,6 +1,6 @@
 package thut.crafts.entity;
 
-import net.minecraft.world.entity.Entity;
+import net.minecraft.entity.Entity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 
 public class CraftController

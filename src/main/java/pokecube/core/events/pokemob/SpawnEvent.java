@@ -2,9 +2,9 @@ package pokecube.core.events.pokemob;
 
 import org.nfunk.jep.JEP;
 
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.PokedexEntry;
@@ -30,8 +30,7 @@ public class SpawnEvent extends Event
          */
         public final boolean forSpawn;
 
-        public Check(final PokedexEntry entry, final Vector3 location, final LevelAccessor world,
-                final boolean forSpawn)
+        public Check(final PokedexEntry entry, final Vector3 location, final IWorld world, final boolean forSpawn)
         {
             super(entry, location, world);
             this.forSpawn = forSpawn;
@@ -43,7 +42,7 @@ public class SpawnEvent extends Event
     {
         public final IPokemob pokemob;
 
-        public Despawn(final Vector3 location, final LevelAccessor world, final IPokemob pokemob_)
+        public Despawn(final Vector3 location, final IWorld world, final IPokemob pokemob_)
         {
             super(pokemob_.getPokedexEntry(), location, world);
             this.pokemob = pokemob_;
@@ -89,14 +88,13 @@ public class SpawnEvent extends Event
      * Called after spawn lvl for a mob is chosen, use setLevel if you wish to
      * change the level that it spawns at.
      */
-    public static class PickLevel extends SpawnEvent
+    public static class Level extends SpawnEvent
     {
         private int            level;
         private final Variance variance;
         private final int      original;
 
-        public PickLevel(final PokedexEntry entry_, final Vector3 location_, final LevelAccessor world,
-                final int level,
+        public Level(final PokedexEntry entry_, final Vector3 location_, final IWorld world, final int level,
                 final Variance variance)
         {
             super(entry_, location_, world);
@@ -155,7 +153,7 @@ public class SpawnEvent extends Event
         {
             private String args = "";
 
-            public Final(final PokedexEntry entry_, final Vector3 location_, final Level worldObj_)
+            public Final(final PokedexEntry entry_, final Vector3 location_, final World worldObj_)
             {
                 super(entry_, location_, worldObj_);
             }
@@ -179,7 +177,7 @@ public class SpawnEvent extends Event
          */
         public static class Post extends Pick
         {
-            public Post(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+            public Post(final PokedexEntry entry_, final Vector3 location_, final World world_)
             {
                 super(entry_, location_, world_);
             }
@@ -193,7 +191,7 @@ public class SpawnEvent extends Event
          */
         public static class Pre extends Pick
         {
-            public Pre(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+            public Pre(final PokedexEntry entry_, final Vector3 location_, final World world_)
             {
                 super(entry_, location_, world_);
             }
@@ -201,7 +199,7 @@ public class SpawnEvent extends Event
 
         private PokedexEntry pick;
 
-        public Pick(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+        public Pick(final PokedexEntry entry_, final Vector3 location_, final World world_)
         {
             super(entry_, location_, world_);
             this.pick = entry_;
@@ -235,10 +233,10 @@ public class SpawnEvent extends Event
      */
     public static class Post extends SpawnEvent
     {
-        public final IPokemob pokemob;
-        public final Mob      entity;
+        public final IPokemob  pokemob;
+        public final MobEntity entity;
 
-        public Post(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+        public Post(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
         {
             super(entry, location, world);
             this.pokemob = pokemob;
@@ -254,7 +252,7 @@ public class SpawnEvent extends Event
     @Cancelable
     public static class Pre extends SpawnEvent
     {
-        public Pre(final PokedexEntry entry, final Vector3 location, final Level world)
+        public Pre(final PokedexEntry entry, final Vector3 location, final World world)
         {
             super(entry, location, world);
         }
@@ -265,7 +263,7 @@ public class SpawnEvent extends Event
     {
         public static class Post extends SendOut
         {
-            public Post(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+            public Post(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
             {
                 super(entry, location, world, pokemob);
             }
@@ -280,7 +278,7 @@ public class SpawnEvent extends Event
         @Cancelable
         public static class Pre extends SendOut
         {
-            public Pre(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+            public Pre(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
             {
                 super(entry, location, world, pokemob);
             }
@@ -288,9 +286,9 @@ public class SpawnEvent extends Event
 
         public final IPokemob pokemob;
 
-        public final Mob entity;
+        public final MobEntity entity;
 
-        protected SendOut(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+        protected SendOut(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
         {
             super(entry, location, world);
             this.pokemob = pokemob;
@@ -314,9 +312,9 @@ public class SpawnEvent extends Event
 
     public final Vector3 location;
 
-    public final LevelAccessor world;
+    public final IWorld world;
 
-    public SpawnEvent(final PokedexEntry entry_, final Vector3 location_, final LevelAccessor world)
+    public SpawnEvent(final PokedexEntry entry_, final Vector3 location_, final IWorld world)
     {
         this.entry = entry_;
         this.location = location_;

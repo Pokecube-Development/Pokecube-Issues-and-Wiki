@@ -2,15 +2,15 @@ package pokecube.core.ai.tasks.combat.attacks;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
-import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.BrainUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.EntityPosWrapper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -123,12 +123,12 @@ public class UseAttacksTask extends CombatTask implements IAICombat
              * it should.
              */
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
-                    && this.entityTarget instanceof ServerPlayer && !(this.entityTarget instanceof FakePlayer)
-                    && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((Player) this.entityTarget)
-                            .getLastHurtByMob() != this.entity && ((Player) this.entityTarget)
+                    && this.entityTarget instanceof ServerPlayerEntity && !(this.entityTarget instanceof FakePlayer)
+                    && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((PlayerEntity) this.entityTarget)
+                            .getLastHurtByMob() != this.entity && ((PlayerEntity) this.entityTarget)
                                     .getLastHurtMob() != this.entity)
             {
-                final Component message = new TranslatableComponent("pokemob.agress", this.pokemob
+                final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
                         .getDisplayName().getString());
                 try
                 {
@@ -145,7 +145,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
 
         // Look at the target
-        BehaviorUtils.lookAtEntity(this.entity, this.entityTarget);
+        BrainUtil.lookAtEntity(this.entity, this.entityTarget);
 
         // No executing move state with no target location.
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
@@ -207,7 +207,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // case..
         if (inRange && canSee || self)
         {
-            if (this.delayTime <= 0 && this.entity.isAddedToWorld())
+            if (this.delayTime <= 0 && this.entity.inChunk)
             {
                 this.delayTime = this.pokemob.getAttackCooldown();
                 delay = true;
@@ -220,7 +220,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!(distanced || self))
         {
             this.setUseMove();
-            BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.entityTarget, false));
+            BrainUtils.setLeapTarget(this.entity, new EntityPosWrapper(this.entityTarget, false));
         }
 
         // If all the conditions match, queue up an attack.
@@ -229,10 +229,10 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             // Tell the target no need to try to dodge anymore, move is fired.
             if (this.pokemobTarget != null) this.pokemobTarget.setCombatState(CombatStates.DODGING, false);
             // Swing arm for effect.
-            if (this.entity.getMainHandItem() != null) this.entity.swing(InteractionHand.MAIN_HAND);
+            if (this.entity.getMainHandItem() != null) this.entity.swing(Hand.MAIN_HAND);
             // Apply the move.
             final float f = (float) this.targetLoc.distToEntity(this.entity);
-            if (this.entity.isAddedToWorld())
+            if (this.entity.inChunk)
             {
                 this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have

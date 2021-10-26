@@ -31,25 +31,25 @@ import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import net.minecraft.world.level.levelgen.StructureSettings;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.DimensionSettings;
+import net.minecraft.world.gen.FlatChunkGenerator;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
+import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -188,8 +188,8 @@ public class WorldgenHandler
         public List<String> dimBlacklist = Lists.newArrayList();
         public List<String> dimWhitelist = Lists.newArrayList();
 
-        private final List<ResourceKey<Level>> _blacklisted = Lists.newArrayList();
-        private final List<ResourceKey<Level>> _whitelisted = Lists.newArrayList();
+        private final List<RegistryKey<World>> _blacklisted = Lists.newArrayList();
+        private final List<RegistryKey<World>> _whitelisted = Lists.newArrayList();
 
         public SpawnBiomeMatcher _matcher;
 
@@ -198,7 +198,7 @@ public class WorldgenHandler
             return WorldgenHandler.GSON.toJson(this);
         }
 
-        public StructureFeatureConfiguration toSettings()
+        public StructureSeparationSettings toSettings()
         {
             // Make seed based on name
             if (this.seed == -1)
@@ -212,7 +212,7 @@ public class WorldgenHandler
                     this.seed = rand.nextInt();
                 if (this.seed < 0) this.seed *= -1;
             }
-            return new StructureFeatureConfiguration(this.distance, this.separation, this.seed);
+            return new StructureSeparationSettings(this.distance, this.separation, this.seed);
         }
 
         public static JigSawConfig deserialize(final String structstring)
@@ -220,7 +220,7 @@ public class WorldgenHandler
             return WorldgenHandler.GSON.fromJson(structstring, JigSawConfig.class);
         }
 
-        public boolean isBlackisted(final ResourceKey<Level> dim)
+        public boolean isBlackisted(final RegistryKey<World> dim)
         {
             if (this._blacklisted.size() != this.dimBlacklist.size() || this._whitelisted.size() != this.dimWhitelist
                     .size())
@@ -228,9 +228,9 @@ public class WorldgenHandler
                 this._blacklisted.clear();
                 this._whitelisted.clear();
                 for (final String s : this.dimBlacklist)
-                    this._blacklisted.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
+                    this._blacklisted.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
                 for (final String s : this.dimWhitelist)
-                    this._whitelisted.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
+                    this._whitelisted.add(RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(s)));
             }
             if (this._whitelisted.contains(dim)) return false;
             return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
@@ -245,11 +245,11 @@ public class WorldgenHandler
 
     public static Map<String, CustomJigsawStructure> structs = Maps.newConcurrentMap();
 
-    private static List<StructureFeature<?>> SORTED_PRIOR_LIST = Lists.newArrayList();
+    private static List<Structure<?>> SORTED_PRIOR_LIST = Lists.newArrayList();
 
-    private static Map<StructureFeature<?>, Integer> SPACENEEDS = Maps.newConcurrentMap();
+    private static Map<Structure<?>, Integer> SPACENEEDS = Maps.newConcurrentMap();
 
-    public static Set<ResourceKey<Level>> SOFTBLACKLIST = Sets.newHashSet();
+    public static Set<RegistryKey<World>> SOFTBLACKLIST = Sets.newHashSet();
 
     private static void initSpaceMap()
     {
@@ -257,7 +257,7 @@ public class WorldgenHandler
         {
             if (WorldgenHandler.SORTED_PRIOR_LIST.isEmpty())
             {
-                WorldgenHandler.SORTED_PRIOR_LIST.addAll(StructureFeature.STEP.keySet());
+                WorldgenHandler.SORTED_PRIOR_LIST.addAll(Structure.STEP.keySet());
                 WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) ->
                 {
                     int p1 = 5;
@@ -276,13 +276,13 @@ public class WorldgenHandler
         }
     }
 
-    public static List<StructureFeature<?>> getSortedList()
+    public static List<Structure<?>> getSortedList()
     {
         WorldgenHandler.initSpaceMap();
         return WorldgenHandler.SORTED_PRIOR_LIST;
     }
 
-    public static Integer getNeededSpace(final StructureFeature<?> s)
+    public static Integer getNeededSpace(final Structure<?> s)
     {
         WorldgenHandler.initSpaceMap();
         return WorldgenHandler.SPACENEEDS.get(s);
@@ -292,8 +292,8 @@ public class WorldgenHandler
 
     private static class BiomeFeature
     {
-        public final GenerationStep.Decoration stage;
-        public final ConfiguredFeature<?, ?>   feature;
+        public final GenerationStage.Decoration stage;
+        public final ConfiguredFeature<?, ?>    feature;
 
         public final ResourceLocation name;
 
@@ -307,9 +307,9 @@ public class WorldgenHandler
 
     private static class BiomeStructure
     {
-        public ConfiguredStructureFeature<?, ?> feature;
+        public StructureFeature<?, ?> feature;
 
-        public BiomeStructure(final ConfiguredStructureFeature<?, ?> configured, final JigSawConfig config)
+        public BiomeStructure(final StructureFeature<?, ?> configured, final JigSawConfig config)
         {
             this.feature = configured;
             if (config.spawn != null) config._matcher = new SpawnBiomeMatcher(config.spawn);
@@ -319,7 +319,7 @@ public class WorldgenHandler
     private class FMLReger
     {
         @SubscribeEvent
-        public void processStructures(final RegistryEvent.Register<StructureFeature<?>> event)
+        public void processStructures(final RegistryEvent.Register<Structure<?>> event)
         {
             try
             {
@@ -354,7 +354,7 @@ public class WorldgenHandler
     private final Map<BiomeFeature, Predicate<BiomeLoadingEvent>>   features   = Maps.newHashMap();
     private final Map<BiomeStructure, Predicate<BiomeLoadingEvent>> structures = Maps.newHashMap();
 
-    public final Map<String, StructureTemplatePool> patterns = Maps.newHashMap();
+    public final Map<String, JigsawPattern> patterns = Maps.newHashMap();
 
     public final Map<JigSawConfig, CustomJigsawStructure> toConfigure = Maps.newHashMap();
 
@@ -373,7 +373,7 @@ public class WorldgenHandler
         bus.register(this.reg);
         MinecraftForge.EVENT_BUS.register(this);
         WorldgenHandler.INSTANCE = this;
-        if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = StructurePoolElementType.register(
+        if (CustomJigsawPiece.TYPE == null) CustomJigsawPiece.TYPE = IJigsawDeserializer.register(
                 "pokecube:custom_pool_element", CustomJigsawPiece.makeCodec());
     }
 
@@ -389,14 +389,14 @@ public class WorldgenHandler
     {
         if (event.getWorld().isClientSide()) return;
 
-        if (!(event.getWorld() instanceof ServerLevel)) return;
+        if (!(event.getWorld() instanceof ServerWorld)) return;
 
-        final ServerLevel serverWorld = (ServerLevel) event.getWorld();
+        final ServerWorld serverWorld = (ServerWorld) event.getWorld();
 
-        final Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld
+        final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
                 .getChunkSource().generator.getSettings().structureConfig());
         final List<String> removedStructures = PokecubeCore.getConfig().removedStructures;
-        for (final StructureFeature<?> s : Sets.newHashSet(tempMap.keySet()))
+        for (final Structure<?> s : Sets.newHashSet(tempMap.keySet()))
             if (removedStructures.contains(s.getFeatureName()) || removedStructures.contains(s.getRegistryName()
                     .toString())) tempMap.remove(s);
         serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
@@ -421,8 +421,8 @@ public class WorldgenHandler
          * If the registration is setup properly for the structure,
          * getRegistryName() should never return null.
          */
-        StructureFeature.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
-        StructureFeature.STEP.put(structure, Decoration.SURFACE_STRUCTURES);
+        Structure.STRUCTURES_REGISTRY.put(structure.getRegistryName().toString(), structure);
+        Structure.STEP.put(structure, Decoration.SURFACE_STRUCTURES);
 
         /*
          * Will add land at the base of the structure like it does for Villages
@@ -442,8 +442,8 @@ public class WorldgenHandler
          * StructureTutorialMain to add
          * the structure spacing from this list into that dimension.
          */
-        StructureSettings.DEFAULTS = ImmutableMap.<StructureFeature<?>, StructureFeatureConfiguration> builder().putAll(
-                StructureSettings.DEFAULTS).put(structure, config.toSettings()).build();
+        DimensionStructuresSettings.DEFAULTS = ImmutableMap.<Structure<?>, StructureSeparationSettings> builder()
+                .putAll(DimensionStructuresSettings.DEFAULTS).put(structure, config.toSettings()).build();
     }
 
     /**
@@ -462,21 +462,21 @@ public class WorldgenHandler
     {
         if (event.getWorld().isClientSide()) return;
 
-        if (event.getWorld() instanceof ServerLevel)
+        if (event.getWorld() instanceof ServerWorld)
         {
             if (ThutCore.proxy.getRegistries() == null) throw new IllegalStateException(
                     "Loading world before registries????");
 
-            final ServerLevel serverWorld = (ServerLevel) event.getWorld();
-            final ResourceKey<Level> key = serverWorld.dimension();
+            final ServerWorld serverWorld = (ServerWorld) event.getWorld();
+            final RegistryKey<World> key = serverWorld.dimension();
 
             // Prevent spawning our structure in Vanilla's superflat world as
             // people seem to want their superflat worlds free of modded
             // structures.
             // Also that vanilla superflat is really tricky and buggy to work
             // with in my experience.
-            if (serverWorld.getChunkSource().getGenerator() instanceof FlatLevelSource && key.equals(Level.OVERWORLD))
-                return;
+            if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator && key.equals(
+                    World.OVERWORLD)) return;
 
             CustomJigsawPiece.sent_events.clear();
 
@@ -492,9 +492,9 @@ public class WorldgenHandler
                     allowed = allowed || !opt.isBlackisted(key);
                 // Actually register the structure to the chunk provider,
                 // without this it won't generate!
-                final Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld
+                final Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(serverWorld
                         .getChunkSource().generator.getSettings().structureConfig());
-                if (allowed) tempMap.put(structure, StructureSettings.DEFAULTS.get(structure));
+                if (allowed) tempMap.put(structure, DimensionStructuresSettings.DEFAULTS.get(structure));
                 else tempMap.remove(structure);
                 serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
             }
@@ -502,22 +502,22 @@ public class WorldgenHandler
             // If we are the first one, we will check for a spawn location, just
             // to initialize things.
             if (this.MODID == PokecubeCore.MODID && PokecubeCore.getConfig().doSpawnBuilding && !PokecubeSerializer
-                    .getInstance().hasPlacedSpawn() && key.equals(Level.OVERWORLD) && !WorldgenHandler.SOFTBLACKLIST
-                            .contains(Level.OVERWORLD)) serverWorld.getServer().execute(() ->
+                    .getInstance().hasPlacedSpawn() && key.equals(World.OVERWORLD) && !WorldgenHandler.SOFTBLACKLIST
+                            .contains(World.OVERWORLD)) serverWorld.getServer().execute(() ->
                             {
                                 final ResourceLocation location = new ResourceLocation("pokecube:village");
-                                final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-                                final StructureFeature<?> structure = reg.getValue(location);
-                                if (reg.containsKey(location)) serverWorld.findNearestMapFeature(structure,
+                                final IForgeRegistry<Structure<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
+                                final Structure<?> structure = reg.getValue(location);
+                                if (reg.containsKey(location)) serverWorld.getLevel().findNearestMapFeature(structure,
                                         BlockPos.ZERO, 50, false);
                             });
 
         }
     }
 
-    private ResourceKey<Biome> from(final BiomeLoadingEvent event)
+    private RegistryKey<Biome> from(final BiomeLoadingEvent event)
     {
-        return ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
+        return RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
     }
 
     protected void registerConfigured()
@@ -526,8 +526,8 @@ public class WorldgenHandler
         {
             final CustomJigsawStructure structure = this.toConfigure.get(struct);
             final JigsawConfig config = new JigsawConfig(struct);
-            ConfiguredStructureFeature<?, ?> configured = structure.configured(config);
-            configured = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, struct.name,
+            StructureFeature<?, ?> configured = structure.configured(config);
+            configured = WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, struct.name,
                     configured);
             final BiomeStructure value = new BiomeStructure(configured, struct);
             // Add the structures to the list, the predicate based on the spawn
@@ -536,12 +536,12 @@ public class WorldgenHandler
         }
         for (final BiomeFeature feature : this.features.keySet())
         {
-            final Registry<ConfiguredFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_FEATURE;
+            final Registry<ConfiguredFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_FEATURE;
             Registry.register(registry, feature.name, feature.feature);
         }
     }
 
-    public void register(final Predicate<ResourceKey<Biome>> selector, final GenerationStep.Decoration stage,
+    public void register(final Predicate<RegistryKey<Biome>> selector, final GenerationStage.Decoration stage,
             final ConfiguredFeature<?, ?> feature, final ResourceLocation name)
     {
         final BiomeFeature toAdd = new BiomeFeature(stage, feature, name);
@@ -594,8 +594,7 @@ public class WorldgenHandler
             }
     }
 
-    public CustomJigsawStructure register(final JigSawConfig struct,
-            final RegistryEvent.Register<StructureFeature<?>> event)
+    public CustomJigsawStructure register(final JigSawConfig struct, final RegistryEvent.Register<Structure<?>> event)
     {
         final String structName = struct.type.isEmpty() ? struct.name : struct.type;
 
@@ -614,10 +613,10 @@ public class WorldgenHandler
 
             for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
             {
-                final ResourceKey<NoiseGeneratorSettings> key = ResourceKey.create(
+                final RegistryKey<DimensionSettings> key = RegistryKey.create(
                         Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, new ResourceLocation(s));
-                BuiltinRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(structure,
-                        struct.toSettings());
+                WorldGenRegistries.NOISE_GENERATOR_SETTINGS.get(key).structureSettings().structureConfig().put(
+                        structure, struct.toSettings());
             }
         }
         PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
@@ -635,10 +634,10 @@ public class WorldgenHandler
         return structure;
     }
 
-    private static void forceVillageFeature(final StructureFeature<?> feature)
+    private static void forceVillageFeature(final Structure<?> feature)
     {
-        final List<StructureFeature<?>> list = Lists.newArrayList(StructureFeature.NOISE_AFFECTING_FEATURES);
+        final List<Structure<?>> list = Lists.newArrayList(Structure.NOISE_AFFECTING_FEATURES);
         if (!list.contains(feature)) list.add(feature);
-        StructureFeature.NOISE_AFFECTING_FEATURES = list;
+        Structure.NOISE_AFFECTING_FEATURES = list;
     }
 }

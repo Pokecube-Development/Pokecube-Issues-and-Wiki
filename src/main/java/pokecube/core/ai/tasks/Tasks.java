@@ -8,15 +8,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.InteractWithDoorTask;
+import net.minecraft.entity.ai.brain.task.Task;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -62,7 +62,7 @@ public class Tasks
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
             MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.LEAP_TARGET,
             MemoryModules.PATH, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE);
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
             SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
@@ -91,14 +91,14 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> idle(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> idle(final IPokemob pokemob,
             final float speed)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
         // Tasks for idle
         final List<IAIRunnable> aiList = Lists.newArrayList();
-        final Mob entity = pokemob.getEntity();
-        Behavior<?> task;
+        final MobEntity entity = pokemob.getEntity();
+        Task<?> task;
 
         final IGuardAICapability guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (entry.stock)
@@ -118,7 +118,7 @@ public class Tasks
             aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length, 8
                     + entity.getBbWidth() + pokemob.getPokedexEntry().length));
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
         guardai.shouldRun = () ->
@@ -127,24 +127,24 @@ public class Tasks
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
 
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
+        final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
         list.add(pair);
 
         if (entry.stock)
         {
             task = new LookAtTask(45, 90);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
-            list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
             list.add(Tasks.lookAtMany());
             list.add(Tasks.lookAtPlayerOrVillager());
         }
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
-        list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
 
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
@@ -152,15 +152,15 @@ public class Tasks
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
-            Behavior<LivingEntity> toAdd = null;
-            if (run instanceof Behavior<?>) toAdd = (Behavior<LivingEntity>) run;
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> combat(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> combat(final IPokemob pokemob,
             final float speed)
     {
         // Tasks for combat
@@ -191,40 +191,40 @@ public class Tasks
         aiList.add(targetFind);
         pokemob.setTargetFinder(targetFind);
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
         if (entry.stock)
         {
-            Behavior<?> task = new LookAtTask(45, 90);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            Task<?> task = new LookAtTask(45, 90);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
             task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
             task = new SwimTask(pokemob, 0.8F);
-            list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
         }
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
-            Behavior<LivingEntity> toAdd = null;
-            if (run instanceof Behavior<?>) toAdd = (Behavior<LivingEntity>) run;
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> utility(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> utility(final IPokemob pokemob,
             final float speed)
     {
         // Tasks for utilitiy
         final List<IAIRunnable> aiList = Lists.newArrayList();
         final PokedexEntry entry = pokemob.getPokedexEntry();
-        Behavior<?> task;
+        Task<?> task;
 
         // combat tasks
         final StoreTask ai = new StoreTask(pokemob);
@@ -237,7 +237,7 @@ public class Tasks
         // forget we were being hunted
         aiList.add(new ForgetHuntedByTask(pokemob, 100));
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
@@ -246,51 +246,51 @@ public class Tasks
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
+        final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
                 guardai));
         list.add(pair);
         if (entry.stock)
         {
             task = new LookAtTask(45, 90);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
-            list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             task = new SwimTask(pokemob, 0.8F);
-            list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
+            list.add(Pair.of(0, (Task<? super LivingEntity>) task));
         }
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
-        list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoorTask()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeCore.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
-            Behavior<LivingEntity> toAdd = null;
-            if (run instanceof Behavior<?>) toAdd = (Behavior<LivingEntity>) run;
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
     }
 
     //@formatter:off
-    private static Pair<Integer, Behavior<LivingEntity>> lookAtMany()
+    private static Pair<Integer, Task<LivingEntity>> lookAtMany()
     {
         return Pair.of(5, new ShuffledTask<>(
                 ImmutableList.of(
                 Pair.of(new LookAtMob(EntityType.CAT, 8.0F),8),
                 Pair.of(new LookAtMob(EntityType.VILLAGER, 8.0F), 2),
                 Pair.of(new LookAtMob(EntityType.PLAYER, 8.0F), 2),
-                Pair.of(new LookAtMob(MobCategory.CREATURE, 8.0F),1),
-                Pair.of(new LookAtMob(MobCategory.WATER_CREATURE, 8.0F), 1),
-                Pair.of(new LookAtMob(MobCategory.MONSTER, 8.0F), 1),
+                Pair.of(new LookAtMob(EntityClassification.CREATURE, 8.0F),1),
+                Pair.of(new LookAtMob(EntityClassification.WATER_CREATURE, 8.0F), 1),
+                Pair.of(new LookAtMob(EntityClassification.MONSTER, 8.0F), 1),
                 Pair.of(new BlankTask(30, 60), 2)
                 )));
     }
 
-    private static Pair<Integer, Behavior<LivingEntity>> lookAtPlayerOrVillager()
+    private static Pair<Integer, Task<LivingEntity>> lookAtPlayerOrVillager()
     {
         return Pair.of(3, new ShuffledTask<>(
                 ImmutableList.of(

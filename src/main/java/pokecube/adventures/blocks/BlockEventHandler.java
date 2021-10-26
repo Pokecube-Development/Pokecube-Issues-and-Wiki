@@ -2,21 +2,21 @@ package pokecube.adventures.blocks;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.blocks.statue.StatueEntity;
+import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
@@ -29,9 +29,9 @@ public class BlockEventHandler
 {
     private static class WarpPadStore implements ILinkStorage
     {
-        final WarpPadTile tile;
+        final WarppadTile tile;
 
-        public WarpPadStore(final WarpPadTile tile)
+        public WarpPadStore(final WarppadTile tile)
         {
             this.tile = tile;
         }
@@ -64,19 +64,14 @@ public class BlockEventHandler
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
             this.tile.getDest().shift(0.5, 0, 0.5);
-            if (!user.getCommandSenderWorld().isClientSide)
+            if (!user.getCommandSenderWorld().isClientSide) if (user instanceof PlayerEntity)
             {
-                if (user instanceof Player)
-                {
-                    final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), true);
-                } else
-                {
-                    user.sendMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
-                }
+                final PlayerEntity player = (PlayerEntity) user;
+                player.displayClientMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link",
+                        this.tile.getDest().getInfoName()), true);
             }
+            else user.sendMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link", this.tile
+                    .getDest().getInfoName()), Util.NIL_UUID);
             // Centre us properly.
             return true;
         }
@@ -86,7 +81,7 @@ public class BlockEventHandler
     {
         final WarpPadStore store;
 
-        public WarpPadLink(final WarpPadTile store)
+        public WarpPadLink(final WarppadTile store)
         {
             this.store = new WarpPadStore(store);
         }
@@ -113,7 +108,7 @@ public class BlockEventHandler
         {
             this.tile = tile;
             this.pos = new PosStorage();
-            this.pos.setLinkedPos(GlobalPos.of(Level.OVERWORLD, this.tile.getBlockPos()), null);
+            this.pos.setLinkedPos(GlobalPos.of(World.OVERWORLD, this.tile.getBlockPos()), null);
         }
 
         @Override
@@ -134,11 +129,11 @@ public class BlockEventHandler
     protected static final ResourceLocation LINKABLECAP     = new ResourceLocation(PokecubeAdv.MODID, "linkable");
 
     @SubscribeEvent
-    public static void attachCaps(final AttachCapabilitiesEvent<BlockEntity> event)
+    public static void attachCaps(final AttachCapabilitiesEvent<TileEntity> event)
     {
-        if (event.getObject() instanceof WarpPadTile && !event.getCapabilities().containsKey(
+        if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(
-                        (WarpPadTile) event.getObject()));
+                        (WarppadTile) event.getObject()));
         if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
                         (SiphonTile) event.getObject()));

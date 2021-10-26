@@ -2,11 +2,11 @@ package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.PokecubeCore;
 
@@ -15,7 +15,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     protected T   current_page;
     protected int index = 0;
 
-    public PageWithSubPages(final Component title, final EditorGui parent)
+    public PageWithSubPages(final ITextComponent title, final EditorGui parent)
     {
         super(title, parent);
     }
@@ -73,18 +73,18 @@ public abstract class PageWithSubPages<T extends Page> extends Page
             PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
         }
         @SuppressWarnings("unchecked")
-        final List<GuiEventListener> list = (List<GuiEventListener>) this.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
         list.add(this.current_page);
     }
 
     protected abstract int pageCount();
 
-    public void postPageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
 
-    public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
@@ -100,7 +100,7 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().font;
         this.prePageDraw(mat, mouseX, mouseY, partialTicks);

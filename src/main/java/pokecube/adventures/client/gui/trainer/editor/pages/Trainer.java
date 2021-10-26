@@ -3,15 +3,15 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.Util;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.StringTextComponent;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
@@ -26,13 +26,13 @@ public class Trainer extends Page
 {
     protected static int lastMobIndex = -1;
 
-    EditBox name;
-    EditBox type;
-    EditBox copyMob;
-    EditBox customTex;
-    EditBox playerName;
+    TextFieldWidget name;
+    TextFieldWidget type;
+    TextFieldWidget copyMob;
+    TextFieldWidget customTex;
+    TextFieldWidget playerName;
 
-    EditBox tradeList;
+    TextFieldWidget tradeList;
 
     boolean male;
     boolean typename;
@@ -41,14 +41,14 @@ public class Trainer extends Page
 
     public Trainer(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(new StringTextComponent(""), parent);
     }
 
     @Override
     public void onPageOpened()
     {
         this.children.clear();
-        this.renderables.clear();
+        this.buttons.clear();
         super.onPageOpened();
         final int x = this.width / 2;
         final int y = this.height / 2;
@@ -58,15 +58,15 @@ public class Trainer extends Page
         int i = 0;
         final int dx = -120;
 
-        this.type = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(""));
-        this.name = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(""));
-        this.tradeList = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(
+        this.type = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
+        this.name = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
+        this.tradeList = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(
                 ""));
-        this.playerName = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(
+        this.playerName = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(
                 ""));
-        this.customTex = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(
+        this.customTex = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(
                 ""));
-        this.copyMob = new EditBox(this.font, x + dx, y + dy + sy * i++, 100, 10, new TextComponent(""));
+        this.copyMob = new TextFieldWidget(this.font, x + dx, y + dy + sy * i++, 100, 10, new StringTextComponent(""));
 
         this.copyMob.maxLength = 255;
 
@@ -107,17 +107,17 @@ public class Trainer extends Page
         final ICopyMob copied = CopyCaps.get(this.parent.entity);
         if (copied != null && copied.getCopiedID() != null) this.copyMob.setValue(copied.getCopiedID().toString());
 
-        this.addRenderableWidget(this.name);
-        this.addRenderableWidget(this.tradeList);
-        this.addRenderableWidget(this.type);
-        this.addRenderableWidget(this.playerName);
-        this.addRenderableWidget(this.customTex);
-        this.addRenderableWidget(this.copyMob);
+        this.addButton(this.name);
+        this.addButton(this.tradeList);
+        this.addButton(this.type);
+        this.addButton(this.playerName);
+        this.addButton(this.customTex);
+        this.addButton(this.copyMob);
 
         if (this.parent.entity instanceof NpcMob) this.tradeList.setValue(((NpcMob) this.parent.entity).customTrades);
         else this.tradeList.setEditable(false);
 
-        // this.addRenderableWidget(this.urlSkin);
+        // this.addButton(this.urlSkin);
         int index = 0;
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Trainer.class) break;
@@ -160,7 +160,7 @@ public class Trainer extends Page
             for (i = 0; i < this.parent.trainer.countPokemon(); i++)
             {
                 final int i2 = i;
-                this.addRenderableWidget(new Button(x + 20 + 50 * (i / 3), y - 10 + 20 * (i % 3), 50, 20, new TextComponent(
+                this.addButton(new Button(x + 20 + 50 * (i / 3), y - 10 + 20 * (i % 3), 50, 20, new StringTextComponent(
                         "mob " + (i + 1)), b ->
                         {
                             this.parent.changePage(pokemobIndex);
@@ -191,8 +191,8 @@ public class Trainer extends Page
             if (this.parent.trainer.countPokemon() < 6)
             {
                 final int i2 = this.parent.trainer.countPokemon();
-                this.addRenderableWidget(new Button(x + 20 + 50 * (i2 / 3), y - 10 + 20 * (i2 % 3), 50, 20,
-                        new TextComponent("mob +"), b ->
+                this.addButton(new Button(x + 20 + 50 * (i2 / 3), y - 10 + 20 * (i2 % 3), 50, 20,
+                        new StringTextComponent("mob +"), b ->
                         {
                             this.parent.changePage(pokemobIndex);
                             if (!(this.parent.current_page instanceof Pokemob)) return;
@@ -217,7 +217,7 @@ public class Trainer extends Page
             }
         }
 
-        this.addRenderableWidget(new Button(x - 9, y + dy - 1, 10, 10, new TextComponent(">"), b ->
+        this.addButton(new Button(x - 9, y + dy - 1, 10, 10, new StringTextComponent(">"), b ->
         {
             this.index++;
             this.index = this.index % types.size();
@@ -225,39 +225,39 @@ public class Trainer extends Page
             this.onUpdated();
 
         }));
-        this.addRenderableWidget(new Button(x - 19, y + dy - 1, 10, 10, new TextComponent("<"), b ->
+        this.addButton(new Button(x - 19, y + dy - 1, 10, 10, new StringTextComponent("<"), b ->
         {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
             this.onUpdated();
         }));
-        this.addRenderableWidget(new Button(x - 123, y + 55, 40, 20, new TextComponent("Delete"), b ->
+        this.addButton(new Button(x - 123, y + 55, 40, 20, new StringTextComponent("Delete"), b ->
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.KILLTRAINER);
             message.getTag().putInt("I", this.parent.entity.getId());
             PacketTrainer.ASSEMBLER.sendToServer(message);
             this.onClose();
         }));
-        this.addRenderableWidget(new Button(x - 19, y + dy + 9, 10, 10, new TextComponent(this.male ? "\u2642" : "\u2640"),
+        this.addButton(new Button(x - 19, y + dy + 9, 10, 10, new StringTextComponent(this.male ? "\u2642" : "\u2640"),
                 b ->
                 {
                     this.male = !this.male;
-                    b.setMessage(new TextComponent(this.male ? "\u2642" : "\u2640"));
+                    b.setMessage(new StringTextComponent(this.male ? "\u2642" : "\u2640"));
                     this.onUpdated();
                 }));
-        this.addRenderableWidget(new Button(x + 60, y - 53, 60, 10, new TextComponent(this.typename ? "Name Prefix"
+        this.addButton(new Button(x + 60, y - 53, 60, 10, new StringTextComponent(this.typename ? "Name Prefix"
                 : "No Prefix"), b ->
                 {
                     this.typename = !this.typename;
-                    b.setMessage(new TextComponent(this.typename ? "Name Prefix" : "No Prefix"));
+                    b.setMessage(new StringTextComponent(this.typename ? "Name Prefix" : "No Prefix"));
                     this.onUpdated();
                 }));
-        this.addRenderableWidget(new Button(x + 80, y - 73, 40, 20, new TextComponent("Apply"), b ->
+        this.addButton(new Button(x + 80, y - 73, 40, 20, new StringTextComponent("Apply"), b ->
         {
             this.onUpdated();
         }));
-        this.addRenderableWidget(new Button(x + 80, y + 55, 40, 20, new TextComponent("Exit"), b ->
+        this.addButton(new Button(x + 80, y + 55, 40, 20, new StringTextComponent("Exit"), b ->
         {
             this.onUpdated();
             this.onClose();
@@ -267,7 +267,7 @@ public class Trainer extends Page
             if (EditorGui.PAGELIST.get(index) == Rewards.class) break;
         final int rewardIndex = index;
         final int yOff = 15;
-        this.addRenderableWidget(new Button(x - 123, y + yOff, 60, 20, new TextComponent("rewards"), b ->
+        this.addButton(new Button(x - 123, y + yOff, 60, 20, new StringTextComponent("rewards"), b ->
         {
             // Change to a rewards page
             this.parent.changePage(rewardIndex);
@@ -282,7 +282,7 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == Messages.class) break;
         final int messIndex = index;
-        this.addRenderableWidget(new Button(x - 123, y + yOff - 20, 60, 20, new TextComponent("messages"), b ->
+        this.addButton(new Button(x - 123, y + yOff - 20, 60, 20, new StringTextComponent("messages"), b ->
         {
             // Change to a messages page
             // Change to a ai page
@@ -298,7 +298,7 @@ public class Trainer extends Page
         for (index = 0; index < EditorGui.PAGELIST.size(); index++)
             if (EditorGui.PAGELIST.get(index) == AI.class) break;
         final int aiIndex = index;
-        this.addRenderableWidget(new Button(x - 123, y + yOff + 20, 60, 20, new TextComponent("ai"), b ->
+        this.addButton(new Button(x - 123, y + yOff + 20, 60, 20, new StringTextComponent("ai"), b ->
         {
             // Change to a ai page
             this.parent.changePage(aiIndex);
@@ -328,7 +328,7 @@ public class Trainer extends Page
     }
 
     @Override
-    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
     {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2 - 18;

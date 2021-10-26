@@ -5,25 +5,26 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -58,6 +59,8 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.moves.MoveRegister;
+import pokecube.mobs.proxy.ClientProxy;
+import pokecube.mobs.proxy.CommonProxy;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -75,7 +78,7 @@ public class PokecubeMobs
         }
 
         @SubscribeEvent
-        public static void registerFeatures(final RegistryEvent.Register<StructureFeature<?>> event)
+        public static void registerFeatures(final RegistryEvent.Register<Structure<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
             new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
@@ -83,6 +86,7 @@ public class PokecubeMobs
     }
 
     public static final String MODID = "pokecube_mobs";
+    public static CommonProxy  proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
@@ -211,7 +215,7 @@ public class PokecubeMobs
                 if (shuckle.getOwner() != null)
                 {
                     final String message = "A sweet smell is coming from " + shuckle.getDisplayName().getString();
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(new ItemStack(PokecubeItems.BERRYJUICE.get()));
                 return;
@@ -222,11 +226,11 @@ public class PokecubeMobs
                 final ItemStack candy = PokecubeItems.makeCandyStack();
                 if (candy.isEmpty()) return;
 
-                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof Player)
+                if (shuckle.getOwner() != null && shuckle.getOwner() instanceof PlayerEntity)
                 {
                     final String message = "The smell coming from " + shuckle.getDisplayName().getString()
                             + " has changed";
-                    ((Player) shuckle.getOwner()).sendMessage(new TextComponent(message), Util.NIL_UUID);
+                    ((PlayerEntity) shuckle.getOwner()).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
                 }
                 shuckle.setHeldItem(candy);
                 return;
@@ -238,15 +242,15 @@ public class PokecubeMobs
     public void makeShedinja(final EvolveEvent.Post evt)
     {
         Entity owner;
-        if ((owner = evt.mob.getOwner()) instanceof ServerPlayer) this.makeShedinja(evt.mob,
-                (Player) owner);
+        if ((owner = evt.mob.getOwner()) instanceof ServerPlayerEntity) this.makeShedinja(evt.mob,
+                (PlayerEntity) owner);
     }
 
-    void makeShedinja(final IPokemob evo, final Player player)
+    void makeShedinja(final IPokemob evo, final PlayerEntity player)
     {
         if (evo.getPokedexEntry() == Database.getEntry("ninjask"))
         {
-            final Inventory inv = player.getInventory();
+            final PlayerInventory inv = player.inventory;
             boolean hasCube = false;
             boolean hasSpace = false;
             ItemStack cube = ItemStack.EMPTY;
@@ -458,6 +462,8 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("dracovish");
         ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
+        // We are depending on this now, so might as well always use it.
+        PokecubeMobs.proxy.initWearables();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -653,10 +659,10 @@ public class PokecubeMobs
                     cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
-                    evt.getCaught().getEntity().discard();
+                    evt.getCaught().getEntity().remove();
                     cube.setDeltaMovement(0, 0.1, 0);
                     cube.getCommandSenderWorld().addFreshEntity(cube.copy());
-                    evt.pokecube.discard();
+                    evt.pokecube.remove();
                 }
                 evt.setCanceled(true);
             }
@@ -697,11 +703,11 @@ public class PokecubeMobs
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
-                evt.getCaught().getEntity().discard();
+                evt.getCaught().getEntity().remove();
                 cube.setDeltaMovement(0, 0.1, 0);
                 cube.getCommandSenderWorld().addFreshEntity(cube.copy());
                 evt.setCanceled(true);
-                evt.pokecube.discard();
+                evt.pokecube.remove();
             }
 
         };

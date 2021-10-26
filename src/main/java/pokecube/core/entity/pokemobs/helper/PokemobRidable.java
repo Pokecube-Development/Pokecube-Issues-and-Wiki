@@ -7,20 +7,20 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PlayerRideableJumping;
-import net.minecraft.world.entity.Saddleable;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IEquipable;
+import net.minecraft.entity.IJumpingMount;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.database.PokedexEntry;
@@ -29,11 +29,11 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.BodyPart;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.maths.vecmath.Vector3f;
 
-public abstract class PokemobRidable extends PokemobHasParts implements IMultiplePassengerEntity, PlayerRideableJumping,
-        Saddleable
+public abstract class PokemobRidable extends PokemobHasParts implements IMultiplePassengerEntity, IJumpingMount,
+        IEquipable
 {
 
-    public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
     }
@@ -104,10 +104,10 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     /**
      * This is "add saddle"
      */
-    public void equipSaddle(@Nullable final SoundSource sound)
+    public void equipSaddle(@Nullable final SoundCategory sound)
     {
         this.pokemobCap.getInventory().setItem(0, new ItemStack(Items.SADDLE));
-        if (sound != null) this.level.playSound((Player) null, this, SoundEvents.HORSE_SADDLE, sound,
+        if (sound != null) this.level.playSound((PlayerEntity) null, this, SoundEvents.HORSE_SADDLE, sound,
                 0.5F, 1.0F);
     }
 
@@ -119,7 +119,7 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
 
     // ========== IMultipassenger stuff below here ==============
     @SuppressWarnings("unchecked")
-    static final EntityDataAccessor<Seat>[] SEAT = new EntityDataAccessor[10];
+    static final DataParameter<Seat>[] SEAT = new DataParameter[10];
 
     private boolean init      = false;
     private String  lastPose  = "";
@@ -128,7 +128,7 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     static
     {
         for (int i = 0; i < PokemobRidable.SEAT.length; i++)
-            PokemobRidable.SEAT[i] = SynchedEntityData.<Seat> defineId(PokemobRidable.class,
+            PokemobRidable.SEAT[i] = EntityDataManager.<Seat> defineId(PokemobRidable.class,
                     IMultiplePassengerEntity.SEATSERIALIZER);
     }
 
@@ -212,7 +212,7 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
 
     protected void initSeats()
     {
-        if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(this.getCommandSenderWorld() instanceof ServerWorld)) return;
         if (this.init && this.lastPose.equals(this.effective_pose)) return;
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
         this.lastPose = this.effective_pose;

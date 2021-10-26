@@ -7,23 +7,20 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.SoundEvents;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NBTTree;
@@ -42,35 +39,35 @@ import pokecube.nbtedit.nbt.SaveStates;
 public class GuiNBTTree extends Screen
 {
 
-    private final Minecraft mc = Minecraft.getInstance();
+    private final Minecraft           mc      = Minecraft.getInstance();
 
     private final NBTTree             tree;
     private final List<GuiNBTNode>    nodes;
     private final GuiSaveSlotButton[] saves;
     private final GuiNBTButton[]      nbtButtons;
 
-    private final int X_GAP = 10, START_X = 10;
+    private final int                 X_GAP   = 10, START_X = 10;
 
-    final int         START_Y = 30;
-    private final int Y_GAP   = Minecraft.getInstance().font.lineHeight + 2;
+    final int                         START_Y = 30;
+    private final int                 Y_GAP   = Minecraft.getInstance().font.lineHeight + 2;
 
-    private int y, yClick;
+    private int                       y, yClick;
 
-    int bottom;
+    int                               bottom;
 
-    int width;
+    int                               width;
 
-    int height;
+    int                               height;
 
-    private int heightDiff;
+    private int                       heightDiff;
 
-    private int offset;
+    private int                       offset;
 
-    private Node<NamedNBT> focused;
-    private int            focusedSlotIndex;
-    public boolean         reInit = false;
+    private Node<NamedNBT>            focused;
+    private int                       focusedSlotIndex;
+    public boolean                    reInit  = false;
 
-    private GuiEditNBT window;
+    private GuiEditNBT                window;
 
     public GuiNBTTree(final NBTTree tree)
     {
@@ -90,7 +87,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 14; i < 17; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
-            this.addRenderableWidget(this.nbtButtons[i - 1]);
+            this.addButton(this.nbtButtons[i - 1]);
             x += 15;
         }
 
@@ -98,7 +95,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 12; i < 14; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
-            this.addRenderableWidget(this.nbtButtons[i - 1]);
+            this.addButton(this.nbtButtons[i - 1]);
             x += 15;
         }
 
@@ -107,7 +104,7 @@ public class GuiNBTTree extends Screen
         for (byte i = 1; i < 12; ++i)
         {
             this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
-            this.addRenderableWidget(this.nbtButtons[i - 1]);
+            this.addButton(this.nbtButtons[i - 1]);
             x += 9;
         }
     }
@@ -117,7 +114,7 @@ public class GuiNBTTree extends Screen
         final int dx = node.hasChildren() ? 10 : 0;
         final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y);
         this.nodes.add(nbtNode);
-        this.addRenderableWidget(nbtNode);
+        this.addButton(nbtNode);
         x += this.X_GAP;
         this.y += this.Y_GAP;
         if (node.shouldDrawChildren()) for (final Node<NamedNBT> child : node.getChildren())
@@ -134,10 +131,10 @@ public class GuiNBTTree extends Screen
                 final GuiSaveSlotButton button = (GuiSaveSlotButton) b;
                 button.reset();
                 NBTEdit.getSaveStates().save();
-                this.mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 return;
             });
-            this.addRenderableWidget(this.saves[i]);
+            this.addButton(this.saves[i]);
         }
     }
 
@@ -169,9 +166,9 @@ public class GuiNBTTree extends Screen
             final List<Node<NamedNBT>> children = this.focused.getChildren();
             final String type = NBTStringHelper.getButtonName(button.getId());
 
-            if (this.focused.getObject().getNBT() instanceof ListTag)
+            if (this.focused.getObject().getNBT() instanceof ListNBT)
             {
-                final Tag nbt = NBTStringHelper.newTag(button.getId());
+                final INBT nbt = NBTStringHelper.newTag(button.getId());
                 if (nbt != null)
                 {
                     final Node<NamedNBT> newNode = new Node<>(this.focused, new NamedNBT("", nbt));
@@ -193,12 +190,12 @@ public class GuiNBTTree extends Screen
         }
     }
 
-    private boolean canAddToParent(final Tag parent, final Tag child)
+    private boolean canAddToParent(final INBT parent, final INBT child)
     {
-        if (parent instanceof CompoundTag) return true;
-        if (parent instanceof ListTag)
+        if (parent instanceof CompoundNBT) return true;
+        if (parent instanceof ListNBT)
         {
-            final ListTag list = (ListTag) parent;
+            final ListNBT list = (ListNBT) parent;
             return list.size() == 0 || list.getElementType() == child.getId();
         }
         return false;
@@ -206,8 +203,8 @@ public class GuiNBTTree extends Screen
 
     private boolean canPaste()
     {
-        return NBTEdit.clipboard != null && this.focused != null && this.canAddToParent(this.focused.getObject()
-                .getNBT(), NBTEdit.clipboard.getNBT());
+        return NBTEdit.clipboard != null && this.focused != null
+                && this.canAddToParent(this.focused.getObject().getNBT(), NBTEdit.clipboard.getNBT());
     }
 
     @Override
@@ -242,7 +239,7 @@ public class GuiNBTTree extends Screen
     public void closeWindow()
     {
         this.children.remove(this.window);
-        this.renderables.remove(this.window);
+        this.buttons.remove(this.window);
         this.window = null;
         this.initGUI();
     }
@@ -252,15 +249,15 @@ public class GuiNBTTree extends Screen
         if (this.focused != null)
         {
             final NamedNBT namedNBT = this.focused.getObject();
-            if (namedNBT.getNBT() instanceof ListTag)
+            if (namedNBT.getNBT() instanceof ListNBT)
             {
-                final ListTag list = new ListTag();
+                final ListNBT list = new ListNBT();
                 this.tree.addChildrenToList(this.focused, list);
                 NBTEdit.clipboard = new NamedNBT(namedNBT.getName(), list);
             }
-            else if (namedNBT.getNBT() instanceof CompoundTag)
+            else if (namedNBT.getNBT() instanceof CompoundNBT)
             {
-                final CompoundTag compound = new CompoundTag();
+                final CompoundNBT compound = new CompoundNBT();
                 this.tree.addChildrenToTag(this.focused, compound);
                 NBTEdit.clipboard = new NamedNBT(namedNBT.getName(), compound);
             }
@@ -291,7 +288,7 @@ public class GuiNBTTree extends Screen
         return false;
     }
 
-    private void drawScrollBar(final PoseStack mat, final int mx, final int my)
+    private void drawScrollBar(final MatrixStack mat, final int mx, final int my)
     {
         if (this.heightDiff > 0)
         {
@@ -309,8 +306,8 @@ public class GuiNBTTree extends Screen
                     int height = this.getHeightDifference();
 
                     if (height < 1) height = 1;
-                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
-                            .getContentHeight();
+                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
+                            / this.getContentHeight();
                     if (length < 32) length = 32;
                     if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
 
@@ -322,10 +319,10 @@ public class GuiNBTTree extends Screen
             }
             else this.yClick = -1;
 
-            GuiComponent.fill(mat, this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
+            AbstractGui.fill(mat, this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
-            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
-                    .getContentHeight();
+            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
+                    / this.getContentHeight();
             if (length < 32) length = 32;
             if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
             int y = -this.offset * (this.bottom - (this.START_Y - 1) - length) / this.heightDiff + this.START_Y - 1;
@@ -338,10 +335,10 @@ public class GuiNBTTree extends Screen
 
     private void edit()
     {
-        final Tag base = this.focused.getObject().getNBT();
-        final Tag parent = this.focused.getParent().getObject().getNBT();
-        this.addRenderableWidget(this.window = new GuiEditNBT(this, this.focused, !(parent instanceof ListTag),
-                !(base instanceof CompoundTag || base instanceof ListTag)));
+        final INBT base = this.focused.getObject().getNBT();
+        final INBT parent = this.focused.getParent().getObject().getNBT();
+        this.addButton(this.window = new GuiEditNBT(this, this.focused, !(parent instanceof ListNBT),
+                !(base instanceof CompoundNBT || base instanceof ListNBT)));
         this.window.initGUI((this.width - GuiEditNBT.WIDTH) / 2, (this.height - GuiEditNBT.HEIGHT) / 2);
     }
 
@@ -349,8 +346,8 @@ public class GuiNBTTree extends Screen
     {
         if (this.focused != null)
         {
-            final Tag base = this.focused.getObject().getNBT();
-            if (this.focused.hasChildren() && (base instanceof CompoundTag || base instanceof ListTag))
+            final INBT base = this.focused.getObject().getNBT();
+            if (this.focused.hasChildren() && (base instanceof CompoundNBT || base instanceof ListNBT))
             {
                 this.focused.setDrawChildren(!this.focused.shouldDrawChildren());
                 int index;
@@ -420,14 +417,14 @@ public class GuiNBTTree extends Screen
     public void initGUI(final boolean shiftToFocused)
     {
         this.children.clear();
-        this.renderables.clear();
+        this.buttons.clear();
         this.y = this.START_Y;
         this.nodes.clear();
 
         if (this.window != null)
         {
             @SuppressWarnings("unchecked")
-            final List<GuiEventListener> list = (List<GuiEventListener>) this.children();
+            final List<IGuiEventListener> list = (List<IGuiEventListener>) this.children();
             list.add(this.window);
         }
 
@@ -482,7 +479,7 @@ public class GuiNBTTree extends Screen
 
     private Node<NamedNBT> insert(final String name, final byte type)
     {
-        final Tag nbt = NBTStringHelper.newTag(type);
+        final INBT nbt = NBTStringHelper.newTag(type);
         if (nbt != null) return this.insert(new NamedNBT(name, nbt));
         return null;
     }
@@ -535,13 +532,11 @@ public class GuiNBTTree extends Screen
 
     protected void overlayBackground(final int par1, final int par2, final int par3, final int par4)
     {
-        final Tesselator tessellator = Tesselator.getInstance();
+        final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder worldRenderer = tessellator.getBuilder();
-
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
-        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
+        this.mc.getTextureManager().bind(AbstractGui.BACKGROUND_LOCATION);
         final float var6 = 32.0F;
-        worldRenderer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+        worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
         final int r = color.getRed();
         final int g = color.getRed();
@@ -561,7 +556,7 @@ public class GuiNBTTree extends Screen
             this.focused.setDrawChildren(true);
 
             final NamedNBT namedNBT = NBTEdit.clipboard.copy();
-            if (this.focused.getObject().getNBT() instanceof ListTag)
+            if (this.focused.getObject().getNBT() instanceof ListNBT)
             {
                 namedNBT.setName("");
                 final Node<NamedNBT> node = new Node<>(this.focused, namedNBT);
@@ -596,7 +591,7 @@ public class GuiNBTTree extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int mx, final int my, final float ticks)
+    public void render(final MatrixStack mat,final int mx, final int my, final float ticks)
     {
         int cmx = mx, cmy = my;
         if (this.window != null)
@@ -606,11 +601,11 @@ public class GuiNBTTree extends Screen
         }
         this.overlayBackground(0, this.START_Y - 1, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
-        super.render(mat, mx, my, ticks);
+        super.render(mat,mx, my, ticks);
         // Render the tooltips after, so they don't get hidden by other buttond
         for (final GuiNBTButton button : this.nbtButtons)
-            button.renderToolTip(mat, my, my);
-        this.drawScrollBar(mat, cmx, cmy);
+            button.renderToolTip(mat,my, my);
+        this.drawScrollBar(mat,cmx, cmy);
     }
 
     public boolean rightClick(final double x, final double y2, final int t)
@@ -638,18 +633,18 @@ public class GuiNBTTree extends Screen
     {
         if (toFocus == null) for (final GuiNBTButton b : this.nbtButtons)
             b.active = false;
-        else if (toFocus.getObject().getNBT() instanceof CompoundTag)
+        else if (toFocus.getObject().getNBT() instanceof CompoundNBT)
         {
             for (final GuiNBTButton b : this.nbtButtons)
                 b.active = true;
             this.nbtButtons[12].active = toFocus != this.tree.getRoot();
-            this.nbtButtons[11].active = toFocus.hasParent() && !(toFocus.getParent().getObject()
-                    .getNBT() instanceof ListTag);
+            this.nbtButtons[11].active = toFocus.hasParent()
+                    && !(toFocus.getParent().getObject().getNBT() instanceof ListNBT);
             this.nbtButtons[13].active = true;
             this.nbtButtons[14].active = toFocus != this.tree.getRoot();
             this.nbtButtons[15].active = NBTEdit.clipboard != null;
         }
-        else if (toFocus.getObject().getNBT() instanceof ListTag)
+        else if (toFocus.getObject().getNBT() instanceof ListNBT)
         {
             if (toFocus.hasChildren())
             {
@@ -658,14 +653,14 @@ public class GuiNBTTree extends Screen
                     b.active = false;
                 this.nbtButtons[type - 1].active = true;
                 this.nbtButtons[12].active = true;
-                this.nbtButtons[11].active = !(toFocus.getParent().getObject().getNBT() instanceof ListTag);
+                this.nbtButtons[11].active = !(toFocus.getParent().getObject().getNBT() instanceof ListNBT);
                 this.nbtButtons[13].active = true;
                 this.nbtButtons[14].active = true;
                 this.nbtButtons[15].active = NBTEdit.clipboard != null && NBTEdit.clipboard.getNBT().getId() == type;
             }
             else for (final GuiNBTButton b : this.nbtButtons)
                 b.active = true;
-            this.nbtButtons[11].active = !(toFocus.getParent().getObject().getNBT() instanceof ListTag);
+            this.nbtButtons[11].active = !(toFocus.getParent().getObject().getNBT() instanceof ListNBT);
             this.nbtButtons[13].active = true;
             this.nbtButtons[14].active = true;
             this.nbtButtons[15].active = NBTEdit.clipboard != null;

@@ -1,51 +1,47 @@
 package thut.api.entity.blockentity.world;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public interface IBlockEntityWorld extends LevelAccessor
+public interface IBlockEntityWorld extends IWorld
 {
     default BlockState getBlock(final BlockPos pos)
     {
         if (!this.inBounds(pos)) return null;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
-        final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
-        final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ() + mob.getMin().getZ());
         return mob.getBlocks()[i][j][k];
     }
 
     IBlockEntity getBlockEntity();
 
-    default Level getWorld()
+    default World getWorld()
     {
         final Entity entity = (Entity) this.getBlockEntity();
         return entity.getCommandSenderWorld();
     }
 
-    default BlockEntity getTile(BlockPos pos)
+    default TileEntity getTile(final BlockPos pos)
     {
         if (!this.inBounds(pos)) return null;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        pos = pos.immutable();
-        final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
-        final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
-        final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
-        final BlockEntity tile = mob.getTiles()[i][j][k];
-        if (tile != null && !tile.getBlockPos().equals(pos))
-        {
-            // TODO FIXME replace the tile entity somehow?
-        }
+        final int i = pos.getX() - MathHelper.floor(entity.getX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ() + mob.getMin().getZ());
+        final TileEntity tile = mob.getTiles()[i][j][k];
+        if (tile != null) tile.setPosition(pos.immutable());
         return tile;
     }
 
@@ -54,11 +50,12 @@ public interface IBlockEntityWorld extends LevelAccessor
         final IBlockEntity mob = this.getBlockEntity();
         if (mob.getBlocks() == null) return false;
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
-        final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
-        final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ() + mob.getMin().getZ());
         if (i >= mob.getBlocks().length || j >= mob.getBlocks()[0].length || k >= mob.getBlocks()[0][0].length || i < 0
-                || j < 0 || k < 0) return false;
+                || j < 0 || k < 0)
+            return false;
         return true;
     }
 
@@ -67,9 +64,9 @@ public interface IBlockEntityWorld extends LevelAccessor
         if (!this.inBounds(pos)) return false;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
-        final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
-        final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ() + mob.getMin().getZ());
         mob.getBlocks()[i][j][k] = state;
         return true;
     }
@@ -82,7 +79,7 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int yMin = mob.getMin().getY();
         if (mob.getBlocks() == null)
         {
-            if (!entity.getCommandSenderWorld().isClientSide) entity.discard();
+            if (!entity.getCommandSenderWorld().isClientSide) entity.remove();
             return;
         }
         final int sizeX = mob.getBlocks().length;
@@ -93,33 +90,34 @@ public interface IBlockEntityWorld extends LevelAccessor
                 for (int k = 0; k < sizeZ; k++)
                     if (mob.getTiles()[i][j][k] != null)
                     {
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
-                                + entity.getZ());
-                        // FIXME update TE position somehow...
+                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
+                                k + zMin + entity.getZ());
+                        mob.getTiles()[i][j][k].setPosition(pos);
                         mob.getTiles()[i][j][k].clearRemoved();
                     }
     }
 
-    default boolean setTile(final BlockPos pos, final BlockEntity tile)
+    default boolean setTile(final BlockPos pos, final TileEntity tile)
     {
         if (!this.inBounds(pos)) return false;
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
-        final int i = pos.getX() - Mth.floor(entity.getX() + mob.getMin().getX());
-        final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
-        final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
+        final int i = pos.getX() - MathHelper.floor(entity.getX() + mob.getMin().getX());
+        final int j = pos.getY() - MathHelper.floor(entity.getY() + mob.getMin().getY());
+        final int k = pos.getZ() - MathHelper.floor(entity.getZ() + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.setRemoved();
-            // FIXME update TE position somehow...
+            tile.setPosition(pos.immutable());
+            // TODO see about setting world for tiles.
             tile.clearRemoved();
         }
         return true;
     }
 
-    default HitResult trace(final ClipContext context)
+    default RayTraceResult trace(final RayTraceContext context)
     {
         return this.getWorld().clip(context);
     }

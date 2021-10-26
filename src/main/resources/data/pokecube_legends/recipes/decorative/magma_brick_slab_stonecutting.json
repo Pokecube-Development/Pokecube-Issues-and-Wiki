@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:magma_bricks"
+    "item": "pokecube_legends:magmabrick"
   },
   "result": "pokecube_legends:magma_brick_slab",
   "count": 2

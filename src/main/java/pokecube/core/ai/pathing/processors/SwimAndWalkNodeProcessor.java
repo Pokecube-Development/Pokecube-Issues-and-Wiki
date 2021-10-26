@@ -1,29 +1,29 @@
 package pokecube.core.ai.pathing.processors;
 
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.PathNavigationRegion;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.pathfinding.WalkNodeProcessor;
+import net.minecraft.world.Region;
 
 /**
  * This is a mirror of WalkNodeProcessor, except it prioritizes water a bit
  * higher
  */
-public class SwimAndWalkNodeProcessor extends WalkNodeEvaluator
+public class SwimAndWalkNodeProcessor extends WalkNodeProcessor
 {
     private float oldWalkPriority;
     private float oldWaterBorderPriority;
 
     @Override
-    public void prepare(final PathNavigationRegion p_225578_1_, final Mob p_225578_2_)
+    public void prepare(final Region p_225578_1_, final MobEntity p_225578_2_)
     {
         super.prepare(p_225578_1_, p_225578_2_);
         // Super called handled storing the water priority
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WATER, 2.0F);
-        this.oldWalkPriority = p_225578_2_.getPathfindingMalus(BlockPathTypes.WALKABLE);
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WALKABLE, 6.0F);
-        this.oldWaterBorderPriority = p_225578_2_.getPathfindingMalus(BlockPathTypes.WATER_BORDER);
-        p_225578_2_.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 4.0F);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WATER, 2.0F);
+        this.oldWalkPriority = p_225578_2_.getPathfindingMalus(PathNodeType.WALKABLE);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WALKABLE, 6.0F);
+        this.oldWaterBorderPriority = p_225578_2_.getPathfindingMalus(PathNodeType.WATER_BORDER);
+        p_225578_2_.setPathfindingMalus(PathNodeType.WATER_BORDER, 4.0F);
     }
 
     /**
@@ -36,8 +36,8 @@ public class SwimAndWalkNodeProcessor extends WalkNodeEvaluator
     @Override
     public void done()
     {
-        this.mob.setPathfindingMalus(BlockPathTypes.WALKABLE, this.oldWalkPriority);
-        this.mob.setPathfindingMalus(BlockPathTypes.WATER_BORDER, this.oldWaterBorderPriority);
+        this.mob.setPathfindingMalus(PathNodeType.WALKABLE, this.oldWalkPriority);
+        this.mob.setPathfindingMalus(PathNodeType.WATER_BORDER, this.oldWaterBorderPriority);
         super.done();
     }
 

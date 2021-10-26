@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "pokecube_legends:crystal_block"
+    "item": "pokecube_legends:temporal_crystal"
   },
-  "result": "pokecube_legends:crystal_bricks",
+  "result": "pokecube_legends:crystalbrick",
   "count": 1
 }

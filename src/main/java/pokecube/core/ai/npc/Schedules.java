@@ -1,8 +1,8 @@
 package pokecube.core.ai.npc;
 
-import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.entity.schedule.Schedule;
-import net.minecraft.world.entity.schedule.ScheduleBuilder;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.schedule.ScheduleBuilder;
 import net.minecraftforge.event.RegistryEvent;
 
 public class Schedules

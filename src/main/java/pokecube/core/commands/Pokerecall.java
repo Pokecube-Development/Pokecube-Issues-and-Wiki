@@ -11,13 +11,13 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.handlers.events.EventsHandler;
@@ -34,9 +34,9 @@ import thut.core.common.commands.CommandTools;
 
 public class Pokerecall
 {
-    private static SuggestionProvider<CommandSourceStack> SUGGEST_NAMES = (ctx, sb) ->
+    private static SuggestionProvider<CommandSource> SUGGEST_NAMES = (ctx, sb) ->
     {
-        final ServerPlayer player = ctx.getSource().getPlayerOrException();
+        final ServerPlayerEntity player = ctx.getSource().getPlayerOrException();
         final Set<String> opts = Sets.newHashSet();
         final List<Entity> mobs = PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, true,
                 true));
@@ -51,13 +51,13 @@ public class Pokerecall
                 if (mob != null) opts.add(mob.getDisplayName().getString());
             }
         }
-        return net.minecraft.commands.SharedSuggestionProvider.suggest(opts, sb);
+        return net.minecraft.command.ISuggestionProvider.suggest(opts, sb);
     };
 
-    public static int execute(final CommandSourceStack source, final String pokemob) throws CommandSyntaxException
+    public static int execute(final CommandSource source, final String pokemob) throws CommandSyntaxException
     {
         int num = 0;
-        final ServerPlayer player = source.getPlayerOrException();
+        final ServerPlayerEntity player = source.getPlayerOrException();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getString().equals(pokemob))
             {
@@ -84,12 +84,12 @@ public class Pokerecall
                     }
                 }
             }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(new TranslationTextComponent("pokecube.recall.fail"), false);
+        else source.sendSuccess(new TranslationTextComponent("pokecube.recall.success", num), false);
         return 0;
     }
 
-    public static int execute(final CommandSourceStack source, final ServerPlayer player, final boolean all,
+    public static int execute(final CommandSource source, final ServerPlayerEntity player, final boolean all,
             final boolean sitting, final boolean staying) throws CommandSyntaxException
     {
         int num = 0;
@@ -113,22 +113,22 @@ public class Pokerecall
                 }
             }
         }
-        if (num == 0) source.sendSuccess(new TranslatableComponent("pokecube.recall.fail"), false);
-        else source.sendSuccess(new TranslatableComponent("pokecube.recall.success", num), false);
+        if (num == 0) source.sendSuccess(new TranslationTextComponent("pokecube.recall.fail"), false);
+        else source.sendSuccess(new TranslationTextComponent("pokecube.recall.success", num), false);
         return 0;
     }
 
-    public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
+    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
         PermissionAPI.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
         PermissionAPI.registerNode("command.pokerecall.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokerecall to recall other people's mobs");
 
-        final Predicate<CommandSourceStack> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");
+        final Predicate<CommandSource> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");
 
         // Setup with name and permission
-        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokerecall").requires(cs -> CommandTools
+        LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokerecall").requires(cs -> CommandTools
                 .hasPerm(cs, "command.pokerecall"));
 
         // No target argument version

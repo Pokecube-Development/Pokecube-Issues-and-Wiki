@@ -1,8 +1,8 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -28,7 +28,7 @@ public class PacketChangeForme extends Packet
     {
     }
 
-    public PacketChangeForme(final FriendlyByteBuf buffer)
+    public PacketChangeForme(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
         this.forme = Database.getEntry(buffer.readUtf(20));
@@ -37,7 +37,7 @@ public class PacketChangeForme extends Packet
     @Override
     public void handleClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
@@ -45,9 +45,9 @@ public class PacketChangeForme extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);
         if (this.forme != null) buffer.writeUtf(this.forme.getName());
         else buffer.writeUtf("");

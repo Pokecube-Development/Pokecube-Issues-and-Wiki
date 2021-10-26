@@ -7,13 +7,13 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -35,7 +35,7 @@ public class PlayerPokemobCache extends PlayerData
 
     public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
-        if (!(PokecubeCore.proxy.getWorld() instanceof ServerLevel)) return;
+        if (!(PokecubeCore.proxy.getWorld() instanceof ServerWorld)) return;
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, pc, deleted));
     }
@@ -124,17 +124,17 @@ public class PlayerPokemobCache extends PlayerData
     }
 
     @Override
-    public void readFromNBT(final CompoundTag tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         this.cache.clear();
         this._in_pc_.clear();
         this._dead_.clear();
         if (tag.contains("data"))
         {
-            final ListTag list = (ListTag) tag.get("data");
+            final ListNBT list = (ListNBT) tag.get("data");
             for (int i = 0; i < list.size(); i++)
             {
-                final CompoundTag var = list.getCompound(i);
+                final CompoundNBT var = list.getCompound(i);
                 Integer id = -1;
                 final ItemStack stack = ItemStack.of(var);
                 if (var.contains("uid")) id = var.getInt("uid");
@@ -156,12 +156,12 @@ public class PlayerPokemobCache extends PlayerData
     }
 
     @Override
-    public void writeToNBT(final CompoundTag tag)
+    public void writeToNBT(final CompoundNBT tag)
     {
-        final ListTag list = new ListTag();
+        final ListNBT list = new ListNBT();
         for (final Integer id : this.cache.keySet())
         {
-            final CompoundTag var = new CompoundTag();
+            final CompoundNBT var = new CompoundNBT();
             var.putInt("uid", id);
             var.putBoolean("_in_pc_", this._in_pc_.contains(id));
             var.putBoolean("_dead_", this._dead_.contains(id));

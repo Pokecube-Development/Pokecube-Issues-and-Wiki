@@ -14,23 +14,23 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -142,7 +142,7 @@ public class PacketPokedex extends NBTPacket
         PacketPokedex.ASSEMBLER.sendToServer(packet);
     }
 
-    public static void sendOpenPacket(final ServerPlayer player, final Entity pokemob, final boolean watch)
+    public static void sendOpenPacket(final ServerPlayerEntity player, final Entity pokemob, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.OPEN);
         packet.getTag().putBoolean("W", watch);
@@ -177,18 +177,18 @@ public class PacketPokedex extends NBTPacket
         TeleportHandler.swapTeleports(PokecubeCore.proxy.getPlayer().getStringUUID(), index1, index2);
     }
 
-    public static void sendSecretBaseInfoPacket(final ServerPlayer player, final boolean watch)
+    public static void sendSecretBaseInfoPacket(final ServerPlayerEntity player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
-        ListTag list = new ListTag();
+        ListNBT list = new ListNBT();
 
-        final Level world = player.getCommandSenderWorld();
+        final World world = player.getCommandSenderWorld();
 
         final BlockPos pos = player.blockPosition();
         final GlobalPos here = GlobalPos.of(world.dimension(), pos);
         for (final GlobalPos c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
         {
-            final CompoundTag nbt = NbtUtils.writeBlockPos(c.pos());
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(c.pos());
             list.add(nbt);
         }
         packet.getTag().put("_bases_", list);
@@ -204,19 +204,19 @@ public class PacketPokedex extends NBTPacket
             return d2 - d1;
         });
 
-        list = new ListTag();
+        list = new ListNBT();
         for (int i = 0; i < Math.min(10, meteors.size()); i++)
         {
-            final CompoundTag nbt = NbtUtils.writeBlockPos(meteors.get(i).pos());
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(meteors.get(i).pos());
             list.add(nbt);
         }
         packet.getTag().put("_meteors_", list);
 
-        list = new ListTag();
+        list = new ListNBT();
         final List<ForbiddenEntry> repels = SpawnHandler.getForbiddenEntries(world, pos);
         for (final ForbiddenEntry entry : repels)
         {
-            final CompoundTag nbt = NbtUtils.writeBlockPos(entry.region.getPos());
+            final CompoundNBT nbt = NBTUtil.writeBlockPos(entry.region.getPos());
             list.add(nbt);
         }
         packet.getTag().put("_repels_", list);
@@ -244,7 +244,7 @@ public class PacketPokedex extends NBTPacket
         PacketPokedex.ASSEMBLER.sendToServer(packet);
     }
 
-    public static void sendLoginPacket(final ServerPlayer target)
+    public static void sendLoginPacket(final ServerPlayerEntity target)
     {
         for (final String reward : XMLRewardsHandler.loadedRecipes)
         {
@@ -253,13 +253,13 @@ public class PacketPokedex extends NBTPacket
             PacketPokedex.ASSEMBLER.sendTo(message, target);
         }
         final PacketPokedex message = new PacketPokedex(PacketPokedex.CHECKLEGEND);
-        final ListTag legends = new ListTag();
+        final ListNBT legends = new ListNBT();
         for (final PokedexEntry e : ISpecialCaptureCondition.captureMap.keySet())
-            legends.add(StringTag.valueOf(e.getTrimmedName()));
+            legends.add(StringNBT.valueOf(e.getTrimmedName()));
         message.getTag().put("legends", legends);
-        final ListTag no_breed = new ListTag();
+        final ListNBT no_breed = new ListNBT();
         for (final PokedexEntry e : Database.getSortedFormes())
-            if (!e.breeds) no_breed.add(StringTag.valueOf(e.getTrimmedName()));
+            if (!e.breeds) no_breed.add(StringNBT.valueOf(e.getTrimmedName()));
         message.getTag().put("no_breed", no_breed);
         PacketPokedex.ASSEMBLER.sendTo(message, target);
     }
@@ -275,7 +275,7 @@ public class PacketPokedex extends NBTPacket
         this.getTag().putByte("__message__", message);
     }
 
-    public PacketPokedex(final FriendlyByteBuf buffer)
+    public PacketPokedex(final PacketBuffer buffer)
     {
         super(buffer);
     }
@@ -284,11 +284,11 @@ public class PacketPokedex extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     protected void onCompleteClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         this.message = this.getTag().getByte("__message__");
         int n = 0;
         int num = 0;
-        CompoundTag data;
+        CompoundNBT data;
         switch (this.message)
         {
         case OPEN:
@@ -344,14 +344,14 @@ public class PacketPokedex extends NBTPacket
             return;
         case CHECKLEGEND:
             PacketPokedex.haveConditions.clear();
-            final ListTag legends = this.getTag().getList("legends", 8);
+            final ListNBT legends = this.getTag().getList("legends", 8);
             for (int i = 0; i < legends.size(); i++)
             {
                 final PokedexEntry p = Database.getEntry(legends.getString(i));
                 if (p != null) PacketPokedex.haveConditions.add(p);
             }
             PacketPokedex.noBreeding.clear();
-            final ListTag no_breed = this.getTag().getList("no_breed", 8);
+            final ListNBT no_breed = this.getTag().getList("no_breed", 8);
             for (int i = 0; i < no_breed.size(); i++)
             {
                 final PokedexEntry p = Database.getEntry(no_breed.getString(i));
@@ -377,7 +377,7 @@ public class PacketPokedex extends NBTPacket
     }
 
     @Override
-    protected void onCompleteServer(final ServerPlayer player)
+    protected void onCompleteServer(final ServerPlayerEntity player)
     {
         this.message = this.getTag().getByte("__message__");
         // Declair some stuff before the switch;
@@ -393,7 +393,7 @@ public class PacketPokedex extends NBTPacket
         List<String> biomes;
         PokedexEntry entry;
         SpawnData data;
-        final CompoundTag spawns = new CompoundTag();
+        final CompoundNBT spawns = new CompoundNBT();
         switch (this.message)
         {
         case INSPECTMOB:
@@ -421,7 +421,7 @@ public class PacketPokedex extends NBTPacket
             packet.getTag().put("V", spawns);
             PacketPokedex.ASSEMBLER.sendTo(packet, player);
             packet = new PacketPokedex(PacketPokedex.BREEDLIST);
-            final CompoundTag breedable = new CompoundTag();
+            final CompoundNBT breedable = new CompoundNBT();
             packet.getTag().putString("e", entry.getTrimmedName());
             breedable.putString("0", entry.getTrimmedName());
             n = 1;
@@ -555,7 +555,7 @@ public class PacketPokedex extends NBTPacket
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final ResourceKey<Biome> b : SpawnBiomeMatcher.getAllBiomeKeys())
+                    if (hasBiomes) for (final RegistryKey<Biome> b : SpawnBiomeMatcher.getAllBiomeKeys())
                         if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
                     for (final BiomeType b : BiomeType.values())
                         if (data.isValid(b)) biomes.add(b.readableName);
@@ -575,14 +575,14 @@ public class PacketPokedex extends NBTPacket
             final int index = this.getTag().getInt("I");
             final TeleDest loc = TeleportHandler.getTeleport(player.getStringUUID(), index);
             TeleportHandler.unsetTeleport(index, player.getStringUUID());
-            player.sendMessage(new TextComponent("Deleted " + loc.getName()), Util.NIL_UUID);
+            player.sendMessage(new StringTextComponent("Deleted " + loc.getName()), Util.NIL_UUID);
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
         case RENAME:
             final String name = this.getTag().getString("N");
             TeleportHandler.renameTeleport(player.getStringUUID(), this.getTag().getInt("I"), name);
-            player.sendMessage(new TextComponent("Set teleport as " + name), Util.NIL_UUID);
+            player.sendMessage(new StringTextComponent("Set teleport as " + name), Util.NIL_UUID);
             PlayerDataHandler.getInstance().save(player.getStringUUID());
             PacketDataSync.syncData(player, "pokecube-data");
             return;
@@ -594,12 +594,12 @@ public class PacketPokedex extends NBTPacket
 
             if (!reward)
             {
-                if (inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.available"),
+                if (inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.available"),
                         Util.NIL_UUID);
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.nothing"),
+                if (!inspected) player.sendMessage(new TranslationTextComponent("pokedex.inspect.nothing"),
                         Util.NIL_UUID);
                 player.closeContainer();
             }
@@ -610,12 +610,12 @@ public class PacketPokedex extends NBTPacket
             {
                 final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
-                if (valid) player.sendMessage(new TranslatableComponent("pokewatch.capture.check.yes", entry
+                if (valid) player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.yes", entry
                         .getTranslatedName()), Util.NIL_UUID);
                 else
                 {
                     player.sendMessage(condition.getFailureMessage(player), Util.NIL_UUID);
-                    player.sendMessage(new TranslatableComponent("pokewatch.capture.check.no", entry
+                    player.sendMessage(new TranslationTextComponent("pokewatch.capture.check.no", entry
                             .getTranslatedName()), Util.NIL_UUID);
                 }
             }

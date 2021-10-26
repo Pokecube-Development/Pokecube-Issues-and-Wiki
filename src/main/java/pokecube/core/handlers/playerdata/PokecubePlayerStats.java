@@ -6,11 +6,11 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
@@ -98,17 +98,17 @@ public class PokecubePlayerStats extends PlayerData
         this.inspected = Sets.newHashSet();
     }
 
-    public boolean inspect(final Player player, final IPokemob pokemob)
+    public boolean inspect(final PlayerEntity player, final IPokemob pokemob)
     {
         if (this.inspected == null) this.initMaps();
-        if (player instanceof ServerPlayer) Triggers.INSPECTPOKEMOB.trigger((ServerPlayer) player, pokemob);
+        if (player instanceof ServerPlayerEntity) Triggers.INSPECTPOKEMOB.trigger((ServerPlayerEntity) player, pokemob);
         return this.inspected.add(pokemob.getPokedexEntry());
     }
 
     @Override
-    public void readFromNBT(final CompoundTag tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
-        CompoundTag temp = tag.getCompound("kills");
+        CompoundNBT temp = tag.getCompound("kills");
         PokedexEntry entry;
         this.initMaps();
         this.hasFirst = tag.getBoolean("F");
@@ -134,7 +134,7 @@ public class PokecubePlayerStats extends PlayerData
         }
         if (tag.contains("inspected"))
         {
-            final ListTag list = (ListTag) tag.get("inspected");
+            final ListNBT list = (ListNBT) tag.get("inspected");
             if (this.inspected == null) this.initMaps();
             for (int i = 0; i < list.size(); i++)
             {
@@ -145,10 +145,10 @@ public class PokecubePlayerStats extends PlayerData
         }
     }
 
-    public void setHasFirst(final Player player)
+    public void setHasFirst(final PlayerEntity player)
     {
         this.hasFirst = true;
-        Triggers.FIRSTPOKEMOB.trigger((ServerPlayer) player);
+        Triggers.FIRSTPOKEMOB.trigger((ServerPlayerEntity) player);
     }
 
     @Override
@@ -158,23 +158,23 @@ public class PokecubePlayerStats extends PlayerData
     }
 
     @Override
-    public void writeToNBT(final CompoundTag tag_)
+    public void writeToNBT(final CompoundNBT tag_)
     {
-        CompoundTag tag = new CompoundTag();
+        CompoundNBT tag = new CompoundNBT();
         for (final PokedexEntry e : this.getKills().keySet())
             tag.putInt(e.getName(), this.getKills().get(e));
         tag_.put("kills", tag);
-        tag = new CompoundTag();
+        tag = new CompoundNBT();
         for (final PokedexEntry e : this.getCaptures().keySet())
             tag.putInt(e.getName(), this.getCaptures().get(e));
         tag_.put("captures", tag);
-        tag = new CompoundTag();
+        tag = new CompoundNBT();
         for (final PokedexEntry e : this.getHatches().keySet())
             tag.putInt(e.getName(), this.getHatches().get(e));
         tag_.put("hatches", tag);
-        final ListTag list = new ListTag();
+        final ListNBT list = new ListNBT();
         for (final PokedexEntry e : this.inspected)
-            list.add(StringTag.valueOf(e.getName()));
+            list.add(StringNBT.valueOf(e.getName()));
         tag_.put("inspected", list);
         tag_.putBoolean("F", this.hasFirst);
     }

@@ -1,8 +1,8 @@
 package pokecube.core.network.pokemobs;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketBuffer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -15,7 +15,7 @@ public class PacketSyncModifier extends Packet
     public static void sendUpdate(final String type, final IPokemob pokemob)
     {
         if (pokemob == null) return;
-        if (!pokemob.getEntity().isAddedToWorld()) return;
+        if (!pokemob.getEntity().inChunk) return;
         final PacketSyncModifier packet = new PacketSyncModifier();
         packet.entityId = pokemob.getEntity().getId();
         packet.modifier = pokemob.getModifiers().indecies.get(type);
@@ -33,7 +33,7 @@ public class PacketSyncModifier extends Packet
     {
     }
 
-    public PacketSyncModifier(final FriendlyByteBuf buf)
+    public PacketSyncModifier(final PacketBuffer buf)
     {
         this.entityId = buf.readInt();
         this.modifier = buf.readInt();
@@ -44,7 +44,7 @@ public class PacketSyncModifier extends Packet
     @Override
     public void handleClient()
     {
-        final Player player = PokecubeCore.proxy.getPlayer();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final int modifier = this.modifier;
         final float[] values = this.values;
@@ -59,7 +59,7 @@ public class PacketSyncModifier extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeInt(this.modifier);

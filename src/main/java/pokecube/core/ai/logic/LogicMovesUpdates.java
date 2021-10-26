@@ -3,13 +3,13 @@ package pokecube.core.ai.logic;
 import java.util.Collection;
 import java.util.List;
 
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants;
@@ -70,7 +70,7 @@ public class LogicMovesUpdates extends LogicBase
     }
 
     @Override
-    public void tick(final Level world)
+    public void tick(final World world)
     {
         super.tick(world);
         this.v.set(this.entity);
@@ -135,8 +135,8 @@ public class LogicMovesUpdates extends LogicBase
         final IPokemobUseable usable = IPokemobUseable.getUsableFor(held);
         if (usable != null && this.entity.isAlive())
         {
-            final InteractionResultHolder<ItemStack> result = usable.onTick(this.pokemob, held);
-            if (result.getResult() == InteractionResult.SUCCESS) this.pokemob.setHeldItem(result.getObject());
+            final ActionResult<ItemStack> result = usable.onTick(this.pokemob, held);
+            if (result.getResult() == ActionResultType.SUCCESS) this.pokemob.setHeldItem(result.getObject());
             if (this.pokemob.getHeldItem().isEmpty()) this.pokemob.setHeldItem(ItemStack.EMPTY);
         }
     }
@@ -149,8 +149,8 @@ public class LogicMovesUpdates extends LogicBase
             if (this.pokemob.getLogicState(LogicStates.SLEEPING))
             {
                 final int duration = 10;
-                this.entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration * 2, 100));
-                this.entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration * 2, 100));
+                this.entity.addEffect(new EffectInstance(Effects.BLINDNESS, duration * 2, 100));
+                this.entity.addEffect(new EffectInstance(Effects.WEAKNESS, duration * 2, 100));
             }
             return;
         }

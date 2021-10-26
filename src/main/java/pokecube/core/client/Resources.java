@@ -3,7 +3,7 @@
  */
 package pokecube.core.client;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.interfaces.PokecubeMod;
 
 /**

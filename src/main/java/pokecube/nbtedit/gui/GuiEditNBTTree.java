@@ -2,17 +2,17 @@ package pokecube.nbtedit.gui;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.nbtedit.nbt.NBTTree;
 import pokecube.nbtedit.packets.CustomNBTPacket;
 import pokecube.nbtedit.packets.EntityNBTPacket;
@@ -27,9 +27,9 @@ public class GuiEditNBTTree extends Screen
     private String           customName = "";
     private final GuiNBTTree guiTree;
 
-    public GuiEditNBTTree(final BlockPos pos, final CompoundTag tag)
+    public GuiEditNBTTree(final BlockPos pos, final CompoundNBT tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(new TranslationTextComponent("nbtedit.tree"));
         this.entity = false;
         this.entityOrX = pos.getX();
         this.y = pos.getY();
@@ -38,9 +38,9 @@ public class GuiEditNBTTree extends Screen
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
-    public GuiEditNBTTree(final int entity, final CompoundTag tag)
+    public GuiEditNBTTree(final int entity, final CompoundNBT tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(new TranslationTextComponent("nbtedit.tree"));
         this.entity = true;
         this.entityOrX = entity;
         this.y = 0;
@@ -49,9 +49,9 @@ public class GuiEditNBTTree extends Screen
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
-    public GuiEditNBTTree(final int entity, final String customName, final CompoundTag tag)
+    public GuiEditNBTTree(final int entity, final String customName, final CompoundNBT tag)
     {
-        super(new TranslatableComponent("nbtedit.tree"));
+        super(new TranslationTextComponent("nbtedit.tree"));
         this.entity = true;
         this.entityOrX = entity;
         this.customName = customName;
@@ -95,9 +95,9 @@ public class GuiEditNBTTree extends Screen
     {
         this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.addRenderableWidget(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new TextComponent("Save"),
+        this.addButton(new Button(this.width / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Save"),
                 b -> this.quitWithSave()));
-        this.addRenderableWidget(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new TextComponent("Quit"),
+        this.addButton(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, new StringTextComponent("Quit"),
                 b -> this.quitWithoutSaving()));
         this.children.add(this.guiTree);
     }
@@ -169,11 +169,11 @@ public class GuiEditNBTTree extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int x, final int y, final float par3)
+    public void render(final MatrixStack mat, final int x, final int y, final float par3)
     {
         this.renderBackground(mat);
         this.guiTree.render(mat, x, y, par3);
-        GuiComponent.drawCenteredString(mat, this.font, this.screenTitle, this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(mat, this.font, this.screenTitle, this.width / 2, 5, 16777215);
         super.render(mat, x, y, par3);
     }
 

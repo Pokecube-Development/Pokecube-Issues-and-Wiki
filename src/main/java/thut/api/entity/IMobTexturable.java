@@ -5,8 +5,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IMobTexturable
@@ -19,6 +22,24 @@ public interface IMobTexturable
         {
             return null;
         }
+    }
+
+    public static class Storage implements Capability.IStorage<IMobTexturable>
+    {
+
+        @Override
+        public void readNBT(final Capability<IMobTexturable> capability, final IMobTexturable instance,
+                final Direction side, final INBT nbt)
+        {
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IMobTexturable> capability, final IMobTexturable instance,
+                final Direction side)
+        {
+            return null;
+        }
+
     }
 
     LivingEntity getEntity();

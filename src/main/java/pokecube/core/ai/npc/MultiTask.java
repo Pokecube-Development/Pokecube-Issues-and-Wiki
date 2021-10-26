@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.behavior.ShufflingList;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.util.WeightedList;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import pokecube.core.ai.brain.RootTask;
 
 public class MultiTask<E extends LivingEntity> extends RootTask<E>
@@ -25,36 +25,34 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
 
     static
     {
-        CONTINUE = ObfuscationReflectionHelper.findMethod(Behavior.class, "m_6737_", ServerLevel.class,
+        CONTINUE = ObfuscationReflectionHelper.findMethod(Task.class, "func_212834_g_", ServerWorld.class,
                 LivingEntity.class, long.class);
     }
-    private final Set<MemoryModuleType<?>> memories;
+    private final Set<MemoryModuleType<?>>      memoryModules;
+    private final MultiTask.Ordering            ordering;
+    private final MultiTask.RunType             runType;
+    private final WeightedList<Task<? super E>> tasks = new WeightedList<>();
 
-    private final MultiTask.Ordering ordering;
-    private final MultiTask.RunType  runType;
-
-    private final ShufflingList<Behavior<? super E>> behaviors = new ShufflingList<>();
-
-    public MultiTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMemories,
+    public MultiTask(final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMemories,
             final Set<MemoryModuleType<?>> modules, final MultiTask.Ordering ordering, final MultiTask.RunType type,
-            final List<Pair<Behavior<? super E>, Integer>> tasks)
+            final List<Pair<Task<? super E>, Integer>> tasks)
     {
         super(neededMemories);
-        this.memories = modules;
+        this.memoryModules = modules;
         this.ordering = ordering;
         this.runType = type;
         tasks.forEach((pair) ->
         {
-            this.behaviors.add(pair.getFirst(), pair.getSecond());
+            this.tasks.add(pair.getFirst(), pair.getSecond());
         });
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
+    protected boolean canStillUse(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        return this.behaviors.stream().filter((task) ->
+        return this.tasks.stream().filter((task) ->
         {
-            return task.getStatus() == Behavior.Status.RUNNING;
+            return task.getStatus() == Task.Status.RUNNING;
         }).anyMatch((task) ->
         {
             boolean var = false;
@@ -76,18 +74,18 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     }
 
     @Override
-    protected void start(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.ordering.apply(this.behaviors);
-        this.runType.process(this.behaviors, worldIn, entityIn, gameTimeIn);
+        this.ordering.apply(this.tasks);
+        this.runType.process(this.tasks, worldIn, entityIn, gameTimeIn);
     }
 
     @Override
-    protected void tick(final ServerLevel worldIn, final E owner, final long gameTime)
+    protected void tick(final ServerWorld worldIn, final E owner, final long gameTime)
     {
-        this.behaviors.stream().filter((task) ->
+        this.tasks.stream().filter((task) ->
         {
-            return task.getStatus() == Behavior.Status.RUNNING;
+            return task.getStatus() == Task.Status.RUNNING;
         }).forEach((task) ->
         {
             task.tickOrStop(worldIn, owner, gameTime);
@@ -95,24 +93,24 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     }
 
     @Override
-    protected void stop(final ServerLevel worldIn, final E entityIn, final long gameTimeIn)
+    protected void stop(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
-        this.behaviors.stream().filter((task) ->
+        this.tasks.stream().filter((task) ->
         {
-            return task.getStatus() == Behavior.Status.RUNNING;
+            return task.getStatus() == Task.Status.RUNNING;
         }).forEach((task) ->
         {
             task.doStop(worldIn, entityIn, gameTimeIn);
         });
-        this.memories.forEach(entityIn.getBrain()::eraseMemory);
+        this.memoryModules.forEach(entityIn.getBrain()::eraseMemory);
     }
 
     @Override
     public String toString()
     {
-        final Set<? extends Behavior<? super E>> set = this.behaviors.stream().filter((task) ->
+        final Set<? extends Task<? super E>> set = this.tasks.stream().filter((task) ->
         {
-            return task.getStatus() == Behavior.Status.RUNNING;
+            return task.getStatus() == Task.Status.RUNNING;
         }).collect(Collectors.toSet());
         return "(" + this.getClass().getSimpleName() + "): " + set;
     }
@@ -121,16 +119,16 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
     {
         ORDERED((list) ->
         {
-        }), SHUFFLED(ShufflingList::shuffle);
+        }), SHUFFLED(WeightedList::shuffle);
 
-        private final Consumer<ShufflingList<?>> consumer;
+        private final Consumer<WeightedList<?>> consumer;
 
-        private Ordering(final Consumer<ShufflingList<?>> consumer)
+        private Ordering(final Consumer<WeightedList<?>> consumer)
         {
             this.consumer = consumer;
         }
 
-        public void apply(final ShufflingList<?> list)
+        public void apply(final WeightedList<?> list)
         {
             this.consumer.accept(list);
         }
@@ -141,12 +139,12 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         RUN_ONE
         {
             @Override
-            public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
-                    final ServerLevel world, final E mob, final long time)
+            public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
+                    final ServerWorld world, final E mob, final long time)
             {
                 list.stream().filter((sub_task) ->
                 {
-                    return sub_task.getStatus() == Behavior.Status.STOPPED;
+                    return sub_task.getStatus() == Task.Status.STOPPED;
                 }).filter((sub_task) ->
                 {
                     return sub_task.tryStart(world, mob, time);
@@ -156,12 +154,12 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         TRY_ALL
         {
             @Override
-            public <E extends LivingEntity> void process(final ShufflingList<Behavior<? super E>> list,
-                    final ServerLevel world, final E mob, final long time)
+            public <E extends LivingEntity> void process(final WeightedList<Task<? super E>> list,
+                    final ServerWorld world, final E mob, final long time)
             {
                 list.stream().filter((sub_task) ->
                 {
-                    return sub_task.getStatus() == Behavior.Status.STOPPED;
+                    return sub_task.getStatus() == Task.Status.STOPPED;
                 }).forEach((sub_task) ->
                 {
                     sub_task.tryStart(world, mob, time);
@@ -173,7 +171,7 @@ public class MultiTask<E extends LivingEntity> extends RootTask<E>
         {
         }
 
-        public abstract <E extends LivingEntity> void process(ShufflingList<Behavior<? super E>> list,
-                ServerLevel world, E mob, long time);
+        public abstract <E extends LivingEntity> void process(WeightedList<Task<? super E>> list, ServerWorld world,
+                E mob, long time);
     }
 }

@@ -6,31 +6,22 @@
           "config": {
             "feature": {
               "config": {
-                "targets": [
-                  {
-                    "target": {
-                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
-                      "predicate_type": "minecraft:tag_match"
-                    },
-                    "state": {
-                      "Name": "pokecube_legends:ultra_emerald_ore"
-                    }
-                  }
-                ]
+               "target": {
+                  "tag": "minecraft:base_stone_overworld",
+                  "predicate_type": "minecraft:tag_match"
+                },
+                "state": {
+                  "Name": "pokecube_legends:ultra_emerald_ore"
+                },
+                "size": 2
               },
-              "type": "minecraft:replace_single_block"
+              "type": "minecraft:ore"
             },
             "decorator": {
               "config": {
-                "height": {
-                  "min_inclusive": {
-                    "absolute": 4
-                  },
-                  "max_inclusive": {
-                    "absolute": 31
-                  },
-                  "type": "minecraft:uniform"
-                }
+                "bottom_offset": 0,
+                "top_offset": 0,
+                "maximum": 20
               },
               "type": "minecraft:range"
             }
@@ -46,13 +37,7 @@
     },
     "decorator": {
       "config": {
-        "count": {
-          "type": "minecraft:uniform",
-          "value": {
-            "min_inclusive": 3,
-            "max_inclusive": 8
-          }
-        }
+        "count": 4
       },
       "type": "minecraft:count"
     }

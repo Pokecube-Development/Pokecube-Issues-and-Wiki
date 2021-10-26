@@ -1,11 +1,11 @@
 package thut.wearables;
 
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 
 public class DefaultChecker implements IWearableChecker
 {
@@ -24,13 +24,13 @@ public class DefaultChecker implements IWearableChecker
 
     @Override
     public void onInteract(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
-            final int subIndex, final UseOnContext context)
+            final int subIndex, final ItemUseContext context)
     {
         if (!itemstack.isEmpty())
         {
-            final InteractionResult result = itemstack.getItem().useOn(context);
-            if (result == InteractionResult.PASS && player instanceof Player) itemstack.use(player
-                    .getCommandSenderWorld(), (Player) player, InteractionHand.MAIN_HAND);
+            final ActionResultType result = itemstack.getItem().useOn(context);
+            if (result == ActionResultType.PASS && player instanceof PlayerEntity) itemstack.use(player
+                    .getCommandSenderWorld(), (PlayerEntity) player, Hand.MAIN_HAND);
         }
     }
 
@@ -74,8 +74,8 @@ public class DefaultChecker implements IWearableChecker
                 .onUpdate(player, itemstack, slot, subIndex);
         if (itemstack.getItem() instanceof IActiveWearable) ((IActiveWearable) itemstack.getItem()).onUpdate(player,
                 itemstack, slot, subIndex);
-        else if (player instanceof Player) itemstack.getItem().onArmorTick(itemstack, player.getCommandSenderWorld(),
-                (Player) player);
+        else if (player instanceof PlayerEntity) itemstack.getItem().onArmorTick(itemstack, player.getCommandSenderWorld(),
+                (PlayerEntity) player);
         else itemstack.getItem().inventoryTick(itemstack, player.getCommandSenderWorld(), player, slot.index + subIndex,
                 false);
     }

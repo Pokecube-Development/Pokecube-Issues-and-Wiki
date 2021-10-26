@@ -3,20 +3,20 @@ package pokecube.adventures.entity.trainer;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -44,14 +44,14 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     static
     {
-        TYPE = EntityType.Builder.of(TrainerNpc::new, MobCategory.CREATURE).setCustomClientFactory((s,
+        TYPE = EntityType.Builder.of(TrainerNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> TrainerNpc.TYPE.create(w)).build("trainer");
     }
 
     boolean     added       = false;
     public long visibleTime = 0;
 
-    public TrainerNpc(final EntityType<? extends TrainerBase> type, final Level worldIn)
+    public TrainerNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
         // This can be null in the case where fake worlds are used to initialize
@@ -61,7 +61,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    protected void addMobTrades(final Player player, final ItemStack stack)
+    protected void addMobTrades(final PlayerEntity player, final ItemStack stack)
     {
         if (this.getTradingPlayer() != null) this.addMobTrades(stack);
     }
@@ -112,7 +112,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public Villager getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
+    public VillagerEntity getBreedOffspring(final ServerWorld p_241840_1_, final AgeableEntity ageable)
     {
         if (this.isBaby() || this.getAge() > 0 || !this.aiStates.getAIState(AIState.MATES)) return null;
         if (TrainerTracker.countTrainers(this.getCommandSenderWorld(), this.location.set(this),
@@ -140,7 +140,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void readAdditionalSaveData(final CompoundTag nbt)
+    public void readAdditionalSaveData(final CompoundNBT nbt)
     {
         super.readAdditionalSaveData(nbt);
         this.fixedMobs = nbt.getBoolean("fixedMobs");
@@ -198,10 +198,10 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void addAdditionalSaveData(final CompoundTag compound)
+    public void addAdditionalSaveData(final CompoundNBT compound)
     {
-        if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setItemInHand(
-                InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
+        if (this.getItemInHand(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setItemInHand(
+                Hand.OFF_HAND, this.pokemobsCap.getType().held.copy());
         if (!this.pokemobsCap.getType().bag.isEmpty())
         {
             final PlayerWearables worn = ThutWearables.getWearables(this);

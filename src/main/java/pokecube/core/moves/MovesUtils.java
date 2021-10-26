@@ -12,16 +12,16 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -76,13 +76,13 @@ public class MovesUtils implements IMoveConstants
     {
         String key = baseKey + ".user";
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-        final Component targName = target != null ? target.getDisplayName()
-                : attacker != null ? attacker.getDisplayName() : new TextComponent("ERR PLS REPORT");
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName));
+        final ITextComponent targName = target != null ? target.getDisplayName()
+                : attacker != null ? attacker.getDisplayName() : new StringTextComponent("ERR PLS REPORT");
+        if (attacker != null) attacker.displayMessageToOwner(new TranslationTextComponent(key, targName));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName);
+            final ITextComponent message = new TranslationTextComponent(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);
             else target.sendMessage(message, Util.NIL_UUID);
         }
@@ -93,14 +93,14 @@ public class MovesUtils implements IMoveConstants
     {
         String key = baseKey + ".user";
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-        final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-        if (attacker != null) attacker.displayMessageToOwner(new TranslatableComponent(key, targName, otherArg));
+        final ITextComponent targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
+        if (attacker != null) attacker.displayMessageToOwner(new TranslationTextComponent(key, targName, otherArg));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
         {
-            final Component message = new TranslatableComponent(key, targName, otherArg);
+            final ITextComponent message = new TranslationTextComponent(key, targName, otherArg);
             if (attacked != null) attacked.displayMessageToOwner(message);
-            else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
+            else if (target instanceof PlayerEntity) PacketPokemobMessage.sendMessage((PlayerEntity) target, message);
             else target.sendMessage(message, Util.NIL_UUID);
         }
     }
@@ -174,8 +174,8 @@ public class MovesUtils implements IMoveConstants
             final float dz = (float) (entity.getZ() - p.getZ());
             final float dy = (float) (entity.getY() - p.getY());
 
-            final AABB box = new AABB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
+            final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+            final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
                     + attackedLength);
             inRange = box.intersects(box2);
             if (inRange) break;
@@ -190,8 +190,8 @@ public class MovesUtils implements IMoveConstants
             final float dz = (float) (entity.getZ() - attacked.getZ());
             final float dy = (float) (entity.getY() - attacked.getY());
 
-            final AABB box = new AABB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
+            final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+            final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
                     + attackedLength);
             inRange = box.intersects(box2);
         }
@@ -267,7 +267,7 @@ public class MovesUtils implements IMoveConstants
             if (amount > 0) message += ".fall" + amount;
             else message += ".rise" + -amount;
             final String statName = "pokemob.move.stat" + stat;
-            MovesUtils.sendPairedMessages(attacked, attacker, message, new TranslatableComponent(statName));
+            MovesUtils.sendPairedMessages(attacked, attacker, message, new TranslationTextComponent(statName));
         }
     }
 
@@ -279,14 +279,14 @@ public class MovesUtils implements IMoveConstants
         {
             String key = baseKey + ".user";
             final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-            final Component targName = target.getDisplayName();
-            if (attacked != null) attacked.displayMessageToOwner(new TranslatableComponent(key, targName));
+            final ITextComponent targName = target.getDisplayName();
+            if (attacked != null) attacked.displayMessageToOwner(new TranslationTextComponent(key, targName));
             key = baseKey + ".target";
             if (attacker != target)
             {
-                final Component message = new TranslatableComponent(key, targName);
+                final ITextComponent message = new TranslationTextComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target,
+                else if (target instanceof PlayerEntity) PacketPokemobMessage.sendMessage((PlayerEntity) target,
                         message);
                 else target.sendMessage(message, Util.NIL_UUID);
             }
@@ -383,9 +383,9 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static Component getMoveName(final String attack)
+    public static ITextComponent getMoveName(final String attack)
     {
-        return new TranslatableComponent("pokemob.move." + attack);
+        return new TranslationTextComponent("pokemob.move." + attack);
     }
 
     protected static String getStatusMessage(final byte status, final boolean onMove)
@@ -565,7 +565,7 @@ public class MovesUtils implements IMoveConstants
         final ExplosionCustom var11 = new ExplosionCustom(entity.getCommandSenderWorld(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
-        if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
+        if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke.getOwner();
         else var11.owner = null;
         return var11;
     }
@@ -624,7 +624,7 @@ public class MovesUtils implements IMoveConstants
             if (!(e instanceof LivingEntity)) return false;
             if (attacker.is(e.getVehicle())) return false;
             if (attacker.is(e)) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
+            if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof PlayerEntity) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
             if (PokecubeCore.getEntityProvider().getEntity(attacker.getCommandSenderWorld(), e.getId(),
                     true) == attacker) return false;
@@ -640,7 +640,7 @@ public class MovesUtils implements IMoveConstants
                 ignoreAllies, MovesUtils.targetMatcher(attacker));
     }
 
-    public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final Level world,
+    public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final World world,
             final Entity attacker, final boolean ignoreAllies, final Predicate<Entity> matcher)
     {
         Entity target = null;

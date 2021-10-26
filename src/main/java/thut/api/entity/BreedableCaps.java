@@ -2,20 +2,24 @@ package thut.api.entity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.ThutCaps;
 import thut.core.common.ThutCore;
 
@@ -32,7 +36,7 @@ public class BreedableCaps
         }
 
         @Override
-        public AgeableMob getEntity()
+        public AgeableEntity getEntity()
         {
             return null;
         }
@@ -40,9 +44,9 @@ public class BreedableCaps
 
     public static class AgeableWrapper extends Impl
     {
-        final AgeableMob wrapped;
+        final AgeableEntity wrapped;
 
-        public AgeableWrapper(final AgeableMob wrapped)
+        public AgeableWrapper(final AgeableEntity wrapped)
         {
             this.wrapped = wrapped;
         }
@@ -50,21 +54,21 @@ public class BreedableCaps
         @Override
         public Object getChild(final IBreedingMob male)
         {
-            return this.wrapped.getBreedOffspring((ServerLevel) this.wrapped.getCommandSenderWorld(), male.getEntity());
+            return this.wrapped.getBreedOffspring((ServerWorld) this.wrapped.getCommandSenderWorld(), male.getEntity());
         }
 
         @Override
-        public boolean canMate(final AgeableMob other)
+        public boolean canMate(final AgeableEntity other)
         {
             try
             {
-                if (this.wrapped instanceof Animal && other instanceof Animal) return ((Animal) this.wrapped).canMate(
-                        (Animal) other);
+                if (this.wrapped instanceof AnimalEntity && other instanceof AnimalEntity)
+                    return ((AnimalEntity) this.wrapped).canMate((AnimalEntity) other);
             }
             catch (final Exception e)
             {
-                if (!ThutCore.conf.supress_warns) ThutCore.LOGGER.warn(
-                        "Warning, Mob {} has messed up canMateWith check!", this.wrapped.getType().getRegistryName());
+                if (!ThutCore.conf.supress_warns) ThutCore.LOGGER.warn("Warning, Mob {} has messed up canMateWith check!",
+                        this.wrapped.getType().getRegistryName());
                 return false;
             }
             return other.getClass() == this.wrapped.getClass();
@@ -73,46 +77,67 @@ public class BreedableCaps
         @Override
         public boolean canBreed()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).canBreed();
+            if (this.wrapped instanceof AnimalEntity) return ((AnimalEntity) this.wrapped).canBreed();
             return super.canBreed();
         }
 
         @Override
         public boolean isBreeding()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).isInLove();
+            if (this.wrapped instanceof AnimalEntity) return ((AnimalEntity) this.wrapped).isInLove();
             return super.isBreeding();
         }
 
         @Override
-        public void setReadyToMate(@Nullable final Player cause)
+        public void setReadyToMate(@Nullable final PlayerEntity cause)
         {
-            if (this.wrapped instanceof Animal) ((Animal) this.wrapped).setInLove(cause);
+            if (this.wrapped instanceof AnimalEntity) ((AnimalEntity) this.wrapped).setInLove(cause);
         }
 
         @Override
         public void resetLoveStatus()
         {
-            if (this.wrapped instanceof Animal) ((Animal) this.wrapped).resetLove();
+            if (this.wrapped instanceof AnimalEntity) ((AnimalEntity) this.wrapped).resetLove();
         }
 
         @Override
-        public ServerPlayer getCause()
+        public ServerPlayerEntity getCause()
         {
-            if (this.wrapped instanceof Animal) return ((Animal) this.wrapped).getLoveCause();
+            if (this.wrapped instanceof AnimalEntity) return ((AnimalEntity) this.wrapped).getLoveCause();
             return super.getCause();
+        }
+    }
+
+    public static class Storage implements Capability.IStorage<IBreedingMob>
+    {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @Override
+        public void readNBT(final Capability<IBreedingMob> capability, final IBreedingMob instance,
+                final Direction side, final INBT nbt)
+        {
+            if (instance instanceof ICapabilitySerializable) ((ICapabilitySerializable) instance).deserializeNBT(nbt);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IBreedingMob> capability, final IBreedingMob instance,
+                final Direction side)
+        {
+            if (instance instanceof ICapabilitySerializable<?>) return ((ICapabilitySerializable<?>) instance)
+                    .serializeNBT();
+            return null;
         }
     }
 
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:breedable_wrap");
 
-    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
     {
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
             if (p.getCapability(ThutCaps.BREEDS).isPresent()) return;
-        if (event.getObject() instanceof AgeableMob) event.addCapability(BreedableCaps.WRAP, new AgeableWrapper(
-                (AgeableMob) event.getObject()));
+        if (event.getObject() instanceof AgeableEntity) event.addCapability(BreedableCaps.WRAP, new AgeableWrapper(
+                (AgeableEntity) event.getObject()));
     }
 
     public static IBreedingMob getBreedable(final ICapabilityProvider in)
@@ -123,6 +148,7 @@ public class BreedableCaps
 
     public static void setup()
     {
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BreedableCaps::attachMobs);
+        CapabilityManager.INSTANCE.register(IBreedingMob.class, new Storage(), Impl::new);
+        MinecraftForge.EVENT_BUS.register(BreedableCaps.class);
     }
 }

@@ -1,10 +1,10 @@
 package pokecube.mobs;
 
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
@@ -25,7 +25,7 @@ public class BerryHelper implements IMoveConstants
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
+        public ActionResult<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
         {
             return this.onUse(pokemob, stack, pokemob.getEntity());
         }
@@ -41,13 +41,13 @@ public class BerryHelper implements IMoveConstants
          * @return something happened
          */
         @Override
-        public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             return BerryHelper.applyEffect(pokemob, user, stack);
         }
     }
 
-    public static InteractionResultHolder<ItemStack> applyEffect(final IPokemob pokemob, final LivingEntity user,
+    public static ActionResult<ItemStack> applyEffect(final IPokemob pokemob, final LivingEntity user,
             final ItemStack stack)
     {
         final boolean applied = BerryHelper.berryEffect(pokemob, user, stack);
@@ -58,10 +58,10 @@ public class BerryHelper implements IMoveConstants
                 pokemob.setFlavourAmount(i, pokemob.getFlavourAmount(i) + flavours[i]);
         }
         boolean useStack = applied;
-        if (useStack && user instanceof Player && ((Player) user).getAbilities().instabuild)
+        if (useStack && user instanceof PlayerEntity && ((PlayerEntity) user).abilities.instabuild)
             useStack = false;
         if (useStack) stack.split(1);
-        return new InteractionResultHolder<>(applied ? InteractionResult.SUCCESS : InteractionResult.FAIL, stack);
+        return new ActionResult<>(applied ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);
     }
 
     private static boolean handleEVBerry(final IPokemob pokemob, final int index)
@@ -114,7 +114,7 @@ public class BerryHelper implements IMoveConstants
         final float HP = entity.getHealth();
         final float HPmax = entity.getMaxHealth();
 
-        final boolean apply = (berryId == 7 || berryId == 10 || berryId == 60) && user instanceof Player
+        final boolean apply = (berryId == 7 || berryId == 10 || berryId == 60) && user instanceof PlayerEntity
                 && HP < HPmax || HP < HPmax / 3;
         if (apply) if (berryId == 7)
         {

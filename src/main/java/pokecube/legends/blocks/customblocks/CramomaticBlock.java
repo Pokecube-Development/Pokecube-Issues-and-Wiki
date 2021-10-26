@@ -1,38 +1,29 @@
 package pokecube.legends.blocks.customblocks;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -40,10 +31,15 @@ import pokecube.legends.Reference;
 import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
 
-public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+public class CramomaticBlock extends Rotates implements IWaterLoggable {
 
 	private static final Map<Direction, VoxelShape> CRAMOBOT  = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
     
     //Tags
@@ -59,19 +55,19 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
-            final TooltipFlag flagIn)
+    public void appendHoverText(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+            final ITooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", ChatFormatting.GOLD, ChatFormatting.RESET);
+        if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", TextFormatting.GOLD, TextFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(new TranslatableComponent(message));
+        tooltip.add(new TranslationTextComponent(message));
     }
     
     // Precise selection box
     static
     {
-    	CramomaticBlock.CRAMOBOT.put(Direction.NORTH, Shapes.or(
+    	CramomaticBlock.CRAMOBOT.put(Direction.NORTH, VoxelShapes.or(
 			Block.box(5, 0, 3, 11, 6, 9),
 			Block.box(4, 5, 4, 5, 6, 8),
 			Block.box(11, 5, 4, 12, 6, 8),
@@ -88,7 +84,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 			Block.box(3, 0, 9, 13, 8, 15),
 			Block.box(3, 8, 10, 6, 10, 14),
 			Block.box(6, 8, 12, 11, 10, 12.01)).optimize());
-		CramomaticBlock.CRAMOBOT.put(Direction.EAST, Shapes.or(
+		CramomaticBlock.CRAMOBOT.put(Direction.EAST, VoxelShapes.or(
 			Block.box(7, 0, 5, 13, 6, 11),
 			Block.box(8, 5, 4, 12, 6, 5),
 			Block.box(8, 5, 11, 12, 6, 12),
@@ -105,7 +101,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 			Block.box(1, 0, 3, 7, 8, 13),
 			Block.box(2, 8, 3, 6, 10, 6),
 			Block.box(4, 8, 6, 4.01, 10, 11)).optimize());
-		CramomaticBlock.CRAMOBOT.put(Direction.SOUTH, Shapes.or(
+		CramomaticBlock.CRAMOBOT.put(Direction.SOUTH, VoxelShapes.or(
 			Block.box(5, 0, 7, 11, 6, 13),
 			Block.box(11, 5, 8, 12, 6, 12),
 			Block.box(4, 5, 8, 5, 6, 12),
@@ -122,7 +118,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 			Block.box(3, 0, 1, 13, 8, 7),
 			Block.box(10, 8, 2, 13, 10, 6),
 			Block.box(5, 8, 4, 10, 10, 4.01)).optimize());
-		CramomaticBlock.CRAMOBOT.put(Direction.WEST, Shapes.or(
+		CramomaticBlock.CRAMOBOT.put(Direction.WEST, VoxelShapes.or(
 			Block.box(3, 0, 5, 9, 6, 11),
 			Block.box(4, 5, 11, 8, 6, 12),
 			Block.box(4, 5, 4, 8, 6, 5),
@@ -142,8 +138,8 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
     }
     
 	@Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
 		return CramomaticBlock.CRAMOBOT.get(state.getValue(CramomaticBlock.FACING));
     }
@@ -156,8 +152,8 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
     }
 	
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player entity, InteractionHand hand,
-			BlockHitResult hit) {
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
+			BlockRayTraceResult hit) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -165,21 +161,21 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 		if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
 		{
 			addParticles(entity,world,x,y,z);
-			return InteractionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		}
 		else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
 		{
-			entity.displayClientMessage(new TranslatableComponent("msg.pokecube_legends.cramomatic.fail"), true);
-			return InteractionResult.PASS;
+			entity.displayClientMessage(new TranslationTextComponent("msg.pokecube_legends.cramomatic.fail"), true);
+			return ActionResultType.PASS;
 		}
-		return InteractionResult.PASS;
+		return ActionResultType.PASS;
 	}
 
-	public static void addParticles(Player entity, Level world, int x, int y, int z) {
+	public static void addParticles(PlayerEntity entity, World world, int x, int y, int z) {
 		if (world.isClientSide) {
 			world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5, 0, 1, 0);
 		}
 		world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-			"entity.player.levelup"))), SoundSource.NEUTRAL, 1, 1, false);
+			"entity.player.levelup"))), SoundCategory.NEUTRAL, 1, 1, false);
 	}
 }

@@ -6,13 +6,13 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.village.PointOfInterestManager;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -32,12 +32,12 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class CheckBurrow extends BaseIdleTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
 
     static
     {
         // We use this memory to decide where to put the hive
-        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
+        CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     public static int BURROWSPACING = 64;
@@ -81,9 +81,9 @@ public class CheckBurrow extends BaseIdleTask
             // Lets see if we can find any leaves to place a hive under
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
 
-            final PoiManager pois = this.world.getPoiManager();
+            final PointOfInterestManager pois = this.world.getPoiManager();
             final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.blockPosition(),
-                    CheckBurrow.BURROWSPACING, PoiManager.Occupancy.ANY);
+                    CheckBurrow.BURROWSPACING, PointOfInterestManager.Status.ANY);
 
             if (blocks == null || num != 0) return;
 
@@ -127,7 +127,7 @@ public class CheckBurrow extends BaseIdleTask
         pos = hab.burrow.getCenter();
         final Brain<?> brain = this.entity.getBrain();
         this.world.setBlockAndUpdate(pos, PokecubeItems.NESTBLOCK.get().defaultBlockState());
-        final BlockEntity tile = this.world.getBlockEntity(pos);
+        final TileEntity tile = this.world.getBlockEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
         nest.setWrappedHab(hab);

@@ -1,10 +1,10 @@
 package pokecube.core.ai.tasks.ants.nest;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class Edge extends Part
 {
@@ -38,11 +38,11 @@ public class Edge extends Part
             minY = Math.min(this.node1.getInBounds().minY, this.node2.getInBounds().minY);
         }
         if (pos.getY() > maxY || pos.getY() < minY) return false;
-        final Vec3 e1 = new Vec3(this.getEnd1().getX(), this.getEnd1().getY(), this.getEnd1().getZ());
-        final Vec3 e2 = new Vec3(this.getEnd2().getX(), this.getEnd2().getY(), this.getEnd2().getZ());
-        final Vec3 e3 = new Vec3(pos.getX(), pos.getY(), pos.getZ());
-        Vec3 n = e2.subtract(e1).normalize();
-        final Vec3 diff = e1.subtract(e3);
+        final Vector3d e1 = new Vector3d(this.getEnd1().getX(), this.getEnd1().getY(), this.getEnd1().getZ());
+        final Vector3d e2 = new Vector3d(this.getEnd2().getX(), this.getEnd2().getY(), this.getEnd2().getZ());
+        final Vector3d e3 = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+        Vector3d n = e2.subtract(e1).normalize();
+        final Vector3d diff = e1.subtract(e3);
         n = n.cross(diff);
         return n.length() < size;
     }
@@ -61,23 +61,23 @@ public class Edge extends Part
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        final CompoundTag edgeNbt = super.serializeNBT();
-        edgeNbt.put("n1", NbtUtils.writeBlockPos(this.node1.getCenter()));
-        edgeNbt.put("e1", NbtUtils.writeBlockPos(this.getEnd1()));
-        edgeNbt.put("n2", NbtUtils.writeBlockPos(this.node2.getCenter()));
-        edgeNbt.put("e2", NbtUtils.writeBlockPos(this.getEnd2()));
+        final CompoundNBT edgeNbt = super.serializeNBT();
+        edgeNbt.put("n1", NBTUtil.writeBlockPos(this.node1.getCenter()));
+        edgeNbt.put("e1", NBTUtil.writeBlockPos(this.getEnd1()));
+        edgeNbt.put("n2", NBTUtil.writeBlockPos(this.node2.getCenter()));
+        edgeNbt.put("e2", NBTUtil.writeBlockPos(this.getEnd2()));
         return edgeNbt;
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         super.deserializeNBT(nbt);
 
-        final BlockPos p1 = NbtUtils.readBlockPos(nbt.getCompound("n1"));
-        final BlockPos p2 = NbtUtils.readBlockPos(nbt.getCompound("n2"));
+        final BlockPos p1 = NBTUtil.readBlockPos(nbt.getCompound("n1"));
+        final BlockPos p2 = NBTUtil.readBlockPos(nbt.getCompound("n2"));
 
         // The following 4 lines ensure that the nodes are the
         // correctly loaded ones.
@@ -93,7 +93,7 @@ public class Edge extends Part
             this.node1 = new Node(p1);
             this.node2 = new Node(p2);
         }
-        this.setEnds(NbtUtils.readBlockPos(nbt.getCompound("e1")), NbtUtils.readBlockPos(nbt.getCompound("e2")));
+        this.setEnds(NBTUtil.readBlockPos(nbt.getCompound("e1")), NBTUtil.readBlockPos(nbt.getCompound("e2")));
     }
 
     @Override
@@ -134,8 +134,8 @@ public class Edge extends Part
         final double maxY = Math.max(this.node1.getInBounds().maxY, this.node2.getInBounds().maxY);
         final double minY = Math.min(this.node1.getInBounds().minY, this.node2.getInBounds().minY);
 
-        final AABB min = new AABB(minX - 2, minY - 1, minZ - 2, maxX + 2, maxY + 1, maxZ + 2);
-        final AABB max = new AABB(minX - 3, minY - 2, minZ - 3, maxX + 3, maxY + 2, maxZ + 3);
+        final AxisAlignedBB min = new AxisAlignedBB(minX - 2, minY - 1, minZ - 2, maxX + 2, maxY + 1, maxZ + 2);
+        final AxisAlignedBB max = new AxisAlignedBB(minX - 3, minY - 2, minZ - 3, maxX + 3, maxY + 2, maxZ + 3);
         this.setInBounds(min);
         this.setOutBounds(max);
     }

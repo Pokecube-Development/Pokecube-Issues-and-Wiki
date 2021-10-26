@@ -2,12 +2,12 @@ package thut.core.client.render.model.parts;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector4f;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -76,10 +76,10 @@ public abstract class Mesh
         this.material = new Material("auto:" + this.name);
     }
 
-    private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
+    private final net.minecraft.util.math.vector.Vector3f dummy3 = new net.minecraft.util.math.vector.Vector3f();
     private final Vector4f                                dummy4 = new Vector4f();
 
-    protected void doRender(final PoseStack mat, final VertexConsumer buffer, final IPartTexturer texturer)
+    protected void doRender(final MatrixStack mat, final IVertexBuilder buffer, final IPartTexturer texturer)
     {
         Vertex vertex;
         Vertex normal;
@@ -93,11 +93,11 @@ public abstract class Mesh
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
         int n = 0;
-        final PoseStack.Pose matrixstack$entry = mat.last();
+        final MatrixStack.Entry matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();
         final Vector4f dp = this.dummy4;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final net.minecraft.util.math.vector.Vector3f dn = this.dummy3;
 
         if (this.order.length % 3 != 0)
         {
@@ -142,7 +142,7 @@ public abstract class Mesh
         }
     }
 
-    public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)
+    public void renderShape(final MatrixStack mat, IVertexBuilder buffer, final IPartTexturer texturer)
     {
         // Apply Texturing.
         if (texturer != null)

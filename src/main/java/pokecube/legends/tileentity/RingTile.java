@@ -2,32 +2,31 @@ package pokecube.legends.tileentity;
 
 import java.util.Random;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.blocks.customblocks.PortalWarpPart;
 import pokecube.legends.init.BlockInit;
-import thut.api.block.ITickTile;
 import thut.core.common.ThutCore;
 
-public class RingTile extends BlockEntity implements ITickTile
+public class RingTile extends TileEntity implements ITickableTileEntity
 {
-    public static BlockEntityType<RingTile> TYPE;
+    public static TileEntityType<RingTile> TYPE;
 
     public int timer = 0;
 
     public boolean despawns = false;
 
-    public RingTile(final BlockPos pos, final BlockState state)
+    public RingTile()
     {
-        super(RingTile.TYPE, pos, state);
+        super(RingTile.TYPE);
     }
 
     public void activatePortal()
@@ -61,7 +60,7 @@ public class RingTile extends BlockEntity implements ITickTile
             warp.remove(this.level, this.worldPosition, state);
             this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
             this.level.playLocalSound(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5,
-                    SoundEvents.ENDERMAN_STARE, SoundSource.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
+                    SoundEvents.ENDERMAN_STARE, SoundCategory.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
                             * 0.4F + 0.8F, false);
         }
         else if (!active && this.timer-- < 0)
@@ -73,15 +72,15 @@ public class RingTile extends BlockEntity implements ITickTile
     }
 
     @Override
-    public void load(final CompoundTag nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.load(nbt);
+        super.load(state, nbt);
         this.despawns = nbt.getBoolean("despawns");
         this.timer = nbt.getInt("timer");
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
         compound.putInt("timer", this.timer);
         compound.putBoolean("despawns", this.despawns);

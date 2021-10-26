@@ -3,20 +3,20 @@ package pokecube.legends.blocks;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FlowerBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.PlantType;
 
 public class PlantBase extends FlowerBlock
@@ -25,12 +25,12 @@ public class PlantBase extends FlowerBlock
 
     public PlantBase(final Material material, MaterialColor color, final float hardness, final float resistance, final SoundType sound)
     {
-        super(MobEffects.SATURATION, 0, BlockBehaviour.Properties.of(material, color).strength(hardness, resistance)
+        super(Effects.SATURATION, 0, AbstractBlock.Properties.of(material, color).strength(hardness, resistance)
                 .noCollission().sound(sound));
     }
 
     @Override
-	public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext) {
+	public boolean canBeReplaced(final BlockState state, final BlockItemUseContext useContext) {
 		return true;
 	}
 
@@ -44,12 +44,12 @@ public class PlantBase extends FlowerBlock
 	}
 
     @Override
-	public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {
+	public int getFlammability(final BlockState state, final IBlockReader world, final BlockPos pos, final Direction face) {
 		return 2;
 	}
 
     @Override
-    public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
+    public PlantType getPlantType(final IBlockReader world, final BlockPos pos)
     {
     	return PlantType.PLAINS;
     }

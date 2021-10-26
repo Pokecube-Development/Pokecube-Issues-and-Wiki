@@ -7,12 +7,12 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.UUID;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import thut.api.inventory.big.Manager;
 import thut.core.common.ThutCore;
 
@@ -23,7 +23,7 @@ public class SmallManager extends Manager<SmallInventory>
     public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        Path path = server.getWorldPath(new LevelResource("thut_bling"));
+        Path path = server.getWorldPath(new FolderName("thut_bling"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
         final File dir = path.toFile();
@@ -62,12 +62,12 @@ public class SmallManager extends Manager<SmallInventory>
             final File file = SmallManager.getFileForUUID(uuid.toString(), this.fileName());
             if (file != null)
             {
-                final CompoundTag CompoundNBT = new CompoundTag();
+                final CompoundNBT CompoundNBT = new CompoundNBT();
                 this.writeToNBT(CompoundNBT, save);
-                final CompoundTag CompoundNBT1 = new CompoundTag();
+                final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
-                NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+                CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                 fileoutputstream.close();
             }
         }
@@ -91,7 +91,7 @@ public class SmallManager extends Manager<SmallInventory>
             if (file != null && file.exists())
             {
                 final FileInputStream fileinputstream = new FileInputStream(file);
-                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
+                final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
                 fileinputstream.close();
                 this.loadNBT(CompoundNBT.getCompound("Data"));
             }

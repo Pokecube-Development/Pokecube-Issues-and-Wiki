@@ -3,7 +3,7 @@ package pokecube.adventures.blocks.genetics.helper;
 import java.lang.reflect.Array;
 import java.util.Random;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.CompoundNBT;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -15,7 +15,7 @@ public interface IGeneSelector
 {
     public static Gene<?> copy(final Gene<?> geneIn) throws Exception
     {
-        final CompoundTag tag = GeneRegistry.save(geneIn);
+        final CompoundNBT tag = GeneRegistry.save(geneIn);
         return GeneRegistry.load(tag);
     }
 

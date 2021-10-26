@@ -6,13 +6,13 @@ import java.util.function.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -89,7 +89,7 @@ public class Compat
         // Here will will register the vanilla mobs as a type of pokemob.
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, Compat::onEntityCaps);
         // Here will will register the vanilla bee hives as habitable
-        MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Compat::onTileEntityCaps);
+        MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, Compat::onTileEntityCaps);
         // Here we disable the pokecube kill command for vanilla mobs for #753
         PokecubeCore.POKEMOB_BUS.addListener(Compat::onKillCommand);
     }
@@ -99,14 +99,14 @@ public class Compat
         if (Compat.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
     }
 
-    private static void onTileEntityCaps(final AttachCapabilitiesEvent<BlockEntity> event)
+    private static void onTileEntityCaps(final AttachCapabilitiesEvent<TileEntity> event)
     {
         // Only apply to BeehiveTileEntity
         // For now, we do an equality check, instead of instanceof check.
         // TODO replace with instanceof when resourcefull bees updates
-        if (!(event.getObject().getClass() == BeehiveBlockEntity.class)) return;
+        if (!(event.getObject().getClass() == BeehiveTileEntity.class)) return;
 
-        final BeeHabitat habitat = new BeeHabitat((BeehiveBlockEntity) event.getObject());
+        final BeeHabitat habitat = new BeeHabitat((BeehiveTileEntity) event.getObject());
         final HabitatProvider provider = new HabitatProvider(event.getObject(), habitat);
         event.addCapability(Compat.BEEHIVES, provider);
     }
@@ -114,7 +114,7 @@ public class Compat
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         // Only consider mobEntity, IPokemob requires that
-        if (!(event.getObject() instanceof Mob)) return;
+        if (!(event.getObject() instanceof MobEntity)) return;
         // Do not apply this to trainers!
         if (Config.instance.shouldBeCustomTrainer((LivingEntity) event.getObject())) return;
         // This checks blacklists, configs, etc on the pokemob type
@@ -126,7 +126,7 @@ public class Compat
             if (entry == null) try
             {
                 @SuppressWarnings("unchecked")
-                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) event.getObject()
+                final EntityType<? extends MobEntity> mobType = (EntityType<? extends MobEntity>) event.getObject()
                         .getType();
                 final String name = mobType.toString();
                 PokedexEntry newDerp = Database.getEntry(name);
@@ -149,7 +149,7 @@ public class Compat
                 return;
             }
 
-            final VanillaPokemob pokemob = new VanillaPokemob((Mob) event.getObject());
+            final VanillaPokemob pokemob = new VanillaPokemob((MobEntity) event.getObject());
             final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
             pokemob.setDataSync(data);

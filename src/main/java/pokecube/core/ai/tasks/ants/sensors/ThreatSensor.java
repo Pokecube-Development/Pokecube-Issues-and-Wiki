@@ -4,19 +4,19 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.tasks.ants.AntTasks;
 
-public class ThreatSensor extends Sensor<Mob>
+public class ThreatSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(AntTasks.NEST_POS,
-            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, AntTasks.WORK_POS);
+            MemoryModuleType.VISIBLE_LIVING_ENTITIES, AntTasks.WORK_POS);
 
     @Override
-    protected void doTick(final ServerLevel worldIn, final Mob entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
 
     }

@@ -3,34 +3,30 @@ package pokecube.core.blocks.maxspot;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableDirectionalBlock;
-import thut.api.block.ITickTile;
 
-public class MaxBlock extends InteractableDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock
+public class MaxBlock extends InteractableDirectionalBlock implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> DYNAMAX  = new HashMap<>();
     private static final Map<Direction, VoxelShape> DYNAMAX_COLLISION  = new HashMap<>();
@@ -39,36 +35,36 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
 
     static
     {// @formatter:off
-        MaxBlock.DYNAMAX.put(Direction.NORTH, Shapes.or(
+        DYNAMAX.put(Direction.NORTH, VoxelShapes.or(
                 Block.box(2, 2, 13, 14, 14, 16),
                 Block.box(3, 3, 2, 13, 14, 13)).optimize());
-        MaxBlock.DYNAMAX.put(Direction.EAST, Shapes.or(
+        DYNAMAX.put(Direction.EAST, VoxelShapes.or(
                 Block.box(0, 2, 2, 3, 14, 14),
                 Block.box(3, 3, 3, 14, 13, 13)).optimize());
-        MaxBlock.DYNAMAX.put(Direction.SOUTH, Shapes.or(
+        DYNAMAX.put(Direction.SOUTH, VoxelShapes.or(
                 Block.box(2, 2, 0, 14, 14, 3),
                 Block.box(3, 3, 3, 13, 13, 14)).optimize());
-        MaxBlock.DYNAMAX.put(Direction.WEST, Shapes.or(
+        DYNAMAX.put(Direction.WEST, VoxelShapes.or(
                 Block.box(13, 2, 2, 16, 14, 14),
                 Block.box(2, 3, 3, 13, 13, 13)).optimize());
-        MaxBlock.DYNAMAX.put(Direction.UP, Shapes.or(
+        DYNAMAX.put(Direction.UP, VoxelShapes.or(
                 Block.box(2, 0, 2, 14, 3, 14),
                 Block.box(3, 3, 3, 13, 14, 13)).optimize());
-        MaxBlock.DYNAMAX.put(Direction.DOWN, Shapes.or(
+        DYNAMAX.put(Direction.DOWN, VoxelShapes.or(
                 Block.box(2, 13, 2, 14, 16, 14),
                 Block.box(3, 2, 3, 13, 13, 13)).optimize());
 
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.NORTH, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.NORTH, VoxelShapes.or(
                 Block.box(2, 2, 13, 14, 14, 16)).optimize());
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.EAST, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.EAST, VoxelShapes.or(
                 Block.box(0, 2, 2, 3, 14, 14)).optimize());
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.SOUTH, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.SOUTH, VoxelShapes.or(
                 Block.box(2, 2, 0, 14, 14, 3)).optimize());
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.WEST, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.WEST, VoxelShapes.or(
                 Block.box(13, 2, 2, 16, 14, 14)).optimize());
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.UP, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.UP, VoxelShapes.or(
                 Block.box(2, 0, 2, 14, 3, 14)).optimize());
-        MaxBlock.DYNAMAX_COLLISION.put(Direction.DOWN, Shapes.or(
+        DYNAMAX_COLLISION.put(Direction.DOWN, VoxelShapes.or(
                 Block.box(2, 13, 2, 14, 16, 14)).optimize());
     }// @formatter:on
 
@@ -81,32 +77,32 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-                               final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+                               final ISelectionContext context)
     {
-        return MaxBlock.DYNAMAX.get(state.getValue(MaxBlock.FACING));
+        return DYNAMAX.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
-    public VoxelShape getCollisionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-                                        final CollisionContext context)
+    public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+                                        final ISelectionContext context)
     {
-        return MaxBlock.DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
+        return DYNAMAX_COLLISION.get(state.getValue(MaxBlock.FACING));
     }
 
     @Override
-    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
+    protected void createBlockStateDefinition(final StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(MaxBlock.FACING, MaxBlock.WATERLOGGED);
     }
 
     // Waterloggging on placement
     @Override
-    public BlockState getStateForPlacement(final BlockPlaceContext context)
+    public BlockState getStateForPlacement(final BlockItemUseContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
         final BlockState state = context.getLevel().getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
-        final Direction direction = context.getClickedFace();
+        Direction direction = context.getClickedFace();
         return state.is(this) && state.getValue(MaxBlock.FACING) == direction ? (BlockState)this.defaultBlockState()
                 .setValue(MaxBlock.FACING, direction.getOpposite()) : (BlockState)this.defaultBlockState()
                 .setValue(MaxBlock.FACING, direction)
@@ -115,7 +111,7 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
 
     @Override
     @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final IWorld world, final BlockPos currentPos,
                                   final BlockPos facingPos)
     {
         if (state.getValue(MaxBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -131,24 +127,23 @@ public class MaxBlock extends InteractableDirectionalBlock implements SimpleWate
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
+    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
     {
-        return new MaxTile(pos, state);
+        return new MaxTile();
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level world, final BlockState state,
-            final BlockEntityType<T> type)
+    public boolean hasTileEntity(final BlockState state)
     {
-        return ITickTile.getTicker(world, state, type);
+        return true;
     }
 
     @Override
-    public void neighborChanged(final BlockState state, final Level worldIn, final BlockPos pos, final Block blockIn,
+    public void neighborChanged(final BlockState state, final World worldIn, final BlockPos pos, final Block blockIn,
             final BlockPos fromPos, final boolean isMoving)
     {
         final int power = worldIn.getBestNeighborSignal(pos);
-        final BlockEntity tile = worldIn.getBlockEntity(pos);
+        final TileEntity tile = worldIn.getBlockEntity(pos);
         if (tile == null || !(tile instanceof MaxTile)) return;
         final MaxTile repel = (MaxTile) tile;
         if (power != 0)

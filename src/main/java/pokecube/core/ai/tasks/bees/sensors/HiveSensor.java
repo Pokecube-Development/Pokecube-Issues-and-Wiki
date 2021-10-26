@@ -10,39 +10,39 @@ import java.util.stream.Stream;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.Sensor;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.ai.village.poi.PoiRecord;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.village.PointOfInterest;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestType;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 
-public class HiveSensor extends Sensor<Mob>
+public class HiveSensor extends Sensor<MobEntity>
 {
     private static final Set<MemoryModuleType<?>> MEMS = ImmutableSet.of(BeeTasks.HIVE_POS, BeeTasks.NO_HIVE_TIMER);
 
     public static interface IHiveEnterer
     {
-        boolean addBee(Mob entityIn, BlockEntity hive);
+        boolean addBee(MobEntity entityIn, TileEntity hive);
     }
 
     public static interface IHiveSpaceCheck
     {
-        boolean canAddBee(Mob entityIn, BlockEntity hive);
+        boolean canAddBee(MobEntity entityIn, TileEntity hive);
     }
 
     public static interface IHiveLocator
     {
-        List<BlockPos> getHives(Mob entityIn);
+        List<BlockPos> getHives(MobEntity entityIn);
     }
 
     public static List<IHiveEnterer> hiveEnterers = Lists.newArrayList();
@@ -55,7 +55,7 @@ public class HiveSensor extends Sensor<Mob>
     {
         final IHiveEnterer vanillaHives = (entityIn, tile) ->
         {
-            if (!(tile instanceof BeehiveBlockEntity)) return false;
+            if (!(tile instanceof BeehiveTileEntity)) return false;
             final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
             return habitat != null && habitat.onEnterHabitat(entityIn);
         };
@@ -63,7 +63,7 @@ public class HiveSensor extends Sensor<Mob>
 
         final IHiveSpaceCheck vanillaCheck = (entityIn, tile) ->
         {
-            if (!(tile instanceof BeehiveBlockEntity)) return false;
+            if (!(tile instanceof BeehiveTileEntity)) return false;
             final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
             return habitat != null && habitat.canEnterHabitat(entityIn);
         };
@@ -71,13 +71,13 @@ public class HiveSensor extends Sensor<Mob>
         final IHiveLocator vanillaLocator = (entityIn) ->
         {
             final BlockPos blockpos = entityIn.blockPosition();
-            final PoiManager pointofinterestmanager = ((ServerLevel) entityIn.level)
+            final PointOfInterestManager pointofinterestmanager = ((ServerWorld) entityIn.level)
                     .getPoiManager();
-            final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) ->
+            final Stream<PointOfInterest> stream = pointofinterestmanager.getInRange((type) ->
             {
-                return type == PoiType.BEEHIVE || type == PoiType.BEE_NEST;
-            }, blockpos, 20, PoiManager.Occupancy.ANY);
-            return stream.map(PoiRecord::getPos).filter((pos) ->
+                return type == PointOfInterestType.BEEHIVE || type == PointOfInterestType.BEE_NEST;
+            }, blockpos, 20, PointOfInterestManager.Status.ANY);
+            return stream.map(PointOfInterest::getPos).filter((pos) ->
             {
                 return HiveSensor.doesHiveHaveSpace(entityIn, pos);
             }).sorted(Comparator.comparingDouble((pos) ->
@@ -88,7 +88,7 @@ public class HiveSensor extends Sensor<Mob>
         HiveSensor.hiveLocators.add(vanillaLocator);
     }
 
-    private static List<BlockPos> getNearbyFreeHives(final Mob entityIn)
+    private static List<BlockPos> getNearbyFreeHives(final MobEntity entityIn)
     {
         final List<BlockPos> hives = Lists.newArrayList();
         final BlockPos blockpos = entityIn.blockPosition();
@@ -100,24 +100,24 @@ public class HiveSensor extends Sensor<Mob>
         return hives;
     }
 
-    public static boolean doesHiveHaveSpace(final Mob entityIn, final BlockPos pos)
+    public static boolean doesHiveHaveSpace(final MobEntity entityIn, final BlockPos pos)
     {
-        final BlockEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(pos);
+        final TileEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(pos);
         if (tile != null) for (final IHiveSpaceCheck checker : HiveSensor.hiveSpaceCheckers)
             if (checker.canAddBee(entityIn, tile)) return true;
         return false;
     }
 
-    public static boolean tryAddToBeeHive(final Mob entityIn, final BlockPos hive)
+    public static boolean tryAddToBeeHive(final MobEntity entityIn, final BlockPos hive)
     {
-        final BlockEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(hive);
+        final TileEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(hive);
         if (tile != null) for (final IHiveEnterer checker : HiveSensor.hiveEnterers)
             if (checker.addBee(entityIn, tile)) return true;
         return false;
     }
 
     @Override
-    protected void doTick(final ServerLevel worldIn, final Mob entityIn)
+    protected void doTick(final ServerWorld worldIn, final MobEntity entityIn)
     {
         final Brain<?> brain = entityIn.getBrain();
         if (brain.hasMemoryValue(BeeTasks.HIVE_POS)) return;

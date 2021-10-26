@@ -5,14 +5,14 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
@@ -34,7 +34,7 @@ public class IdleWalkTask extends BaseIdleTask
 {
     public static int IDLETIMER = 1;
 
-    public static Vector3 getRandomPointNear(final BlockGetter world, final IPokemob mob, final Vector3 v,
+    public static Vector3 getRandomPointNear(final IBlockReader world, final IPokemob mob, final Vector3 v,
             final int distance)
     {
         final Random rand = ThutCore.newRandom();
@@ -59,15 +59,15 @@ public class IdleWalkTask extends BaseIdleTask
         return null;
     }
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> mems = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Dont run if have a walk target
-        IdleWalkTask.mems.put(MemoryModules.WALK_TARGET, MemoryStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if have a target location for moves
-        IdleWalkTask.mems.put(MemoryModules.MOVE_TARGET, MemoryStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if we have a path
-        IdleWalkTask.mems.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     final PokedexEntry entry;
@@ -107,7 +107,7 @@ public class IdleWalkTask extends BaseIdleTask
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed) this.doGroundIdle();
-        final Player player = this.world.getNearestPlayer(this.entity, PokecubeCore
+        final PlayerEntity player = this.world.getNearestPlayer(this.entity, PokecubeCore
                 .getConfig().aiDisableDistance);
         if (player != null)
         {
@@ -211,7 +211,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected void start(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
         this.run();
     }
@@ -247,7 +247,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
+    protected boolean canStillUse(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
         return !this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);

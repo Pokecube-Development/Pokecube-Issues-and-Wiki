@@ -8,17 +8,17 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.Difficulty;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -45,7 +45,7 @@ public class SpawnsPage extends ListPage<LineEntry>
 
     public SpawnsPage(final GuiPokeWatch watch)
     {
-        super(new TranslatableComponent("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
+        super(new TranslationTextComponent("pokewatch.title.spawns"), watch, SpawnsPage.TEX_DM, SpawnsPage.TEX_NM);
         for (final Class<? extends WatchPage> clazz : GuiPokeWatch.PAGELIST)
             if (clazz == PokemobInfoPage.class)
             {
@@ -109,7 +109,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
             {
                 // TODO possibly handle hovor text?
             }
@@ -120,8 +120,8 @@ public class SpawnsPage extends ListPage<LineEntry>
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, PacketPokedex.selectedLoc.get(pokeEntry),
                     pokeEntry, 120, height, offsetY);
             final List<LineEntry> lines = entry.getLines(this.list, listener);
-            final Component water0 = new TranslatableComponent("pokewatch.spawns.water_only");
-            final Component water1 = new TranslatableComponent("pokewatch.spawns.water_optional");
+            final ITextComponent water0 = new TranslationTextComponent("pokewatch.spawns.water_only");
+            final ITextComponent water1 = new TranslationTextComponent("pokewatch.spawns.water_optional");
             // This is the name
             final LineEntry first = lines.get(0);
             // This is the blank line
@@ -149,7 +149,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final MatrixStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
@@ -160,23 +160,23 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
+        AbstractGui.drawCenteredString(mat, this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
 
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
-            final MutableComponent comp = new TranslatableComponent("pokewatch.spawns.peaceful");
-            final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.peaceful");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             int n = 0;
-            for (final MutableComponent entry : list)
-                GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+            for (final IFormattableTextComponent entry : list)
+                AbstractGui.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
         else if (this.repel = PacketPokedex.repelled)
         {
-            final MutableComponent comp = new TranslatableComponent("pokewatch.spawns.repelled");
-            final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+            final IFormattableTextComponent comp = new TranslationTextComponent("pokewatch.spawns.repelled");
+            final List<IFormattableTextComponent> list = ListHelper.splitText(comp, 120, this.font, false);
             int n = 0;
-            for (final MutableComponent entry : list)
-                GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+            for (final IFormattableTextComponent entry : list)
+                AbstractGui.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
 
         super.render(mat, mouseX, mouseY, partialTicks);

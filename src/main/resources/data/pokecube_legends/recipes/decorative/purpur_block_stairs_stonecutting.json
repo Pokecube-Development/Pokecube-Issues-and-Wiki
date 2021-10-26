@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "pokecube_legends:purpur_bricks"
-  },
-  "result": "minecraft:purpur_stairs",
-  "count": 1
-}

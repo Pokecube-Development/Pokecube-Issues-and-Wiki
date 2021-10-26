@@ -5,37 +5,38 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.ClipContext.Fluid;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FarmBlock;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.block.AbstractFireBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FarmlandBlock;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.SnowBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.AbstractCookingRecipe;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
+import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -72,10 +73,10 @@ import thut.core.common.commands.CommandTools;
 
 public class MoveEventsHandler
 {
-    public static class UseContext extends BlockPlaceContext
+    public static class UseContext extends BlockItemUseContext
     {
-        protected UseContext(final Level worldIn, final Player playerIn, final InteractionHand handIn,
-                final ItemStack stackIn, final BlockHitResult rayTraceResultIn)
+        protected UseContext(final World worldIn, final PlayerEntity playerIn, final Hand handIn,
+                final ItemStack stackIn, final BlockRayTraceResult rayTraceResultIn)
         {
             super(worldIn, playerIn, handIn, stackIn, rayTraceResultIn);
         }
@@ -169,14 +170,13 @@ public class MoveEventsHandler
 
     public static boolean attemptSmelt(final IPokemob attacker, final Vector3 location)
     {
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
         if (!items.isEmpty())
         {
             boolean smelt = false;
-            final AbstractFurnaceBlockEntity tile = new FurnaceBlockEntity(location.getPos(), location.getBlockState(
-                    world));
-            tile.setLevel(world);
+            final AbstractFurnaceTileEntity tile = new FurnaceTileEntity();
+            tile.setLevelAndPosition(world, location.getPos());
             for (final ItemEntity item2 : items)
             {
                 final ItemEntity item = item2;
@@ -184,8 +184,8 @@ public class MoveEventsHandler
                 final int num = stack.getCount();
                 tile.setItem(0, stack);
                 tile.setItem(1, stack);
-                final Recipe<?> irecipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world)
-                        .orElse(null);
+                final IRecipe<?> irecipe = world.getRecipeManager().getRecipeFor(IRecipeType.SMELTING, tile, world).orElse(
+                        null);
                 if (irecipe == null) continue;
                 ItemStack newstack = irecipe.getResultItem();
                 if (newstack != null)
@@ -197,17 +197,17 @@ public class MoveEventsHandler
                     if (f == 0.0F) i1 = 0;
                     else if (f < 1.0F)
                     {
-                        int j = Mth.floor(i1 * f);
-                        if (j < Mth.ceil(i1 * f) && Math.random() < i1 * f - j) ++j;
+                        int j = MathHelper.floor(i1 * f);
+                        if (j < MathHelper.ceil(i1 * f) && Math.random() < i1 * f - j) ++j;
 
                         i1 = j;
                     }
                     f = i1;
                     while (i1 > 0)
                     {
-                        final int k = ExperienceOrb.getExperienceValue(i1);
+                        final int k = ExperienceOrbEntity.getExperienceValue(i1);
                         i1 -= k;
-                        world.addFreshEntity(new ExperienceOrb(world, location.x, location.y + 1.5D, location.z + 0.5D,
+                        world.addFreshEntity(new ExperienceOrbEntity(world, location.x, location.y + 1.5D, location.z + 0.5D,
                                 k));
                     }
                     int hunger = PokecubeCore.getConfig().baseSmeltingHunger * num;
@@ -250,21 +250,21 @@ public class MoveEventsHandler
             return false;
         }
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getCommandSenderWorld(), location.intX(),
-                location.intY(), location.intZ()) == ForbidReason.REPEL;
-        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().getCommandSenderWorld());
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getCommandSenderWorld(), location.intX(), location
+                .intY(), location.intZ()) == ForbidReason.REPEL;
+        if (!(owner instanceof PlayerEntity)) owner = PokecubeMod.getFakePlayer(user.getEntity().getCommandSenderWorld());
         if (repel)
         {
             if (!user.inCombat() && repelWarning) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
-        final Player player = (Player) owner;
-        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), location.getPos(), location.getBlockState(
-                player.getCommandSenderWorld()), player);
+        final PlayerEntity player = (PlayerEntity) owner;
+        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), location.getPos(), location.getBlockState(player
+                .getCommandSenderWorld()), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled())
         {
-            final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.deny.noperms");
+            final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.noperms");
             if (!user.inCombat() && denyMessage) owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
@@ -282,7 +282,7 @@ public class MoveEventsHandler
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
 
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final BlockState state = location.getBlockState(world);
         final Block block = state.getBlock();
         final Vector3 nextBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).reverse()
@@ -312,7 +312,7 @@ public class MoveEventsHandler
     public static boolean doDefaultFire(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.LAVA.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
@@ -320,7 +320,7 @@ public class MoveEventsHandler
         final BlockPos hitPos = context.getHitPos();
         final BlockPos prevPos = context.getClickedPos();
         final BlockPos placePos = prevPos;
-        final boolean light = BaseFireBlock.canBePlacedAt(world, placePos, context.getHorizontalDirection());
+        final boolean light = AbstractFireBlock.canBePlacedAt(world, placePos, context.getHorizontalDirection());
         final BlockState prev = world.getBlockState(prevPos);
 
         final boolean smelted = MoveEventsHandler.attemptSmelt(attacker, location);
@@ -339,8 +339,8 @@ public class MoveEventsHandler
         // Melt Snow
         else if (block == Blocks.SNOW)
         {
-            final int level = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, level));
+            final int level = state.getValue(SnowBlock.LAYERS);
+            world.setBlockAndUpdate(hitPos, Blocks.WATER.defaultBlockState().setValue(FlowingFluidBlock.LEVEL, level));
             return true;
         }
         // Melt Ice
@@ -360,8 +360,8 @@ public class MoveEventsHandler
         // Melt Snow
         else if (block == Blocks.SNOW)
         {
-            final int level = prev.getValue(SnowLayerBlock.LAYERS);
-            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, level));
+            final int level = prev.getValue(SnowBlock.LAYERS);
+            world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(FlowingFluidBlock.LEVEL, level));
             return true;
         }
         // Melt Ice
@@ -374,7 +374,7 @@ public class MoveEventsHandler
         // Start fires
         if (light && move.getPWR() < MoveEventsHandler.FIRESTRONG)
         {
-            final BlockState fire = BaseFireBlock.getState(world, placePos);
+            final BlockState fire = AbstractFireBlock.getState(world, placePos);
             world.setBlockAndUpdate(placePos, fire);
             return true;
         }
@@ -408,7 +408,7 @@ public class MoveEventsHandler
         // Start fires
         else if (light)
         {
-            final BlockState fire = BaseFireBlock.getState(world, placePos);
+            final BlockState fire = AbstractFireBlock.getState(world, placePos);
             world.setBlockAndUpdate(placePos, fire);
             return true;
         }
@@ -427,19 +427,19 @@ public class MoveEventsHandler
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
 
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.SNOW.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
         final Block block = state.getBlock();
         // // First attempt to freeze the water
-        if (block == Blocks.WATER && state.getValue(LiquidBlock.LEVEL) == 0)
+        if (block == Blocks.WATER && state.getValue(FlowingFluidBlock.LEVEL) == 0)
         {
             world.setBlockAndUpdate(context.getClickedPos(), Blocks.ICE.defaultBlockState());
             return true;
         }
-        final InteractionResult result = context.getItemInHand().useOn(context);
-        return result == InteractionResult.SUCCESS;
+        final ActionResultType result = context.getItemInHand().useOn(context);
+        return result == ActionResultType.SUCCESS;
     }
 
     /**
@@ -453,7 +453,7 @@ public class MoveEventsHandler
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
         if (move.isSelfMove()) return false;
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final World world = attacker.getEntity().getCommandSenderWorld();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.WATER.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
@@ -465,12 +465,12 @@ public class MoveEventsHandler
             location.setAir(world);
             return true;
         }
-        if (state.getProperties().contains(FarmBlock.MOISTURE))
+        if (state.getProperties().contains(FarmlandBlock.MOISTURE))
         {
-            final int level = state.getValue(FarmBlock.MOISTURE);
+            final int level = state.getValue(FarmlandBlock.MOISTURE);
             if (level < 7)
             {
-                world.setBlockAndUpdate(hitPos, state.setValue(FarmBlock.MOISTURE, 7));
+                world.setBlockAndUpdate(hitPos, state.setValue(FarmlandBlock.MOISTURE, 7));
                 return true;
             }
         }
@@ -482,7 +482,7 @@ public class MoveEventsHandler
         // Freeze lava
         if (block == Blocks.LAVA)
         {
-            final int level = state.getValue(LiquidBlock.LEVEL);
+            final int level = state.getValue(FlowingFluidBlock.LEVEL);
             final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.defaultBlockState()
                     : Blocks.STONE.defaultBlockState();
             world.setBlockAndUpdate(hitPos, replacement);
@@ -494,7 +494,7 @@ public class MoveEventsHandler
         // Freeze lava
         if (prev.getBlock() == Blocks.LAVA)
         {
-            final int level = state.getValue(LiquidBlock.LEVEL);
+            final int level = state.getValue(FlowingFluidBlock.LEVEL);
             final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.defaultBlockState()
                     : Blocks.STONE.defaultBlockState();
             world.setBlockAndUpdate(prevPos, replacement);
@@ -503,36 +503,38 @@ public class MoveEventsHandler
 
         // Attempt to place some water
         if (prev.canBeReplaced(context)) world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(
-                LiquidBlock.LEVEL, 2));
+                FlowingFluidBlock.LEVEL, 2));
         return false;
     }
 
-    public static UseContext getContext(final Level world, final IPokemob user, final BlockState toPlace,
+    public static UseContext getContext(final World world, final IPokemob user, final BlockState toPlace,
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user.getOwner() instanceof Player ? (Player) user.getOwner()
+        final PlayerEntity player = user.getOwner() instanceof PlayerEntity ? (PlayerEntity) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
         final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
-        final Vec3 start = origin.toVec3d();
-        final Vec3 end = target.toVec3d();
-        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
+        final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
                 .getEntity());
-        final BlockHitResult hit = world.clip(context);
-        return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
+        final BlockRayTraceResult hit = world.clip(context);
+        return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
     }
 
-    public static UseContext getContext(final Level world, final Entity user, final BlockState toPlace,
+    public static UseContext getContext(final World world, final Entity user, final BlockState toPlace,
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user instanceof Player ? (Player) user : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user);
-        final Vec3 start = origin.toVec3d();
-        final Vec3 end = target.toVec3d();
-        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user);
-        final BlockHitResult hit = world.clip(context);
-        return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
+        final PlayerEntity player = user instanceof PlayerEntity ? (PlayerEntity) user
+                : PokecubeMod.getFakePlayer(world);
+        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Vector3d start = origin.toVec3d();
+        final Vector3d end = target.toVec3d();
+        final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
+                .getEntity());
+        final BlockRayTraceResult hit = world.clip(context);
+        return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
     }
 
     public static void register(IMoveAction move)
@@ -576,18 +578,16 @@ public class MoveEventsHandler
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
-            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
-                    move);
-            if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
+            final ActionResult<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
+            if (result.getResult() == ActionResultType.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
         {
             final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
             if (targetheld != null)
             {
-                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
-                        move);
-                if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
+                final ActionResult<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
+                if (result.getResult() == ActionResultType.SUCCESS) target.setHeldItem(result.getObject());
             }
         }
 
@@ -618,18 +618,16 @@ public class MoveEventsHandler
         final IPokemobUseable attackerheld = IPokemobUseable.getUsableFor(attacker.getHeldItem());
         if (attackerheld != null)
         {
-            final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
-                    move);
-            if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
+            final ActionResult<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(), move);
+            if (result.getResult() == ActionResultType.SUCCESS) attacker.setHeldItem(result.getObject());
         }
         if (target != null)
         {
             final IPokemobUseable targetheld = IPokemobUseable.getUsableFor(target.getHeldItem());
             if (targetheld != null)
             {
-                final InteractionResultHolder<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(),
-                        move);
-                if (result.getResult() == InteractionResult.SUCCESS) target.setHeldItem(result.getObject());
+                final ActionResult<ItemStack> result = targetheld.onMoveTick(attacker, target.getHeldItem(), move);
+                if (result.getResult() == ActionResultType.SUCCESS) target.setHeldItem(result.getObject());
             }
         }
 
@@ -716,9 +714,9 @@ public class MoveEventsHandler
             MoveEventsHandler.register(action = new DefaultAction(move));
             action.init();
         }
-        if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof Player)
+        if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof PlayerEntity)
         {
-            final Player player = (Player) attacker.getOwner();
+            final PlayerEntity player = (PlayerEntity) attacker.getOwner();
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             if (!handler.hasPermission(player.getGameProfile(), Permissions.MOVEWORLDACTION.get(move.name), context))

@@ -1,8 +1,8 @@
 package pokecube.adventures.ai.tasks.battle;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -21,7 +21,7 @@ public class CaptureMob extends BaseBattleTask
     }
 
     @Override
-    protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
+    protected void start(final ServerWorld worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final IPokemob targ = CapabilityPokemob.getPokemobFor(this.trainer.getTarget());
         if (targ != null && targ.getOwnerId() == null && gameTimeIn - this.lastTry > CaptureMob.COOLDOWN)
@@ -34,7 +34,7 @@ public class CaptureMob extends BaseBattleTask
     }
 
     @Override
-    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
+    protected boolean checkExtraStartConditions(final ServerWorld worldIn, final LivingEntity owner)
     {
         if (!super.checkExtraStartConditions(worldIn, owner)) return false;
         return this.trainer.countPokemon() < this.trainer.getMaxPokemobCount() / 2;

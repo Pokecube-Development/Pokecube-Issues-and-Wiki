@@ -10,12 +10,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.TeamManager;
@@ -36,7 +36,7 @@ public class Battle
 
     public static class BattleManager implements IWorldTickListener
     {
-        private static final Map<ResourceKey<Level>, BattleManager> managers = Maps.newHashMap();
+        private static final Map<RegistryKey<World>, BattleManager> managers = Maps.newHashMap();
 
         Map<UUID, Battle> battlesById = Maps.newHashMap();
 
@@ -58,13 +58,13 @@ public class Battle
         }
 
         @Override
-        public void onAttach(final ServerLevel world)
+        public void onAttach(final ServerWorld world)
         {
             BattleManager.managers.put(world.dimension(), this);
         }
 
         @Override
-        public void onDetach(final ServerLevel world)
+        public void onDetach(final ServerWorld world)
         {
             this.battlesById.clear();
             this.battles.clear();
@@ -72,7 +72,7 @@ public class Battle
         }
 
         @Override
-        public void onTickStart(final ServerLevel world)
+        public void onTickStart(final ServerWorld world)
         {
             for (final Battle battle : this.battles)
                 battle.tick();
@@ -91,13 +91,13 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel))
+        if (!(mob.getCommandSenderWorld() instanceof ServerWorld))
         {
             PokecubeCore.LOGGER.error("Error checking for a battle on wrong side!");
             PokecubeCore.LOGGER.error(new IllegalAccessError());
             return null;
         }
-        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         return manager.getFor(mob);
     }
@@ -105,12 +105,12 @@ public class Battle
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         if (mobB == null || !AITools.validTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.getCommandSenderWorld() instanceof ServerLevel)) return false;
+        if (mobA == null || !(mobA.getCommandSenderWorld() instanceof ServerWorld)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
 
-        final ServerLevel world = (ServerLevel) mobA.getCommandSenderWorld();
+        final ServerWorld world = (ServerWorld) mobA.getCommandSenderWorld();
 
         if (existingA != null && existingB != null)
         {
@@ -146,7 +146,7 @@ public class Battle
 
     private final UUID battleID = UUID.randomUUID();
 
-    private final ServerLevel   world;
+    private final ServerWorld   world;
     private final BattleManager manager;
 
     private final Object2IntArrayMap<LivingEntity> aliveTracker = new Object2IntArrayMap<>();
@@ -154,7 +154,7 @@ public class Battle
     boolean valid = false;
     boolean ended = false;
 
-    public Battle(final ServerLevel world, final BattleManager manager)
+    public Battle(final ServerWorld world, final BattleManager manager)
     {
         this.aliveTracker.defaultReturnValue(0);
         this.manager = manager;
@@ -167,7 +167,7 @@ public class Battle
         side.put(mob.getUUID(), mob);
         teams.add(team);
 
-        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+        final ServerWorld world = (ServerWorld) mob.getCommandSenderWorld();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         manager.battlesById.put(mob.getUUID(), this);
 
@@ -176,14 +176,14 @@ public class Battle
         if (this.valid)
         {
             final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
-            if (!(mob instanceof Mob)) return;
-            BrainUtils.initiateCombat((Mob) mob, target);
+            if (!(mob instanceof MobEntity)) return;
+            BrainUtils.initiateCombat((MobEntity) mob, target);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
     }
 
     private void mergeFrom(final LivingEntity mobA, final LivingEntity mobB, final Battle other,
-            final ServerLevel world)
+            final ServerWorld world)
     {
         final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
         final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
@@ -323,8 +323,8 @@ public class Battle
         for (final LivingEntity mob1 : this.side1.values())
         {
             final IPokemob poke = CapabilityPokemob.getPokemobFor(mob1);
-            if (!(mob1 instanceof Mob)) continue;
-            BrainUtils.initiateCombat((Mob) mob1, main2);
+            if (!(mob1 instanceof MobEntity)) continue;
+            BrainUtils.initiateCombat((MobEntity) mob1, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
         for (final LivingEntity mob2 : this.side2.values())
@@ -332,8 +332,8 @@ public class Battle
             final IPokemob poke = CapabilityPokemob.getPokemobFor(mob2);
             // This was already handled
             if (mob2 == main2) continue;
-            if (!(mob2 instanceof Mob)) continue;
-            BrainUtils.initiateCombat((Mob) mob2, main1);
+            if (!(mob2 instanceof MobEntity)) continue;
+            BrainUtils.initiateCombat((MobEntity) mob2, main1);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
     }

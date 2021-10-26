@@ -5,20 +5,19 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.utils.TimePeriod;
 
@@ -31,7 +30,7 @@ public class GuardAICapability implements IGuardAICapability
 
         private AttributeModifier executingGuardTask = null;
 
-        private Vec3 lastPos;
+        private Vector3d lastPos;
 
         int path_fails = 0;
 
@@ -50,9 +49,9 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void continueTask(final Mob entity)
+        public void continueTask(final MobEntity entity)
         {
-            final Vec3 newPos = entity.position();
+            final Vector3d newPos = entity.position();
             if (this.getPos().closerThan(newPos, this.getRoamDistance())) return;
 
             // Ensure we are not stuck riding something when trying to path
@@ -78,7 +77,7 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void endTask(final Mob entity)
+        public void endTask(final MobEntity entity)
         {
             entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             this.path_fails = 0;
@@ -122,7 +121,7 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void startTask(final Mob entity)
+        public void startTask(final MobEntity entity)
         {
             entity.getAttribute(Attributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             entity.getAttribute(Attributes.FOLLOW_RANGE).addTransientModifier(this.executingGuardTask);
@@ -130,11 +129,11 @@ public class GuardAICapability implements IGuardAICapability
             if (!this.path(entity, speed)) this.pathFail(entity);
         }
 
-        private void pathFail(final Mob entity)
+        private void pathFail(final MobEntity entity)
         {
             if (this.path_fails++ > 100)
             {
-                final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+                final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
 
                 final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.
@@ -150,15 +149,15 @@ public class GuardAICapability implements IGuardAICapability
             }
         }
 
-        private boolean path(final Mob entity, final double speed)
+        private boolean path(final MobEntity entity, final double speed)
         {
-            final Vec3 pos = new Vec3(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
+            final Vector3d pos = new Vector3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
                     + 0.5);
             this.setWalkTo(entity, pos, speed, 0);
             return true;
         }
 
-        protected void setWalkTo(final Mob entity, final Vec3 pos, final double speed, final int dist)
+        protected void setWalkTo(final MobEntity entity, final Vector3d pos, final double speed, final int dist)
         {
             entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
         }
@@ -222,10 +221,10 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public void loadTasks(final ListTag list)
+    public void loadTasks(final ListNBT list)
     {
         this.tasks.clear();
-        for (final Tag element : list)
+        for (final INBT element : list)
         {
             final GuardTask task = new GuardTask();
             task.load(element);
@@ -235,9 +234,9 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public ListTag serializeTasks()
+    public ListNBT serializeTasks()
     {
-        final ListTag list = new ListTag();
+        final ListNBT list = new ListNBT();
         for (final IGuardTask task : this.tasks)
             list.add(task.serialze());
         return list;
@@ -247,25 +246,5 @@ public class GuardAICapability implements IGuardAICapability
     public void setState(final GuardState state)
     {
         this.state = state;
-    }
-
-    @Override
-    public void deserializeNBT(final CompoundTag nbt)
-    {
-        this.setState(GuardState.values()[nbt.getInt("state")]);
-        if (nbt.contains("tasks"))
-        {
-            final ListTag tasks = (ListTag) nbt.get("tasks");
-            this.loadTasks(tasks);
-        }
-    }
-
-    @Override
-    public CompoundTag serializeNBT()
-    {
-        final CompoundTag ret = new CompoundTag();
-        ret.putInt("state", this.getState().ordinal());
-        ret.put("tasks", this.serializeTasks());
-        return ret;
     }
 }

@@ -2,16 +2,16 @@ package pokecube.core.ai.routes;
 
 import java.util.List;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -19,7 +19,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
-public interface IGuardAICapability extends INBTSerializable<CompoundTag>
+public interface IGuardAICapability
 {
 
     public static enum GuardState
@@ -29,9 +29,9 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
 
     public static interface IGuardTask
     {
-        void continueTask(Mob entity);
+        void continueTask(MobEntity entity);
 
-        void endTask(Mob entity);
+        void endTask(MobEntity entity);
 
         TimePeriod getActiveTime();
 
@@ -39,18 +39,18 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
 
         float getRoamDistance();
 
-        default void load(final Tag tag)
+        default void load(final INBT tag)
         {
-            final CompoundTag nbt = (CompoundTag) tag;
-            if (nbt.contains("pos")) this.setPos(NbtUtils.readBlockPos(nbt.getCompound("pos")));
+            final CompoundNBT nbt = (CompoundNBT) tag;
+            if (nbt.contains("pos")) this.setPos(NBTUtil.readBlockPos(nbt.getCompound("pos")));
             this.setRoamDistance(nbt.getFloat("d"));
             this.setActiveTime(new TimePeriod((int) nbt.getLong("start"), (int) nbt.getLong("end")));
         }
 
-        default Tag serialze()
+        default INBT serialze()
         {
-            final CompoundTag tag = new CompoundTag();
-            if (this.getPos() != null) tag.put("pos", NbtUtils.writeBlockPos(this.getPos()));
+            final CompoundNBT tag = new CompoundNBT();
+            if (this.getPos() != null) tag.put("pos", NBTUtil.writeBlockPos(this.getPos()));
             tag.putFloat("d", this.getRoamDistance());
             TimePeriod time;
             if ((time = this.getActiveTime()) != null)
@@ -67,17 +67,56 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
 
         void setRoamDistance(float roam);
 
-        void startTask(Mob entity);
+        void startTask(MobEntity entity);
     }
 
-    public static class Provider extends GuardAICapability implements ICapabilityProvider
+    public static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
+
+        @Override
+        public void deserializeNBT(final CompoundNBT nbt)
+        {
+            this.setState(GuardState.values()[nbt.getInt("state")]);
+            if (nbt.contains("tasks"))
+            {
+                final ListNBT tasks = (ListNBT) nbt.get("tasks");
+                this.loadTasks(tasks);
+            }
+        }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
             return CapHolders.GUARDAI_CAP.orEmpty(capability, this.holder);
+        }
+
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            final CompoundNBT ret = new CompoundNBT();
+            ret.putInt("state", this.getState().ordinal());
+            ret.put("tasks", this.serializeTasks());
+            return ret;
+        }
+    }
+
+    public static class Storage implements Capability.IStorage<IGuardAICapability>
+    {
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @Override
+        public void readNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
+                final Direction side, final INBT nbt)
+        {
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(nbt);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
+                final Direction side)
+        {
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
         }
     }
 
@@ -107,9 +146,9 @@ public interface IGuardAICapability extends INBTSerializable<CompoundTag>
     // do we have a task with a location, and a position
     boolean hasActiveTask(long time, long daylength);
 
-    void loadTasks(ListTag list);
+    void loadTasks(ListNBT list);
 
-    ListTag serializeTasks();
+    ListNBT serializeTasks();
 
     void setState(GuardState state);
 }

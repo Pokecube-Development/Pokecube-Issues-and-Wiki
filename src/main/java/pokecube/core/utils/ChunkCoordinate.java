@@ -1,18 +1,18 @@
 package pokecube.core.utils;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class ChunkCoordinate
 {
 
-    public static GlobalPos getChunkCoordFromWorldCoord(BlockPos pos, final Level world)
+    public static GlobalPos getChunkCoordFromWorldCoord(BlockPos pos, final World world)
     {
-        final int i = Mth.floor(pos.getX() >> 4);
-        final int j = Mth.floor(pos.getY() >> 4);
-        final int k = Mth.floor(pos.getZ() >> 4);
+        final int i = MathHelper.floor(pos.getX() >> 4);
+        final int j = MathHelper.floor(pos.getY() >> 4);
+        final int k = MathHelper.floor(pos.getZ() >> 4);
         pos = new BlockPos(i, j, k);
         return GlobalPos.of(world.dimension(), pos);
     }

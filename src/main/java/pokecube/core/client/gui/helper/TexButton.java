@@ -1,37 +1,36 @@
 package pokecube.core.client.gui.helper;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 
 public class TexButton extends Button
 {
-    private static class Tooltip implements OnTooltip
+    private static class Tooltip implements ITooltip
     {
         @Override
-        public void onTooltip(final Button button, final PoseStack matrixStack, final int mouseX, final int mouseY)
+        public void onTooltip(final Button button, final MatrixStack matrixStack, final int mouseX, final int mouseY)
         {
             final Minecraft minecraft = Minecraft.getInstance();
-            final Font fontrenderer = minecraft.font;
+            final FontRenderer fontrenderer = minecraft.font;
             final int j = button.getFGColor();
             // TODO decide if we want alpha as well?
-            GuiComponent.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x + button.getWidth()
-                    / 2, button.y + (button.getHeight() - 8) / 2, j | Mth.ceil(255.0F) << 24);
+            AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x + button.getWidth()
+                    / 2, button.y + (button.getHeight() - 8) / 2, j | MathHelper.ceil(255.0F) << 24);
         }
     }
 
-    public static final OnTooltip NAMEONHOVER = new Tooltip();
+    public static final ITooltip NAMEONHOVER = new Tooltip();
 
-    public static class ShiftedTooltip implements OnTooltip
+    public static class ShiftedTooltip implements ITooltip
     {
         int dx;
         int dy;
@@ -58,12 +57,12 @@ public class TexButton extends Button
         }
 
         @Override
-        public void onTooltip(final Button button, final PoseStack matrixStack, final int mouseX, final int mouseY)
+        public void onTooltip(final Button button, final MatrixStack matrixStack, final int mouseX, final int mouseY)
         {
             final Minecraft minecraft = Minecraft.getInstance();
-            final Font fontrenderer = minecraft.font;
+            final FontRenderer fontrenderer = minecraft.font;
             final int j = button.getFGColor();
-            if (this.shadowed) GuiComponent.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x
+            if (this.shadowed) AbstractGui.drawCenteredString(matrixStack, fontrenderer, button.getMessage(), button.x
                     + this.dx, button.y + this.dy, j | this.alpha << 24);
             else
             {
@@ -83,7 +82,7 @@ public class TexButton extends Button
 
     public static interface ImgRender
     {
-        default void render(final TexButton button, final PoseStack matrixStack, final int mouseX, final int mouseY,
+        default void render(final TexButton button, final MatrixStack matrixStack, final int mouseX, final int mouseY,
                 final float partialTicks)
         {
             //@formatter:off
@@ -118,7 +117,7 @@ public class TexButton extends Button
         }
 
         @Override
-        public void render(final TexButton button, final PoseStack matrixStack, final int mouseX, final int mouseY,
+        public void render(final TexButton button, final MatrixStack matrixStack, final int mouseX, final int mouseY,
                 final float partialTicks)
         {
             RenderSystem.enableBlend();
@@ -129,7 +128,7 @@ public class TexButton extends Button
         }
     }
 
-    public ResourceLocation texture = AbstractWidget.WIDGETS_LOCATION;
+    public ResourceLocation texture = Widget.WIDGETS_LOCATION;
 
     boolean renderName = true;
 
@@ -143,14 +142,14 @@ public class TexButton extends Button
     {
     };
 
-    public TexButton(final int x, final int y, final int width, final int height, final Component title,
-            final OnPress pressedAction)
+    public TexButton(final int x, final int y, final int width, final int height, final ITextComponent title,
+            final IPressable pressedAction)
     {
         super(x, y, width, height, title, pressedAction);
     }
 
-    public TexButton(final int x, final int y, final int width, final int height, final Component title,
-            final OnPress pressedAction, final OnTooltip onTooltip)
+    public TexButton(final int x, final int y, final int width, final int height, final ITextComponent title,
+            final IPressable pressedAction, final ITooltip onTooltip)
     {
         super(x, y, width, height, title, pressedAction, onTooltip);
     }
@@ -188,14 +187,12 @@ public class TexButton extends Button
     }
 
     @Override
-    public void renderButton(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void renderButton(final MatrixStack matrixStack, final int mouseX, final int mouseY,
+            final float partialTicks)
     {
         final Minecraft minecraft = Minecraft.getInstance();
-        final Font fontrenderer = minecraft.font;
-
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, this.texture);
-
+        final FontRenderer fontrenderer = minecraft.font;
+        minecraft.getTextureManager().bind(this.texture);
         this.render.render(this, matrixStack, mouseX, mouseY, partialTicks);
         this.renderBg(matrixStack, minecraft, mouseX, mouseY);
         final int j = this.getFGColor();

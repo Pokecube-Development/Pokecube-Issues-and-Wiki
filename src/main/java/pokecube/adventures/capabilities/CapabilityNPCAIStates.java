@@ -1,16 +1,17 @@
 package pokecube.adventures.capabilities;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.PokecubeAdv;
 
 public class CapabilityNPCAIStates
 {
-    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilityProvider
+    public static class DefaultAIStates implements IHasNPCAIStates, ICapabilitySerializable<CompoundNBT>
     {
         int   state = 0;
         float direction;
@@ -24,7 +25,7 @@ public class CapabilityNPCAIStates
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
             this.setTotalState(nbt.getInt("AI"));
             this.setDirection(nbt.getFloat("D"));
@@ -60,9 +61,9 @@ public class CapabilityNPCAIStates
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            final CompoundTag tag = new CompoundTag();
+            final CompoundNBT tag = new CompoundNBT();
             tag.putInt("AI", this.getTotalState());
             tag.putFloat("D", this.getDirection());
             return tag;
@@ -89,7 +90,7 @@ public class CapabilityNPCAIStates
 
     }
 
-    public static interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
+    public static interface IHasNPCAIStates
     {
         public static enum AIState
         {
@@ -147,4 +148,27 @@ public class CapabilityNPCAIStates
 
         void setTotalState(int state);
     }
+
+    public static class Storage implements Capability.IStorage<IHasNPCAIStates>
+    {
+
+        @Override
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        public void readNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
+                final Direction side, final INBT base)
+        {
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
+        }
+
+        @Override
+        public INBT writeNBT(final Capability<IHasNPCAIStates> capability, final IHasNPCAIStates instance,
+                final Direction side)
+        {
+            if (instance instanceof INBTSerializable<?>) return ((INBTSerializable<?>) instance).serializeNBT();
+            return null;
+        }
+
+    }
+
+    public static Storage storage;
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
@@ -65,7 +65,7 @@ public class GuardEggTask extends BaseIdleTask
             }
             return true;
         }
-        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
+        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.VISIBLE_LIVING_ENTITIES)) return false;
 
         if (this.eggSearchCooldown-- > 0) return false;
         // Only the female (or neutral) will guard the eggs.
@@ -73,7 +73,7 @@ public class GuardEggTask extends BaseIdleTask
         this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
 
         final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_LIVING_ENTITIES).get();
         list.addAll(pokemobs);
         final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && GuardEggTask.this.entity
                 .getUUID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();

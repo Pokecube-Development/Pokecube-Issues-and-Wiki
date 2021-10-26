@@ -4,10 +4,10 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 
 public enum EnumWearable
 {
@@ -106,8 +106,8 @@ public enum EnumWearable
         return EnumWearable.BYINDEX[index];
     }
 
-    public static void interact(final Player player, final ItemStack item, final int index,
-            final UseOnContext context)
+    public static void interact(final PlayerEntity player, final ItemStack item, final int index,
+            final ItemUseContext context)
     {
         if (item.isEmpty()) return;
         final EnumWearable slot = EnumWearable.getWearable(index);

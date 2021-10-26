@@ -4,12 +4,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 
-public interface IMobGenetics extends INBTSerializable<ListTag>
+public interface IMobGenetics
 {
     /**
      * This is a map of Name -> Alleles. this is to be used to sort the

@@ -2,15 +2,15 @@ package pokecube.legends.blocks.plants;
 
 import java.util.Random;
 
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.block.trees.Tree;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import pokecube.legends.worldgen.trees.Trees;
 
-public class DistorticTree extends AbstractTreeGrower {
+public class DistorticTree extends Tree {
 
 	@Override
-    protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getConfiguredFeature(final Random randomIn, final boolean b)
     {
         return Trees.DISTORTIC_TREE;
     }

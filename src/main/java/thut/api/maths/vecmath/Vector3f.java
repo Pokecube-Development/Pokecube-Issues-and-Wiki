@@ -107,9 +107,9 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         return new Quat4f(this, valueIn, true);
     }
 
-    public com.mojang.math.Vector3f toMC()
+    public net.minecraft.util.math.vector.Vector3f toMC()
     {
-        return new com.mojang.math.Vector3f(this.x, this.y, this.z);
+        return new net.minecraft.util.math.vector.Vector3f(this.x, this.y, this.z);
     }
 
     public Vector3f(final Vector3 rHat)

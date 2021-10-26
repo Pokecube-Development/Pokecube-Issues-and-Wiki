@@ -1,15 +1,15 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.Action;
@@ -25,7 +25,7 @@ import pokecube.core.client.gui.helper.ScrollGui;
 public class Messages extends ListPage<MessageOption>
 {
 
-    public static class MessageOption extends AbstractSelectionList.Entry<MessageOption> implements INotifiedEntry
+    public static class MessageOption extends AbstractList.AbstractListEntry<MessageOption> implements INotifiedEntry
     {
 
         final Messages parent;
@@ -38,8 +38,8 @@ public class Messages extends ListPage<MessageOption>
 
         final Button apply;
 
-        final EditBox message;
-        final EditBox action;
+        final TextFieldWidget message;
+        final TextFieldWidget action;
 
         final IHasMessages messages;
 
@@ -55,8 +55,8 @@ public class Messages extends ListPage<MessageOption>
 
             this.index = index;
 
-            this.message = new EditBox(parent.font, 0, 0, 170, 10, new TextComponent(""));
-            this.action = new EditBox(parent.font, 0, 0, 170, 10, new TextComponent(""));
+            this.message = new TextFieldWidget(parent.font, 0, 0, 170, 10, new StringTextComponent(""));
+            this.action = new TextFieldWidget(parent.font, 0, 0, 170, 10, new StringTextComponent(""));
 
             final MessageState state = MessageState.values()[this.index];
             this.message.setValue(this.messages.getMessage(state));
@@ -71,15 +71,15 @@ public class Messages extends ListPage<MessageOption>
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
 
-            this.apply = new Button(0, 0, 50, 10, new TextComponent("Apply"), b ->
+            this.apply = new Button(0, 0, 50, 10, new StringTextComponent("Apply"), b ->
             {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
 
-            parent.addRenderableWidget(this.apply);
-            parent.addRenderableWidget(this.message);
-            parent.addRenderableWidget(this.action);
+            parent.addButton(this.apply);
+            parent.addButton(this.message);
+            parent.addButton(this.action);
 
             this.action.moveCursorTo(-this.action.getCursorPosition());
             this.message.moveCursorTo(-this.message.getCursorPosition());
@@ -99,7 +99,7 @@ public class Messages extends ListPage<MessageOption>
         }
 
         @Override
-        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+        public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
@@ -134,10 +134,10 @@ public class Messages extends ListPage<MessageOption>
             this.messages.setMessage(state, msg);
             if (this.messages instanceof ICapabilitySerializable)
             {
-                final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.messages;
-                final Tag tag = ser.serializeNBT();
+                final ICapabilitySerializable<? extends INBT> ser = (ICapabilitySerializable<?>) this.messages;
+                final INBT tag = ser.serializeNBT();
                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-                final CompoundTag nbt = message.getTag();
+                final CompoundNBT nbt = message.getTag();
                 nbt.put("__messages__", tag);
                 nbt.putInt("I", this.parent.parent.entity.getId());
                 PacketTrainer.ASSEMBLER.sendToServer(message);
@@ -148,14 +148,14 @@ public class Messages extends ListPage<MessageOption>
 
     public Messages(final EditorGui parent)
     {
-        super(new TextComponent(""), parent);
+        super(new StringTextComponent(""), parent);
     }
 
     @Override
     public void initList()
     {
         this.children.clear();
-        this.renderables.clear();
+        this.buttons.clear();
         super.initList();
         int x = (this.parent.width - 256) / 2;
         int y = (this.parent.height - 160) / 2;
@@ -167,7 +167,7 @@ public class Messages extends ListPage<MessageOption>
         this.children.add(this.list);
         x = this.width / 2;
         y = this.height / 2;
-        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+        this.addButton(new Button(x + 73, y + 64, 50, 12, new TranslationTextComponent("traineredit.button.home"), b ->
         {
             this.closeCallback.run();
         }));

@@ -4,7 +4,7 @@
   "experience": 0.25,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:golden_poppy"
+    "item": "pokecube_legends:a1_flower"
   },
   "result": {
     "item": "minecraft:gold_nugget"

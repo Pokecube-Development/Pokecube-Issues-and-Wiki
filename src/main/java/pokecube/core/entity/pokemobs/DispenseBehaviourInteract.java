@@ -6,36 +6,36 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockSource;
-import net.minecraft.core.Direction;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.dispenser.IDispenseItemBehavior;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.Property;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 
-public class DispenseBehaviourInteract implements DispenseItemBehavior
+public class DispenseBehaviourInteract implements IDispenseItemBehavior
 {
-    public static final Map<ResourceLocation, DispenseItemBehavior> DEFAULTS = Maps.newHashMap();
+    public static final Map<ResourceLocation, IDispenseItemBehavior> DEFAULTS = Maps.newHashMap();
 
-    private static final DispenseItemBehavior DEFAULT = new DefaultDispenseItemBehavior();
+    private static final IDispenseItemBehavior DEFAULT = new DefaultDispenseItemBehavior();
 
     public static void registerBehavior(final ItemStack stack)
     {
         if (DispenseBehaviourInteract.DEFAULTS.containsKey(stack.getItem().getRegistryName())) return;
-        final DispenseItemBehavior original = DispenserBlock.DISPENSER_REGISTRY.get(stack.getItem());
+        final IDispenseItemBehavior original = DispenserBlock.DISPENSER_REGISTRY.get(stack.getItem());
         DispenseBehaviourInteract.DEFAULTS.put(stack.getItem().getRegistryName(), original);
         DispenserBlock.registerBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
     }
@@ -47,7 +47,7 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
     }
 
     @Override
-    public ItemStack dispense(final BlockSource source, final ItemStack stack)
+    public ItemStack dispense(final IBlockSource source, final ItemStack stack)
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();
@@ -64,34 +64,34 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
         player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
 
         final Vector3 loc = Vector3.getNewVector().set(source.getPos().relative(dir));
-        final AABB box = loc.getAABB().inflate(2);
-        final List<Mob> mobs = source.getLevel().getEntitiesOfClass(Mob.class, box);
+        final AxisAlignedBB box = loc.getAABB().inflate(2);
+        final List<MobEntity> mobs = source.getLevel().getEntitiesOfClass(MobEntity.class, box);
         Collections.shuffle(mobs);
         if (!mobs.isEmpty())
         {
-            player.getInventory().clearContent();
-            player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+            player.inventory.clearContent();
+            player.setItemInHand(Hand.MAIN_HAND, stack);
 
-            InteractionResult cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, mobs.get(0),
-                    new Vec3(0, 0, 0), InteractionHand.MAIN_HAND);
+            ActionResultType cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, mobs.get(0),
+                    new Vector3d(0, 0, 0), Hand.MAIN_HAND);
             if (cancelResult == null) cancelResult = net.minecraftforge.common.ForgeHooks.onInteractEntity(player, mobs
-                    .get(0), InteractionHand.MAIN_HAND);
+                    .get(0), Hand.MAIN_HAND);
 
             final boolean interacted = cancelResult != null || mobs.get(0).interact(player,
-                    InteractionHand.MAIN_HAND) != InteractionResult.PASS;
-            InteractionResult result = InteractionResult.PASS;
-            if (!interacted) result = stack.interactLivingEntity(player, mobs.get(0), InteractionHand.MAIN_HAND);
-            for (final ItemStack stack3 : player.getInventory().items)
+                    Hand.MAIN_HAND) != ActionResultType.PASS;
+            ActionResultType result = ActionResultType.PASS;
+            if (!interacted) result = stack.interactLivingEntity(player, mobs.get(0), Hand.MAIN_HAND);
+            for (final ItemStack stack3 : player.inventory.items)
                 if (!stack3.isEmpty()) if (stack3 != stack)
                 {
-                    result = InteractionResult.SUCCESS;
+                    result = ActionResultType.SUCCESS;
                     // This should result in the object just being
                     // dropped.
                     DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
                             DispenseBehaviourInteract.DEFAULT).dispense(source, stack3);
                 }
-            player.getInventory().clearContent();
-            if (result != InteractionResult.PASS) return stack;
+            player.inventory.clearContent();
+            if (result != ActionResultType.PASS) return stack;
         }
         return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
                 DispenseBehaviourInteract.DEFAULT).dispense(source, stack);

@@ -9,30 +9,30 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.ICriterionTrigger;
+import net.minecraft.advancements.PlayerAdvancements;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
+import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 
-public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.Instance>
+public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.Instance>
 {
     public static ResourceLocation ID = new ResourceLocation(PokecubeAdv.MODID, "beat_trainer");
 
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public static class Instance extends CriterionInstance
     {
-        public Instance(final Composite pred)
+        public Instance(final AndPredicate pred)
         {
             super(BeatTrainerTrigger.ID, pred);
         }
 
-        public boolean test(final ServerPlayer player, final TrainerBase defeated)
+        public boolean test(final ServerPlayerEntity player, final TrainerBase defeated)
         {
             return !(defeated instanceof LeaderNpc);
         }
@@ -42,7 +42,7 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
     static class Listeners
     {
         private final PlayerAdvancements                                           playerAdvancements;
-        private final Set<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newHashSet();
+        private final Set<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
@@ -54,29 +54,29 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
             return this.listeners.isEmpty();
         }
 
-        public void add(final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
 
-        public void remove(final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(final ServerPlayer player, final TrainerBase defeated)
+        public void trigger(final ServerPlayerEntity player, final TrainerBase defeated)
         {
-            List<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> list = null;
+            List<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> list = null;
 
-            for (final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener : this.listeners)
+            for (final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener : this.listeners)
                 if (listener.getTriggerInstance().test(player, defeated))
                 {
                     if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newArrayList();
+                        list = Lists.<ICriterionTrigger.Listener<BeatTrainerTrigger.Instance>> newArrayList();
 
                     list.add(listener);
                 }
-            if (list != null) for (final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener1 : list)
+            if (list != null) for (final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener1 : list)
                 listener1.run(this.playerAdvancements);
         }
     }
@@ -95,7 +95,7 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
     {
         BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -110,7 +110,7 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<BeatTrainerTrigger.Instance> listener)
     {
         final BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -129,13 +129,13 @@ public class BeatTrainerTrigger implements CriterionTrigger<BeatTrainerTrigger.I
     }
 
     @Override
-    public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         return new BeatTrainerTrigger.Instance(pred);
     }
 
-    public void trigger(final ServerPlayer player, final TrainerBase defeated)
+    public void trigger(final ServerPlayerEntity player, final TrainerBase defeated)
     {
         final BeatTrainerTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, defeated);

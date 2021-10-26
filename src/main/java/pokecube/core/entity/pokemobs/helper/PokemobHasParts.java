@@ -10,20 +10,20 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.animal.ShoulderRidingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.Pose;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
@@ -54,7 +54,7 @@ public abstract class PokemobHasParts extends PokemobCombat
 
     Map<String, PokemobPart[]> partMap = Maps.newHashMap();
 
-    public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
+    public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
         this.update_tick = -1;
@@ -122,9 +122,9 @@ public abstract class PokemobHasParts extends PokemobCombat
 
         if (height > maxH || width > maxW || length > maxW)
         {
-            final int nx = Mth.ceil(width / maxW);
-            final int nz = Mth.ceil(length / maxH);
-            final int ny = Mth.ceil(height / maxW);
+            final int nx = MathHelper.ceil(width / maxW);
+            final int nz = MathHelper.ceil(length / maxH);
+            final int ny = MathHelper.ceil(height / maxW);
 
             final float dx = width / nx;
             final float dy = height / ny;
@@ -186,7 +186,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
+        this.dimensions = EntitySize.fixed(Math.max(width, length), height);
         final boolean first = this.firstTick;
         this.firstTick = true;
         this.refreshDimensions();
@@ -201,15 +201,15 @@ public abstract class PokemobHasParts extends PokemobCombat
             super.refreshDimensions();
             return;
         }
-        final EntityDimensions entitysize = this.dimensions;
+        final EntitySize entitysize = this.dimensions;
         final Pose pose = this.getPose();
         final net.minecraftforge.event.entity.EntityEvent.Size sizeEvent = net.minecraftforge.event.ForgeEventFactory
                 .getEntitySizeForge(this, pose, this.getDimensions(pose), this.getEyeHeight(pose, entitysize));
-        final EntityDimensions entitysize1 = sizeEvent.getNewSize();
+        final EntitySize entitysize1 = sizeEvent.getNewSize();
         this.dimensions = entitysize1;
         this.eyeHeight = sizeEvent.getNewEyeHeight();
         final double d0 = entitysize1.width / 2.0D;
-        this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0, this
+        this.setBoundingBox(new AxisAlignedBB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0, this
                 .getY() + entitysize1.height, this.getZ() + d0));
     }
 
@@ -320,9 +320,9 @@ public abstract class PokemobHasParts extends PokemobCombat
 
         if (this.parts.length == 0 && this.allParts.isEmpty()) return;
 
-        final Vec3 v = this.position();
+        final Vector3d v = this.position();
         this.r.set((float) v.x(), (float) v.y(), (float) v.z());
-        final Vec3 dr = new Vec3(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z - this.zOld);
+        final Vector3d dr = new Vector3d(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z - this.zOld);
         this.rot.rotY((float) Math.toRadians(180 - this.yBodyRot));
 
         if (this.isAddedToWorld()) for (final PokemobPart p : this.parts)
@@ -332,15 +332,15 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
-    public void move(final MoverType typeIn, final Vec3 pos)
+    public void move(final MoverType typeIn, final Vector3d pos)
     {
         if (this.parts.length == 0)
         {
             super.move(typeIn, pos);
             return;
         }
-        final EntityDimensions backup = this.dimensions;
-        this.dimensions = new EntityDimensions(this.colWidth, this.colHeight, true);
+        final EntitySize backup = this.dimensions;
+        this.dimensions = new EntitySize(this.colWidth, this.colHeight, true);
 
         final boolean first = this.firstTick;
         this.firstTick = true;
@@ -384,7 +384,7 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
-    public AABB getLocalBoundsForPose(final Pose pose)
+    public AxisAlignedBB getLocalBoundsForPose(final Pose pose)
     {
         return super.getLocalBoundsForPose(pose);
     }
@@ -396,7 +396,7 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
-    public EntityDimensions getDimensions(final Pose poseIn)
+    public EntitySize getDimensions(final Pose poseIn)
     {
         return this.dimensions;
     }

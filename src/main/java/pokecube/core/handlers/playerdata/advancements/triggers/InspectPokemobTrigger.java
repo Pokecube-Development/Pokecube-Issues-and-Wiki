@@ -9,32 +9,32 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.ICriterionTrigger;
+import net.minecraft.advancements.PlayerAdvancements;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate.AndPredicate;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 
-public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTrigger.Instance>
+public class InspectPokemobTrigger implements ICriterionTrigger<InspectPokemobTrigger.Instance>
 {
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public static class Instance extends CriterionInstance
     {
         final PokedexEntry entry;
 
-        public Instance(final Composite pred, final PokedexEntry entry)
+        public Instance(final AndPredicate pred, final PokedexEntry entry)
         {
             super(InspectPokemobTrigger.ID, pred);
             this.entry = entry != null ? entry : Database.missingno;
         }
 
-        public boolean test(final ServerPlayer player, final IPokemob pokemob)
+        public boolean test(final ServerPlayerEntity player, final IPokemob pokemob)
         {
             return (this.entry == Database.missingno || pokemob.getPokedexEntry() == this.entry) && pokemob
                     .getOwner() != player;
@@ -45,14 +45,14 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
     static class Listeners
     {
         private final PlayerAdvancements                                              playerAdvancements;
-        private final Set<CriterionTrigger.Listener<InspectPokemobTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<InspectPokemobTrigger.Instance>> newHashSet();
+        private final Set<ICriterionTrigger.Listener<InspectPokemobTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<InspectPokemobTrigger.Instance>> newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -62,24 +62,24 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(final ServerPlayer player, final IPokemob pokemob)
+        public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
         {
-            List<CriterionTrigger.Listener<InspectPokemobTrigger.Instance>> list = null;
+            List<ICriterionTrigger.Listener<InspectPokemobTrigger.Instance>> list = null;
 
-            for (final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener : this.listeners)
+            for (final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener : this.listeners)
                 if (listener.getTriggerInstance().test(player, pokemob))
                 {
                     if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<InspectPokemobTrigger.Instance>> newArrayList();
+                        list = Lists.<ICriterionTrigger.Listener<InspectPokemobTrigger.Instance>> newArrayList();
 
                     list.add(listener);
                 }
-            if (list != null) for (final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener1 : list)
+            if (list != null) for (final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener1 : list)
                 listener1.run(this.playerAdvancements);
         }
     }
@@ -94,7 +94,7 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
     {
         InspectPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -108,9 +108,9 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
     }
 
     @Override
-    public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         return new InspectPokemobTrigger.Instance(pred, Database.getEntry(name));
     }
@@ -129,7 +129,7 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<InspectPokemobTrigger.Instance> listener)
     {
         final InspectPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -141,7 +141,7 @@ public class InspectPokemobTrigger implements CriterionTrigger<InspectPokemobTri
         }
     }
 
-    public void trigger(final ServerPlayer player, final IPokemob pokemob)
+    public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
     {
         final InspectPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player
                 .getAdvancements());

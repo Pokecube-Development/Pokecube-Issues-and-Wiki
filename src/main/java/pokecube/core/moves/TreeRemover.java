@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.world.level.Level;
+import net.minecraft.world.World;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -12,7 +12,7 @@ import thut.api.maths.Vector3;
 
 public class TreeRemover
 {
-    Level    world;
+    World    world;
     IPokemob user;
     Vector3  centre;
     String   move;
@@ -20,7 +20,7 @@ public class TreeRemover
     List<Vector3> blocks  = new LinkedList<>();
     List<Vector3> checked = new LinkedList<>();
 
-    public TreeRemover(final Level world, final IPokemob user, final String move, final Vector3 pos)
+    public TreeRemover(final World world, final IPokemob user, final String move, final Vector3 pos)
     {
         this.world = world;
         this.centre = pos;

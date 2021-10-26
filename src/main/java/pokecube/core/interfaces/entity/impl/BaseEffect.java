@@ -1,6 +1,6 @@
 package pokecube.core.interfaces.entity.impl;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 
 public abstract class BaseEffect implements IOngoingEffect

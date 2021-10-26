@@ -2,17 +2,17 @@ package pokecube.core.inventory.trade;
 
 import java.util.UUID;
 
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.BaseContainer;
@@ -20,24 +20,24 @@ import thut.api.inventory.BaseContainer;
 public class TradeContainer extends BaseContainer
 {
 
-    public static final MenuType<TradeContainer> TYPE = new MenuType<>(TradeContainer::new);
-    private Container                            inv;
-    private final ContainerLevelAccess           pos;
-    public TraderTile                            tile;
+    public static final ContainerType<TradeContainer> TYPE = new ContainerType<>(TradeContainer::new);
+    private IInventory                                inv;
+    private final IWorldPosCallable                   pos;
+    public TraderTile                                 tile;
 
-    public TradeContainer(final int id, final Inventory inv)
+    public TradeContainer(final int id, final PlayerInventory inv)
     {
-        this(id, inv, ContainerLevelAccess.NULL);
+        this(id, inv, IWorldPosCallable.NULL);
     }
 
-    public TradeContainer(final int id, final Inventory inv, final ContainerLevelAccess pos)
+    public TradeContainer(final int id, final PlayerInventory inv, final IWorldPosCallable pos)
     {
         super(TradeContainer.TYPE, id);
         this.pos = pos;
 
         pos.execute((w, p) ->
         {
-            final BlockEntity tile = w.getBlockEntity(p);
+            final TileEntity tile = w.getBlockEntity(p);
             // Server side
             if (tile instanceof TraderTile)
             {
@@ -50,7 +50,7 @@ public class TradeContainer extends BaseContainer
         // Client side
         if (this.inv == null)
         {
-            this.tile = new TraderTile(inv.player.blockPosition(), PokecubeItems.TRADER.get().defaultBlockState());
+            this.tile = new TraderTile();
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();
@@ -63,17 +63,17 @@ public class TradeContainer extends BaseContainer
     }
 
     @Override
-    public boolean stillValid(final Player playerIn)
+    public boolean stillValid(final PlayerEntity playerIn)
     {
         return this.tile.users.size() <= 2;
     }
 
     @Override
-    public void clearContainer(final Player playerIn, final Container inventoryIn)
+    public void clearContainer(final PlayerEntity playerIn, final World worldIn, final IInventory inventoryIn)
     {
-        if (!(playerIn instanceof ServerPlayer))
+        if (!(playerIn instanceof ServerPlayerEntity))
         {
-            super.clearContainer(playerIn, inventoryIn);
+            super.clearContainer(playerIn, worldIn, inventoryIn);
             return;
         }
         for (int i = 0; i < inventoryIn.getContainerSize(); ++i)
@@ -85,16 +85,16 @@ public class TradeContainer extends BaseContainer
             if (!ids.isEmpty())
             {
                 final UUID owner = UUID.fromString(ids);
-                final ServerPlayer player = playerIn.getServer().getPlayerList().getPlayer(owner);
+                final ServerPlayerEntity player = playerIn.getServer().getPlayerList().getPlayer(owner);
                 final boolean shouldReAdd = player.isAlive() && !player.hasDisconnected();
-                if (shouldReAdd) player.getInventory().placeItemBackInInventory(inventoryIn.removeItemNoUpdate(i));
+                if (shouldReAdd) player.inventory.placeItemBackInInventory(worldIn, inventoryIn.removeItemNoUpdate(i));
                 else playerIn.drop(inventoryIn.removeItemNoUpdate(i), false);
             }
         }
     }
 
     @Override
-    public Container getInv()
+    public IInventory getInv()
     {
         return this.inv;
     }
@@ -106,12 +106,12 @@ public class TradeContainer extends BaseContainer
     }
 
     @Override
-    public void removed(final Player playerIn)
+    public void removed(final PlayerEntity playerIn)
     {
         super.removed(playerIn);
         this.pos.execute((world, pos) ->
         {
-            this.clearContainer(playerIn, this.inv);
+            this.clearContainer(playerIn, world, this.inv);
         });
     }
 }

@@ -2,12 +2,12 @@ package pokecube.core.ai.tasks.idle.hunger;
 
 import java.util.function.Predicate;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.interfaces.IPokemob;
@@ -27,17 +27,17 @@ public class EatFromChest extends EatBlockBase
     {
         if (!pokemob.isHerbivore()) return EatResult.NOEAT;
 
-        final Mob entity = pokemob.getEntity();
+        final MobEntity entity = pokemob.getEntity();
 
         double diff = 1.5;
         diff = Math.max(diff, entity.getBbWidth());
         final double dist = block.getPos().distManhattan(entity.blockPosition());
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
-        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+        final ServerWorld world = (ServerWorld) entity.getCommandSenderWorld();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatFromChest.checker.test(current)) return EatResult.NOEAT;
-        final Container container = (Container) world.getBlockEntity(block.getPos());
+        final IInventory container = (IInventory) world.getBlockEntity(block.getPos());
         for (int i1 = 0; i1 < container.getContainerSize(); i1++)
         {
             final ItemStack stack = container.getItem(i1);

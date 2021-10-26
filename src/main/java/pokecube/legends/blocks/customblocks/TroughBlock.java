@@ -3,30 +3,30 @@ package pokecube.legends.blocks.customblocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
-public class TroughBlock extends Rotates implements SimpleWaterloggedBlock
+public class TroughBlock extends Rotates implements IWaterLoggable
 {
     private static final Map<Direction, VoxelShape> TROUGH  = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
+    private static final DirectionProperty          FACING      = HorizontalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     static
     {
-    	TroughBlock.TROUGH.put(Direction.NORTH, Shapes.or(
+    	TroughBlock.TROUGH.put(Direction.NORTH, VoxelShapes.or(
             Block.box(12, 6, 4, 13, 11, 12),
             Block.box(3, 6, 4, 4, 11, 12),
             Block.box(3, 6, 3, 13, 11, 4),
@@ -36,7 +36,7 @@ public class TroughBlock extends Rotates implements SimpleWaterloggedBlock
             Block.box(5, 3, 5, 11, 4, 11),
             Block.box(5, 1, 5, 11, 2, 11),
             Block.box(4, 0, 4, 12, 1, 12)).optimize());
-    	TroughBlock.TROUGH.put(Direction.EAST, Shapes.or(
+    	TroughBlock.TROUGH.put(Direction.EAST, VoxelShapes.or(
 		    Block.box(12, 6, 4, 13, 11, 12),
             Block.box(3, 6, 4, 4, 11, 12),
             Block.box(3, 6, 3, 13, 11, 4),
@@ -46,7 +46,7 @@ public class TroughBlock extends Rotates implements SimpleWaterloggedBlock
             Block.box(5, 3, 5, 11, 4, 11),
             Block.box(5, 1, 5, 11, 2, 11),
             Block.box(4, 0, 4, 12, 1, 12)).optimize());
-    	TroughBlock.TROUGH.put(Direction.SOUTH, Shapes.or(
+    	TroughBlock.TROUGH.put(Direction.SOUTH, VoxelShapes.or(
 		    Block.box(12, 6, 4, 13, 11, 12),
             Block.box(3, 6, 4, 4, 11, 12),
             Block.box(3, 6, 3, 13, 11, 4),
@@ -56,7 +56,7 @@ public class TroughBlock extends Rotates implements SimpleWaterloggedBlock
             Block.box(5, 3, 5, 11, 4, 11),
             Block.box(5, 1, 5, 11, 2, 11),
             Block.box(4, 0, 4, 12, 1, 12)).optimize());
-    	TroughBlock.TROUGH.put(Direction.WEST, Shapes.or(
+    	TroughBlock.TROUGH.put(Direction.WEST, VoxelShapes.or(
             Block.box(12, 6, 4, 13, 11, 12),
             Block.box(3, 6, 4, 4, 11, 12),
             Block.box(3, 6, 3, 13, 11, 4),
@@ -70,8 +70,8 @@ public class TroughBlock extends Rotates implements SimpleWaterloggedBlock
 
     // Precise selection box
     @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
-            final CollisionContext context)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
         return TroughBlock.TROUGH.get(state.getValue(TroughBlock.FACING));
     }

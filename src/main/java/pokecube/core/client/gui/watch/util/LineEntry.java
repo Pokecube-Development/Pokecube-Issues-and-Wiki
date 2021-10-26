@@ -1,14 +1,14 @@
 package pokecube.core.client.gui.watch.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.widget.list.AbstractList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import pokecube.core.client.gui.helper.ScrollGui;
 
-public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
+public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
 {
     public static interface IClickListener
     {
@@ -17,16 +17,16 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
             return false;
         }
 
-        default void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+        default void handleHovor(final MatrixStack mat, final Style component, final int x, final int y)
         {
 
         }
 
     }
 
-    final Font          fontRender;
+    final FontRenderer          fontRender;
     final int                   colour;
-    public final Component line;
+    public final ITextComponent line;
     public int                  x0;
     public int                  y0;
     private IClickListener      listener = new IClickListener()
@@ -34,8 +34,8 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
                                          };
 
     @SuppressWarnings("deprecation")
-    public LineEntry(final ScrollGui<LineEntry> parent, final int x0, final int y0, final Font fontRender,
-            final Component line, final int default_colour)
+    public LineEntry(final ScrollGui<LineEntry> parent, final int x0, final int y0, final FontRenderer fontRender,
+            final ITextComponent line, final int default_colour)
     {
         this.list = parent;
         this.fontRender = fontRender;
@@ -52,7 +52,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
         if (inBounds)
         {
             if (this.listener.handleClick(this.line.getStyle())) return true;
-            for (final Component comp : this.line.getSiblings())
+            for (final ITextComponent comp : this.line.getSiblings())
                 if (this.listener.handleClick(comp.getStyle())) return true;
             return true;
         }
@@ -60,7 +60,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     }
 
     @Override
-    public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+    public void render(final MatrixStack mat, final int slotIndex, final int y, final int x, final int listWidth,
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {

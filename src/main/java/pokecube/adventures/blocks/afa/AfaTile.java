@@ -4,22 +4,23 @@ import java.util.Random;
 
 import org.nfunk.jep.JEP;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerListener;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -34,13 +35,12 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
-import thut.api.block.ITickTile;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
-public class AfaTile extends InteractableTile implements ITickTile, IEnergyStorage, ContainerListener
+public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage, IInventoryChangedListener
 {
     public static final ResourceLocation SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
 
@@ -72,7 +72,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         AfaTile.parserS.parseExpression(functionS);
     }
 
-    public final ContainerData syncValues = new ContainerData()
+    public final IIntArray syncValues = new IIntArray()
     {
 
         @Override
@@ -117,7 +117,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
 
     private final IItemHandlerModifiable itemstore;
 
-    public final Container inventory;
+    public final IInventory inventory;
 
     public IPokemob pokemob       = null;
     boolean         shiny         = false;
@@ -141,9 +141,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
 
     boolean noEnergyNeed = false;
 
-    public AfaTile(final BlockPos pos, final BlockState state)
+    public AfaTile()
     {
-        super(PokecubeAdv.AFA_TYPE.get(), pos, state);
+        super(PokecubeAdv.AFA_TYPE.get());
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) this.getCapability(
@@ -155,7 +155,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     {
         if (this.pokemob != null)
         {
-            this.pokemob.getEntity().discard();
+            this.pokemob.getEntity().remove();
             this.pokemob = null;
             this.ability = null;
         }
@@ -175,7 +175,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
             this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
                     .getZ() + 0.5);
             this.ability.init(this.pokemob, this.distance);
-            if (this.getLevel() instanceof ServerLevel && update) TileUpdate.sendUpdate(this);
+            if (this.getLevel() instanceof ServerWorld && update) TileUpdate.sendUpdate(this);
         }
     }
 
@@ -189,7 +189,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @Override
     public void tick()
     {
-        if (!(this.getLevel() instanceof ServerLevel)) return;
+        if (!(this.getLevel() instanceof ServerWorld)) return;
         if (this.tick++ % PokecubeAdv.config.afaTickRate != 0) return;
 
         int levelFactor = 0;
@@ -248,9 +248,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     }
 
     @Override
-    public void load(final CompoundTag nbt)
+    public void load(final BlockState state, final CompoundNBT nbt)
     {
-        super.load(nbt);
+        super.load(state, nbt);
         this.energy = nbt.getInt("energy");
         this.noEnergyNeed = nbt.getBoolean("noEnergyNeed");
         this.shift = nbt.getIntArray("shift");
@@ -268,9 +268,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     }
 
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public CompoundNBT save(final CompoundNBT nbt)
     {
-        final CompoundTag tag = new CompoundTag();
+        final CompoundNBT tag = new CompoundNBT();
         nbt.put("dest", tag);
         nbt.putInt("energy", this.energy);
         nbt.putBoolean("noEnergyNeed", this.noEnergyNeed);
@@ -327,26 +327,26 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
                     {
                         this.energy = 0;
                         this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
-                                SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                                SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                         return;
                     }
                     this.energy -= needed;
                 }
                 evt.pokemob.setShiny(true);
                 this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
-                        SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                        SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                 this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
-                        SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                        SoundEvents.ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             }
         }
     }
 
     @Override
-    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
-            final BlockHitResult hit)
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
     {
-        if (player instanceof ServerPlayer) PacketAFA.openGui((ServerPlayer) player, this);
-        return InteractionResult.SUCCESS;
+        if (player instanceof ServerPlayerEntity) PacketAFA.openGui((ServerPlayerEntity) player, this);
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -374,7 +374,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     }
 
     @Override
-    public void containerChanged(final Container invBasic)
+    public void containerChanged(final IInventory invBasic)
     {
         this.refreshAbility(true);
     }

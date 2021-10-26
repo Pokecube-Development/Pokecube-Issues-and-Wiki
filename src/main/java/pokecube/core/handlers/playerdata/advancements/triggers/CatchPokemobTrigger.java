@@ -9,13 +9,13 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.ICriterionTrigger;
+import net.minecraft.advancements.PlayerAdvancements;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
+import net.minecraft.util.ResourceLocation;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
@@ -23,16 +23,16 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.TagNames;
 
-public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger.Instance>
+public class CatchPokemobTrigger implements ICriterionTrigger<CatchPokemobTrigger.Instance>
 {
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public static class Instance extends CriterionInstance
     {
         final PokedexEntry entry;
         boolean            lenient = false;
         int                number  = -1;
         int                sign    = 0;
 
-        public Instance(final EntityPredicate.Composite player, final PokedexEntry entry, final boolean lenient, final int number, final int sign)
+        public Instance(final EntityPredicate.AndPredicate player, final PokedexEntry entry, final boolean lenient, final int number, final int sign)
         {
             super(CatchPokemobTrigger.ID, player);
             this.entry = entry != null ? entry : Database.missingno;
@@ -41,7 +41,7 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
             this.sign = sign;
         }
 
-        public boolean test(final ServerPlayer player, final IPokemob pokemob)
+        public boolean test(final ServerPlayerEntity player, final IPokemob pokemob)
         {
             PokedexEntry entry = this.entry;
             PokedexEntry testEntry = pokemob.getPokedexEntry();
@@ -68,14 +68,14 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
     static class Listeners
     {
         private final PlayerAdvancements                                            playerAdvancements;
-        private final Set<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> listeners = Sets.<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newHashSet();
+        private final Set<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> listeners = Sets.<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newHashSet();
 
         public Listeners(final PlayerAdvancements playerAdvancementsIn)
         {
             this.playerAdvancements = playerAdvancementsIn;
         }
 
-        public void add(final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+        public void add(final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
         {
             this.listeners.add(listener);
         }
@@ -85,24 +85,24 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
             return this.listeners.isEmpty();
         }
 
-        public void remove(final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+        public void remove(final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
         {
             this.listeners.remove(listener);
         }
 
-        public void trigger(final ServerPlayer player, final IPokemob pokemob)
+        public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
         {
-            List<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> list = null;
+            List<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> list = null;
 
-            for (final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener : this.listeners)
+            for (final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener : this.listeners)
                 if (listener.getTriggerInstance().test(player, pokemob))
                 {
                     if (list == null)
-                        list = Lists.<CriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newArrayList();
+                        list = Lists.<ICriterionTrigger.Listener<CatchPokemobTrigger.Instance>> newArrayList();
 
                     list.add(listener);
                 }
-            if (list != null) for (final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener1 : list)
+            if (list != null) for (final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener1 : list)
                 listener1.run(this.playerAdvancements);
         }
     }
@@ -117,7 +117,7 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
 
     @Override
     public void addPlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
     {
         CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -144,7 +144,7 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
 
     @Override
     public void removePlayerListener(final PlayerAdvancements playerAdvancementsIn,
-            final CriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
+            final ICriterionTrigger.Listener<CatchPokemobTrigger.Instance> listener)
     {
         final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(playerAdvancementsIn);
 
@@ -156,16 +156,16 @@ public class CatchPokemobTrigger implements CriterionTrigger<CatchPokemobTrigger
         }
     }
 
-    public void trigger(final ServerPlayer player, final IPokemob pokemob)
+    public void trigger(final ServerPlayerEntity player, final IPokemob pokemob)
     {
         final CatchPokemobTrigger.Listeners bredanimalstrigger$listeners = this.listeners.get(player.getAdvancements());
         if (bredanimalstrigger$listeners != null) bredanimalstrigger$listeners.trigger(player, pokemob);
     }
 
     @Override
-    public Instance createInstance(final JsonObject json, final DeserializationContext conditions)
+    public Instance createInstance(final JsonObject json, final ConditionArrayParser conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final EntityPredicate.AndPredicate pred = EntityPredicate.AndPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         final int number = json.has("number") ? json.get("number").getAsInt() : -1;
         final int sign = json.has("sign") ? json.get("sign").getAsInt() : 0;

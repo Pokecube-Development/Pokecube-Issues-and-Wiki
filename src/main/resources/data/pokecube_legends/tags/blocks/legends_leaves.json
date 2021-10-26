@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:inverted_leaves",
-    "pokecube_legends:temporal_leaves",
-    "pokecube_legends:aged_leaves",
-    "pokecube_legends:distortic_leaves",
-    "pokecube_legends:dyna_leaves_pink",
-    "pokecube_legends:dyna_leaves_red",
-    "pokecube_legends:corrupted_leaves",
-    "pokecube_legends:mirage_leaves"
+    "pokecube_legends:ultra_leave01",
+    "pokecube_legends:ultra_leave02",
+    "pokecube_legends:ultra_leave03",
+    "pokecube_legends:distortic_leave",
+    "pokecube_legends:dyna_leave_1",
+    "pokecube_legends:dyna_leave_2",
+    "pokecube_legends:corrupted_leave",
+    "pokecube_legends:mirage_leave"
   ]
 }

@@ -2,13 +2,13 @@ package pokecube.core.client.render.mobs.overlays;
 
 import java.util.Random;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.ParticleTypes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.IPokemob;
@@ -19,12 +19,12 @@ import thut.core.common.ThutCore;
 
 public class ExitCube
 {
-    public static void render(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource iRenderTypeBuffer,
+    public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
             final float partialTick)
     {
         if (!pokemob.getGeneralState(GeneralStates.EXITINGCUBE)) return;
         final Entity entity = pokemob.getEntity();
-        final CompoundTag sealTag = PokecubeManager.getSealTag(entity);
+        final CompoundNBT sealTag = PokecubeManager.getSealTag(entity);
         Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {
@@ -67,7 +67,7 @@ public class ExitCube
                 loc.y += width * rand.nextGaussian() / 2;
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
-                final int colour = DyeColor.byId(id).getTextColor();
+                final int colour = DyeColor.byId(id).textColor;
                 PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }
@@ -83,7 +83,7 @@ public class ExitCube
             loc.x += width * rand.nextGaussian() / 2;
             loc.y += width * rand.nextGaussian() / 2;
             loc.z += width * rand.nextGaussian() / 2;
-            final int colour = DyeColor.GREEN.getTextColor();
+            final int colour = DyeColor.GREEN.textColor;
             if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "happy_villager", loc,
                     vel, colour | 0xFF000000);
         }

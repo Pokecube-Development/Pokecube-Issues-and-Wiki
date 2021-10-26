@@ -4,23 +4,24 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -30,12 +31,11 @@ import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
-import thut.api.block.ITickTile;
 import thut.api.entity.ThutTeleporter;
 
-public class SiphonTile extends InteractableTile implements ITickTile
+public class SiphonTile extends InteractableTile implements ITickableTileEntity
 {
-    public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundTag>
+    public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
         public int                                 currentOutput;
@@ -48,16 +48,16 @@ public class SiphonTile extends InteractableTile implements ITickTile
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public CompoundNBT serializeNBT()
         {
-            final CompoundTag tag = new CompoundTag();
+            final CompoundNBT tag = new CompoundNBT();
             tag.putInt("cO", this.currentOutput);
             tag.putInt("tO", this.theoreticalOutput);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(final CompoundTag nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
             this.currentOutput = nbt.getInt("cO");
             this.theoreticalOutput = nbt.getInt("yO");
@@ -103,7 +103,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
 
     }
 
-    public AABB box;
+    public AxisAlignedBB box;
 
     public List<Entity> mobs = Lists.newArrayList();
 
@@ -113,24 +113,24 @@ public class SiphonTile extends InteractableTile implements ITickTile
 
     public List<GlobalPos> wirelessLinks = Lists.newArrayList();
 
-    public SiphonTile(final BlockPos pos, final BlockState state)
+    public SiphonTile()
     {
-        this(PokecubeAdv.SIPHON_TYPE.get(), pos, state);
+        super(PokecubeAdv.SIPHON_TYPE.get());
     }
 
-    public SiphonTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
+    public SiphonTile(final TileEntityType<?> tileEntityTypeIn)
     {
-        super(tileEntityTypeIn, pos, state);
+        super(tileEntityTypeIn);
     }
 
     @Override
-    public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
-            final BlockHitResult hit)
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
     {
-        if (hand == InteractionHand.MAIN_HAND && this.energy != null && player instanceof ServerPlayer)
+        if (hand == Hand.MAIN_HAND && this.energy != null && player instanceof ServerPlayerEntity)
         {
-            Component message = null;
-            message = new TranslatableComponent("block.rfsiphon.info", this.energy.theoreticalOutput
+            ITextComponent message = null;
+            message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
                     - this.energy.currentOutput, this.energy.theoreticalOutput);
             player.displayClientMessage(message, true);
         }
@@ -144,28 +144,28 @@ public class SiphonTile extends InteractableTile implements ITickTile
     }
 
     @Override
-    public void load(final CompoundTag compound)
+    public void load(final BlockState stateIn, final CompoundNBT compound)
     {
         this.wirelessLinks.clear();
-        final CompoundTag wireless = compound.getCompound("links");
+        final CompoundNBT wireless = compound.getCompound("links");
         final int n = wireless.getInt("n");
         for (int i = 0; i < n; i++)
         {
-            final Tag tag = wireless.get("" + i);
-            this.wirelessLinks.add(GlobalPos.CODEC.decode(NbtOps.INSTANCE, tag).result().get().getFirst());
+            final INBT tag = wireless.get("" + i);
+            this.wirelessLinks.add(GlobalPos.CODEC.decode(NBTDynamicOps.INSTANCE, tag).result().get().getFirst());
         }
-        super.load(compound);
+        super.load(stateIn, compound);
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public CompoundNBT save(final CompoundNBT compound)
     {
-        final CompoundTag wireless = new CompoundTag();
+        final CompoundNBT wireless = new CompoundNBT();
         wireless.putInt("n", this.wirelessLinks.size());
         int n = 0;
         for (final GlobalPos pos : this.wirelessLinks)
         {
-            final Tag tag = GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).get().left().get();
+            final INBT tag = GlobalPos.CODEC.encodeStart(NBTDynamicOps.INSTANCE, pos).get().left().get();
             wireless.put("" + n++, tag);
         }
         compound.put("links", wireless);
@@ -180,19 +180,19 @@ public class SiphonTile extends InteractableTile implements ITickTile
         {
             if (this.wirelessLinks.remove(pos))
             {
-                if (user != null && user instanceof ServerPlayer)
+                if (user != null && user instanceof ServerPlayerEntity)
                 {
-                    final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent(
+                    final PlayerEntity player = (PlayerEntity) user;
+                    player.displayClientMessage(new TranslationTextComponent(
                         "block.pokecube_adventures.siphon.unlink",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
             }
             this.wirelessLinks.add(pos);
-            if (user != null && user instanceof ServerPlayer)
+            if (user != null && user instanceof ServerPlayerEntity)
             {
-                final Player player = (Player) user;
-                player.displayClientMessage(new TranslatableComponent(
+                final PlayerEntity player = (PlayerEntity) user;
+                player.displayClientMessage(new TranslationTextComponent(
                     "block.pokecube_adventures.siphon.link",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;

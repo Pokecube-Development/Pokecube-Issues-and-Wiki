@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=east": { "model": "pokecube_legends:block/infected_torch_wall" },
-        "facing=south": { "model": "pokecube_legends:block/infected_torch_wall", "y": 90 },
-        "facing=west": { "model": "pokecube_legends:block/infected_torch_wall", "y": 180 },
-        "facing=north": { "model": "pokecube_legends:block/infected_torch_wall", "y": 270 }
-    }
-}

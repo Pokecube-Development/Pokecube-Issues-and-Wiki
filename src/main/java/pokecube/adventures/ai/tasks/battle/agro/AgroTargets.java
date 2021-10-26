@@ -2,8 +2,8 @@ package pokecube.adventures.ai.tasks.battle.agro;
 
 import java.util.function.Predicate;
 
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.EntityPredicates;
 
 public class AgroTargets extends BaseAgroTask
 {
@@ -36,7 +36,7 @@ public class AgroTargets extends BaseAgroTask
     public boolean isValidTarget(final LivingEntity target)
     {
         if (!this.validTargets.test(target)) return false;
-        if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
+        if (!EntityPredicates.NO_CREATIVE_OR_SPECTATOR.test(target)) return false;
         if (!this.shouldRun.test(this.entity)) return false;
         if (!this.trainer.canBattle(target, false).test()) return false;
         return true;

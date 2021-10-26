@@ -3,16 +3,16 @@ package pokecube.compat.minecraft;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,7 +26,7 @@ import pokecube.core.utils.TagNames;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
 
-public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundTag>
+public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>
 {
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 
@@ -36,14 +36,14 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
             this.setRoutineState(routine, routine.getDefault());
     }
 
-    public VanillaPokemob(final Mob mob)
+    public VanillaPokemob(final MobEntity mob)
     {
         this();
         this.setEntity(mob);
     }
 
     @Override
-    public void deserializeNBT(final CompoundTag nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         try
         {
@@ -69,9 +69,9 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
     }
 
     @Override
-    public CompoundTag serializeNBT()
+    public CompoundNBT serializeNBT()
     {
-        CompoundTag tag;
+        CompoundNBT tag;
         try
         {
             tag = this.write();
@@ -79,7 +79,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.error("Error Saving Pokemob", e);
-            tag = new CompoundTag();
+            tag = new CompoundNBT();
         }
         return tag;
     }
@@ -136,7 +136,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
                 if (ItemList.is(WOOL, stack))
                 {
                     final DyeColor colour = DyeColor.byId(this.getDyeColour());
-                    final Item wool = Sheep.ITEM_BY_DYE.get(colour).asItem();
+                    final Item wool = SheepEntity.ITEM_BY_DYE.get(colour).asItem();
                     toAdd = new ItemStack(wool, stack.getCount());
                     if (stack.hasTag()) toAdd.setTag(stack.getTag().copy());
                 }
@@ -150,7 +150,7 @@ public class VanillaPokemob extends PokemobSaves implements ICapabilitySerializa
     }
 
     @Override
-    public Mob getEntity()
+    public MobEntity getEntity()
     {
         return this.entity;
     }

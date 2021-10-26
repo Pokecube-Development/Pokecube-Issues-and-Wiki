@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
@@ -15,11 +15,11 @@ import thut.api.entity.ai.IAICombat;
 public abstract class CombatTask extends TaskBase implements IAICombat
 {
 
-    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryStatus.VALUE_PRESENT);
+        CombatTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     public CombatTask(final IPokemob pokemob)
@@ -27,7 +27,7 @@ public abstract class CombatTask extends TaskBase implements IAICombat
         super(pokemob, CombatTask.MEMS);
     }
 
-    public CombatTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
+    public CombatTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
         super(pokemob, RootTask.merge(CombatTask.MEMS, mems));
     }
