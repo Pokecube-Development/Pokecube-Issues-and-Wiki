@@ -1,0 +1,65 @@
+{
+  "effects":
+  {
+    "sky_color": 8501625,
+    "fog_color": 926014,
+    "water_color": 65505,
+    "water_fog_color": 65505,
+    "particle":
+    {
+      "options":
+      {
+        "type": "minecraft:falling_dust",
+        "Name": "minecraft:packed_ice"
+      },
+      "probability": 0.2
+    },
+    "grass_color": 16147822,
+    "foliage_color": 13187908,
+    "mood_sound":
+    {
+      "tick_delay": 3000,
+      "block_search_extent": 10,
+      "offset": 2,
+      "sound": "minecraft:ambient.cave"
+    }
+  },
+  "surface_builder": "pokecube_legends:distorted_lands",
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:distortic_lake"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "pokecube_legends:ore_mirror",
+	  "pokecube_legends:ore_fractal"
+    ],
+    [],
+    [
+      "pokecube_legends:distorted_vegetation",
+      "pokecube_legends:distortic_spring"
+    ],
+    [
+    ]
+  ],
+  "starts": [],
+  "spawners":{},
+  "spawn_costs": {},
+  "player_spawn_friendly": false,
+  "precipitation": "none",
+  "scale": 0.05,
+  "temperature": 2.0,
+  "downfall": 0.0,
+  "category": "the_end",
+  "depth": 0.225
+}

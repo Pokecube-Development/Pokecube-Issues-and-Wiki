@@ -24,14 +24,14 @@ public class FeaturesInit
     //
 
     // Biomes
-    public static final ResourceKey<Biome> BIOME_UB1 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_deep_cave"));
-    public static final ResourceKey<Biome> BIOME_UB2 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_jungle"));
-    public static final ResourceKey<Biome> BIOME_UB3 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_desert"));
-    public static final ResourceKey<Biome> BIOME_UB4 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_dark_valley"));
-    public static final ResourceKey<Biome> BIOME_UB5 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_deep_hills"));
-    public static final ResourceKey<Biome> BIOME_UB6 = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "ultra_forgotten_plains"));
+    public static final ResourceKey<Biome> FUNGAL_FOREST = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_forest"));
+    public static final ResourceKey<Biome> TEMPORAL_JUNGLE = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "temporal_jungle"));
+    public static final ResourceKey<Biome> MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "mirage_desert"));
+    public static final ResourceKey<Biome> BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "blinding_deltas"));
+    public static final ResourceKey<Biome> TAINTED_BARRENS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "tainted_barrens"));
+    public static final ResourceKey<Biome> FORSAKEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "forsaken_taiga"));
 
-    public static final ResourceKey<Biome> BIOME_DISTORTED = ResourceKey.create(Registry.BIOME_REGISTRY, FeaturesInit.IDLOC_DISTO);
+    public static final ResourceKey<Biome> DISTORTED_LANDS = ResourceKey.create(Registry.BIOME_REGISTRY, FeaturesInit.IDLOC_DISTO);
     //
 
 }

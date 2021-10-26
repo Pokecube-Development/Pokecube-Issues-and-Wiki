@@ -2,6 +2,10 @@
   "config": {
     "decorators": [
       {
+        "probability": 0.002,
+        "type": "minecraft:beehive"
+      },
+      {
         "provider": {
           "state": {
             "Properties": {
@@ -14,7 +18,7 @@
         "type": "minecraft:alter_ground"
       }
     ],
-    "ignore_vines": false,
+    "ignore_vines": true,
     "force_dirt": false,
     "dirt_provider": {
       "state": {
@@ -53,8 +57,8 @@
       "crown_height": {
         "type": "minecraft:uniform",
         "value": {
-          "min_inclusive": 13,
-          "max_inclusive": 17
+          "min_inclusive": 8,
+          "max_inclusive": 13
         }
       },
       "type": "minecraft:mega_pine_foliage_placer"

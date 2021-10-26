@@ -12,7 +12,7 @@ import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.utils.EnergyHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -199,7 +199,7 @@ public class Config extends ConfigData
 
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
-        WarppadTile.initParser(this.warpPadCostFunction);
+        WarpPadTile.initParser(this.warpPadCostFunction);
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);

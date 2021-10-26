@@ -43,7 +43,7 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random rand)
     {
         if (!worldIn.isAreaLoaded(pos, 1)) return;
-        if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 9 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
+        if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 0 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
                 rand, pos, state);
     }
 

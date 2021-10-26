@@ -15,8 +15,8 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.siphon.SiphonTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.blocks.statue.StatueEntity;
-import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
@@ -29,9 +29,9 @@ public class BlockEventHandler
 {
     private static class WarpPadStore implements ILinkStorage
     {
-        final WarppadTile tile;
+        final WarpPadTile tile;
 
-        public WarpPadStore(final WarppadTile tile)
+        public WarpPadStore(final WarpPadTile tile)
         {
             this.tile = tile;
         }
@@ -70,11 +70,11 @@ public class BlockEventHandler
                 {
                     final Player player = (Player) user;
                     player.displayClientMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), true);
+                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), true);
                 } else
                 {
                     user.sendMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warppad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
+                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
             // Centre us properly.
@@ -86,7 +86,7 @@ public class BlockEventHandler
     {
         final WarpPadStore store;
 
-        public WarpPadLink(final WarppadTile store)
+        public WarpPadLink(final WarpPadTile store)
         {
             this.store = new WarpPadStore(store);
         }
@@ -136,9 +136,9 @@ public class BlockEventHandler
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<BlockEntity> event)
     {
-        if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(
+        if (event.getObject() instanceof WarpPadTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(
-                        (WarppadTile) event.getObject()));
+                        (WarpPadTile) event.getObject()));
         if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
                         (SiphonTile) event.getObject()));

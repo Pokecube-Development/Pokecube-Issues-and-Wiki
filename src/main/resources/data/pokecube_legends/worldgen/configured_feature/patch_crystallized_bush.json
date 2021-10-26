@@ -2,55 +2,44 @@
   "config": {
     "feature": {
       "config": {
-        "feature": {
-          "config": {
-            "can_replace": false,
-            "project": true,
-            "need_water": false,
-            "xspread": 7,
-            "yspread": 3,
-            "zspread": 7,
-            "whitelist": [],
-            "blacklist": [],
-            "tries": 32,
-            "state_provider": {
-              "state": {
-                "Properties": {
-                  "waterlogged": "true"
-                },
-                "Name": "pokecube_legends:crystallized_bush"
-              },
-              "type": "minecraft:simple_state_provider"
+        "can_replace": false,
+        "project": true,
+        "need_water": false,
+        "xspread": 7,
+        "yspread": 3,
+        "zspread": 7,
+        "whitelist": [],
+        "blacklist": [],
+        "tries": 16,
+        "state_provider": {
+          "state": {
+            "Properties": {
+              "waterlogged": "false"
             },
-            "block_placer": {
-              "type": "minecraft:simple_block_placer"
-            }
+            "Name": "pokecube_legends:crystallized_bush"
           },
-          "type": "minecraft:random_patch"
+          "type": "minecraft:simple_state_provider"
         },
-        "decorator": {
-          "config": {
-            "outer": {
-              "config": {},
-              "type": "minecraft:square"
-            },
-            "inner": {
-              "config": {
-                "heightmap": "MOTION_BLOCKING"
-              },
-              "type": "minecraft:heightmap_spread_double"
-            }
-          },
-          "type": "minecraft:decorated"
+        "block_placer": {
+          "type": "minecraft:simple_block_placer"
         }
       },
-      "type": "minecraft:decorated"
+      "type": "minecraft:random_patch"
     },
     "decorator": {
       "config": {
-        "count": 2
+        "outer": {
+          "config": {},
+          "type": "minecraft:square"
+        },
+        "inner": {
+          "config": {
+            "heightmap": "MOTION_BLOCKING"
+          },
+          "type": "minecraft:heightmap_spread_double"
+        }
       },
-      "type": "minecraft:count"
+      "type": "minecraft:decorated"
     }
   },
   "type": "minecraft:decorated"

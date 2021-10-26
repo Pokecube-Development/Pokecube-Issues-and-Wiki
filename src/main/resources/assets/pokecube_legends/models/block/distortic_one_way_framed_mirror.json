@@ -3,7 +3,7 @@
     "textures": {
         "down": "pokecube_legends:blocks/distortic_mirror",
         "up": "pokecube_legends:blocks/distortic_mirror",
-        "north": "pokecube_legends:blocks/distortic_framed_mirror",
+        "north": "pokecube_legends:blocks/framed_distortic_mirror",
         "east": "pokecube_legends:blocks/distortic_mirror",
         "south": "pokecube_legends:blocks/distortic_mirror",
         "west": "pokecube_legends:blocks/distortic_mirror",

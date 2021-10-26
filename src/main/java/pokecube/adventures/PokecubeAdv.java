@@ -61,11 +61,11 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.blocks.statue.PokemobStatue;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.blocks.statue.StatueItem;
-import pokecube.adventures.blocks.warppad.WarppadBlock;
-import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -165,7 +165,7 @@ public class PokecubeAdv
     public static final RegistryObject<Block> EXTRACTOR;
     public static final RegistryObject<Block> SPLICER;
     public static final RegistryObject<Block> SIPHON;
-    public static final RegistryObject<Block> WARPPAD;
+    public static final RegistryObject<Block> WARP_PAD;
     public static final RegistryObject<Block> STATUE;
     public static final RegistryObject<Block> LAB_GLASS;
 
@@ -180,7 +180,7 @@ public class PokecubeAdv
     public static final RegistryObject<BlockEntityType<ExtractorTile>> EXTRACTOR_TYPE;
     public static final RegistryObject<BlockEntityType<SplicerTile>>   SPLICER_TYPE;
     public static final RegistryObject<BlockEntityType<SiphonTile>>    SIPHON_TYPE;
-    public static final RegistryObject<BlockEntityType<WarppadTile>>   WARPPAD_TYPE;
+    public static final RegistryObject<BlockEntityType<WarpPadTile>>   WARP_PAD_TYPE;
     public static final RegistryObject<BlockEntityType<StatueEntity>>  STATUE_TYPE;
 
     public static final RegistryObject<MenuType<AfaContainer>>       AFA_CONT;
@@ -223,7 +223,7 @@ public class PokecubeAdv
                 MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).requiresCorrectToolForDrops().dynamicShape()));
         SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).dynamicShape()));
-        WARPPAD = PokecubeAdv.BLOCKS.register("warppad", () -> new WarppadBlock(BlockBehaviour.Properties.of(Material.METAL,
+        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad", () -> new WarpPadBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.SNOW).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         STATUE = PokecubeAdv.BLOCKS.register("statue", () -> new PokemobStatue(BlockBehaviour.Properties.of(
                 Material.STONE, MaterialColor.STONE).strength(5.0F, 6.0F).dynamicShape().noOcclusion()
@@ -255,8 +255,8 @@ public class PokecubeAdv
                 PokecubeAdv.SPLICER.get()).build(null));
         SIPHON_TYPE = PokecubeAdv.TILES.register("siphon", () -> BlockEntityType.Builder.of(SiphonTile::new,
                 PokecubeAdv.SIPHON.get()).build(null));
-        WARPPAD_TYPE = PokecubeAdv.TILES.register("warppad", () -> BlockEntityType.Builder.of(WarppadTile::new,
-                PokecubeAdv.WARPPAD.get()).build(null));
+        WARP_PAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarpPadTile::new,
+                PokecubeAdv.WARP_PAD.get()).build(null));
         STATUE_TYPE = PokecubeAdv.TILES.register("statue", () -> BlockEntityType.Builder.of(StatueEntity::new,
                 PokecubeAdv.STATUE.get()).build(null));
 

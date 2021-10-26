@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:blocks/spatianbrick",
-    "top": "pokecube_legends:blocks/spatianbrick",
-    "side": "pokecube_legends:blocks/spatianbrick"
-  }
-}

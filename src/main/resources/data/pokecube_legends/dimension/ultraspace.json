@@ -36,7 +36,7 @@
       },
       "biomes": [
         {
-          "biome": "pokecube_legends:ultra_deep_cave",
+          "biome": "pokecube_legends:fungal_forest",
           "parameters": {
             "altitude": 0.1,
             "weirdness": 0.4,
@@ -46,7 +46,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:ultra_jungle",
+          "biome": "pokecube_legends:temporal_jungle",
           "parameters": {
             "altitude": 0.5,
             "weirdness": 0.3,
@@ -56,7 +56,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:ultra_desert",
+          "biome": "pokecube_legends:mirage_desert",
           "parameters": {
             "altitude": 0.2,
             "weirdness": 0.1,
@@ -66,7 +66,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:ultra_dark_valley",
+          "biome": "pokecube_legends:blinding_deltas",
            "parameters": {
             "altitude": 0.3,
             "weirdness": 0,
@@ -76,7 +76,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:ultra_deep_hills",
+          "biome": "pokecube_legends:tainted_barrens",
            "parameters": {
             "altitude": 0.6,
             "weirdness": 0.5,
@@ -86,7 +86,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:ultra_forgotten_plains",
+          "biome": "pokecube_legends:forsaken_taiga",
           "parameters": {
             "altitude": 0.4,
             "weirdness": 0.2,

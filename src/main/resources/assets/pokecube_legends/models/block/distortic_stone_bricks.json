@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:blocks/distortic_stonebricks",
-    "up": "pokecube_legends:blocks/distortic_stonebricks",
-    "north": "pokecube_legends:blocks/distortic_stonebricks",
-    "east": "pokecube_legends:blocks/distortic_stonebricks",
-    "south": "pokecube_legends:blocks/distortic_stonebricks",
-    "west": "pokecube_legends:blocks/distortic_stonebricks",
-    "particle": "pokecube_legends:blocks/distortic_stonebricks"
+    "down": "pokecube_legends:blocks/distortic_stone_bricks",
+    "up": "pokecube_legends:blocks/distortic_stone_bricks",
+    "north": "pokecube_legends:blocks/distortic_stone_bricks",
+    "east": "pokecube_legends:blocks/distortic_stone_bricks",
+    "south": "pokecube_legends:blocks/distortic_stone_bricks",
+    "west": "pokecube_legends:blocks/distortic_stone_bricks",
+    "particle": "pokecube_legends:blocks/distortic_stone_bricks"
   }
 }

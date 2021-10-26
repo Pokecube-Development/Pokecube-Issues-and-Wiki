@@ -71,6 +71,7 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
+import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
@@ -131,11 +132,11 @@ public class PokecubeLegends
                                     "SPOOKY"));
 
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.RUBY_ORE.get()
+                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get()
                             .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
                     .squared().count(2), new ResourceLocation("pokecube_legends:ruby_ore"));
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
+                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, BlockInit.SAPPHIRE_ORE.get()
                             .defaultBlockState(), 5)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
                     .squared().count(2), new ResourceLocation("pokecube_legends:sapphire_ore"));
 
@@ -145,9 +146,9 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
-            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            RaidSpawn.TYPE = BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null);
             RingTile.TYPE = BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null);
-            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
+            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWNER.get().getRegistryName()));
             event.getRegistry().register(RingTile.TYPE.setRegistryName(BlockInit.PORTAL.get().getRegistryName()));
         }
 
@@ -187,14 +188,15 @@ public class PokecubeLegends
         PokecubeLegends.TILES.register(modEventBus);
         PokecubeLegends.CONTAINER.register(modEventBus);
 
-        // Biomes Dictionary
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB1, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB2, Type.JUNGLE, Type.FOREST, Type.DENSE);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB3, Type.SANDY, Type.WASTELAND, Type.HOT);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB4, Type.HILLS, Type.DEAD, Type.SPOOKY);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB5, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
-        BiomeDictionary.addTypes(FeaturesInit.BIOME_UB6, Type.MAGICAL, Type.FOREST, Type.SPARSE);
+        // Biome Dictionary
+        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.JUNGLE, Type.FOREST, Type.DENSE);
+        BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.SANDY, Type.WASTELAND, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HILLS, Type.DEAD, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.MAGICAL, Type.FOREST, Type.SPARSE);
 
+        WorldgenFeatures.init(modEventBus);
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();
@@ -240,7 +242,7 @@ public class PokecubeLegends
         @Override
         public ItemStack makeIcon()
         {
-            return new ItemStack(BlockInit.SKY_BRICK.get());
+            return new ItemStack(BlockInit.SKY_BRICKS.get());
         }
     };
 
@@ -331,7 +333,7 @@ public class PokecubeLegends
         if (event.getWorld().isClientSide) return;
         if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
-        if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
+        if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
                     new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);

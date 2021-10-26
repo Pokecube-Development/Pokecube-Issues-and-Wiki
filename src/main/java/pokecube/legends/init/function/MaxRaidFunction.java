@@ -63,7 +63,7 @@ public class MaxRaidFunction
 
     public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerLevel world)
     {
-        if (state.getBlock() != BlockInit.RAID_SPAWN.get()) return;
+        if (state.getBlock() != BlockInit.RAID_SPAWNER.get()) return;
 
         final PokedexEntry entry = MaxRaidFunction.getRandomEntry();
 

@@ -3,16 +3,16 @@ package pokecube.compat.cct.modules;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import thut.api.entity.ThutTeleporter.TeleDest;
 
-public class Warppad extends BasePeripheral<WarppadTile>
+public class Warppad extends BasePeripheral<WarpPadTile>
 {
     public static class Provider
     {
-        private final WarppadTile tile;
+        private final WarpPadTile tile;
 
-        public Provider(final WarppadTile tile)
+        public Provider(final WarpPadTile tile)
         {
             this.tile = tile;
         }
@@ -34,9 +34,9 @@ public class Warppad extends BasePeripheral<WarppadTile>
 
     private final Provider provider;
 
-    public Warppad(final WarppadTile tile)
+    public Warppad(final WarpPadTile tile)
     {
-        super(tile, "warppad");
+        super(tile, "warp_pad");
         this.provider = new Provider(tile);
     }
 

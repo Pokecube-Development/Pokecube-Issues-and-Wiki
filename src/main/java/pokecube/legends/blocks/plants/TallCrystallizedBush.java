@@ -29,6 +29,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.PlantType;
 
 public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWaterloggedBlock
 {
@@ -150,5 +151,11 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
 	public FluidState getFluidState(final BlockState state)
 	{
 		return state.getValue(TallCrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) 
+	{
+	    return PlantType.DESERT;
 	}
 }

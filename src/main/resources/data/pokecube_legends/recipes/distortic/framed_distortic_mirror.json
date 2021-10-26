@@ -1,0 +1,21 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0A0",
+    "AAA",
+    "0A0"
+  ],
+  "key": {
+    "0": {
+      "tag": "pokecube_legends:distortic_logs"
+    },
+    "A": {
+      "item": "pokecube_legends:distortic_mirror"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:framed_distortic_mirror",
+    "count": 5
+  }
+}

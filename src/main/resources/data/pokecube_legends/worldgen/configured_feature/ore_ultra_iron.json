@@ -9,7 +9,7 @@
                 "targets": [
                   {
                     "target": {
-                      "tag": "minecraft:stone_ore_replaceables",
+                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
                       "predicate_type": "minecraft:tag_match"
                     },
                     "state": {

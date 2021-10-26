@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:blocks/ultra_sandbrick",
-    "up": "pokecube_legends:blocks/ultra_sandbrick",
-    "north": "pokecube_legends:blocks/ultra_sandbrick",
-    "east": "pokecube_legends:blocks/ultra_sandbrick",
-    "south": "pokecube_legends:blocks/ultra_sandbrick",
-    "west": "pokecube_legends:blocks/ultra_sandbrick",
-    "particle": "pokecube_legends:blocks/ultra_sandbrick"
+    "down": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "up": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "north": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "east": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "south": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "west": "pokecube_legends:blocks/crystallized_sandstone_bricks",
+    "particle": "pokecube_legends:blocks/crystallized_sandstone_bricks"
   }
 }

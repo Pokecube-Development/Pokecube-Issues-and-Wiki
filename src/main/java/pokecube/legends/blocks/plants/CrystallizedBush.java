@@ -27,6 +27,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.PlantType;
 
 public class CrystallizedBush extends DeadBushBlock implements SimpleWaterloggedBlock
 {
@@ -108,5 +109,10 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 	public FluidState getFluidState(final BlockState state)
 	{
 		return state.getValue(CrystallizedBush.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+	    return PlantType.DESERT;
 	}
 }

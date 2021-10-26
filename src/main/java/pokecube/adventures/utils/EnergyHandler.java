@@ -34,7 +34,7 @@ import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.siphon.SiphonTickEvent;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -265,7 +265,7 @@ public class EnergyHandler
         }
         if (event.getObject() instanceof BaseGeneticsTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
                 (IEnergyStorage) event.getObject()));
-        if (event.getObject() instanceof WarppadTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
+        if (event.getObject() instanceof WarpPadTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
                 (IEnergyStorage) event.getObject()));
         if (event.getObject() instanceof AfaTile) event.addCapability(EnergyHandler.ENERGYCAP, new EnergyStore(
                 (IEnergyStorage) event.getObject()));

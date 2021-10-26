@@ -1,0 +1,14 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:crystallized_sand"
+    },
+    "under_material": {
+      "Name": "pokecube_legends:crystallized_sand"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:crystallized_sand"
+    }
+  },
+  "type": "pokecube_legends:mirage_desert"
+}

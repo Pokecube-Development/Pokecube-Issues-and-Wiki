@@ -1,6 +1,6 @@
 {
   "ambient_light": 0,
-  "infiniburn": "minecraft:infiniburn_overworld",
+  "infiniburn": "pokecube_legends:infiniburn_ultraspace",
   "respawn_anchor_works": false,
   "has_raids": false,
   "min_y": 0,
