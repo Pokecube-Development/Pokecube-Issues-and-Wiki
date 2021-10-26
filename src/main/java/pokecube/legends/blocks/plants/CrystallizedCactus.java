@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -64,7 +65,8 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) 
     {
        BlockState blockstate1 = reader.getBlockState(pos.below());
-       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get()));
+       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get()) 
+    		   || blockstate1.is(Blocks.CACTUS));
     }
 
 	@Override
