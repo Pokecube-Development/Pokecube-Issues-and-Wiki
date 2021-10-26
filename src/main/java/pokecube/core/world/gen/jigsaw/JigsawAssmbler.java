@@ -5,8 +5,9 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
+
+import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -53,12 +54,12 @@ public class JigsawAssmbler
 {
     static final class Entry
     {
-        private final PoolElementStructurePiece   villagePiece;
-        private final AtomicReference<VoxelShape> shapeReference;
-        private final int                         index;
-        private final int                         depth;
+        private final PoolElementStructurePiece villagePiece;
+        private final MutableObject<VoxelShape> shapeReference;
+        private final int                       index;
+        private final int                       depth;
 
-        private Entry(final PoolElementStructurePiece villagePieceIn, final AtomicReference<VoxelShape> shapeReference,
+        private Entry(final PoolElementStructurePiece villagePieceIn, final MutableObject<VoxelShape> shapeReference,
                 final int index, final int depth)
         {
             this.villagePiece = villagePieceIn;
@@ -117,12 +118,10 @@ public class JigsawAssmbler
         this.needed_once.addAll(this.config.needed_once);
     }
 
-    private StructureTemplatePool init(final RegistryAccess dynamicRegistryManager,
-            final ResourceLocation resourceLocationIn)
+    private StructureTemplatePool init(final RegistryAccess regAccess, final ResourceLocation pool)
     {
-        final Registry<StructureTemplatePool> mutableregistry = dynamicRegistryManager.registryOrThrow(
-                Registry.TEMPLATE_POOL_REGISTRY);
-        return mutableregistry.get(resourceLocationIn);
+        final Registry<StructureTemplatePool> registry = regAccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
+        return registry.get(pool);
     }
 
     public boolean build(final RegistryAccess dynamicRegistryManager, final ResourceLocation resourceLocationIn,
@@ -162,13 +161,13 @@ public class JigsawAssmbler
         else if (!this.config.surface) this.SURFACE_TYPE = null;
 
         final StructurePoolElement jigsawpiece = jigsawpattern.getRandomTemplate(rand);
-        final PoolElementStructurePiece abstractvillagepiece = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
+        final PoolElementStructurePiece poolElement = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos,
                         rotation));
 
-        final BoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
-        final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
-        final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
+        final BoundingBox boundingBox = poolElement.getBoundingBox();
+        final int i = (boundingBox.maxX + boundingBox.minX()) / 2;
+        final int j = (boundingBox.maxZ + boundingBox.minZ()) / 2;
         int k = default_k;
         // If we have not been provided with a default value, determine where to
         // place the ground for the structure
@@ -196,18 +195,16 @@ public class JigsawAssmbler
             k = chunkGenerator.getGenDepth();
             k = this.rand.nextInt(k + 1);
         }
-        final int dy = -this.config.height;
-        abstractvillagepiece.move(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
-                0);
-        parts.add(abstractvillagepiece);
+        final int dy = -this.config.height + boundingBox.minY() + poolElement.getGroundLevelDelta();
+        poolElement.move(0, k - dy, 0);
+        parts.add(poolElement);
         if (depth > 0)
         {
             final int dr = 80;
             final int dh = 255;
             final AABB axisalignedbb = new AABB(i - dr, k - dr, j - dh, i + dr + 1, k + dh + 1, j + dr + 1);
-            this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(Shapes.join(Shapes
-                    .create(axisalignedbb), Shapes.create(AABB.of(mutableboundingbox)), BooleanOp.ONLY_FIRST)), k + dh,
-                    0));
+            this.availablePieces.addLast(new Entry(poolElement, new MutableObject<>(Shapes.join(Shapes.create(
+                    axisalignedbb), Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST)), k + dh, 0));
             while (!this.availablePieces.isEmpty())
             {
                 final Entry jigsawmanager$entry = this.availablePieces.removeFirst();
@@ -251,18 +248,17 @@ public class JigsawAssmbler
         });
     }
 
-    private void addPiece(final PoolElementStructurePiece villagePieceIn,
-            final AtomicReference<VoxelShape> atomicVoxelShape, final int part_index, final int current_depth,
-            final int default_k)
+    private void addPiece(final PoolElementStructurePiece villagePieceIn, final MutableObject<VoxelShape> outer_box_ref,
+            final int part_index, final int current_depth, final int default_k)
     {
         final StructurePoolElement part = villagePieceIn.getElement();
         final BlockPos blockpos = villagePieceIn.getPosition();
         final Rotation rotation = villagePieceIn.getRotation();
-        final StructureTemplatePool.Projection placmenet = part.getProjection();
-        final boolean root_rigid = placmenet == StructureTemplatePool.Projection.RIGID;
-        final AtomicReference<VoxelShape> atomicreference = new AtomicReference<>();
+        final StructureTemplatePool.Projection projection = part.getProjection();
+        final boolean root_rigid = projection == StructureTemplatePool.Projection.RIGID;
+        final MutableObject<VoxelShape> new_box_ref = new MutableObject<>();
         final BoundingBox part_box = villagePieceIn.getBoundingBox();
-        final int part_min_y = part_box.minY;
+        final int part_min_y = part_box.minY();
 
         int k0 = default_k;
 
@@ -274,7 +270,7 @@ public class JigsawAssmbler
             else k0 = -1;
         }
 
-        label123:
+        jigsaws:
         for (final StructureTemplate.StructureBlockInfo jigsaw_block : part.getShuffledJigsawBlocks(
                 this.templateManager, blockpos, rotation, this.rand))
         {
@@ -294,17 +290,17 @@ public class JigsawAssmbler
             if (pool.size() != 0 || pool.getName().equals(Pools.EMPTY.location()))
             {
                 final boolean target_in_box = part_box.isInside(jig_target);
-                AtomicReference<VoxelShape> atomicreference1;
+                MutableObject<VoxelShape> box_ref;
                 int l;
                 if (target_in_box)
                 {
-                    atomicreference1 = atomicreference;
+                    box_ref = new_box_ref;
                     l = part_min_y;
-                    if (atomicreference.get() == null) atomicreference.set(Shapes.create(AABB.of(part_box)));
+                    if (new_box_ref.getValue() == null) new_box_ref.setValue(Shapes.create(AABB.of(part_box)));
                 }
                 else
                 {
-                    atomicreference1 = atomicVoxelShape;
+                    box_ref = outer_box_ref;
                     l = part_index;
                 }
 
@@ -356,7 +352,7 @@ public class JigsawAssmbler
                                 final BlockPos dr_0 = new BlockPos(jig_target.getX() - next_pos.getX(), jig_target
                                         .getY() - next_pos.getY(), jig_target.getZ() - next_pos.getZ());
                                 final BoundingBox box_1 = next_part.getBoundingBox(this.templateManager, dr_0, dir);
-                                final int next_min_y = box_1.minY;
+                                final int next_min_y = box_1.minY();
                                 final StructureTemplatePool.Projection placementRule = next_part.getProjection();
                                 final boolean rigid = placementRule == StructureTemplatePool.Projection.RIGID;
                                 final int target_y = next_pos.getY();
@@ -376,21 +372,21 @@ public class JigsawAssmbler
                                 final BlockPos dr_1 = dr_0.offset(0, next_rel_y, 0);
                                 if (i1 > 0)
                                 {
-                                    final int k2 = Math.max(i1 + 1, box_2.maxY - box_2.minY);
-                                    box_2.maxY = box_2.minY + k2;
+                                    final int k2 = Math.max(i1 + 1, box_2.maxY() - box_2.minY());
+                                    box_2.encapsulate(new BlockPos(box_2.minX(), box_2.minY() + k2, box_2.minZ()));
                                 }
 
-                                if (!Shapes.joinIsNotEmpty(atomicreference1.get(), Shapes.create(AABB.of(box_2).deflate(
+                                if (!Shapes.joinIsNotEmpty(box_ref.getValue(), Shapes.create(AABB.of(box_2).deflate(
                                         0.25D)), BooleanOp.ONLY_SECOND))
                                 {
-                                    atomicreference1.set(Shapes.joinUnoptimized(atomicreference1.get(), Shapes.create(
-                                            AABB.of(box_2)), BooleanOp.ONLY_FIRST));
+                                    box_ref.setValue(Shapes.joinUnoptimized(box_ref.getValue(), Shapes.create(AABB.of(
+                                            box_2)), BooleanOp.ONLY_FIRST));
                                     final int j3 = villagePieceIn.getGroundLevelDelta();
                                     int l2;
                                     if (rigid) l2 = j3 - l1;
                                     else l2 = next_part.getGroundLevelDelta();
 
-                                    final PoolElementStructurePiece abstractvillagepiece = this.pieceFactory.create(
+                                    final PoolElementStructurePiece nextPart = this.pieceFactory.create(
                                             this.templateManager, next_part, dr_1, l2, dir, box_2);
                                     int i3;
                                     if (root_rigid) i3 = part_min_y + jig_min_y;
@@ -404,9 +400,9 @@ public class JigsawAssmbler
 
                                     villagePieceIn.addJunction(new JigsawJunction(jig_target.getX(), i3 - jig_min_y
                                             + j3, jig_target.getZ(), l1, placementRule));
-                                    abstractvillagepiece.addJunction(new JigsawJunction(jig_pos.getX(), i3 - target_y
-                                            + l2, jig_pos.getZ(), -l1, placmenet));
-                                    this.structurePieces.add(abstractvillagepiece);
+                                    nextPart.addJunction(new JigsawJunction(jig_pos.getX(), i3 - target_y + l2, jig_pos
+                                            .getZ(), -l1, projection));
+                                    this.structurePieces.add(nextPart);
                                     if (!once.isEmpty())
                                     {
                                         this.once_added.add(once);
@@ -414,8 +410,8 @@ public class JigsawAssmbler
                                                 "added core part: {}", once);
                                     }
                                     if (current_depth + 1 <= this.depth) this.availablePieces.addLast(new Entry(
-                                            abstractvillagepiece, atomicreference1, l, current_depth + 1));
-                                    continue label123;
+                                            nextPart, box_ref, l, current_depth + 1));
+                                    continue jigsaws;
                                 }
                             }
                     }

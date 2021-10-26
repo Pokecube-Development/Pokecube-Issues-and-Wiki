@@ -25,7 +25,8 @@ public class Edge extends Part
         final BlockPos here2 = this.node2.getCenter().atY(0);
         final BlockPos there1 = other.node1.getCenter().atY(0);
         final BlockPos there2 = other.node2.getCenter().atY(0);
-        return here1.equals(there1) && here2.equals(there2);
+        return (here1.equals(there1) && here2.equals(there2)) ||
+               (here1.equals(there2) && here2.equals(there1));
     }
 
     public boolean withinDistance(final BlockPos pos, final double size)

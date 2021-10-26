@@ -10,10 +10,11 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +25,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -35,6 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -51,29 +52,44 @@ import thut.core.common.ThutCore;
 
 public class VillageRouteMaker implements IBotAI
 {
+    // The bot that goes with this routemaker
     private final ServerPlayer player;
 
+    // The mob used for pathfinding
     private PathfinderMob mob = null;
 
+    // Counters for when to give up, etc
     int stuckTicks = 0;
     int pathTicks  = 0;
 
     int misc_1 = 0;
     int misc_2 = 0;
 
+    // Current target node
     Node targetNode = null;
-
+    // Current edge to follow
     Edge currentEdge = null;
-
+    // Map of all nodes and edges
     Tree map = null;
+    // Maximum number of nodes to put in the map.
+    public int maxNodes = 16;
 
     public VillageRouteMaker(final ServerPlayer player)
     {
         this.player = player;
     }
 
+    /**
+     * Here we will teleport the botplayer to a location. This will also
+     * transfer all spectators as well.
+     *
+     * @param tpTo
+     *            pos to teleport botplayer to
+     */
     private void telePlayer(final BlockPos tpTo)
     {
+        // Collect and remove the spectators, prevent them from spectating while
+        // this transfer is done.
         final List<ServerPlayer> readd = Lists.newArrayList();
         for (final ServerPlayer player : ((ServerLevel) this.player.level).players())
             if (player.getCamera() == this.player && player != this.player)
@@ -85,129 +101,165 @@ public class VillageRouteMaker implements IBotAI
         // Move us to the nearest village to the target.
         this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
 
+        // Re-add the specators
         for (final ServerPlayer player : readd)
             player.setCamera(this.player);
 
+        // Transfer the pathing mob as well.
         EntityTools.copyPositions(this.mob, this.player);
         EntityTools.copyRotations(this.mob, this.player);
         EntityTools.copyEntityTransforms(this.mob, this.player);
     }
 
-    private void buildRoute(final BlockPos origin, final boolean onAir)
+    /**
+     * Builds a route starting from start, in direction dir.
+     *
+     * @param start
+     *            - where to start building
+     * @param dir
+     *            - direction to build in
+     * @param dist
+     *            - distance to build for
+     */
+    private void buildRoute(final Vec3 start, final Vec3 dir, final double dist)
     {
-        final Set<StructureInfo> inside = StructureManager.getNear(this.player.level.dimension(), origin, 5);
-
-        inside.removeIf(i -> !(i.start.getFeature() instanceof CustomJigsawStructure));
-
-        // inside.clear();
-
         final List<BlockState> paths = Lists.newArrayList(
         // @formatter:off
-                Blocks.COARSE_DIRT.defaultBlockState(),
-                Blocks.COBBLESTONE.defaultBlockState(),
-                Blocks.DIRT_PATH.defaultBlockState(),
-                Blocks.COARSE_DIRT.defaultBlockState(),
-                Blocks.COBBLESTONE.defaultBlockState(),
-                Blocks.DIRT_PATH.defaultBlockState(),
-                Blocks.COARSE_DIRT.defaultBlockState(),
-                Blocks.COBBLESTONE.defaultBlockState(),
-                Blocks.DIRT_PATH.defaultBlockState(),
-                Blocks.COARSE_DIRT.defaultBlockState(),
-                Blocks.COBBLESTONE.defaultBlockState(),
-                Blocks.DIRT_PATH.defaultBlockState(),
-                Blocks.STRUCTURE_VOID.defaultBlockState(),
-                Blocks.STRUCTURE_VOID.defaultBlockState(),
-                Blocks.STRUCTURE_VOID.defaultBlockState());
+                Blocks.DIRT_PATH.defaultBlockState()
+        );
         // @formatter:on
 
-        final Function<BlockPos, BlockState> sides_above = p ->
-        {
-            final FluidState fluid = this.player.level.getFluidState(p);
-            if (fluid.is(FluidTags.WATER)) return Blocks.OAK_PLANKS.defaultBlockState();
-            else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
-            return Blocks.AIR.defaultBlockState();
-        };
+        final ServerLevel level = (ServerLevel) this.player.level;
 
+        // Returns the valid blocks to replace below with
         final Function<BlockPos, BlockState> below = p ->
         {
-            final FluidState fluid = this.player.level.getFluidState(p);
-            final BlockState b = this.player.level.getBlockState(p);
-            final boolean sea = p.getY() <= this.player.level.getSeaLevel();
+            final FluidState fluid = level.getFluidState(p);
+            final BlockState b = level.getBlockState(p);
+            final boolean sea = p.getY() <= level.getSeaLevel();
+            // Over sea level water, we place planks
             if (fluid.is(FluidTags.WATER) && sea) return Blocks.OAK_PLANKS.defaultBlockState();
+            // But if replacing through water, we just replace with air
             else if (fluid.is(FluidTags.WATER)) return Blocks.AIR.defaultBlockState();
+            // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
+            // air with planks
             else if (b.isAir()) return Blocks.OAK_PLANKS.defaultBlockState();
             for (final BlockState block : paths)
                 if (block.getBlock() == b.getBlock()) return Blocks.STRUCTURE_VOID.defaultBlockState();
             return paths.get(this.player.getRandom().nextInt(paths.size()));
         };
 
-        final BiFunction<BlockState, BlockPos, Boolean> valid = (s, p) ->
+        final BiFunction<BlockState, BlockPos, Boolean> canEdit = (s, p) ->
         {
-            final BlockState up = this.player.level.getBlockState(p.above());
+            final BlockState up = level.getBlockState(p.above());
             if (up.getBlock() == Blocks.TORCH) return false;
             return PokecubeTerrainChecker.isTerrain(s) || PokecubeTerrainChecker.isRock(s) || s
                     .getBlock() == Blocks.WATER || s.getBlock() == Blocks.DIRT_PATH || s.is(BlockTags.ICE) || s.isAir();
         };
 
-        final BiFunction<BlockState, BlockPos, Boolean> remove = (s, p) ->
+        final BiFunction<BlockState, BlockPos, Boolean> shouldRemove = (s, p) ->
         {
             return PokecubeTerrainChecker.isLeaves(s) || PokecubeTerrainChecker.isWood(s);
         };
 
-        if (inside.isEmpty())
+        BlockPos pos;
+        Vec3 vec = start;
+
+        final Vector3f up = Vector3f.YP;
+        final Vector3f dr = new Vector3f(dir);
+        final Vector3f r_h = up.copy();
+        // This is horizontal direction to the path.
+        r_h.cross(dr);
+        final Vec3 dir_h = new Vec3(r_h);
+
+        // This ensures that we don't double place. The loop below is +=0.25 as
+        // a lazy way to account for corners, etc.
+        final Set<BlockPos> done = Sets.newHashSet();
+
+        // Loop down the path
+        for (double i = 0; i < dist; i += 0.25)
         {
+            vec = start.add(dir.scale(i));
+            pos = new BlockPos(vec);
 
-            final BlockPos r = origin;
-            // First try removing any leaves that are sticking us
-            final Iterable<BlockPos> blocks = BlockPos.betweenClosed(r.north(2).east(2).above(3), r.south(2).west(2)
-                    .below(3));
-            for (final BlockPos b : blocks)
+            // If too close to a structure, skip point
+            final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 3);
+            if (!inside.isEmpty()) continue;
+
+            // Make torches every 5 blocks or so.
+            final boolean makeTorch = i % 5 == 0;
+
+            // Loop horizontally across the path.
+            for (int h = -2; h <= 2; h++)
             {
-                final BlockState block = this.player.level.getBlockState(b);
-                if (PokecubeTerrainChecker.isCutablePlant(block) || PokecubeTerrainChecker.isLeaves(block)
-                        || PokecubeTerrainChecker.isWood(block)) this.player.level.destroyBlock(b, false);
+                vec = start.add(dir.scale(i).add(dir_h.scale(h)));
+                pos = new BlockPos(vec);
+
+                // Only do each column once, this ensures that.
+                if (!done.add(pos)) continue;
+
+                BlockPos here;
+                BlockState state;
+
+                // Ensure there is a cieling if needed.
+                here = pos.above(4);
+                // First check if not air, then also check if maybe is a tree,
+                // in that case, no need to place the roof.
+                if (!(state = level.getBlockState(here)).isAir() && !shouldRemove.apply(state, here))
+                {
+                    here = pos.above(3);
+                    state = level.getBlockState(here);
+                    final boolean editable = canEdit.apply(state, here);
+                    // for now we just place cobble, can decide on something
+                    // better later.
+                    if (editable) level.setBlock(here, Blocks.COBBLESTONE.defaultBlockState(), 2);
+                }
+
+                // Edges are first and last of this loop
+                final boolean onEdge = Math.abs(h) >= 2;
+                // Edges will occasionally have a torch, but otherwise be at
+                // ground level
+                if (onEdge)
+                {
+                    // Handle building the edge
+                    for (int y = -1; y <= 2; y++)
+                    {
+                        here = pos.above(y);
+                        state = level.getBlockState(here);
+                        final boolean editable = canEdit.apply(state, here);
+                        final boolean remove = y > 0 && shouldRemove.apply(state, here);
+                        // Clear the area above the edge
+                        if (remove) level.removeBlock(here, false);
+                        // Otherwise put a cobblestone "wall" there
+                        else if (y <= 0 && editable)
+                        {
+                            state = Blocks.COBBLESTONE.defaultBlockState();
+                            level.setBlock(here, state, 2);
+                        }
+                    }
+                    // Place a stone brick wall, and a torch on top of that.
+                    if (makeTorch)
+                    {
+                        level.setBlock(pos.above(1), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
+                        level.setBlock(pos.above(2), Blocks.TORCH.defaultBlockState(), 2);
+                    }
+                }
+                // Otherwise make the base path, and clear area above it.
+                else for (int y = -1; y <= 2; y++)
+                {
+                    here = pos.above(y);
+                    state = level.getBlockState(here);
+                    final boolean editable = canEdit.apply(state, here);
+                    final boolean remove = shouldRemove.apply(state, here);
+                    if (y >= 0 && (remove || editable)) level.removeBlock(here, false);
+                    else if ((y < 0 && editable) || (y <= 0 && remove))
+                    {
+                        state = below.apply(here);
+                        if (state.getBlock() != Blocks.STRUCTURE_VOID) level.setBlock(here, state, 2);
+                    }
+                }
             }
-
-            final BlockPos onPos = this.player.getOnPos();
-            final BlockState torch = Blocks.TORCH.defaultBlockState();
-            if (Block.canSupportCenter(this.player.level, onPos, Direction.UP)) this.player.level.setBlock(onPos
-                    .above(), torch, 3);
-
-            final Iterable<BlockPos> iter = BlockPos.betweenClosed(origin.north().east(), origin.south().west());
-
-            iter.forEach(pos ->
-            {
-                pos = pos.immutable();
-                BlockPos p;
-                BlockState s, place;
-                for (int i = 1; i < 2; i++)
-                {
-                    p = pos.below(i);
-                    s = this.player.level.getBlockState(p);
-                    place = below.apply(p);
-                    boolean placeGround = (valid.apply(s, p)) && place.getBlock() != Blocks.STRUCTURE_VOID;
-                    placeGround = placeGround || (onAir && i < 0);
-                    placeGround = (valid.apply(s, p)) && place.getBlock() != Blocks.STRUCTURE_VOID;
-                    if (remove.apply(s, p)) this.player.level.removeBlock(p, false);
-                    else if (placeGround) this.player.level.setBlock(p, place, 2);
-                }
-                for (int i = 0; i <= 3; i++)
-                {
-                    p = pos.above(i);
-                    s = this.player.level.getBlockState(p);
-                    if (remove.apply(s, p)) this.player.level.removeBlock(p, false);
-                    else if (valid.apply(s, p)) this.player.level.setBlock(p, sides_above.apply(p), 2);
-                }
-                p = pos.above(4);
-                s = this.player.level.getBlockState(p);
-                if (!s.isAir() && valid.apply(s, p))
-                {
-                    place = below.apply(p);
-                    this.player.level.setBlock(p, place, 2);
-                }
-
-            });
         }
     }
 
@@ -260,43 +312,23 @@ public class VillageRouteMaker implements IBotAI
             this.map = new Tree();
             this.map.deserializeNBT(tag);
         }
-        if (this.map.nodeCount == 0)
+        else return this.map;
+        // If no nodes yet, we start by populating the map with the nearby
+        // towns.
+        if (this.getMap().nodeCount == 0)
         {
-            final ServerLevel world = (ServerLevel) this.player.level;
-            final ResourceLocation location = new ResourceLocation("pokecube:village");
-            final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-            final StructureFeature<?> structure = reg.getValue(location);
-            BlockPos village = null;
-
-            final Set<StructureInfo> nearby = StructureManager.getNear(world.dimension(), this.player.getOnPos(), 0);
-            infos:
-            for (final StructureInfo i : nearby)
-                if (i.start.getFeature() == structure)
-                {
-                    village = i.start.getLocatePos();
-                    break infos;
-                }
-            if (village == null) village = world.findNearestMapFeature(structure, this.player.getOnPos(), 50, false);
-            if (village != null)
+            for (int i = 0; i <= this.maxNodes; i++)
+                this.findNearestVillageNode(this.player.getOnPos(), i != 0);
+            final List<Node> nodes = Lists.newArrayList();
+            this.map.allParts.forEach((i, p) ->
             {
-                int size = 32;
-                final Set<StructureInfo> near = nearby.isEmpty() ? StructureManager.getNear(world.dimension(), village,
-                        0) : nearby;
-                infos:
-                for (final StructureInfo i : near)
-                    if (i.start.getFeature() == structure)
-                    {
-                        size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
-                        break infos;
-                    }
-                final Node n = new Node();
-                n.started = true;
-                n.dig_done = Tracker.instance().getTick();
-                n.setCenter(village, size);
-                this.map.add(n);
-                final CompoundTag tag = this.getMap().serializeNBT();
-                this.player.getPersistentData().put("tree_map", tag);
-            }
+                if (p instanceof final Node n) nodes.add(n);
+            });
+            // First remove all edges for the nodes
+            nodes.forEach(n -> this.getMap().clearEdges(n));
+            // Next add them back, the delay is so that all edges are properly
+            // cleared before adding new ones.
+            nodes.forEach(n -> this.addNodeEdges(n));
         }
         return this.map;
     }
@@ -352,6 +384,55 @@ public class VillageRouteMaker implements IBotAI
         return this.targetNode = n;
     }
 
+    private Node findNearestVillageNode(final BlockPos mid, final boolean skipKnownStructures)
+    {
+        final ResourceLocation location = new ResourceLocation("pokecube:village");
+        final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
+        final StructureFeature<?> structure = reg.getValue(location);
+        final ServerLevel world = (ServerLevel) this.player.level;
+        BlockPos village = null;
+
+        if (!skipKnownStructures)
+        {
+            final Set<StructureInfo> nearby = StructureManager.getNear(world.dimension(), mid, 0);
+            infos:
+            for (final StructureInfo i : nearby)
+                if (i.start.getFeature() == structure)
+                {
+                    village = i.start.getLocatePos();
+                    break infos;
+                }
+        }
+        if (village == null) village = world.findNearestMapFeature(structure, mid, 50, skipKnownStructures);
+        if (village != null && village.getY() < world.getSeaLevel())
+        {
+            world.getChunk(village);
+            village = new BlockPos(village.getX(), world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()),
+                    village.getZ());
+            if (village.getY() < world.getSeaLevel()) village = new BlockPos(village.getX(), world.getSeaLevel(),
+                    village.getZ());
+        }
+
+        final List<Node> nodes = Lists.newArrayList();
+        this.getMap().allParts.forEach((i, p) ->
+        {
+            if (p instanceof final Node n) nodes.add(n);
+        });
+        for (final Node n : nodes)
+        {
+            final int dr = n.getCenter().atY(0).distManhattan(village);
+            if (dr == 0)
+            {
+                ThutCore.LOGGER.error("Error with duplicate node! {}, {} {}", skipKnownStructures, mid, village);
+                return null;
+            }
+        }
+        if (village == null) return null;
+        PokecubeCore.LOGGER.info("Adding node for a village at: " + village);
+        final Node newNode = this.addNode(village);
+        return newNode;
+    }
+
     private Node getTargetNode()
     {
         if (this.currentEdge != null) return this.targetNode;
@@ -361,7 +442,7 @@ public class VillageRouteMaker implements IBotAI
             if (p instanceof final Node e) return this.setTargetNode(e);
         }
 
-        if (this.getMap().nodeCount > 20)
+        if (this.getMap().nodeCount >= this.maxNodes)
         {
             final List<Edge> edges = Lists.newArrayList();
             for (final Part o : this.getMap().allParts.values())
@@ -378,20 +459,15 @@ public class VillageRouteMaker implements IBotAI
             return this.setTargetNode(null);
         }
 
-        final ResourceLocation location = new ResourceLocation("pokecube:village");
-        final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
-        final StructureFeature<?> structure = reg.getValue(location);
-        final ServerLevel world = (ServerLevel) this.player.level;
-        final BlockPos village = world.findNearestMapFeature(structure, BlockPos.ZERO, 50, true);
-        if (village != null)
+        final Node newNode = this.findNearestVillageNode(BlockPos.ZERO, true);
+        if (newNode != null)
         {
-            this.setTargetNode(this.addNode(village));
+            this.setTargetNode(newNode);
             if (this.getTargetNode() == null)
             {
                 System.out.println("Null Node!!");
                 return null;
             }
-
             final List<Edge> edges = Lists.newArrayList(this.targetNode.edges);
             Node prev = null;
             Edge running = null;
@@ -410,7 +486,7 @@ public class VillageRouteMaker implements IBotAI
             // Sort the found nodes, and pick closest one to do.
             if (!options.isEmpty())
             {
-                final BlockPos o0 = village.atY(0);
+                final BlockPos o0 = newNode.getCenter().atY(0);
                 options.sort((o1, o2) -> (int) (o1.getCenter().atY(0).distSqr(o0) - o2.getCenter().atY(0).distSqr(o0)));
                 prev = options.get(0);
                 running = opts_e.get(prev.id);
@@ -429,25 +505,70 @@ public class VillageRouteMaker implements IBotAI
         return this.targetNode;
     }
 
-    private Node addNode(final BlockPos next)
+    private void addNodeEdges(final Node n1)
     {
-        final ServerLevel world = (ServerLevel) this.player.level;
+        final Vec3 mid1 = new Vec3(n1.mid.x, 0, n1.mid.z);
+        // Collect the nodes, then sort them by distance from the new one.
         final List<Node> nodes = Lists.newArrayList();
         this.getMap().allParts.forEach((i, p) ->
         {
-            if (p instanceof final Node n) nodes.add(n);
+            // Selects for all the nodes, except the passed in one.
+            if (p instanceof final Node n && n != n1) nodes.add(n);
         });
-        final BlockPos o0 = next.atY(0);
-        nodes.removeIf(n -> n.edges.size() > 15);
+        final BlockPos o0 = n1.getCenter().atY(0);
+        // For this step, we only want nodes with few edges already.
+        nodes.removeIf(n -> n.edges.size() > 2);
+        // This is a fairly quick way to sort by distance
         nodes.sort((o1, o2) -> (o1.getCenter().atY(0).distManhattan(o0) - o2.getCenter().atY(0).distManhattan(o0)));
-
         for (final Node node : nodes)
         {
             final int dist = node.getCenter().atY(0).distManhattan(o0);
-            System.out.println(dist);
-            if (dist == 0) return null;
+            if (dist == 0) throw new IllegalStateException("Duplicate node added!");
         }
 
+        int n = 0;
+        nodes:
+        // Add edges to the nearest up to 3 nodes, or until we run out of nodes.
+        for (int i = 0; i < nodes.size() && n < 3; i++)
+        {
+            final Node n2 = nodes.get(i);
+            final Vec3 mid2 = new Vec3(n2.mid.x, 0, n2.mid.z);
+            final Vec3 dir1_2 = mid2.subtract(mid1).normalize();
+
+            final List<Edge> edges = Lists.newArrayList(n1.edges);
+
+            final Edge e = new Edge();
+
+            e.node1 = n1;
+            e.node2 = n2;
+            e.setEnds(n1.getCenter(), n2.getCenter());
+
+            // If we have already added an edge to the nearest village, ensure
+            // the next villages are not also in too straight of a line.
+            for (final Edge e2 : edges)
+            {
+                final Node n3 = e2.node1 == n1 ? e2.node2 : e2.node1;
+                final Vec3 mid3 = new Vec3(n3.mid.x, 0, n3.mid.z);
+                final Vec3 dir1_3 = mid3.subtract(mid1).normalize();
+                // |v.dot(v)| will give an indication of parallelness
+                final double dot = Math.abs(dir1_3.dot(dir1_2));
+                // Lets say 0.7 is too parallel.
+                if (dot > 0.7 || e.equals(e2))
+                {
+                    n--;
+                    continue nodes;
+                }
+            }
+            n++;
+            n1.edges.add(e);
+            n2.edges.add(e);
+        }
+        this.getMap().updateEdges(n1);
+    }
+
+    private Node addNode(final BlockPos next)
+    {
+        final ServerLevel world = (ServerLevel) this.player.level;
         int size = 32;
         final Set<StructureInfo> near = StructureManager.getNear(world.dimension(), next, 0);
         final ResourceLocation location = new ResourceLocation("pokecube:village");
@@ -462,43 +583,20 @@ public class VillageRouteMaker implements IBotAI
             }
         final Node n1 = new Node();
         n1.setCenter(next, size);
-        final Vec3 mid1 = new Vec3(n1.mid.x, 0, n1.mid.z);
-        int n = 0;
-        nodes:
-        for (int i = 0; i < nodes.size() && n < 3; i++)
+
+        final List<Node> nodes = Lists.newArrayList();
+        this.getMap().allParts.forEach((i, p) ->
         {
-            final Node n2 = nodes.get(i);
-            final Vec3 mid2 = new Vec3(n2.mid.x, 0, n2.mid.z);
-            final Vec3 dir1_2 = mid2.subtract(mid1).normalize();
-
-            // If we have already added an edge to the nearest village, ensure
-            // the next villages are not also in too straight of a line.
-            for (final Edge e2 : n1.edges)
-            {
-                final Node n3 = e2.node2;
-                final Vec3 mid3 = new Vec3(n3.mid.x, 0, n3.mid.z);
-                final Vec3 dir1_3 = mid3.subtract(mid1).normalize();
-                // |v.dot(v)| will give an indication of parallelness
-                final double dot = Math.abs(dir1_3.dot(dir1_2));
-                // Lets say 0.5 is too parallel.
-                if (dot > 0.5)
-                {
-                    n--;
-                    continue nodes;
-                }
-            }
-            final int dist = n2.getCenter().atY(0).distManhattan(o0);
-            System.out.println(dist);
-
-            n++;
-            final Edge e = new Edge();
-            n2.started = true;
-            e.node1 = n1;
-            e.node2 = n2;
-            e.setEnds(n1.getCenter(), n2.getCenter());
-            n1.edges.add(e);
-            n2.edges.add(e);
+            if (p instanceof final Node n) nodes.add(n);
+        });
+        final BlockPos o0 = n1.getCenter().atY(0);
+        nodes.sort((o1, o2) -> (o1.getCenter().atY(0).distManhattan(o0) - o2.getCenter().atY(0).distManhattan(o0)));
+        for (final Node node : nodes)
+        {
+            final int dist = node.getCenter().atY(0).distManhattan(o0);
+            if (dist == 0) return null;
         }
+        this.addNodeEdges(n1);
         this.getMap().add(n1);
         final CompoundTag tag = this.getMap().serializeNBT();
         this.player.getPersistentData().put("tree_map", tag);
@@ -553,7 +651,7 @@ public class VillageRouteMaker implements IBotAI
             this.findStart();
             return;
         }
-        Vec3 vecHere = this.player.position();
+        Vec3 vecHere = rev ? e.node2.mid : e.node1.mid;
 
         if (rev)
         {
@@ -628,20 +726,17 @@ public class VillageRouteMaker implements IBotAI
 
         if (dr > 64)
         {
-            System.out.println("Error with distance! " + dr + " " + e.getBuildBounds().size());
+            System.out.println("Error with distance! " + dr + " " + e.getBuildBounds().size() + " " + rev);
             if (e.getBuildBounds().size() < 3) e.getBuildBounds().clear();
             this.endTarget();
             return;
         }
+        // if (this.player.tickCount % 20 == 0) System.out.println("Doing Node!
+        // " + dr + " " + e.getBuildBounds().size()
+        // + " " + rev);
 
         dir = dir.normalize();
-        BlockPos p2;
-        for (int j = 0; j < dr; j++)
-        {
-            randNear = vecHere.add(dir.scale(j));
-            p2 = new BlockPos(randNear);
-            this.buildRoute(p2, true);
-        }
+        this.buildRoute(vecHere, dir, dr);
         this.computeNextEdgePoint(rev, e, n, randNear);
     }
 
@@ -710,11 +805,6 @@ public class VillageRouteMaker implements IBotAI
             EntityTools.copyRotations(this.mob, this.player);
             EntityTools.copyEntityTransforms(this.mob, this.player);
         }
-        if (this.player.tickCount % 20 == 0)
-        {
-            final CompoundTag tag = this.getMap().serializeNBT();
-            this.player.getPersistentData().put("tree_map", tag);
-        }
         final List<ServerPlayer> readd = Lists.newArrayList();
         for (final ServerPlayer player : world.players())
             if (player.getCamera() == this.player && player != this.player) readd.add(player);
@@ -726,6 +816,13 @@ public class VillageRouteMaker implements IBotAI
             EntityTools.copyEntityTransforms(this.mob, this.player);
             return;
         }
+
+        if (this.player.tickCount % 20 == 0)
+        {
+            final CompoundTag tag = this.getMap().serializeNBT();
+            this.player.getPersistentData().put("tree_map", tag);
+        }
+        if (this.getMap() == null) return;
 
         Vec3 targ = this.player.position;
 

@@ -91,17 +91,33 @@ public class Tree implements INBTSerializable<CompoundTag>
         }
     }
 
-    public void add(final Node node)
+    public void clearEdges(final Node node)
     {
-        this.rooms.get(node.type).add(node);
-        this.nodeCount++;
-        node.setTree(this);
+        final List<Edge> edges = Lists.newArrayList(node.edges);
+        for (final Edge e : edges)
+        {
+            e.node1.edges.remove(e);
+            e.node2.edges.remove(e);
+            this.allParts.remove(e.id);
+        }
+    }
+
+    public void updateEdges(final Node node)
+    {
         for (final Edge e : node.edges)
         {
             e.setTree(this);
             e.node1.setTree(this);
             e.node2.setTree(this);
         }
+    }
+
+    public void add(final Node node)
+    {
+        this.rooms.get(node.type).add(node);
+        this.nodeCount++;
+        node.setTree(this);
+        this.updateEdges(node);
         if (this.bounds == null) this.bounds = node.getOutBounds();
         else this.bounds = this.bounds.minmax(node.getOutBounds());
     }

@@ -28,6 +28,8 @@ logs/*
 /git/
 processing_scripts/icon_generator/icons/*
 processing_scripts/database_update/caches/*
+processing_scripts/json_cleanup/inputs/*
+processing_scripts/json_cleanup/outputs/*
 **/__pycache__/*
 
 **/template_worlds/main_structures/DIM*
