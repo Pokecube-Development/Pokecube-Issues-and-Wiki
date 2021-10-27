@@ -2,6 +2,7 @@ package pokecube.legends.worldgen.surface_builders;
 
 import java.util.Random;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
@@ -9,17 +10,33 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.level.levelgen.surfacebuilders.NetherCappedSurfaceBuilder;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
 import pokecube.legends.init.BlockInit;
 
-public class MirageDesertSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderBaseConfiguration> 
-{
-	public MirageDesertSurfaceBuilder(Codec<SurfaceBuilderBaseConfiguration> config) 
-	{
+public class BlindingDeltasSurfaceBuilder extends NetherCappedSurfaceBuilder {
+	private static final BlockState DARKSTONE = BlockInit.ULTRA_DARKSTONE.get().defaultBlockState();
+	private static final BlockState BLACKSTONE = Blocks.BLACKSTONE.defaultBlockState();
+	private static final BlockState GRAVEL = Blocks.GRAVEL.defaultBlockState();
+	private static final ImmutableList<BlockState> FLOOR_BLOCK_STATES = ImmutableList.of(DARKSTONE, BLACKSTONE);
+	private static final ImmutableList<BlockState> CEILING_BLOCK_STATES = ImmutableList.of(DARKSTONE);
+
+	public BlindingDeltasSurfaceBuilder(Codec<SurfaceBuilderBaseConfiguration> config) {
 		super(config);
 	}
 
+	public ImmutableList<BlockState> getFloorBlockStates() {
+		return FLOOR_BLOCK_STATES;
+	}
+
+	public ImmutableList<BlockState> getCeilingBlockStates() {
+		return CEILING_BLOCK_STATES;
+	}
+
+	public BlockState getPatchBlockState() {
+		return DARKSTONE;
+	}
+	
 	@Override
 	public void apply(Random random, ChunkAccess chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState block, 
 			BlockState fluid, int seaLevel, int num, long seed, SurfaceBuilderBaseConfiguration config) 
@@ -106,10 +123,10 @@ public class MirageDesertSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderBas
 					{
 						--k;
 						chunk.setBlockState(pos, blockstate3, false);
-						if (k == 0 && blockstate3.is(BlockInit.CRYSTALLIZED_SAND.get()) && i > 1) 
+						if (k == 0 && blockstate3.is(BlockInit.ULTRA_DARKSTONE.get()) && i > 1) 
 						{
 							k = random.nextInt(4) + Math.max(0, l - seaLevel);
-							blockstate3 = BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState();
+							blockstate3 = BlockInit.ULTRA_DARKSTONE.get().defaultBlockState();
 						}
 					}
 	            }
