@@ -1,5 +1,5 @@
 {
-  "presets":[
+  "presets": [
     {
       "preset_name": "spawn_trainer_piglin",
       "mob": "pokecube_adventures:trainer",

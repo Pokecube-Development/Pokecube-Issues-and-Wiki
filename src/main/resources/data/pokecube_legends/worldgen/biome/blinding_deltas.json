@@ -1,5 +1,5 @@
 {
- "effects": {
+  "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.basalt_deltas.mood",
       "tick_delay": 6000,
@@ -40,8 +40,8 @@
     [
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_cosmic",
-	  "pokecube_legends:ore_ultra_coal",
-	  "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_redstone",
       "pokecube_legends:ore_ultra_diamond"
     ],

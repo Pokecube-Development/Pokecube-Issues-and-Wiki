@@ -1,16 +1,16 @@
 {
-  "pools":[
+  "pools": [
     {
-      "name":"pokecube_mobs:berry_trees/grow",
-      "rigid":false,
-      "options":[
+      "name": "pokecube_mobs:berry_trees/grow",
+      "rigid": false,
+      "options": [
         "pokecube_mobs:berry_trees/root"
       ]
     },
     {
-      "name":"pokecube_mobs:berry_trees/trees",
-      "rigid":true,
-      "options":[
+      "name": "pokecube_mobs:berry_trees/trees",
+      "rigid": true,
+      "options": [
         "pokecube_mobs:berry_trees/enigma;{\"flag\":\"enigma\"}",
         "pokecube_mobs:berry_trees/grepa;{\"flag\":\"grepa\"}",
         "pokecube_mobs:berry_trees/hondew;{\"flag\":\"hondew\"}",
@@ -27,12 +27,12 @@
     }
   ],
   "jigsaws": [
-    {      
-      "name":"pokecube_mobs:berry_trees/grow",
-      "root":"pokecube_mobs:berry_trees/grow",
+    {
+      "name": "pokecube_mobs:berry_trees/grow",
+      "root": "pokecube_mobs:berry_trees/grow",
       "onGrow": true,
-      "biomeType":"none",
-      "trees":[
+      "biomeType": "none",
+      "trees": [
         "enigma",
         "grepa",
         "hondew",

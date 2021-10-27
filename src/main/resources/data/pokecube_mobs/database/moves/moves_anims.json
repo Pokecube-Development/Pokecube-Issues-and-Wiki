@@ -10513,7 +10513,7 @@
       "name": "maxflare",
       "animations": [
         {
-           "preset": "flow:pflame:d3:w3:l5:~maxflare",
+          "preset": "flow:pflame:d3:w3:l5:~maxflare",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.sacredfire",
@@ -10906,7 +10906,7 @@
         }
       ]
     },
-{
+    {
       "name": "coreenforcer",
       "animations": [
         {
@@ -10998,7 +10998,7 @@
         }
       ]
     },
-	{
+    {
       "name": "vcreate",
       "animations": [
         {
@@ -11098,7 +11098,7 @@
         }
       ]
     },
-	{
+    {
       "name": "thousandwaves",
       "animations": [
         {
@@ -11170,7 +11170,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "beakblast",
       "animations": [
         {
@@ -11197,7 +11197,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "bonerush",
       "animations": [
         {
@@ -11224,7 +11224,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "precipiceblades",
       "animations": [
         {
@@ -11372,7 +11372,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "brutalswing",
       "animations": [
         {
@@ -11388,7 +11388,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "boomburst",
       "animations": [
         {
@@ -11415,7 +11415,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "beatup",
       "animations": [
         {
@@ -11431,7 +11431,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "anchorshot",
       "animations": [
         {
@@ -11458,7 +11458,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "bulletpunch",
       "animations": [
         {
@@ -11485,7 +11485,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "hyperspacefury",
       "animations": [
         {
@@ -11535,7 +11535,7 @@
         }
       ]
     },
-	 {
+    {
       "name": "hyperspacehole",
       "animations": [
         {
@@ -11585,7 +11585,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "iceball",
       "animations": [
         {
@@ -11612,7 +11612,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "hornattack",
       "animations": [
         {
@@ -11628,7 +11628,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "hornleech",
       "animations": [
         {
@@ -11655,7 +11655,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "iciclespear",
       "animations": [
         {
@@ -11682,7 +11682,7 @@
         }
       ]
     },
-	  {
+    {
       "name": "karatechop",
       "animations": [
         {
@@ -11698,7 +11698,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "landswrath",
       "animations": [
         {
@@ -11747,7 +11747,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "icehammer",
       "animations": [
         {
@@ -11780,7 +11780,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "mistball",
       "animations": [
         {
@@ -11813,7 +11813,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "meteormash",
       "animations": [
         {
@@ -11846,7 +11846,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "moongeistbeam",
       "animations": [
         {
@@ -11902,7 +11902,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "octazooka",
       "animations": [
         {
@@ -11940,7 +11940,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "originpulse",
       "animations": [
         {
@@ -12006,7 +12006,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "phantomforce",
       "animations": [
         {
@@ -12044,7 +12044,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "poisonfang",
       "animations": [
         {
@@ -12071,7 +12071,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "poisonjab",
       "animations": [
         {
@@ -12109,7 +12109,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "poisontail",
       "animations": [
         {
@@ -12136,7 +12136,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "pollenpuff",
       "animations": [
         {
@@ -12169,7 +12169,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "powertrip",
       "animations": [
         {
@@ -12191,7 +12191,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "powerwhip",
       "animations": [
         {
@@ -12247,7 +12247,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "prismaticlaser",
       "animations": [
         {
@@ -12368,7 +12368,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "psychoboost",
       "animations": [
         {
@@ -12446,7 +12446,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "strugglebug",
       "animations": [
         {
@@ -12491,7 +12491,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "superfang",
       "animations": [
         {
@@ -12518,7 +12518,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "thousandarrows",
       "animations": [
         {
@@ -12612,7 +12612,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "triplekick",
       "animations": [
         {
@@ -12628,7 +12628,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "vicegrip",
       "animations": [
         {
@@ -12650,7 +12650,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "waterspout",
       "animations": [
         {
@@ -12689,7 +12689,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "wildcharge",
       "animations": [
         {
@@ -12722,7 +12722,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "weatherball",
       "animations": [
         {
@@ -12755,7 +12755,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "wakeupslap",
       "animations": [
         {
@@ -12782,7 +12782,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "vitalthrow",
       "animations": [
         {
@@ -12809,7 +12809,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "tailslap",
       "animations": [
         {
@@ -12831,7 +12831,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "submission",
       "animations": [
         {
@@ -12869,7 +12869,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "photongeyser",
       "animations": [
         {
@@ -12918,7 +12918,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "present",
       "animations": [
         {
@@ -12945,7 +12945,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "payday",
       "animations": [
         {
@@ -12967,7 +12967,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "mindblown",
       "animations": [
         {
@@ -13005,7 +13005,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "lunge",
       "animations": [
         {
@@ -13038,7 +13038,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "liquidation",
       "animations": [
         {
@@ -13087,7 +13087,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "infestation",
       "animations": [
         {
@@ -13125,7 +13125,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "holdback",
       "animations": [
         {
@@ -13147,7 +13147,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "highhorsepower",
       "animations": [
         {
@@ -13175,7 +13175,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "hex",
       "animations": [
         {
@@ -13202,7 +13202,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "heavyslam",
       "animations": [
         {
@@ -13235,7 +13235,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "heartstamp",
       "animations": [
         {
@@ -13257,7 +13257,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "heatcrash",
       "animations": [
         {
@@ -13290,7 +13290,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "headcharge",
       "animations": [
         {
@@ -13317,7 +13317,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "hammerarm",
       "animations": [
         {
@@ -13344,7 +13344,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "glaciate",
       "animations": [
         {
@@ -13382,7 +13382,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "frostbreath",
       "animations": [
         {
@@ -13409,7 +13409,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "freezeshock",
       "animations": [
         {
@@ -13475,7 +13475,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "fleurcannon",
       "animations": [
         {
@@ -13530,7 +13530,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "flail",
       "animations": [
         {
@@ -13557,7 +13557,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "firstimpression",
       "animations": [
         {
@@ -13595,7 +13595,7 @@
         }
       ]
     },
-	  {
+    {
       "name": "fierydance",
       "animations": [
         {
@@ -13628,7 +13628,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "fellstinger",
       "animations": [
         {
@@ -13655,7 +13655,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "feintattack",
       "animations": [
         {
@@ -13682,7 +13682,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "feint",
       "animations": [
         {
@@ -13698,7 +13698,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "eruption",
       "animations": [
         {
@@ -13747,7 +13747,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "endeavor",
       "animations": [
         {
@@ -13774,7 +13774,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "electroweb",
       "animations": [
         {
@@ -13801,7 +13801,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dualchop",
       "animations": [
         {
@@ -13828,7 +13828,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "drillrun",
       "animations": [
         {
@@ -13872,7 +13872,7 @@
         }
       ]
     },
-	   {
+    {
       "name": "drillpeck",
       "animations": [
         {
@@ -13910,7 +13910,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dragonascent",
       "animations": [
         {
@@ -13943,7 +13943,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dragonclaw",
       "animations": [
         {
@@ -13970,7 +13970,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dragonhammer",
       "animations": [
         {
@@ -13997,7 +13997,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dragonrush",
       "animations": [
         {
@@ -14030,7 +14030,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "dig",
       "animations": [
         {
@@ -14052,7 +14052,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "crushgrip",
       "animations": [
         {
@@ -14079,7 +14079,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "crosspoison",
       "animations": [
         {
@@ -14106,7 +14106,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "crosschop",
       "animations": [
         {
@@ -14133,7 +14133,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "crabhammer",
       "animations": [
         {
@@ -14160,7 +14160,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "cometpunch",
       "animations": [
         {
@@ -14176,7 +14176,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "clearsmog",
       "animations": [
         {
@@ -14203,7 +14203,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "chipaway",
       "animations": [
         {
@@ -14225,7 +14225,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "chatter",
       "animations": [
         {
@@ -14252,7 +14252,7 @@
         }
       ]
     },
-	    {
+    {
       "name": "barrage",
       "animations": [
         {
@@ -14278,6 +14278,6 @@
           "applyAfter": false
         }
       ]
-    }	
+    }
   ]
 }

@@ -1,9 +1,7 @@
 {
   "type": "pokecube_legends:distorted_world",
-  "generator":
-  {
-    "biome_source":
-    {
+  "generator": {
+    "biome_source": {
       "type": "minecraft:fixed",
       "biome": "pokecube_legends:distorted_lands"
     },

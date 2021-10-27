@@ -1,5 +1,5 @@
 {
-  "scale": 0.3,
+  "scale": 0.08,
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.soul_sand_valley.mood",
@@ -34,10 +34,8 @@
       "minecraft:lake_lava"
     ],
     [],
-    [
-    ],
-    [
-    ],
+    [],
+    [],
     [],
     [
       "pokecube_legends:ore_spectrum",
@@ -60,7 +58,6 @@
   "spawners": {},
   "category": "swamp",
   "precipitation": "none",
-  "scale": 0.08,
   "downfall": 0.2,
   "depth": -0.2,
   "temperature": 0.3,

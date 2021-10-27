@@ -50,7 +50,7 @@
         }
       ]
     },
-	{
+    {
       "name": "pool_1",
       "rolls": 1,
       "entries": [
@@ -67,7 +67,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_bug",
           "functions": [
@@ -80,7 +80,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_dark",
           "functions": [
@@ -93,7 +93,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_dragon",
           "functions": [
@@ -106,7 +106,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_electric",
           "functions": [
@@ -119,7 +119,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_fairy",
           "functions": [
@@ -132,7 +132,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_fighting",
           "functions": [
@@ -145,7 +145,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_fire",
           "functions": [
@@ -158,7 +158,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_ground",
           "functions": [
@@ -171,7 +171,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_ghost",
           "functions": [
@@ -184,7 +184,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_ice",
           "functions": [
@@ -197,7 +197,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_normal",
           "functions": [
@@ -210,7 +210,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_poison",
           "functions": [
@@ -223,7 +223,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_psychic",
           "functions": [
@@ -236,7 +236,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_rock",
           "functions": [
@@ -249,7 +249,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_steel",
           "functions": [
@@ -262,7 +262,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_water",
           "functions": [
@@ -275,7 +275,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_flying",
           "functions": [
@@ -288,7 +288,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:z_unknown",
           "functions": [
@@ -303,11 +303,11 @@
         }
       ]
     },
-	{
+    {
       "name": "pool_2",
       "rolls": 1,
       "entries": [
-	    {
+        {
           "type": "item",
           "name": "pokecube_legends:mint_adamant",
           "functions": [
@@ -333,7 +333,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_brave",
           "functions": [
@@ -346,7 +346,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_calm",
           "functions": [
@@ -359,7 +359,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_careful",
           "functions": [
@@ -372,7 +372,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_gentle",
           "functions": [
@@ -385,7 +385,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_hasty",
           "functions": [
@@ -398,7 +398,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_impish",
           "functions": [
@@ -411,7 +411,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_jolly",
           "functions": [
@@ -424,7 +424,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_lax",
           "functions": [
@@ -437,7 +437,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_lonely",
           "functions": [
@@ -450,7 +450,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_mild",
           "functions": [
@@ -463,7 +463,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_modest",
           "functions": [
@@ -476,7 +476,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_naive",
           "functions": [
@@ -489,7 +489,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_naughty",
           "functions": [
@@ -502,7 +502,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_quiet",
           "functions": [
@@ -515,7 +515,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_rash",
           "functions": [
@@ -528,7 +528,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_relaxed",
           "functions": [
@@ -541,7 +541,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_sassy",
           "functions": [
@@ -554,7 +554,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_serious",
           "functions": [
@@ -567,7 +567,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_timid",
           "functions": [
@@ -580,7 +580,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_hardy",
           "functions": [
@@ -593,7 +593,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_quirky",
           "functions": [
@@ -606,7 +606,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_docile",
           "functions": [
@@ -619,7 +619,7 @@
             }
           ]
         },
-		{
+        {
           "type": "item",
           "name": "pokecube_legends:mint_bashful",
           "functions": [

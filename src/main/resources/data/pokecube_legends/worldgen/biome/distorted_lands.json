@@ -1,14 +1,11 @@
 {
-  "effects":
-  {
+  "effects": {
     "sky_color": 8501625,
     "fog_color": 926014,
     "water_color": 65505,
     "water_fog_color": 65505,
-    "particle":
-    {
-      "options":
-      {
+    "particle": {
+      "options": {
         "type": "minecraft:falling_dust",
         "Name": "minecraft:packed_ice"
       },
@@ -16,8 +13,7 @@
     },
     "grass_color": 16147822,
     "foliage_color": 13187908,
-    "mood_sound":
-    {
+    "mood_sound": {
       "tick_delay": 3000,
       "block_search_extent": 10,
       "offset": 2,
@@ -42,18 +38,17 @@
     [],
     [
       "pokecube_legends:ore_mirror",
-	  "pokecube_legends:ore_fractal"
+      "pokecube_legends:ore_fractal"
     ],
     [],
     [
       "pokecube_legends:distorted_vegetation",
       "pokecube_legends:distortic_spring"
     ],
-    [
-    ]
+    []
   ],
   "starts": [],
-  "spawners":{},
+  "spawners": {},
   "spawn_costs": {},
   "player_spawn_friendly": false,
   "precipitation": "none",

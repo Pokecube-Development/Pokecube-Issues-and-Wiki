@@ -27,10 +27,8 @@
       "minecraft:lake_lava"
     ],
     [],
-    [
-    ],
-    [
-    ],
+    [],
+    [],
     [],
     [
       "pokecube_legends:ore_spectrum",
@@ -54,7 +52,7 @@
   "starts": [
     "minecraft:desert_pyramid"
   ],
-  "spawners":{},
+  "spawners": {},
   "spawn_costs": {},
   "category": "desert",
   "precipitation": "none",

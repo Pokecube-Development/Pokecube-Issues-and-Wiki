@@ -62,7 +62,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "accelerock",
@@ -93,7 +93,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "acid",
@@ -124,7 +124,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 70
+      "gMovePower": 70
     },
     {
       "name": "acidarmor",
@@ -218,7 +218,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 70
+      "gMovePower": 70
     },
     {
       "name": "acrobatics",
@@ -249,7 +249,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "acupressure",
@@ -313,7 +313,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "aeroblast",
@@ -344,7 +344,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "afteryou",
@@ -439,7 +439,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "airslash",
@@ -470,7 +470,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "alloutpummeling",
@@ -596,7 +596,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "ancientpower",
@@ -627,7 +627,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "aquajet",
@@ -658,7 +658,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "aquaring",
@@ -721,7 +721,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "armthrust",
@@ -753,7 +753,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 70
+      "gMovePower": 70
     },
     {
       "name": "aromatherapy",
@@ -881,7 +881,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "astonish",
@@ -912,7 +912,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "attackorder",
@@ -943,7 +943,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "attract",
@@ -1006,7 +1006,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "aurorabeam",
@@ -1037,7 +1037,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "auroraveil",
@@ -1132,7 +1132,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "babydolleyes",
@@ -1352,7 +1352,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "beatup",
@@ -1383,9 +1383,9 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 100
+      "gMovePower": 100
     },
-	{
+    {
       "name": "behemothbash",
       "readableName": "Behemoth Bash",
       "type": "Steel",
@@ -1414,9 +1414,9 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
-	{
+    {
       "name": "behemothblade",
       "readableName": "Behemoth Blade",
       "type": "Steel",
@@ -1445,7 +1445,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "belch",
@@ -1476,7 +1476,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 95
+      "gMovePower": 95
     },
     {
       "name": "bellydrum",
@@ -1601,7 +1601,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "bite",
@@ -1632,7 +1632,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "blackholeeclipse",
@@ -1694,7 +1694,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 150
+      "gMovePower": 150
     },
     {
       "name": "blazekick",
@@ -1725,7 +1725,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "blizzard",
@@ -1756,7 +1756,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "block",
@@ -1850,7 +1850,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "bodyslam",
@@ -1881,7 +1881,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "boltstrike",
@@ -1912,7 +1912,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "boneclub",
@@ -1974,7 +1974,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "bonerush",
@@ -2006,7 +2006,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "boomburst",
@@ -2037,7 +2037,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "bounce",
@@ -2068,7 +2068,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "bouncybubble",
@@ -2128,7 +2128,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "breakneckblitz",
@@ -2190,7 +2190,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "brine",
@@ -2221,7 +2221,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "brutalswing",
@@ -2252,7 +2252,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "bubble",
@@ -2313,7 +2313,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "bugbite",
@@ -2344,7 +2344,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "bugbuzz",
@@ -2375,7 +2375,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "bulkup",
@@ -2438,7 +2438,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "bulletpunch",
@@ -2469,7 +2469,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "bulletseed",
@@ -2501,7 +2501,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "burnup",
@@ -2532,7 +2532,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "buzzybuzz",
@@ -2778,7 +2778,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 100
+      "gMovePower": 100
     },
     {
       "name": "charm",
@@ -2841,7 +2841,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "chipaway",
@@ -2902,7 +2902,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 80
+      "gMovePower": 80
     },
     {
       "name": "clamp",
@@ -2963,7 +2963,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "clearsmog",
@@ -2994,7 +2994,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 75
+      "gMovePower": 75
     },
     {
       "name": "closecombat",
@@ -3025,7 +3025,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 95
+      "gMovePower": 95
     },
     {
       "name": "coil",
@@ -3184,7 +3184,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 100
+      "gMovePower": 100
     },
     {
       "name": "constrict",
@@ -3372,7 +3372,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "corkscrewcrash",
@@ -3530,7 +3530,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 75
+      "gMovePower": 75
     },
     {
       "name": "covet",
@@ -3561,7 +3561,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "crabhammer",
@@ -3592,7 +3592,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "craftyshield",
@@ -3655,7 +3655,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "crosspoison",
@@ -3686,7 +3686,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 85
+      "gMovePower": 85
     },
     {
       "name": "crunch",
@@ -3717,7 +3717,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "crushclaw",
@@ -3748,7 +3748,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "crushgrip",
@@ -3780,7 +3780,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "curse",
@@ -3843,7 +3843,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 100
+      "gMovePower": 100
     },
     {
       "name": "darkestlariat",
@@ -3874,7 +3874,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "darkpulse",
@@ -3905,7 +3905,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "darkvoid",
@@ -3968,7 +3968,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "defendorder",
@@ -4192,7 +4192,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dig",
@@ -4223,7 +4223,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "disable",
@@ -4286,7 +4286,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "discharge",
@@ -4317,7 +4317,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dive",
@@ -4348,7 +4348,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dizzypunch",
@@ -4409,7 +4409,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "doubleedge",
@@ -4441,7 +4441,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "doubleironbash",
@@ -4473,7 +4473,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "doublehit",
@@ -4505,7 +4505,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "doublekick",
@@ -4537,7 +4537,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 80
+      "gMovePower": 80
     },
     {
       "name": "doubleslap",
@@ -4631,7 +4631,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "dragonascent",
@@ -4662,7 +4662,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "dragonbreath",
@@ -4693,7 +4693,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "dragonclaw",
@@ -4724,7 +4724,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dragondance",
@@ -4787,7 +4787,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dragonpulse",
@@ -4818,7 +4818,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dragonrage",
@@ -4879,7 +4879,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dragontail",
@@ -4910,7 +4910,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "drainingkiss",
@@ -4941,7 +4941,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 100
+      "gMovePower": 100
     },
     {
       "name": "drainpunch",
@@ -4972,7 +4972,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "dreameater",
@@ -5003,7 +5003,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "drillpeck",
@@ -5034,7 +5034,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "drillrun",
@@ -5065,7 +5065,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dualchop",
@@ -5097,7 +5097,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dynamicpunch",
@@ -5128,7 +5128,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "earthpower",
@@ -5159,7 +5159,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "earthquake",
@@ -5192,7 +5192,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "echoedvoice",
@@ -5224,7 +5224,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "eerieimpulse",
@@ -5378,7 +5378,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "electroweb",
@@ -5409,7 +5409,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "embargo",
@@ -5472,7 +5472,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "encore",
@@ -5536,7 +5536,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "endure",
@@ -5600,7 +5600,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "entrainment",
@@ -5665,7 +5665,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 150
+      "gMovePower": 150
     },
     {
       "name": "explosion",
@@ -5697,7 +5697,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 150
+      "gMovePower": 150
     },
     {
       "name": "extrasensory",
@@ -5728,7 +5728,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "extremeevoboost",
@@ -5791,7 +5791,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "facade",
@@ -5822,7 +5822,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 120
+      "gMovePower": 120
     },
     {
       "name": "fairylock",
@@ -9931,9 +9931,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	
-	
-	{
+    {
       "name": "clangoroussoulblaze",
       "readableName": "Clangorous Soulblaze",
       "type": "Dragon",
@@ -9965,7 +9963,7 @@
       "extraInfo": -1,
       "customSize": "3.0,4.0"
     },
-	{
+    {
       "name": "letssnuggleforever",
       "readableName": "Let's Snuggle Forever",
       "type": "Fairy",
@@ -9997,7 +9995,7 @@
       "extraInfo": -1,
       "customSize": "3.0,4.0"
     },
-	{
+    {
       "name": "lightthatburnsthesky",
       "readableName": "Light That Burns the Sky",
       "type": "Psychic",
@@ -10029,7 +10027,7 @@
       "extraInfo": -1,
       "customSize": "3.0,4.0"
     },
-	{
+    {
       "name": "menacingmoonrazemaelstrom",
       "readableName": "Menacing Moonraze Maelstrom",
       "type": "Ghost",
@@ -10061,7 +10059,7 @@
       "extraInfo": -1,
       "customSize": "3.0,4.0"
     },
-	{
+    {
       "name": "searingsunrazesmash",
       "readableName": "Searing Sunraze Smash",
       "type": "Steel",
@@ -10093,7 +10091,7 @@
       "extraInfo": -1,
       "customSize": "3.0,4.0"
     },
-	{
+    {
       "name": "splinteredstormshards",
       "readableName": "Splintered Stormshards",
       "type": "Rock",
@@ -14859,7 +14857,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "plasmafists",
       "readableName": "Plasma Fists",
       "type": "Electric",
@@ -18777,7 +18775,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "steelbeam",
       "readableName": "Steel Beam",
       "type": "Steel",
@@ -22521,7 +22519,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "bodypress",
@@ -22552,7 +22550,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 90
+      "gMovePower": 90
     },
     {
       "name": "drumbeating",
@@ -22733,7 +22731,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 110
+      "gMovePower": 110
     },
     {
       "name": "snipeshot",
@@ -22914,7 +22912,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "overdrive",
@@ -23275,7 +23273,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "boltbeak",
@@ -23306,7 +23304,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "fishiousrend",
@@ -23367,7 +23365,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 130
+      "gMovePower": 130
     },
     {
       "name": "dynamaxcannon",
@@ -23398,7 +23396,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 140
+      "gMovePower": 140
     },
     {
       "name": "eternabeam",
@@ -23429,7 +23427,7 @@
       "ohko": false,
       "protectionMoves": false,
       "extraInfo": -1,
-	  "gMovePower": 150
+      "gMovePower": 150
     },
     {
       "name": "expandingforce",
@@ -24091,7 +24089,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "thundercage",
       "readableName": "Thunder Cage",
       "type": "Electric",
@@ -24121,7 +24119,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "dragonenergy",
       "readableName": "Dragon Energy",
       "type": "Dragon",
@@ -24151,7 +24149,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "freezingglare",
       "readableName": "Freezing Glare",
       "type": "Psychic",
@@ -24181,7 +24179,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "fierywrath",
       "readableName": "Fiery Wrath",
       "type": "Dark",
@@ -24211,7 +24209,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "thunderouskick",
       "readableName": "Thunderous Kick",
       "type": "Fight",
@@ -24241,7 +24239,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "glaciallance",
       "readableName": "Glacial Lance",
       "type": "Ice",
@@ -24271,7 +24269,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "astralbarrage",
       "readableName": "Astral Barrage",
       "type": "Ghost",
@@ -24301,7 +24299,7 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	{
+    {
       "name": "eeriespell",
       "readableName": "Eerie Spell",
       "type": "Psychic",
@@ -24331,7 +24329,6 @@
       "protectionMoves": false,
       "extraInfo": -1
     },
-	
     {
       "name": "maxflare",
       "readableName": "Max Flare",

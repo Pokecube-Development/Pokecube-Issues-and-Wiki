@@ -42,7 +42,7 @@
         ]
       }
     },
-	{
+    {
       "name": "ekans",
       "stats": {
         "spawnRules": [
@@ -57,7 +57,7 @@
         ]
       }
     },
-	{
+    {
       "name": "gastly",
       "stats": {
         "spawnRules": [
@@ -72,7 +72,7 @@
         ]
       }
     },
-	{
+    {
       "name": "spinarak",
       "stats": {
         "spawnRules": [
@@ -87,7 +87,7 @@
         ]
       }
     },
-	{
+    {
       "name": "murkrow",
       "stats": {
         "spawnRules": [
@@ -102,7 +102,7 @@
         ]
       }
     },
-	{
+    {
       "name": "misdreavus",
       "stats": {
         "spawnRules": [
@@ -117,7 +117,7 @@
         ]
       }
     },
-	{
+    {
       "name": "seviper",
       "stats": {
         "spawnRules": [
@@ -132,7 +132,7 @@
         ]
       }
     },
-	{
+    {
       "name": "baltoy",
       "stats": {
         "spawnRules": [
@@ -147,7 +147,7 @@
         ]
       }
     },
-	{
+    {
       "name": "banette",
       "stats": {
         "spawnRules": [
@@ -162,7 +162,7 @@
         ]
       }
     },
-	{
+    {
       "name": "skorupi",
       "stats": {
         "spawnRules": [
@@ -177,7 +177,7 @@
         ]
       }
     },
-	{
+    {
       "name": "snover",
       "stats": {
         "spawnRules": [
@@ -192,7 +192,7 @@
         ]
       }
     },
-	{
+    {
       "name": "darumaka_galar",
       "stats": {
         "spawnRules": [
@@ -207,7 +207,7 @@
         ]
       }
     },
-	{
+    {
       "name": "gothita",
       "stats": {
         "spawnRules": [
@@ -222,7 +222,7 @@
         ]
       }
     },
-	{
+    {
       "name": "vanillite",
       "stats": {
         "spawnRules": [
@@ -237,7 +237,7 @@
         ]
       }
     },
-	{
+    {
       "name": "pawniard",
       "stats": {
         "spawnRules": [
@@ -252,7 +252,7 @@
         ]
       }
     },
-	{
+    {
       "name": "pumpkaboo",
       "stats": {
         "spawnRules": [

@@ -7781,7 +7781,13 @@
       "dye": {
         "base": "red",
         "shiny": "red",
-        "dyes": ["red","yellow","orange","blue","white"]
+        "dyes": [
+          "red",
+          "yellow",
+          "orange",
+          "blue",
+          "white"
+        ]
       },
       "stats": {
         "evolutions": [
@@ -7797,7 +7803,13 @@
       "dye": {
         "base": "red",
         "shiny": "red",
-        "dyes": ["red","yellow","orange","blue","white"]
+        "dyes": [
+          "red",
+          "yellow",
+          "orange",
+          "blue",
+          "white"
+        ]
       },
       "stats": {
         "evolutions": [
@@ -7813,7 +7825,13 @@
       "dye": {
         "base": "red",
         "shiny": "red",
-        "dyes": ["red","yellow","orange","blue","white"]
+        "dyes": [
+          "red",
+          "yellow",
+          "orange",
+          "blue",
+          "white"
+        ]
       }
     },
     {

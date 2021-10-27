@@ -28,7 +28,7 @@
         "entry": "gumshoos"
       }
     },
-     "kill_gumshoos": {
+    "kill_gumshoos": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "gumshoos"
@@ -41,7 +41,7 @@
         "entry": "raticate_alola"
       }
     },
-     "kill_raticate_alola": {
+    "kill_raticate_alola": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "raticate_alola"
@@ -54,7 +54,7 @@
         "entry": "wishiwashi"
       }
     },
-     "kill_wishiwashi": {
+    "kill_wishiwashi": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "wishiwashi"
@@ -67,7 +67,7 @@
         "entry": "salazzle"
       }
     },
-     "kill_salazzle": {
+    "kill_salazzle": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "salazzle"
@@ -80,7 +80,7 @@
         "entry": "lurantis"
       }
     },
-     "kill_lurantis": {
+    "kill_lurantis": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "lurantis"
@@ -93,7 +93,7 @@
         "entry": "vikavolt"
       }
     },
-     "kill_vikavolt": {
+    "kill_vikavolt": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "vikavolt"
@@ -106,7 +106,7 @@
         "entry": "mimikyu"
       }
     },
-     "kill_mimikyu": {
+    "kill_mimikyu": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "mimikyu"
@@ -119,7 +119,7 @@
         "entry": "kommo-o"
       }
     },
-     "kill_kommo-o": {
+    "kill_kommo-o": {
       "trigger": "pokecube:kill",
       "conditions": {
         "entry": "kommo-o"

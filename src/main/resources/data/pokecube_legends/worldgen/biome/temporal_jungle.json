@@ -27,8 +27,7 @@
       "minecraft:lake_lava"
     ],
     [],
-    [
-    ],
+    [],
     [],
     [],
     [
@@ -45,8 +44,7 @@
       "pokecube_legends:spring_water",
       "pokecube_legends:spring_lava"
     ],
-    [
-    ]
+    []
   ],
   "starts": [],
   "spawners": {},

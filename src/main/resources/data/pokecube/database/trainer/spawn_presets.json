@@ -1,54 +1,61 @@
 {
-  "presets":[
+  "presets": [
     {
       "preset_name": "day_post",
-      "guard":{
-        "time":"day",
-        "roam":0
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "spawn_professor",
-      "options": ["spawn_professor_male", "spawn_professor_female"]
+      "options": [
+        "spawn_professor_male",
+        "spawn_professor_female"
+      ]
     },
     {
       "preset_name": "spawn_professor_male",
-      "names":["pokecube.professor.named:Cedar"],
+      "names": [
+        "pokecube.professor.named:Cedar"
+      ],
       "mob": "pokecube:npc",
       "type": "professor",
       "gender": "male",
-      "guard":{
-        "time":"day",
-        "roam":0
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "spawn_professor_female",
-      "names":["pokecube.professor.named:Pine"],
+      "names": [
+        "pokecube.professor.named:Pine"
+      ],
       "mob": "pokecube:npc",
       "type": "professor",
       "gender": "female",
-      "guard":{
-        "time":"day",
-        "roam":0
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "pokecenter_nurse",
       "mob": "pokecube:npc",
       "type": "healer",
-      "guard":{
-        "time":"day",
-        "roam":0
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "pokemart_merchant",
       "mob": "pokecube:npc",
       "type": "trader",
-      "guard":{
-        "time":"day",
-        "roam":0
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     }
   ]

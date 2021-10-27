@@ -1,5 +1,5 @@
 {
-	"config": {
+  "config": {
     "feature": {
       "config": {
         "feature": {
@@ -9,7 +9,7 @@
                 "feature": {
                   "config": {
                     "features": [
-					  {
+                      {
                         "config": {
                           "can_replace": false,
                           "project": true,

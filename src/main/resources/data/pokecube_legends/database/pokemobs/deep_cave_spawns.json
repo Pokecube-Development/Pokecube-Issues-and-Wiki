@@ -42,7 +42,7 @@
         ]
       }
     },
-	{
+    {
       "name": "onix",
       "stats": {
         "spawnRules": [
@@ -57,7 +57,7 @@
         ]
       }
     },
-	{
+    {
       "name": "hoothoot",
       "stats": {
         "spawnRules": [
@@ -72,7 +72,7 @@
         ]
       }
     },
-	{
+    {
       "name": "pineco",
       "stats": {
         "spawnRules": [
@@ -87,7 +87,7 @@
         ]
       }
     },
-	{
+    {
       "name": "gligar",
       "stats": {
         "spawnRules": [
@@ -102,7 +102,7 @@
         ]
       }
     },
-	{
+    {
       "name": "larvitar",
       "stats": {
         "spawnRules": [
@@ -117,7 +117,7 @@
         ]
       }
     },
-	{
+    {
       "name": "zigzagoon_galar",
       "stats": {
         "spawnRules": [
@@ -132,7 +132,7 @@
         ]
       }
     },
-	{
+    {
       "name": "nosepass",
       "stats": {
         "spawnRules": [
@@ -147,7 +147,7 @@
         ]
       }
     },
-	{
+    {
       "name": "kecleon",
       "stats": {
         "spawnRules": [
@@ -162,7 +162,7 @@
         ]
       }
     },
-	{
+    {
       "name": "buneary",
       "stats": {
         "spawnRules": [
@@ -177,7 +177,7 @@
         ]
       }
     },
-	{
+    {
       "name": "pidove",
       "stats": {
         "spawnRules": [
@@ -192,7 +192,7 @@
         ]
       }
     },
-	{
+    {
       "name": "deerling",
       "stats": {
         "spawnRules": [
@@ -207,7 +207,7 @@
         ]
       }
     },
-	{
+    {
       "name": "bunnelby",
       "stats": {
         "spawnRules": [
@@ -222,7 +222,7 @@
         ]
       }
     },
-	{
+    {
       "name": "espurr",
       "stats": {
         "spawnRules": [
@@ -237,7 +237,7 @@
         ]
       }
     },
-	{
+    {
       "name": "morelull",
       "stats": {
         "spawnRules": [
@@ -252,7 +252,7 @@
         ]
       }
     },
-	{
+    {
       "name": "hatenna",
       "stats": {
         "spawnRules": [

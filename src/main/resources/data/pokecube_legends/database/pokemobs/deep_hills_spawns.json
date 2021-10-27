@@ -42,7 +42,7 @@
         ]
       }
     },
-	{
+    {
       "name": "magnemite",
       "stats": {
         "spawnRules": [
@@ -57,7 +57,7 @@
         ]
       }
     },
-	{
+    {
       "name": "muk",
       "stats": {
         "spawnRules": [
@@ -72,7 +72,7 @@
         ]
       }
     },
-	{
+    {
       "name": "corsola_galar",
       "stats": {
         "spawnRules": [
@@ -87,7 +87,7 @@
         ]
       }
     },
-	{
+    {
       "name": "nincada",
       "stats": {
         "spawnRules": [
@@ -102,7 +102,7 @@
         ]
       }
     },
-	{
+    {
       "name": "mawile",
       "stats": {
         "spawnRules": [
@@ -117,7 +117,7 @@
         ]
       }
     },
-	{
+    {
       "name": "spoink",
       "stats": {
         "spawnRules": [
@@ -132,7 +132,7 @@
         ]
       }
     },
-	{
+    {
       "name": "glameow",
       "stats": {
         "spawnRules": [
@@ -147,7 +147,7 @@
         ]
       }
     },
-	{
+    {
       "name": "spiritomb",
       "stats": {
         "spawnRules": [
@@ -162,7 +162,7 @@
         ]
       }
     },
-	{
+    {
       "name": "croagunk",
       "stats": {
         "spawnRules": [
@@ -177,7 +177,7 @@
         ]
       }
     },
-	{
+    {
       "name": "venipede",
       "stats": {
         "spawnRules": [
@@ -192,7 +192,7 @@
         ]
       }
     },
-	{
+    {
       "name": "sigilyph",
       "stats": {
         "spawnRules": [
@@ -207,7 +207,7 @@
         ]
       }
     },
-	{
+    {
       "name": "solosis",
       "stats": {
         "spawnRules": [
@@ -222,7 +222,7 @@
         ]
       }
     },
-	{
+    {
       "name": "elgyem",
       "stats": {
         "spawnRules": [
@@ -237,7 +237,7 @@
         ]
       }
     },
-	{
+    {
       "name": "litwick",
       "stats": {
         "spawnRules": [
@@ -252,7 +252,7 @@
         ]
       }
     },
-	{
+    {
       "name": "salandit",
       "stats": {
         "spawnRules": [

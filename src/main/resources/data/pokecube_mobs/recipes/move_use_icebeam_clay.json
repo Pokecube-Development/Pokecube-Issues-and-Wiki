@@ -1,15 +1,15 @@
 {
-  "type":"pokecube:move_recipe",
-  "result":{
-    "item":"minecraft:clay"
+  "type": "pokecube:move_recipe",
+  "result": {
+    "item": "minecraft:clay"
   },
-  "ingredients":[
+  "ingredients": [
     {
-      "item":"minecraft:sand"
+      "item": "minecraft:sand"
     }
   ],
-  "move":{
-    "move":"icebeam"
+  "move": {
+    "move": "icebeam"
   },
   "hungerCost": 50
 }

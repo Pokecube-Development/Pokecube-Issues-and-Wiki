@@ -42,7 +42,7 @@
         ]
       }
     },
-	{
+    {
       "name": "skiddo",
       "stats": {
         "spawnRules": [
@@ -57,7 +57,7 @@
         ]
       }
     },
-	{
+    {
       "name": "bellsprout",
       "stats": {
         "spawnRules": [
@@ -72,7 +72,7 @@
         ]
       }
     },
-	{
+    {
       "name": "exeggcute",
       "stats": {
         "spawnRules": [
@@ -87,7 +87,7 @@
         ]
       }
     },
-	{
+    {
       "name": "budew",
       "stats": {
         "spawnRules": [
@@ -102,7 +102,7 @@
         ]
       }
     },
-	{
+    {
       "name": "sewaddle",
       "stats": {
         "spawnRules": [
@@ -117,7 +117,7 @@
         ]
       }
     },
-	{
+    {
       "name": "dhelmise",
       "stats": {
         "spawnRules": [
@@ -132,7 +132,7 @@
         ]
       }
     },
-	{
+    {
       "name": "cottonee",
       "stats": {
         "spawnRules": [
@@ -147,7 +147,7 @@
         ]
       }
     },
-	{
+    {
       "name": "hoppip",
       "stats": {
         "spawnRules": [
@@ -162,7 +162,7 @@
         ]
       }
     },
-	{
+    {
       "name": "bounsweet",
       "stats": {
         "spawnRules": [
@@ -177,7 +177,7 @@
         ]
       }
     },
-	{
+    {
       "name": "roggenrola",
       "stats": {
         "spawnRules": [
@@ -192,7 +192,7 @@
         ]
       }
     },
-	{
+    {
       "name": "cherubi",
       "stats": {
         "spawnRules": [
@@ -207,7 +207,7 @@
         ]
       }
     },
-	{
+    {
       "name": "tangela",
       "stats": {
         "spawnRules": [

@@ -1,8 +1,7 @@
 {
-    "replace": false,
-    "values": [
-    ],
-    "optional": [
-        "#pokecube_legends:ultra_stones"
-    ]
+  "replace": false,
+  "values": [],
+  "optional": [
+    "#pokecube_legends:ultra_stones"
+  ]
 }
