@@ -63,9 +63,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
             final String model = nbt.contains("model") ? nbt.getString("model") : null;
             final String tex = nbt.contains("tex") ? nbt.getString("tex") : null;
-            final FormeHolder holder = FormeHolder.get(model != null ? PokecubeItems.toPokecubeResource(model) : null,
-                    tex != null ? PokecubeItems.toPokecubeResource(tex) : null, anim != null ? PokecubeItems
-                            .toPokecubeResource(anim) : null, PokecubeItems.toPokecubeResource(name));
+
+            final ResourceLocation _model = model != null ? PokecubeItems.toPokecubeResource(model) : null;
+            final ResourceLocation _tex = tex != null ? PokecubeItems.toPokecubeResource(tex) : null;
+            final ResourceLocation _anim = anim != null ? PokecubeItems.toPokecubeResource(anim) : null;
+
+            final FormeHolder holder = FormeHolder.get(_model, _tex, _anim, PokecubeItems.toPokecubeResource(name));
             return holder;
         }
 

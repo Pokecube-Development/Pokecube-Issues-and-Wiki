@@ -1,8 +1,8 @@
 {
     "variants": {
-        "facing=east":  { "model": "minecraft:block/air", "y":270 },
-        "facing=west":  { "model": "minecraft:block/air", "y":90 },
-        "facing=north": { "model": "minecraft:block/air", "y":180},
-        "facing=south": { "model": "minecraft:block/air", "y":0 }
+        "facing=east":  { "model": "pokecube_adventures:block/statue", "y":270 },
+        "facing=west":  { "model": "pokecube_adventures:block/statue", "y":90 },
+        "facing=north": { "model": "pokecube_adventures:block/statue", "y":180},
+        "facing=south": { "model": "pokecube_adventures:block/statue", "y":0 }
     }
 }

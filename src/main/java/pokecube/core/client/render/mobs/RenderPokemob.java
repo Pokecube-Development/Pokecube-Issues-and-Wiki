@@ -36,6 +36,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -149,7 +150,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         private final List<Animation>           toRun      = Lists.newArrayList();
         private Vector3                         offset     = Vector3.getNewVector();;
         private Vector3                         scale      = Vector3.getNewVector();
-        ResourceLocation                        texture;
         PokedexEntry                            entry;
 
         public boolean reload       = false;
@@ -293,6 +293,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.toRunNames.clear();
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
+            this.wrapper.lastInit = Tracker.instance().getTick() + 20;
         }
 
         public void initModel(final ModelWrapper<Mob> model)
@@ -460,8 +461,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             holder.init();
             PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
-
-        if (holder.wrapper != null && !holder.wrapper.isLoaded()) return;
+        if (holder.wrapper != null && !holder.wrapper.isLoaded())
+        {
+            if (!holder.wrapper.isLoaded() && holder.wrapper.lastInit < Tracker.instance().getTick()) holder.init();
+            return;
+        }
 
         // This gives time for the model to actually finish loading in.
         if (holder.loadTimer-- > 0) return;
@@ -509,7 +513,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     @Override
     public ResourceLocation getTextureLocation(final Mob entity)
     {
-        final ResourceLocation texture = Database.missingno.texture;
+        ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return texture;
@@ -530,6 +534,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
+        if (holder.texture != null) texture = holder.texture;
         if (holder.getTexturer() == null) return texture;
         final ResourceLocation tex = holder.getTexturer().getTexture("", texture);
         return tex == null ? texture : tex;
