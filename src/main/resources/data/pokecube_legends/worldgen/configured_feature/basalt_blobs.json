@@ -18,8 +18,8 @@
                 "radius": {
                   "type": "minecraft:uniform",
                   "value": {
-                    "min_inclusive": 3,
-                    "max_inclusive": 5
+                    "min_inclusive": 2,
+                    "max_inclusive": 4
                   }
                 }
               },
@@ -51,7 +51,7 @@
     },
     "decorator": {
       "config": {
-        "count": 5
+        "count": 3
       },
       "type": "minecraft:count"
     }

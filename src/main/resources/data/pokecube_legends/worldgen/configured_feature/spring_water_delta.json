@@ -6,7 +6,7 @@
           "config": {
             "feature": {
               "config": {
-                "rock_count": 4,
+                "rock_count": 3,
                 "hole_count": 1,
                 "valid_blocks": [
                   "minecraft:basalt",
@@ -29,10 +29,10 @@
               "config": {
                 "height": {
                   "min_inclusive": {
-                    "above_bottom": 1
+                    "above_bottom": 0
                   },
                   "max_inclusive": {
-                    "below_top": 4
+                    "below_top": 0
                   },
                   "type": "minecraft:uniform"
                 }
@@ -51,7 +51,7 @@
     },
     "decorator": {
       "config": {
-        "count": 8
+        "count": 15
       },
       "type": "minecraft:count"
     }
