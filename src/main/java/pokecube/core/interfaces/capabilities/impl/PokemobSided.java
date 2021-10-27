@@ -53,6 +53,11 @@ public abstract class PokemobSided extends PokemobBase
     public ResourceLocation modifyTexture(ResourceLocation texture)
     {
         if (texture == null) return this.getTexture();
+
+        if (this.getCustomHolder() != null && this.getCustomHolder().texture != null && !this.getCustomHolder().texture
+                .getNamespace().equals(this.getPokedexEntry().texture().getNamespace())) return this
+                        .getCustomHolder().texture;
+
         if (!texture.getPath().contains("entity/"))
         {
             final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;

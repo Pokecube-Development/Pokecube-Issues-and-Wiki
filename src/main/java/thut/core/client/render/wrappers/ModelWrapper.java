@@ -59,6 +59,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     protected float                rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
     protected float                rotateAngleX   = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
 
+    public long lastInit = -1;
+
     private final int[] tmp = new int[4];
 
     private final Vector5 rots = new Vector5();

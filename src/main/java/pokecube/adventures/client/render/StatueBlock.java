@@ -25,7 +25,7 @@ public class StatueBlock extends TileEntityRenderer<StatueEntity>
 
         final ICopyMob copy = CopyCaps.get(tile);
         tile.checkMob();
-        if (copy == null || copy.getCopiedMob() == null) return;
+        if (copy == null || copy.getCopiedMob() == null || tile.ticks++ < 10) return;
         final LivingEntity copied = copy.getCopiedMob();
         final Minecraft mc = Minecraft.getInstance();
         mc.getEntityRenderDispatcher().setRenderShadow(false);

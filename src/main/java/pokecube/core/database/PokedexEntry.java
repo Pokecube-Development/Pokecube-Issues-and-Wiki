@@ -1590,7 +1590,12 @@ public class PokedexEntry
     /** @return the evolutionMode */
     public int getEvolutionMode()
     {
-        if (this.getBaseForme() != null) return this.getBaseForme().evolutionMode;
+        if (this.getBaseForme() != null) return this.getBaseForme().getEvolutionMode();
+        if (this.evolutionMode < 0)
+        {
+            PokecubeCore.LOGGER.error("Undefined evo mode for {}, setting to \"2\"");
+            this.evolutionMode = 2;
+        }
         return this.evolutionMode;
     }
 
