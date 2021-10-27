@@ -6,7 +6,7 @@
           "config": {
             "feature": {
               "config": {
-                "rock_count": 5,
+                "rock_count": 3,
                 "hole_count": 1,
                 "valid_blocks": [
                   "minecraft:basalt",
@@ -19,9 +19,9 @@
                   "Properties": {
                     "falling": "true"
                   },
-                  "Name": "minecraft:water"
+                  "Name": "minecraft:lava"
                 },
-                "requires_block_below": false
+                "requires_block_below": true
               },
               "type": "minecraft:spring_feature"
             },
@@ -51,7 +51,7 @@
     },
     "decorator": {
       "config": {
-        "count": 25
+        "count": 15
       },
       "type": "minecraft:count"
     }

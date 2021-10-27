@@ -10,7 +10,7 @@
 	"pokecube.aqua.named":  "Aqua Employee %s",
 	"pokecube.miner.named": "Miner %s",
 	"pokecube.dojo.named": "Dojo Student %s",
-	
+
 	"pokecube.giovanni.named": "Giovanni",
 	"pokecube.jessie.named": "Jessie",
 	"pokecube.james.named": "James",
@@ -23,7 +23,7 @@
 	"pokecube.faba.named": "Faba",
 	"pokecube.n.named": "N",
 	"pokecube.mustard.named": "Mustard",
-	
+
 	"pokecube.lorelei.named": "Lorelei",
 	"pokecube.bruno.named": "Bruno",
 	"pokecube.agatha.named": "Agatha",
@@ -56,33 +56,33 @@
 	"pokecube.leon.named": "Leon",
 	"pokecube.cynthia.named": "Cynthia",
 	"pokecube.thutmose.named": "Dev. Thutmose",
-	
+
     // "Pokecubes"
     "item.pokecube.dynacube": "Dynamax Cube",
     "item.pokecube.dynacube.desc": "§7A modified pokécube which is used to capture pokemobs from raids",
-    
+
     "item.pokecube.beastcube": "Beastcube",
     "item.pokecube.beastcube.desc": "§7A modified pokécube that increases the \n§7chance of capture in other dimensions.",
-    
+
     "item.pokecube.clonecube": "Clonecube",
     "item.pokecube.clonecube.desc": "§7A modified pokécube by a mysterious pokémob. \n§7Increases the chance of capture of \n§7Ghost and Psychic types",
-    
+
     "item.pokecube.teammagmacube": "Magmacube",
     "item.pokecube.teammagmacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Fire types.",
-    
+
     "item.pokecube.teamaquacube": "Aquacube",
     "item.pokecube.teamaquacube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ice types.",
-    
+
     "item.pokecube.typingcube": "Typingcube",
     "item.pokecube.typingcube.desc": "§7A modified pokécube that increases the \n§7chance of capture of Ground types.",
-    
+
     "item.pokecube.rocketcube": "Rocketcube",
     "item.pokecube.rocketcube.desc": "§7A modified pokécube used by Team Rocket.",
 
 	// Raid Alerts
 	"raid.nocube.info": "§l§cYou cannot capture Raid pokemobs with simple pokécubes!",
 	"raid.lifelevel.info": "§l§cIt's too strong to stay in the pokécube!",
-	
+
     // Alert Pokemon Legendary Capture"
 	"msg.infolegend.info": "§aCapture [%1$s§a] Type Pokémobs so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokémobs, and Kill [%2$s§a] Type Pokémobs. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aKilled: %6$s.",
@@ -94,19 +94,19 @@
     "msg.alreadyspawned.info": "§cYou have already spawned [§a%1$s§c]!",
     "msg.reginotlookright.info": "§cYou built the [%1$s§c] the wrong way",
 	"pokecube_legends.mew.badges": "§cYou do not have enough badges to control [§a%1$s§c]!",
-    
+
     // Messages related to temples
     "msg.cannot_defile_temple": "§cArceus will not allow you to do that!",
-    
+
     // Raid related messages
     "msg.notaraidspot.info": "§cThis den does not seem to be able to be activated.",
-    
+
     // Hoopa Portal
     "msg.hoopaportal.deny.too_weak": "§cYour pokémob does not have enough levels.",
     "msg.hoopaportal.deny.too_soon": "§cYou cannot create another portal yet.",
     "msg.hoopaportal.deny.invalid": "§cThe portal failed to create.",
     "msg.hoopaportal.accept.info": "§aHoopa Ring created!",
-    
+
     // Buried Treasure Maps
     "filled_map.pokecube_legends:sky_pillar": "Buried Treasure Map: Sky Pillar",
     "filled_map.pokecube_legends:lugia_tower": "Buried Treasure Map: Lugia Tower",
@@ -131,57 +131,58 @@
     "filled_map.pokecube_legends:kubfu_water": "Buried Treasure Map: Kubfu Water Tower",
     "filled_map.pokecube_legends:kubfu_dark": "Buried Treasure Map: Kubfu Dark Tower",
 	"filled_map.pokecube_legends:kubfu_dojo": "Buried Treasure Map: Kubfu Dojo",
-    
-	// Dimensions Part  
-	
+
+	// Dimensions Part
+
 	// Advancements
 	"advancements.mirror.title": "Welcome to Distortic World!",
     "advancements.mirror.descr": "Enter Distortic World for the first time.",
-    
+
     "advancements.headmirror.title": "I see myself?",
     "advancements.headmirror.descr": "build Giratina's Mirror",
-    
+
     "advancements.intotespace.descr": "Visit all Ultra Space biomes.",
     "advancements.intotespace.title": "Colliding Universes!",
-    
+
     "advancements.ultraubs.title": "A collection from another world!",
     "advancements.ultraubs.descr": "Capture all Ultra Beasts.",
-    
+
     "advancements.ultratraje.title": "Avoiding Anomalies!",
     "advancements.ultratraje.descr": "Crafting a Full Spectrum armor.",
-    
+
     "advancements.ultraspace.title": "Welcome to Ultra Space!",
     "advancements.ultraspace.descr": "Enter Ultra Space for the first time.",
-    
+
     "advancements.spectrum.title": "Maybe valuable?",
     "advancements.spectrum.descr": "Get the Ultra Space ore.",
-    
+
 	// Armor
 	"item.pokecube_legends.ultra_helmet": "Ultra Armor Helmet",
 	"item.pokecube_legends.ultra_chestplate": "Ultra Armor Chestplate",
 	"item.pokecube_legends.ultra_leggings": "Ultra Armor Leggings",
 	"item.pokecube_legends.ultra_boots": "Ultra Armor Boots",
-	
-    // Biome Names  
-    "biome.pokecube_legends.distorted_lands": "Distorted Lands",
-    "biome.pokecube_legends.fungal_forest": "Fungal Forest",
-    "biome.pokecube_legends.temporal_jungle": "Temporal Jungle",
-    "biome.pokecube_legends.mirage_desert": "Mirage Desert",
-    "biome.pokecube_legends.dried_blinding_deltas": "Dried Blinding Deltas",
+
+    // Biome Names
     "biome.pokecube_legends.blinding_deltas": "Blinding Deltas",
-    "biome.pokecube_legends.tainted_barrens": "Tainted Barrens",
+    "biome.pokecube_legends.distorted_lands": "Distorted Lands",
+    "biome.pokecube_legends.dried_blinding_deltas": "Dried Blinding Deltas",
     "biome.pokecube_legends.forsaken_taiga": "Forsaken Taiga",
+    "biome.pokecube_legends.fungal_forest": "Fungal Forest",
+    "biome.pokecube_legends.mirage_desert": "Mirage Desert",
+    "biome.pokecube_legends.tainted_barrens": "Tainted Barrens",
+    "biome.pokecube_legends.temporal_jungle": "Temporal Jungle",
+    "biome.pokecube_legends.volcanic_blinding_deltas": "Volcanic Blinding Deltas",
 
     // Plants
-    "block.pokecube_legends.distorced_mushroom": "Distorced Mushroom",
     "block.pokecube_legends.compreced_mushroom": "Compreced Mushroom",
+    "block.pokecube_legends.crystallized_bush": "Crystallized Bush",
+    "block.pokecube_legends.crystallized_cactus": "Crystallized Cactus",
+    "block.pokecube_legends.distorced_mushroom": "Distorced Mushroom",
+    "block.pokecube_legends.distortic_vines": "Distortic Vines",
     "block.pokecube_legends.golden_poppy": "Golden Poppy",
     "block.pokecube_legends.inverted_orchid": "Inverted Orchid",
-    "block.pokecube_legends.crystallized_bush": "Crystallized Bush",
     "block.pokecube_legends.tall_crystallized_bush": "Tall Crystallized Bush",
-    "block.pokecube_legends.distortic_vines": "Distortic Vines",
-    "block.pokecube_legends.crystallized_cactus": "Crystallized Cactus",
-    
+
     "block.pokecube_legends.inverted_sapling": "Inverted Sapling",
     "block.pokecube_legends.temporal_sapling": "Temporal Sapling",
     "block.pokecube_legends.aged_sapling": "Aged Sapling",
@@ -208,11 +209,11 @@
     "block.pokecube_legends.dyna_leaves_pink": "Pink Dyna Leaves",
     "block.pokecube_legends.dyna_leaves_red": "Red Dyna Leaves",
     "block.pokecube_legends.dyna_leaves_pastel_pink": "Pastel Pink Dyna Leaves",
-        
+
     "itemGroup.ultratab": "Pokécube Dimensions",
     "itemGroup.legendtab":  "Pokécube Legends",
     "itemGroup.decotab": "Pokécube Decoration",
-    
+
 	// Barrels
 	"block.pokecube_legends.distortic_stone_barrel": "Distortic Stone Barrel",
 	"block.pokecube_legends.distortic_barrel": "Distortic Barrel",
@@ -225,7 +226,7 @@
 	"block.pokecube_legends.concrete_dense_barrel": "Dense Concrete Barrel",
 
 	"container.pokecube_legends.generic_barrel": "Barrel",
-	
+
     // Blocks Dimension
     "block.pokecube_legends.bookshelf_empty": "Bookshelf",
 	"block.pokecube_legends.aged_bookshelf": "Aged Bookshelf",
@@ -255,7 +256,7 @@
     "block.pokecube_legends.fractal_ore": "Fractal Ore",
     "block.pokecube_legends.fractal_block": "Block of Fractal",
     "item.pokecube_legends.fractal_shard": "Fractal Shard",
-    
+
     "block.pokecube_legends.unown_stone_a": "Unown A Chiseled Distortic Stone Bricks",
     "block.pokecube_legends.unown_stone_b": "Unown B Chiseled Distortic Stone Bricks",
     "block.pokecube_legends.unown_stone_c": "Unown C Chiseled Distortic Stone Bricks",
@@ -284,15 +285,15 @@
     "block.pokecube_legends.unown_stone_z": "Unown Z Chiseled Distortic Stone Bricks",
     "block.pokecube_legends.unown_stone_in": "Unown ? Chiseled Distortic Stone Bricks",
     "block.pokecube_legends.unown_stone_ex": "Unown ! Chiseled Distortic Stone Bricks",
-    
+
     "block.pokecube_legends.chiseled_distortic_stone_bricks": "Chiseled Distortic Stone Bricks",
     "block.pokecube_legends.chiseled_distortic_stone_brick_stairs": "Chiseled Distortic Stone Brick Stairs",
     "block.pokecube_legends.chiseled_distortic_stone_brick_slab": "Chiseled Distortic Stone Brick Slab",
-    
+
     "block.pokecube_legends.distortic_stone_bricks": "Distortic Stone Bricks",
     "block.pokecube_legends.distortic_stone_brick_stairs": "Distortic Stone Brick Stairs",
     "block.pokecube_legends.distortic_stone_brick_slab": "Distortic Stone Brick Slab",
-    
+
     "block.pokecube_legends.cracked_distortic_stone": "Cracked Distortic Stone",
     "block.pokecube_legends.distortic_glowstone": "Distortic Glowstone",
     "block.pokecube_legends.chiseled_distortic_mirror": "Chiseled Distortic Mirror",
@@ -318,17 +319,17 @@
     "block.pokecube_legends.distortic_terracotta": "Distortic Terracotta",
     "block.pokecube_legends.distortic_terracotta_stairs": "Distortic Terracotta Stairs",
     "block.pokecube_legends.distortic_terracotta_slab": "Distortic Terracotta Slab",
-    
+
     "block.pokecube_legends.distortic_water": "Distortic Water",
     "item.pokecube_legends.distortic_water_bucket": "Distortic Water Bucket",
-    
+
     "block.pokecube_legends.cosmic_dust_ore": "Cosmic Ore",
     "block.pokecube_legends.ultra_cosmic_dust_ore": "Ultra Cosmic Ore",
     "block.pokecube_legends.cosmic_dust_block": "Sack of Cosmic Dust",
     "block.pokecube_legends.meteor_block": "Meteor Block",
     "block.pokecube_legends.meteor_slab": "Meteor Block Slab",
     "block.pokecube_legends.meteor_stairs": "Meteor Block Stairs",
-    
+
     "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
     "block.pokecube_legends.spectrum_block": "Block of Spectrum",
@@ -337,7 +338,7 @@
     "block.pokecube_legends.spectrum_stairs": "Block of Spectrum Stairs",
 
     "block.pokecube_legends.infected_torch": "Infected Torch",
-    
+
     "block.pokecube_legends.inverted_log": "Inverted Log",
     "block.pokecube_legends.inverted_wood": "Inverted Wood",
     "block.pokecube_legends.stripped_inverted_log": "Stripped Inverted Log",
@@ -352,7 +353,7 @@
     "block.pokecube_legends.inverted_button": "Inverted Button",
     "block.pokecube_legends.inverted_pressure_plate": "Inverted Pressure Plate",
     "block.pokecube_legends.inverted_leaves": "Inverted Leaves",
-    
+
     "block.pokecube_legends.temporal_log": "Temporal Log",
     "block.pokecube_legends.temporal_planks": "Temporal Planks",
     "block.pokecube_legends.temporal_leaves": "Temporal Leaves",
@@ -367,7 +368,7 @@
     "block.pokecube_legends.temporal_wood": "Temporal Wood",
     "block.pokecube_legends.stripped_temporal_log": "Stripped Temporal Log",
     "block.pokecube_legends.stripped_temporal_wood": "Stripped Temporal Wood",
-    
+
     "block.pokecube_legends.aged_log": "Aged Log",
     "block.pokecube_legends.aged_planks": "Aged Planks",
     "block.pokecube_legends.aged_leaves": "Aged Leaves",
@@ -382,7 +383,7 @@
     "block.pokecube_legends.aged_wood": "Aged Wood",
     "block.pokecube_legends.stripped_aged_log": "Stripped Aged Log",
     "block.pokecube_legends.stripped_aged_wood": "Stripped Aged Wood",
-    
+
     "block.pokecube_legends.distortic_log": "Distortic Log",
     "block.pokecube_legends.distortic_planks": "Distortic Planks",
     "block.pokecube_legends.distortic_leaves": "Distortic Leaves",
@@ -397,7 +398,7 @@
     "block.pokecube_legends.distortic_wood": "Distortic Wood",
     "block.pokecube_legends.stripped_distortic_log": "Stripped Distortic Log",
     "block.pokecube_legends.stripped_distortic_wood": "Stripped Distortic Wood",
-    
+
     "block.pokecube_legends.corrupted_log": "Corrupted Log",
     "block.pokecube_legends.corrupted_wood": "Corrupted Wood",
     "block.pokecube_legends.stripped_corrupted_log": "Stripped Corrupted Log",
@@ -412,7 +413,7 @@
     "block.pokecube_legends.corrupted_button": "Corrupted Button",
     "block.pokecube_legends.corrupted_pressure_plate": "Corrupted Pressure Plate",
     "block.pokecube_legends.corrupted_leaves": "Corrupted Leaves",
-    
+
     "block.pokecube_legends.mirage_log": "Mirage Log",
     "block.pokecube_legends.mirage_wood": "Mirage Wood",
     "block.pokecube_legends.stripped_mirage_log": "Stripped Mirage Log",
@@ -428,13 +429,13 @@
     "block.pokecube_legends.mirage_pressure_plate": "Mirage Pressure Plate",
     "block.pokecube_legends.mirage_leaves": "Mirage Leaves",
     "block.pokecube_legends.mirage_glass":	"Mirage Glass",
-    
+
     "block.pokecube_legends.aged_grass_block": "Aged Grass Block",
     "block.pokecube_legends.aged_dirt": "Aged Dirt",
-    
+
     "block.pokecube_legends.corrupted_grass_block": "Corrupted Grass Block",
     "block.pokecube_legends.corrupted_dirt": "Corrupted Dirt",
-    
+
 	"block.pokecube_legends.ultra_darkstone": "Ultra Darkstone",
     "block.pokecube_legends.ultra_darkstone_button": "Ultra Darkstone Button",
     "block.pokecube_legends.ultra_darkstone_pressure_plate": "Ultra Darkstone Pressure Plate",
@@ -446,14 +447,14 @@
     "block.pokecube_legends.ultra_darkstone_bricks": "Ultra Darkstone Bricks",
     "block.pokecube_legends.ultra_darkstone_brick_slab": "Ultra Darkstone Brick Slab",
     "block.pokecube_legends.ultra_darkstone_brick_stairs": "Ultra Darkstone Brick Stairs",
-    
+
     "block.pokecube_legends.mushroom_grass_block": "Mushroom Grass Block",
     "block.pokecube_legends.mushroom_dirt": "Mushroom Dirt",
-    
+
     "block.pokecube_legends.jungle_grass_block": "Jungle Grass Block",
     "block.pokecube_legends.jungle_dirt": "Jungle Dirt",
     "block.pokecube_legends.magnetic_stone": "Magnetic Stone",
-    
+
     "block.pokecube_legends.crystallized_sand":	"Crystallized Sand",
     "block.pokecube_legends.crystallized_sandstone": "Crystallized Sandstone",
     "block.pokecube_legends.crystallized_sandstone_button": "Crystallized Sandstone Button",
@@ -466,7 +467,7 @@
     "block.pokecube_legends.crystallized_sandstone_bricks": "Crystallized Sandstone Bricks",
     "block.pokecube_legends.crystallized_sandstone_brick_slab": "Crystallized Sandstone Brick Slab",
     "block.pokecube_legends.crystallized_sandstone_brick_stairs": "Crystallized Sandstone Brick Stairs",
-    
+
     "block.pokecube_legends.ultra_stone": "Ultra Stone",
     "block.pokecube_legends.ultra_stone_button": "Ultra Stone Button",
     "block.pokecube_legends.ultra_stone_pressure_plate": "Ultra Stone Pressure Plate",
@@ -483,8 +484,8 @@
     "block.pokecube_legends.ultra_metal_stairs": "Ultra Metal Stairs",
     "block.pokecube_legends.ultra_metal_button": "Ultra Metal Button",
     "block.pokecube_legends.ultra_metal_pressure_plate": "Ultra Metal Pressure Plate",
-    
-    
+
+
     "block.pokecube_legends.crystal_block": "Crystal Block",
     "block.pokecube_legends.crystal_slab":  "Crystal Slab",
     "block.pokecube_legends.crystal_stairs": "Crystal Stairs",
@@ -492,13 +493,13 @@
     "block.pokecube_legends.crystal_brick_slab": "Crystal Brick Slab",
     "block.pokecube_legends.crystal_brick_stairs": "Crystal Brick Stairs",
     "block.pokecube_legends.crystal_button": "Crystal Button",
-       
+
     "block.pokecube_legends.distortic_grass_block": "Distortic Grass Block",
     "block.pokecube_legends.distortic_stone": "Distortic Stone",
     "block.pokecube_legends.distortic_stone_slab": "Distortic Stone Slab",
     "block.pokecube_legends.distortic_stone_stairs": "Distortic Stone Stairs",
     "block.pokecube_legends.distortic_mirror": "Distortic Mirror",
-	
+
 	"block.pokecube_legends.concrete_log": "Concrete Lined Log",
 	"block.pokecube_legends.concrete_wood": "Concrete Lined Wood",
 	"block.pokecube_legends.stripped_concrete_log": "Concrete Lined Stripped Log",
@@ -544,7 +545,7 @@
     "block.pokecube_legends.distortic_one_way_framed_mirror": "One-Way Framed Mirror",
 
     "fluid.pokecube_legends.distortic_water": "Distortic Water",
-    
+
     // Foods
     "item.pokecube_legends.pokepuff_grass": "Lum Pokepuff",
     "item.pokecube_legends.pokepuff_fire": "Tamato Pokepuff",
@@ -564,33 +565,33 @@
     "item.pokecube_legends.pokepuff_fighting": "Enigma Pokepuff",
     "item.pokecube_legends.pokepuff_flying": "Pinap Pokepuff",
     "item.pokecube_legends.pokepuff_ice": "Rowap Pokepuff",
-    
+
     // Items
     "item.pokecube_legends.soul_heart": "Soul Heart",
-    
+
     "item.pokecube_legends.fire_wing": "Fire Wing",
     "item.pokecube_legends.ice_wing": "Ice Wing",
     "item.pokecube_legends.electric_wing": "Electric Wing",
-    
+
     "item.pokecube_legends.dark_fire_wing": "Dark Fire Wing",
     "item.pokecube_legends.ice_dark_wing": "Ice Dark Wing",
     "item.pokecube_legends.static_wing": "Static Wing",
-    
+
     "item.pokecube_legends.flame_gem": "Flame Gem",
     "item.pokecube_legends.water_gem": "Water Gem",
     "item.pokecube_legends.thunder_gem": "Thunder Gem",
-    
+
     "item.pokecube_legends.meteor_shard": "Meteor Shard",
     "item.pokecube_legends.star_core": "Star Core",
     "item.pokecube_legends.lighting_crystal": "Lighting Crystal",
-    
+
     "item.pokecube_legends.wooden_crown": "Wooden Crown",
     "item.pokecube_legends.cosmic_orb": "Cosmic Orb",
-    
+
     "item.pokecube_legends.cobalion_sword": "Cobalion Sword",
     "item.pokecube_legends.virizion_sword": "Virizion Sword",
     "item.pokecube_legends.terrakion_sword": "Terrakion Sword",
-    
+
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
     "item.pokecube_legends.sapphire": "Sapphire",
@@ -633,7 +634,7 @@
     "item.pokecube_legends.imprisonment_helmet":"Imprisonment Helmet",
     "item.pokecube_legends.keldeo_sword": "Keldeo Sword",
 	"item.pokecube_legends.kubfu_spawn": "Gray Scarf",
-	
+
 	"item.pokecube_legends.zamazenta_shield": "Zamazenta Shield",
 	"item.pokecube_legends.zacian_sword": "Zacian Sword",
 
@@ -741,7 +742,7 @@
     "block.pokecube_legends.sapphire_ore": "Sapphire Ore",
     "block.pokecube_legends.totem_block": "Totem Block",
     "block.pokecube_legends.golem_stone": "Golem Stone",
-    
+
     // Legendary Blocks
     "block.pokecube_legends.trough_spawn": "Trough Block Spawner",
     "block.pokecube_legends.magearna_spawn": "Magearna Spawner",
@@ -764,7 +765,7 @@
     "block.pokecube_legends.bulu_core": "Tapu Bulu Spawner",
     "block.pokecube_legends.blackwhite_spawn": "Tao Legendary Spawner",
     "block.pokecube_legends.legendary_spawn": "Legendary Spawner",
-    
+
     // Decoration
     "block.pokecube_legends.ocean_bricks": "Ocean Bricks",
     "block.pokecube_legends.ocean_brick_slab": "Ocean Brick Slab",
@@ -781,7 +782,7 @@
     "block.pokecube_legends.stormy_sky_bricks": "Stormy Sky Bricks",
     "block.pokecube_legends.stormy_sky_brick_slab": "Stormy Sky Brick Slab",
     "block.pokecube_legends.stormy_sky_brick_stairs": "Stormy Sky Brick Stairs",
-    
+
     "block.pokecube_legends.koko_red_totem": "Red Koko Totem",
     "block.pokecube_legends.koko_blue_totem": "Blue Koko Totem",
     "block.pokecube_legends.koko_green_totem": "Green Koko Totem",
@@ -859,7 +860,7 @@
 
 	// Entitys
 	"entity.pokecube_legends.wormhole": "Wormhole",
-		
+
     // Tooltips for items
     // Dimension
     "legends.giratina_mirror.tooltip": "§6Used to teleport to the Distorted World.",
@@ -886,8 +887,8 @@
     "legends.pokepuff_dark.tooltip": "Increases %1$s[Dark type] §rdamage",
     "legends.pokepuff_fairy.tooltip": "Increases %1$s[Fairy type] §rdamage",
     "legends.pokepuff_normal.tooltip": "Increases %1$s[Normal type] §rdamage",
-    
-    
+
+
     // Mobs
 	"legends.kubfu_spawn.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kubfu",
     "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Magearna",
@@ -941,7 +942,7 @@
     "legends.revealglass.tooltip": "%1$s%2$s[Craft]%3$s %1$sCrafted or purchasable item!%3$s\nUse on -Thundurus, Tornadus, or Landorus- to change it.",
     "legends.rustedshield.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zamazenta",
 	"legends.rustedsword.tooltip": "%1$s%2$s[Location]%3$s %1$sFound in summoning structures or purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zacian",
-    
+
 	"legends.soul_dew.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Latios/Latias",
 	"legends.steam_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Volcanion",
 	"legends.kyurem_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kyurem",
@@ -953,7 +954,7 @@
 	"legends.nightmare_book.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Cocoon of Destruction- to spawn Darkrai",
 	"legends.manaphy_necklace.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Manaphy",
 	"legends.meloetta_ocarina.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Nature Spawner- to spawn Meloetta",
-	
+
 	"legends.zacian_sword.tooltip": "%1$s%2$sUse on -Zacian- to change it.",
 	"legends.zamazenta_shield.tooltip": "%1$s%2$sUse on -Zamazenta- to change it.",
 

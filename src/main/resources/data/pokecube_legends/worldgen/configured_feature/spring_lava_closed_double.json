@@ -19,7 +19,7 @@
                   "Properties": {
                     "falling": "true"
                   },
-                  "Name": "minecraft:water"
+                  "Name": "minecraft:lava"
                 },
                 "requires_block_below": false
               },

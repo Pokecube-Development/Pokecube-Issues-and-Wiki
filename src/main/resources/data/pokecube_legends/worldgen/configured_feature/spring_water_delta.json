@@ -6,7 +6,7 @@
           "config": {
             "feature": {
               "config": {
-                "rock_count": 3,
+                "rock_count": 4,
                 "hole_count": 1,
                 "valid_blocks": [
                   "minecraft:basalt",
