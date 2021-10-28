@@ -16,7 +16,7 @@
       "options": {
         "type": "minecraft:white_ash"
       },
-      "probability": 0.012
+      "probability": 0.12
     },
     "ambient_sound": "minecraft:ambient.basalt_deltas.loop"
   },
@@ -31,6 +31,8 @@
     [],
     [],
     [
+      "minecraft:basalt_pillar",
+      "minecraft:large_basalt_columns",
       "minecraft:small_basalt_columns",
       "pokecube_legends:volcanic_delta"
     ],
@@ -48,8 +50,8 @@
       "pokecube_legends:ore_ultra_diamond",
       "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_redstone",
-      "pokecube_legends:spring_lava_closed_double",
-      "pokecube_legends:spring_lava_delta",
+      "pokecube_legends:volcanic_spring_lava_closed_double",
+      "pokecube_legends:volcanic_spring_lava_delta",
       "pokecube_legends:ultra_darkstone_blobs"
     ],
     [],
@@ -62,9 +64,9 @@
   "spawners": {},
   "category": "desert",
   "precipitation": "none",
-  "scale": 0.2,
+  "scale": 1.225,
   "downfall": 0.2,
-  "depth": 0.2,
+  "depth": 0.3625,
   "temperature": 2.0,
   "player_spawn_friendly": false,
   "spawn_costs": {}

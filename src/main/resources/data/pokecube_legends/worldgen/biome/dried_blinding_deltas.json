@@ -16,7 +16,7 @@
       "options": {
         "type": "minecraft:cloud"
       },
-      "probability": 0.01
+      "probability": 0.005
     },
     "ambient_sound": "minecraft:ambient.basalt_deltas.loop"
   },
@@ -63,7 +63,7 @@
   "scale": 0.2,
   "downfall": 0.2,
   "depth": 0.2,
-  "temperature": 2.0,
+  "temperature": 1.8,
   "player_spawn_friendly": false,
   "spawn_costs": {}
 }

@@ -14,9 +14,9 @@
     "grass_color": 3944746,
     "particle": {
       "options": {
-        "type": "minecraft:cloud"
+        "type": "minecraft:white_ash"
       },
-      "probability": 0.005
+      "probability": 0.12
     },
     "ambient_sound": "minecraft:ambient.basalt_deltas.loop"
   },
@@ -32,7 +32,7 @@
     [],
     [
       "minecraft:small_basalt_columns",
-      "pokecube_legends:water_delta"
+      "pokecube_legends:magmatic_delta"
     ],
     [],
     [],
@@ -48,14 +48,13 @@
       "pokecube_legends:ore_ultra_diamond",
       "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_redstone",
-      "pokecube_legends:spring_water_closed_double",
-      "pokecube_legends:spring_water_delta",
+      "pokecube_legends:spring_lava_closed_double",
+      "pokecube_legends:spring_lava_delta",
       "pokecube_legends:ultra_darkstone_blobs"
     ],
     [],
     [
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_lava"
     ],
     []
   ],
@@ -66,7 +65,7 @@
   "scale": 0.2,
   "downfall": 0.2,
   "depth": 0.2,
-  "temperature": 1.5,
+  "temperature": 2.0,
   "player_spawn_friendly": false,
   "spawn_costs": {}
 }

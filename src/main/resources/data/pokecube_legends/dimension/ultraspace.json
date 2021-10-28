@@ -96,13 +96,23 @@
           }
         },
         {
-          "biome": "pokecube_legends:volcanic_blinding_deltas",
-           "parameters": {
+          "biome": "pokecube_legends:magmatic_blinding_deltas",
+          "parameters": {
             "altitude": 0.3,
-            "weirdness": 0.2,
-            "offset": 0.2,
             "temperature": 0.8,
-            "humidity": 0.0
+            "humidity": 0,
+            "weirdness": 0.2,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:volcanic_blinding_deltas",
+          "parameters": {
+            "altitude": 0.5,
+            "temperature": 0.8,
+            "humidity": 0,
+            "weirdness": 0.3,
+            "offset": 0
           }
         },
         {
