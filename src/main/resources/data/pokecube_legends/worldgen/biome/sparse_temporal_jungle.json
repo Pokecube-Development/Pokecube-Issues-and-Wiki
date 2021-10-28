@@ -51,9 +51,9 @@
       "minecraft:bamboo_light",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_grass_jungle",
+      "pokecube_legends:sparse_temporal_jungle_vegetation",
       "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:temporal_jungle_vegetation"
+      "pokecube_legends:spring_water"
     ],
     [
       "minecraft:freeze_top_layer"
@@ -65,8 +65,8 @@
   "player_spawn_friendly": true,
   "precipitation": "rain",
   "temperature": 0.95,
-  "downfall": 0.9,
-  "scale": 0.3,
+  "downfall": 0.8,
+  "scale": 0.2,
   "category": "jungle",
-  "depth": 0.45
+  "depth": 0.2
 }
