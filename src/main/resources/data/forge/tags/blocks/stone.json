@@ -2,6 +2,9 @@
     "replace": false,
     "values": [],
     "optional": [
-        "#pokecube_legends:legends_stones"
+      	"pokecube_legends:cracked_distortic_stone",
+     	"pokecube_legends:distortic_stone",
+      	"pokecube_legends:ultra_darkstone",
+      	"pokecube_legends:ultra_stone"
     ]
 }
