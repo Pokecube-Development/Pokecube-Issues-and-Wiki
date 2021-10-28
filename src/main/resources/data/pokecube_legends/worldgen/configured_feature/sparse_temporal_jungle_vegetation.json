@@ -10,7 +10,7 @@
                 "chance": 0.5
               },
               {
-                "feature": "minecraft:bamboo_light",
+                "feature": "pokecube_legends:fancy_temporal_tree",
                 "chance": 0.1
               }
             ],

@@ -60,21 +60,21 @@
       "type": "minecraft:multi_noise",
       "seed": 1402523832,
       "altitude_noise": {
-        "firstOctave": -7,
+        "firstOctave": -8,
         "amplitudes": [
           1,
           1
         ]
       },
       "temperature_noise": {
-        "firstOctave": -7,
+        "firstOctave": -8,
         "amplitudes": [
           1,
           1
         ]
       },
       "humidity_noise": {
-        "firstOctave": -7,
+        "firstOctave": -8,
         "amplitudes": [
           1,
           1
@@ -103,6 +103,16 @@
           "parameters": {
             "altitude": 0.3,
             "temperature": 0.7,
+            "humidity": 0.6,
+            "weirdness": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:temporal_bamboo_jungle",
+          "parameters": {
+            "altitude": 0.55,
+            "temperature": 0.65,
             "humidity": 0.6,
             "weirdness": 0,
             "offset": 0
