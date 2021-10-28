@@ -76,6 +76,16 @@
           }
         },
         {
+          "biome": "pokecube_legends:shattered_blinding_deltas",
+           "parameters": {
+            "altitude": 0.5,
+            "weirdness": 0.2,
+            "offset": 0.2,
+            "temperature": 0.7,
+            "humidity": 0.4
+          }
+        },
+        {
           "biome": "pokecube_legends:dried_blinding_deltas",
            "parameters": {
             "altitude": 0.3,

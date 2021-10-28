@@ -23,16 +23,16 @@
   "surface_builder": "pokecube_legends:blinding_deltas",
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
     ]
   },
   "features": [
     [],
     [],
     [
-      "pokecube_legends:water_delta",
-      "minecraft:small_basalt_columns"
+      "minecraft:small_basalt_columns",
+      "pokecube_legends:water_delta"
     ],
     [],
     [],
@@ -41,20 +41,21 @@
       "minecraft:prototype_underwater_magma",
       "pokecube_legends:basalt_blobs",
       "pokecube_legends:blackstone_blobs",
-      "pokecube_legends:ultra_darkstone_blobs",
-      "pokecube_legends:spring_water_delta",
-      "pokecube_legends:spring_water_closed_double",
-      "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_cosmic",
-	  "pokecube_legends:ore_ultra_coal",
-	  "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_darkstone",
+      "pokecube_legends:ore_ultra_diamond",
+      "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_redstone",
-      "pokecube_legends:ore_ultra_diamond"
+      "pokecube_legends:spring_water_closed_double",
+      "pokecube_legends:spring_water_delta",
+      "pokecube_legends:ultra_darkstone_blobs"
     ],
     [],
     [
-      "pokecube_legends:spring_water",
-      "pokecube_legends:spring_lava"
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
     ],
     []
   ],

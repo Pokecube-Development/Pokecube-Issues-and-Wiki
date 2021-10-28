@@ -33,6 +33,7 @@
     ],
     [],
     [
+      "minecraft:prototype_underwater_magma",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_ultra_coal",

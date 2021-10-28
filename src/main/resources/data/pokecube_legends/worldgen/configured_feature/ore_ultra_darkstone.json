@@ -6,35 +6,30 @@
           "config": {
             "feature": {
               "config": {
-                "rock_count": 5,
-                "hole_count": 1,
-                "valid_blocks": [
-                  "minecraft:basalt",
-                  "minecraft:blackstone",
-                  "minecraft:magma_block",
-                  "pokecube_legends:corrupted_dirt",
-                  "pokecube_legends:crystallized_sandstone",
-                  "pokecube_legends:ultra_darkstone",
-                  "pokecube_legends:ultra_stone"
+                "targets": [
+                  {
+                    "target": {
+                      "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+                      "predicate_type": "minecraft:tag_match"
+                    },
+                    "state": {
+                      "Name": "pokecube_legends:ultra_darkstone"
+                    }
+                  }
                 ],
-                "state": {
-                  "Properties": {
-                    "falling": "true"
-                  },
-                  "Name": "minecraft:water"
-                },
-                "requires_block_below": false
+                "size": 64,
+                "discard_chance_on_air_exposure": 0.0
               },
-              "type": "minecraft:spring_feature"
+              "type": "minecraft:ore"
             },
             "decorator": {
               "config": {
                 "height": {
                   "min_inclusive": {
-                    "above_bottom": 0
+                    "absolute": 0
                   },
                   "max_inclusive": {
-                    "below_top": 0
+                    "absolute": 0
                   },
                   "type": "minecraft:uniform"
                 }
@@ -53,7 +48,7 @@
     },
     "decorator": {
       "config": {
-        "count": 25
+        "count": 5
       },
       "type": "minecraft:count"
     }
