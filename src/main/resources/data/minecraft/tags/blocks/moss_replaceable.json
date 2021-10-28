@@ -1,7 +1,6 @@
 {
   "replace": false,
-  "values": [],
-  "optional": [
+  "values": [
     "pokecube_legends:aged_dirt",
     "pokecube_legends:corrupted_dirt",
     "pokecube_legends:cracked_distortic_stone",
