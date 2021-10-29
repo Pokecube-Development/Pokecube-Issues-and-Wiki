@@ -6,25 +6,14 @@
           "config": {
             "feature": {
               "config": {
-                "feature": {
-                  "config": {
-                    "state": {
-                      "Properties": {
-                        "level": "0"
-                      },
-                      "Name": "pokecube_legends:distortic_water_block"
-                    }
+                "state": {
+                  "Properties": {
+                    "level": "0"
                   },
-                  "type": "pokecube_legends:lake"
-                },
-                "decorator": {
-                  "config": {
-                    "chance": 80
-                  },
-                  "type": "minecraft:lava_lake"
+                  "Name": "minecraft:water"
                 }
               },
-              "type": "minecraft:decorated"
+              "type": "pokecube_legends:lake"
             },
             "decorator": {
               "config": {
@@ -52,7 +41,7 @@
     },
     "decorator": {
       "config": {
-        "chance": 8
+        "chance": 4
       },
       "type": "minecraft:chance"
     }
