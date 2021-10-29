@@ -1,0 +1,75 @@
+{
+  "effects": {
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "sky_color": 8892184,
+    "fog_color": 11391558,
+    "water_color": 8892184,
+    "water_fog_color": 8892184,
+    "grass_color": 4896398,
+    "foliage_color": 4896398
+  },
+  "surface_builder": "pokecube_legends:temporal_jungle",
+  "carvers": {
+    "air": [
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava",
+      "minecraft:lake_water"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:prototype_underwater_magma",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:disk_sand",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_jungle_dirt",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_ultra_coal",
+      "pokecube_legends:ore_ultra_diamond",
+      "pokecube_legends:ore_ultra_emerald",
+      "pokecube_legends:ore_ultra_gold",
+      "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_lapis",
+      "pokecube_legends:ore_ultra_redstone"
+    ],
+    [
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
+    ],
+    [
+      "pokecube_legends:temporal_bamboo",
+      "pokecube_legends:bamboo_vegetation",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_grass_jungle",
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "starts": [],
+  "spawners": {},
+  "spawn_costs": {},
+  "player_spawn_friendly": false,
+  "precipitation": "rain",
+  "temperature": 0.95,
+  "downfall": 0.0,
+  "scale": 1.0,
+  "category": "jungle",
+  "depth": 0.45
+}
