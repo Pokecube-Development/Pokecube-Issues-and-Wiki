@@ -60,21 +60,21 @@
       "type": "minecraft:multi_noise",
       "seed": 1402523832,
       "altitude_noise": {
-        "firstOctave": -8,
+        "firstOctave": -7,
         "amplitudes": [
           1,
           1
         ]
       },
       "temperature_noise": {
-        "firstOctave": -8,
+        "firstOctave": -7,
         "amplitudes": [
           1,
           1
         ]
       },
       "humidity_noise": {
-        "firstOctave": -8,
+        "firstOctave": -7,
         "amplitudes": [
           1,
           1
@@ -141,7 +141,7 @@
         {
           "biome": "pokecube_legends:mirage_desert",
           "parameters": {
-            "altitude": 0.3,
+            "altitude": 0.25,
             "temperature": 0.7,
             "humidity": 0.4,
             "weirdness": 0.3,
@@ -181,14 +181,54 @@
         {
           "biome": "pokecube_legends:polluted_ocean",
           "parameters": {
-            "altitude": -0.2,
-            "temperature": 0.2,
-            "humidity": -0.2,
-            "weirdness": 0.5,
-            "offset": 0.9
+            "altitude": -0.99,
+            "temperature": 0,
+            "humidity": 0.5,
+            "weirdness": 0,
+            "offset": 0.3
           }
         },
         {
+          "biome": "pokecube_legends:crystallized_beach",
+          "parameters": {
+            "altitude": -0.9,
+            "temperature": 0,
+            "humidity": 0.52,
+            "weirdness": 0.05,
+            "offset": 0.489
+          }
+        },
+        {
+          "biome": "pokecube_legends:crystallized_beach",
+          "parameters": {
+            "altitude": -0.9,
+            "temperature": 0,
+            "humidity": 0.51,
+            "weirdness": 0.05,
+            "offset": 0.5
+          }
+        },
+        {
+          "biome": "pokecube_legends:crystallized_beach",
+          "parameters": {
+            "altitude": -0.9,
+            "temperature": 0,
+            "humidity": 0.52,
+            "weirdness": 0,
+            "offset": 0.4999
+          }
+        },
+        {
+          "biome": "pokecube_legends:crystallized_beach",
+          "parameters": {
+            "altitude": -0.9,
+            "temperature": 0,
+            "humidity": 0.51,
+            "weirdness": 0,
+            "offset": 0.5
+          }
+        },
+		{
           "biome": "pokecube_legends:blinding_deltas",
           "parameters": {
             "altitude": 0.4,

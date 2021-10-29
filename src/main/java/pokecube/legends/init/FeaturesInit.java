@@ -25,6 +25,7 @@ public class FeaturesInit
 
     // Biomes
     public static final ResourceKey<Biome> BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "blinding_deltas"));
+    public static final ResourceKey<Biome> CRYSTALLIZED_BEACH = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "crystallized_beach"));
     public static final ResourceKey<Biome> DRIED_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "dried_blinding_deltas"));
     public static final ResourceKey<Biome> FORSAKEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "forsaken_taiga"));
     public static final ResourceKey<Biome> FUNGAL_FOREST = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_forest"));
