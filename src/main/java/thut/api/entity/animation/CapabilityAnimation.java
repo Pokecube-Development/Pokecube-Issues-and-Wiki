@@ -170,5 +170,17 @@ public class CapabilityAnimation
         {
             return this.head;
         }
+
+        @Override
+        public void setFixed(final boolean fixed)
+        {
+            this.fixed = fixed;
+        }
+
+        @Override
+        public void overridePlaying(final String anim)
+        {
+            this.playing = anim;
+        }
     }
 }
