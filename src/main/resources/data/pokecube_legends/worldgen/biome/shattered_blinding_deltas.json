@@ -56,7 +56,10 @@
       "pokecube_legends:shattered_spring_water_delta",
       "pokecube_legends:ultra_darkstone_blobs"
     ],
-    [],
+    [
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
+	],
     [
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"

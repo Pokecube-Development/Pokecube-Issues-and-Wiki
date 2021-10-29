@@ -51,12 +51,12 @@
       "minecraft:rare_small_dripstone"
     ],
     [
-      "pokecube_legends:temporal_bamboo",
       "pokecube_legends:bamboo_vegetation",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_grass_jungle",
       "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_water",
+      "pokecube_legends:temporal_bamboo"
     ],
     [
       "minecraft:freeze_top_layer"
