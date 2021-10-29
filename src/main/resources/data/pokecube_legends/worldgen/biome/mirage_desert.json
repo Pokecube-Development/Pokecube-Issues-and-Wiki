@@ -1,7 +1,7 @@
 {
   "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.cave",
+      "sound": "minecraft:ambient.warped_forest.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
@@ -12,13 +12,13 @@
     "water_fog_color": 65484,
     "foliage_color": 35327,
     "grass_color": 2542847,
-    "ambient_sound": "minecraft:ambient.nether_wastes.loop"
+    "ambient_sound": "minecraft:ambient.warped_forest.loop"
   },
   "surface_builder": "pokecube_legends:mirage_desert",
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
     ]
   },
   "features": [
@@ -27,10 +27,8 @@
       "minecraft:lake_lava"
     ],
     [],
-    [
-    ],
-    [
-    ],
+    [],
+    [],
     [],
     [
       "minecraft:prototype_underwater_magma",
@@ -45,12 +43,12 @@
     ],
     [],
     [
-      "pokecube_legends:mirage_vegetation",
+      "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_cactus_mirage",
       "pokecube_legends:patch_crystallized_bush",
       "pokecube_legends:patch_crystallized_tall",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:spring_lava"
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
     ],
     []
   ],
