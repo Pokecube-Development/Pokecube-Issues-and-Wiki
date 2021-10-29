@@ -179,6 +179,16 @@
           }
         },
         {
+          "biome": "pokecube_legends:polluted_ocean",
+          "parameters": {
+            "altitude": -0.2,
+            "temperature": 0.2,
+            "humidity": -0.2,
+            "weirdness": 0.5,
+            "offset": 0.9
+          }
+        },
+        {
           "biome": "pokecube_legends:blinding_deltas",
           "parameters": {
             "altitude": 0.4,
