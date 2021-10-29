@@ -12,6 +12,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.worldgen.features.TemporalBambooFeature;
 import pokecube.legends.worldgen.surface_builders.BlindingDeltasSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.MirageDesertSurfaceBuilder;
+import pokecube.legends.worldgen.surface_builders.TaintedBarrensSurfaceBuilder;
 
 public class WorldgenFeatures
 {
@@ -24,6 +25,8 @@ public class WorldgenFeatures
             () -> new MirageDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
     public static final RegistryObject<SurfaceBuilder<?>> BLINDING_DELTAS = WorldgenFeatures.SURFACE_BUILDERS.register("blinding_deltas",
             () -> new BlindingDeltasSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
+    public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens",
+            () -> new TaintedBarrensSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
     public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo",
             () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));

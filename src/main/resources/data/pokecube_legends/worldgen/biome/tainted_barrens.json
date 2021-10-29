@@ -34,13 +34,13 @@
       "minecraft:lake_lava"
     ],
     [],
-    [
-    ],
-    [
-    ],
+    [],
+    [],
     [],
     [
       "minecraft:prototype_underwater_magma",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:ore_corrupted_dirt",
       "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_ultra_coal",
@@ -50,9 +50,15 @@
       "pokecube_legends:ore_ultra_lapis",
       "pokecube_legends:ore_ultra_redstone"
     ],
-    [],
     [
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
+	],
+    [
+      "minecraft:patch_waterlilly",
+      "pokecube_legends:glow_lichen",
       "pokecube_legends:mushrooms_and_flowers",
+      "pokecube_legends:seagrass_tainted_barrens",
       "pokecube_legends:tainted_barrens_vegetation",
       "pokecube_legends:spring_water",
       "pokecube_legends:spring_lava"
