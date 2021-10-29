@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -28,7 +29,9 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import pokecube.core.blocks.InteractableBlock;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
@@ -143,5 +146,29 @@ public class PokemobStatue extends InteractableHorizontalBlock implements IWater
             if (mob.getCopiedMob() != null) return PokemobStatue.forMob(mob.getCopiedMob());
         }
         return VoxelShapes.block();
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
+            final IWorld world, final BlockPos currentPos, final BlockPos facingPos)
+    {
+        if (state.getValue(BlockStateProperties.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos,
+                Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(final BlockState state)
+    {
+        return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false)
+                : super.getFluidState(state);
+    }
+
+    @Override
+    public VoxelShape getOcclusionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
+    {
+        return InteractableBlock.RENDERSHAPE;
     }
 }
