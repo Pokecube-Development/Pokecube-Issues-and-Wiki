@@ -54,6 +54,13 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
       } else
       {
          pos = pos.below(4);
+         for (final StructureFeature<?> village : StructureFeature.NOISE_AFFECTING_FEATURES)
+         {
+             if (world.startsForFeature(SectionPos.of(pos), village).findAny().isPresent())
+             {
+                 return false;
+             }
+         }
          if (world.startsForFeature(SectionPos.of(pos), StructureFeature.VILLAGE).findAny().isPresent())
          {
             return false;
