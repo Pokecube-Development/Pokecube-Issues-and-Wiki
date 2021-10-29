@@ -9,11 +9,11 @@
                 "feature": "pokecube_legends:mushrooms_and_flowers",
                 "chance": 0.25
               },
-			  {
+              {
                 "feature": "pokecube_legends:corrupted_bush",
                 "chance": 0.15
               },
-			  {
+              {
                 "feature": "pokecube_legends:corrupted_tree",
                 "chance": 0.15
               }

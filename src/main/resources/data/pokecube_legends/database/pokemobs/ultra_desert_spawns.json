@@ -42,7 +42,7 @@
         ]
       }
     },
-	{
+    {
       "name": "vulpix_alola",
       "stats": {
         "spawnRules": [
@@ -57,7 +57,7 @@
         ]
       }
     },
-	{
+    {
       "name": "sunkern",
       "stats": {
         "spawnRules": [
@@ -72,7 +72,7 @@
         ]
       }
     },
-	{
+    {
       "name": "lotad",
       "stats": {
         "spawnRules": [
@@ -87,7 +87,7 @@
         ]
       }
     },
-	{
+    {
       "name": "aron",
       "stats": {
         "spawnRules": [
@@ -102,7 +102,7 @@
         ]
       }
     },
-	{
+    {
       "name": "solrock",
       "stats": {
         "spawnRules": [
@@ -117,7 +117,7 @@
         ]
       }
     },
-	{
+    {
       "name": "shinx",
       "stats": {
         "spawnRules": [
@@ -132,7 +132,7 @@
         ]
       }
     },
-	{
+    {
       "name": "drifloon",
       "stats": {
         "spawnRules": [
@@ -147,7 +147,7 @@
         ]
       }
     },
-	{
+    {
       "name": "gible",
       "stats": {
         "spawnRules": [
@@ -162,7 +162,7 @@
         ]
       }
     },
-	{
+    {
       "name": "blitzle",
       "stats": {
         "spawnRules": [
@@ -177,7 +177,7 @@
         ]
       }
     },
-	{
+    {
       "name": "roggenrola",
       "stats": {
         "spawnRules": [
@@ -192,7 +192,7 @@
         ]
       }
     },
-	{
+    {
       "name": "karrablast",
       "stats": {
         "spawnRules": [
@@ -207,7 +207,7 @@
         ]
       }
     },
-	{
+    {
       "name": "tynamo",
       "stats": {
         "spawnRules": [
@@ -222,7 +222,7 @@
         ]
       }
     },
-	{
+    {
       "name": "druddigon",
       "stats": {
         "spawnRules": [
@@ -237,7 +237,7 @@
         ]
       }
     },
-	{
+    {
       "name": "pancham",
       "stats": {
         "spawnRules": [
@@ -252,7 +252,7 @@
         ]
       }
     },
-	{
+    {
       "name": "drampa",
       "stats": {
         "spawnRules": [

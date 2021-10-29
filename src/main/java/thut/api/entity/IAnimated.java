@@ -112,6 +112,10 @@ public interface IAnimated
 
         boolean isFixed();
 
+        void setFixed(boolean fixed);
+
+        void overridePlaying(String anim);
+
         @Nonnull
         HeadInfo getHeadInfo();
     }

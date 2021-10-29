@@ -2,39 +2,16 @@ package pokecube.legends.blocks.plants;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.DeadBushBlock;
 import net.minecraft.world.level.block.SaplingBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.event.ForgeEventFactory;
 import pokecube.legends.blocks.SaplingBase;
@@ -43,7 +20,7 @@ public class MirageSapling extends SaplingBlock implements BonemealableBlock
 {
 	private final AbstractTreeGrower treeGrower;
 
-	public MirageSapling(AbstractTreeGrower tree, final Properties properties)
+	public MirageSapling(final AbstractTreeGrower tree, final Properties properties)
     {
 	    super(tree, properties.randomTicks());
 		this.treeGrower = tree;
@@ -88,13 +65,13 @@ public class MirageSapling extends SaplingBlock implements BonemealableBlock
     }
 
 	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos) 
+	public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
 	{
 	    return PlantType.DESERT;
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos) 
+	protected boolean mayPlaceOn(final BlockState state, final BlockGetter block, final BlockPos pos)
 	{
 		return state.is(BlockTags.DIRT) || state.is(BlockTags.SAND) || state.is(Blocks.FARMLAND);
 	}

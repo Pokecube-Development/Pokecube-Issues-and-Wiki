@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -33,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.init.BlockInit;
 
 public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
-{  
+{
 	protected static final VoxelShape COLLISION_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 	protected static final VoxelShape OUTLINE_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -41,48 +40,51 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	public CrystallizedCactus(final Properties props)
     {
         super(props);
-		this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(CrystallizedCactus.WATERLOGGED, false));
     }
 
-    public void tick(BlockState state, ServerLevel server, BlockPos pos, Random random) 
+    @Override
+    public void tick(final BlockState state, final ServerLevel server, final BlockPos pos, final Random random)
     {
         if (!server.isAreaLoaded(pos, 1)) return;
-        if (!state.canSurvive(server, pos)) {
-        	server.destroyBlock(pos, true);
-        }
+        if (!state.canSurvive(server, pos)) server.destroyBlock(pos, true);
     }
-	
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) 
+
+	@Override
+    public VoxelShape getCollisionShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final CollisionContext context)
 	{
-	      return COLLISION_SHAPE;
+	      return CrystallizedCactus.COLLISION_SHAPE;
     }
 
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) 
+    @Override
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final CollisionContext context)
     {
-	      return OUTLINE_SHAPE;
+	      return CrystallizedCactus.OUTLINE_SHAPE;
     }
 
-    public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) 
+    @Override
+    public boolean canSurvive(final BlockState state, final LevelReader reader, final BlockPos pos)
     {
-       BlockState blockstate1 = reader.getBlockState(pos.below());
-       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get()) 
+       final BlockState blockstate1 = reader.getBlockState(pos.below());
+       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get())
     		   || blockstate1.is(Blocks.CACTUS));
     }
 
 	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) 
+	public void entityInside(final BlockState state, final Level world, final BlockPos pos, final Entity entity)
 	{
 		entity.hurt(DamageSource.CACTUS, 1.0F);
     }
 
-	public boolean isPathfindable(BlockState state, BlockGetter worldIn, BlockPos pos, PathComputationType path) 
+	@Override
+    public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
 	{
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+	public BlockPathTypes getAiPathNodeType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
 	{
 		return BlockPathTypes.DAMAGE_CACTUS;
 	}
@@ -90,14 +92,14 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	@Override
 	protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
 	{
-		builder.add(WATERLOGGED);
+		builder.add(CrystallizedCactus.WATERLOGGED);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(final BlockPlaceContext context)
 	{
 		final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-		return this.defaultBlockState().setValue(WATERLOGGED, ifluidstate.is(FluidTags.WATER)
+		return this.defaultBlockState().setValue(CrystallizedCactus.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
 			&& ifluidstate.getAmount() == 8);
 	}
 
@@ -105,12 +107,9 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	@SuppressWarnings("deprecation")
 	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
 								  final BlockPos facingPos)
-	{   
-		if (!state.canSurvive(world, currentPos)) 
-	    {
-			world.getBlockTicks().scheduleTick(currentPos, this, 1);
-        }
-		if (state.getValue(WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+	{
+		if (!state.canSurvive(world, currentPos)) world.getBlockTicks().scheduleTick(currentPos, this, 1);
+		if (state.getValue(CrystallizedCactus.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
 
@@ -119,6 +118,6 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	@Override
 	public FluidState getFluidState(final BlockState state)
 	{
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+		return state.getValue(CrystallizedCactus.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 }

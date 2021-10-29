@@ -66,7 +66,7 @@ for file in jsons:
     lastdir = dir
 
     json_out = open(file, 'w', encoding='utf-8')
-    json_out.write(json.dumps(json_obj, indent=2))
+    json_out.write(json.dumps(json_obj, ensure_ascii=False, indent=2))
     json_out.close()
 
 print("Replacements: {}".format(replaced))

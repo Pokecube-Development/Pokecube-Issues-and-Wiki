@@ -4,7 +4,7 @@
       "config": {
         "feature": {
           "config": {
-           "features": [
+            "features": [
               {
                 "feature": "pokecube_legends:mirage_tree",
                 "chance": 0.2

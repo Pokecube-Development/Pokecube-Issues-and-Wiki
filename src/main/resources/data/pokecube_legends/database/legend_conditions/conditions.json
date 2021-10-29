@@ -8,8 +8,12 @@
         "type": "ice"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:ice_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:ice_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -20,8 +24,12 @@
         "type": "flying"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:ice_dark_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:ice_dark_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -32,8 +40,12 @@
         "type": "electric"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:electric_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:electric_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -44,8 +56,12 @@
         "type": "fighting"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:static_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:static_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -56,8 +72,12 @@
         "type": "fire"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:fire_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:fire_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -68,8 +88,12 @@
         "type": "dark"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:dark_fire_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:dark_fire_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -80,8 +104,12 @@
         "type": "electric"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:thunder_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:thunder_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -92,8 +120,12 @@
         "type": "fire"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:flame_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:flame_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -104,8 +136,12 @@
         "type": "water"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:water_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:water_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -115,8 +151,12 @@
         "entries": "articuno,zapdos,moltres"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:oceanorb" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:oceanorb"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -126,8 +166,12 @@
         "entries": "raikou,suicune,entei"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:legendaryorb" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:legendaryorb"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -138,8 +182,12 @@
         "type": "grass"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:greenorb" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:greenorb"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -150,8 +198,12 @@
         "type": "dragon"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:soul_dew" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:soul_dew"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -162,24 +214,36 @@
         "type": "dragon"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:soul_dew" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:soul_dew"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
       "name": "kyogre",
       "preset": "spawns_only",
       "spawn": {
-        "key": { "id": "pokecube_legends:blueorb" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:blueorb"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
-	{
+    {
       "name": "groudon",
       "preset": "spawns_only",
       "spawn": {
-        "key": { "id": "pokecube_legends:redorb" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:redorb"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -189,8 +253,12 @@
         "entries": "kyogre,groudon"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:ancient_stone" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:ancient_stone"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -201,8 +269,12 @@
         "type": "steel"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:star_core" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:star_core"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -213,8 +285,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:meteor_shard" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:meteor_shard"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -225,8 +301,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:uxie_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:uxie_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -237,8 +317,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:mesprit_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:mesprit_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -249,8 +333,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:azelf_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:azelf_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -260,8 +348,12 @@
         "entries": "uxie,mesprit,azelf"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:adamantorb" },
-        "target": { "id": "pokecube_legends:timerspawn" }
+        "key": {
+          "id": "pokecube_legends:adamantorb"
+        },
+        "target": {
+          "id": "pokecube_legends:timerspawn"
+        }
       }
     },
     {
@@ -271,8 +363,12 @@
         "entries": "uxie,mesprit,azelf"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lustrousorb" },
-        "target": { "id": "pokecube_legends:timerspawn" }
+        "key": {
+          "id": "pokecube_legends:lustrousorb"
+        },
+        "target": {
+          "id": "pokecube_legends:timerspawn"
+        }
       }
     },
     {
@@ -283,8 +379,12 @@
         "type": "fire"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:magmacore" },
-        "target": { "id": "pokecube_legends:heatran_block" }
+        "key": {
+          "id": "pokecube_legends:magmacore"
+        },
+        "target": {
+          "id": "pokecube_legends:heatran_block"
+        }
       }
     },
     {
@@ -303,8 +403,12 @@
         "type": "fairy"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lunar_wing" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:lunar_wing"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -315,8 +419,12 @@
         "type": "water"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:manaphy_necklace" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:manaphy_necklace"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -327,8 +435,12 @@
         "type": "dark"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:nightmare_book" },
-        "target": { "id": "pokecube_legends:yveltal_egg" }
+        "key": {
+          "id": "pokecube_legends:nightmare_book"
+        },
+        "target": {
+          "id": "pokecube_legends:yveltal_egg"
+        }
       }
     },
     {
@@ -338,8 +450,12 @@
         "entries": "dialga,palkia,giratina"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:azure_flute" },
-        "target": { "id": "pokecube_legends:timerspawn" }
+        "key": {
+          "id": "pokecube_legends:azure_flute"
+        },
+        "target": {
+          "id": "pokecube_legends:timerspawn"
+        }
       }
     },
     {
@@ -350,8 +466,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:emblem" },
-        "target": { "id": "pokecube_legends:victiniblock" }
+        "key": {
+          "id": "pokecube_legends:emblem"
+        },
+        "target": {
+          "id": "pokecube_legends:victiniblock"
+        }
       }
     },
     {
@@ -362,8 +482,12 @@
         "type": "steel"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:cobalion_sword" },
-        "target": { "id": "pokecube_legends:keldeoblock" }
+        "key": {
+          "id": "pokecube_legends:cobalion_sword"
+        },
+        "target": {
+          "id": "pokecube_legends:keldeoblock"
+        }
       }
     },
     {
@@ -374,8 +498,12 @@
         "type": "rock"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:terrakion_sword" },
-        "target": { "id": "pokecube_legends:keldeoblock" }
+        "key": {
+          "id": "pokecube_legends:terrakion_sword"
+        },
+        "target": {
+          "id": "pokecube_legends:keldeoblock"
+        }
       }
     },
     {
@@ -386,8 +514,12 @@
         "type": "grass"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:virizion_sword" },
-        "target": { "id": "pokecube_legends:keldeoblock" }
+        "key": {
+          "id": "pokecube_legends:virizion_sword"
+        },
+        "target": {
+          "id": "pokecube_legends:keldeoblock"
+        }
       }
     },
     {
@@ -397,8 +529,12 @@
         "entries": "meloetta_aria"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:green_rune" },
-        "target": { "id": "pokecube_legends:naturespawn" }
+        "key": {
+          "id": "pokecube_legends:green_rune"
+        },
+        "target": {
+          "id": "pokecube_legends:naturespawn"
+        }
       }
     },
     {
@@ -409,8 +545,12 @@
         "type": "meloetta_aria"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:blue_rune" },
-        "target": { "id": "pokecube_legends:naturespawn" }
+        "key": {
+          "id": "pokecube_legends:blue_rune"
+        },
+        "target": {
+          "id": "pokecube_legends:naturespawn"
+        }
       }
     },
     {
@@ -421,8 +561,12 @@
         "type": "dragon"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lightstone" },
-        "target": { "id": "pokecube_legends:blackwhite_block" }
+        "key": {
+          "id": "pokecube_legends:lightstone"
+        },
+        "target": {
+          "id": "pokecube_legends:blackwhite_block"
+        }
       }
     },
     {
@@ -433,8 +577,12 @@
         "type": "dragon"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:darkstone" },
-        "target": { "id": "pokecube_legends:blackwhite_block" }
+        "key": {
+          "id": "pokecube_legends:darkstone"
+        },
+        "target": {
+          "id": "pokecube_legends:blackwhite_block"
+        }
       }
     },
     {
@@ -444,8 +592,12 @@
         "entries": "meloetta_aria"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:orange_rune" },
-        "target": { "id": "pokecube_legends:naturespawn" }
+        "key": {
+          "id": "pokecube_legends:orange_rune"
+        },
+        "target": {
+          "id": "pokecube_legends:naturespawn"
+        }
       }
     },
     {
@@ -455,8 +607,12 @@
         "entries": "reshiram,zekrom"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:kyurem_core" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:kyurem_core"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -466,8 +622,12 @@
         "entries": "virizion,terrakion,cobalion"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:keldeo_sword" },
-        "target": { "id": "pokecube_legends:keldeoblock" }
+        "key": {
+          "id": "pokecube_legends:keldeo_sword"
+        },
+        "target": {
+          "id": "pokecube_legends:keldeoblock"
+        }
       }
     },
     {
@@ -478,8 +638,12 @@
         "type": "normal"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:meloetta_ocarina" },
-        "target": { "id": "pokecube_legends:naturespawn" }
+        "key": {
+          "id": "pokecube_legends:meloetta_ocarina"
+        },
+        "target": {
+          "id": "pokecube_legends:naturespawn"
+        }
       }
     },
     {
@@ -490,8 +654,12 @@
         "type": "fairy"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lifeorb" },
-        "target": { "id": "pokecube_legends:xerneas_tree" }
+        "key": {
+          "id": "pokecube_legends:lifeorb"
+        },
+        "target": {
+          "id": "pokecube_legends:xerneas_tree"
+        }
       }
     },
     {
@@ -502,8 +670,12 @@
         "type": "dark"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:destructorb" },
-        "target": { "id": "pokecube_legends:yveltal_egg" }
+        "key": {
+          "id": "pokecube_legends:destructorb"
+        },
+        "target": {
+          "id": "pokecube_legends:yveltal_egg"
+        }
       }
     },
     {
@@ -514,11 +686,15 @@
         "type": "ground"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:zygardecube" },
-        "target": { "id": "pokecube_legends:yveltal_egg" }
+        "key": {
+          "id": "pokecube_legends:zygardecube"
+        },
+        "target": {
+          "id": "pokecube_legends:yveltal_egg"
+        }
       }
     },
-	{
+    {
       "name": "zygarde_10",
       "preset": "type_based",
       "options": {
@@ -526,8 +702,12 @@
         "type": "ground"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:zygardecube" },
-        "target": { "id": "pokecube_legends:xerneas_tree" }
+        "key": {
+          "id": "pokecube_legends:zygardecube"
+        },
+        "target": {
+          "id": "pokecube_legends:xerneas_tree"
+        }
       }
     },
     {
@@ -538,8 +718,12 @@
         "type": "fairy"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:diamond_gem" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:diamond_gem"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -550,8 +734,12 @@
         "type": "ghost"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:prisonbottle" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:prisonbottle"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -561,8 +749,12 @@
         "entries": "magearna"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:steam_core" },
-        "target": { "id": "pokecube_legends:magearna_block" }
+        "key": {
+          "id": "pokecube_legends:steam_core"
+        },
+        "target": {
+          "id": "pokecube_legends:magearna_block"
+        }
       }
     },
     {
@@ -573,8 +765,12 @@
         "type": "electric"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:koko_orb" },
-        "target": { "id": "pokecube_legends:koko_core" }
+        "key": {
+          "id": "pokecube_legends:koko_orb"
+        },
+        "target": {
+          "id": "pokecube_legends:koko_core"
+        }
       }
     },
     {
@@ -585,8 +781,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lele_orb" },
-        "target": { "id": "pokecube_legends:lele_core" }
+        "key": {
+          "id": "pokecube_legends:lele_orb"
+        },
+        "target": {
+          "id": "pokecube_legends:lele_core"
+        }
       }
     },
     {
@@ -597,8 +797,12 @@
         "type": "grass"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:bulu_orb" },
-        "target": { "id": "pokecube_legends:bulu_core" }
+        "key": {
+          "id": "pokecube_legends:bulu_orb"
+        },
+        "target": {
+          "id": "pokecube_legends:bulu_core"
+        }
       }
     },
     {
@@ -609,8 +813,12 @@
         "type": "water"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:fini_orb" },
-        "target": { "id": "pokecube_legends:fini_core" }
+        "key": {
+          "id": "pokecube_legends:fini_orb"
+        },
+        "target": {
+          "id": "pokecube_legends:fini_core"
+        }
       }
     },
     {
@@ -621,8 +829,12 @@
         "type": "psychic"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:cosmic_orb" },
-        "target": { "id": "pokecube_legends:timerspawn" }
+        "key": {
+          "id": "pokecube_legends:cosmic_orb"
+        },
+        "target": {
+          "id": "pokecube_legends:timerspawn"
+        }
       }
     },
     {
@@ -632,8 +844,12 @@
         "entries": "solgaleo,lunala"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:lighting_crystal" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:lighting_crystal"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -644,8 +860,12 @@
         "type": "ghost"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:soul_heart" },
-        "target": { "id": "pokecube_legends:magearna_block" }
+        "key": {
+          "id": "pokecube_legends:soul_heart"
+        },
+        "target": {
+          "id": "pokecube_legends:magearna_block"
+        }
       }
     },
     {
@@ -656,8 +876,12 @@
         "type": "steel"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:rustedsword" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:rustedsword"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -668,8 +892,12 @@
         "type": "steel"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:rustedshield" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:rustedshield"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -688,8 +916,12 @@
         "type": "fighting"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:kubfu_spawn" },
-        "target": { "id": "pokecube_legends:legendaryspawn" }
+        "key": {
+          "id": "pokecube_legends:kubfu_spawn"
+        },
+        "target": {
+          "id": "pokecube_legends:legendaryspawn"
+        }
       }
     },
     {
@@ -699,8 +931,12 @@
         "entries": "calyrex"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:ice_carrot" },
-        "target": { "id": "pokecube_legends:trough_block" }
+        "key": {
+          "id": "pokecube_legends:ice_carrot"
+        },
+        "target": {
+          "id": "pokecube_legends:trough_block"
+        }
       }
     },
     {
@@ -710,8 +946,12 @@
         "entries": "calyrex"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:shadow_carrot" },
-        "target": { "id": "pokecube_legends:trough_block" }
+        "key": {
+          "id": "pokecube_legends:shadow_carrot"
+        },
+        "target": {
+          "id": "pokecube_legends:trough_block"
+        }
       }
     },
     {
@@ -722,8 +962,12 @@
         "type": "grass"
       },
       "spawn": {
-        "key": { "id": "pokecube_legends:wooden_crown" },
-        "target": { "id": "pokecube_legends:trough_block" }
+        "key": {
+          "id": "pokecube_legends:wooden_crown"
+        },
+        "target": {
+          "id": "pokecube_legends:trough_block"
+        }
       }
     }
   ],

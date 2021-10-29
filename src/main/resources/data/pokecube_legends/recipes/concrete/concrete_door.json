@@ -3,11 +3,11 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "XX",
-	"XX",
-	"XX"
+    "XX",
+    "XX"
   ],
   "key": {
-	"X": {
+    "X": {
       "tag": "pokecube_legends:concrete_planks"
     }
   },

@@ -170,8 +170,8 @@ public class TextureableCaps
                 if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
                 this.lastEntry = this.pokemob.getPokedexEntry();
                 this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
-                if (this.pokemob.getCustomHolder() != null) this.forme = this.pokemob.getCustomHolder().key.getPath();
             }
+            if (this.pokemob.getCustomHolder() != null) this.forme = this.pokemob.getCustomHolder().key.getPath();
             return this.forme;
         }
     }

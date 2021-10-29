@@ -293,7 +293,7 @@
         }
       ]
     },
-	{
+    {
       "template": "mustard",
       "trades": [
         {
@@ -349,7 +349,7 @@
             "chance": "0.5"
           }
         },
-		{
+        {
           "sell": {
             "values": {
               "id": "pokecube_legends:kubfu_spawn",

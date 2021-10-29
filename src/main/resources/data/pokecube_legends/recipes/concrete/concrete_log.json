@@ -3,14 +3,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "X0X",
-	"0X0",
-	"X0X"
+    "0X0",
+    "X0X"
   ],
   "key": {
     "0": {
       "item": "minecraft:white_concrete"
     },
-	"X": {
+    "X": {
       "tag": "minecraft:logs"
     }
   },

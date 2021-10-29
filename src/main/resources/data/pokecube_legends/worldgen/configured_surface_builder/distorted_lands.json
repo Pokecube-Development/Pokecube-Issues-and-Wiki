@@ -3,8 +3,8 @@
     "top_material": {
       "Name": "pokecube_legends:distortic_grass_block",
       "Properties": {
-        "facing" : "up",
-        "snowy" : "false"
+        "facing": "up",
+        "snowy": "false"
       }
     },
     "under_material": {

@@ -1,21 +1,21 @@
 {
-    "group": "pokecube_legends",
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "DDD",
-        "DID",
-        "DDD"
-    ],
-    "key": {
-        "D": {
-            "tag": "pokecube_legends:glass/one_way"
-        },
-        "I": {
-            "item": "pokecube_legends:crystal_shard"
-        }
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DID",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "tag": "pokecube_legends:glass/one_way"
     },
-    "result": {
-        "item": "pokecube_legends:distortic_one_way_laboratory_glass",
-        "count": 8
+    "I": {
+      "item": "pokecube_legends:crystal_shard"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:distortic_one_way_laboratory_glass",
+    "count": 8
+  }
 }

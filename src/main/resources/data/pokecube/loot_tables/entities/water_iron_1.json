@@ -27,7 +27,7 @@
         }
       ]
     },
-	{
+    {
       "name": "pool_1",
       "rolls": 1,
       "entries": [

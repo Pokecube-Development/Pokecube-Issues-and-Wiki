@@ -1,211 +1,211 @@
 {
-  "presets":[
+  "presets": [
     {
       "preset_name": "dojo",
-      "trainerType":"dojo",
-	  "aiStates": 128
+      "trainerType": "dojo",
+      "aiStates": 128
     },
-	{
+    {
       "preset_name": "rocket",
-      "trainerType":"rocket",
-	  "aiStates": 128
+      "trainerType": "rocket",
+      "aiStates": 128
     },
     {
       "preset_name": "magma",
-      "trainerType":"magma",
-	  "aiStates": 128
+      "trainerType": "magma",
+      "aiStates": 128
     },
     {
       "preset_name": "aqua",
-      "trainerType":"aqua",
-	  "aiStates": 128
+      "trainerType": "aqua",
+      "aiStates": 128
     },
     {
       "preset_name": "aether",
-      "trainerType":"aether",
-	  "aiStates": 128
+      "trainerType": "aether",
+      "aiStates": 128
     },
     {
       "preset_name": "miner",
-      "trainerType":"miner",
-      "customTrades":"miner",
-	  "aiStates": 128
+      "trainerType": "miner",
+      "customTrades": "miner",
+      "aiStates": 128
     },
     {
       "preset_name": "courtney",
-      "trainerType":"courtney",
-	  "aiStates": 128
+      "trainerType": "courtney",
+      "aiStates": 128
     },
     {
       "preset_name": "shelly",
-      "trainerType":"shelly",
-	  "aiStates": 128
+      "trainerType": "shelly",
+      "aiStates": 128
     },
     {
       "preset_name": "space",
-      "trainerType":"space",
-      "customTrades":"space",
-      "level":42,
-	  "aiStates": 128
+      "trainerType": "space",
+      "customTrades": "space",
+      "level": 42,
+      "aiStates": 128
     },
     {
       "preset_name": "plasma",
-      "trainerType":"plasma",
-      "level":39,
-	  "aiStates": 128
+      "trainerType": "plasma",
+      "level": 39,
+      "aiStates": 128
     },
     {
       "preset_name": "jessie",
-      "trainerType":"jessie",
-      "customTrades":"rocket",
-      "level":50,
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "jessie",
+      "customTrades": "rocket",
+      "level": 50,
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "james",
-      "trainerType":"james",
-      "customTrades":"rocket",
-      "level":50,
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "james",
+      "customTrades": "rocket",
+      "level": 50,
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
-	{
+    {
       "preset_name": "mustard",
-      "trainerType":"mustard",
-      "level":85,
-      "customTrades":"mustard",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "mustard",
+      "level": 85,
+      "customTrades": "mustard",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "giovanni",
-      "trainerType":"giovanni",
-      "level":70,
-      "customTrades":"giovanni",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "giovanni",
+      "level": 70,
+      "customTrades": "giovanni",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "archie",
-      "trainerType":"archie",
-      "level":70,
-      "customTrades":"archie",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "archie",
+      "level": 70,
+      "customTrades": "archie",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "maxie",
-      "trainerType":"maxie",
-      "level":70,
-      "customTrades":"maxie",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "maxie",
+      "level": 70,
+      "customTrades": "maxie",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "zinnia",
-      "trainerType":"zinnia",
-      "level":70,
-      "customTrades":"zinnia",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "zinnia",
+      "level": 70,
+      "customTrades": "zinnia",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "lusamine",
-      "trainerType":"lusamine",
-      "level":75,
-      "customTrades":"lusamine",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "lusamine",
+      "level": 75,
+      "customTrades": "lusamine",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "faba",
-      "trainerType":"faba",
-      "level":75,
-      "customTrades":"faba",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "faba",
+      "level": 75,
+      "customTrades": "faba",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "n",
-      "trainerType":"n",
-      "level":78,
-      "customTrades":"n",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerType": "n",
+      "level": 78,
+      "customTrades": "n",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "elite_four_a",
-      "trainerTypes":"lorelei;bruno;agatha;lance;will;acerola;mina;caitlin;olivia",
-      "level":85,
-      "customTrades":"elite_four",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerTypes": "lorelei;bruno;agatha;lance;will;acerola;mina;caitlin;olivia",
+      "level": 85,
+      "customTrades": "elite_four",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "elite_four_b",
-      "trainerTypes":"koga;karen;sidney;phoebe;glacia;kahili;grimsley;siebold",
-      "level":85,
-      "customTrades":"elite_four",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerTypes": "koga;karen;sidney;phoebe;glacia;kahili;grimsley;siebold",
+      "level": 85,
+      "customTrades": "elite_four",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "elite_four_c",
-      "trainerTypes":"drake;aaron;flint;shauntal;marshal;marnie;hala;wikstrom;drasna",
-      "level":85,
-      "customTrades":"elite_four",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerTypes": "drake;aaron;flint;shauntal;marshal;marnie;hala;wikstrom;drasna",
+      "level": 85,
+      "customTrades": "elite_four",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     },
     {
       "preset_name": "elite_four_d",
-      "trainerTypes":"blue;leon;steven;cynthia;wallace;thutmose",
-      "level":100,
-      "customTrades":"elite_four",
-	  "aiStates": 128,
-      "guard":{
-        "time":"day",
-        "roam":0
+      "trainerTypes": "blue;leon;steven;cynthia;wallace;thutmose",
+      "level": 100,
+      "customTrades": "elite_four",
+      "aiStates": 128,
+      "guard": {
+        "time": "day",
+        "roam": 0
       }
     }
   ]

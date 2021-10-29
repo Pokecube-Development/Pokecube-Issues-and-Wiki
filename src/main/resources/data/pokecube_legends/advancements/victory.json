@@ -21,58 +21,94 @@
       "conditions": {
         "items": [
           {
-            "items": ["pokecube_adventures:badge_normal"]
+            "items": [
+              "pokecube_adventures:badge_normal"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_fighting"]
+            "items": [
+              "pokecube_adventures:badge_fighting"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_flying"]
+            "items": [
+              "pokecube_adventures:badge_flying"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_poison"]
+            "items": [
+              "pokecube_adventures:badge_poison"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_ground"]
+            "items": [
+              "pokecube_adventures:badge_ground"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_rock"]
+            "items": [
+              "pokecube_adventures:badge_rock"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_bug"]
+            "items": [
+              "pokecube_adventures:badge_bug"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_ghost"]
+            "items": [
+              "pokecube_adventures:badge_ghost"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_steel"]
+            "items": [
+              "pokecube_adventures:badge_steel"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_fire"]
+            "items": [
+              "pokecube_adventures:badge_fire"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_water"]
+            "items": [
+              "pokecube_adventures:badge_water"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_grass"]
+            "items": [
+              "pokecube_adventures:badge_grass"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_electric"]
+            "items": [
+              "pokecube_adventures:badge_electric"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_psychic"]
+            "items": [
+              "pokecube_adventures:badge_psychic"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_ice"]
+            "items": [
+              "pokecube_adventures:badge_ice"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_dragon"]
+            "items": [
+              "pokecube_adventures:badge_dragon"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_dark"]
+            "items": [
+              "pokecube_adventures:badge_dark"
+            ]
           },
           {
-            "items": ["pokecube_adventures:badge_fairy"]
+            "items": [
+              "pokecube_adventures:badge_fairy"
+            ]
           }
         ]
       }

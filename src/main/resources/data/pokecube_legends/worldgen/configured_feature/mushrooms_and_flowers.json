@@ -32,7 +32,7 @@
                         },
                         "type": "minecraft:no_bonemeal_flower"
                       },
-					  {
+                      {
                         "config": {
                           "can_replace": false,
                           "project": true,
@@ -55,7 +55,7 @@
                         },
                         "type": "minecraft:no_bonemeal_flower"
                       },
-					  {
+                      {
                         "config": {
                           "can_replace": false,
                           "project": true,

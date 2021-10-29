@@ -40,13 +40,13 @@
         "biome": "pokecube_legends:mirage_desert"
       }
     },
-	"biome_5": {
+    "biome_5": {
       "trigger": "minecraft:location",
       "conditions": {
         "biome": "pokecube_legends:forsaken_taiga"
       }
     },
-	"biome_6": {
+    "biome_6": {
       "trigger": "minecraft:location",
       "conditions": {
         "biome": "pokecube_legends:temporal_jungle"
