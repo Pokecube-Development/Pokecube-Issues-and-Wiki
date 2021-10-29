@@ -34,6 +34,8 @@ import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.world.gen.carver.CanyonCarver;
 import pokecube.core.world.gen.carver.CaveCarver;
+import pokecube.core.world.gen.carver.UnderwaterCanyonCarver;
+import pokecube.core.world.gen.carver.UnderwaterCaveCarver;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 
@@ -46,6 +48,12 @@ public class WorldgenFeatures
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
     public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.CARVERS.register("canyon",
             () -> new CanyonCarver(CanyonCarverConfiguration.CODEC));
+    public static final RegistryObject<WorldCarver<?>> OCEAN_CAVE   = WorldgenFeatures.CARVERS.register("ocean_cave",
+            () -> new CaveCarver(CaveCarverConfiguration.CODEC));
+    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CAVE   = WorldgenFeatures.CARVERS.register("underwater_cave",
+            () -> new UnderwaterCaveCarver(CaveCarverConfiguration.CODEC));
+    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CANYON = WorldgenFeatures.CARVERS.register("underwater_canyon",
+            () -> new UnderwaterCanyonCarver(CanyonCarverConfiguration.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
     public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
