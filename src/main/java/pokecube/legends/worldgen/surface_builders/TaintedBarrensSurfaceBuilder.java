@@ -24,30 +24,31 @@ public class TaintedBarrensSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderB
     public void apply(Random random, ChunkAccess chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState block,
             BlockState fluid, int seaLevel, int num, long seed, SurfaceBuilderBaseConfiguration config)
     {
+        double d0 = Biome.BIOME_INFO_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D, false);
+        if (d0 > 0.0D) {
+           int i = x & 15;
+           int j = z & 15;
+           BlockPos.MutableBlockPos mutablePos2 = new BlockPos.MutableBlockPos();
+
+           for(int k = startHeight; k >= num; --k) {
+              mutablePos2.set(i, k, j);
+              if (!chunk.getBlockState(mutablePos2).isAir()) {
+                 if (k == 62 && !chunk.getBlockState(mutablePos2).is(fluid.getBlock())) {
+                    chunk.setBlockState(mutablePos2, fluid, false);
+                 }
+                 break;
+              }
+           }
+        }
+
+        SurfaceBuilder.DEFAULT.apply(random, chunk, biome, x, z, startHeight, noise, block, fluid, seaLevel, num, seed, config);
+
         this.apply(random, chunk, biome, x, z, startHeight, noise, block, fluid, config.getTopMaterial(), config.getUnderMaterial(), config.getUnderwaterMaterial(), seaLevel, num);
     }
 
     public void apply(Random random, ChunkAccess chunk, Biome biome, int x, int z, int startHeight, double noise, BlockState block,
             BlockState fluid, BlockState top, BlockState middle, BlockState bottom, int seaLevel, int num)
     {
-          double d0 = Biome.BIOME_INFO_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D, false);
-          if (d0 > 0.0D) {
-             int i = x & 15;
-             int j = z & 15;
-             BlockPos.MutableBlockPos mutablePos2 = new BlockPos.MutableBlockPos();
-
-             for(int k = startHeight; k >= num; --k) {
-                mutablePos2.set(i, k, j);
-                if (!chunk.getBlockState(mutablePos2).isAir()) {
-                   if (k == 62 && !chunk.getBlockState(mutablePos2).is(fluid.getBlock())) {
-                      chunk.setBlockState(mutablePos2, fluid, false);
-                   }
-                   break;
-                }
-             }
-          }
-
-          SurfaceBuilder.DEFAULT.apply(random, chunk, biome, x, z, startHeight, noise, block, fluid, seaLevel, num, seed, config);
 
           BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
           int i = (int)(noise / 3.0D + 3.0D + random.nextDouble() * 0.25D);

@@ -1,6 +1,7 @@
 package pokecube.legends.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
@@ -9,6 +10,8 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.Reference;
+import pokecube.legends.worldgen.features.TaintedKelpFeature;
+import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.TemporalBambooFeature;
 import pokecube.legends.worldgen.surface_builders.BlindingDeltasSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.MirageDesertSurfaceBuilder;
@@ -30,6 +33,10 @@ public class WorldgenFeatures
 
     public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo",
             () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> TAINTED_KELP= WorldgenFeatures.FEATURES.register("tainted_kelp",
+            () -> new TaintedKelpFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> TAINTED_SEAGRASS = WorldgenFeatures.FEATURES.register("tainted_seagrass",
+            () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
 
     public static void init(final IEventBus bus)
     {

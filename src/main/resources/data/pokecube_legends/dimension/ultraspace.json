@@ -169,6 +169,16 @@
           }
         },
         {
+          "biome": "pokecube_legends:shattered_tainted_barrens",
+          "parameters": {
+            "altitude": 0.5,
+            "temperature": 0.35,
+            "humidity": 0.7,
+            "weirdness": 0.6,
+            "offset": 0
+          }
+        },
+        {
           "biome": "pokecube_legends:blinding_deltas",
           "parameters": {
             "altitude": 0.4,

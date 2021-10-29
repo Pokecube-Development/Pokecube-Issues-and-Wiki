@@ -6,7 +6,7 @@
           "config": {
             "probability": 0.6
           },
-          "type": "minecraft:seagrass"
+          "type": "pokecube_legends:tainted_seagrass"
         },
         "decorator": {
           "config": {
