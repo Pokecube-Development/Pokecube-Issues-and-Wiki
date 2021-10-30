@@ -17,6 +17,15 @@
             "half_height": 2,
             "targets": [
               {
+                "Name": "pokecube_legends:aged_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:aged_grass_block"
+              },
+              {
                 "Name": "pokecube_legends:corrupted_dirt"
               },
               {
@@ -33,6 +42,15 @@
                   "snowy": "false"
                 },
                 "Name": "pokecube_legends:jungle_grass_block"
+              },
+              {
+                "Name": "pokecube_legends:mushroom_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:mushroom_grass_block"
               }
             ]
           },

@@ -15,10 +15,16 @@
         "half_height": 1,
         "targets": [
           {
+            "Name": "pokecube_legends:aged_dirt"
+          },
+          {
             "Name": "pokecube_legends:corrupted_dirt"
           },
           {
             "Name": "pokecube_legends:jungle_dirt"
+          },
+          {
+            "Name": "pokecube_legends:mushroom_dirt"
           },
           {
             "Name": "minecraft:clay"
