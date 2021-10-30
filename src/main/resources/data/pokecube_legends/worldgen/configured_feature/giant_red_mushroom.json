@@ -28,7 +28,7 @@
       },
       "type": "minecraft:simple_state_provider"
     },
-    "foliage_radius": 2
+    "foliage_radius": 3
   },
   "type": "minecraft:huge_red_mushroom"
 }

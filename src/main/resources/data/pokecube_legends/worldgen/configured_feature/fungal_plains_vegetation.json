@@ -7,15 +7,15 @@
             "features": [
               {
                 "feature": "minecraft:mushroom_field_vegetation",
-                "chance": 0.05
+                "chance": 0.5
               },
               {
                 "feature": "pokecube_legends:giant_mushroom_vegetation",
-                "chance": 0.025
+                "chance": 0.15
               },
               {
                 "feature": "pokecube_legends:fancy_inverted_tree",
-                "chance": 0.33333334
+                "chance": 0.34
               }
             ],
             "default": "pokecube_legends:inverted_tree"
@@ -53,8 +53,8 @@
     },
     "decorator": {
       "config": {
-        "count": 7,
-        "extra_chance": 0.1,
+        "count": 0,
+        "extra_chance": 0.05,
         "extra_count": 1
       },
       "type": "minecraft:count_extra"

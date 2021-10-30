@@ -43,7 +43,7 @@
         "pokecube_legends:temples/surface/unown_temple/rooms/room_treasure_a;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
-    
+
   	// Aether Foundation
   	{
       "name":"pokecube_legends:village/ocean/town_centers",
@@ -149,7 +149,7 @@
       ]
     },
     //
-    
+
     //Ultra Space Village
     {
       "name":"pokecube_legends:village/ultraspace/town_centers",
@@ -211,7 +211,7 @@
       ]
     },
     //
-    
+
     //
     {
       "name":"pokecube_legends:temples/surface_base",
@@ -234,7 +234,7 @@
         "pokecube_legends:temples/underground/base"
       ]
     },
-  
+
     {
       "name":"pokecube_legends:team_rocket",
       "rigid":true,
@@ -270,7 +270,7 @@
         "pokecube_legends:temples/surface/team_aqua;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
     },
-	
+
 	{
       "name":"pokecube_legends:necrozma_tower",
       "rigid":true,
@@ -295,7 +295,7 @@
         "pokecube_legends:ultraspace/temples/necro_3"
       ]
     },
-	
+
 	{
       "name":"pokecube_legends:tapus_temple",
       "rigid":true,
@@ -368,7 +368,7 @@
         "pokecube_legends:temples/surface/tapu_fini;{\"dy\":-1}"
       ]
     },
-	
+
     {
       "name":"pokecube_legends:distortic",
       "rigid":true,
@@ -763,7 +763,7 @@
         "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
     },
-    
+
     //Distortic Houses
     {
       "name":"pokecube_legends:distortic_houses",
@@ -787,7 +787,7 @@
       ]
     },
     //
-    
+
     {
       "name":"pokecube_legends:ultra_pyramid",
       "rigid":true,
@@ -851,8 +851,7 @@
       "ignoreAir":true,
       "options":[
         "pokecube_legends:ultraspace/crystal_spike;{\"weight\":20}",
-        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":40}",
-        "pokecube_legends:ultraspace/red_plane;{\"weight\":40}"
+        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":40}"
       ]
     },
     {
@@ -861,7 +860,8 @@
       "ignoreAir":true,
       "options":[
         "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/red_plane;{\"weight\":40}"
       ]
     }
   ],
@@ -1350,7 +1350,7 @@
         }
       }
     },
-	
+
 	//Unown Temple Overworld
     {
       "name":"pokecube_legends:unown_temple_overworld",
@@ -1412,7 +1412,7 @@
       }
     },
 	//
-	
+
     {
       "name":"pokecube_legends:islands",
       "root":"pokecube_legends:islands",

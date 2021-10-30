@@ -6,7 +6,7 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 3943523,
+    "sky_color": 1250367,
     "fog_color": 3943523,
     "water_color": 4010074,
     "water_fog_color": 4010074,
@@ -33,10 +33,7 @@
       "minecraft:lake_lava",
       "pokecube_legends:lake_water"
     ],
-    [
-      "pokecube_legends:forest_rock_ultra_cobblestone",
-      "pokecube_legends:forest_rock_ultra_stone"
-    ],
+    [],
     [],
     [],
     [],
@@ -65,7 +62,7 @@
       "minecraft:patch_grass_plain",
       "minecraft:red_mushroom_normal",
       "minecraft:red_mushroom_taiga",
-      "pokecube_legends:fungal_forest_vegetation",
+      "pokecube_legends:fungal_plains_vegetation",
       "pokecube_legends:mushrooms_and_flowers",
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
@@ -109,10 +106,16 @@
         "maxCount": 4
       },
       {
-        "type": "minecraft:wolf",
+        "type": "minecraft:horse",
         "weight": 5,
-        "minCount": 4,
-        "maxCount": 4
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:donkey",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
       }
     ],
     "ambient": [
@@ -142,11 +145,11 @@
     "misc": []
   },
   "spawn_costs": {},
-  "category": "forest",
+  "category": "mushroom",
   "precipitation": "rain",
-  "scale": 0.2,
-  "downfall": 0.8,
-  "depth": 0.12,
-  "temperature": 0.7,
+  "scale": 0.05,
+  "downfall": 0.4,
+  "depth": 0.125,
+  "temperature": 0.8,
   "player_spawn_friendly": true
 }
