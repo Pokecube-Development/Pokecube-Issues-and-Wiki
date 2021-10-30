@@ -24,8 +24,8 @@
   "surface_builder": "pokecube_legends:fungal_forest",
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
     ]
   },
   "features": [
@@ -43,6 +43,10 @@
     [],
     [
       "minecraft:prototype_underwater_magma",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_crystallized_sand",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_mushroom_dirt",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_ultra_coal",
       "pokecube_legends:ore_ultra_diamond",
@@ -51,17 +55,25 @@
       "pokecube_legends:ore_ultra_lapis",
       "pokecube_legends:ore_ultra_redstone"
     ],
-    [],
     [
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
+    ],
+    [
+      "minecraft:brown_mushroom_normal",
+      "minecraft:brown_mushroom_taiga",
+      "minecraft:glow_lichen",
+      "minecraft:patch_grass_plain",
+      "minecraft:red_mushroom_normal",
+      "minecraft:red_mushroom_taiga",
       "pokecube_legends:fungal_forest_vegetation",
       "pokecube_legends:mushrooms_and_flowers",
-      "minecraft:patch_grass_plain",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:spring_lava"
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
     ],
-    []
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ],
   "starts": [],
   "spawners": {
@@ -72,6 +84,36 @@
         "weight": 8,
         "minCount": 4,
         "maxCount": 8
+      },
+      {
+        "type": "minecraft:sheep",
+        "weight": 12,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:pig",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:chicken",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:cow",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:wolf",
+        "weight": 5,
+        "minCount": 4,
+        "maxCount": 4
       }
     ],
     "ambient": [
@@ -103,7 +145,7 @@
   "spawn_costs": {},
   "category": "forest",
   "precipitation": "rain",
-  "scale": 0.1,
+  "scale": 0.2,
   "downfall": 0.8,
   "depth": 0.12,
   "temperature": 0.7,
