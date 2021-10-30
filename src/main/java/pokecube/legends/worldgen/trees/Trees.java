@@ -24,7 +24,6 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProv
 import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.BendingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
@@ -205,7 +204,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forking, Giant, MegaJungle available
-                new BendingTrunkPlacer(7, 5, 0, 5, UniformInt.of(1, 2)),
+                new ForkingTrunkPlacer(7, 5, 0),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
@@ -240,7 +239,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forking, Giant, MegaJungle available
-                new BendingTrunkPlacer(8, 6, 0, 3, UniformInt.of(1, 3)),
+                new ForkingTrunkPlacer(8, 6, 0),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
