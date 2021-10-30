@@ -14,7 +14,7 @@ public class AgedTree extends AbstractMegaTreeGrower {
 	@Override
     protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
     {
-        return Trees.AGED_TREE;
+        return randomIn.nextBoolean() ? Trees.AGED_SPRUCE_TREE : Trees.AGED_PINE_TREE;
     }
 
     @Nullable

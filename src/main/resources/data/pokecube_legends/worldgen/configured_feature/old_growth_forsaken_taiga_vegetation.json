@@ -6,11 +6,11 @@
           "config": {
             "features": [
               {
-                "feature": "pokecube_legends:aged_pine_tree",
+                "feature": "pokecube_legends:mega_aged_pine_tree",
                 "chance": 0.33333334
               }
             ],
-            "default": "pokecube_legends:aged_spruce_tree"
+            "default": "pokecube_legends:mega_aged_spruce_tree"
           },
           "type": "minecraft:random_selector"
         },

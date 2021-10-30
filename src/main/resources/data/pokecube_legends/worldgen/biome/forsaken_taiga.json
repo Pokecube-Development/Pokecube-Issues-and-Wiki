@@ -6,29 +6,26 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 4182244,
-    "fog_color": 4182244,
+    "sky_color": 16753930,
+    "fog_color": 16753930,
     "water_color": 4182244,
     "water_fog_color": 4182244,
     "foliage_color": 16763145,
     "grass_color": 16763145,
     "particle": {
       "options": {
-        "type": "minecraft:dust",
-        "scale": 0.4,
-        "r": 0.9058823529411765,
-        "g": 0.9176470588235294,
-        "b": 0.3254901960784314
+        "type": "minecraft:wax_on",
+        "speed": 2.0
       },
-      "probability": 0.01
+      "probability": 0.012
     },
     "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
   "surface_builder": "pokecube_legends:forsaken_taiga",
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
     ]
   },
   "features": [
@@ -37,12 +34,19 @@
       "minecraft:lake_lava",
       "pokecube_legends:lake_water"
     ],
-    [],
+    [
+      "pokecube_legends:forest_rock_ultra_cobblestone",
+      "pokecube_legends:forest_rock_ultra_stone"
+    ],
     [],
     [],
     [],
     [
       "minecraft:prototype_underwater_magma",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_crystallized_sand",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_aged_dirt",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_ultra_coal",
       "pokecube_legends:ore_ultra_diamond",
@@ -51,17 +55,24 @@
       "pokecube_legends:ore_ultra_lapis",
       "pokecube_legends:ore_ultra_redstone"
     ],
-    [],
     [
-      "pokecube_legends:forsaken_taiga_vegetation",
-      "pokecube_legends:forsaken_taiga_flowers",
-      "minecraft:patch_grass_taiga",
-      "minecraft:patch_large_fern",
-      "pokecube_legends:patch_pumpkin",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:spring_lava"
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
     ],
-    []
+    [
+      "minecraft:glow_lichen",
+      "minecraft:patch_grass_taiga_2",
+      "minecraft:patch_large_fern",
+      "pokecube_legends:forsaken_taiga_flowers",
+      "pokecube_legends:forsaken_taiga_vegetation",
+      "pokecube_legends:patch_berry_sparse",
+      "pokecube_legends:patch_pumpkin",
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ],
   "starts": [],
   "spawners": {
@@ -186,11 +197,11 @@
     "misc": []
   },
   "spawn_costs": {},
-  "category": "plains",
+  "category": "taiga",
   "precipitation": "rain",
   "scale": 0.2,
   "downfall": 0.7,
   "depth": 0.2,
-  "temperature": 0.3,
+  "temperature": 0.25,
   "player_spawn_friendly": false
 }

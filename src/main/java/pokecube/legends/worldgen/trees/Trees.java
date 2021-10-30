@@ -18,11 +18,13 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaJungleFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.PineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.SpruceFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TrunkVineDecorator;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.BendingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
@@ -36,7 +38,8 @@ public class Trees
     public static ConfiguredFeature<TreeConfiguration, ?> INVERTED_TREE_FANCY;
     public static ConfiguredFeature<TreeConfiguration, ?> TEMPORAL_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> MEGA_TEMPORAL_TREE;
-    public static ConfiguredFeature<TreeConfiguration, ?> AGED_TREE;
+    public static ConfiguredFeature<TreeConfiguration, ?> AGED_PINE_TREE;
+    public static ConfiguredFeature<TreeConfiguration, ?> AGED_SPRUCE_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> MEGA_AGED_PINE_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> MEGA_AGED_SPRUCE_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> CORRUPTED_TREE;
@@ -192,7 +195,7 @@ public class Trees
         //@formatter:on
     }
 
-    public static TreeConfiguration getAgedTree()
+    public static TreeConfiguration getAgedPineTree()
     {
         return new TreeConfiguration.TreeConfigurationBuilder(
         //@formatter:off
@@ -202,7 +205,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forking, Giant, MegaJungle available
-                new StraightTrunkPlacer(8, 6, 0),
+                new BendingTrunkPlacer(7, 5, 0, 5, UniformInt.of(1, 2)),
 
                 // This one is similar, but for the leaves
                 new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
@@ -215,8 +218,42 @@ public class Trees
                 // more can also probably be coded if needed
                 // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
                 // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
-                new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2),
-                    UniformInt.of(1, 3)),
+                new PineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), UniformInt.of(3, 5)),
+
+                // I am not certain exactly how this works, but there is also a threeLayer feature
+                // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
+                // Different trees use a variety of the three values below, usually ranging from
+                // 0 to 2, this example is from basic oak trees, but it can vary for different ones
+                new TwoLayersFeatureSize(1, 0, 1))
+                .ignoreVines()
+                .build();
+        //@formatter:on
+    }
+
+    public static TreeConfiguration getAgedSpruceTree()
+    {
+        return new TreeConfiguration.TreeConfigurationBuilder(
+        //@formatter:off
+                // This line specifies what is the base log, different block state providers
+                // can allow for randomization in the log
+                new SimpleStateProvider(BlockInit.AGED_LOG.get().defaultBlockState()),
+
+                // This is how the tree trunk works, there are also DarkOak, Fancy,
+                // Forking, Giant, MegaJungle available
+                new BendingTrunkPlacer(8, 6, 0, 3, UniformInt.of(1, 3)),
+
+                // This one is similar, but for the leaves
+                new SimpleStateProvider(BlockInit.AGED_LEAVES.get().defaultBlockState()),
+
+                // This one is similar, but for the saplings
+                new SimpleStateProvider(BlockInit.AGED_SAPLING.get().defaultBlockState()),
+
+                // This is how the leaves are arranged, this is the default for oak, there
+                // are also AcaciaFoliagePlacer, DarkOak, Jungle, MegaPine, Pine and Spruce available
+                // more can also probably be coded if needed
+                // The FeatureSpread.fixed(2) is "base of 2, spread of 0", and FeatureSpread.fixed(0)
+                // is "base of 0, spread of 0", in this case, it determines the shape and size of the blob.
+                new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 3)),
 
                 // I am not certain exactly how this works, but there is also a threeLayer feature
                 // available, it is used by dark oak, see Features.DARK_OAK to see how it is used.
@@ -421,8 +458,11 @@ public class Trees
                 "pokecube_legends:mega_temporal_tree", Trees.MEGA_TEMPORAL_TREE = Feature.TREE.configured(Trees
                         .getMegaTemporalTree()));
 
-        Trees.AGED_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
-                "pokecube_legends:aged_tree", Trees.AGED_TREE = Feature.TREE.configured(Trees.getAgedTree()
+        Trees.AGED_PINE_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
+                "pokecube_legends:aged_pine_tree", Trees.AGED_PINE_TREE = Feature.TREE.configured(Trees.getAgedPineTree()
+                        .withDecorators(ImmutableList.of(Features.Decorators.BEEHIVE_0002))));
+        Trees.AGED_SPRUCE_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
+                "pokecube_legends:aged_spruce_tree", Trees.AGED_SPRUCE_TREE = Feature.TREE.configured(Trees.getAgedSpruceTree()
                         .withDecorators(ImmutableList.of(Features.Decorators.BEEHIVE_0002))));
         Trees.MEGA_AGED_PINE_TREE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
                 "pokecube_legends:mega_aged_pine_tree", Trees.MEGA_AGED_PINE_TREE = Feature.TREE.configured(Trees

@@ -1,27 +1,27 @@
 {
-  "scale": 0.3,
   "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.crimson_forest.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "foliage_color": 4143695,
-    "grass_color": 3288639,
+    "sky_color": 16753930,
+    "fog_color": 16753930,
+    "water_color": 4182244,
+    "water_fog_color": 4182244,
+    "foliage_color": 16763145,
+    "grass_color": 16763145,
     "particle": {
       "options": {
-        "type": "minecraft:white_ash"
+        "type": "minecraft:wax_on",
+        "speed": 2.0
       },
       "probability": 0.012
     },
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
+    "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
-  "surface_builder": "pokecube_legends:tainted_barrens",
+  "surface_builder": "pokecube_legends:forsaken_taiga",
   "carvers": {
     "air": [
       "pokecube_legends:canyon",
@@ -44,8 +44,9 @@
     [
       "minecraft:prototype_underwater_magma",
       "pokecube_legends:disk_clay",
-      "pokecube_legends:ore_corrupted_dirt",
-      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:disk_crystallized_sand",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_aged_dirt",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_ultra_coal",
       "pokecube_legends:ore_ultra_diamond",
@@ -57,18 +58,21 @@
     [
       "minecraft:rare_dripstone_cluster",
       "minecraft:rare_small_dripstone"
-	],
-    [
-      "pokecube_legends:glow_lichen",
-      "pokecube_legends:mushrooms_and_flowers",
-      "pokecube_legends:patch_tainted_lily_pad",
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:tainted_barrens_vegetation",
-      "pokecube_legends:tainted_kelp",
-      "pokecube_legends:tainted_seagrass"
     ],
-    []
+    [
+      "minecraft:glow_lichen",
+      "minecraft:patch_grass_taiga_2",
+      "minecraft:patch_large_fern",
+      "pokecube_legends:forsaken_taiga_flowers",
+      "pokecube_legends:old_growth_forsaken_taiga_vegetation",
+      "pokecube_legends:patch_berry_sparse",
+      "pokecube_legends:patch_pumpkin",
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ],
   "starts": [],
   "spawners": {
@@ -120,12 +124,6 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
-      },
-      {
-        "type": "minecraft:slime",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 1
       }
     ],
     "creature": [
@@ -151,6 +149,24 @@
         "type": "minecraft:cow",
         "weight": 8,
         "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:wolf",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:rabbit",
+        "weight": 4,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:fox",
+        "weight": 8,
+        "minCount": 2,
         "maxCount": 4
       }
     ],
@@ -180,12 +196,12 @@
     "water_ambient": [],
     "misc": []
   },
-  "category": "swamp",
-  "precipitation": "none",
-  "scale": 0.8,
-  "downfall": 0.2,
-  "depth": -0.2,
-  "temperature": 0.3,
-  "player_spawn_friendly": false,
-  "spawn_costs": {}
+  "spawn_costs": {},
+  "category": "taiga",
+  "precipitation": "rain",
+  "scale": 0.2,
+  "downfall": 0.7,
+  "depth": 0.2,
+  "temperature": 0.25,
+  "player_spawn_friendly": false
 }
