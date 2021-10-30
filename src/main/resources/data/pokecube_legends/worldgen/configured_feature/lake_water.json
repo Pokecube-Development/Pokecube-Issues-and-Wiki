@@ -13,7 +13,7 @@
                   "Name": "minecraft:water"
                 }
               },
-              "type": "pokecube_legends:lake"
+              "type": "pokecube_legends:lake_feature"
             },
             "decorator": {
               "config": {

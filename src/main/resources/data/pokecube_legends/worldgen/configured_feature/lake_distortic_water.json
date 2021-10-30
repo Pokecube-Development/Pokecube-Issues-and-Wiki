@@ -15,7 +15,7 @@
                       "Name": "pokecube_legends:distortic_water_block"
                     }
                   },
-                  "type": "pokecube_legends:lake"
+                  "type": "pokecube_legends:lake_feature"
                 },
                 "decorator": {
                   "config": {

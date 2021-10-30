@@ -8,7 +8,7 @@
               "config": {
                 "probability": 0.2
               },
-              "type": "pokecube_legends:temporal_bamboo"
+              "type": "pokecube_legends:temporal_bamboo_feature"
             },
             "decorator": {
               "config": {

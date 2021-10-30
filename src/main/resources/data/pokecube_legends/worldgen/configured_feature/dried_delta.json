@@ -23,7 +23,7 @@
           }
         }
       },
-      "type": "minecraft:delta_feature"
+      "type": "pokecube_legends:delta_feature"
     },
     "decorator": {
       "config": {

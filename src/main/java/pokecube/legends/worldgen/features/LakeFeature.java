@@ -28,6 +28,7 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
       super(config);
    }
 
+   @Override
    public boolean place(FeaturePlaceContext<BlockStateConfiguration> config)
    {
       BlockPos pos = config.origin();

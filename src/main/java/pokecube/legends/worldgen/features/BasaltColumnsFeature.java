@@ -19,16 +19,20 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import pokecube.legends.init.BlockInit;
 
-public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
+public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {
-   private static final ImmutableList<Block> CAN_PLACE_ON =
-		   ImmutableList.of(BlockInit.CRYSTALLIZED_SAND.get(), BlockInit.CRYSTALLIZED_SANDSTONE.get(), BlockInit.ULTRA_STONE.get());
+   public static final ImmutableList<Block> CANNOT_PLACE_ON =
+		   ImmutableList.of(BlockInit.AGED_LEAVES.get(), BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(),
+				   BlockInit.DYNA_LEAVES_PASTEL_PINK.get(), BlockInit.DYNA_LEAVES_PINK.get(), BlockInit.DYNA_LEAVES_RED.get(),
+				   BlockInit.INVERTED_LEAVES.get(), BlockInit.MIRAGE_LEAVES.get(), BlockInit.TEMPORAL_LEAVES.get(),
+				   Blocks.BEDROCK, Blocks.CHEST, Blocks.NETHER_BRICKS, Blocks.NETHER_BRICK_FENCE, Blocks.NETHER_BRICK_STAIRS,
+				   Blocks.NETHER_WART, Blocks.SPAWNER);
    private static final int CLUSTERED_REACH = 5;
    private static final int CLUSTERED_SIZE = 50;
    private static final int UNCLUSTERED_REACH = 8;
    private static final int UNCLUSTERED_SIZE = 15;
 
-   public CrystallizedSandstoneBouldersFeature(Codec<ColumnFeatureConfiguration> config)
+   public BasaltColumnsFeature(Codec<ColumnFeatureConfiguration> config)
    {
       super(config);
    }
@@ -81,12 +85,12 @@ public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureC
             {
                if (isAirOrLavaOcean(world, a, mutablePos))
                {
-                  this.setBlock(world, mutablePos, BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState());
+                  this.setBlock(world, mutablePos, Blocks.BASALT.defaultBlockState());
                   mutablePos.move(Direction.UP);
                   flag = true;
                } else
                {
-                  if (!world.getBlockState(mutablePos).is(BlockInit.CRYSTALLIZED_SANDSTONE.get()))
+                  if (!world.getBlockState(mutablePos).is(Blocks.BASALT))
                   {
                      break;
                   }
@@ -122,7 +126,7 @@ public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureC
       {
          BlockState state = world.getBlockState(pos.move(Direction.DOWN));
          pos.move(Direction.UP);
-         return !state.isAir() && CAN_PLACE_ON.contains(state.getBlock());
+         return !state.isAir() && !CANNOT_PLACE_ON.contains(state.getBlock());
       }
    }
 
@@ -133,7 +137,7 @@ public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureC
       {
          --height;
          BlockState state = world.getBlockState(pos);
-         if (!CAN_PLACE_ON.contains(state.getBlock()))
+         if (CANNOT_PLACE_ON.contains(state.getBlock()))
          {
             return null;
          }

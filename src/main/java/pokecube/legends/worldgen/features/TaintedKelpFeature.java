@@ -20,6 +20,7 @@ public class TaintedKelpFeature extends Feature<NoneFeatureConfiguration>
       super(config);
    }
 
+   @Override
    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config)
    {
       int i = 0;

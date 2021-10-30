@@ -21,6 +21,7 @@ public class TaintedSeagrassFeature extends Feature<ProbabilityFeatureConfigurat
       super(config);
    }
 
+   @Override
    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> config)
    {
       boolean flag = false;

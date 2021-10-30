@@ -6,7 +6,7 @@
           "config": {
             "feature": {
               "config": {},
-              "type": "pokecube_legends:tainted_kelp"
+              "type": "pokecube_legends:tainted_kelp_feature"
             },
             "decorator": {
               "config": {
