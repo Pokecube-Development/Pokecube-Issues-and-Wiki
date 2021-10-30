@@ -206,8 +206,8 @@
   "spawn_costs": {},
   "category": "taiga",
   "precipitation": "snow",
-  "scale": 1.15,
-  "downfall": 0.5,
+  "scale": 1.1,
+  "downfall": 0.3625,
   "depth": 0.2,
   "temperature": -0.5,
   "player_spawn_friendly": false
