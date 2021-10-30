@@ -24,7 +24,8 @@
   "features": [
     [],
     [
-      "minecraft:lake_lava"
+      "minecraft:lake_lava",
+      "pokecube_legends:small_crystallized_sandstone_boulders"
     ],
     [],
     [],
@@ -152,7 +153,7 @@
   "spawn_costs": {},
   "category": "desert",
   "precipitation": "none",
-  "scale": 0.07,
+  "scale": 0.1,
   "downfall": 0.4,
   "depth": 0.125,
   "temperature": 2,

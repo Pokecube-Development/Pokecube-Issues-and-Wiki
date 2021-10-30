@@ -2,6 +2,7 @@ package pokecube.legends.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
@@ -11,6 +12,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.Reference;
+import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.LakeFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
@@ -33,6 +35,8 @@ public class WorldgenFeatures
     public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens",
             () -> new TaintedBarrensSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
+    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders",
+            () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LAKE = WorldgenFeatures.FEATURES.register("lake",
             () -> new LakeFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo",

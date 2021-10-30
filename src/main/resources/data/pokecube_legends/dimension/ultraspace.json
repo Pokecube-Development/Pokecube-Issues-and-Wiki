@@ -159,6 +159,16 @@
           }
         },
         {
+          "biome": "pokecube_legends:rocky_mirage_desert",
+          "parameters": {
+            "altitude": 0.4,
+            "temperature": 0.7,
+            "humidity": 0.3,
+            "weirdness": 0.3,
+            "offset": 0
+          }
+        },
+        {
           "biome": "pokecube_legends:forsaken_taiga",
           "parameters": {
             "altitude": 0.7,

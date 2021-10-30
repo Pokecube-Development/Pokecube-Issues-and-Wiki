@@ -34,6 +34,7 @@ public class FeaturesInit
     public static final ResourceKey<Biome> MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "mirage_desert"));
     public static final ResourceKey<Biome> OLD_GROWTH_FORSAKEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "old_growth_forsaken_taiga"));
     public static final ResourceKey<Biome> POLLUTED_OCEAN = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "polluted_ocean"));
+    public static final ResourceKey<Biome> ROCKY_MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "rocky_mirage_desert"));
     public static final ResourceKey<Biome> SHATTERED_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "shattered_blinding_deltas"));
     public static final ResourceKey<Biome> SHATTERED_TAINTED_BARRENS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "shattered_tainted_barrens"));
     public static final ResourceKey<Biome> SNOWY_FORSAKEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "snowy_forsaken_taiga"));
