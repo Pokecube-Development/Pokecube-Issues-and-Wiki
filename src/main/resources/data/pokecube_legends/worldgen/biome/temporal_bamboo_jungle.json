@@ -17,7 +17,7 @@
         "type": "minecraft:scrape",
         "speed": 2.0
       },
-      "probability": 0.002
+      "probability": 0.012
     },
     "ambient_sound": "minecraft:ambient.cave"
   },

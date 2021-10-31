@@ -17,7 +17,7 @@
         "type": "minecraft:wax_off",
         "speed": 2.0
       },
-      "probability": 0.002
+      "probability": 0.004
     },
     "ambient_sound": "minecraft:ambient.warped_forest.loop"
   },
