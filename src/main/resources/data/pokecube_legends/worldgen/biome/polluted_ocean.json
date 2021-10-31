@@ -39,11 +39,10 @@
       "pokecube_legends:lake_water"
     ],
     [
-      "minecraft:amethyst_geode"
+      "pokecube_legends:rock_ultra_cobblestone",
+      "pokecube_legends:rock_ultra_stone"
     ],
-    [
-      "minecraft:monster_room"
-    ],
+    [],
     [],
     [],
     [
