@@ -89,31 +89,31 @@
       },
       "biomes": [
         {
-          "biome": "pokecube_legends:fungal_forest",
+          "biome": "pokecube_legends:fungal_plains",
           "parameters": {
-            "altitude": 0.6,
-            "temperature": 0.6,
+            "altitude": 0,
+            "temperature": 0,
             "humidity": 0.4,
             "weirdness": 0,
             "offset": 0
           }
         },
         {
-          "biome": "pokecube_legends:fungal_plains",
+          "biome": "pokecube_legends:fungal_forest",
           "parameters": {
-            "altitude": 0.7,
-            "temperature": 0.6,
-            "humidity": 0.3,
-            "weirdness": 0,
+            "altitude": 0,
+            "temperature": 0,
+            "humidity": 0.4,
+            "weirdness": 0.2,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:temporal_jungle",
           "parameters": {
-            "altitude": 0.25,
-            "temperature": 0.7,
-            "humidity": 0.6,
+            "altitude": 0,
+            "temperature": 0,
+            "humidity": -0.1,
             "weirdness": 0,
             "offset": 0
           }
@@ -121,19 +121,9 @@
         {
           "biome": "pokecube_legends:temporal_bamboo_jungle",
           "parameters": {
-            "altitude": 0.55,
-            "temperature": 0.65,
-            "humidity": 0.6,
-            "weirdness": 0,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:windswept_temporal_jungle",
-          "parameters": {
-            "altitude": 0.7,
-            "temperature": 0.65,
-            "humidity": 0.6,
+            "altitude": 0,
+            "temperature": 0,
+            "humidity": -0.7,
             "weirdness": 0,
             "offset": 0
           }
@@ -141,89 +131,149 @@
         {
           "biome": "pokecube_legends:sparse_temporal_jungle",
           "parameters": {
-            "altitude": 0.3,
-            "temperature": 0.7,
-            "humidity": 0.6,
-            "weirdness": 0.1,
+            "altitude": 0,
+            "temperature": 0.8,
+            "humidity": -0.1,
+            "weirdness": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:windswept_temporal_jungle",
+          "parameters": {
+            "altitude": 0,
+            "temperature": 0,
+            "humidity": -0.9,
+            "weirdness": 0,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:mirage_desert",
           "parameters": {
-            "altitude": 0.25,
-            "temperature": 0.7,
-            "humidity": 0.4,
-            "weirdness": 0.3,
+            "altitude": 0,
+            "temperature": -0.5,
+            "humidity": 0,
+            "weirdness": 0,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:rocky_mirage_desert",
           "parameters": {
-            "altitude": 0.4,
-            "temperature": 0.7,
-            "humidity": 0.3,
-            "weirdness": 0.3,
+            "altitude": 0.2,
+            "temperature": -0.5,
+            "humidity": 0,
+            "weirdness": -0.2,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:forsaken_taiga",
           "parameters": {
-            "altitude": 0.7,
-            "temperature": -0.5,
+            "altitude": 0.2,
+            "temperature": 0,
             "humidity": 0,
-            "weirdness": 0,
-            "offset": 0.5
+            "weirdness": 0.2,
+            "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:old_growth_forsaken_taiga",
           "parameters": {
-            "altitude": 0.7,
-            "temperature": -0.5,
+            "altitude": 0.8,
+            "temperature": 0.1,
             "humidity": 0,
-            "weirdness": 0.9,
+            "weirdness": 0.2,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:snowy_forsaken_taiga",
           "parameters": {
-            "altitude": 0.7,
-            "temperature": -0.9,
+            "altitude": 0.5,
+            "temperature": 0.2,
             "humidity": 0,
-            "weirdness": 0,
+            "weirdness": 0.4,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:windswept_forsaken_taiga",
           "parameters": {
-            "altitude": 0.69,
-            "temperature": -1,
+            "altitude": 0.7,
+            "temperature": 0.2,
             "humidity": 0,
-            "weirdness": 0,
+            "weirdness": 0.4,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:tainted_barrens",
           "parameters": {
-            "altitude": 0.4,
-            "temperature": 0.4,
-            "humidity": 0.7,
-            "weirdness": 0.4,
+            "altitude": 0,
+            "temperature": -0.2,
+            "humidity": 0.4,
+            "weirdness": -0.5,
             "offset": 0
           }
         },
         {
           "biome": "pokecube_legends:shattered_tainted_barrens",
           "parameters": {
-            "altitude": 0.5,
-            "temperature": 0.35,
-            "humidity": 0.7,
+            "altitude": 0,
+            "temperature": -0.3,
+            "humidity": 0.6,
+            "weirdness": -0.6,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:blinding_deltas",
+          "parameters": {
+            "altitude": 0.1,
+            "temperature": -0.5,
+            "humidity": 0.5,
+            "weirdness": 0.6,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:dried_blinding_deltas",
+          "parameters": {
+            "altitude": 0.1,
+            "temperature": -0.5,
+            "humidity": 0.4,
+            "weirdness": 0.5,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:magmatic_blinding_deltas",
+          "parameters": {
+            "altitude": 0.1,
+            "temperature": -0.5,
+            "humidity": 0.4,
+            "weirdness": 0.4,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:volcanic_blinding_deltas",
+          "parameters": {
+            "altitude": 0.4,
+            "temperature": -0.6,
+            "humidity": 0.4,
+            "weirdness": 0.3,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:shattered_blinding_deltas",
+          "parameters": {
+            "altitude": 0.7,
+            "temperature": -0.5,
+            "humidity": 0.4,
             "weirdness": 0.6,
             "offset": 0
           }
@@ -231,7 +281,7 @@
         {
           "biome": "pokecube_legends:polluted_ocean",
           "parameters": {
-            "altitude": -0.99,
+            "altitude": -0.69,
             "temperature": 0,
             "humidity": 0.5,
             "weirdness": 0,
@@ -241,91 +291,41 @@
         {
           "biome": "pokecube_legends:crystallized_beach",
           "parameters": {
-            "altitude": -0.9,
+            "altitude": -0.6,
             "temperature": 0,
             "humidity": 0.52,
             "weirdness": 0.05,
-            "offset": 0.489
+            "offset": 0.38
           }
         },
         {
           "biome": "pokecube_legends:crystallized_beach",
           "parameters": {
-            "altitude": -0.9,
+            "altitude": -0.6,
             "temperature": 0,
             "humidity": 0.51,
-            "weirdness": 0.05,
-            "offset": 0.5
+            "weirdness": -0.05,
+            "offset": 0.39
           }
         },
         {
           "biome": "pokecube_legends:crystallized_beach",
           "parameters": {
-            "altitude": -0.9,
+            "altitude": -0.6,
             "temperature": 0,
-            "humidity": 0.52,
-            "weirdness": 0,
-            "offset": 0.4999
+            "humidity": 0.5,
+            "weirdness": -0.075,
+            "offset": 0.39
           }
         },
         {
           "biome": "pokecube_legends:crystallized_beach",
           "parameters": {
-            "altitude": -0.9,
+            "altitude": -0.6,
             "temperature": 0,
-            "humidity": 0.51,
-            "weirdness": 0,
-            "offset": 0.5
-          }
-        },
-		{
-          "biome": "pokecube_legends:blinding_deltas",
-          "parameters": {
-            "altitude": 0.4,
-            "temperature": 0.75,
-            "humidity": 0.3,
-            "weirdness": 0.2,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:dried_blinding_deltas",
-          "parameters": {
-            "altitude": 0.5,
-            "temperature": 0.7,
-            "humidity": 0.3,
-            "weirdness": 0.25,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:magmatic_blinding_deltas",
-          "parameters": {
-            "altitude": 0.7,
-            "temperature": 0.65,
-            "humidity": 0.3,
-            "weirdness": 0.3,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:shattered_blinding_deltas",
-          "parameters": {
-            "altitude": 0.3,
-            "temperature": 0.8,
-            "humidity": 0.35,
-            "weirdness": 0.3,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:volcanic_blinding_deltas",
-          "parameters": {
-            "altitude": 0.8,
-            "temperature": 0.6,
-            "humidity": 0.3,
-            "weirdness": 0.35,
-            "offset": 0
+            "humidity": 0.49,
+            "weirdness": 0.042,
+            "offset": 0.38
           }
         }
       ]
