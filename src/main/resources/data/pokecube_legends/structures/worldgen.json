@@ -1407,7 +1407,7 @@
       ],
       "spawn": {
       	"values":{
-          "biomes":"pokecube_legends:fungal_forest, pokecube_legends:temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:tainted_barrens, pokecube_legends:forsaken_taiga"
+          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:crystallized_beach, pokecube_legends:dried_blinding_deltas, pokecube_legends:forsaken_taiga, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:mirage_desert, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:rocky_mirage_desert, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:sparse_temporal_jungle, pokecube_legends:tainted_barrens, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle"
         }
       }
     },
@@ -1444,7 +1444,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:fungal_forest"
+          "biomes":"pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
         }
       }
     },
@@ -1460,7 +1460,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:fungal_forest"
+          "biomes":"pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
         }
       }
     },
@@ -1476,7 +1476,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:temporal_jungle"
+          "biomes":"pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
         }
       }
     },
@@ -1492,7 +1492,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:temporal_jungle"
+          "biomes":"pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
         }
       }
     },
@@ -1508,7 +1508,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:mirage_desert"
+          "biomes":"pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
         }
       }
     },
@@ -1524,7 +1524,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:mirage_desert"
+          "biomes":"pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
         }
       }
     },
@@ -1539,7 +1539,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:mirage_desert"
+          "biomes":"pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
         }
       }
     },
@@ -1554,7 +1554,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:mirage_desert"
+          "biomes":"pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
         }
       }
     },
@@ -1562,7 +1562,7 @@
       "name":"pokecube_legends:necrozma_tower",
       "root":"pokecube_legends:necrozma_tower",
       "biomeType":"none",
-      "distance":54,
+      "distance":45,
       "separation":22,
       "size":6,
       "dimWhitelist":[
@@ -1570,7 +1570,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:blinding_deltas"
+          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
         }
       }
     },
@@ -1586,7 +1586,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:blinding_deltas"
+          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
         }
       }
     },
@@ -1602,7 +1602,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:blinding_deltas"
+          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
         }
       }
     },
@@ -1618,7 +1618,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:tainted_barrens"
+          "biomes":"pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens"
         }
       }
     },
@@ -1634,7 +1634,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:tainted_barrens"
+          "biomes":"pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens"
         }
       }
     },
@@ -1650,7 +1650,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:forsaken_taiga"
+          "biomes":"pokecube_legends:forsaken_taiga, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:windswept_forsaken_taiga"
         }
       }
     },
@@ -1666,7 +1666,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:forsaken_taiga"
+          "biomes":"pokecube_legends:forsaken_taiga, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:windswept_forsaken_taiga"
         }
       }
     },
@@ -1684,7 +1684,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:temporal_jungle"
+          "biomes":"pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
         }
       }
     }
