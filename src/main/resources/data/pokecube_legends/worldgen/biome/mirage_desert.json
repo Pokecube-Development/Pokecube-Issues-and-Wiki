@@ -12,6 +12,13 @@
     "water_fog_color": 65484,
     "foliage_color": 35327,
     "grass_color": 2542847,
+    "particle": {
+      "options": {
+        "type": "minecraft:wax_off",
+        "speed": 2.0
+      },
+      "probability": 0.006
+    },
     "ambient_sound": "minecraft:ambient.warped_forest.loop"
   },
   "surface_builder": "pokecube_legends:mirage_desert",
