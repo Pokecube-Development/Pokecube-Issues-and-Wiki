@@ -38,22 +38,10 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
                 if ((float)(x * x + z * z) <= (f + 1.0F) * (f + 1.0F))
                 {
                     this.setBlock(worldLevel, pos.offset(x, y, z), BlockInit.DISTORTIC_STONE.get().defaultBlockState());
-//                    if (worldLevel.isEmptyBlock(pos.above(y)))
-//                    {
-                 	   this.setBlock(worldLevel, pos.offset(x, y + 1, z), BlockInit.DISTORTIC_GRASS.get().defaultBlockState());
-                       System.out.println(x);
-                       System.out.println(y);
-                       System.out.println(z);
-//                    }
-//                    if (worldLevel.isEmptyBlock(pos.below(y)))
-//                    {
-                 	   this.setBlock(worldLevel, pos.offset(x, y - 1, z), BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()
-                 			   .setValue(DirectionalBlock.FACING, Direction.DOWN));
-//                    }
-//                    if (worldLevel.isEmptyBlock(pos.below(y + 1)))
-//                    {
-                 	   this.setBlock(worldLevel, pos.offset(x, y - 2, z), BlockInit.DISTORTIC_GLOWSTONE.get().defaultBlockState());
-//                    }
+             	    this.setBlock(worldLevel, pos.offset(x, y + 1, z), BlockInit.DISTORTIC_GRASS.get().defaultBlockState());
+             	    this.setBlock(worldLevel, pos.offset(x, y - 1, z), BlockInit.CRACKED_DISTORTIC_STONE.get().defaultBlockState()
+             	    	.setValue(DirectionalBlock.FACING, Direction.DOWN));
+             	    this.setBlock(worldLevel, pos.offset(x, y - 2, z), BlockInit.DISTORTIC_GLOWSTONE.get().defaultBlockState());
                 }
             }
          }
