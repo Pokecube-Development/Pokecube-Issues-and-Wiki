@@ -47,6 +47,7 @@ public class FeaturesInit
     public static final ResourceKey<Biome> VOLCANIC_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "volcanic_blinding_deltas"));
 
     public static final ResourceKey<Biome> DISTORTED_LANDS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "distorted_lands"));
+    public static final ResourceKey<Biome> SMALL_DISTORTED_ISLANDS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "small_distorted_islands"));
     //
 
 }

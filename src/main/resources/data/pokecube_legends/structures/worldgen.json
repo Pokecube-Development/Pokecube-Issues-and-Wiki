@@ -1329,7 +1329,7 @@
       ],
       "spawn": {
       	"values":{
-          "biomes":"pokecube_legends:distorted_lands"
+          "biomes":"pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
         }
       }
     },
@@ -1346,7 +1346,7 @@
       ],
       "spawn": {
       	"values":{
-          "biomes":"pokecube_legends:distorted_lands"
+          "biomes":"pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
         }
       }
     },
@@ -1388,7 +1388,7 @@
       ],
       "spawn": {
       	"values":{
-          "biomes":"pokecube_legends:distorted_lands"
+          "biomes":"pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
         }
       }
     },
@@ -1428,7 +1428,7 @@
       ],
       "spawn": {
       	"values":{
-          "biomes":"pokecube_legends:distorted_lands"
+          "biomes":"pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
         }
       }
     },

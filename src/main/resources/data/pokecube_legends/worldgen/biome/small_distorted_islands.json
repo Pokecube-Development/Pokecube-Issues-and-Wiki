@@ -21,14 +21,11 @@
     }
   },
   "surface_builder": "pokecube_legends:distorted_lands",
-  "carvers": {
-    "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
-    ]
-  },
+  "carvers": {},
   "features": [
-    [],
+    [
+      "pokecube_legends:distorted_islands_decorated"
+    ],
     [
       "pokecube_legends:lake_distortic_water",
       "pokecube_legends:patch_distortic_stone_boulders"

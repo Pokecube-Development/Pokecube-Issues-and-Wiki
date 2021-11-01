@@ -338,7 +338,7 @@
             "values": {
               "maxLight": "0.5",
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "min": "3",
               "rate": "0.25",
               "max": "8",
@@ -1983,7 +1983,7 @@
           },
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands",
+              "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "rate": "0.3"
             },
             "model": {
@@ -4609,7 +4609,7 @@
         "spawnRules": [
           {
             "values": {
-              "biomes": "pokecube_legends:distorted_lands",
+              "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -4633,7 +4633,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "min": "1",
               "rate": "0.001",
               "max": "1"
@@ -4690,7 +4690,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6220,7 +6220,7 @@
           {
             "values": {
               "types": "all",
-              "biomesBlacklist": "pokecube_legends:distorted_lands",
+              "biomesBlacklist": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "rate": "0.05",
               "night": "false"
             }

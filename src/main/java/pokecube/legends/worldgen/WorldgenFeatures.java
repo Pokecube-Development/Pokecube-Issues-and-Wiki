@@ -24,6 +24,9 @@ import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.features.BasaltColumnsFeature;
 import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.DeltaFeature;
+import pokecube.legends.worldgen.features.DistortedIslandsFeature;
+import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
+import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LakeFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
@@ -52,6 +55,12 @@ public class WorldgenFeatures
             () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new DeltaFeature(DeltaFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISTORTED_ISLANDS = WorldgenFeatures.FEATURES.register("distorted_islands_feature",
+            () -> new DistortedIslandsFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISTORTIC_STONE_BOULDERS = WorldgenFeatures.FEATURES.register("distortic_stone_boulders_feature",
+            () -> new DistorticStoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISTORTIC_VINES = WorldgenFeatures.FEATURES.register("distortic_vines_feature",
+            () -> new DistorticVinesFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LAKE = WorldgenFeatures.FEATURES.register("lake_feature",
             () -> new LakeFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",
