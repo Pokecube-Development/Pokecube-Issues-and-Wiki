@@ -11,10 +11,10 @@ public class MeteorBlock extends FallingBlock
 {
     private final int dustColor;
 
-    public MeteorBlock(int num, Properties properties)
+    public MeteorBlock(int color, Properties properties)
     {
         super(properties);
-        this.dustColor = num;
+        this.dustColor = color;
     }
 
     @OnlyIn(Dist.CLIENT)
