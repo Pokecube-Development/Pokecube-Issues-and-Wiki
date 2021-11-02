@@ -637,7 +637,7 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM).sound(SoundType.GRASS)
                         .strength(1f, 2f).randomTicks()));
         JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt", () -> new BlockBase(Material.VEGETABLE,
-                MaterialColor.TERRACOTTA_YELLOW, 1f, 2f, SoundType.GRAVEL, false));
+                MaterialColor.COLOR_BROWN, 1f, 2f, SoundType.GRAVEL, false));
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block", () -> new GrassCorruptedBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.SCAFFOLDING)
                         .strength(4f, 5f).randomTicks().requiresCorrectToolForDrops()));
