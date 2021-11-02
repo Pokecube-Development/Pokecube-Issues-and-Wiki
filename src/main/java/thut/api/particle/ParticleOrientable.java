@@ -2,6 +2,7 @@ package thut.api.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Camera;
@@ -25,6 +26,16 @@ public class ParticleOrientable extends ParticleBase
     protected ParticleBase read(final StringReader reader)
     {
         super.read(reader);
+        try
+        {
+            this.orientation = new Vector4(reader.readFloat(), reader.readFloat(), reader.readFloat(), reader
+                    .readFloat());
+        }
+        catch (final CommandSyntaxException e)
+        {
+            this.orientation = new Vector4();
+//            ThutCore.LOGGER.error(e);
+        }
         return this;
     }
 
