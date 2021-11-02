@@ -28,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
+import pokecube.legends.init.BlockInit;
 
 public class CrystallizedBush extends DeadBushBlock implements SimpleWaterloggedBlock
 {
@@ -92,7 +93,7 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 
 	@Override
 	public boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos) {
-		return state.isFaceSturdy(worldIn, pos, Direction.UP);
+		return state.isFaceSturdy(worldIn, pos, Direction.UP) || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
 	}
 
 	@Override
