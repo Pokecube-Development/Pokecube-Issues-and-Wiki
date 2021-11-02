@@ -29,7 +29,7 @@ public class DistortedMirror extends ItemBase
 
     public DistortedMirror(final String name, final int num)
     {
-        super(name, num, PokecubeLegends.TAB);
+        super(name, num, PokecubeLegends.TAB_DIMENSIONS);
     }
 
     @Override

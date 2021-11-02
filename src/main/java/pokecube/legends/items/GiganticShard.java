@@ -18,7 +18,7 @@ public class GiganticShard extends ItemBase
 
     public GiganticShard(final String name, final int num)
     {
-        super(name, num, PokecubeItems.POKECUBEITEMS);
+        super(name, num, PokecubeItems.TAB_ITEMS);
     }
 
     @Override

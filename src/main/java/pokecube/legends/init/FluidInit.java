@@ -26,12 +26,12 @@ public class FluidInit
                 DistorticWater.makeProperties().canMultiply()));
         FluidInit.DISTORTED_WATER_FLOWING = PokecubeLegends.FLUIDS.register("distortic_water_flowing",
                 () -> new ForgeFlowingFluid.Flowing(DistorticWater.makeProperties()));
-        FluidInit.DISTORTED_WATER_BLOCK = PokecubeLegends.BLOCKS_TAB.register("distortic_water_block",
+        FluidInit.DISTORTED_WATER_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_water_block",
                 () -> new LiquidBlock(FluidInit.DISTORTED_WATER, BlockBehaviour.Properties.of(Material.LAVA,
                         MaterialColor.COLOR_LIGHT_BLUE).noCollission().strength(100f).noDrops()));
         FluidInit.DISTORTED_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
                 FluidInit.DISTORTED_WATER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(
-                        PokecubeLegends.DECO_TAB).fireResistant()));
+                        PokecubeLegends.TAB_DECORATIONS).fireResistant()));
     }
 
     public static void init()

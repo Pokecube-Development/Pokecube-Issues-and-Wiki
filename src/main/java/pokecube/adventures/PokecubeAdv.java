@@ -128,7 +128,7 @@ public class PokecubeAdv
             // Register the badges
             for (final PokeType type : PokeType.values())
             {
-                final Item badge = new Item(new Item.Properties().tab(PokecubeItems.POKECUBEITEMS));
+                final Item badge = new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
                 final String name = type.name.equals("???") ? "unknown" : type.name;
                 PokecubeAdv.BADGES.put(type, badge);
                 PokecubeAdv.BADGEINV.put(badge, type);
@@ -234,11 +234,11 @@ public class PokecubeAdv
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().tab(
-                PokecubeItems.POKECUBEITEMS)));
+                PokecubeItems.TAB_ITEMS)));
         LINKER = PokecubeAdv.ITEMS.register("linker", () -> new Linker(new Item.Properties().tab(
-                PokecubeItems.POKECUBEITEMS)));
+                PokecubeItems.TAB_ITEMS)));
         BAG = PokecubeAdv.ITEMS.register("bag", () -> new BagItem(new Item.Properties().tab(
-                PokecubeItems.POKECUBEITEMS)));
+                PokecubeItems.TAB_ITEMS)));
 
         // Tile Entities
         AFA_TYPE = PokecubeAdv.TILES.register("afa", () -> BlockEntityType.Builder.of(AfaTile::new, PokecubeAdv.AFA
@@ -278,7 +278,7 @@ public class PokecubeAdv
         // Register the item blocks.
         for (final RegistryObject<Block> reg : PokecubeAdv.BLOCKS.getEntries())
         {
-            final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEBLOCKS);
+            final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_BLOCKS);
             // Statue does something a bit differently.
             if (reg == PokecubeAdv.STATUE) PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new StatueItem(reg.get(), props));
             else PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), props));
@@ -286,7 +286,7 @@ public class PokecubeAdv
 
         for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
             PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties().tab(
-                    PokecubeLegends.DECO_TAB)));
+                    PokecubeLegends.TAB_DECORATIONS)));
 
         // Initialize advancement triggers
         Triggers.init();

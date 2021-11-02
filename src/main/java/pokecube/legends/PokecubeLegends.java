@@ -81,9 +81,9 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block>         BLOCKS         = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block>         POKECUBE_BLOCKS_TAB         = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
-    public static final DeferredRegister<Block>         BLOCKS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
+    public static final DeferredRegister<Block>         DIMENSIONS_TAB     = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Block>         DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
@@ -177,9 +177,9 @@ public class PokecubeLegends
 
         modEventBus.addListener(this::loadComplete);
 
-        PokecubeLegends.BLOCKS.register(modEventBus);
+        PokecubeLegends.POKECUBE_BLOCKS_TAB.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
-        PokecubeLegends.BLOCKS_TAB.register(modEventBus);
+        PokecubeLegends.DIMENSIONS_TAB.register(modEventBus);
         PokecubeLegends.DECORATION_TAB.register(modEventBus);
         PokecubeLegends.NO_TAB.register(modEventBus);
         PokecubeLegends.FLUIDS.register(modEventBus);
@@ -226,19 +226,17 @@ public class PokecubeLegends
         UsableItemGigantShard.registerCapabilities(event);
     }
 
-    public static final CreativeModeTab TAB = new CreativeModeTab("ultratab")
+    public static final CreativeModeTab TAB_DIMENSIONS = new CreativeModeTab("ultratab")
     {
-
         @Override
         public ItemStack makeIcon()
         {
-            return new ItemStack(BlockInit.ULTRA_MAGNETIC.get());
+            return new ItemStack(BlockInit.DISTORTIC_GRASS.get());
         }
     };
 
-    public static final CreativeModeTab DECO_TAB = new CreativeModeTab("decotab")
+    public static final CreativeModeTab TAB_DECORATIONS = new CreativeModeTab("decotab")
     {
-
         @Override
         public ItemStack makeIcon()
         {
@@ -246,9 +244,8 @@ public class PokecubeLegends
         }
     };
 
-    public static final CreativeModeTab LEGEND_TAB = new CreativeModeTab("legendtab")
+    public static final CreativeModeTab TAB_LEGENDS = new CreativeModeTab("legendtab")
     {
-
         @Override
         public ItemStack makeIcon()
         {
@@ -335,7 +332,7 @@ public class PokecubeLegends
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
         if (hit.getBlock() != BlockInit.RAID_SPAWNER.get())
         {
-            if (hit.getBlock() == PokecubeItems.DYNABLOCK.get()) event.getPlayer().sendMessage(
+            if (hit.getBlock() == PokecubeItems.DYNAMAX.get()) event.getPlayer().sendMessage(
                     new TranslatableComponent("msg.notaraidspot.info"), Util.NIL_UUID);
             return;
         }

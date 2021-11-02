@@ -94,7 +94,7 @@ public class PokecubeItems extends ItemList
     public static ItemStack POKECUBE_CUBES   = ItemStack.EMPTY;
     public static ItemStack POKECUBE_BERRIES = ItemStack.EMPTY;
 
-    public static final CreativeModeTab POKECUBEITEMS   = new CreativeModeTab("pokecube_items")
+    public static final CreativeModeTab TAB_ITEMS   = new CreativeModeTab("pokecube_items")
                                                   {
                                                       @Override
                                                       public ItemStack makeIcon()
@@ -102,7 +102,7 @@ public class PokecubeItems extends ItemList
                                                           return PokecubeItems.POKECUBE_ITEMS;
                                                       }
                                                   };
-    public static final CreativeModeTab POKECUBEBLOCKS  = new CreativeModeTab("pokecube_blocks")
+    public static final CreativeModeTab TAB_BLOCKS  = new CreativeModeTab("pokecube_blocks")
                                                   {
                                                       @Override
                                                       public ItemStack makeIcon()
@@ -110,7 +110,7 @@ public class PokecubeItems extends ItemList
                                                           return PokecubeItems.POKECUBE_BLOCKS;
                                                       }
                                                   };
-    public static final CreativeModeTab POKECUBECUBES   = new CreativeModeTab("pokecube_cubes")
+    public static final CreativeModeTab TAB_POKECUBES   = new CreativeModeTab("pokecube_cubes")
                                                   {
                                                       @Override
                                                       public ItemStack makeIcon()
@@ -118,7 +118,7 @@ public class PokecubeItems extends ItemList
                                                           return PokecubeItems.POKECUBE_CUBES;
                                                       }
                                                   };
-    public static final CreativeModeTab POKECUBEBERRIES = new CreativeModeTab("pokecube_berries")
+    public static final CreativeModeTab TAB_BERRIES = new CreativeModeTab("pokecube_berries")
                                                   {
                                                       @Override
                                                       public ItemStack makeIcon()
@@ -144,7 +144,7 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Block> HEALER;
     public static final RegistryObject<Block> NESTBLOCK;
     public static final RegistryObject<Block> REPELBLOCK;
-    public static final RegistryObject<Block> DYNABLOCK;
+    public static final RegistryObject<Block> DYNAMAX;
     public static final RegistryObject<Block> PCTOP;
     public static final RegistryObject<Block> PCBASE;
     public static final RegistryObject<Block> TRADER;
@@ -181,27 +181,29 @@ public class PokecubeItems extends ItemList
     {
         // Items
         POKEDEX = PokecubeItems.ITEMS.register("pokedex", () -> new ItemPokedex(new Properties().tab(
-                PokecubeItems.POKECUBEITEMS), false));
+                PokecubeItems.TAB_ITEMS), false));
         POKEWATCH = PokecubeItems.ITEMS.register("pokewatch", () -> new ItemPokedex(new Properties().tab(
-                PokecubeItems.POKECUBEITEMS), true));
+                PokecubeItems.TAB_ITEMS), true));
         BERRYJUICE = PokecubeItems.ITEMS.register("berryjuice", () -> new Item(new Properties().food(new FoodProperties.Builder()
-                .nutrition(4).saturationMod(0.3F).build()).tab(PokecubeItems.POKECUBEITEMS)));
+                .nutrition(4).saturationMod(0.3F).build()).tab(PokecubeItems.TAB_ITEMS)));
         EGG = PokecubeItems.ITEMS.register("pokemobegg", () -> new ItemPokemobEgg(new Properties().tab(
-                PokecubeItems.POKECUBEITEMS)));
+                PokecubeItems.TAB_ITEMS)));
         CANDY = PokecubeItems.ITEMS.register("candy", () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC)
-                .tab(PokecubeItems.POKECUBEITEMS)));
+                .tab(PokecubeItems.TAB_ITEMS)));
         REVIVE = PokecubeItems.ITEMS.register("revive", () -> new ItemRevive(new Item.Properties().tab(
-                PokecubeItems.POKECUBEITEMS)));
+                PokecubeItems.TAB_ITEMS)));
 
         // Blocks
-        HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(BlockBehaviour.Properties.of(
-                Material.METAL, MaterialColor.WOOL).strength(2000).requiresCorrectToolForDrops()));
+        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops()));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(BlockBehaviour.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.2F)));
+        SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(BlockBehaviour.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_GREEN).strength(0.2F).requiresCorrectToolForDrops()));
-        DYNABLOCK = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(BlockBehaviour.Properties.of(Material.STONE,
-                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(0.8F).requiresCorrectToolForDrops()));
+        HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(BlockBehaviour.Properties.of(
+                Material.METAL, MaterialColor.WOOL).strength(2000).requiresCorrectToolForDrops()));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL,
                 MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), true));
         PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL,
@@ -210,10 +212,8 @@ public class PokecubeItems extends ItemList
                 MaterialColor.COLOR_LIGHT_BLUE).strength(2000).requiresCorrectToolForDrops()));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(BlockBehaviour.Properties.of(
                 Material.METAL, MaterialColor.COLOR_GREEN).strength(2000).requiresCorrectToolForDrops()));
-        SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
-        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops()));
+        DYNAMAX = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(BlockBehaviour.Properties.of(Material.STONE,
+                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(0.8F).requiresCorrectToolForDrops()));
 
         // Tile Entity Types
         NEST_TYPE = PokecubeItems.TILES.register("nest", () -> BlockEntityType.Builder.of(NestTile::new,
@@ -221,7 +221,7 @@ public class PokecubeItems extends ItemList
         REPEL_TYPE = PokecubeItems.TILES.register("repel", () -> BlockEntityType.Builder.of(RepelTile::new,
                 PokecubeItems.REPELBLOCK.get()).build(null));
         MAX_TYPE = PokecubeItems.TILES.register("dynamax", () -> BlockEntityType.Builder.of(MaxTile::new,
-                PokecubeItems.DYNABLOCK.get()).build(null));
+                PokecubeItems.DYNAMAX.get()).build(null));
         BASE_TYPE = PokecubeItems.TILES.register("secret_base", () -> BlockEntityType.Builder.of(BaseTile::new,
                 PokecubeItems.SECRETBASE.get()).build(null));
 
@@ -239,7 +239,7 @@ public class PokecubeItems extends ItemList
     {
         for (final RegistryObject<Block> reg : PokecubeItems.BLOCKS.getEntries())
             PokecubeItems.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
-                    .tab(PokecubeItems.POKECUBEBLOCKS)));
+                    .tab(PokecubeItems.TAB_BLOCKS)));
     }
 
     /**

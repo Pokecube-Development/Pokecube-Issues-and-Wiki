@@ -20,19 +20,19 @@ public class PlantsInit
     static
     {
     	//mush_plant1
-        PlantsInit.DISTORCED_MUSHROOM = PokecubeLegends.BLOCKS_TAB.register("distorced_mushroom", () -> new PlantBase(Material.PLANT,
+        PlantsInit.DISTORCED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("distorced_mushroom", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PURPLE, 0f, 3f, SoundType.GRASS));
         
         //mush_plant2
-        PlantsInit.COMPRECED_MUSHROOM = PokecubeLegends.BLOCKS_TAB.register("compreced_mushroom", () -> new PlantBase(Material.PLANT,
+        PlantsInit.COMPRECED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("compreced_mushroom", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PURPLE, 0f, 3f, SoundType.GRASS));
         
         //a1_flower
-        PlantsInit.GOLDEN_POPPY = PokecubeLegends.BLOCKS_TAB.register("golden_poppy", () -> new PlantBase(Material.PLANT,
+        PlantsInit.GOLDEN_POPPY = PokecubeLegends.DIMENSIONS_TAB.register("golden_poppy", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_YELLOW, 0f, 3f, SoundType.CORAL_BLOCK));
         
         //b1_flower
-        PlantsInit.INVERTED_ORCHID = PokecubeLegends.BLOCKS_TAB.register("inverted_orchid", () -> new PlantBase(Material.PLANT,
+        PlantsInit.INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new PlantBase(Material.PLANT,
         		MaterialColor.COLOR_PINK, 0f, 3f, SoundType.BAMBOO_SAPLING));
     }
 

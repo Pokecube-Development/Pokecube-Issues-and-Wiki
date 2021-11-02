@@ -59,7 +59,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
                 PokecubeCore.LOGGER.error("Duplicate Berry Index for " + index, new IllegalStateException());
                 return;
             }
-            this.tab(PokecubeItems.POKECUBEBERRIES);
+            this.tab(PokecubeItems.TAB_BERRIES);
             final ItemBerry berry = new ItemBerry(this);
             BerryManager.berryItems.put(index, berry);
             if (index == 0) PokecubeItems.POKECUBE_BERRIES = new ItemStack(berry);

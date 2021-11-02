@@ -186,7 +186,7 @@ public class ClientSetupHandler
         for (final Block door : BerryManager.pottedBerries.values())
             ItemBlockRenderTypes.setRenderLayer(door, RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NESTBLOCK.get(), RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNABLOCK.get(), RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
 
         // FIXME Register config gui
     }

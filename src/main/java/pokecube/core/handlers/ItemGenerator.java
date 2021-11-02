@@ -267,7 +267,7 @@ public class ItemGenerator
 
     public static void makeFossils(final IForgeRegistry<Item> registry)
     {
-        final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEITEMS);
+        final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_ITEMS);
         for (final String type : ItemGenerator.fossilVariants)
         {
             if (Database.getEntry(type) == null)
@@ -283,7 +283,7 @@ public class ItemGenerator
 
     public static void makeHeldItems(final IForgeRegistry<Item> registry)
     {
-        final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEITEMS);
+        final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_ITEMS);
         for (final String type : ItemGenerator.variants)
         {
             final ItemTyped item = new ItemTyped(props, type);
@@ -293,7 +293,7 @@ public class ItemGenerator
 
     public static void makeOtherItems(final IForgeRegistry<Item> registry)
     {
-        final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEITEMS);
+        final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_ITEMS);
         for (final String type : ItemGenerator.other)
         {
             final ItemTyped item = new ItemTyped(props, type);
@@ -315,7 +315,7 @@ public class ItemGenerator
         for (final PokeType type : PokeType.values())
         {
             Item.Properties props = new Item.Properties();
-            if (type == PokeType.unknown) props = props.tab(PokecubeItems.POKECUBEITEMS);
+            if (type == PokeType.unknown) props = props.tab(PokecubeItems.TAB_ITEMS);
             final Item tm = new ItemTM(props, type);
             registry.register(tm);
         }
@@ -329,42 +329,42 @@ public class ItemGenerator
         for (final String name : names)
         {
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.logs.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.logs.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.logs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.woods.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.woods.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.woods.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stripped_logs.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name)
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.stripped_logs.get(name)
                             .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stripped_woods.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name)
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.stripped_woods.get(name)
                             .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.planks.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.planks.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.stairs.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.stairs.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.stairs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.slabs.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.slabs.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.slabs.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.fences.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fences.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.fences.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.fence_gates.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name)
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.fence_gates.get(name)
                             .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.pressure_plates.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name)
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.pressure_plates.get(name)
                             .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.buttons.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.buttons.get(name).getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.trapdoors.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name)
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.trapdoors.get(name)
                             .getRegistryName()));
             registry.register(new BlockItem(ItemGenerator.doors.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.doors.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.doors.get(name).getRegistryName()));
         }
         for (final String name : leaves)
             registry.register(new BlockItem(ItemGenerator.leaves.get(name), new Item.Properties().tab(
-                    PokecubeItems.POKECUBEBERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
+                    PokecubeItems.TAB_BERRIES)).setRegistryName(ItemGenerator.leaves.get(name).getRegistryName()));
     }
 
     public static class GenericStairs extends StairBlock

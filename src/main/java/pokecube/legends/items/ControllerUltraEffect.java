@@ -23,7 +23,7 @@ public class ControllerUltraEffect extends ItemBase
 
     public ControllerUltraEffect(final String name, final int num)
     {
-        super(name, num, PokecubeLegends.TAB);
+        super(name, num, PokecubeLegends.TAB_DIMENSIONS);
     }
 
     @Override

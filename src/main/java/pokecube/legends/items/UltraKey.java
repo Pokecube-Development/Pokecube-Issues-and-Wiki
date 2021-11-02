@@ -31,7 +31,7 @@ public class UltraKey extends ItemBase
 
     public UltraKey(final String name, final int num)
     {
-        super(name, num, PokecubeLegends.TAB);
+        super(name, num, PokecubeLegends.TAB_DIMENSIONS);
     }
 
     @Override

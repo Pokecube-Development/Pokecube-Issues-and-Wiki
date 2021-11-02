@@ -21,10 +21,10 @@ public class ItemHandler
 {
     private static void addMiscItems(final IForgeRegistry<Item> registry)
     {
-        Item item = new Item(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.POKECUBEITEMS))
+        Item item = new Item(new Item.Properties().rarity(Rarity.RARE).tab(PokecubeItems.TAB_ITEMS))
                 .setRegistryName(PokecubeMod.ID, "luckyegg");
         registry.register(item);
-        item = new Item(new Item.Properties().tab(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeMod.ID,
+        item = new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)).setRegistryName(PokecubeMod.ID,
                 "emerald_shard");
         registry.register(item);
         ItemGenerator.registerItems(registry);
@@ -51,7 +51,7 @@ public class ItemHandler
             PokecubeBehavior.addCubeBehavior(i);
             final String name = i.getRegistryName().getPath();
             final Item.Properties props = new Item.Properties();
-            props.tab(PokecubeItems.POKECUBECUBES);
+            props.tab(PokecubeItems.TAB_POKECUBES);
             props.setNoRepair();
             final Pokecube cube = new Pokecube(props);
             if (PokecubeItems.POKECUBE_CUBES.isEmpty()) PokecubeItems.POKECUBE_CUBES = new ItemStack(cube);
@@ -61,7 +61,7 @@ public class ItemHandler
         }
 
         final Item.Properties props = new Item.Properties();
-        props.tab(PokecubeItems.POKECUBECUBES);
+        props.tab(PokecubeItems.TAB_POKECUBES);
         final Pokecube pokeseal = new Pokecube(props);
         PokecubeBehavior.POKESEAL = new ResourceLocation("pokecube:seal");
         registry.register(pokeseal.setRegistryName(PokecubeMod.ID, "pokeseal"));
@@ -72,7 +72,7 @@ public class ItemHandler
 
     private static void addVitamins(final IForgeRegistry<Item> registry)
     {
-        final Item.Properties props = new Item.Properties().tab(PokecubeItems.POKECUBEITEMS);
+        final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_ITEMS);
         for (final String type : ItemVitamin.vitamins)
         {
             final ItemVitamin item = new ItemVitamin(props, Database.trim(type));

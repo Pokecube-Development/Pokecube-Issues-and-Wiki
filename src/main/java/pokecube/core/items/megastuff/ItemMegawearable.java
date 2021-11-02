@@ -52,7 +52,7 @@ public class ItemMegawearable extends Item
 
     public ItemMegawearable(String name, String slot)
     {
-        super(new Properties().tab(PokecubeItems.POKECUBEITEMS).stacksTo(1));
+        super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
         this.name = name;
         this.slot = slot;
         this.setRegistryName(PokecubeMod.ID, "mega_" + name);

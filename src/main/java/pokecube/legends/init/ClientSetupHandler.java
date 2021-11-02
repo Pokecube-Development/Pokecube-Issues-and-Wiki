@@ -39,7 +39,7 @@ public class ClientSetupHandler
             final Block b = reg.get();
             if (b instanceof ItemGenerator.GenericPottedPlant) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
         }
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS_TAB.getEntries())
+        for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             final Block b = reg.get();
             if (b instanceof PlantBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
@@ -110,7 +110,7 @@ public class ClientSetupHandler
 			ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
         }
 
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
+        for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
         {
             final Block b = reg.get();
             boolean fullCube = true;
