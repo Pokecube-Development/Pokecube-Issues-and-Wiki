@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:blasting",
+  "experience": 0.7,
+  "cookingtime": 100,
+  "ingredient": {
+    "item": "pokecube_legends:ultra_copper_ore"
+  },
+  "result": {
+    "item": "minecraft:copper_ingot"
+  }
+}

@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/ultra_iron_ore",
-    "up": "pokecube_legends:blocks/ultra_iron_ore",
-    "north": "pokecube_legends:blocks/ultra_iron_ore",
-    "east": "pokecube_legends:blocks/ultra_iron_ore",
-    "south": "pokecube_legends:blocks/ultra_iron_ore",
-    "west": "pokecube_legends:blocks/ultra_iron_ore",
-    "particle": "pokecube_legends:blocks/ultra_iron_ore"
+	"all": "pokecube_legends:blocks/ultra_iron_ore"
    }
 }

@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/cosmicdustore",
-    "up": "pokecube_legends:blocks/cosmicdustore",
-    "north": "pokecube_legends:blocks/cosmicdustore",
-    "east": "pokecube_legends:blocks/cosmicdustore",
-    "south": "pokecube_legends:blocks/cosmicdustore",
-    "west": "pokecube_legends:blocks/cosmicdustore",
-    "particle": "pokecube_legends:blocks/cosmicdustore"
+	"all": "pokecube_legends:blocks/meteor_cosmic_dust_ore"
    }
 }

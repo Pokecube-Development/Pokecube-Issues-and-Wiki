@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/ultracosmicdustore",
-    "up": "pokecube_legends:blocks/ultracosmicdustore",
-    "north": "pokecube_legends:blocks/ultracosmicdustore",
-    "east": "pokecube_legends:blocks/ultracosmicdustore",
-    "south": "pokecube_legends:blocks/ultracosmicdustore",
-    "west": "pokecube_legends:blocks/ultracosmicdustore",
-    "particle": "pokecube_legends:blocks/ultracosmicdustore"
+	"all": "pokecube_legends:blocks/ultra_cosmic_dust_ore"
    }
 }

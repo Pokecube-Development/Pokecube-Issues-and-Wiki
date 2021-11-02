@@ -261,13 +261,14 @@
     "block.pokecube_legends.temporal_bookshelf_empty": "Temporal Bookshelf",
 
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
+    "block.pokecube_legends.ultra_copper_ore": "Ultra Stone Copper Ore",
     "block.pokecube_legends.ultra_iron_ore": "Ultra Stone Iron Ore",
     "block.pokecube_legends.ultra_gold_ore": "Ultra Stone Gold Ore",
     "block.pokecube_legends.ultra_lazuli_ore": "Ultra Stone Lapis Lazuli Ore",
     "block.pokecube_legends.ultra_diamond_ore": "Ultra Stone Diamond Ore",
     "block.pokecube_legends.ultra_emerald_ore": "Ultra Stone Emerald Ore",
     "block.pokecube_legends.ultra_redstone_ore": "Ultra Stone Redstone Ore",
-    "block.pokecube_legends.fractal_ore": "Fractal Ore",
+    "block.pokecube_legends.fractal_ore": "Distortic Stone Fractal Ore",
     "block.pokecube_legends.fractal_block": "Block of Fractal",
     "item.pokecube_legends.fractal_shard": "Fractal Shard",
 
@@ -337,14 +338,14 @@
     "block.pokecube_legends.distortic_water": "Distortic Water",
     "item.pokecube_legends.distortic_water_bucket": "Distortic Water Bucket",
 
-    "block.pokecube_legends.cosmic_dust_ore": "Cosmic Ore",
-    "block.pokecube_legends.ultra_cosmic_dust_ore": "Ultra Cosmic Ore",
+    "block.pokecube_legends.cosmic_dust_ore": "Meteor Cosmic Ore",
+    "block.pokecube_legends.ultra_cosmic_dust_ore": "Ultra Stone Cosmic Ore",
     "block.pokecube_legends.cosmic_dust_block": "Sack of Cosmic Dust",
     "block.pokecube_legends.meteor_block": "Meteor Block",
     "block.pokecube_legends.meteor_slab": "Meteor Block Slab",
     "block.pokecube_legends.meteor_stairs": "Meteor Block Stairs",
 
-    "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
+    "block.pokecube_legends.spectrum_ore": "Ultra Stone Spectrum Ore",
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
     "block.pokecube_legends.spectrum_block": "Block of Spectrum",
     "block.pokecube_legends.spectrum_glass": "Spectrum Glass",
@@ -777,7 +778,7 @@
     "block.pokecube_legends.lele_core": "Tapu Lele Spawner",
     "block.pokecube_legends.fini_core": "Tapu Fini Spawner",
     "block.pokecube_legends.bulu_core": "Tapu Bulu Spawner",
-    "block.pokecube_legends.blackwhite_spawn": "Tao Legendary Spawner",
+    "block.pokecube_legends.blackwhite_spawn": "Tao Spawner",
     "block.pokecube_legends.legendary_spawn": "Legendary Spawner",
 
     // Decoration
