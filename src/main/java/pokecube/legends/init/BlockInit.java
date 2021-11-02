@@ -678,7 +678,7 @@ public class BlockInit
                 .requiresCorrectToolForDrops()));
         CRYSTAL_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("crystal_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.GLASS,
-                        MaterialColor.SNOW).sound(SoundType.AMETHYST).noCollission().strength(0.5F)
+                        MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.AMETHYST).noCollission().strength(0.5F)
                         .requiresCorrectToolForDrops()));
 
         // Ultra Stone Blocks

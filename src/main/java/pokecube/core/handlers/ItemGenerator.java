@@ -221,18 +221,18 @@ public class ItemGenerator
             ItemGenerator.fence_gates.put(name, block);
             registry.register(block);
 
-            // Pressure Plates
-            block = new GenericPressurePlate(Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(
-            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
-            block.setRegistryName(PokecubeCore.MODID, name + "_pressure_plate");
-            ItemGenerator.pressure_plates.put(name, block);
-            registry.register(block);
-
             // Buttons
             block = new GenericWoodButton(BlockBehaviour.Properties.of(
             		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, name + "_button");
             ItemGenerator.buttons.put(name, block);
+            registry.register(block);
+
+            // Pressure Plates
+            block = new GenericPressurePlate(Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(
+            		Material.WOOD, ItemGenerator.berryWoods.get(name)).strength(2.0F).sound(SoundType.WOOD));
+            block.setRegistryName(PokecubeCore.MODID, name + "_pressure_plate");
+            ItemGenerator.pressure_plates.put(name, block);
             registry.register(block);
 
             // Trapdoors
