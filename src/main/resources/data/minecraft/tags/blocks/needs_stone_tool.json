@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:fence_gates/concrete",
+    "#forge:fences/concrete",
+    "#pokecube_legends:concrete_logs",
+    "#pokecube_legends:concrete_planks",
+    "#pokecube_legends:concrete_slabs",
+    "#pokecube_legends:concrete_stairs",
+    "pokecube:fossil_ore",
+    "pokecube_legends:concrete_barrel",
+    "pokecube_legends:concrete_bookshelf",
+    "pokecube_legends:concrete_bookshelf_empty",
+    "pokecube_legends:concrete_button",
+    "pokecube_legends:concrete_dense_barrel",
+    "pokecube_legends:concrete_dense_bookshelf",
+    "pokecube_legends:concrete_dense_bookshelf_empty",
+    "pokecube_legends:concrete_dense_button",
+    "pokecube_legends:concrete_dense_pressure_plate",
+    "pokecube_legends:concrete_dense_wall",
+    "pokecube_legends:concrete_door",
+    "pokecube_legends:concrete_pressure_plate",
+    "pokecube_legends:concrete_trapdoor",
+    "pokecube_legends:heatran_spawn",
+    "pokecube_legends:ultra_copper_ore",
+    "pokecube_legends:ultra_iron_ore",
+    "pokecube_legends:ultra_lazuli_ore"
+  ]
+}

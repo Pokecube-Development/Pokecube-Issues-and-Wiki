@@ -716,13 +716,13 @@ public class BlockInit
 
         ULTRA_STONE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone", () -> new BlockBase(Material.STONE,
                 MaterialColor.TERRACOTTA_CYAN, 1.5f, 6.0f, SoundType.STONE, true));
-        ULTRA_STONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone_slab", () -> new SlabBlock(
-                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(
-                        SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_STONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
+        ULTRA_STONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone_slab", () -> new SlabBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).strength(2.0F, 3.0f).sound(
+                        SoundType.STONE).requiresCorrectToolForDrops()));
         ULTRA_STONE_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.STONE,
                         MaterialColor.COLOR_BLUE).sound(SoundType.BAMBOO).noCollission().strength(0.5F)
@@ -774,7 +774,7 @@ public class BlockInit
         // Ultra Desert
         CRYSTALLIZED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sand", () -> new EffectBlockBaseSand(14737366,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.WOOL).sound(SoundType.SAND)
-                .strength(0.2f), MobEffects.LEVITATION));
+                .strength(0.6f), MobEffects.LEVITATION));
         CRYSTALLIZED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone", () -> new BlockBase(
                 Material.STONE, MaterialColor.SNOW, 1f, 10f, SoundType.STONE, true));
         CRYS_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone_stairs",

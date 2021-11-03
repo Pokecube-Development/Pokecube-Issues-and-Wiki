@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:berry_fruits",
+    "#pokecube:berry_leaves",
+    "#pokecube_legends:legends_leaves",
+    "pokecube:nest",
+    "pokecube:repel"
+  ]
+}
