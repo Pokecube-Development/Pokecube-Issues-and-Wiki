@@ -195,25 +195,25 @@ public class PokecubeItems extends ItemList
 
         // Blocks
         FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).requiresCorrectToolForDrops()));
+                Material.STONE, MaterialColor.STONE).strength(1.5f, 10).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         NESTBLOCK = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(BlockBehaviour.Properties.of(
-                Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.2F)));
+                Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.5F)));
         SECRETBASE = PokecubeItems.BLOCKS.register("secret_base", () -> new BaseBlock(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(2000).requiresCorrectToolForDrops()));
+                Material.STONE, MaterialColor.STONE).strength(2000).sound(SoundType.STONE).requiresCorrectToolForDrops()));
         REPELBLOCK = PokecubeItems.BLOCKS.register("repel", () -> new RepelBlock(BlockBehaviour.Properties.of(
-                Material.GRASS, MaterialColor.COLOR_GREEN).strength(0.2F).requiresCorrectToolForDrops()));
+                Material.GRASS, MaterialColor.COLOR_GREEN).strength(0.5F, 2.5F).sound(SoundType.GRASS).requiresCorrectToolForDrops()));
         HEALER = PokecubeItems.BLOCKS.register("pokecenter", () -> new HealerBlock(BlockBehaviour.Properties.of(
-                Material.METAL, MaterialColor.WOOL).strength(2000).requiresCorrectToolForDrops()));
+                Material.METAL, MaterialColor.WOOL).strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops()));
         PCTOP = PokecubeItems.BLOCKS.register("pc_top", () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), true));
+                MaterialColor.COLOR_RED).strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops(), true));
         PCBASE = PokecubeItems.BLOCKS.register("pc_base", () -> new PCBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_RED).strength(2000).requiresCorrectToolForDrops(), false));
+                MaterialColor.COLOR_RED).strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops(), false));
         TMMACHINE = PokecubeItems.BLOCKS.register("tm_machine", () -> new TMBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_LIGHT_BLUE).strength(2000).requiresCorrectToolForDrops()));
+                MaterialColor.COLOR_LIGHT_BLUE).strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops()));
         TRADER = PokecubeItems.BLOCKS.register("trade_machine", () -> new TraderBlock(BlockBehaviour.Properties.of(
-                Material.METAL, MaterialColor.COLOR_GREEN).strength(2000).requiresCorrectToolForDrops()));
+                Material.METAL, MaterialColor.COLOR_GREEN).strength(2000).sound(SoundType.METAL).requiresCorrectToolForDrops()));
         DYNAMAX = PokecubeItems.BLOCKS.register("dynamax", () -> new MaxBlock(BlockBehaviour.Properties.of(Material.STONE,
-                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).strength(0.8F).requiresCorrectToolForDrops()));
+                MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).sound(SoundType.AMETHYST_CLUSTER).strength(0.8F).requiresCorrectToolForDrops()));
 
         // Tile Entity Types
         NEST_TYPE = PokecubeItems.TILES.register("nest", () -> BlockEntityType.Builder.of(NestTile::new,
