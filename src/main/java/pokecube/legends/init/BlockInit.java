@@ -1911,10 +1911,10 @@ public class BlockInit
         // Block Raid
         RAID_SPAWNER = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("raid_spot_spawner", () -> new RaidSpawnBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(2000,
-                        2000)).setInfoBlockName("raid_spawner"));
+                        2000).sound(SoundType.METAL)).setInfoBlockName("raid_spawner"));
         CRAMOMATIC_BLOCK = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("cramomatic_block", () -> new CramomaticBlock(
-                BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(6, 15).sound(
-                        SoundType.ANVIL).dynamicShape().requiresCorrectToolForDrops()).setToolTip("cramobot"));
+                BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_RED).strength(6, 15).sound(SoundType.METAL)
+                .dynamicShape().requiresCorrectToolForDrops()).setToolTip("cramobot"));
 
         // Mirage Spot (Hoopa Ring)
         PORTAL = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("mirage_spot_block", () -> new PortalWarp("mirage_spot_block", BlockBehaviour.Properties.of(
