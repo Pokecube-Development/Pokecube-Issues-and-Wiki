@@ -209,25 +209,25 @@ public class ItemInit
     {
         // Legends Creative Tab - Sorting depends on the order the items are listed in
     	// Orbs
-        ADAMANT_ORB = PokecubeLegends.ITEMS.register("adamantorb", () -> new ItemBase("adamantorb", PokecubeLegends.TAB_LEGENDS, 1));
         BLUE_ORB = PokecubeLegends.ITEMS.register("blueorb", () -> new ItemBase("blueorb", PokecubeLegends.TAB_LEGENDS, 1));
         COSMIC_ORB = PokecubeLegends.ITEMS.register("cosmic_orb", () -> new ItemBase("cosmic_orb", PokecubeLegends.TAB_LEGENDS, 1));
         DESTRUCT_ORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", PokecubeLegends.TAB_LEGENDS, 1));
         GRAY_ORB = PokecubeLegends.ITEMS.register("grayorb", () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1));
         GREEN_ORB = PokecubeLegends.ITEMS.register("greenorb", () -> new ItemBase("greenorb", PokecubeLegends.TAB_LEGENDS, 1));
-        GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", PokecubeLegends.TAB_LEGENDS, 1));
         LIFE_ORB = PokecubeLegends.ITEMS.register("lifeorb", () -> new ItemBase("lifeorb", PokecubeLegends.TAB_LEGENDS, 1));
         LUSTROUS_ORB = PokecubeLegends.ITEMS.register("lustrousorb", () -> new ItemBase("lustrousorb", PokecubeLegends.TAB_LEGENDS, 1));
         OCEAN_ORB = PokecubeLegends.ITEMS.register("oceanorb", () -> new ItemBase("oceanorb", PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_ORB = PokecubeLegends.ITEMS.register("legendaryorb", () -> new ItemBase("legendaryorb", PokecubeLegends.TAB_LEGENDS, 1).setShiny());
         RED_ORB = PokecubeLegends.ITEMS.register("redorb", () -> new ItemBase("redorb", PokecubeLegends.TAB_LEGENDS, 1));
         REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb", () -> new ItemBase("regisorb", PokecubeLegends.TAB_LEGENDS, 1));
-        SOUL_DEW = PokecubeLegends.ITEMS.register("soul_dew", () -> new ItemBase("soul_dew", PokecubeLegends.TAB_LEGENDS, 1));
-        SOUL_HEART = PokecubeLegends.ITEMS.register("soul_heart", () -> new ItemBase("soul_heart", PokecubeLegends.TAB_LEGENDS, 1));
         BULU_ORB = PokecubeLegends.ITEMS.register("bulu_orb", () -> new ItemBase("bulu_orb", PokecubeLegends.TAB_LEGENDS, 1));
         FINI_ORB = PokecubeLegends.ITEMS.register("fini_orb", () -> new ItemBase("fini_orb", PokecubeLegends.TAB_LEGENDS, 1));
         KOKO_ORB = PokecubeLegends.ITEMS.register("koko_orb", () -> new ItemBase("koko_orb", PokecubeLegends.TAB_LEGENDS, 1));
         LELE_ORB = PokecubeLegends.ITEMS.register("lele_orb", () -> new ItemBase("lele_orb", PokecubeLegends.TAB_LEGENDS, 1));
+        SOUL_DEW = PokecubeLegends.ITEMS.register("soul_dew", () -> new ItemBase("soul_dew", PokecubeLegends.TAB_LEGENDS, 1));
+        SOUL_HEART = PokecubeLegends.ITEMS.register("soul_heart", () -> new ItemBase("soul_heart", PokecubeLegends.TAB_LEGENDS, 1));
+        ADAMANT_ORB = PokecubeLegends.ITEMS.register("adamantorb", () -> new ItemBase("adamantorb", PokecubeLegends.TAB_LEGENDS, 1));
+        GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", PokecubeLegends.TAB_LEGENDS, 1));
 
         // Gem
         AZELF_GEM = PokecubeLegends.ITEMS.register("azelf_gem", () -> new ItemBase("azelf_gem", PokecubeLegends.TAB_LEGENDS, 1));
