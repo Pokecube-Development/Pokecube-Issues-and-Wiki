@@ -14,17 +14,18 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
+import pokecube.legends.blocks.plants.TemporalBambooBlock;
 import pokecube.legends.init.BlockInit;
 
 public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfiguration>
 {
-   private static final BlockState BAMBOO_TRUNK = Blocks.BAMBOO.defaultBlockState()
-		   .setValue(BambooBlock.AGE, Integer.valueOf(1)).setValue(BambooBlock.LEAVES, BambooLeaves.NONE)
-		   .setValue(BambooBlock.STAGE, Integer.valueOf(0));
-   private static final BlockState BAMBOO_FINAL_LARGE = BAMBOO_TRUNK.setValue(BambooBlock.LEAVES, BambooLeaves.LARGE)
-		   .setValue(BambooBlock.STAGE, Integer.valueOf(1));
-   private static final BlockState BAMBOO_TOP_LARGE = BAMBOO_TRUNK.setValue(BambooBlock.LEAVES, BambooLeaves.LARGE);
-   private static final BlockState BAMBOO_TOP_SMALL = BAMBOO_TRUNK.setValue(BambooBlock.LEAVES, BambooLeaves.SMALL);
+   private static final BlockState BAMBOO_TRUNK = BlockInit.TEMPORAL_BAMBOO.get().defaultBlockState()
+		   .setValue(TemporalBambooBlock.AGE, Integer.valueOf(1)).setValue(TemporalBambooBlock.LEAVES, BambooLeaves.NONE)
+		   .setValue(TemporalBambooBlock.STAGE, Integer.valueOf(0));
+   private static final BlockState BAMBOO_FINAL_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.LARGE)
+		   .setValue(TemporalBambooBlock.STAGE, Integer.valueOf(1));
+   private static final BlockState BAMBOO_TOP_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.LARGE);
+   private static final BlockState BAMBOO_TOP_SMALL = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.SMALL);
 
    public TemporalBambooFeature(Codec<ProbabilityFeatureConfiguration> config)
    {
@@ -42,7 +43,7 @@ public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfigurati
       BlockPos.MutableBlockPos mutablePos = pos.mutable();
       BlockPos.MutableBlockPos mutablePos1 = pos.mutable();
       if (world.isEmptyBlock(mutablePos)) {
-         if (Blocks.BAMBOO.defaultBlockState().canSurvive(world, mutablePos))
+         if (BlockInit.TEMPORAL_BAMBOO.get().defaultBlockState().canSurvive(world, mutablePos))
          {
             int j = random.nextInt(12) + 5;
             if (random.nextFloat() < probConfig.probability)

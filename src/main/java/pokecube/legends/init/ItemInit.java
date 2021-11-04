@@ -27,6 +27,7 @@ import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.ItemTiers;
 import pokecube.legends.items.LegendsSword;
 import pokecube.legends.items.RainbowSword;
+import pokecube.legends.items.TemporalBambooBlockItem;
 import pokecube.legends.items.UltraKey;
 import pokecube.legends.items.armor.UltraBootsEffect;
 import pokecube.legends.items.armor.UltraHelmetEffect;
@@ -181,6 +182,7 @@ public class ItemInit
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
+    public static final RegistryObject<Item> TEMPORAL_BAMBOO;
 
     // Foods
     public static final RegistryObject<Item> POKEPUFF_GRASS;
@@ -362,6 +364,8 @@ public class ItemInit
 
         // Plants
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(BlockInit.DISTORTIC_VINES.get(),
+        		new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
+        TEMPORAL_BAMBOO = PokecubeLegends.ITEMS.register("temporal_bamboo", () -> new TemporalBambooBlockItem(BlockInit.TEMPORAL_BAMBOO.get(),
         		new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Foods

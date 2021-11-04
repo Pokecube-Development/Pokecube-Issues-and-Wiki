@@ -218,6 +218,7 @@
     "block.pokecube_legends.potted_inverted_sapling": "Potted Inverted Sapling",
     "block.pokecube_legends.potted_mirage_sapling": "Potted Mirage Sapling",
     "block.pokecube_legends.potted_tall_crystallized_bush": "Potted Tall Crystallized Bush",
+    "block.pokecube_legends.potted_temporal_bamboo": "Potted Temporal Bamboo",
     "block.pokecube_legends.potted_temporal_sapling": "Potted Temporal Sapling",
 
     "block.pokecube_legends.dyna_leaves_pink": "Pink Dyna Leaves",
@@ -369,6 +370,8 @@
     "block.pokecube_legends.inverted_pressure_plate": "Inverted Pressure Plate",
     "block.pokecube_legends.inverted_leaves": "Inverted Leaves",
 
+    "block.pokecube_legends.temporal_bamboo": "Temporal Bamboo",
+    "block.pokecube_legends.temporal_bamboo_shoot": "Temporal Bamboo Shoot",
     "block.pokecube_legends.temporal_log": "Temporal Log",
     "block.pokecube_legends.temporal_planks": "Temporal Planks",
     "block.pokecube_legends.temporal_leaves": "Temporal Leaves",

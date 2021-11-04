@@ -1,0 +1,58 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0"
+      },
+      "apply": [
+        {
+          "model": "pokecube_legends:block/temporal_bamboo1_age0"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo2_age0"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo3_age0"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo4_age0"
+        }
+      ]
+    },
+    {
+      "when": {
+        "age": "1"
+      },
+      "apply": [
+        {
+          "model": "pokecube_legends:block/temporal_bamboo1_age1"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo2_age1"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo3_age1"
+        },
+        {
+          "model": "pokecube_legends:block/temporal_bamboo4_age1"
+        }
+      ]
+    },
+    {
+      "when": {
+        "leaves": "small"
+      },
+      "apply": {
+        "model": "pokecube_legends:block/temporal_bamboo_small_leaves"
+      }
+    },
+    {
+      "when": {
+        "leaves": "large"
+      },
+      "apply": {
+        "model": "pokecube_legends:block/temporal_bamboo_large_leaves"
+      }
+    }
+  ]
+}

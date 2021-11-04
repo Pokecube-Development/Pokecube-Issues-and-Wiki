@@ -8,7 +8,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -103,6 +102,8 @@ import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
 import pokecube.legends.blocks.plants.TallCrystallizedBush;
+import pokecube.legends.blocks.plants.TemporalBambooBlock;
+import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 import pokecube.legends.blocks.plants.TemporalTree;
 
 public class BlockInit
@@ -523,6 +524,8 @@ public class BlockInit
     public static final RegistryObject<Block> TEMPORAL_BARREL;
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF;
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF_EMPTY;
+    public static final RegistryObject<Block> TEMPORAL_BAMBOO;
+    public static final RegistryObject<Block> TEMPORAL_BAMBOO_SHOOT;
 
     // Plants
     public static final RegistryObject<Block> INVERTED_SAPLING;
@@ -616,6 +619,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
+    public static final RegistryObject<Block> POTTED_TEMPORAL_BAMBOO;
 
     static
     {
@@ -1168,6 +1172,13 @@ public class BlockInit
         TEMPORAL_DOOR = PokecubeLegends.DIMENSIONS_TAB.register("temporal_door", () -> new ItemGenerator.GenericDoor(
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).sound(SoundType.WOOD).strength(
                         2.0f, 3.0f).noOcclusion()));
+
+        TEMPORAL_BAMBOO = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo", () -> new TemporalBambooBlock(
+                BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak()
+                .strength(1.2f).sound(SoundType.BAMBOO).noOcclusion().dynamicShape()));
+        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
+                BlockBehaviour.Properties.of(Material.BAMBOO_SAPLING, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak().noCollission()
+                .strength(1.2f).sound(SoundType.BAMBOO_SAPLING)));
 
         // Dyna Leaves
         DYNA_LEAVES_RED = PokecubeLegends.DIMENSIONS_TAB.register("dyna_leaves_red", () -> new DynaLeavesBlock(
@@ -2040,6 +2051,9 @@ public class BlockInit
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
                 () -> new PottedCrystallizedBush(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TEMPORAL_BAMBOO = PokecubeLegends.NO_TAB.register("potted_temporal_bamboo",
+                () -> new ItemGenerator.GenericPottedPlant(BlockInit.TEMPORAL_BAMBOO.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(final int i)
@@ -2061,7 +2075,8 @@ public class BlockInit
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == BlockInit.DISTORTIC_VINES || reg == BlockInit.DISTORTIC_VINES_PLANT) continue;
+            if (reg == BlockInit.DISTORTIC_VINES || reg == BlockInit.DISTORTIC_VINES_PLANT ||
+            		reg == BlockInit.TEMPORAL_BAMBOO || reg == BlockInit.TEMPORAL_BAMBOO_SHOOT) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.TAB_DIMENSIONS)));
         }
@@ -2125,6 +2140,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
@@ -2223,6 +2239,7 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
+        BlockInit.flammableBlocks(BlockInit.TEMPORAL_BAMBOO.get(), 60, 60);
 
         // Bookshelves
         BlockInit.flammableBlocks(BlockInit.AGED_BOOKSHELF.get(), 5, 20);

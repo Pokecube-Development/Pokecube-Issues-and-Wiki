@@ -19,7 +19,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
-import pokecube.legends.blocks.PlantBase;
+import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
@@ -42,7 +42,7 @@ public class ClientSetupHandler
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             final Block b = reg.get();
-            if (b instanceof PlantBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            if (b instanceof FlowerBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
             for (final BlockState state : b.getStateDefinition().getPossibleStates())
             {
@@ -79,7 +79,7 @@ public class ClientSetupHandler
         for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
         {
             final Block b = reg.get();
-            if (b instanceof PlantBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            if (b instanceof FlowerBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
             for (final BlockState state : b.getStateDefinition().getPossibleStates())
             {

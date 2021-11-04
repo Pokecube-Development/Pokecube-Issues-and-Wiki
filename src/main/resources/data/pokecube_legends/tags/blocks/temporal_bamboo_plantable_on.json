@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:bamboo_plantable_on",
+    "pokecube_legends:temporal_bamboo",
+    "pokecube_legends:temporal_bamboo_shoot"
+  ]
+}
