@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -19,14 +20,13 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraftforge.common.PlantType;
 
-public class PlantBase extends FlowerBlock
+public class FlowerBase extends FlowerBlock
 {
     public static final Block block = null;
 
-    public PlantBase(final Material material, MaterialColor color, final float hardness, final float resistance, final SoundType sound)
+    public FlowerBase(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
     {
-        super(MobEffects.SATURATION, 0, BlockBehaviour.Properties.of(material, color).strength(hardness, resistance)
-                .noCollission().sound(sound));
+        super(effects, seconds, properties);
     }
 
     @Override
