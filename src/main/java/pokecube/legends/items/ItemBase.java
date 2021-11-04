@@ -23,31 +23,31 @@ public class ItemBase extends Item
     boolean hasShiny = false;
 
     //Info
-    public ItemBase(final String name, final int num, final CreativeModeTab group)
+    public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize)
     {
-        super(new Properties().tab(group).stacksTo(num));
+        super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
         this.tooltipname = name;
     }
-    
+
     //No Info
-    public ItemBase(final int num, final CreativeModeTab group)
+    public ItemBase(final CreativeModeTab tab, final int maxStackSize)
     {
-        super(new Properties().tab(group).stacksTo(num));
+        super(new Properties().tab(tab).stacksTo(maxStackSize));
     }
-    
-    public ItemBase(final String name, final int num, final CreativeModeTab group, final FoodProperties food)
+
+    public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize, final FoodProperties food)
     {
-        super(new Properties().tab(group).stacksTo(num).food(food));
+        super(new Properties().tab(tab).stacksTo(maxStackSize).food(food));
         this.tooltipname = name;
         this.hasTooltip = true;
     }
-    
-    public ItemBase(final int num, final CreativeModeTab group, final FoodProperties food)
+
+    public ItemBase(final CreativeModeTab tab, final int maxStackSize, final FoodProperties food)
     {
-        super(new Properties().tab(group).stacksTo(num).food(food));
+        super(new Properties().tab(tab).stacksTo(maxStackSize).food(food));
     }
-    
+
     public ItemBase setShiny() {
     	this.hasShiny = true;
     	return this;

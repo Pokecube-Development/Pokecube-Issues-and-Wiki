@@ -160,12 +160,4 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
       {}
       return i;
    }
-
-//   public Block getStalkBlock() {
-//      return this;
-//   }
-//
-//   public TemporalBambooShootBlock getShootBlock() {
-//      return (TemporalBambooShootBlock)BlockInit.TEMPORAL_BAMBOO_SHOOT.get();
-//   }
 }

@@ -64,12 +64,4 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
    public ItemStack getCloneItemStack(BlockGetter p_53896_, BlockPos p_53897_, BlockState p_53898_) {
       return new ItemStack(ItemInit.TEMPORAL_BAMBOO.get());
    }
-
-//   public TemporalBambooShootBlock getStalkBlock() {
-//      return (TemporalBambooShootBlock)ItemInit.TEMPORAL_BAMBOO.get();
-//   }
-//
-//   protected TemporalBambooShootBlock getShootBlock() {
-//      return this;
-//   }
 }
