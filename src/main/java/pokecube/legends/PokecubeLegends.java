@@ -189,12 +189,29 @@ public class PokecubeLegends
         PokecubeLegends.CONTAINER.register(modEventBus);
 
         // Biome Dictionary
-        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.MAGICAL, Type.FOREST, Type.MUSHROOM);
-        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.JUNGLE, Type.FOREST, Type.DENSE);
-        BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.SANDY, Type.WASTELAND, Type.HOT);
-        BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HILLS, Type.DEAD, Type.SPOOKY);
-        BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.COLD, Type.CONIFEROUS, Type.SNOWY);
-        BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.MAGICAL, Type.FOREST, Type.SPARSE);
+        BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HOT, Type.SPOOKY, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.CRYSTALLIZED_BEACH, Type.BEACH, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.DISTORTED_LANDS, Type.MAGICAL, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.DRIED_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL);
+        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.FOREST, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.FUNGAL_PLAINS, Type.PLAINS, Type.MUSHROOM);
+        BiomeDictionary.addTypes(FeaturesInit.MAGMATIC_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.DRY, Type.HOT, Type.MAGICAL, Type.SANDY);
+        BiomeDictionary.addTypes(FeaturesInit.OLD_GROWTH_FORSAKEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.DENSE, Type.FOREST, Type.MAGICAL, Type.RARE, Type.SPARSE);
+        BiomeDictionary.addTypes(FeaturesInit.POLLUTED_OCEAN, Type.OCEAN, Type.WASTELAND);
+        BiomeDictionary.addTypes(FeaturesInit.ROCKY_MIRAGE_DESERT, Type.DRY, Type.HOT, Type.MAGICAL, Type.SANDY);
+        BiomeDictionary.addTypes(FeaturesInit.SHATTERED_BLINDING_DELTAS, Type.HOT, Type.MOUNTAIN, Type.RARE, Type.SPOOKY, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.SHATTERED_TAINTED_BARRENS, Type.DEAD, Type.HILLS, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.SMALL_DISTORTED_ISLANDS, Type.MAGICAL, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.SNOWY_FORSAKEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.SPARSE_TEMPORAL_JUNGLE, Type.DENSE, Type.HILLS, Type.HOT, Type.JUNGLE, Type.MAGICAL, Type.RARE, Type.SPARSE, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.DEAD, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_BAMBOO_JUNGLE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.RARE, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.DENSE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.WET);
+        BiomeDictionary.addTypes(FeaturesInit.VOLCANIC_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.MOUNTAIN, Type.RARE, Type.SPOOKY);
+        BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_FORSAKEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL, Type.MOUNTAIN, Type.RARE, Type.SNOWY);
+        BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_TEMPORAL_JUNGLE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.MOUNTAIN, Type.RARE, Type.WET);
 
         WorldgenFeatures.init(modEventBus);
         BlockInit.init();
