@@ -90,8 +90,8 @@ public class ItemGenerator
     public static Map<String, Block> slabs           = Maps.newHashMap();
     public static Map<String, Block> fences          = Maps.newHashMap();
     public static Map<String, Block> fence_gates     = Maps.newHashMap();
-    public static Map<String, Block> pressure_plates = Maps.newHashMap();
     public static Map<String, Block> buttons         = Maps.newHashMap();
+    public static Map<String, Block> pressure_plates = Maps.newHashMap();
     public static Map<String, Block> trapdoors       = Maps.newHashMap();
     public static Map<String, Block> doors           = Maps.newHashMap();
     public static Map<Item, Block>   potted_berries  = Maps.newHashMap();
