@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SeagrassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WaterlilyBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -13,6 +14,7 @@ import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
+import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 
 public class PlantsInit
 {
@@ -24,6 +26,8 @@ public class PlantsInit
     public static RegistryObject<Block> INVERTED_ORCHID;
     public static RegistryObject<Block> PINK_TAINTED_LILY_PAD;
     public static RegistryObject<Block> TAINTED_LILY_PAD;
+    public static RegistryObject<Block> TAINTED_SEAGRASS;
+    public static RegistryObject<Block> TALL_TAINTED_SEAGRASS;
 
     static
     {
@@ -36,16 +40,24 @@ public class PlantsInit
                 .lightLevel((i) -> {return 1;})));
 
         PlantsInit.GOLDEN_POPPY = PokecubeLegends.DIMENSIONS_TAB.register("golden_poppy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
-        		BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.CORAL_BLOCK)));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.CORAL_BLOCK)));
 
         PlantsInit.INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
-        		BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
 
         PlantsInit.PINK_TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
-        		BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
 
         PlantsInit.TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("tainted_lily_pad", () -> new LilyPadBlock(
-        		BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+
+        PlantsInit.TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new SeagrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_PURPLE)
+                .noCollission().instabreak().sound(SoundType.WET_GRASS)));
+
+        PlantsInit.TALL_TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tall_tainted_seagrass", () -> new TallTaintedSeagrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_PURPLE)
+                .noCollission().instabreak().sound(SoundType.WET_GRASS)));
     }
 
     public static void registry() {
