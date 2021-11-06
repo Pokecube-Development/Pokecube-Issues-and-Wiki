@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.IForgeShearable;
+import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.PlantsInit;
 
 public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableBlock, LiquidBlockContainer, IForgeShearable
@@ -38,5 +39,10 @@ public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableB
       {
           popResource(world, pos, new ItemStack(this));
       }
+   }
+
+   @Override
+   public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+       return PlantType.WATER;
    }
 }

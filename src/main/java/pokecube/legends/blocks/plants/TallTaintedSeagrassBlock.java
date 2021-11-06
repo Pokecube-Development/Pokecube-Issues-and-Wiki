@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.TallSeagrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.PlantsInit;
 
 public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements LiquidBlockContainer, BonemealableBlock
@@ -43,5 +44,10 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
    {
       popResource(world, pos, new ItemStack(this));
+   }
+
+   @Override
+   public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+       return PlantType.WATER;
    }
 }
