@@ -43,7 +43,7 @@ public class ClientSetupHandler
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             final Block b = reg.get();
-            if (b instanceof FlowerBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            if (b instanceof FlowerBase || b instanceof MushroomBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
             for (final BlockState state : b.getStateDefinition().getPossibleStates())
             {
