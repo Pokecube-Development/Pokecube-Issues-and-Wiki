@@ -2145,6 +2145,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);

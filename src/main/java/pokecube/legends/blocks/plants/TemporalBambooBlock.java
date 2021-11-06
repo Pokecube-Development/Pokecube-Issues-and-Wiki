@@ -41,14 +41,16 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
    }
 
    @Override
-   public VoxelShape getShape(BlockState state, BlockGetter block, BlockPos pos, CollisionContext context) {
+   public VoxelShape getShape(BlockState state, BlockGetter block, BlockPos pos, CollisionContext context)
+   {
       VoxelShape voxelshape = state.getValue(AGE) == 1 ? LARGE_SHAPE : SMALL_SHAPE;
       Vec3 vec3 = state.getOffset(block, pos);
       return voxelshape.move(vec3.x, vec3.y, vec3.z);
    }
 
    @Override
-   public VoxelShape getCollisionShape(BlockState state, BlockGetter block, BlockPos pos, CollisionContext context) {
+   public VoxelShape getCollisionShape(BlockState state, BlockGetter block, BlockPos pos, CollisionContext context)
+   {
       VoxelShape voxelshape = state.getValue(AGE) == 1 ? LARGE_SHAPE : SMALL_SHAPE;
       Vec3 vec3 = state.getOffset(block, pos);
       return voxelshape.move(vec3.x, vec3.y, vec3.z);
@@ -78,7 +80,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
             {
                BlockState state1 = context.getLevel().getBlockState(context.getClickedPos().above());
                return state1.is(BlockInit.TEMPORAL_BAMBOO.get()) ? this.defaultBlockState().setValue(AGE, state1.getValue(AGE))
-            	   : BlockInit.TEMPORAL_BAMBOO_SHOOT.get().defaultBlockState();
+                   : BlockInit.TEMPORAL_BAMBOO_SHOOT.get().defaultBlockState();
             }
          } else
          {
@@ -138,7 +140,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
       int i = state.getValue(AGE) != 1 && !state2.is(BlockInit.TEMPORAL_BAMBOO.get()) ? 0 : 1;
       int j = (x < 11 || !(random.nextFloat() < 0.25F)) && x != 15 ? 0 : 1;
       world.setBlock(pos.above(), this.defaultBlockState().setValue(AGE, Integer.valueOf(i)).setValue(LEAVES, leaves)
-    		  .setValue(STAGE, Integer.valueOf(j)), 3);
+              .setValue(STAGE, Integer.valueOf(j)), 3);
    }
 
    @Override

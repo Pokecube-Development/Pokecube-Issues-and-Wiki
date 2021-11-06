@@ -1,0 +1,10 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "pokecube_legends:tainted_kelp"
+  },
+  "result": "minecraft:dried_kelp",
+  "experience": 0.1,
+  "cookingtime": 100
+}

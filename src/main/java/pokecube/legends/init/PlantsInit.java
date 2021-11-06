@@ -14,6 +14,8 @@ import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
+import pokecube.legends.blocks.plants.TaintedKelpBlock;
+import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.blocks.plants.TaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 
@@ -25,6 +27,8 @@ public class PlantsInit
     public static RegistryObject<Block> DISTORCED_MUSHROOM;
     public static RegistryObject<Block> GOLDEN_POPPY;
     public static RegistryObject<Block> INVERTED_ORCHID;
+    public static RegistryObject<Block> TAINTED_KELP;
+    public static RegistryObject<Block> TAINTED_KELP_PLANT;
     public static RegistryObject<Block> PINK_TAINTED_LILY_PAD;
     public static RegistryObject<Block> TAINTED_LILY_PAD;
     public static RegistryObject<Block> TAINTED_SEAGRASS;
@@ -45,6 +49,14 @@ public class PlantsInit
 
         PlantsInit.INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
+
+        PlantsInit.TAINTED_KELP = PokecubeLegends.DIMENSIONS_TAB.register("tainted_kelp", () -> new TaintedKelpBlock(
+                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                .randomTicks().instabreak().sound(SoundType.WET_GRASS)));
+
+        PlantsInit.TAINTED_KELP_PLANT = PokecubeLegends.NO_TAB.register("tainted_kelp_plant", () -> new TaintedKelpPlantBlock(
+                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                .instabreak().sound(SoundType.WET_GRASS)));
 
         PlantsInit.PINK_TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));

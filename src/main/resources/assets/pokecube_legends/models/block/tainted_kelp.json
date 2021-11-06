@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/tinted_cross",
+  "textures": {
+    "cross": "pokecube_legends:blocks/tainted_kelp"
+  }
+}
