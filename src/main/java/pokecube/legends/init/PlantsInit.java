@@ -14,6 +14,7 @@ import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
+import pokecube.legends.blocks.plants.TaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 
 public class PlantsInit
@@ -51,7 +52,7 @@ public class PlantsInit
         PlantsInit.TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("tainted_lily_pad", () -> new LilyPadBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
 
-        PlantsInit.TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new SeagrassBlock(
+        PlantsInit.TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new TaintedSeagrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_PURPLE)
                 .noCollission().instabreak().sound(SoundType.WET_GRASS)));
 

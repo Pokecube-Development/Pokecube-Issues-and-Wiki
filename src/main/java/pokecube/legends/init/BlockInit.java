@@ -1411,7 +1411,7 @@ public class BlockInit
 
         // Ultra Metal
         ULTRA_METAL = PokecubeLegends.DECORATION_TAB.register("ultra_metal", () -> new BlockBase(Material.METAL,
-        		MaterialColor.COLOR_LIGHT_GREEN, 5.0f, 10f, SoundType.STONE, true));
+                MaterialColor.COLOR_LIGHT_GREEN, 5.0f, 10f, SoundType.STONE, true));
         ULTRA_METAL_STAIRS = PokecubeLegends.DECORATION_TAB.register("ultra_metal_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_LIGHT_GREEN).strength(2.0F, 3.0f).sound(SoundType.STONE)
@@ -2080,8 +2080,8 @@ public class BlockInit
         {
             // These are registered separately, so skip them.
             if (reg == BlockInit.DISTORTIC_VINES || reg == BlockInit.DISTORTIC_VINES_PLANT ||
-            		reg == BlockInit.TEMPORAL_BAMBOO || reg == BlockInit.TEMPORAL_BAMBOO_SHOOT ||
-            		reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD) continue;
+                    reg == BlockInit.TEMPORAL_BAMBOO || reg == BlockInit.TEMPORAL_BAMBOO_SHOOT ||
+                    reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.TAB_DIMENSIONS)));
         }
@@ -2145,6 +2145,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
@@ -2152,6 +2153,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_LILY_PAD);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
     }
 

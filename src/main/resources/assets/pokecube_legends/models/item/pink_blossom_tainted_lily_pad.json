@@ -6,12 +6,12 @@
   "display": {
     "firstperson_lefthand": {
       "rotation": [0, -90, 25],
-      "translation": [1.13, 4.7, 1.13],
+      "translation": [1.13, 6.7, 1.13],
       "scale": [0.68, 0.68, 0.68]
     },
     "firstperson_righthand": {
       "rotation": [0, -90, 25],
-      "translation": [1.13, 4.7, 1.13],
+      "translation": [1.13, 6.7, 1.13],
       "scale": [0.68, 0.68, 0.68]
     }
   }

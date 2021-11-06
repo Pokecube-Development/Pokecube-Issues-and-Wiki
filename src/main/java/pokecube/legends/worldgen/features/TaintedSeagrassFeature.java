@@ -13,6 +13,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
+import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
+import pokecube.legends.init.PlantsInit;
 
 public class TaintedSeagrassFeature extends Feature<ProbabilityFeatureConfiguration>
 {
@@ -36,12 +38,12 @@ public class TaintedSeagrassFeature extends Feature<ProbabilityFeatureConfigurat
       if (world.getBlockState(pos1).is(Blocks.WATER))
       {
          boolean flag1 = random.nextDouble() < (double)probConfig.probability;
-         BlockState state = flag1 ? Blocks.TALL_SEAGRASS.defaultBlockState() : Blocks.SEAGRASS.defaultBlockState();
+         BlockState state = flag1 ? PlantsInit.TALL_TAINTED_SEAGRASS.get().defaultBlockState() : PlantsInit.TAINTED_SEAGRASS.get().defaultBlockState();
          if (state.canSurvive(world, pos1))
          {
             if (flag1)
             {
-               BlockState state1 = state.setValue(TallSeagrassBlock.HALF, DoubleBlockHalf.UPPER);
+               BlockState state1 = state.setValue(TallTaintedSeagrassBlock.HALF, DoubleBlockHalf.UPPER);
                BlockPos pos2 = pos1.above();
                if (world.getBlockState(pos2).is(Blocks.WATER))
                {

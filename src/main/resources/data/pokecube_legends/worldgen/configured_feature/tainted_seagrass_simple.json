@@ -6,7 +6,7 @@
           "config": {
             "to_place": {
               "state": {
-                "Name": "minecraft:seagrass"
+                "Name": "pokecube_legends:tainted_seagrass"
               },
               "type": "minecraft:simple_state_provider"
             },
