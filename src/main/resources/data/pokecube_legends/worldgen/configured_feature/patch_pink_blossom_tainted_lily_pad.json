@@ -12,10 +12,10 @@
             "zspread": 7,
             "whitelist": [],
             "blacklist": [],
-            "tries": 10,
+            "tries": 1,
             "state_provider": {
               "state": {
-                "Name": "pokecube_legends:tainted_lily_pad"
+                "Name": "pokecube_legends:pink_blossom_tainted_lily_pad"
               },
               "type": "minecraft:simple_state_provider"
             },
@@ -45,7 +45,7 @@
     },
     "decorator": {
       "config": {
-        "count": 4
+        "count": 1
       },
       "type": "minecraft:count"
     }

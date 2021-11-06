@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "pokecube_legends:block/pink_blossom_tainted_lily_pad"
+      },
+      {
+        "model": "pokecube_legends:block/pink_blossom_tainted_lily_pad",
+        "y": 90
+      },
+      {
+        "model": "pokecube_legends:block/pink_blossom_tainted_lily_pad",
+        "y": 180
+      },
+      {
+        "model": "pokecube_legends:block/pink_blossom_tainted_lily_pad",
+        "y": 270
+      }
+    ]
+  }
+}
