@@ -20,6 +20,7 @@ import pokecube.core.handlers.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.FlowerBase;
+import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
@@ -29,7 +30,7 @@ import pokecube.legends.tileentity.RaidSpawn;
 public class ClientSetupHandler
 {
     static final Predicate<Material> notSolid = m -> m == Material.ICE ||
-    		m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.HEAVY_METAL;
+            m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.HEAVY_METAL;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
@@ -79,7 +80,7 @@ public class ClientSetupHandler
         for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
         {
             final Block b = reg.get();
-            if (b instanceof FlowerBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            if (b instanceof FlowerBase || b instanceof MushroomBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             boolean fullCube = true;
             for (final BlockState state : b.getStateDefinition().getPossibleStates())
             {
@@ -107,7 +108,7 @@ public class ClientSetupHandler
             }
             if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
-			ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
         }
 
         for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
