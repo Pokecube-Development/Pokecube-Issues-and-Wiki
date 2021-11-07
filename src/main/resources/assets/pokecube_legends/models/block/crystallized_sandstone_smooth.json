@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-    "down": "pokecube_legends:blocks/ultrasandstonetop",
-    "up": "pokecube_legends:blocks/ultrasandstonetop",
-    "north": "pokecube_legends:blocks/ultrasandstonetop",
-    "east": "pokecube_legends:blocks/ultrasandstonetop",
-    "south": "pokecube_legends:blocks/ultrasandstonetop",
-    "west": "pokecube_legends:blocks/ultrasandstonetop",
-    "particle": "pokecube_legends:blocks/ultrasandstonetop"
+    "all": "pokecube_legends:blocks/crystallized_sandstone_top"
   }
 }

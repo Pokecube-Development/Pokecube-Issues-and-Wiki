@@ -1,5 +1,10 @@
 {
-    "variants": {
-        "": { "model": "pokecube_legends:block/crystallized_sandstone_smooth" }
-    }
+  "variants": {
+    "": [
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth" },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 90 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 180 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 270 }
+    ]
+  }
 }
