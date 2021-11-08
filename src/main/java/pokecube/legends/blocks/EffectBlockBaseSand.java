@@ -55,12 +55,9 @@ public class EffectBlockBaseSand extends SandBlock
                     || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        } else if (PlantType.WATER.equals(plantType))
+        } else if (plantType == PlantType.WATER || plantType == PlantType.PLAINS)
         {
             return state.getMaterial() == Material.WATER;
-        } else if (block.getBlockState(plantPos).getMaterial() == Material.WATER)
-        {
-            return block.getBlockState(pos).getMaterial() == Material.WATER;
         } else
         {
             return false;
