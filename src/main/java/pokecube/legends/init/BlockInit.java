@@ -1196,14 +1196,14 @@ public class BlockInit
                                 ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         CRYSTALLIZED_CACTUS = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus(
-                BlockBehaviour.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.GLASS).strength(
+                BlockBehaviour.Properties.of(Material.CACTUS, MaterialColor.SNOW).sound(SoundType.AMETHYST).strength(
                         0.4f)));
-        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("tall_crystallized_bush",
-                () -> new TallCrystallizedBush(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(
-                        SoundType.GLASS).noCollission().instabreak()));
+        TALL_CRYSTALLIZED_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("tall_crystallized_bush", () -> new TallCrystallizedBush(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SNOW)
+                .sound(SoundType.AMETHYST_CLUSTER).noCollission().instabreak()));
         CRYSTALLIZED_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_bush", () -> new CrystallizedBush(
-                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.GLASS).noCollission()
-                        .instabreak()));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.AMETHYST_CLUSTER)
+                .noCollission().instabreak()));
 
         DISTORTIC_VINES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines", () -> new DistortedVinesTopBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission()
