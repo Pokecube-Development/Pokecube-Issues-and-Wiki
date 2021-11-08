@@ -620,8 +620,10 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
+    public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
+    public static final RegistryObject<Block> POTTED_TALL_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_TEMPORAL_BAMBOO;
 
     static
@@ -2057,11 +2059,17 @@ public class BlockInit
         POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_LARGE_GOLDEN_FERN= PokecubeLegends.NO_TAB.register("potted_large_golden_fern",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.LARGE_GOLDEN_FERN.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
         POTTED_PINK_LILY= PokecubeLegends.NO_TAB.register("potted_pink_blossom_lily",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PINK_TAINTED_LILY_PAD.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
                 () -> new PottedCrystallizedBush(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TALL_GOLDEN_GRASS= PokecubeLegends.NO_TAB.register("potted_tall_golden_grass",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TALL_GOLDEN_GRASS.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TEMPORAL_BAMBOO = PokecubeLegends.NO_TAB.register("potted_temporal_bamboo",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.TEMPORAL_BAMBOO.get(), BlockBehaviour.Properties.of(
@@ -2156,12 +2164,14 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
+        BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
         BlockInit.compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);

@@ -62,12 +62,13 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_large_fern",
       "pokecube_legends:forsaken_taiga_flowers",
       "pokecube_legends:forsaken_taiga_vegetation",
       "pokecube_legends:patch_berry_decorated",
       "pokecube_legends:patch_golden_grass_taiga_2",
+      "pokecube_legends:patch_large_golden_fern",
       "pokecube_legends:patch_pumpkin",
+      "pokecube_legends:patch_tall_golden_grass",
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
     ],

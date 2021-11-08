@@ -76,6 +76,8 @@ public class ClientSetupHandler
             ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
             if (b instanceof GenericBookshelfEmpty) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
         }
 

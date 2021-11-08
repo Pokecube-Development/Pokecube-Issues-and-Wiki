@@ -2,6 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SeagrassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TallGrassBlock;
@@ -28,7 +29,9 @@ public class PlantsInit
     public static RegistryObject<Block> COMPRECED_MUSHROOM;
     public static RegistryObject<Block> DISTORCED_MUSHROOM;
     public static RegistryObject<Block> GOLDEN_FERN;
+    public static RegistryObject<Block> LARGE_GOLDEN_FERN;
     public static RegistryObject<Block> GOLDEN_GRASS;
+    public static RegistryObject<Block> TALL_GOLDEN_GRASS;
     public static RegistryObject<Block> GOLDEN_POPPY;
     public static RegistryObject<Block> INVERTED_ORCHID;
     public static RegistryObject<Block> TAINTED_KELP;
@@ -51,7 +54,13 @@ public class PlantsInit
         PlantsInit.GOLDEN_FERN = PokecubeLegends.DIMENSIONS_TAB.register("golden_fern", () -> new TallGoldenGrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
+        PlantsInit.LARGE_GOLDEN_FERN = PokecubeLegends.DIMENSIONS_TAB.register("large_golden_fern", () -> new DoublePlantBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+
         PlantsInit.GOLDEN_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("golden_grass", () -> new TallGoldenGrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+
+        PlantsInit.TALL_GOLDEN_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("tall_golden_grass", () -> new DoublePlantBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
         PlantsInit.GOLDEN_POPPY = PokecubeLegends.DIMENSIONS_TAB.register("golden_poppy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,

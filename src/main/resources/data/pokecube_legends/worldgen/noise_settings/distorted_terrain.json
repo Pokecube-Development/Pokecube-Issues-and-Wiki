@@ -20,7 +20,7 @@
   },
   "noise": {
     "simplex_surface_noise": true,
-    "island_noise_override": true,
+    "island_noise_override": false,
     "size_vertical": 1,
     "density_factor": 0,
     "density_offset": 0,
