@@ -25,27 +25,27 @@ public class MushroomBase extends BushBlock
     }
 
     @Override
-	public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext) {
-		return true;
-	}
+    public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext) {
+        return false;
+    }
 
     @SuppressWarnings("deprecation")
-	@Override
-	public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
-		final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-		if (!dropsOriginal.isEmpty())
-			return dropsOriginal;
-		return Collections.singletonList(new ItemStack(this, 1));
-	}
+    @Override
+    public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
+        final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
+        if (!dropsOriginal.isEmpty())
+            return dropsOriginal;
+        return Collections.singletonList(new ItemStack(this, 1));
+    }
 
     @Override
-	public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {
-		return 2;
-	}
+    public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {
+        return 2;
+    }
 
     @Override
     public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
     {
-    	return PlantType.PLAINS;
+        return PlantType.PLAINS;
     }
 }
