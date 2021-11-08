@@ -616,6 +616,8 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
+    public static final RegistryObject<Block> POTTED_GOLDEN_FERN;
+    public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
@@ -2043,6 +2045,12 @@ public class BlockInit
         POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.DISTORTIC_VINES.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_FERN= PokecubeLegends.NO_TAB.register("potted_golden_fern",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_FERN.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_GRASS= PokecubeLegends.NO_TAB.register("potted_golden_grass",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_GRASS.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
@@ -2145,11 +2153,13 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
         BlockInit.compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
@@ -2247,6 +2257,8 @@ public class BlockInit
         // Plants
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.TEMPORAL_BAMBOO.get(), 60, 60);

@@ -3,8 +3,12 @@ package pokecube.legends.init;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import pokecube.legends.Reference;
 
 public class FeaturesInit
@@ -17,10 +21,10 @@ public class FeaturesInit
 
     // Dimensions
     public static final ResourceKey<Level> ULTRASPACE_KEY = ResourceKey.create(
-    		Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_ULTRA);
+            Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_ULTRA);
 
     public static final ResourceKey<Level> DISTORTEDWORLD_KEY = ResourceKey.create(
-    		Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_DISTO);
+            Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_DISTO);
     //
 
     // Biomes
@@ -48,6 +52,15 @@ public class FeaturesInit
 
     public static final ResourceKey<Biome> DISTORTED_LANDS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "distorted_lands"));
     public static final ResourceKey<Biome> SMALL_DISTORTED_ISLANDS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "small_distorted_islands"));
-    //
 
+    public static final class Configs {
+       public static final BlockPileConfiguration FORSAKEN_TAIGA_CONFIG =
+               new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
+                       .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 11).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 87)
+                       .add(PlantsInit.GOLDEN_POPPY.get().defaultBlockState(), 2)));
+    }
+
+    static SimpleWeightedRandomList.Builder<BlockState> weightedBlockStateBuilder() {
+       return SimpleWeightedRandomList.builder();
+    }
 }
