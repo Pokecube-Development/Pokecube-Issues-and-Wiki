@@ -56,8 +56,8 @@ public class FeaturesInit
     public static final class Configs {
        public static final BlockPileConfiguration FORSAKEN_TAIGA_CONFIG =
                new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
-                       .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 11).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 87)
-                       .add(PlantsInit.GOLDEN_POPPY.get().defaultBlockState(), 2)));
+                       .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 25).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 70)
+                       .add(PlantsInit.GOLDEN_POPPY.get().defaultBlockState(), 10)));
     }
 
     static SimpleWeightedRandomList.Builder<BlockState> weightedBlockStateBuilder() {
