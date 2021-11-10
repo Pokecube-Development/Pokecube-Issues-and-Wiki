@@ -21,7 +21,7 @@
         "Properties": {
           "age": "3"
         },
-        "Name": "minecraft:sweet_berry_bush"
+        "Name": "pokecube_legends:golden_sweet_berry_bush"
       },
       "type": "minecraft:simple_state_provider"
     },

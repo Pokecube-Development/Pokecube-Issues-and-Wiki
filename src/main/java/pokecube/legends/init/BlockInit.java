@@ -619,6 +619,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
+    public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
@@ -2056,6 +2057,9 @@ public class BlockInit
         POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.NO_TAB.register("potted_golden_sweet_berry_bush",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
         POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
@@ -2162,6 +2166,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
@@ -2270,6 +2275,7 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.TEMPORAL_BAMBOO.get(), 60, 60);
 

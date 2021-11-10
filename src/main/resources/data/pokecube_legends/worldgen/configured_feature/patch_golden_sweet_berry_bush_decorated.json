@@ -2,7 +2,7 @@
   "config": {
     "feature": {
       "config": {
-        "feature": "minecraft:patch_berry_bush",
+        "feature": "pokecube_legends:patch_golden_sweet_berry_bush",
         "decorator": {
           "config": {
             "outer": {

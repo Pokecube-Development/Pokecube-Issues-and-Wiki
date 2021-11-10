@@ -9,6 +9,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -187,6 +188,7 @@ public class ItemInit
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
+    public static final RegistryObject<Item> GOLDEN_SWEET_BERRIES;
     public static final RegistryObject<Item> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Item> TAINTED_LILY_PAD;
     public static final RegistryObject<Item> TEMPORAL_BAMBOO;
@@ -347,6 +349,8 @@ public class ItemInit
         // UltraSpace
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(BlockInit.DISTORTIC_VINES.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
+        GOLDEN_SWEET_BERRIES = PokecubeLegends.ITEMS.register("golden_sweet_berries", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
+                new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
@@ -375,11 +379,11 @@ public class ItemInit
 
         // Berries Creative Tab - Sorting depends on the order the items are listed in
         ASPEAR_POKEPUFF = PokecubeLegends.ITEMS.register("aspear_pokepuff", () -> new ItemBase("aspear_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
-           CORNN_POKEPUFF = PokecubeLegends.ITEMS.register("cornn_pokepuff", () -> new ItemBase("cornn_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.GLOWING_POKEPUFF, 16));
-           HONDEW_POKEPUFF = PokecubeLegends.ITEMS.register("hondew_pokepuff", () -> new ItemBase("hondew_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.JUMP_POKEPUFF, 16));
-           PERSIM_POKEPUFF = PokecubeLegends.ITEMS.register("persim_pokepuff", () -> new ItemBase("persim_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
-           POMEG_POKEPUFF = PokecubeLegends.ITEMS.register("pomeg_pokepuff", () -> new ItemBase("pomeg_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_POISON_POKEPUFF, 16));
-           ROWAP_POKEPUFF = PokecubeLegends.ITEMS.register("rowap_pokepuff", () -> new ItemBase("rowap_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
+        CORNN_POKEPUFF = PokecubeLegends.ITEMS.register("cornn_pokepuff", () -> new ItemBase("cornn_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.GLOWING_POKEPUFF, 16));
+        HONDEW_POKEPUFF = PokecubeLegends.ITEMS.register("hondew_pokepuff", () -> new ItemBase("hondew_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.JUMP_POKEPUFF, 16));
+        PERSIM_POKEPUFF = PokecubeLegends.ITEMS.register("persim_pokepuff", () -> new ItemBase("persim_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
+        POMEG_POKEPUFF = PokecubeLegends.ITEMS.register("pomeg_pokepuff", () -> new ItemBase("pomeg_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_POISON_POKEPUFF, 16));
+        ROWAP_POKEPUFF = PokecubeLegends.ITEMS.register("rowap_pokepuff", () -> new ItemBase("rowap_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
         CHERI_POKEPUFF = PokecubeLegends.ITEMS.register("cheri_pokepuff", () -> new ItemBase("cheri_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         CHESTO_POKEPUFF = PokecubeLegends.ITEMS.register("chesto_pokepuff", () -> new ItemBase("chesto_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         ENIGMA_POKEPUFF = PokecubeLegends.ITEMS.register("enigma_pokepuff", () -> new ItemBase("enigma_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.ABSORPTION_POKEPUFF, 16));

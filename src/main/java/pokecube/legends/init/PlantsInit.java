@@ -2,11 +2,9 @@ package pokecube.legends.init;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.SeagrassBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TallGrassBlock;
-import net.minecraft.world.level.block.WaterlilyBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -15,6 +13,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
+import pokecube.legends.blocks.plants.GoldenSweetBerryBushBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
 import pokecube.legends.blocks.plants.TaintedKelpBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
@@ -24,7 +23,6 @@ import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 
 public class PlantsInit
 {
-
     // Plants
     public static RegistryObject<Block> COMPRECED_MUSHROOM;
     public static RegistryObject<Block> DISTORCED_MUSHROOM;
@@ -33,6 +31,7 @@ public class PlantsInit
     public static RegistryObject<Block> GOLDEN_GRASS;
     public static RegistryObject<Block> TALL_GOLDEN_GRASS;
     public static RegistryObject<Block> GOLDEN_POPPY;
+    public static RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
     public static RegistryObject<Block> INVERTED_ORCHID;
     public static RegistryObject<Block> TAINTED_KELP;
     public static RegistryObject<Block> TAINTED_KELP_PLANT;
@@ -65,6 +64,9 @@ public class PlantsInit
 
         PlantsInit.GOLDEN_POPPY = PokecubeLegends.DIMENSIONS_TAB.register("golden_poppy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.CORAL_BLOCK)));
+
+        PlantsInit.GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("golden_sweet_berry_bush", () -> new GoldenSweetBerryBushBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)));
 
         PlantsInit.INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
