@@ -28,40 +28,40 @@ public class FoodInit
     static
     {
         ABSORPTION_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 400, 1), 1.0F).alwaysEat().build();
         DAMAGE_BOOST_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400, 1), 1.0F).alwaysEat().build();
         FIRE_RESISTANCE_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 400, 1), 1.0F).alwaysEat().build();
         GLOWING_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.GLOWING, 100, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.GLOWING, 100, 1), 1.0F).alwaysEat().build();
         HEAL_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.HEAL, 100, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.HEAL, 100, 1), 1.0F).alwaysEat().build();
         HERO_POISON_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 100, 1), 1.0F)
-                .effect(new MobEffectInstance(MobEffects.POISON, 2400, 4), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.POISON, 2400, 4), 1.0F).build();
         HERO_WEAKNESS_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 100, 1), 1.0F)
-                .effect(new MobEffectInstance(MobEffects.WEAKNESS, 2400, 3), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.WEAKNESS, 2400, 3), 1.0F).build();
         JUMP_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.JUMP, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.JUMP, 400, 1), 1.0F).alwaysEat().build();
         LUCK_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.LUCK, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.LUCK, 400, 1), 1.0F).alwaysEat().build();
         LUCK_DAMAGE_RESIST_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.LUCK, 200, 1), 1.0F)
-                .effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1), 1.0F).alwaysEat().build();
         NIGHT_VISION_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 1), 1.0F).alwaysEat().build();
         REGEN_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.REGENERATION, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.REGENERATION, 400, 1), 1.0F).alwaysEat().build();
         SATURATION_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.SATURATION, 400, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.SATURATION, 400, 1), 1.0F).alwaysEat().build();
 
         GOLDEN_SWEET_BERRIES = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.5F)
-                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1), 1.0F).alwaysEat().build();
         ICE_CARROT = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F)
-                .effect(new MobEffectInstance(MobEffects.SLOW_FALLING, 1200, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.SLOW_FALLING, 1200, 1), 1.0F).alwaysEat().build();
         SHADOW_CARROT = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F)
-                .effect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1200, 1), 1.0F).fast().build();
+                .effect(new MobEffectInstance(MobEffects.NIGHT_VISION, 1200, 1), 1.0F).alwaysEat().build();
     }
 }
