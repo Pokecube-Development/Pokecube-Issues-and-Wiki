@@ -35,8 +35,8 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
    @Override
    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
    {
-      return world.getBlockState(pos.below()).is(TemporalBambooShootBlock.TEMPORAL_BAMBOO_PLANTABLE_ON) &!
-              world.getBlockState(pos.below()).is(Blocks.BAMBOO_SAPLING);
+      return (world.getBlockState(pos.below()).is(TemporalBambooShootBlock.TEMPORAL_BAMBOO_PLANTABLE_ON) &&
+              !world.getBlockState(pos.below()).is(Blocks.BAMBOO_SAPLING));
    }
 
    @Override
