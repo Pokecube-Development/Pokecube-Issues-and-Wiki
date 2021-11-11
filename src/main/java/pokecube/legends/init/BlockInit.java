@@ -524,8 +524,6 @@ public class BlockInit
     public static final RegistryObject<Block> TEMPORAL_BARREL;
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF;
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> TEMPORAL_BAMBOO;
-    public static final RegistryObject<Block> TEMPORAL_BAMBOO_SHOOT;
 
     // Plants
     public static final RegistryObject<Block> INVERTED_SAPLING;
@@ -537,8 +535,6 @@ public class BlockInit
     public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
-    public static final RegistryObject<Block> DISTORTIC_VINES;
-    public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
 
     // Portal
     public static final RegistryObject<Block> PORTAL;
@@ -1179,13 +1175,6 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WARPED_NYLIUM).sound(SoundType.WOOD).strength(
                         2.0f, 3.0f).noOcclusion()));
 
-        TEMPORAL_BAMBOO = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo", () -> new TemporalBambooBlock(
-                BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak()
-                .strength(1.2f).sound(SoundType.BAMBOO).noOcclusion().dynamicShape()));
-        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
-                BlockBehaviour.Properties.of(Material.BAMBOO_SAPLING, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak().noCollission()
-                .strength(1.2f).sound(SoundType.BAMBOO_SAPLING)));
-
         // Dyna Leaves
         DYNA_LEAVES_RED = PokecubeLegends.DIMENSIONS_TAB.register("dyna_leaves_red", () -> new DynaLeavesBlock(
                 BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f).sound(
@@ -1209,13 +1198,6 @@ public class BlockInit
         CRYSTALLIZED_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_bush", () -> new CrystallizedBush(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.SNOW).sound(SoundType.AMETHYST_CLUSTER)
                 .noCollission().instabreak()));
-
-        DISTORTIC_VINES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines", () -> new DistortedVinesTopBlock(
-                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission()
-                        .instabreak().sound(SoundType.WEEPING_VINES)));
-        DISTORTIC_VINES_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines_plant",
-                () -> new DistortedVinesBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA)
-                        .noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
 
         // Decorations Creative Tab - Sorting depends on the order the blocks are listed in
 
@@ -2046,7 +2028,7 @@ public class BlockInit
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DISTORTIC_VINES.get(), BlockBehaviour.Properties
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_VINES.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_FERN= PokecubeLegends.NO_TAB.register("potted_golden_fern",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_FERN.get(), BlockBehaviour.Properties.of(
@@ -2076,7 +2058,7 @@ public class BlockInit
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TALL_GOLDEN_GRASS.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TEMPORAL_BAMBOO = PokecubeLegends.NO_TAB.register("potted_temporal_bamboo",
-                () -> new ItemGenerator.GenericPottedPlant(BlockInit.TEMPORAL_BAMBOO.get(), BlockBehaviour.Properties.of(
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TEMPORAL_BAMBOO.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
     }
 
@@ -2099,8 +2081,8 @@ public class BlockInit
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == BlockInit.DISTORTIC_VINES || reg == BlockInit.DISTORTIC_VINES_PLANT ||
-                    reg == BlockInit.TEMPORAL_BAMBOO || reg == BlockInit.TEMPORAL_BAMBOO_SHOOT ||
+            if (reg == PlantsInit.DISTORTIC_VINES_PLANT || reg == PlantsInit.DISTORTIC_VINES ||
+                    reg == PlantsInit.TEMPORAL_BAMBOO || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT ||
                     reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD) continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
                     .tab(PokecubeLegends.TAB_DIMENSIONS)));
@@ -2169,8 +2151,9 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
+
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
-        BlockInit.compostableBlocks(0.65f, BlockInit.TEMPORAL_BAMBOO);
+
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
@@ -2180,6 +2163,8 @@ public class BlockInit
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.TEMPORAL_BAMBOO);
+
         BlockInit.compostableBlocks(0.75f, BlockInit.CRYSTALLIZED_CACTUS);
     }
 
@@ -2277,7 +2262,7 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
-        BlockInit.flammableBlocks(BlockInit.TEMPORAL_BAMBOO.get(), 60, 60);
+        BlockInit.flammableBlocks(PlantsInit.TEMPORAL_BAMBOO.get(), 60, 60);
 
         // Bookshelves
         BlockInit.flammableBlocks(BlockInit.AGED_BOOKSHELF.get(), 5, 20);

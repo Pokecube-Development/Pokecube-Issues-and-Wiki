@@ -1,26 +1,12 @@
 package pokecube.legends.worldgen;
 
-import com.google.common.collect.ImmutableSet;
-
-import net.minecraft.data.worldgen.Features;
-import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.blockplacers.ColumnPlacer;
-import net.minecraft.world.level.levelgen.feature.blockplacers.DoublePlantPlacer;
-import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SpringConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,7 +14,6 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.Reference;
-import pokecube.legends.init.PlantsInit;
 import pokecube.legends.worldgen.features.BasaltColumnsFeature;
 import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.DeltaFeature;

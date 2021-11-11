@@ -25,7 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
-import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class TemporalBambooBlock extends BambooBlock implements BonemealableBlock
 {
@@ -69,18 +69,18 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
          BlockState state = context.getLevel().getBlockState(context.getClickedPos().below());
          if (state.is(TemporalBambooBlock.TEMPORAL_BAMBOO_PLANTABLE_ON))
          {
-            if (state.is(BlockInit.TEMPORAL_BAMBOO_SHOOT.get()))
+            if (state.is(PlantsInit.TEMPORAL_BAMBOO_SHOOT.get()))
             {
                return this.defaultBlockState().setValue(AGE, Integer.valueOf(0));
-            } else if (state.is(BlockInit.TEMPORAL_BAMBOO.get()))
+            } else if (state.is(PlantsInit.TEMPORAL_BAMBOO.get()))
             {
                int i = state.getValue(AGE) > 0 ? 1 : 0;
                return this.defaultBlockState().setValue(AGE, Integer.valueOf(i));
             } else
             {
                BlockState state1 = context.getLevel().getBlockState(context.getClickedPos().above());
-               return state1.is(BlockInit.TEMPORAL_BAMBOO.get()) ? this.defaultBlockState().setValue(AGE, state1.getValue(AGE))
-                   : BlockInit.TEMPORAL_BAMBOO_SHOOT.get().defaultBlockState();
+               return state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) ? this.defaultBlockState().setValue(AGE, state1.getValue(AGE))
+                   : PlantsInit.TEMPORAL_BAMBOO_SHOOT.get().defaultBlockState();
             }
          } else
          {
@@ -103,7 +103,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
          world.getBlockTicks().scheduleTick(pos, this, 1);
       }
 
-      if (direction == Direction.UP && state1.is(BlockInit.TEMPORAL_BAMBOO.get()) && state1.getValue(AGE) > state.getValue(AGE))
+      if (direction == Direction.UP && state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(AGE) > state.getValue(AGE))
       {
          world.setBlock(pos, state.cycle(AGE), 2);
       }
@@ -120,12 +120,12 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
       BambooLeaves leaves = BambooLeaves.NONE;
       if (x >= 1)
       {
-         if (state1.is(BlockInit.TEMPORAL_BAMBOO.get()) && state1.getValue(LEAVES) != BambooLeaves.NONE)
+         if (state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(LEAVES) != BambooLeaves.NONE)
          {
-            if (state1.is(BlockInit.TEMPORAL_BAMBOO.get()) && state1.getValue(LEAVES) != BambooLeaves.NONE)
+            if (state1.is(PlantsInit.TEMPORAL_BAMBOO.get()) && state1.getValue(LEAVES) != BambooLeaves.NONE)
             {
                leaves = BambooLeaves.LARGE;
-               if (state2.is(BlockInit.TEMPORAL_BAMBOO.get()))
+               if (state2.is(PlantsInit.TEMPORAL_BAMBOO.get()))
                {
                   world.setBlock(pos.below(), state1.setValue(LEAVES, BambooLeaves.SMALL), 3);
                   world.setBlock(pos1, state2.setValue(LEAVES, BambooLeaves.NONE), 3);
@@ -137,7 +137,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
          }
       }
 
-      int i = state.getValue(AGE) != 1 && !state2.is(BlockInit.TEMPORAL_BAMBOO.get()) ? 0 : 1;
+      int i = state.getValue(AGE) != 1 && !state2.is(PlantsInit.TEMPORAL_BAMBOO.get()) ? 0 : 1;
       int j = (x < 11 || !(random.nextFloat() < 0.25F)) && x != 15 ? 0 : 1;
       world.setBlock(pos.above(), this.defaultBlockState().setValue(AGE, Integer.valueOf(i)).setValue(LEAVES, leaves)
               .setValue(STAGE, Integer.valueOf(j)), 3);
@@ -147,7 +147,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
    public int getHeightAboveUpToMax(BlockGetter block, BlockPos pos)
    {
       int i;
-      for(i = 0; i < 16 && block.getBlockState(pos.above(i + 1)).is(BlockInit.TEMPORAL_BAMBOO.get()); ++i)
+      for(i = 0; i < 16 && block.getBlockState(pos.above(i + 1)).is(PlantsInit.TEMPORAL_BAMBOO.get()); ++i)
       {
       }
 
@@ -158,7 +158,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
    public int getHeightBelowUpToMax(BlockGetter block, BlockPos pos)
    {
       int i;
-      for(i = 0; i < 16 && block.getBlockState(pos.below(i + 1)).is(BlockInit.TEMPORAL_BAMBOO.get()); ++i)
+      for(i = 0; i < 16 && block.getBlockState(pos.below(i + 1)).is(PlantsInit.TEMPORAL_BAMBOO.get()); ++i)
       {}
       return i;
    }

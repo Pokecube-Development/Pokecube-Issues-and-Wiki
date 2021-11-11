@@ -347,15 +347,15 @@ public class ItemInit
 
         // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
-        DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(BlockInit.DISTORTIC_VINES.get(),
-                new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         GOLDEN_SWEET_BERRIES = PokecubeLegends.ITEMS.register("golden_sweet_berries", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
                 new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        TEMPORAL_BAMBOO = PokecubeLegends.ITEMS.register("temporal_bamboo", () -> new TemporalBambooBlockItem(BlockInit.TEMPORAL_BAMBOO.get(),
+        TEMPORAL_BAMBOO = PokecubeLegends.ITEMS.register("temporal_bamboo", () -> new TemporalBambooBlockItem(PlantsInit.TEMPORAL_BAMBOO.get(),
+                new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
+        DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(PlantsInit.DISTORTIC_VINES.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         INFECTED_TORCH = PokecubeLegends.ITEMS.register("infected_torch", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH

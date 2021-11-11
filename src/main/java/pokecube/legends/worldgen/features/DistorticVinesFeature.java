@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.PlantsInit;
 
 public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
 {
@@ -87,12 +88,12 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
          {
             if (i == x || !world.isEmptyBlock(pos.above()))
             {
-               world.setBlock(pos, BlockInit.DISTORTIC_VINES.get().defaultBlockState()
-            		   .setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(random, y, z))), 2);
+               world.setBlock(pos, PlantsInit.DISTORTIC_VINES.get().defaultBlockState()
+                       .setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(random, y, z))), 2);
                break;
             }
 
-            world.setBlock(pos, BlockInit.DISTORTIC_VINES_PLANT.get().defaultBlockState(), 2);
+            world.setBlock(pos, PlantsInit.DISTORTIC_VINES_PLANT.get().defaultBlockState(), 2);
          }
          pos.move(Direction.UP);
       }

@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BambooLeaves;
 import pokecube.legends.Reference;
-import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.PlantsInit;
 
 public class TemporalBambooShootBlock extends BambooSaplingBlock implements BonemealableBlock
 {
@@ -46,9 +46,9 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
          return Blocks.AIR.defaultBlockState();
       } else
       {
-         if (direction == Direction.UP && state1.is(BlockInit.TEMPORAL_BAMBOO.get()))
+         if (direction == Direction.UP && state1.is(PlantsInit.TEMPORAL_BAMBOO.get()))
          {
-            world.setBlock(pos, BlockInit.TEMPORAL_BAMBOO.get().defaultBlockState(), 2);
+            world.setBlock(pos, PlantsInit.TEMPORAL_BAMBOO.get().defaultBlockState(), 2);
          }
          return super.updateShape(state, direction, state1, world, pos, pos1);
       }
@@ -57,7 +57,7 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
    @Override
    public void growBamboo(Level world, BlockPos pos)
    {
-      world.setBlock(pos.above(), BlockInit.TEMPORAL_BAMBOO.get().defaultBlockState().setValue(BambooBlock.LEAVES, BambooLeaves.SMALL), 3);
+      world.setBlock(pos.above(), PlantsInit.TEMPORAL_BAMBOO.get().defaultBlockState().setValue(BambooBlock.LEAVES, BambooLeaves.SMALL), 3);
    }
 
    @Override
