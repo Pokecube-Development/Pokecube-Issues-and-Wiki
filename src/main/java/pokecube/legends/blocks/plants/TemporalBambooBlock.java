@@ -16,6 +16,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BambooBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,7 +68,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
       } else
       {
          BlockState state = context.getLevel().getBlockState(context.getClickedPos().below());
-         if (state.is(TemporalBambooBlock.TEMPORAL_BAMBOO_PLANTABLE_ON))
+         if (state.is(TemporalBambooBlock.TEMPORAL_BAMBOO_PLANTABLE_ON) &! state.is(Blocks.BAMBOO_SAPLING))
          {
             if (state.is(PlantsInit.TEMPORAL_BAMBOO_SHOOT.get()))
             {
