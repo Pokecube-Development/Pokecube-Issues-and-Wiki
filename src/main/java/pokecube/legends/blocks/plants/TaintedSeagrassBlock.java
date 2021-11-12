@@ -40,10 +40,4 @@ public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableB
           popResource(world, pos, new ItemStack(this));
       }
    }
-
-   @Override
-   public PlantType getPlantType(BlockGetter world, BlockPos pos)
-   {
-       return PlantType.WATER;
-   }
 }
