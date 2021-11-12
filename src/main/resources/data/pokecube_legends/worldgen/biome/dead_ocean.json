@@ -6,21 +6,22 @@
       "block_search_extent": 8,
       "offset": 2.0
     },
-    "sky_color": 4014925,
-    "fog_color": 4014925,
-    "water_color": 8281120,
-    "water_fog_color": 8281120,
-    "foliage_color": 11701550,
-    "grass_color": 11701550,
+    "sky_color": 9079434,
+    "fog_color": 9079434,
+    "water_color": 13161450,
+    "water_fog_color": 13161450,
+    "grass_color": 2956038,
+    "foliage_color": 2956038,
+    "grass_color_modifier": "swamp",
     "particle": {
       "options": {
         "type": "minecraft:white_ash"
       },
-      "probability": 0.012
+      "probability": 0.006
     },
     "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
   },
-  "surface_builder": "pokecube_legends:polluted_ocean",
+  "surface_builder": "pokecube_legends:dead_ocean",
   "carvers": {
     "air": [
       "pokecube_legends:canyon",
@@ -45,6 +46,7 @@
     [],
     [],
     [
+      "minecraft:disk_gravel",
       "minecraft:prototype_underwater_magma",
       "pokecube_legends:disk_clay",
       "pokecube_legends:disk_crystallized_sand",
@@ -64,16 +66,9 @@
       "minecraft:rare_small_dripstone"
     ],
     [
-      "minecraft:patch_grass_badlands",
-      "pokecube_legends:mushrooms_and_flowers",
-      "pokecube_legends:patch_pink_blossom_tainted_lily_pad",
-      "pokecube_legends:patch_tainted_lily_pad_rare",
+      "pokecube_legends:dead_ocean_vegetation",
       "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:tainted_barrens_vegetation",
-      "pokecube_legends:tainted_kelp",
-      "pokecube_legends:tainted_seagrass_normal",
-      "pokecube_legends:tainted_seagrass_simple"
+      "pokecube_legends:spring_water"
     ],
     [
       "minecraft:freeze_top_layer"
@@ -163,23 +158,29 @@
     "water_creature": [
       {
         "type": "minecraft:squid",
-        "weight": 1,
-        "minCount": 1,
+        "weight": 10,
+        "minCount": 4,
         "maxCount": 4
       },
       {
         "type": "minecraft:dolphin",
-        "weight": 1,
+        "weight": 2,
         "minCount": 1,
         "maxCount": 2
       }
     ],
     "water_ambient": [
       {
-        "type": "minecraft:cod",
-        "weight": 10,
-        "minCount": 3,
-        "maxCount": 6
+        "type": "minecraft:pufferfish",
+        "weight": 15,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:tropical_fish",
+        "weight": 25,
+        "minCount": 8,
+        "maxCount": 8
       }
     ],
     "misc": []

@@ -289,6 +289,16 @@
           }
         },
         {
+          "biome": "pokecube_legends:dead_ocean",
+          "parameters": {
+            "altitude": -0.7,
+            "temperature": 0,
+            "humidity": 0.6,
+            "weirdness": 0,
+            "offset": 0.28
+          }
+        },
+        {
           "biome": "pokecube_legends:crystallized_beach",
           "parameters": {
             "altitude": -0.6,

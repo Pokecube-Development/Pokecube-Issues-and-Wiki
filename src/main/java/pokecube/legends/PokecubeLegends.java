@@ -191,6 +191,7 @@ public class PokecubeLegends
         // Biome Dictionary
         BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HOT, Type.SPOOKY, Type.WET);
         BiomeDictionary.addTypes(FeaturesInit.CRYSTALLIZED_BEACH, Type.BEACH, Type.HOT);
+        BiomeDictionary.addTypes(FeaturesInit.DEAD_OCEAN, Type.OCEAN, Type.SPOOKY, Type.WASTELAND);
         BiomeDictionary.addTypes(FeaturesInit.DISTORTED_LANDS, Type.MAGICAL, Type.SPOOKY);
         BiomeDictionary.addTypes(FeaturesInit.DRIED_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.SPOOKY);
         BiomeDictionary.addTypes(FeaturesInit.FORSAKEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL);

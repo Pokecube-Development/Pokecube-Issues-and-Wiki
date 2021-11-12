@@ -42,7 +42,8 @@ public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableB
    }
 
    @Override
-   public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+   public PlantType getPlantType(BlockGetter world, BlockPos pos)
+   {
        return PlantType.WATER;
    }
 }

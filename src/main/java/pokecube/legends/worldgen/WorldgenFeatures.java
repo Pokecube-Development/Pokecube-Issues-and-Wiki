@@ -16,6 +16,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.features.BasaltColumnsFeature;
 import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
+import pokecube.legends.worldgen.features.DeadCoralClawFeature;
+import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
+import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
 import pokecube.legends.worldgen.features.DeltaFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
@@ -47,6 +50,12 @@ public class WorldgenFeatures
             () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
             () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_CLAW = WorldgenFeatures.FEATURES.register("dead_coral_claw_feature",
+            () -> new DeadCoralClawFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_MUSHROOM = WorldgenFeatures.FEATURES.register("dead_coral_mushroom_feature",
+            () -> new DeadCoralMushroomFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_TREE = WorldgenFeatures.FEATURES.register("dead_coral_tree_feature",
+            () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new DeltaFeature(DeltaFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTED_ISLANDS = WorldgenFeatures.FEATURES.register("distorted_islands_feature",
