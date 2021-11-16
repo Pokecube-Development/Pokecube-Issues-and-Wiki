@@ -3,6 +3,7 @@ package pokecube.legends.blocks.plants;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.PlantType;
+import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
 
 public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableBlock, LiquidBlockContainer, IForgeShearable
@@ -39,5 +41,11 @@ public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableB
       {
           popResource(world, pos, new ItemStack(this));
       }
+   }
+
+   @Override
+   public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
+   {
+      return (state.isFaceSturdy(block, pos, Direction.UP) || state.is(BlockInit.CRYSTALLIZED_SAND.get())) && !state.is(Blocks.MAGMA_BLOCK);
    }
 }

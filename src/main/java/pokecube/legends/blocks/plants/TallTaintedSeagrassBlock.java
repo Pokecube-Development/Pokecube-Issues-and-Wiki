@@ -32,9 +32,9 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
    }
 
    @Override
-   protected boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
+   public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
    {
-      return state.isFaceSturdy(block, pos, Direction.UP) && !state.is(Blocks.MAGMA_BLOCK) || !state.is(BlockInit.CRYSTALLIZED_SAND.get());
+      return (state.isFaceSturdy(block, pos, Direction.UP) || state.is(BlockInit.CRYSTALLIZED_SAND.get())) && !state.is(Blocks.MAGMA_BLOCK);
    }
 
    @Override
@@ -53,11 +53,5 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
    {
       popResource(world, pos, new ItemStack(this));
-   }
-
-   @Override
-   public PlantType getPlantType(BlockGetter world, BlockPos pos)
-   {
-       return PlantType.PLAINS;
    }
 }

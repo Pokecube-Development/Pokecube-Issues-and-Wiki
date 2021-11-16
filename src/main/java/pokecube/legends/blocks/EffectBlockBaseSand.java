@@ -46,8 +46,9 @@ public class EffectBlockBaseSand extends SandBlock
     {
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
-        if (plantType == PlantType.DESERT || block.getBlockState(plantPos).getBlock() instanceof SeagrassBlock ||
-                block.getBlockState(plantPos).getBlock() instanceof TallSeagrassBlock)
+        final BlockState plant = plantable.getPlant(block, plantPos);
+        if (plantType == PlantType.DESERT || plant.getBlock() instanceof SeagrassBlock ||
+                plant.getBlock() instanceof TallSeagrassBlock)
         {
             return true;
         } else if (plantType == PlantType.BEACH)
@@ -56,7 +57,7 @@ public class EffectBlockBaseSand extends SandBlock
                     || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        } else if (plantType == PlantType.WATER || plantType == PlantType.PLAINS)
+        } else if (plantType == PlantType.WATER)
         {
             return state.getMaterial() == Material.WATER;
         } else
