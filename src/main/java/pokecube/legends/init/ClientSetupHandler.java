@@ -22,6 +22,7 @@ import pokecube.legends.Reference;
 import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
+import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.client.render.block.Raid;
 import pokecube.legends.client.render.entity.Wormhole;
@@ -39,7 +40,7 @@ public class ClientSetupHandler
         for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
         {
             final Block b = reg.get();
-            if (b instanceof ItemGenerator.GenericPottedPlant ||
+            if (b instanceof ItemGenerator.GenericPottedPlant || b instanceof InfectedFireBlock ||
                     b instanceof TaintedKelpPlantBlock) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
         }
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())

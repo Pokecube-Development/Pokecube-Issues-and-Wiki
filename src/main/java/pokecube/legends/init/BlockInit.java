@@ -3,6 +3,7 @@ package pokecube.legends.init;
 import java.util.function.ToIntFunction;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
@@ -75,6 +76,7 @@ import pokecube.legends.blocks.normalblocks.GrassCorruptedBlock;
 import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
 import pokecube.legends.blocks.normalblocks.GrassMushroomBlock;
+import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
 import pokecube.legends.blocks.normalblocks.InfectedTorchWall;
 import pokecube.legends.blocks.normalblocks.MagneticBlock;
@@ -318,6 +320,7 @@ public class BlockInit
 
     public static final RegistryObject<Block> BOOKSHELF_EMPTY;
 
+    public static final RegistryObject<Block> INFECTED_FIRE;
     public static final RegistryObject<Block> INFECTED_TORCH;
     public static final RegistryObject<Block> INFECTED_TORCH_WALL;
 
@@ -1216,9 +1219,16 @@ public class BlockInit
 
         // Decorations Creative Tab - Sorting depends on the order the blocks are listed in
 
-        INFECTED_TORCH = PokecubeLegends.DECORATION_TAB.register("infected_torch", () -> new InfectedTorch());
-        INFECTED_TORCH_WALL = PokecubeLegends.DECORATION_TAB.register("infected_torch_wall",
-                () -> new InfectedTorchWall());
+        INFECTED_TORCH = PokecubeLegends.DECORATION_TAB.register("infected_torch", () -> new InfectedTorch(
+                BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((i) -> {return 10;})
+                .sound(SoundType.WOOD), ParticleTypes.DRAGON_BREATH));
+        INFECTED_TORCH_WALL = PokecubeLegends.DECORATION_TAB.register("infected_torch_wall", () -> new InfectedTorchWall(
+                BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((i) -> {return 10;})
+                .sound(SoundType.WOOD), ParticleTypes.DRAGON_BREATH));
+
+        INFECTED_FIRE = PokecubeLegends.NO_TAB.register("infected_fire", () -> new InfectedFireBlock(
+                BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.COLOR_PURPLE).noCollission().instabreak()
+                .lightLevel((i) -> {return 10;}).sound(SoundType.WOOL), 1.0F));
 
         COSMIC_DUST_BLOCK = PokecubeLegends.DECORATION_TAB.register("cosmic_dust_block", () -> new SandBlock(2730984,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.SAND)
