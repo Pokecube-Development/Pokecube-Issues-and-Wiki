@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ruby_ore"
+    "pokecube_legends:deepslate_ruby_ore",
+    "pokecube_legends:ruby_ore",
+    "pokecube_legends:ultra_ruby_ore"
   ]
 }

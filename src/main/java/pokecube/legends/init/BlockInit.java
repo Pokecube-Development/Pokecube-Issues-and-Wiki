@@ -568,22 +568,25 @@ public class BlockInit
     public static final RegistryObject<Block> TAPU_LELE_CORE;
 
     // Ores
+    public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE;
+    public static final RegistryObject<Block> DEEPSLATE_SAPPHIRE_ORE;
+    public static final RegistryObject<Block> FRACTAL_ORE;
+    public static final RegistryObject<Block> METEOR_COSMIC_DUST_ORE;
     public static final RegistryObject<Block> RUBY_ORE;
     public static final RegistryObject<Block> SAPPHIRE_ORE;
     public static final RegistryObject<Block> SPECTRUM_ORE;
-    public static final RegistryObject<Block> METEOR_COSMIC_DUST_ORE;
-    public static final RegistryObject<Block> ULTRA_COSMIC_DUST_ORE;
-
     public static final RegistryObject<Block> ULTRA_COAL_ORE;
-    public static final RegistryObject<Block> ULTRA_IRON_ORE;
-    public static final RegistryObject<Block> ULTRA_GOLD_ORE;
-    public static final RegistryObject<Block> ULTRA_DIAMOND_ORE;
-    public static final RegistryObject<Block> ULTRA_REDSTONE_ORE;
-    public static final RegistryObject<Block> ULTRA_LAPIS_ORE;
-    public static final RegistryObject<Block> ULTRA_EMERALD_ORE;
     public static final RegistryObject<Block> ULTRA_COPPER_ORE;
+    public static final RegistryObject<Block> ULTRA_COSMIC_DUST_ORE;
+    public static final RegistryObject<Block> ULTRA_DIAMOND_ORE;
+    public static final RegistryObject<Block> ULTRA_EMERALD_ORE;
+    public static final RegistryObject<Block> ULTRA_GOLD_ORE;
+    public static final RegistryObject<Block> ULTRA_IRON_ORE;
+    public static final RegistryObject<Block> ULTRA_LAPIS_ORE;
+    public static final RegistryObject<Block> ULTRA_REDSTONE_ORE;
+    public static final RegistryObject<Block> ULTRA_RUBY_ORE;
+    public static final RegistryObject<Block> ULTRA_SAPPHIRE_ORE;
 
-    public static final RegistryObject<Block> FRACTAL_ORE;
     public static final RegistryObject<Block> FRACTAL_BLOCK;
 
     public static final RegistryObject<Block> RUBY_BLOCK;
@@ -629,9 +632,15 @@ public class BlockInit
         RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ruby_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
                 Material.STONE, MaterialColor.STONE).sound(SoundType.STONE).strength(3.0F, 3.0f)
                 .requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        DEEPSLATE_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("deepslate_ruby_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE).strength(4.5F, 3.0f)
+                .requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
         SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("sapphire_ore", () -> new OreBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE).strength(3.0F,
                         3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        DEEPSLATE_SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("deepslate_sapphire_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE).strength(4.5F, 3.0f)
+                .requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
 
         // Soils
         MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block", () -> new GrassMushroomBlock(
@@ -716,9 +725,15 @@ public class BlockInit
         ULTRA_COSMIC_DUST_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_cosmic_dust_ore", () -> new OreBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
+        ULTRA_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_ruby_ore", () -> new OreBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
         SPECTRUM_ORE = PokecubeLegends.DIMENSIONS_TAB.register("spectrum_ore", () -> new OreBlock(BlockBehaviour.Properties
                 .of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE).strength(3.0F, 3.0f)
                 .requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        ULTRA_SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_sapphire_ore", () -> new OreBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
 
         ULTRA_STONE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone", () -> new BlockBase(Material.STONE,
                 MaterialColor.TERRACOTTA_CYAN, 1.5f, 6.0f, SoundType.STONE, true));

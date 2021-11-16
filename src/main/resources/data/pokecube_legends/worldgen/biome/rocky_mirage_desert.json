@@ -32,7 +32,7 @@
     [],
     [
       "minecraft:lake_lava",
-	  "pokecube_legends:rock_crystallized_sandstone",
+      "pokecube_legends:rock_crystallized_sandstone",
       "pokecube_legends:small_crystallized_sandstone_boulders"
     ],
     [],
@@ -51,7 +51,9 @@
       "pokecube_legends:ore_ultra_gold",
       "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_lapis",
-      "pokecube_legends:ore_ultra_redstone"
+      "pokecube_legends:ore_ultra_redstone",
+      "pokecube_legends:ore_ultra_ruby",
+      "pokecube_legends:ore_ultra_sapphire"
     ],
     [],
     [

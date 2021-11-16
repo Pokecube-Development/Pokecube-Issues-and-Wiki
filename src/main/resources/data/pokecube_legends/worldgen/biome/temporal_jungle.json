@@ -52,7 +52,9 @@
       "pokecube_legends:ore_ultra_gold",
       "pokecube_legends:ore_ultra_iron",
       "pokecube_legends:ore_ultra_lapis",
-      "pokecube_legends:ore_ultra_redstone"
+      "pokecube_legends:ore_ultra_redstone",
+      "pokecube_legends:ore_ultra_ruby",
+      "pokecube_legends:ore_ultra_sapphire"
     ],
     [
       "minecraft:rare_dripstone_cluster",
