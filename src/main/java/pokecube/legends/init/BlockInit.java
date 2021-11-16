@@ -108,18 +108,14 @@ import pokecube.legends.blocks.plants.TemporalBambooBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 import pokecube.legends.blocks.plants.TemporalTree;
 
+@SuppressWarnings("deprecation")
 public class BlockInit
 {
-    // Blocks
-    public static final RegistryObject<Block> RAID_SPAWNER;
-
-    public static final RegistryObject<Block> CRAMOMATIC_BLOCK;
-
+    // Decorative_Blocks
     public static final RegistryObject<Block> METEOR_BLOCK;
     public static final RegistryObject<Block> METEOR_SLAB;
     public static final RegistryObject<Block> METEOR_STAIRS;
 
-    // Decorative_Blocks
     public static final RegistryObject<Block> OCEAN_BRICKS;
     public static final RegistryObject<Block> OCEAN_BRICK_SLAB;
     public static final RegistryObject<Block> OCEAN_BRICK_STAIRS;
@@ -170,12 +166,9 @@ public class BlockInit
     public static final RegistryObject<Block> UNOWN_STONE_EX;
     public static final RegistryObject<Block> UNOWN_STONE_IN;
 
-    public static final RegistryObject<Block> DYNA_LEAVES_PINK;
-    public static final RegistryObject<Block> DYNA_LEAVES_RED;
-    public static final RegistryObject<Block> DYNA_LEAVES_PASTEL_PINK;
+    // Tapus Totems
     public static final RegistryObject<Block> TOTEM_BLOCK;
 
-    // Tapus Totems
     // Koko Totem
     public static final RegistryObject<Block> KOKO_WHITE;
     public static final RegistryObject<Block> KOKO_RED;
@@ -248,16 +241,52 @@ public class BlockInit
     public static final RegistryObject<Block> FINI_LIGHT_BLUE;
     public static final RegistryObject<Block> FINI_ORANGE;
 
+    // Legendary Spawners
+    public static final RegistryObject<Block> LEGENDARY_SPAWN;
+    public static final RegistryObject<Block> TROUGH_BLOCK;
+    public static final RegistryObject<Block> HEATRAN_BLOCK;
+    public static final RegistryObject<Block> TAO_BLOCK;
+    public static final RegistryObject<Block> MAGEARNA_BLOCK;
+
+    public static final RegistryObject<Block> GOLEM_STONE;
+
+    public static final RegistryObject<Block> REGISTEEL_CORE;
+    public static final RegistryObject<Block> REGICE_CORE;
+    public static final RegistryObject<Block> REGIROCK_CORE;
+    public static final RegistryObject<Block> REGIELEKI_CORE;
+    public static final RegistryObject<Block> REGIDRAGO_CORE;
+    public static final RegistryObject<Block> REGIGIGA_CORE;
+
+    public static final RegistryObject<Block> TIMESPACE_CORE;
+    public static final RegistryObject<Block> NATURE_CORE;
+    public static final RegistryObject<Block> KELDEO_CORE;
+    public static final RegistryObject<Block> VICTINI_CORE;
+    public static final RegistryObject<Block> YVELTAL_CORE;
+    public static final RegistryObject<Block> XERNEAS_CORE;
+
+    public static final RegistryObject<Block> TAPU_KOKO_CORE;
+    public static final RegistryObject<Block> TAPU_FINI_CORE;
+    public static final RegistryObject<Block> TAPU_BULU_CORE;
+    public static final RegistryObject<Block> TAPU_LELE_CORE;
+
+    // Portal
+    public static final RegistryObject<Block> PORTAL;
+
+    public static final RegistryObject<Block> RAID_SPAWNER;
+    public static final RegistryObject<Block> CRAMOMATIC_BLOCK;
+
     // Dimensions
     // Distortic World
     public static final RegistryObject<Block> DISTORTIC_GRASS;
     public static final RegistryObject<Block> DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
-    public static final RegistryObject<Block> DISTORTIC_MIRROR;
     public static final RegistryObject<Block> CRACKED_DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_GLOWSTONE;
+
+    public static final RegistryObject<Block> DISTORTIC_MIRROR;
     public static final RegistryObject<Block> CHISELED_DISTORTIC_MIRROR;
+
     public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR;
     public static final RegistryObject<Block> ONE_WAY_GLASS;
     public static final RegistryObject<Block> ONE_WAY_GLASS_WHITE;
@@ -528,6 +557,10 @@ public class BlockInit
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF;
     public static final RegistryObject<Block> TEMPORAL_BOOKSHELF_EMPTY;
 
+    public static final RegistryObject<Block> DYNA_LEAVES_PINK;
+    public static final RegistryObject<Block> DYNA_LEAVES_RED;
+    public static final RegistryObject<Block> DYNA_LEAVES_PASTEL_PINK;
+
     // Plants
     public static final RegistryObject<Block> INVERTED_SAPLING;
     public static final RegistryObject<Block> TEMPORAL_SAPLING;
@@ -538,37 +571,6 @@ public class BlockInit
     public static final RegistryObject<Block> CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> TALL_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> CRYSTALLIZED_CACTUS;
-
-    // Portal
-    public static final RegistryObject<Block> PORTAL;
-
-    // Legendary Spawners
-    public static final RegistryObject<Block> LEGENDARY_SPAWN;
-    public static final RegistryObject<Block> TROUGH_BLOCK;
-    public static final RegistryObject<Block> HEATRAN_BLOCK;
-    public static final RegistryObject<Block> TAO_BLOCK;
-    public static final RegistryObject<Block> MAGEARNA_BLOCK;
-
-    public static final RegistryObject<Block> GOLEM_STONE;
-
-    public static final RegistryObject<Block> REGISTEEL_CORE;
-    public static final RegistryObject<Block> REGICE_CORE;
-    public static final RegistryObject<Block> REGIROCK_CORE;
-    public static final RegistryObject<Block> REGIELEKI_CORE;
-    public static final RegistryObject<Block> REGIDRAGO_CORE;
-    public static final RegistryObject<Block> REGIGIGA_CORE;
-
-    public static final RegistryObject<Block> TIMESPACE_CORE;
-    public static final RegistryObject<Block> NATURE_CORE;
-    public static final RegistryObject<Block> KELDEO_CORE;
-    public static final RegistryObject<Block> VICTINI_CORE;
-    public static final RegistryObject<Block> YVELTAL_CORE;
-    public static final RegistryObject<Block> XERNEAS_CORE;
-
-    public static final RegistryObject<Block> TAPU_KOKO_CORE;
-    public static final RegistryObject<Block> TAPU_FINI_CORE;
-    public static final RegistryObject<Block> TAPU_BULU_CORE;
-    public static final RegistryObject<Block> TAPU_LELE_CORE;
 
     // Ores
     public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE;
