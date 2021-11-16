@@ -61,7 +61,7 @@
       "minecraft:rare_small_dripstone"
     ],
     [
-      "minecraft:bamboo_light",
+      "pokecube_legends:temporal_bamboo_light",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_grass_jungle",
       "pokecube_legends:spring_lava",
