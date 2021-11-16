@@ -1224,7 +1224,7 @@ public class BlockInit
                 .sound(SoundType.WOOD), ParticleTypes.DRAGON_BREATH));
         INFECTED_TORCH_WALL = PokecubeLegends.DECORATION_TAB.register("infected_torch_wall", () -> new InfectedTorchWall(
                 BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((i) -> {return 10;})
-                .sound(SoundType.WOOD), ParticleTypes.DRAGON_BREATH));
+                .sound(SoundType.WOOD).dropsLike(INFECTED_TORCH.get()), ParticleTypes.DRAGON_BREATH));
 
         INFECTED_FIRE = PokecubeLegends.NO_TAB.register("infected_fire", () -> new InfectedFireBlock(
                 BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.COLOR_PURPLE).noCollission().instabreak()
