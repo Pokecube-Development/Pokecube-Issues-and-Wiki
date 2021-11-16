@@ -10,7 +10,7 @@
       "tag": "minecraft:coals"
     },
     "#": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     },
     "S": {
       "tag": "pokecube_legends:infected_fire_base_blocks"
