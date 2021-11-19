@@ -58,6 +58,27 @@ public class ClientProxy
         {
             event.registerEntityRenderer(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
         }
+
+        @SubscribeEvent
+        public static void setupClient(final FMLClientSetupEvent event)
+        {
+            ClientProxy.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientProxy.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+
+            final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
+            ClientProxy.UP.setKeyConflictContext(inGame);
+            ClientProxy.DOWN.setKeyConflictContext(inGame);
+
+            ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
+            ClientProxy.ROTATELEFT.setKeyConflictContext(inGame);
+            ClientProxy.ROTATERIGHT.setKeyConflictContext(inGame);
+
+            ClientRegistry.registerKeyBinding(ClientProxy.UP);
+            ClientRegistry.registerKeyBinding(ClientProxy.DOWN);
+            ClientRegistry.registerKeyBinding(ClientProxy.ROTATELEFT);
+            ClientRegistry.registerKeyBinding(ClientProxy.ROTATERIGHT);
+        }
     }
 
     @SubscribeEvent
@@ -167,26 +188,5 @@ public class ClientProxy
                 mat.popPose();
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void setupClient(final FMLClientSetupEvent event)
-    {
-        ClientProxy.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        ClientProxy.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-
-        final KeyConflictContext inGame = KeyConflictContext.IN_GAME;
-        ClientProxy.UP.setKeyConflictContext(inGame);
-        ClientProxy.DOWN.setKeyConflictContext(inGame);
-
-        ClientProxy.ROTATERIGHT = new KeyMapping("crafts.key.left", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        ClientProxy.ROTATELEFT = new KeyMapping("crafts.key.right", InputConstants.UNKNOWN.getValue(), "keys.crafts");
-        ClientProxy.ROTATELEFT.setKeyConflictContext(inGame);
-        ClientProxy.ROTATERIGHT.setKeyConflictContext(inGame);
-
-        ClientRegistry.registerKeyBinding(ClientProxy.UP);
-        ClientRegistry.registerKeyBinding(ClientProxy.DOWN);
-        ClientRegistry.registerKeyBinding(ClientProxy.ROTATELEFT);
-        ClientRegistry.registerKeyBinding(ClientProxy.ROTATERIGHT);
     }
 }

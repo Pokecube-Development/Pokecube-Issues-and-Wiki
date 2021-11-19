@@ -136,11 +136,8 @@ public class VillageRouteMaker implements IBotAI
         {
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
-            final boolean sea = p.getY() <= level.getSeaLevel();
             // Over sea level water, we place planks
-            if (fluid.is(FluidTags.WATER) && sea) return Blocks.OAK_PLANKS.defaultBlockState();
-            // But if replacing through water, we just replace with air
-            else if (fluid.is(FluidTags.WATER)) return Blocks.AIR.defaultBlockState();
+            if (fluid.is(FluidTags.WATER)) return Blocks.OAK_PLANKS.defaultBlockState();
             // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
             // air with planks
@@ -203,12 +200,12 @@ public class VillageRouteMaker implements IBotAI
                 BlockState state;
 
                 // Ensure there is a cieling if needed.
-                here = pos.above(4);
+                here = pos.above(5);
                 // First check if not air, then also check if maybe is a tree,
                 // in that case, no need to place the roof.
                 if (!(state = level.getBlockState(here)).isAir() && !shouldRemove.apply(state, here))
                 {
-                    here = pos.above(3);
+                    here = pos.above(4);
                     state = level.getBlockState(here);
                     final boolean editable = canEdit.apply(state, here);
                     // for now we just place cobble, can decide on something
@@ -223,7 +220,7 @@ public class VillageRouteMaker implements IBotAI
                 if (onEdge)
                 {
                     // Handle building the edge
-                    for (int y = -1; y <= 2; y++)
+                    for (int y = -1; y <= 3; y++)
                     {
                         here = pos.above(y);
                         state = level.getBlockState(here);
@@ -246,7 +243,7 @@ public class VillageRouteMaker implements IBotAI
                     }
                 }
                 // Otherwise make the base path, and clear area above it.
-                else for (int y = -1; y <= 2; y++)
+                else for (int y = -1; y <= 3; y++)
                 {
                     here = pos.above(y);
                     state = level.getBlockState(here);
@@ -731,9 +728,6 @@ public class VillageRouteMaker implements IBotAI
             this.endTarget();
             return;
         }
-        // if (this.player.tickCount % 20 == 0) System.out.println("Doing Node!
-        // " + dr + " " + e.getBuildBounds().size()
-        // + " " + rev);
 
         dir = dir.normalize();
         this.buildRoute(vecHere, dir, dr);

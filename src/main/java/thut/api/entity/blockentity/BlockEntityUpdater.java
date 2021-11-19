@@ -40,11 +40,11 @@ public class BlockEntityUpdater
         return id == null ? true : !IBlockEntity.TEBLACKLIST.contains(id.toString());
     }
 
-    final IBlockEntity  blockEntity;
-    final Entity        theEntity;
-    List<AABB> blockBoxes = Lists.newArrayList();
-    Set<BlockEntity>     erroredSet = Sets.newHashSet();
-    VoxelShape          totalShape = Shapes.empty();
+    final IBlockEntity blockEntity;
+    final Entity       theEntity;
+    List<AABB>         blockBoxes = Lists.newArrayList();
+    Set<BlockEntity>   erroredSet = Sets.newHashSet();
+    VoxelShape         totalShape = Shapes.empty();
 
     Vec3 lastShapePos = Vec3.ZERO;
 
@@ -71,7 +71,7 @@ public class BlockEntityUpdater
         final BlockPos origin = mob.blockPosition();
         final BlockGetter world = this.blockEntity.getFakeWorld();
 
-        if (mob.position().distanceToSqr(this.lastShapePos) == 0) return this.totalShape;
+        if (mob.position().distanceToSqr(this.lastShapePos) <= 1e-4) return this.totalShape;
         this.lastShapePos = mob.position();
 
         final int xMin = this.blockEntity.getMin().getX();
@@ -93,8 +93,7 @@ public class BlockEntityUpdater
                     VoxelShape shape;
                     if (state == null || (shape = state.getShape(world, pos)) == null) continue;
                     if (shape.isEmpty()) continue;
-                    shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k
-                            - dz);
+                    shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
                     this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
                 }
         return this.totalShape;
@@ -137,8 +136,7 @@ public class BlockEntityUpdater
         return intersectAmount;
     }
 
-    private static double getIntersect(final Axis axis, final AABB boxA, final AABB boxB,
-            final AABB boxC)
+    private static double getIntersect(final Axis axis, final AABB boxA, final AABB boxB, final AABB boxC)
     {
         switch (axis)
         {
@@ -174,8 +172,8 @@ public class BlockEntityUpdater
         });
     }
 
-    public static boolean applyEntityCollision(final Entity entity, final AABB entityBox,
-            final List<AABB> blockBoxes, final Vec3 ref_motion)
+    public static boolean applyEntityCollision(final Entity entity, final AABB entityBox, final List<AABB> blockBoxes,
+            final Vec3 ref_motion)
     {
         if (blockBoxes.isEmpty()) return false;
 
@@ -378,8 +376,8 @@ public class BlockEntityUpdater
                 serverplayer.connection.aboveGroundTickCount = 0;
             }
 
-            if (!serverSide && (Minecraft.getInstance().options.bobView || TickHandler.playerTickTracker
-                    .containsKey(player.getUUID())))
+            if (!serverSide && (Minecraft.getInstance().options.bobView || TickHandler.playerTickTracker.containsKey(
+                    player.getUUID())))
             { // This fixes jitter, need a better way to handle this.
                 TickHandler.playerTickTracker.put(player.getUUID(), (int) (System.currentTimeMillis() % 2000));
                 Minecraft.getInstance().options.bobView = false;
@@ -423,8 +421,8 @@ public class BlockEntityUpdater
             this.blockEntity.setSize(size);
         }
         double y;
-        if (this.theEntity.getDeltaMovement().y == 0 && this.theEntity.getY() != (y = Math.round(this.theEntity.getY())))
-            this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
+        if (this.theEntity.getDeltaMovement().y == 0 && this.theEntity.getY() != (y = Math.round(this.theEntity
+                .getY()))) this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
         final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         final int sizeX = dims.getX();
@@ -438,8 +436,7 @@ public class BlockEntityUpdater
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
                 {
-                    pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity
-                            .getZ());
+                    pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity.getZ());
 
                     // TODO rotate here by entity rotation.
                     final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];

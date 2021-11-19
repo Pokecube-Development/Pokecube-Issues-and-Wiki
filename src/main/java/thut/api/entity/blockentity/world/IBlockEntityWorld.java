@@ -1,6 +1,7 @@
 package thut.api.entity.blockentity.world;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipContext;
@@ -44,7 +45,8 @@ public interface IBlockEntityWorld extends LevelAccessor
         final BlockEntity tile = mob.getTiles()[i][j][k];
         if (tile != null && !tile.getBlockPos().equals(pos))
         {
-            // TODO FIXME replace the tile entity somehow?
+            final CompoundTag tag = tile.serializeNBT();
+            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
         }
         return tile;
     }
@@ -88,15 +90,20 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int sizeX = mob.getBlocks().length;
         final int sizeY = mob.getBlocks()[0].length;
         final int sizeZ = mob.getBlocks()[0][0].length;
+        BlockEntity tile;
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
-                    if (mob.getTiles()[i][j][k] != null)
+                    if ((tile = mob.getTiles()[i][j][k]) != null)
                     {
                         final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
                                 + entity.getZ());
-                        // FIXME update TE position somehow...
-                        mob.getTiles()[i][j][k].clearRemoved();
+                        final BlockPos old = tile.getBlockPos();
+                        if (!old.equals(pos))
+                        {
+                            final CompoundTag tag = tile.serializeNBT();
+                            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
+                        }
                     }
     }
 
@@ -109,12 +116,10 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
-        if (tile != null)
+        if (tile != null && !tile.getBlockPos().equals(pos))
         {
-            final boolean invalid = tile.isRemoved();
-            if (!invalid) tile.setRemoved();
-            // FIXME update TE position somehow...
-            tile.clearRemoved();
+            final CompoundTag tag = tile.serializeNBT();
+            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
         }
         return true;
     }

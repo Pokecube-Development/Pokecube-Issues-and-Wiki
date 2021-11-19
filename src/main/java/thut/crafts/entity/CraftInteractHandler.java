@@ -13,12 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
-import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.vecmath.Vector3f;
 
 public class CraftInteractHandler extends BlockEntityInteractHandler
@@ -42,29 +39,18 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                 hand) == InteractionResult.SUCCESS;
         if (passed) return InteractionResult.SUCCESS;
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
-        if (this.trace == null)
-        {
-            final Vec3 playerPos = player.position().add(0, player.getEyeHeight(), 0);
-            final Vec3 start = playerPos.subtract(this.craft.position());
-            final HitResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
-                    .position()), vec.add(this.craft.position()), this.craft);
-            this.trace = hit instanceof BlockHitResult ? (BlockHitResult) hit : null;
-        }
-        BlockPos pos;
-        if (this.trace == null) pos = this.craft.blockPosition();
-        else pos = this.trace.getBlockPos();
-        if (this.trace != null && this.interactInternal(player, pos, stack, hand) == InteractionResult.SUCCESS)
-            return InteractionResult.SUCCESS;
-        else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
-        {
-            final Seat seat = this.craft.getSeat(i);
-            if (!this.craft.level.isClientSide && seat.getEntityId().equals(Seat.BLANK))
-            {
-                this.craft.setSeatID(i, player.getUUID());
-                player.startRiding(this.craft);
-                return InteractionResult.SUCCESS;
-            }
-        }
+//        if (this.interactInternal(player, new BlockPos(vec), stack, hand) == InteractionResult.SUCCESS)
+//            return InteractionResult.SUCCESS;
+//        else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
+//        {
+//            final Seat seat = this.craft.getSeat(i);
+//            if (!this.craft.level.isClientSide && seat.getEntityId().equals(Seat.BLANK))
+//            {
+//                this.craft.setSeatID(i, player.getUUID());
+//                player.startRiding(this.craft);
+//                return InteractionResult.SUCCESS;
+//            }
+//        }
         return InteractionResult.PASS;
     }
 

@@ -53,8 +53,8 @@ public class ClientInit
             final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
             final float g, final float b, final float a)
     {
-        builder.vertex(positionMatrix, dx1, dy1, dz1).color(r, g, b, a).endVertex();
-        builder.vertex(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).endVertex();
+        builder.vertex(positionMatrix, dx1, dy1, dz1).color(r, g, b, a).normal(0, 1, 0).endVertex();
+        builder.vertex(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).normal(0, 1, 0).endVertex();
     }
 
     public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final Vector3f start,
