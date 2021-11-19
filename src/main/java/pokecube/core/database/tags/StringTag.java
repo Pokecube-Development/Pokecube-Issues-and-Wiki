@@ -77,7 +77,7 @@ public class StringTag implements IResourceData
                     final TagHolder incl = parent.tagsMap.get(tag);
                     if (incl == null)
                     {
-                        PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", checked);
+                        PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", s);
                         continue;
                     }
                     this._includes.add(incl);

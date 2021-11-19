@@ -18,7 +18,6 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.RootTask;
@@ -40,7 +39,6 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (!pokemob.getPokedexEntry().breeds) return false;
         if (pokemob.getPokedexEntry().isMega()) return false;
         if (pokemob.getPokedexEntry().isGMax()) return false;
-        if (pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (!pokemob.canBreed()) return false;
         if (pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
@@ -55,7 +53,10 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (entityIn == otherAnimal) return false;
         final IPokemob other = CapabilityPokemob.getPokemobFor(otherAnimal);
         if (other != null && !InterestingMobs.canPokemobMate(other)) return false;
-        if (us != null) return us.canMate(otherAnimal);
+        final IBreedingMob them = BreedableCaps.getBreedable(otherAnimal);
+        // Make the breeding check take either direction. This allows checking
+        // things like ditto, etc.
+        if (us != null) return us.canMate(otherAnimal) || them != null && them.canMate(entityIn);
         return false;
     }
 
@@ -97,9 +98,9 @@ public class InterestingMobs extends Sensor<LivingEntity>
                 if (canSee)
                 {
                     visible.add(living);
-                    if (canMate && e instanceof AgeableEntity && mateBox.intersects(living.getBoundingBox()) && this
-                            .isValid((AgeableEntity) entityIn, (AgeableEntity) living)) mates.add(
-                                    (AgeableEntity) living);
+                    final boolean validMate = canMate && e instanceof AgeableEntity && mateBox.intersects(living
+                            .getBoundingBox()) && this.isValid((AgeableEntity) entityIn, (AgeableEntity) living);
+                    if (validMate) mates.add((AgeableEntity) living);
                 }
             }
             else if (e instanceof ItemEntity) items.add((ItemEntity) e);
