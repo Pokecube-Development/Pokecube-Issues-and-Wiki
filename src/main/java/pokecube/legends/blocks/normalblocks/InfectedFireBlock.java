@@ -66,11 +66,14 @@ public class InfectedFireBlock extends BaseFireBlock
     {
         if (!entity.fireImmune())
         {
-            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
             entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
             if (entity.getRemainingFireTicks() == 0)
             {
                entity.setSecondsOnFire(8);
+            }
+            if (entity instanceof LivingEntity)
+            {
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
             }
             entity.hurt(DamageSource.IN_FIRE, this.fireDamage);
         }
