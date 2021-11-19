@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -925,7 +926,9 @@ public class BlockInit
                 () -> new CorruptedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
-        CORRUPTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_leaves", () -> new CorruptedLeavesBlock());
+        CORRUPTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_leaves", () -> new CorruptedLeavesBlock(
+                BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_GRAY).sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion()
+                .isSuffocating((s, r, p)-> false).isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         CORRUPTED_LOG = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_log", () -> Blocks.log(MaterialColor.WOOD,
                 MaterialColor.COLOR_GRAY));

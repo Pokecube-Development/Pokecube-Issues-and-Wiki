@@ -11,6 +11,7 @@ public class ParticleInit
 {
     public static final RegistryObject<SimpleParticleType> INFECTED_FIRE_FLAME;
     public static final RegistryObject<SimpleParticleType> INFECTED_SMOKE;
+    public static final RegistryObject<SimpleParticleType> INFECTED_SOUL;
 
     static
     {
@@ -19,5 +20,8 @@ public class ParticleInit
 
         INFECTED_SMOKE =
                 PokecubeLegends.PARTICLES.register("infected_smoke", () -> new SimpleParticleType(false));
+
+        INFECTED_SOUL =
+                PokecubeLegends.PARTICLES.register("infected_soul", () -> new SimpleParticleType(false));
     }
 }

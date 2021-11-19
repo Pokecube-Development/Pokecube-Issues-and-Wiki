@@ -20,15 +20,16 @@ public class MirageLeavesBlock extends LeavesBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(final BlockState stateIn, final Level worldIn, final BlockPos pos, final Random rand)
+    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final Random random)
     {
-        if (rand.nextInt(3) == 0) {
-            final BlockPos blockpos = pos.below();
-            if (worldIn.isEmptyBlock(blockpos)) {
-                final double d0 = pos.getX() + rand.nextDouble();
+        if (random.nextInt(3) == 0) {
+            final BlockPos pos1 = pos.below();
+            if (world.isEmptyBlock(pos1))
+            {
+                final double d0 = pos.getX() + random.nextDouble();
                 final double d1 = pos.getY() - 0.05D;
-                final double d2 = pos.getZ() + rand.nextDouble();
-                worldIn.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, stateIn), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                final double d2 = pos.getZ() + random.nextDouble();
+                world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D, 0.0D);
             }
         }
     }
