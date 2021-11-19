@@ -2,8 +2,10 @@ package pokecube.legends.init;
 
 import java.util.function.Predicate;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -73,6 +75,8 @@ public class ClientSetupHandler
             }
             if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
 
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
@@ -162,6 +166,8 @@ public class ClientSetupHandler
     {
         // Renderer for raid spawn
         event.registerBlockEntityRenderer(RaidSpawn.TYPE, Raid::new);
+
+        event.registerBlockEntityRenderer(TileEntityInit.CAMPFIRE_ENTITY.get(), CampfireRenderer::new);
 
         // Register entity renderer for the wormhole
         event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);

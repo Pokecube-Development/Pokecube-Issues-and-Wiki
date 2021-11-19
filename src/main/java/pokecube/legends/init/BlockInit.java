@@ -11,10 +11,12 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.OreBlock;
@@ -76,6 +78,7 @@ import pokecube.legends.blocks.normalblocks.GrassCorruptedBlock;
 import pokecube.legends.blocks.normalblocks.GrassDistorticBlock;
 import pokecube.legends.blocks.normalblocks.GrassJungleBlock;
 import pokecube.legends.blocks.normalblocks.GrassMushroomBlock;
+import pokecube.legends.blocks.normalblocks.InfectedCampfireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
 import pokecube.legends.blocks.normalblocks.InfectedTorchWall;
@@ -349,7 +352,9 @@ public class BlockInit
 
     public static final RegistryObject<Block> BOOKSHELF_EMPTY;
 
+    public static final RegistryObject<Block> INFECTED_CAMPFIRE;
     public static final RegistryObject<Block> INFECTED_FIRE;
+    public static final RegistryObject<Block> INFECTED_LANTERN;
     public static final RegistryObject<Block> INFECTED_TORCH;
     public static final RegistryObject<Block> INFECTED_TORCH_WALL;
 
@@ -1220,7 +1225,6 @@ public class BlockInit
                 .noCollission().instabreak()));
 
         // Decorations Creative Tab - Sorting depends on the order the blocks are listed in
-
         INFECTED_TORCH = PokecubeLegends.DECORATION_TAB.register("infected_torch", () -> new InfectedTorch(
                 BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((i) -> {return 10;})
                 .sound(SoundType.WOOD), ParticleTypes.DRAGON_BREATH));
@@ -1229,8 +1233,8 @@ public class BlockInit
                 .sound(SoundType.WOOD).dropsLike(INFECTED_TORCH.get()), ParticleTypes.DRAGON_BREATH));
 
         INFECTED_FIRE = PokecubeLegends.NO_TAB.register("infected_fire", () -> new InfectedFireBlock(
-                BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.COLOR_PURPLE).noCollission().instabreak()
-                .lightLevel((i) -> {return 10;}).sound(SoundType.WOOL), 1.0F));
+                BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.TERRACOTTA_PURPLE).noCollission().instabreak()
+                .lightLevel((i) -> {return 10;}).sound(SoundType.WOOL), 2.0f));
 
         COSMIC_DUST_BLOCK = PokecubeLegends.DECORATION_TAB.register("cosmic_dust_block", () -> new SandBlock(2730984,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.SAND)
@@ -2021,6 +2025,14 @@ public class BlockInit
         VICTINI_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("victini_spawn", () -> new VictiniBlock(BlockBehaviour.Properties
                 .of(Material.METAL, MaterialColor.GOLD).strength(5, 15).sound(SoundType.ANVIL).dynamicShape()
                 .requiresCorrectToolForDrops()).setShape(Shapes.box(0.05, 0, 0.05, 1, 1, 1)));
+
+        INFECTED_CAMPFIRE = PokecubeLegends.DECORATION_TAB.register("infected_campfire", () -> new InfectedCampfireBlock(true, 2,
+                BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_GRAY).strength(2.0F).sound(SoundType.WOOD)
+                .lightLevel(litBlockEmission(10)).noOcclusion()));
+
+        INFECTED_LANTERN = PokecubeLegends.DECORATION_TAB.register("infected_lantern", () -> new LanternBlock(
+                BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_PURPLE).requiresCorrectToolForDrops().strength(3.5F)
+                .sound(SoundType.LANTERN).lightLevel((i) -> {return 10;}).noOcclusion()));
 
         // No Tab
         POTTED_AGED_SAPLING = PokecubeLegends.NO_TAB.register("potted_aged_sapling",

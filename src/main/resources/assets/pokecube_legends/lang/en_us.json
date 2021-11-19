@@ -378,8 +378,10 @@
     "block.pokecube_legends.spectrum_slab": "Block of Spectrum Slab",
     "block.pokecube_legends.spectrum_stairs": "Block of Spectrum Stairs",
 
-    "block.pokecube_legends.infected_torch": "Infected Torch",
+    "block.pokecube_legends.infected_campfire": "Infected Campfire",
     "block.pokecube_legends.infected_fire": "Infected Fire",
+    "block.pokecube_legends.infected_lantern": "Infected Lantern",
+    "block.pokecube_legends.infected_torch": "Infected Torch",
 
     "block.pokecube_legends.inverted_log": "Inverted Log",
     "block.pokecube_legends.inverted_wood": "Inverted Wood",

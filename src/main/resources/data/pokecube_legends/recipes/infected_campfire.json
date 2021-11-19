@@ -2,23 +2,22 @@
   "group": "pokecube_legends",
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "#",
-    "S"
+    " S ",
+    "S#S",
+    "LLL"
   ],
   "key": {
-    "X": {
-      "tag": "minecraft:coals"
-    },
-    "#": {
-      "tag": "forge:rods/wooden"
+    "L": {
+      "tag": "minecraft:logs"
     },
     "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "#": {
       "tag": "pokecube_legends:infected_fire_base_blocks"
     }
   },
   "result": {
-    "item": "pokecube_legends:infected_torch",
-    "count": 4
+    "item": "pokecube_legends:infected_campfire"
   }
 }

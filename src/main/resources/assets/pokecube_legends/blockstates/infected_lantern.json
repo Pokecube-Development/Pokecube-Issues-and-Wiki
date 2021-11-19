@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "pokecube_legends:block/infected_lantern"
+    },
+    "hanging=true": {
+      "model": "pokecube_legends:block/infected_lantern_hanging"
+    }
+  }
+}
