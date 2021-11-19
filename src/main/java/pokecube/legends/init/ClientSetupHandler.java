@@ -3,6 +3,7 @@ package pokecube.legends.init;
 import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
@@ -13,6 +14,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -171,5 +174,11 @@ public class ClientSetupHandler
 
         // Register entity renderer for the wormhole
         event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);
+    }
+
+    @SuppressWarnings("resource")
+    @SubscribeEvent
+    public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
     }
 }
