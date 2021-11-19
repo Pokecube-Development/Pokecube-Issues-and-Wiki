@@ -166,7 +166,7 @@ public class GuiPokemob extends GuiPokemobBase
         if (this.bar.isMouseOver(x, y)) text.add(I18n.get("pokemob.bar.value", this.bar.value));
         final List<Component> msgs = new ArrayList<>();
         for(final String s: text) msgs.add(new TextComponent(s));
-        if (!text.isEmpty()) this.renderComponentToolTip(mat, msgs, x, y, this.font);
+        if (!text.isEmpty()) this.renderComponentTooltip(mat, msgs, x, y, this.font);
         this.renderTooltip(mat, x, y);
     }
 }
