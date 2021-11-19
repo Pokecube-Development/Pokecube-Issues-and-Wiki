@@ -9,7 +9,6 @@ import com.google.common.collect.ImmutableList;
 
 import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.data.worldgen.Features;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.material.Fluid;
@@ -86,14 +84,14 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> DECORATION_TAB      = DeferredRegister.create(ForgeRegistries.BLOCKS,Reference.ID);
-    public static final DeferredRegister<Block> DIMENSIONS_TAB      = DeferredRegister.create(ForgeRegistries.BLOCKS,Reference.ID);
-    public static final DeferredRegister<Block> NO_TAB              = DeferredRegister.create(ForgeRegistries.BLOCKS,Reference.ID);
-    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,Reference.ID);
+    public static final DeferredRegister<Block> DECORATION_TAB      = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> DIMENSIONS_TAB      = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> NO_TAB              = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
 
     public static final DeferredRegister<EntityType<?>>   ENTITIES  = DeferredRegister.create(ForgeRegistries.ENTITIES, Reference.ID);
-    public static final DeferredRegister<Fluid>           FLUIDS    = DeferredRegister.create(ForgeRegistries.FLUIDS,Reference.ID);
-    public static final DeferredRegister<Item>            ITEMS     = DeferredRegister.create(ForgeRegistries.ITEMS,Reference.ID);
+    public static final DeferredRegister<Fluid>           FLUIDS    = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
+    public static final DeferredRegister<Item>            ITEMS     = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Reference.ID);
 
     // Barrels Inventory/Container

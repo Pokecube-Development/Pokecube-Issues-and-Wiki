@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.FlameParticle;
+import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
@@ -180,5 +181,6 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
     }
 }
