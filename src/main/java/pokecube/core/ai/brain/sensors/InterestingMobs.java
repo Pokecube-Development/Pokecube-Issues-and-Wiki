@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.RootTask;
@@ -39,7 +38,6 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (!pokemob.getPokedexEntry().breeds) return false;
         if (pokemob.getPokedexEntry().isMega()) return false;
         if (pokemob.getPokedexEntry().isGMax()) return false;
-        if (pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (!pokemob.canBreed()) return false;
         if (pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
@@ -54,7 +52,10 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (entityIn == otherAnimal) return false;
         final IPokemob other = CapabilityPokemob.getPokemobFor(otherAnimal);
         if (other != null && !InterestingMobs.canPokemobMate(other)) return false;
-        if (us != null) return us.canMate(otherAnimal);
+        final IBreedingMob them = BreedableCaps.getBreedable(otherAnimal);
+        // Make the breeding check take either direction. This allows checking
+        // things like ditto, etc.
+        if (us != null) return us.canMate(otherAnimal) || them != null && them.canMate(entityIn);
         return false;
     }
 
@@ -96,9 +97,9 @@ public class InterestingMobs extends Sensor<LivingEntity>
                 if (canSee)
                 {
                     visible.add(living);
-                    if (canMate && e instanceof AgeableMob && mateBox.intersects(living.getBoundingBox()) && this
-                            .isValid((AgeableMob) entityIn, (AgeableMob) living)) mates.add(
-                                    (AgeableMob) living);
+                    final boolean validMate = canMate && e instanceof AgeableMob && mateBox.intersects(living
+                            .getBoundingBox()) && this.isValid((AgeableMob) entityIn, (AgeableMob) living);
+                    if (validMate) mates.add((AgeableMob) living);
                 }
             }
             else if (e instanceof ItemEntity) items.add((ItemEntity) e);
@@ -116,7 +117,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
     public Set<MemoryModuleType<?>> requires()
     {
         return ImmutableSet.of(MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModules.POSSIBLE_MATES,
-                MemoryModules.HERD_MEMBERS, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.VISIBLE_ITEMS);
+                MemoryModules.HERD_MEMBERS, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
+                MemoryModules.VISIBLE_ITEMS);
     }
 
 }

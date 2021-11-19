@@ -1198,7 +1198,11 @@ public class PokedexEntry
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
         this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
         this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
-        this.breeds = !Tags.POKEMOB.isIn("no_breeding", this.getTrimmedName());
+
+        // Breeding whitelist is generally for legends that are explicitly
+        // allowed to breed, like manaphy
+        this.breeds = Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName()) || !Tags.POKEMOB.isIn(
+                "no_breeding", this.getTrimmedName());
 
         this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
         this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
