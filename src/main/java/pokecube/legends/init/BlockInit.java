@@ -11,7 +11,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -26,11 +25,9 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -100,17 +97,14 @@ import pokecube.legends.blocks.plants.AgedTree;
 import pokecube.legends.blocks.plants.CorruptedTree;
 import pokecube.legends.blocks.plants.CrystallizedBush;
 import pokecube.legends.blocks.plants.CrystallizedCactus;
-import pokecube.legends.blocks.plants.DistortedVinesBlock;
-import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
 import pokecube.legends.blocks.plants.DistorticTree;
 import pokecube.legends.blocks.plants.InvertedTree;
 import pokecube.legends.blocks.plants.MirageSapling;
 import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
+import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.blocks.plants.TallCrystallizedBush;
-import pokecube.legends.blocks.plants.TemporalBambooBlock;
-import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 import pokecube.legends.blocks.plants.TemporalTree;
 
 @SuppressWarnings("deprecation")
@@ -1148,7 +1142,7 @@ public class BlockInit
                         3.0f).noOcclusion()));
 
         // Temporal Blocks
-        STRING_OF_PEARLS = PokecubeLegends.DIMENSIONS_TAB.register("string_of_pearls", () -> new VineBlock(
+        STRING_OF_PEARLS = PokecubeLegends.DIMENSIONS_TAB.register("string_of_pearls", () -> new StringOfPearlsBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().randomTicks().strength(0.2F).sound(SoundType.VINE)));
 
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling", () -> new SaplingBase(

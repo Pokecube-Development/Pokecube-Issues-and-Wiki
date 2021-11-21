@@ -1,5 +1,7 @@
 package pokecube.legends.worldgen.features;
 
+import java.util.Random;
+
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
@@ -9,6 +11,7 @@ import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.init.BlockInit;
 
 public class StringOfPearlsFeature extends Feature<NoneFeatureConfiguration>
@@ -23,6 +26,7 @@ public class StringOfPearlsFeature extends Feature<NoneFeatureConfiguration>
    {
       WorldGenLevel world = config.level();
       BlockPos pos = config.origin();
+      Random random = config.random();
       config.config();
       if (!world.isEmptyBlock(pos))
       {
@@ -34,7 +38,8 @@ public class StringOfPearlsFeature extends Feature<NoneFeatureConfiguration>
             if (direction != Direction.DOWN && VineBlock.isAcceptableNeighbour(world, pos.relative(direction), direction))
             {
                world.setBlock(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState()
-                    .setValue(VineBlock.getPropertyForFace(direction), Boolean.valueOf(true)), 2);
+                    .setValue(StringOfPearlsBlock.getPropertyForFace(direction), Boolean.valueOf(true))
+                    .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)), 2);
                return true;
             }
          }

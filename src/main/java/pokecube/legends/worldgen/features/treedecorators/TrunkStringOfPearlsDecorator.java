@@ -8,12 +8,12 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelSimulatedReader;
-import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.WorldgenFeatures;
 
@@ -37,7 +37,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
             BlockPos pos = listedPos.west();
             if (Feature.isAir(world, pos))
             {
-               placeVine(blockPos, pos, VineBlock.EAST);
+               placeVine(blockPos, pos, StringOfPearlsBlock.EAST, random);
             }
          }
 
@@ -46,7 +46,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
             BlockPos pos1 = listedPos.east();
             if (Feature.isAir(world, pos1))
             {
-               placeVine(blockPos, pos1, VineBlock.WEST);
+               placeVine(blockPos, pos1, StringOfPearlsBlock.WEST, random);
             }
          }
 
@@ -55,7 +55,7 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
             BlockPos pos2 = listedPos.north();
             if (Feature.isAir(world, pos2))
             {
-               placeVine(blockPos, pos2, VineBlock.SOUTH);
+               placeVine(blockPos, pos2, StringOfPearlsBlock.SOUTH, random);
             }
          }
 
@@ -64,16 +64,18 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
             BlockPos pos3 = listedPos.south();
             if (Feature.isAir(world, pos3))
             {
-               placeVine(blockPos, pos3, VineBlock.NORTH);
+               placeVine(blockPos, pos3, StringOfPearlsBlock.NORTH, random);
             }
          }
 
       });
    }
 
-   public static void placeVine(BiConsumer<BlockPos, BlockState> blockPos, BlockPos pos, BooleanProperty b)
+   public static void placeVine(BiConsumer<BlockPos, BlockState> blockPos, BlockPos pos, BooleanProperty b, Random random)
    {
-      blockPos.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true)));
+      blockPos.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState()
+              .setValue(b, Boolean.valueOf(true))
+              .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));
    }
 
    static {
