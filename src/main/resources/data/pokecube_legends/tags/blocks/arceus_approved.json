@@ -1,11 +1,18 @@
 {
   "replace": false,
   "values": [
+    "#minecraft:buttons",
+    "#minecraft:climbable",
+    "#minecraft:wooden_buttons",
+    "minecraft:lantern",
+    "minecraft:sea_pickle",
+    "minecraft:soul_lantern",
+    "minecraft:soul_torch",
+    "minecraft:soul_wall_torch",
     "minecraft:torch",
     "minecraft:wall_torch",
-    "minecraft:ladder",
-    "minecraft:vine",
-    "#minecraft:wooden_buttons",
-    "#minecraft:buttons"
+    "pokecube_legends:infected_lantern",
+    "pokecube_legends:infected_torch",
+    "pokecube_legends:infected_torch_wall"
   ]
 }

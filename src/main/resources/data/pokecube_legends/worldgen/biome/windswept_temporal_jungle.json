@@ -67,6 +67,7 @@
       "pokecube_legends:patch_grass_jungle",
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water",
+      "pokecube_legends:string_of_pearls",
       "pokecube_legends:temporal_bamboo"
     ],
     [
@@ -172,7 +173,7 @@
         "type": "minecraft:panda",
         "weight": 80,
         "minCount": 1,
-        "maxCount": 2
+        "maxCount": 4
       }
     ],
     "ambient": [

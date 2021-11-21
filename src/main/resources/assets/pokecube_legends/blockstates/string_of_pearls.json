@@ -1,0 +1,64 @@
+{
+  "multipart": [
+    {
+      "when": {  "up": "true" },
+      "apply": [
+        { "model": "pokecube_legends:block/string_of_pearls", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering", "x": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering1", "x": 270, "uvlock": true }
+      ]
+    },
+    {
+      "when": { "west": "true" },
+      "apply": [
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering", "y": 270, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering1", "y": 270, "uvlock": true }
+      ]
+    },
+    {
+      "when": { "east": "true" },
+      "apply": [
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering", "y": 90, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering1", "y": 90, "uvlock": true }
+      ]
+    },
+    {
+      "when": { "south": "true" },
+      "apply": [
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering", "y": 180, "uvlock": true },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering1", "y": 180, "uvlock": true }
+      ]
+    },
+    {
+      "when": { "north": "true" },
+      "apply": [
+        { "model": "pokecube_legends:block/string_of_pearls" },
+        { "model": "pokecube_legends:block/string_of_pearls" },
+        { "model": "pokecube_legends:block/string_of_pearls" },
+        { "model": "pokecube_legends:block/string_of_pearls" },
+        { "model": "pokecube_legends:block/string_of_pearls" },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering" },
+        { "model": "pokecube_legends:block/string_of_pearls_flowering1" }
+      ]
+    }
+  ]
+}

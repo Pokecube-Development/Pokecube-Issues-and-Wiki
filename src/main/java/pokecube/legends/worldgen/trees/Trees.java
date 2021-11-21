@@ -30,6 +30,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.worldgen.features.treedecorators.LeavesStringOfPearlsDecorator;
+import pokecube.legends.worldgen.features.treedecorators.TrunkStringOfPearlsDecorator;
 
 public class Trees
 {
@@ -151,7 +153,7 @@ public class Trees
                 // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayersFeatureSize(2, 0, 2))
-                .decorators(ImmutableList.of(TrunkVineDecorator.INSTANCE, LeaveVineDecorator.INSTANCE,
+                .decorators(ImmutableList.of(TrunkStringOfPearlsDecorator.INSTANCE, LeavesStringOfPearlsDecorator.INSTANCE,
                     Features.Decorators.BEEHIVE_0002))
                 .ignoreVines()
                 .build();
@@ -188,7 +190,7 @@ public class Trees
             // Different trees use a variety of the three values below, usually ranging from
             // 0 to 2, this example is from basic oak trees, but it can vary for different ones
             new TwoLayersFeatureSize(1, 1, 2))
-            .decorators(ImmutableList.of(TrunkVineDecorator.INSTANCE, LeaveVineDecorator.INSTANCE,
+            .decorators(ImmutableList.of(TrunkStringOfPearlsDecorator.INSTANCE, LeavesStringOfPearlsDecorator.INSTANCE,
                 Features.Decorators.BEEHIVE_0002, new AlterGroundDecorator(new SimpleStateProvider(States.ULTRA_JUNGLE_GRASS))))
             .build();
         //@formatter:on

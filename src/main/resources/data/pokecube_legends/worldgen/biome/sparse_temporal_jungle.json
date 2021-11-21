@@ -66,7 +66,8 @@
       "pokecube_legends:patch_grass_jungle",
       "pokecube_legends:sparse_temporal_jungle_vegetation",
       "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_water",
+      "pokecube_legends:string_of_pearls"
     ],
     [
       "minecraft:freeze_top_layer"

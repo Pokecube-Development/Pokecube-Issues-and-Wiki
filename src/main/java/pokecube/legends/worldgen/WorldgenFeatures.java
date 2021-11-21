@@ -1,5 +1,8 @@
 package pokecube.legends.worldgen;
 
+import com.mojang.serialization.Codec;
+
+import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
@@ -7,6 +10,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureCo
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,9 +31,12 @@ import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.ForestVegetationFeature;
 import pokecube.legends.worldgen.features.LakeFeature;
+import pokecube.legends.worldgen.features.StringOfPearlsFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.TemporalBambooFeature;
+import pokecube.legends.worldgen.features.treedecorators.LeavesStringOfPearlsDecorator;
+import pokecube.legends.worldgen.features.treedecorators.TrunkStringOfPearlsDecorator;
 import pokecube.legends.worldgen.surface_builders.BlindingDeltasSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.MirageDesertSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.TaintedBarrensSurfaceBuilder;
@@ -38,6 +47,8 @@ public class WorldgenFeatures
             ForgeRegistries.SURFACE_BUILDERS, Reference.ID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(
             ForgeRegistries.FEATURES, Reference.ID);
+    public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(
+            ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
 
     public static final RegistryObject<SurfaceBuilder<?>> MIRAGE_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("mirage_desert",
             () -> new MirageDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
@@ -74,10 +85,18 @@ public class WorldgenFeatures
             () -> new TaintedKelpFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> TAINTED_SEAGRASS = WorldgenFeatures.FEATURES.register("tainted_seagrass_feature",
             () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
+            () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
+
+    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = WorldgenFeatures.TREE_DECORATORS.register("leaves_string_of_pearls_decorator",
+            () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
+    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = WorldgenFeatures.TREE_DECORATORS.register("trunk_string_of_pearls_decorator",
+            () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
 
     public static void init(final IEventBus bus)
     {
         WorldgenFeatures.SURFACE_BUILDERS.register(bus);
         WorldgenFeatures.FEATURES.register(bus);
+        WorldgenFeatures.TREE_DECORATORS.register(bus);
     }
 }

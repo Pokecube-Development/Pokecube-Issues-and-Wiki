@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -545,6 +546,7 @@ public class BlockInit
     public static final RegistryObject<Block> MIRAGE_BOOKSHELF;
     public static final RegistryObject<Block> MIRAGE_BOOKSHELF_EMPTY;
 
+    public static final RegistryObject<Block> STRING_OF_PEARLS;
     public static final RegistryObject<Block> TEMPORAL_LOG;
     public static final RegistryObject<Block> TEMPORAL_PLANKS;
     public static final RegistryObject<Block> TEMPORAL_LEAVES;
@@ -1146,6 +1148,9 @@ public class BlockInit
                         3.0f).noOcclusion()));
 
         // Temporal Blocks
+        STRING_OF_PEARLS = PokecubeLegends.DIMENSIONS_TAB.register("string_of_pearls", () -> new VineBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().randomTicks().strength(0.2F).sound(SoundType.VINE)));
+
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling", () -> new SaplingBase(
                 () -> new TemporalTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.PLANT).strength(0f,
                         1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
@@ -2194,6 +2199,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
 
+        BlockInit.compostableBlocks(0.5f, BlockInit.STRING_OF_PEARLS);
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
 
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);

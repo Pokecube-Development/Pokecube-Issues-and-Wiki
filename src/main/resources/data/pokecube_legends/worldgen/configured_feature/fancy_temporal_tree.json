@@ -2,10 +2,10 @@
   "config": {
     "decorators": [
       {
-        "type": "minecraft:trunk_vine"
+        "type": "pokecube_legends:trunk_string_of_pearls_decorator"
       },
       {
-        "type": "minecraft:leave_vine"
+        "type": "pokecube_legends:leaves_string_of_pearls_decorator"
       },
       {
         "probability": 0.002,

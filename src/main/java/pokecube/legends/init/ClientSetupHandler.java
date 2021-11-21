@@ -37,8 +37,8 @@ import pokecube.legends.tileentity.RaidSpawn;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
-    static final Predicate<Material> notSolid = m -> m == Material.ICE ||
-            m == Material.ICE_SOLID || m == Material.LEAVES || m == Material.HEAVY_METAL;
+    static final Predicate<Material> notSolid = m -> m == Material.ICE || m == Material.ICE_SOLID ||
+            m == Material.HEAVY_METAL || m == Material.LEAVES || m == Material.REPLACEABLE_PLANT;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)

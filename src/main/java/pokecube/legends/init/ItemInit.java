@@ -358,9 +358,6 @@ public class ItemInit
         DISTORTIC_VINES = PokecubeLegends.ITEMS.register("distortic_vines", () -> new BlockItem(PlantsInit.DISTORTIC_VINES.get(),
                 new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
-        INFECTED_TORCH = PokecubeLegends.ITEMS.register("infected_torch", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
-                .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet", () -> new UltraHelmetEffect(
                 ItemInit.armormaterial, EquipmentSlot.HEAD, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate", () -> new ArmorItem(
@@ -376,6 +373,10 @@ public class ItemInit
         DISTORTED_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
                 FluidInit.DISTORTED_WATER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(
                         PokecubeLegends.TAB_DIMENSIONS)));
+
+        // Decorations Creative Tab - Sorting depends on the order the items are listed in
+        INFECTED_TORCH = PokecubeLegends.ITEMS.register("infected_torch", () -> new StandingAndWallBlockItem(BlockInit.INFECTED_TORCH
+                .get(), BlockInit.INFECTED_TORCH_WALL.get(), new Item.Properties().tab(PokecubeLegends.TAB_DECORATIONS)));
 
         // Berries Creative Tab - Sorting depends on the order the items are listed in
         ASPEAR_POKEPUFF = PokecubeLegends.ITEMS.register("aspear_pokepuff", () -> new ItemBase("aspear_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
