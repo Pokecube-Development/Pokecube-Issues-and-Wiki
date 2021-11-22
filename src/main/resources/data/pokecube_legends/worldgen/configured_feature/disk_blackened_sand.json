@@ -17,7 +17,7 @@
             "half_height": 2,
             "targets": [
               {
-                "Name": "minecraft_basalt",
+                "Name": "minecraft:basalt",
                 "Properties": {
                   "axis": "y"
                 }
