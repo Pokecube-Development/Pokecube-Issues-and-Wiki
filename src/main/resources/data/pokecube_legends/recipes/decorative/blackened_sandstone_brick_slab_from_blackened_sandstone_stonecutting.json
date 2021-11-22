@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:blackened_sandstone"
+  },
+  "result": "pokecube_legends:blackened_sandstone_brick_slab",
+  "count": 2
+}

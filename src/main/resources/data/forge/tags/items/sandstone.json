@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:crystallized_sandstone"
+    "pokecube_legends:blackened_sandstone",
+    "pokecube_legends:blackened_sandstone_bricks",
+    "pokecube_legends:crystallized_sandstone",
+    "pokecube_legends:crystallized_sandstone_bricks",
+    "pokecube_legends:crystallized_sandstone_smooth",
+    "pokecube_legends:smooth_blackened_sandstone"
   ]
 }

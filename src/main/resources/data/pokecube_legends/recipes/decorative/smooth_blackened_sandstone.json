@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:smelting",
+  "experience": 0.1,
+  "cookingtime": 200,
+  "ingredient": {
+    "item": "pokecube_legends:blackened_sandstone"
+  },
+  "result": {
+    "item": "pokecube_legends:smooth_blackened_sandstone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+    "down": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "up": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "north": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "east": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "south": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "west": "pokecube_legends:blocks/blackened_sandstone_bricks",
+    "particle": "pokecube_legends:blocks/blackened_sandstone_bricks"
+  }
+}

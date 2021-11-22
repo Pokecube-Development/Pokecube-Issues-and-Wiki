@@ -1,0 +1,16 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:smooth_blackened_sandstone"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:smooth_blackened_sandstone_slab",
+    "count": 6
+  }
+}
