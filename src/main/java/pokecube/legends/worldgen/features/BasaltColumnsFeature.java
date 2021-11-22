@@ -38,13 +38,13 @@ public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> context)
    {
-      int i = config.chunkGenerator().getSeaLevel();
-      BlockPos pos = config.origin();
-      WorldGenLevel world = config.level();
-      Random random = config.random();
-      ColumnFeatureConfiguration conlumnConfig = config.config();
+      int i = context.chunkGenerator().getSeaLevel();
+      BlockPos pos = context.origin();
+      WorldGenLevel world = context.level();
+      Random random = context.random();
+      ColumnFeatureConfiguration conlumnConfig = context.config();
       if (!canPlaceAt(world, i, pos.mutable()))
       {
          return false;

@@ -33,11 +33,11 @@ public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
-      Random random = config.random();
-      WorldGenLevel world = config.level();
-      BlockPos pos = config.origin();
+      Random random = context.random();
+      WorldGenLevel world = context.level();
+      BlockPos pos = context.origin();
       BlockState state = DEAD_CORAL_BLOCKS.getRandomElement(random).defaultBlockState();
       return this.placeFeature(world, random, pos, state);
    }

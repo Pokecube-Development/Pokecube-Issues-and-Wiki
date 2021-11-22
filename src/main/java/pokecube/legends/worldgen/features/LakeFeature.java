@@ -29,14 +29,14 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<BlockStateConfiguration> config)
+   public boolean place(FeaturePlaceContext<BlockStateConfiguration> context)
    {
-      BlockPos pos = config.origin();
-      WorldGenLevel world = config.level();
-      Random random = config.random();
+      BlockPos pos = context.origin();
+      WorldGenLevel world = context.level();
+      Random random = context.random();
 
       BlockStateConfiguration stateConfig;
-      for(stateConfig = config.config(); pos.getY() > world.getMinBuildHeight() + 5 && world.isEmptyBlock(pos); pos = pos.below())
+      for(stateConfig = context.config(); pos.getY() > world.getMinBuildHeight() + 5 && world.isEmptyBlock(pos); pos = pos.below())
       {
       }
 
@@ -96,9 +96,9 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
                   for(int k = 0; k < 8; ++k)
                   {
                      boolean flag = !aboolean[(k1 * 16 + k2) * 8 + k] && (k1 < 15 && aboolean[((k1 + 1) * 16 + k2) * 8 + k] ||
-                    		 k1 > 0 && aboolean[((k1 - 1) * 16 + k2) * 8 + k] || k2 < 15 && aboolean[(k1 * 16 + k2 + 1) * 8 + k] ||
-                    		 k2 > 0 && aboolean[(k1 * 16 + (k2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + k2) * 8 + k + 1] ||
-                    		 k > 0 && aboolean[(k1 * 16 + k2) * 8 + (k - 1)]);
+                             k1 > 0 && aboolean[((k1 - 1) * 16 + k2) * 8 + k] || k2 < 15 && aboolean[(k1 * 16 + k2 + 1) * 8 + k] ||
+                             k2 > 0 && aboolean[(k1 * 16 + (k2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + k2) * 8 + k + 1] ||
+                             k > 0 && aboolean[(k1 * 16 + k2) * 8 + (k - 1)]);
                      if (flag)
                      {
                         Material material = world.getBlockState(pos.offset(k1, k, k2)).getMaterial();
@@ -182,7 +182,7 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
 
             if (stateConfig.state.getMaterial() == Material.LAVA)
             {
-               BaseStoneSource stoneSource = config.chunkGenerator().getBaseStoneSource();
+               BaseStoneSource stoneSource = context.chunkGenerator().getBaseStoneSource();
 
                for(int j3 = 0; j3 < 16; ++j3)
                {
@@ -191,9 +191,9 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
                      for(int l4 = 0; l4 < 8; ++l4)
                      {
                         boolean flag2 = !aboolean[(j3 * 16 + j4) * 8 + l4] && (j3 < 15 && aboolean[((j3 + 1) * 16 + j4) * 8 + l4] ||
-                        		j3 > 0 && aboolean[((j3 - 1) * 16 + j4) * 8 + l4] || j4 < 15 && aboolean[(j3 * 16 + j4 + 1) * 8 + l4] ||
-                        		j4 > 0 && aboolean[(j3 * 16 + (j4 - 1)) * 8 + l4] || l4 < 7 && aboolean[(j3 * 16 + j4) * 8 + l4 + 1] ||
-                        		l4 > 0 && aboolean[(j3 * 16 + j4) * 8 + (l4 - 1)]);
+                                j3 > 0 && aboolean[((j3 - 1) * 16 + j4) * 8 + l4] || j4 < 15 && aboolean[(j3 * 16 + j4 + 1) * 8 + l4] ||
+                                j4 > 0 && aboolean[(j3 * 16 + (j4 - 1)) * 8 + l4] || l4 < 7 && aboolean[(j3 * 16 + j4) * 8 + l4 + 1] ||
+                                l4 > 0 && aboolean[(j3 * 16 + j4) * 8 + (l4 - 1)]);
                         if (flag2 && (l4 < 4 || random.nextInt(2) != 0))
                         {
                            BlockState blockstate = world.getBlockState(pos.offset(j3, l4, j4));

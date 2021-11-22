@@ -319,7 +319,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:crystallized_beach",
+          "biome": "pokecube_legends:burnt_beach",
           "parameters": {
             "altitude": -0.6,
             "temperature": 0,
@@ -329,7 +329,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:crystallized_beach",
+          "biome": "pokecube_legends:burnt_beach",
           "parameters": {
             "altitude": -0.6,
             "temperature": 0,

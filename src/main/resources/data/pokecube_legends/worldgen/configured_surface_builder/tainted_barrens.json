@@ -10,8 +10,8 @@
       "Name": "pokecube_legends:corrupted_dirt"
     },
     "underwater_material": {
-      "Name": "pokecube_legends:corrupted_dirt"
+      "Name": "pokecube_legends:blackened_sand"
     }
   },
-  "type": "pokecube_legends:tainted_barrens"
+  "type": "pokecube_legends:tainted_barrens_builder"
 }

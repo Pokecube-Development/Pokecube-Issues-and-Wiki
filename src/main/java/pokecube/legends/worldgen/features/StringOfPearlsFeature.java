@@ -22,12 +22,12 @@ public class StringOfPearlsFeature extends Feature<NoneFeatureConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
-      WorldGenLevel world = config.level();
-      BlockPos pos = config.origin();
-      Random random = config.random();
-      config.config();
+      WorldGenLevel world = context.level();
+      BlockPos pos = context.origin();
+      Random random = context.random();
+      context.config();
       if (!world.isEmptyBlock(pos))
       {
          return false;

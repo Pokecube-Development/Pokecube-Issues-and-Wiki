@@ -5,7 +5,7 @@
         "feature": {
           "config": {
             "state": {
-              "Name": "pokecube_legends:crystallized_sand"
+              "Name": "pokecube_legends:blackened_sand"
             },
             "radius": {
               "type": "minecraft:uniform",
@@ -17,40 +17,49 @@
             "half_height": 2,
             "targets": [
               {
+                "Name": "minecraft_basalt",
+                "Properties": {
+                  "axis": "y"
+                }
+              },
+              {
                 "Name": "pokecube_legends:aged_dirt"
               },
               {
+                "Name": "pokecube_legends:aged_grass_block",
                 "Properties": {
                   "snowy": "false"
-                },
-                "Name": "pokecube_legends:aged_grass_block"
+                }
               },
               {
                 "Name": "pokecube_legends:corrupted_dirt"
               },
               {
+                "Name": "pokecube_legends:corrupted_grass_block",
                 "Properties": {
                   "snowy": "false"
-                },
-                "Name": "pokecube_legends:corrupted_grass_block"
+                }
               },
               {
                 "Name": "pokecube_legends:jungle_dirt"
               },
               {
+                "Name": "pokecube_legends:jungle_grass_block",
                 "Properties": {
                   "snowy": "false"
-                },
-                "Name": "pokecube_legends:jungle_grass_block"
+                }
               },
               {
                 "Name": "pokecube_legends:mushroom_dirt"
               },
               {
+                "Name": "pokecube_legends:mushroom_grass_block",
                 "Properties": {
                   "snowy": "false"
-                },
-                "Name": "pokecube_legends:mushroom_grass_block"
+                }
+              },
+              {
+                "Name": "pokecube_legends:ultra_darkstone"
               }
             ]
           },

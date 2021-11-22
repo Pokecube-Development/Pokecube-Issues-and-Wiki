@@ -5,7 +5,7 @@
         "feature": {
           "config": {
             "state": {
-              "Name": "pokecube_legends:crystallized_sandstone"
+              "Name": "pokecube_legends:smooth_blackened_sandstone"
             }
           },
           "type": "pokecube_legends:desert_rock_feature"
@@ -34,7 +34,7 @@
           "type": "minecraft:uniform",
           "value": {
             "min_inclusive": 0,
-            "max_inclusive": 3
+            "max_inclusive": 5
           }
         }
       },

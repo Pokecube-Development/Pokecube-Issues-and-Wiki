@@ -23,7 +23,7 @@ import pokecube.legends.init.FluidInit;
 public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
 {
    private static final ImmutableList<Block> CAN_PLACE_ON =
-		   ImmutableList.of(BlockInit.DISTORTIC_GRASS.get(), BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
+           ImmutableList.of(BlockInit.DISTORTIC_GRASS.get(), BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
    private static final int CLUSTERED_REACH = 5;
    private static final int CLUSTERED_SIZE = 50;
    private static final int UNCLUSTERED_REACH = 8;
@@ -35,13 +35,13 @@ public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfigur
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> context)
    {
-      int i = config.chunkGenerator().getSeaLevel();
-      BlockPos pos = config.origin();
-      WorldGenLevel world = config.level();
-      Random random = config.random();
-      ColumnFeatureConfiguration conlumnConfig = config.config();
+      int i = context.chunkGenerator().getSeaLevel();
+      BlockPos pos = context.origin();
+      WorldGenLevel world = context.level();
+      Random random = context.random();
+      ColumnFeatureConfiguration conlumnConfig = context.config();
       if (!canPlaceAt(world, i, pos.mutable()))
       {
          return false;

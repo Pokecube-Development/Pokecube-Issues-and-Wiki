@@ -24,13 +24,13 @@ public class TaintedSeagrassFeature extends Feature<ProbabilityFeatureConfigurat
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context)
    {
       boolean flag = false;
-      Random random = config.random();
-      WorldGenLevel world = config.level();
-      BlockPos pos = config.origin();
-      ProbabilityFeatureConfiguration probConfig = config.config();
+      Random random = context.random();
+      WorldGenLevel world = context.level();
+      BlockPos pos = context.origin();
+      ProbabilityFeatureConfiguration probConfig = context.config();
       int i = random.nextInt(8) - random.nextInt(8);
       int j = random.nextInt(8) - random.nextInt(8);
       int k = world.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX() + i, pos.getZ() + j);

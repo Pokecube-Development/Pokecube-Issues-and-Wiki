@@ -19,9 +19,9 @@ public class ForestVegetationFeature extends Feature<BlockPileConfiguration>
       super(config);
    }
 
-   public boolean place(FeaturePlaceContext<BlockPileConfiguration> config)
+   public boolean place(FeaturePlaceContext<BlockPileConfiguration> context)
    {
-      return place(config.level(), config.random(), config.origin(), config.config(), 8, 4);
+      return place(context.level(), context.random(), context.origin(), context.config(), 8, 4);
    }
 
    public static boolean place(LevelAccessor world, Random random, BlockPos pos, BlockPileConfiguration config, int x, int y)

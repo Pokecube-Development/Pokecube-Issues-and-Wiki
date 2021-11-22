@@ -32,13 +32,13 @@ public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfigurati
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> feature)
+   public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context)
    {
       int i = 0;
-      BlockPos pos = feature.origin();
-      WorldGenLevel world = feature.level();
-      Random random = feature.random();
-      ProbabilityFeatureConfiguration probConfig = feature.config();
+      BlockPos pos = context.origin();
+      WorldGenLevel world = context.level();
+      Random random = context.random();
+      ProbabilityFeatureConfiguration probConfig = context.config();
       BlockPos.MutableBlockPos mutablePos = pos.mutable();
       BlockPos.MutableBlockPos mutablePos1 = pos.mutable();
       if (world.isEmptyBlock(mutablePos)) {

@@ -22,12 +22,12 @@ public class TaintedKelpFeature extends Feature<NoneFeatureConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
       int i = 0;
-      WorldGenLevel world = config.level();
-      BlockPos pos = config.origin();
-      Random random = config.random();
+      WorldGenLevel world = context.level();
+      BlockPos pos = context.origin();
+      Random random = context.random();
       int j = world.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ());
       BlockPos pos1 = new BlockPos(pos.getX(), j, pos.getZ());
       if (world.getBlockState(pos1).is(Blocks.WATER)) {

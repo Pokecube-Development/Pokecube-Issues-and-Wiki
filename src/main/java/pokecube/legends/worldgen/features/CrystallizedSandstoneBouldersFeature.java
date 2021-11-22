@@ -22,7 +22,7 @@ import pokecube.legends.init.BlockInit;
 public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
 {
    private static final ImmutableList<Block> CAN_PLACE_ON =
-		   ImmutableList.of(BlockInit.CRYSTALLIZED_SAND.get(), BlockInit.CRYSTALLIZED_SANDSTONE.get(), BlockInit.ULTRA_STONE.get());
+           ImmutableList.of(BlockInit.CRYSTALLIZED_SAND.get(), BlockInit.CRYSTALLIZED_SANDSTONE.get(), BlockInit.ULTRA_STONE.get());
    private static final int CLUSTERED_REACH = 5;
    private static final int CLUSTERED_SIZE = 50;
    private static final int UNCLUSTERED_REACH = 8;
@@ -34,13 +34,13 @@ public class CrystallizedSandstoneBouldersFeature extends Feature<ColumnFeatureC
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> context)
    {
-      int i = config.chunkGenerator().getSeaLevel();
-      BlockPos pos = config.origin();
-      WorldGenLevel world = config.level();
-      Random random = config.random();
-      ColumnFeatureConfiguration conlumnConfig = config.config();
+      int i = context.chunkGenerator().getSeaLevel();
+      BlockPos pos = context.origin();
+      WorldGenLevel world = context.level();
+      Random random = context.random();
+      ColumnFeatureConfiguration conlumnConfig = context.config();
       if (!canPlaceAt(world, i, pos.mutable()))
       {
          return false;

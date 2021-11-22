@@ -24,9 +24,9 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
    }
 
    @Override
-   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config)
+   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
-      return place(config.level(), config.random(), config.origin(), 8, 4, 8);
+      return place(context.level(), context.random(), context.origin(), 8, 4, 8);
    }
 
    public static boolean place(LevelAccessor world, Random random, BlockPos pos, int x, int y, int z)

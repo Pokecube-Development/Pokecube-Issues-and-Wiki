@@ -1,53 +1,47 @@
 {
   "effects": {
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.basalt_deltas.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2.0
     },
-    "sky_color": 9079434,
-    "fog_color": 9079434,
-    "water_color": 13161450,
-    "water_fog_color": 13161450,
-    "grass_color": 2956038,
-    "foliage_color": 2956038,
-    "grass_color_modifier": "swamp",
+    "sky_color": 5127218,
+    "fog_color": 5127218,
+    "water_color": 3815495,
+    "water_fog_color": 3815495,
+    "foliage_color": 4864289,
+    "grass_color": 4864289,
     "particle": {
       "options": {
         "type": "minecraft:white_ash"
       },
-      "probability": 0.006
+      "probability": 0.06
     },
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop"
+    "ambient_sound": "minecraft:ambient.basalt_deltas.loop"
   },
-  "surface_builder": "pokecube_legends:dead_ocean",
+  "surface_builder": "pokecube_legends:burnt_desert",
   "carvers": {
     "air": [
-      "pokecube_legends:canyon",
-      "pokecube_legends:ocean_cave"
-    ],
-    "liquid": [
-      "pokecube_legends:underwater_canyon",
-      "pokecube_legends:underwater_cave"
+      "pokecube_legends:cave",
+      "pokecube_legends:canyon"
     ]
   },
   "features": [
     [],
     [
       "minecraft:lake_lava",
-      "pokecube_legends:lake_water"
+      "pokecube_legends:rock_smooth_blackened_sandstone"
     ],
     [],
     [],
     [],
     [],
     [
-      "minecraft:disk_gravel",
       "minecraft:prototype_underwater_magma",
       "pokecube_legends:disk_blackened_sand",
       "pokecube_legends:disk_clay",
-      "pokecube_legends:ore_corrupted_dirt",
+      "pokecube_legends:disk_gravel",
       "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_spectrum",
       "pokecube_legends:ore_ultra_coal",
@@ -65,7 +59,10 @@
       "minecraft:rare_small_dripstone"
     ],
     [
-      "pokecube_legends:dead_ocean_vegetation",
+      "minecraft:patch_grass_badlands",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:inverted_orchid_flowers",
+      "pokecube_legends:patch_fire",
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
     ],
@@ -85,6 +82,12 @@
       {
         "type": "minecraft:zombie",
         "weight": 95,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:husk",
+        "weight": 80,
         "minCount": 4,
         "maxCount": 4
       },
@@ -123,15 +126,16 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
-      },
-      {
-        "type": "minecraft:drowned",
-        "weight": 5,
-        "minCount": 1,
-        "maxCount": 1
       }
     ],
-    "creature": [],
+    "creature": [
+      {
+        "type": "minecraft:turtle",
+        "weight": 5,
+        "minCount": 2,
+        "maxCount": 5
+      }
+    ],
     "ambient": [
       {
         "type": "minecraft:bat",
@@ -154,42 +158,16 @@
         "maxCount": 6
       }
     ],
-    "water_creature": [
-      {
-        "type": "minecraft:squid",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:dolphin",
-        "weight": 2,
-        "minCount": 1,
-        "maxCount": 2
-      }
-    ],
-    "water_ambient": [
-      {
-        "type": "minecraft:pufferfish",
-        "weight": 15,
-        "minCount": 1,
-        "maxCount": 3
-      },
-      {
-        "type": "minecraft:tropical_fish",
-        "weight": 25,
-        "minCount": 8,
-        "maxCount": 8
-      }
-    ],
+    "water_creature": [],
+    "water_ambient": [],
     "misc": []
   },
   "spawn_costs": {},
   "player_spawn_friendly": false,
   "precipitation": "rain",
-  "temperature": 0.5,
-  "downfall": 0.5,
-  "scale": 0.1,
-  "category": "ocean",
-  "depth": -1.0
+  "scale": 0.02,
+  "temperature": 1.5,
+  "downfall": 0.2,
+  "category": "beach",
+  "depth": 0.0
 }

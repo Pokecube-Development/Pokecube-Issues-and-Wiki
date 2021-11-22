@@ -8,6 +8,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfig
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.LeaveVineDecorator;
@@ -26,6 +27,9 @@ import pokecube.legends.worldgen.features.DeadCoralClawFeature;
 import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
 import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
 import pokecube.legends.worldgen.features.DeltaFeature;
+import pokecube.legends.worldgen.features.DesertRockFeature;
+import pokecube.legends.worldgen.features.DiskBaseFeature;
+import pokecube.legends.worldgen.features.DiskFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
@@ -38,6 +42,7 @@ import pokecube.legends.worldgen.features.TemporalBambooFeature;
 import pokecube.legends.worldgen.features.treedecorators.LeavesStringOfPearlsDecorator;
 import pokecube.legends.worldgen.features.treedecorators.TrunkStringOfPearlsDecorator;
 import pokecube.legends.worldgen.surface_builders.BlindingDeltasSurfaceBuilder;
+import pokecube.legends.worldgen.surface_builders.BurntDesertSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.MirageDesertSurfaceBuilder;
 import pokecube.legends.worldgen.surface_builders.TaintedBarrensSurfaceBuilder;
 
@@ -50,11 +55,13 @@ public class WorldgenFeatures
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(
             ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
 
-    public static final RegistryObject<SurfaceBuilder<?>> MIRAGE_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("mirage_desert",
+    public static final RegistryObject<SurfaceBuilder<?>> BURNT_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("burnt_desert_builder",
+            () -> new BurntDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
+    public static final RegistryObject<SurfaceBuilder<?>> MIRAGE_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("mirage_desert_builder",
             () -> new MirageDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
-    public static final RegistryObject<SurfaceBuilder<?>> BLINDING_DELTAS = WorldgenFeatures.SURFACE_BUILDERS.register("blinding_deltas",
+    public static final RegistryObject<SurfaceBuilder<?>> BLINDING_DELTAS = WorldgenFeatures.SURFACE_BUILDERS.register("blinding_deltas_builder",
             () -> new BlindingDeltasSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
-    public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens",
+    public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens_builder",
             () -> new TaintedBarrensSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
     public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
@@ -69,6 +76,12 @@ public class WorldgenFeatures
             () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new DeltaFeature(DeltaFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DESERT_ROCK = WorldgenFeatures.FEATURES.register("desert_rock_feature",
+            () -> new DesertRockFeature(BlockStateConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
+            () -> new DiskFeature(DiskConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",
+            () -> new DiskBaseFeature(DiskConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTED_ISLANDS = WorldgenFeatures.FEATURES.register("distorted_islands_feature",
             () -> new DistortedIslandsFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTIC_STONE_BOULDERS = WorldgenFeatures.FEATURES.register("distortic_stone_boulders_feature",
