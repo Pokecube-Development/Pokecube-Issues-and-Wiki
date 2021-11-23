@@ -2357,6 +2357,7 @@ public class BlockInit
         BlockInit.flammableBlocks(BlockInit.TEMPORAL_FENCE_GATE.get(), 5, 20);
 
         // Plants
+        BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
