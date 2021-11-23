@@ -58,7 +58,7 @@ public class FoodInit
                 .effect(new MobEffectInstance(MobEffects.SATURATION, 400, 1), 1.0F).alwaysEat().build();
 
         GOLDEN_SWEET_BERRIES = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.5F)
-                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1), 1.0F).alwaysEat().build();
+                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 1), 1.0F).alwaysEat().build();
         ICE_CARROT = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F)
                 .effect(new MobEffectInstance(MobEffects.SLOW_FALLING, 1200, 1), 1.0F).alwaysEat().build();
         SHADOW_CARROT = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F)
