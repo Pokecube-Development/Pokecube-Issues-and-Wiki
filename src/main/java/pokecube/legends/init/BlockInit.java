@@ -644,6 +644,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
     public static final RegistryObject<Block> POTTED_STRING_OF_PEARLS;
+    public static final RegistryObject<Block> POTTED_TAINTED_ROOTS;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> POTTED_TALL_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_TEMPORAL_BAMBOO;
@@ -2152,6 +2153,9 @@ public class BlockInit
         POTTED_STRING_OF_PEARLS = PokecubeLegends.NO_TAB.register("potted_string_of_pearls",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.STRING_OF_PEARLS.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_TAINTED_ROOTS = PokecubeLegends.NO_TAB.register("potted_tainted_roots",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.TAINTED_ROOTS.get(), BlockBehaviour.Properties.of(
+                        Material.DECORATION).instabreak().noOcclusion()));
         POTTED_TALL_CRYSTALLIZED_BUSH = PokecubeLegends.NO_TAB.register("potted_tall_crystallized_bush",
                 () -> new PottedCrystallizedBush(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), BlockBehaviour.Properties.of(
                         Material.DECORATION).instabreak().noOcclusion()));
@@ -2264,6 +2268,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_LILY_PAD);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.TAINTED_ROOTS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TALL_TAINTED_SEAGRASS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.TEMPORAL_BAMBOO);
 
@@ -2365,6 +2370,7 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.TAINTED_ROOTS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.TEMPORAL_BAMBOO.get(), 60, 60);
 
         // Bookshelves

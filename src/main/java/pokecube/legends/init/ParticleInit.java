@@ -15,13 +15,10 @@ public class ParticleInit
 
     static
     {
-        INFECTED_FIRE_FLAME =
-            PokecubeLegends.PARTICLES.register("infected_fire_flame", () -> new SimpleParticleType(false));
+        INFECTED_FIRE_FLAME = PokecubeLegends.PARTICLES.register("infected_fire_flame", () -> new SimpleParticleType(false));
 
-        INFECTED_SMOKE =
-                PokecubeLegends.PARTICLES.register("infected_smoke", () -> new SimpleParticleType(false));
+        INFECTED_SMOKE = PokecubeLegends.PARTICLES.register("infected_smoke", () -> new SimpleParticleType(false));
 
-        INFECTED_SOUL =
-                PokecubeLegends.PARTICLES.register("infected_soul", () -> new SimpleParticleType(false));
+        INFECTED_SOUL = PokecubeLegends.PARTICLES.register("infected_soul", () -> new SimpleParticleType(false));
     }
 }

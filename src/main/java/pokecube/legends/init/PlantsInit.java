@@ -18,6 +18,7 @@ import pokecube.legends.blocks.plants.GoldenSweetBerryBushBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
 import pokecube.legends.blocks.plants.TaintedKelpBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
+import pokecube.legends.blocks.plants.TaintedRootsBlock;
 import pokecube.legends.blocks.plants.TaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
@@ -40,6 +41,7 @@ public class PlantsInit
     public static final RegistryObject<Block> TAINTED_KELP_PLANT;
     public static final RegistryObject<Block> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Block> TAINTED_LILY_PAD;
+    public static final RegistryObject<Block> TAINTED_ROOTS;
     public static final RegistryObject<Block> TAINTED_SEAGRASS;
     public static final RegistryObject<Block> TALL_TAINTED_SEAGRASS;
     public static final RegistryObject<Block> TEMPORAL_BAMBOO;
@@ -77,6 +79,10 @@ public class PlantsInit
 
         INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
+
+        TAINTED_ROOTS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_roots", () -> new TaintedRootsBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                .instabreak().sound(SoundType.ROOTS)));
 
         TAINTED_KELP = PokecubeLegends.DIMENSIONS_TAB.register("tainted_kelp", () -> new TaintedKelpBlock(
                 BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_PURPLE).noCollission()

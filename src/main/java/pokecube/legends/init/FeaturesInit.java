@@ -60,6 +60,9 @@ public class FeaturesInit
                new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
                        .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 25).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 70)
                        .add(PlantsInit.GOLDEN_POPPY.get().defaultBlockState(), 10)));
+       public static final BlockPileConfiguration TAINTED_BARRENS_CONFIG =
+               new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
+                       .add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_LILY_PAD.get().defaultBlockState(), 25)));
     }
 
     static SimpleWeightedRandomList.Builder<BlockState> weightedBlockStateBuilder() {

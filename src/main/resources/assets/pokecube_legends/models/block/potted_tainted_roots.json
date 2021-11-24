@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
+    "plant": "pokecube_legends:blocks/tainted_roots"
+  }
+}
