@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SoulParticle;
+import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
@@ -182,5 +183,6 @@ public class ClientSetupHandler
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
     }
 }
