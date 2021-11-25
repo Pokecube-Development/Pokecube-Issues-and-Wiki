@@ -188,6 +188,7 @@
 
     // Plants
     "block.pokecube_legends.compreced_mushroom": "Compreced Mushroom",
+    "block.pokecube_legends.corrupted_grass": "Corrupted Grass",
     "block.pokecube_legends.crystallized_bush": "Crystallized Bush",
     "block.pokecube_legends.crystallized_cactus": "Crystallized Cactus",
     "block.pokecube_legends.distorced_mushroom": "Distorced Mushroom",
@@ -221,6 +222,7 @@
     // Potted Plants
     "block.pokecube_legends.potted_aged_sapling": "Potted Aged Sapling",
     "block.pokecube_legends.potted_compreced_mushroom": "Potted Compreced Mushroom",
+    "block.pokecube_legends.potted_corrupted_grass": "Potted Corrupted Grass",
     "block.pokecube_legends.potted_corrupted_sapling": "Potted Corrupted Sapling",
     "block.pokecube_legends.potted_crystallized_bush": "Potted Crystallized Bush",
     "block.pokecube_legends.potted_crystallized_cactus": "Potted Crystallized Cactus",

@@ -20,6 +20,7 @@ import pokecube.legends.blocks.plants.TaintedKelpBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.blocks.plants.TaintedRootsBlock;
 import pokecube.legends.blocks.plants.TaintedSeagrassBlock;
+import pokecube.legends.blocks.plants.TallCorruptedGrassBlock;
 import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooBlock;
@@ -29,6 +30,7 @@ public class PlantsInit
 {
     // Plants
     public static final RegistryObject<Block> COMPRECED_MUSHROOM;
+    public static final RegistryObject<Block> CORRUPTED_GRASS;
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> GOLDEN_FERN;
     public static final RegistryObject<Block> LARGE_GOLDEN_FERN;
@@ -80,30 +82,34 @@ public class PlantsInit
         INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
 
+        CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass", () -> new TallCorruptedGrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.TERRACOTTA_BLUE).noCollission()
+                .instabreak().sound(SoundType.GRASS)));
+
         TAINTED_ROOTS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_roots", () -> new TaintedRootsBlock(
-                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
                 .instabreak().sound(SoundType.ROOTS)));
 
         TAINTED_KELP = PokecubeLegends.DIMENSIONS_TAB.register("tainted_kelp", () -> new TaintedKelpBlock(
-                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
                 .randomTicks().instabreak().sound(SoundType.WET_GRASS)));
 
         TAINTED_KELP_PLANT = PokecubeLegends.NO_TAB.register("tainted_kelp_plant", () -> new TaintedKelpPlantBlock(
-                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.COLOR_PURPLE).noCollission()
+                BlockBehaviour.Properties.of(Material.WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
                 .instabreak().sound(SoundType.WET_GRASS)));
 
         PINK_TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
-                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
 
         TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("tainted_lily_pad", () -> new LilyPadBlock(
-                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
 
         TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new TaintedSeagrassBlock(
-                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_PURPLE)
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE)
                 .noCollission().instabreak().sound(SoundType.WET_GRASS)));
 
         TALL_TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tall_tainted_seagrass", () -> new TallTaintedSeagrassBlock(
-                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.COLOR_PURPLE)
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE)
                 .noCollission().instabreak().sound(SoundType.WET_GRASS)));
 
         TEMPORAL_BAMBOO = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo", () -> new TemporalBambooBlock(

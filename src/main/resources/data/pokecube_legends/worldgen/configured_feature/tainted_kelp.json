@@ -26,7 +26,7 @@
     },
     "decorator": {
       "config": {
-        "noise_to_count_ratio": 80,
+        "noise_to_count_ratio": 40,
         "noise_factor": 80.0,
         "noise_offset": 0.0
       },

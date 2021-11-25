@@ -12,7 +12,7 @@
             "zspread": 7,
             "whitelist": [],
             "blacklist": [],
-            "tries": 32,
+            "tries": 24,
             "state_provider": {
               "entries": [
                 {
@@ -20,6 +20,12 @@
                     "Name": "pokecube_legends:tainted_roots"
                   },
                   "weight": 1
+                },
+                {
+                  "data": {
+                    "Name": "pokecube_legends:corrupted_grass"
+                  },
+                  "weight": 3
                 }
               ],
               "type": "minecraft:weighted_state_provider"

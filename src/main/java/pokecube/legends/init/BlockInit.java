@@ -632,6 +632,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
     public static final RegistryObject<Block> POTTED_COMPRECED_MUSHROOM;
+    public static final RegistryObject<Block> POTTED_CORRUPTED_GRASS;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
@@ -683,7 +684,7 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE).sound(SoundType.METAL)
                         .strength(0.9f).requiresCorrectToolForDrops()));
         AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block", () -> new GrassAgedBlock(
-                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_ORANGE).sound(SoundType.GRASS)
+                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD).sound(SoundType.GRASS)
                         .strength(1f, 2f).randomTicks()));
         AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt", () -> new BlockBase(Material.DIRT,
                 MaterialColor.TERRACOTTA_YELLOW, 1f, 2f, SoundType.WET_GRASS, false));
@@ -911,11 +912,11 @@ public class BlockInit
         // Woods
         // Aged Blocks
         AGED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("aged_sapling", () -> new SaplingBase(
-                () -> new AgedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_YELLOW).strength(
+                () -> new AgedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).strength(
                         0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         AGED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("aged_leaves", () -> new LeavesBlock(
-                BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_ORANGE).strength(0.2f).sound(
+                BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.GOLD).strength(0.2f).sound(
                         SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false).isValidSpawn(
                                 ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
@@ -1283,7 +1284,7 @@ public class BlockInit
                 .sound(SoundType.WOOD).dropsLike(INFECTED_TORCH.get()), ParticleTypes.DRAGON_BREATH));
 
         INFECTED_FIRE = PokecubeLegends.NO_TAB.register("infected_fire", () -> new InfectedFireBlock(
-                BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.TERRACOTTA_PURPLE).noCollission().instabreak()
+                BlockBehaviour.Properties.of(Material.FIRE, MaterialColor.COLOR_PURPLE).noCollission().instabreak()
                 .lightLevel((i) -> {return 10;}).sound(SoundType.WOOL), 2.0f));
 
         COSMIC_DUST_BLOCK = PokecubeLegends.DECORATION_TAB.register("cosmic_dust_block", () -> new SandBlock(2730984,
@@ -2101,6 +2102,9 @@ public class BlockInit
         POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_corrupted_sapling",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.CORRUPTED_SAPLING.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_CORRUPTED_GRASS = PokecubeLegends.NO_TAB.register("potted_corrupted_grass",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.CORRUPTED_GRASS.get(), BlockBehaviour.Properties
+                        .of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_DISTORTIC_SAPLING = PokecubeLegends.NO_TAB.register("potted_distortic_sapling",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.DISTORTIC_SAPLING.get(), BlockBehaviour.Properties
                         .of(Material.DECORATION).instabreak().noOcclusion()));
@@ -2252,6 +2256,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
@@ -2364,6 +2369,7 @@ public class BlockInit
         // Plants
         BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_GRASS.get(), 60, 100);

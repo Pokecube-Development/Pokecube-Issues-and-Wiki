@@ -37,7 +37,7 @@
         },
         "decorator": {
           "config": {
-            "chance": 10
+            "chance": 5
           },
           "type": "minecraft:chance"
         }
