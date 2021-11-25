@@ -47,8 +47,7 @@ public class EffectBlockBaseSand extends SandBlock
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
         final BlockState plant = plantable.getPlant(block, plantPos);
-        if (plantType == PlantType.DESERT || plant.getBlock() instanceof SeagrassBlock ||
-                plant.getBlock() instanceof TallSeagrassBlock)
+        if (plantType == PlantType.DESERT)
         {
             return true;
         } else if (plantType == PlantType.BEACH)
@@ -62,7 +61,7 @@ public class EffectBlockBaseSand extends SandBlock
             return state.getMaterial() == Material.WATER;
         } else
         {
-            return false;
+            return super.canSustainPlant(state, block, pos, direction, plantable);
         }
     }
 

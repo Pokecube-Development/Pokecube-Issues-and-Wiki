@@ -87,6 +87,7 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
     {
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
+
         if (plantType == PlantType.PLAINS)
         {
             return true;
@@ -101,7 +102,7 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
                     || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
         } else
         {
-            return false;
+            return super.canSustainPlant(state, block, pos, direction, plantable);
         }
     }
 

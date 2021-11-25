@@ -670,12 +670,12 @@ public class BlockInit
         MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block", () -> new GrassMushroomBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS).strength(
                         1f, 2f).randomTicks()));
-        MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt", () -> new BlockBase(Material.CLAY,
+        MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt", () -> new BlockBase(Material.DIRT,
                 MaterialColor.COLOR_PURPLE, 1f, 2f, SoundType.GRAVEL, false));
         JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", () -> new GrassJungleBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM).sound(SoundType.GRASS)
                         .strength(1f, 2f).randomTicks()));
-        JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt", () -> new BlockBase(Material.VEGETABLE,
+        JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt", () -> new BlockBase(Material.DIRT,
                 MaterialColor.COLOR_BROWN, 1f, 2f, SoundType.GRAVEL, false));
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block", () -> new GrassCorruptedBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.SCAFFOLDING)

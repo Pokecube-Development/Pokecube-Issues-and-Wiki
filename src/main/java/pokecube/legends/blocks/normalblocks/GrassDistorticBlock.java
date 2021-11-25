@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -209,6 +210,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     {
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
+
         if (plantType == PlantType.PLAINS)
         {
             return true;
@@ -223,7 +225,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                     || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
         } else
         {
-            return false;
+            return super.canSustainPlant(state, block, pos, direction, plantable);
         }
     }
 
