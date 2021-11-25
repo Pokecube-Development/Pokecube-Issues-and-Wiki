@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -20,6 +21,12 @@ public class TallCorruptedGrassBlock extends TallGrassBlock implements IForgeShe
    public TallCorruptedGrassBlock(BlockBehaviour.Properties config)
    {
       super(config);
+   }
+
+   @Override
+   public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+   {
+      return false;
    }
 
    @Override
