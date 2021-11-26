@@ -62,12 +62,14 @@
       "minecraft:rare_small_dripstone"
     ],
     [
-      "minecraft:brown_mushroom_swamp",
       "minecraft:glow_lichen",
       "minecraft:patch_grass_plain",
-      "minecraft:red_mushroom_swamp",
+      "pokecube_legends:brown_mushroom_fungal",
+      "pokecube_legends:compreced_mushroom_fungal",
+      "pokecube_legends:distorced_mushroom_fungal",
       "pokecube_legends:fungal_forest_vegetation",
-      "pokecube_legends:mushrooms_and_flowers",
+      "pokecube_legends:inverted_orchid_flowers",
+      "pokecube_legends:red_mushroom_fungal",
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
     ],
