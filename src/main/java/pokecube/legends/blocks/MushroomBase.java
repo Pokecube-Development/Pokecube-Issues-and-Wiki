@@ -1,51 +1,53 @@
 package pokecube.legends.blocks;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
 
-public class MushroomBase extends BushBlock
+public class MushroomBase extends MushroomBlock
 {
-    public static final Block block = null;
+    protected static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 15, 14);
+    public final Supplier<ConfiguredFeature<?, ?>> featureSupplier;
+    public boolean validBonemealTarget = true;
 
-    public MushroomBase(final BlockBehaviour.Properties properties)
+    public MushroomBase(final BlockBehaviour.Properties properties, Supplier<ConfiguredFeature<?, ?>> supplier)
     {
-        super(properties);
+        super(properties, supplier);
+        this.featureSupplier = supplier;
     }
 
     @Override
-    public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
-        final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
-
-    @Override
-    public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {
-        return 2;
+    public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
+            final CollisionContext context)
+    {
+        return SHAPE;
     }
 
     @Override
     public PlantType getPlantType(final BlockGetter world, final BlockPos pos)
     {
         return PlantType.PLAINS;
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+    {
+       return validBonemealTarget;
+    }
+
+    public MushroomBase bonemealTarget(final Boolean isValidBonemealTarget)
+    {
+        this.validBonemealTarget = isValidBonemealTarget;
+        return this;
     }
 }

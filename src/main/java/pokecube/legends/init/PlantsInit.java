@@ -1,12 +1,15 @@
 package pokecube.legends.init;
 
+import net.minecraft.data.worldgen.Features;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.FlowerBase;
@@ -55,11 +58,11 @@ public class PlantsInit
     {
         COMPRECED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("compreced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> {return 1;})));
+                .lightLevel((i) -> {return 1;}), () -> {return Features.HUGE_RED_MUSHROOM;}).bonemealTarget(false));
 
         DISTORCED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("distorced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> {return 1;})));
+                .lightLevel((i) -> {return 1;}), () -> {return Features.HUGE_RED_MUSHROOM;}).bonemealTarget(false));
 
         GOLDEN_FERN = PokecubeLegends.DIMENSIONS_TAB.register("golden_fern", () -> new TallGoldenGrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
