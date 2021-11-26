@@ -177,6 +177,7 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
 
              if (state2.canSurvive(world, pos2))
              {
+                 world.setBlock(pos2, state2, 3);
                  ForestVegetationFeature.place(world, random, pos1, FeaturesInit.Configs.FORSAKEN_TAIGA_CONFIG, 3, 1);
              }
           }
