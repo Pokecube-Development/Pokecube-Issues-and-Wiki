@@ -138,7 +138,8 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
     @Override
     public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
        BlockPos pos1 = pos.above();
-       BlockState block = PlantsInit.GOLDEN_GRASS.get().defaultBlockState();
+       BlockState state1 = (PlantsInit.GOLDEN_GRASS.get().defaultBlockState());
+       BlockState state2 = (PlantsInit.GOLDEN_FERN.get().defaultBlockState());
 
        bonemealing:
        for(int i = 0; i < 128; ++i)
@@ -153,15 +154,19 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
              }
           }
 
-          BlockState state1 = world.getBlockState(pos2);
-          if (state1.is(block.getBlock()) && random.nextInt(10) == 0)
+          BlockState state3 = world.getBlockState(pos2);
+          if (state3.is(state1.getBlock()) && random.nextInt(10) == 0)
           {
-             ((BonemealableBlock)block.getBlock()).performBonemeal(world, random, pos2, state1);
+             ((BonemealableBlock)state1.getBlock()).performBonemeal(world, random, pos2, state3);
+          }
+          if (state3.is(state2.getBlock()) && random.nextInt(10) == 0)
+          {
+             ((BonemealableBlock)state2.getBlock()).performBonemeal(world, random, pos2, state3);
           }
 
-          if (state1.isAir())
+          if (state3.isAir())
           {
-             BlockState state2;
+             BlockState state4;
              if (random.nextInt(8) == 0)
              {
                 List<ConfiguredFeature<?, ?>> list = world.getBiome(pos2).getGenerationSettings().getFlowerFeatures();
@@ -169,15 +174,15 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
                 {
                    continue;
                 }
-                state2 = getBlockState(random, pos2, list.get(0));
+                state4 = getBlockState(random, pos2, list.get(0));
              } else
              {
-                state2 = block;
+                continue;
              }
 
-             if (state2.canSurvive(world, pos2))
+             if (state4.canSurvive(world, pos2))
              {
-                 world.setBlock(pos2, state2, 3);
+                 world.setBlock(pos2, state4, 3);
                  ForestVegetationFeature.place(world, random, pos1, FeaturesInit.Configs.FORSAKEN_TAIGA_CONFIG, 3, 1);
              }
           }
