@@ -43,10 +43,10 @@
     "biome_5": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:forsaken_taiga"
       }
     },
     "biome_6": {
+        "biome": "pokecube_legends:forbidden_taiga"
       "trigger": "minecraft:location",
       "conditions": {
         "biome": "pokecube_legends:temporal_jungle"

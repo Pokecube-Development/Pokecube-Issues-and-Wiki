@@ -853,7 +853,7 @@
       ]
     },
     {
-      "name":"pokecube_legends:forsaken_taiga_misc",
+      "name":"pokecube_legends:forbidden_taiga_misc",
       "rigid":true,
       "ignoreAir":true,
       "options":[
@@ -931,7 +931,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:fungal_forest, pokecube_legends:temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:tainted_barrens, pokecube_legends:forsaken_taiga"
+          "biomes":"pokecube_legends:fungal_forest, pokecube_legends:temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:tainted_barrens, pokecube_legends:forbidden_taiga"
         }
       }
     },
@@ -1421,7 +1421,7 @@
       ],
       "spawn": {
         "values":{
-          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:crystallized_beach, pokecube_legends:dried_blinding_deltas, pokecube_legends:forsaken_taiga, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:mirage_desert, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:rocky_mirage_desert, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:sparse_temporal_jungle, pokecube_legends:tainted_barrens, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle"
+          "biomes":"pokecube_legends:blinding_deltas, pokecube_legends:crystallized_beach, pokecube_legends:dried_blinding_deltas, pokecube_legends:forbidden_taiga, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:mirage_desert, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:rocky_mirage_desert, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:sparse_temporal_jungle, pokecube_legends:tainted_barrens, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle"
         }
       }
     },
@@ -1669,9 +1669,9 @@
       }
     },
     {
-      "type":"pokecube_legends:forsaken_taiga_misc",
-      "name":"pokecube_legends:forsaken_taiga_misc",
-      "root":"pokecube_legends:forsaken_taiga_misc",
+      "type":"pokecube_legends:forbidden_taiga_misc",
+      "name":"pokecube_legends:forbidden_taiga_misc",
+      "root":"pokecube_legends:forbidden_taiga_misc",
       "biomeType":"none",
       "distance":5,
       "separation":1,
@@ -1680,12 +1680,12 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:forsaken_taiga, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:windswept_forsaken_taiga"
+          "biomes":"pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },
     {
-      "type":"pokecube_legends:forsaken_taiga_misc",
+      "type":"pokecube_legends:forbidden_taiga_misc",
       "name":"pokecube_legends:taiga_rocks/loose",
       "root":"pokecube_legends:taiga_rocks/loose",
       "biomeType":"none",
@@ -1696,12 +1696,12 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:forsaken_taiga, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:windswept_forsaken_taiga"
+          "biomes":"pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },
     {
-      "type":"pokecube_legends:forsaken_taiga_misc",
+      "type":"pokecube_legends:forbidden_taiga_misc",
       "name":"pokecube_legends:taiga_plane/loose",
       "root":"pokecube_legends:taiga_plane/loose",
       "biomeType":"none",
@@ -1712,7 +1712,7 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"pokecube_legends:forsaken_taiga, pokecube_legends:old_growth_forsaken_taiga, pokecube_legends:snowy_forsaken_taiga, pokecube_legends:windswept_forsaken_taiga"
+          "biomes":"pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },

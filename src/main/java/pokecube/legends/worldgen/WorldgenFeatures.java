@@ -88,7 +88,7 @@ public class WorldgenFeatures
             () -> new DistorticStoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTIC_VINES = WorldgenFeatures.FEATURES.register("distortic_vines_feature",
             () -> new DistorticVinesFeature(NoneFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<?>> FORSAKEN_TAIGA_VEGETATION = WorldgenFeatures.FEATURES.register("forsaken_taiga_vegetation_feature",
+    public static final RegistryObject<Feature<?>> FORBIDDEN_TAIGA_VEGETATION = WorldgenFeatures.FEATURES.register("forsaken_taiga_vegetation_feature",
             () -> new ForestVegetationFeature(BlockPileConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LAKE = WorldgenFeatures.FEATURES.register("lake_feature",
             () -> new LakeFeature(BlockStateConfiguration.CODEC));

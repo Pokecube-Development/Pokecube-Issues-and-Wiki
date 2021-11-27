@@ -21,7 +21,7 @@
     },
     "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
-  "surface_builder": "pokecube_legends:forsaken_taiga",
+  "surface_builder": "pokecube_legends:forbidden_taiga",
   "carvers": {
     "air": [
       "pokecube_legends:canyon",
@@ -64,8 +64,8 @@
     ],
     [
       "minecraft:glow_lichen",
+      "pokecube_legends:forbidden_taiga_vegetation",
       "pokecube_legends:golden_poppy_flowers",
-      "pokecube_legends:old_growth_forsaken_taiga_vegetation",
       "pokecube_legends:patch_golden_sweet_berry_bush_sparse",
       "pokecube_legends:patch_golden_grass_taiga",
       "pokecube_legends:patch_golden_grass_taiga_2",

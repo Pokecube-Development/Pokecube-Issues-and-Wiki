@@ -6,8 +6,8 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 16753930,
-    "fog_color": 16753930,
+    "sky_color": 14201198,
+    "fog_color": 14201198,
     "water_color": 4182244,
     "water_fog_color": 4182244,
     "foliage_color": 16763145,
@@ -21,7 +21,7 @@
     },
     "ambient_sound": "minecraft:ambient.crimson_forest.loop"
   },
-  "surface_builder": "pokecube_legends:forsaken_taiga",
+  "surface_builder": "pokecube_legends:forbidden_taiga",
   "carvers": {
     "air": [
       "pokecube_legends:canyon",
@@ -64,10 +64,9 @@
     ],
     [
       "minecraft:glow_lichen",
-      "pokecube_legends:forsaken_taiga_vegetation",
+      "pokecube_legends:forbidden_taiga_vegetation",
       "pokecube_legends:golden_poppy_flowers",
-      "pokecube_legends:patch_golden_sweet_berry_bush_sparse",
-      "pokecube_legends:patch_golden_grass_taiga",
+      "pokecube_legends:patch_golden_sweet_berry_bush_decorated",
       "pokecube_legends:patch_golden_grass_taiga_2",
       "pokecube_legends:patch_large_golden_fern",
       "pokecube_legends:patch_pumpkin",
@@ -103,6 +102,12 @@
       {
         "type": "minecraft:skeleton",
         "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:stray",
+        "weight": 80,
         "minCount": 4,
         "maxCount": 4
       },
@@ -203,10 +208,10 @@
   },
   "spawn_costs": {},
   "category": "taiga",
-  "precipitation": "rain",
+  "precipitation": "snow",
   "scale": 0.2,
-  "downfall": 0.7,
+  "downfall": 0.5,
   "depth": 0.2,
-  "temperature": 0.25,
+  "temperature": -0.5,
   "player_spawn_friendly": false
 }
