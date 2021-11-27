@@ -1,0 +1,13 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:aquamarine_block"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:aquamarine_shard",
+    "count": 9
+  }
+}

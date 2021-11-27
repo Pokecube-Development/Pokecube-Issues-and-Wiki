@@ -127,7 +127,7 @@ public class ItemInit
     // Forms
     public static final RegistryObject<Item> SILVER_WING;
     public static final RegistryObject<Item> RAINBOW_WING;
-    public static final RegistryObject<Item> CRYSTAL_SHARD;
+    public static final RegistryObject<Item> AQUAMARINE_SHARD;
     public static final RegistryObject<Item> GRISEOUS_ORB;
     public static final RegistryObject<Item> ZYGARDE_CUBE;
     public static final RegistryObject<Item> PRISION_BOTTLE;
@@ -323,7 +323,7 @@ public class ItemInit
         // Items Creative Tab - Sorting depends on the order the items are listed in
         // Ores
         COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 16));
-        CRYSTAL_SHARD = PokecubeLegends.ITEMS.register("crystal_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
+        AQUAMARINE_SHARD = PokecubeLegends.ITEMS.register("aquamarine_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         FRACTAL_SHARD 	= PokecubeLegends.ITEMS.register("fractal_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));

@@ -366,13 +366,14 @@ public class BlockInit
     public static final RegistryObject<Block> AGED_DIRT;
 
     // Crystal Blocks
-    public static final RegistryObject<Block> CRYSTAL;
-    public static final RegistryObject<Block> CRYSTAL_BUTTON;
-    public static final RegistryObject<Block> CRYSTAL_BRICKS;
-    public static final RegistryObject<Block> CRYSTAL_STAIRS;
-    public static final RegistryObject<Block> CRYSTAL_SLAB;
-    public static final RegistryObject<Block> CRYSTAL_BRICK_SLAB;
-    public static final RegistryObject<Block> CRYSTAL_BRICK_STAIRS;
+    public static final RegistryObject<Block> AQUAMARINE_BLOCK;
+    public static final RegistryObject<Block> AQUAMARINE_BUTTON;
+    public static final RegistryObject<Block> AQUAMARINE_BRICKS;
+    public static final RegistryObject<Block> AQUAMARINE_STAIRS;
+    public static final RegistryObject<Block> AQUAMARINE_SLAB;
+    public static final RegistryObject<Block> AQUAMARINE_PR_PLATE;
+    public static final RegistryObject<Block> AQUAMARINE_BRICK_SLAB;
+    public static final RegistryObject<Block> AQUAMARINE_BRICK_STAIRS;
 
     // Ultra Stone
     public static final RegistryObject<Block> ULTRA_STONE;
@@ -706,19 +707,23 @@ public class BlockInit
                 .requiresCorrectToolForDrops()));
 
         // Crystal Blocks
-        CRYSTAL = PokecubeLegends.DIMENSIONS_TAB.register("crystal_block", () -> new BlockBase(Material.GLASS,
+        AQUAMARINE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_block", () -> new BlockBase(Material.AMETHYST,
                 MaterialColor.COLOR_LIGHT_BLUE, 1.5f, 3, SoundType.AMETHYST, false));
-        CRYSTAL_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("crystal_stairs", () -> new ItemGenerator.GenericStairs(
-                Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties.of(Material.GLASS,
+        AQUAMARINE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_stairs", () -> new ItemGenerator.GenericStairs(
+                Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties.of(Material.AMETHYST,
                         MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.AMETHYST)
                         .requiresCorrectToolForDrops()));
-        CRYSTAL_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("crystal_slab", () -> new SlabBlock(BlockBehaviour.Properties
+        AQUAMARINE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_slab", () -> new SlabBlock(BlockBehaviour.Properties
                 .of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(SoundType.AMETHYST)
                 .requiresCorrectToolForDrops()));
-        CRYSTAL_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("crystal_button",
-                () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.GLASS,
+        AQUAMARINE_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_button",
+                () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.AMETHYST,
                         MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.AMETHYST).noCollission().strength(0.5F)
                         .requiresCorrectToolForDrops()));
+        AQUAMARINE_PR_PLATE = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_pressure_plate",
+                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING,
+                        BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.AMETHYST)
+                                .noCollission().strength(0.5F).requiresCorrectToolForDrops()));
 
         // Ultra Stone Blocks
         ULTRA_COAL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_coal_ore", () -> new OreBlock(
@@ -1541,13 +1546,13 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
                         SoundType.STONE).requiresCorrectToolForDrops()));
 
-        CRYSTAL_BRICKS = PokecubeLegends.DECORATION_TAB.register("crystal_bricks", () -> new BlockBase(Material.ICE_SOLID,
+        AQUAMARINE_BRICKS = PokecubeLegends.DECORATION_TAB.register("aquamarine_bricks", () -> new BlockBase(Material.ICE_SOLID,
                 MaterialColor.COLOR_LIGHT_BLUE, 0.5F, 10, SoundType.AMETHYST, true));
-        CRYSTAL_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("crystal_brick_stairs",
+        AQUAMARINE_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("aquamarine_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f).sound(
                                 SoundType.AMETHYST).requiresCorrectToolForDrops()));
-        CRYSTAL_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("crystal_brick_slab", () -> new SlabBlock(
+        AQUAMARINE_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("aquamarine_brick_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f)
                         .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
 

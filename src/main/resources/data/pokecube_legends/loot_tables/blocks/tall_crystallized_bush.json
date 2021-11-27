@@ -42,7 +42,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "pokecube_legends:crystal_shard",
+              "name": "pokecube_legends:aquamarine_shard",
               "conditions": [
                 {
                   "condition": "minecraft:survives_explosion"
@@ -127,7 +127,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "pokecube_legends:crystal_shard",
+              "name": "pokecube_legends:aquamarine_shard",
               "conditions": [
                 {
                   "condition": "minecraft:survives_explosion"
