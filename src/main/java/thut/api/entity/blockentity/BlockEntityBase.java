@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,6 +15,8 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,6 +34,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
@@ -117,9 +121,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public UUID owner;
 
-    public List<AABB> blockBoxes = Lists.newArrayList();
-    public BlockState[][][]    blocks     = null;
-    public BlockEntity[][][]    tiles      = null;
+    public List<AABB>        blockBoxes = Lists.newArrayList();
+    public BlockState[][][]  blocks     = null;
+    public BlockEntity[][][] tiles      = null;
 
     public BlockEntityUpdater  collider;
     BlockEntityInteractHandler interacter;
@@ -251,6 +255,69 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 tile.getShape();
             }
         });
+        final double v = this.getDeltaMovement().length();
+        if (v > 1e-3)
+        {
+            final List<Entity> mobs = this.level.getEntities(this, this.getBoundingBox().inflate(v + 0.5));
+            mobs.forEach(m -> this.onEntityCollision(m));
+        }
+    }
+
+    public void onEntityCollision(final Entity entityIn)
+    {
+        final VoxelShape shapeHere = this.collider.buildShape();
+        if (shapeHere.isEmpty()) return;
+
+        final Vec3 r0 = this.position();
+        final Vec3 r1 = entityIn.position();
+
+        final Vec3 v0 = this.getDeltaMovement();
+        final Vec3 v1 = entityIn.getDeltaMovement();
+        final Vec3 dv = v1.subtract(v0);
+        double dv_x, dv_y, dv_z, dr_x, dr_y, dr_z;
+
+        // Relative velocity between the mob and the block
+        // This gets the bounding box relative to the origin of this block,
+        // which is what it used for the collision shape.
+        final AABB box = entityIn.getBoundingBox();
+
+        dv_x = shapeHere.collide(Axis.X, box, dv.x);
+        dv_y = shapeHere.collide(Axis.Y, box, dv.y);
+        dv_z = shapeHere.collide(Axis.Z, box, dv.z);
+
+        if (entityIn.tickCount % 50 == 0) System.out.println(dv_y + "," + dv + " " + entityIn + " " + shapeHere + " "
+                + r0);
+
+        // This means a collision has actually occured
+        if (!Mth.equal(dv_x, dv.x) || !Mth.equal(dv_y, dv.y) || !Mth.equal(dv_z, dv.z))
+        {
+            // If collided (not equal), then take origin's velocity, otherwise
+            // keep it the same.
+            dv_x = !Mth.equal(dv_x, dv.x) ? v0.x : v1.x;
+            dv_y = !Mth.equal(dv_y, dv.y) ? v0.y : v1.y;
+            dv_z = !Mth.equal(dv_z, dv.z) ? v0.z : v1.z;
+            // set the motion
+            entityIn.setDeltaMovement(dv_x, dv_y, dv_z);
+            // Next, clip the mob by the amount that we need to change
+
+            dr_x = !Mth.equal(dv_x, dv.x) ? dv_x : 0;
+            dr_y = !Mth.equal(dv_y, dv.y) ? dv_y : 0;
+            dr_z = !Mth.equal(dv_z, dv.z) ? dv_z : 0;
+
+            entityIn.setPos(r1.add(dr_x, dr_y, dr_z));
+
+            // Player floating tick adjustments
+            boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
+            final boolean isPlayer = entityIn instanceof Player;
+            if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
+            if (isPlayer && serverSide)
+            {
+                final ServerPlayer serverplayer = (ServerPlayer) entityIn;
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+                serverplayer.connection.aboveGroundTickCount = 0;
+            }
+        }
     }
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
@@ -424,10 +491,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                         this.blocks[i][k][j] = state;
                         if (blockTag.contains("T" + i + "," + k + "," + j)) try
                         {
-                            // final CompoundTag tag = blockTag.getCompound("T"
-                            // + i + "," + k + "," + j);
-                            // this.tiles[i][k][j] =
-                            // BlockEntity.loadStatic(state, tag);
+                            final CompoundTag tag = blockTag.getCompound("T" + i + "," + k + "," + j);
+                            this.tiles[i][k][j] = BlockEntity.loadStatic(BlockPos.ZERO, state, tag);
                         }
                         catch (final Exception e)
                         {
@@ -514,45 +579,32 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
-    //
-    // @Override
-    // public void setPosRaw(final double x, final double y, final double z)
-    // {
-    // final Vec3 pos = new Vec3(x, y, z);
-    // Vec3 vec = pos;
-    // if (this.getEntityData() != null) vec =
-    // this.getEntityData().get(BlockEntityBase.position);
-    // final double ds2 = vec.distanceToSqr(pos);
-    // super.setPosRaw(x, y, z);
-    //
-    // if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0)
-    // this.getEntityData().set(
-    // BlockEntityBase.position, pos);
-    //
-    // // This is null during init, when setPosition is first called.
-    // if (this.getEntityData() == null) return;
-    // if (!this.isServerWorld())
-    // {
-    // vec = this.getEntityData().get(BlockEntityBase.position);
-    // if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
-    // }
-    // }
-    //
-    // @Override
-    // public void setLocationFromBoundingbox()
-    // {
-    // final AABB box = this.getBoundingBox();
-    // this.setPosRaw(box.minX, box.minY, box.minZ);
-    // // Forge - Process chunk registration after moving.
-    // if (this.isAddedToWorld() && !this.level.isClientSide && this.level
-    // instanceof ServerLevel)
-    // ((ServerLevel) this.level).updateChunkPos(this);
-    // }
+
+    @Override
+    public void setPosRaw(final double x, final double y, final double z)
+    {
+        final Vec3 pos = new Vec3(x, y, z);
+        Vec3 vec = pos;
+        if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
+        final double ds2 = vec.distanceToSqr(pos);
+        super.setPosRaw(x, y, z);
+
+        if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0) this.getEntityData().set(
+                BlockEntityBase.position, pos);
+
+        // This is null during init, when setPosition is first called.
+        if (this.getEntityData() == null) return;
+        if (!this.isServerWorld())
+        {
+            vec = this.getEntityData().get(BlockEntityBase.position);
+            if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
+        }
+    }
 
     @Override
     public void setPos(final double x, final double y, final double z)
     {
-        super.setPosRaw(x, y, z);
+        this.setPosRaw(x, y, z);
     }
 
     @Override
@@ -564,7 +616,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void tick()
     {
-        if (this.getBlocks() == null && this.getCommandSenderWorld().isClientSide) return;
+        if (this.getBlocks() == null) return;
 
         this.xo = this.getX();
         this.yo = this.getY();
@@ -594,8 +646,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             final BlockPos pos = this.blockPosition();
             final boolean update = this.getX() != pos.getX() || this.getY() != Math.round(this.getY()) || this
                     .getZ() != pos.getZ();
-            if (update) this.onGridAlign();
+            // if (update) EntityUpdate.sendEntityUpdate(this);
         }
+        // if (this.tickCount % 100 == 0)
+        // System.out.println(this.isServerWorld() + " " +
+        // this.collider.buildShape());
         this.checkCollision();
     }
 

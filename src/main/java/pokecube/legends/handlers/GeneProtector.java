@@ -8,9 +8,6 @@ import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.events.EggEvent.CanBreed;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.genetics.Alleles;
 
 public class GeneProtector
@@ -45,14 +42,5 @@ public class GeneProtector
             if (evt.reason == EditType.EXTRACT) if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(
                     GeneticsManager.SPECIESGENE);
         }
-    }
-
-    @SubscribeEvent
-    public void CanBreedEvent(final CanBreed evt)
-    {
-        final IPokemob mobA = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        final IPokemob mobB = CapabilityPokemob.getPokemobFor(evt.getOther());
-        if (mobA != null && this.invalidEntry(mobA.getPokedexEntry(), true)) evt.setCanceled(true);
-        if (mobB != null && this.invalidEntry(mobB.getPokedexEntry(), true)) evt.setCanceled(true);
     }
 }

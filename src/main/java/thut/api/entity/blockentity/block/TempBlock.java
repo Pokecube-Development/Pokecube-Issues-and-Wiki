@@ -28,8 +28,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
-import thut.api.block.ITickTile;
 import net.minecraftforge.eventbus.api.EventPriority;
+import thut.api.block.ITickTile;
 
 public class TempBlock extends AirBlock implements EntityBlock
 {
@@ -104,7 +104,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     @Override
     public RenderShape getRenderShape(final BlockState state)
     {
-        return RenderShape.INVISIBLE;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class TempBlock extends AirBlock implements EntityBlock
                 if (res != InteractionResult.PASS) return res;
             }
             // Otherwise forward the interaction to the block entity;
-            return temp.blockEntity.interactAt(player, hit.getLocation(), hand);
+            return temp.blockEntity.interactAtFromTile(player, hit.getLocation(), hand);
         }
         return InteractionResult.PASS;
     }
@@ -136,8 +136,8 @@ public class TempBlock extends AirBlock implements EntityBlock
     @Override
     public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos, final Entity entityIn)
     {
-        final BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
+//        final BlockEntity te = worldIn.getBlockEntity(pos);
+//        if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
     }
 
     @Override

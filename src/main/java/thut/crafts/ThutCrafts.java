@@ -12,12 +12,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import thut.api.entity.blockentity.BlockEntityBase;
+import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
+import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
 @Mod(Reference.MODID)
@@ -50,31 +53,31 @@ public class ThutCrafts
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
-            // EntityCraft.CRAFTTYPE.setRegistryName(Reference.MODID, "craft");
-            // event.getRegistry().register(EntityCraft.CRAFTTYPE);
-            // EntityTest.TYPE.setRegistryName(Reference.MODID, "testmob");
-            // event.getRegistry().register(EntityTest.TYPE);
+            EntityCraft.CRAFTTYPE.setRegistryName(Reference.MODID, "craft");
+            event.getRegistry().register(EntityCraft.CRAFTTYPE);
+//            EntityTest.TYPE.setRegistryName(Reference.MODID, "testmob");
+//            event.getRegistry().register(EntityTest.TYPE);
         }
 
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             // register items
-            // event.getRegistry().register(ThutCrafts.CRAFTMAKER);
+            event.getRegistry().register(ThutCrafts.CRAFTMAKER);
         }
 
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event)
         {
             // register blocks
-            // event.getRegistry().register(ThutCrafts.CRAFTBLOCK);
+            event.getRegistry().register(ThutCrafts.CRAFTBLOCK);
         }
 
         @SubscribeEvent
         public static void registerTileEntity(final RegistryEvent.Register<BlockEntityType<?>> event)
         {
             // register tile entities
-            // event.getRegistry().register(ThutCrafts.CRAFTTE);
+            event.getRegistry().register(ThutCrafts.CRAFTTE);
         }
     }
 
@@ -91,15 +94,12 @@ public class ThutCrafts
 
     public ThutCrafts()
     {
-        // ThutCrafts.CRAFTMAKER = new Item(new
-        // Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
-        // ThutCrafts.CRAFTBLOCK =
-        // TempBlock.make().setRegistryName(Reference.MODID, "craft");
-        // ThutCrafts.CRAFTTE = BlockEntityType.Builder.of(TempTile::new,
-        // ThutCrafts.CRAFTBLOCK).build(null);
-        // ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
-        // TempTile.TYPE = ThutCrafts.CRAFTTE;
-        // BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;
+        ThutCrafts.CRAFTMAKER = new Item(new Item.Properties()).setRegistryName(Reference.MODID, "craftmaker");
+        ThutCrafts.CRAFTBLOCK = TempBlock.make().setRegistryName(Reference.MODID, "craft");
+        ThutCrafts.CRAFTTE = BlockEntityType.Builder.of(TempTile::new, ThutCrafts.CRAFTBLOCK).build(null);
+        ThutCrafts.CRAFTTE.setRegistryName(Reference.MODID, "craft");
+        TempTile.TYPE = ThutCrafts.CRAFTTE;
+        BlockEntityBase.FAKEBLOCK = ThutCrafts.CRAFTBLOCK;
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

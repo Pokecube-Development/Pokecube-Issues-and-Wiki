@@ -58,8 +58,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             final double x = this.craft.getX() + this.seat.seat.x;
             final double y = this.craft.getY() + this.seat.seat.y;
             final double z = this.craft.getZ() + this.seat.seat.z;
-            if (this.dismounted instanceof ServerPlayer) ((ServerPlayer) this.dismounted).connection
-                    .teleport(x, y, z, this.dismounted.yRot, this.dismounted.xRot);
+            if (this.dismounted instanceof ServerPlayer) ((ServerPlayer) this.dismounted).connection.teleport(x, y, z,
+                    this.dismounted.yRot, this.dismounted.xRot);
             else this.dismounted.setPos(x, y, z);
         }
     }
@@ -108,9 +108,14 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
         this.toMoveY = this.toMoveX = this.toMoveZ = false;
 
-        // // debug movement
-//         this.toMoveY = true;
-//         destY = 1;
+        // debug movement
+        final boolean dbug_move = true;
+
+        if (dbug_move)
+        {
+            this.toMoveY = true;
+            destY = 1;
+        }
 
         if (destX == destY && destY == destZ && destZ == 0)
         {
@@ -180,15 +185,18 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             destY = (float) dest.y;
             destZ = (float) dest.z;
         }
-//        this.speedUp = 0.5f;
-//        this.speedDown = -0.25f;
-//        this.acceleration = 0.25f;
-//
-//        // // debug movement
-//         this.toMoveY = true;
-//         if (this.getPosY() < 70) this.energy = 10;
-//         if (this.getPosY() > 90) this.energy = -10;
-//         destY = this.energy > 0 ? 10 : -10;
+        //
+        // // // debug movement
+        if (dbug_move)
+        {
+            this.speedUp = 0.1f;
+            this.speedDown = -0.1f;
+            this.acceleration = 0.25f;
+            this.toMoveY = true;
+            if (this.getY() < 20) this.energy = 10;
+            if (this.getY() > 30) this.energy = -10;
+            destY = this.energy > 0 ? 10 : -10;
+        }
 
         destX += this.getX();
         destY += this.getY();
@@ -220,7 +228,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             this.toMoveZ = true;
         }
         else vz *= 0.5;
-
         this.setDeltaMovement(vx, vy, vz);
     }
 

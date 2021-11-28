@@ -2,14 +2,9 @@ package thut.api.entity.blockentity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -42,9 +37,14 @@ public class TempTile extends BlockEntity implements ITickTile
     @Override
     public void tick()
     {
-        if (this.blockEntity != null && !this.blockEntity.isAddedToWorld()) this.shape = null;
-        if (this.blockEntity != null && !this.blockEntity.isAlive()) this.shape = null;
-        if (this.shape == null || this.shape.isEmpty()) this.level.removeBlock(this.getBlockPos(), false);
+        boolean shouldRemove = this.blockEntity == null;
+        // Check if entity is actually alive
+        if (!shouldRemove) shouldRemove = !this.blockEntity.isAlive();
+        // Check if we are still in bounds.
+        if (!shouldRemove) shouldRemove = !this.blockEntity.getBoundingBox().inflate(1.01).contains(new Vec3(this
+                .getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()));
+
+        if (shouldRemove) this.level.removeBlock(this.getBlockPos(), false);
         else
         {
             final BlockState fake = this.getEffectiveState();
@@ -78,44 +78,6 @@ public class TempTile extends BlockEntity implements ITickTile
         final BlockEntity effective = this.getEffectiveTile();
         if (effective != null) return effective.getCapability(cap, side);
         return super.getCapability(cap, side);
-    }
-
-    public void onEntityCollision(final Entity entityIn)
-    {
-        if (this.blockEntity == null) return;
-        final VoxelShape shapeHere = this.getShape();
-        double top = shapeHere.max(Axis.Y);
-        // Not a top surface.
-        if (top > 1 || top < 0) return;
-        top = top + this.worldPosition.getY();
-        final Vector3 v = Vector3.getNewVector().set(this.worldPosition);
-        final AABB box = v.getAABB().expandTowards(1, 1, 1);
-        final Vec3 ev = entityIn.getDeltaMovement();
-
-        boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
-        final boolean isPlayer = entityIn instanceof Player;
-        if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
-
-        if (shapeHere.move(this.worldPosition.getX(), this.worldPosition.getY(), this.worldPosition.getZ()).bounds()
-                .intersects(box))
-        {
-            final Vec3 bv = this.blockEntity.getDeltaMovement();
-            final Vec3 dr = new Vec3(0, top - entityIn.getY(), 0);
-            entityIn.setPos(entityIn.getX() + dr.x, entityIn.getY() + dr.y, entityIn.getZ() + dr.z);
-            final double vx = ev.x;
-            final double vy = bv.y;
-            final double vz = ev.z;
-            entityIn.setDeltaMovement(vx, vy, vz);
-
-            if (isPlayer && serverSide)
-            {
-                final ServerPlayer serverplayer = (ServerPlayer) entityIn;
-                // Meed to set floatingTickCount to prevent being kicked
-                serverplayer.connection.aboveGroundVehicleTickCount = 0;
-                serverplayer.connection.aboveGroundTickCount = 0;
-            }
-            return;
-        }
     }
 
     public VoxelShape getShape()
