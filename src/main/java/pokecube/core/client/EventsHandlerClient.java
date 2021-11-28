@@ -20,7 +20,6 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -33,14 +32,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
@@ -55,7 +49,6 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
@@ -80,15 +73,12 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
-import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -148,45 +138,12 @@ public class EventsHandlerClient
         GuiDisplayPokecubeInfo.instance();
         MoveAnimationHelper.Instance();
 
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::colourBlocks);
-        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::colourItems);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandlerClient::serverAboutToStart);
     }
 
     private static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
         ClientProxy.pokecenter_sounds.clear();
-    }
-
-    private static void colourBlocks(final ColorHandlerEvent.Block event)
-    {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        // System.out.println(pechaLeaves);
-        // System.out.println(qualotLeaves);
-        event.getBlockColors().register((state, reader, pos, tintIndex) ->
-        {
-            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
-                    : FoliageColor.getDefaultColor();
-        }, qualotLeaves);
-    }
-
-    private static void colourItems(final ColorHandlerEvent.Item event)
-    {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        event.getItemColors().register((stack, tintIndex) ->
-        {
-            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
-            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, qualotLeaves);
-
-        event.getItemColors().register((stack, tintIndex) ->
-        {
-            final PokeType type = PokeType.unknown;
-            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
-            if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
-            return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
-        }, PokecubeItems.EGG.get());
-
     }
 
     /**

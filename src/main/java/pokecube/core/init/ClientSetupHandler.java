@@ -6,12 +6,17 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,8 +54,10 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
@@ -210,5 +217,37 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityMoveUse.TYPE, RenderMoves::new);
         event.registerEntityRenderer(NpcMob.TYPE, RenderNPC::new);
         event.registerEntityRenderer(EntityPokemobEgg.TYPE, RenderEgg::new);
+    }
+
+    @SubscribeEvent
+    public static void colourBlocks(final ColorHandlerEvent.Block event)
+    {
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        // System.out.println(pechaLeaves);
+        // System.out.println(qualotLeaves);
+        event.getBlockColors().register((state, reader, pos, tintIndex) ->
+        {
+            return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
+                    : FoliageColor.getDefaultColor();
+        }, qualotLeaves);
+    }
+
+    @SubscribeEvent
+    public static void colourItems(final ColorHandlerEvent.Item event)
+    {
+        final Block qualotLeaves = BerryManager.berryLeaves.get(23);
+        event.getItemColors().register((stack, tintIndex) ->
+        {
+            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
+            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
+        }, qualotLeaves);
+
+        event.getItemColors().register((stack, tintIndex) ->
+        {
+            final PokeType type = PokeType.unknown;
+            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
+            if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
+            return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
+        }, PokecubeItems.EGG.get());
     }
 }
