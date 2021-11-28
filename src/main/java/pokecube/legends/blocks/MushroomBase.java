@@ -10,17 +10,16 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
 
 public class MushroomBase extends MushroomBlock
 {
-    protected static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 15, 14);
+    protected static final VoxelShape              SHAPE               = Block.box(2, 0, 2, 14, 15, 14);
     public final Supplier<ConfiguredFeature<?, ?>> featureSupplier;
-    public boolean validBonemealTarget = true;
+    public boolean                                 validBonemealTarget = true;
 
-    public MushroomBase(final BlockBehaviour.Properties properties, Supplier<ConfiguredFeature<?, ?>> supplier)
+    public MushroomBase(final BlockBehaviour.Properties properties, final Supplier<ConfiguredFeature<?, ?>> supplier)
     {
         super(properties, supplier);
         this.featureSupplier = supplier;
@@ -30,7 +29,7 @@ public class MushroomBase extends MushroomBlock
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-        return SHAPE;
+        return MushroomBase.SHAPE;
     }
 
     @Override
@@ -40,9 +39,10 @@ public class MushroomBase extends MushroomBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
+            final boolean b)
     {
-       return validBonemealTarget;
+        return this.validBonemealTarget;
     }
 
     public MushroomBase bonemealTarget(final Boolean isValidBonemealTarget)

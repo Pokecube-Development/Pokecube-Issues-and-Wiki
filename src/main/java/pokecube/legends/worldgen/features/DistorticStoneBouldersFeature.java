@@ -22,135 +22,123 @@ import pokecube.legends.init.FluidInit;
 
 public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
 {
-   private static final ImmutableList<Block> CAN_PLACE_ON =
-           ImmutableList.of(BlockInit.DISTORTIC_GRASS.get(), BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
-   private static final int CLUSTERED_REACH = 5;
-   private static final int CLUSTERED_SIZE = 50;
-   private static final int UNCLUSTERED_REACH = 8;
-   private static final int UNCLUSTERED_SIZE = 15;
+    private static final ImmutableList<Block> CAN_PLACE_ON      = ImmutableList.of(BlockInit.DISTORTIC_GRASS.get(),
+            BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
+    private static final int                  CLUSTERED_REACH   = 5;
+    private static final int                  CLUSTERED_SIZE    = 50;
+    private static final int                  UNCLUSTERED_REACH = 8;
+    private static final int                  UNCLUSTERED_SIZE  = 15;
 
-   public DistorticStoneBouldersFeature(Codec<ColumnFeatureConfiguration> config)
-   {
-      super(config);
-   }
+    public DistorticStoneBouldersFeature(final Codec<ColumnFeatureConfiguration> config)
+    {
+        super(config);
+    }
 
-   @Override
-   public boolean place(FeaturePlaceContext<ColumnFeatureConfiguration> context)
-   {
-      int i = context.chunkGenerator().getSeaLevel();
-      BlockPos pos = context.origin();
-      WorldGenLevel world = context.level();
-      Random random = context.random();
-      ColumnFeatureConfiguration conlumnConfig = context.config();
-      if (!canPlaceAt(world, i, pos.mutable()))
-      {
-         return false;
-      } else
-      {
-         int j = conlumnConfig.height().sample(random);
-         boolean flag = random.nextFloat() < 0.9F;
-         int k = Math.min(j, flag ? 5 : 8);
-         int l = flag ? 50 : 15;
-         boolean flag1 = false;
+    @Override
+    public boolean place(final FeaturePlaceContext<ColumnFeatureConfiguration> context)
+    {
+        final int i = context.chunkGenerator().getSeaLevel();
+        final BlockPos pos = context.origin();
+        final WorldGenLevel world = context.level();
+        final Random random = context.random();
+        final ColumnFeatureConfiguration conlumnConfig = context.config();
+        if (!DistorticStoneBouldersFeature.canPlaceAt(world, i, pos.mutable())) return false;
+        else
+        {
+            final int j = conlumnConfig.height().sample(random);
+            final boolean flag = random.nextFloat() < 0.9F;
+            final int k = Math.min(j, flag ? DistorticStoneBouldersFeature.CLUSTERED_REACH
+                    : DistorticStoneBouldersFeature.UNCLUSTERED_REACH);
+            final int l = flag ? DistorticStoneBouldersFeature.CLUSTERED_SIZE
+                    : DistorticStoneBouldersFeature.UNCLUSTERED_SIZE;
+            boolean flag1 = false;
 
-         for(BlockPos pos1 : BlockPos.randomBetweenClosed(random, l, pos.getX() - k, pos.getY(), pos.getZ() - k, pos.getX() + k, pos.getY(), pos.getZ() + k))
-         {
-            int i1 = j - pos1.distManhattan(pos);
-            if (i1 >= 0)
+            for (final BlockPos pos1 : BlockPos.randomBetweenClosed(random, l, pos.getX() - k, pos.getY(), pos.getZ()
+                    - k, pos.getX() + k, pos.getY(), pos.getZ() + k))
             {
-               flag1 |= this.placeColumn(world, i, pos1, i1, conlumnConfig.reach().sample(random));
+                final int i1 = j - pos1.distManhattan(pos);
+                if (i1 >= 0) flag1 |= this.placeColumn(world, i, pos1, i1, conlumnConfig.reach().sample(random));
             }
-         }
 
-         return flag1;
-      }
-   }
+            return flag1;
+        }
+    }
 
-   public boolean placeColumn(LevelAccessor world, int a, BlockPos pos, int height, int reach)
-   {
-      boolean flag = false;
+    public boolean placeColumn(final LevelAccessor world, final int a, final BlockPos pos, final int height,
+            final int reach)
+    {
+        boolean flag = false;
 
-      for(BlockPos pos1 : BlockPos.betweenClosed(pos.getX() - reach, pos.getY(), pos.getZ() - reach, pos.getX() + reach, pos.getY(), pos.getZ() + reach))
-      {
-         int i = pos1.distManhattan(pos);
-         BlockPos pos2 = isAirOrLavaOcean(world, a, pos1) ? findSurface(world, a, pos1.mutable(), i) : findAir(world, pos1.mutable(), i);
-         if (pos2 != null)
-         {
-            int j = height - i / 2;
-
-            for(BlockPos.MutableBlockPos mutablePos = pos2.mutable(); j >= 0; --j)
+        for (final BlockPos pos1 : BlockPos.betweenClosed(pos.getX() - reach, pos.getY(), pos.getZ() - reach, pos.getX()
+                + reach, pos.getY(), pos.getZ() + reach))
+        {
+            final int i = pos1.distManhattan(pos);
+            final BlockPos pos2 = DistorticStoneBouldersFeature.isAirOrLavaOcean(world, a, pos1)
+                    ? DistorticStoneBouldersFeature.findSurface(world, a, pos1.mutable(), i)
+                    : DistorticStoneBouldersFeature.findAir(world, pos1.mutable(), i);
+            if (pos2 != null)
             {
-               if (isAirOrLavaOcean(world, a, mutablePos))
-               {
-                  this.setBlock(world, mutablePos, BlockInit.DISTORTIC_STONE.get().defaultBlockState());
-                  mutablePos.move(Direction.UP);
-                  flag = true;
-               } else
-               {
-                  if (!world.getBlockState(mutablePos).is(BlockInit.DISTORTIC_STONE.get()))
-                  {
-                     break;
-                  }
-                  mutablePos.move(Direction.UP);
-               }
+                int j = height - i / 2;
+
+                for (final BlockPos.MutableBlockPos mutablePos = pos2.mutable(); j >= 0; --j)
+                    if (DistorticStoneBouldersFeature.isAirOrLavaOcean(world, a, mutablePos))
+                    {
+                        this.setBlock(world, mutablePos, BlockInit.DISTORTIC_STONE.get().defaultBlockState());
+                        mutablePos.move(Direction.UP);
+                        flag = true;
+                    }
+                    else
+                    {
+                        if (!world.getBlockState(mutablePos).is(BlockInit.DISTORTIC_STONE.get())) break;
+                        mutablePos.move(Direction.UP);
+                    }
             }
-         }
-      }
-      return flag;
-   }
+        }
+        return flag;
+    }
 
-   @Nullable
-   public static BlockPos findSurface(LevelAccessor world, int y, BlockPos.MutableBlockPos pos, int height)
-   {
-      while(pos.getY() > world.getMinBuildHeight() + 1 && height > 0)
-      {
-         --height;
-         if (canPlaceAt(world, y, pos))
-         {
-            return pos;
-         }
-         pos.move(Direction.DOWN);
-      }
-      return null;
-   }
+    @Nullable
+    public static BlockPos findSurface(final LevelAccessor world, final int y, final BlockPos.MutableBlockPos pos,
+            int height)
+    {
+        while (pos.getY() > world.getMinBuildHeight() + 1 && height > 0)
+        {
+            --height;
+            if (DistorticStoneBouldersFeature.canPlaceAt(world, y, pos)) return pos;
+            pos.move(Direction.DOWN);
+        }
+        return null;
+    }
 
-   public static boolean canPlaceAt(LevelAccessor world, int y, BlockPos.MutableBlockPos pos)
-   {
-      if (!isAirOrLavaOcean(world, y, pos))
-      {
-         return false;
-      } else
-      {
-         BlockState state = world.getBlockState(pos.move(Direction.DOWN));
-         pos.move(Direction.UP);
-         return !state.isAir() && CAN_PLACE_ON.contains(state.getBlock());
-      }
-   }
+    public static boolean canPlaceAt(final LevelAccessor world, final int y, final BlockPos.MutableBlockPos pos)
+    {
+        if (!DistorticStoneBouldersFeature.isAirOrLavaOcean(world, y, pos)) return false;
+        else
+        {
+            final BlockState state = world.getBlockState(pos.move(Direction.DOWN));
+            pos.move(Direction.UP);
+            return !state.isAir() && DistorticStoneBouldersFeature.CAN_PLACE_ON.contains(state.getBlock());
+        }
+    }
 
-   @Nullable
-   public static BlockPos findAir(LevelAccessor world, BlockPos.MutableBlockPos pos, int height)
-   {
-      while(pos.getY() < world.getMaxBuildHeight() && height > 0)
-      {
-         --height;
-         BlockState state = world.getBlockState(pos);
-         if (!CAN_PLACE_ON.contains(state.getBlock()))
-         {
-            return null;
-         }
+    @Nullable
+    public static BlockPos findAir(final LevelAccessor world, final BlockPos.MutableBlockPos pos, int height)
+    {
+        while (pos.getY() < world.getMaxBuildHeight() && height > 0)
+        {
+            --height;
+            final BlockState state = world.getBlockState(pos);
+            if (!DistorticStoneBouldersFeature.CAN_PLACE_ON.contains(state.getBlock())) return null;
 
-         if (state.isAir())
-         {
-            return pos;
-         }
-         pos.move(Direction.UP);
-      }
-      return null;
-   }
+            if (state.isAir()) return pos;
+            pos.move(Direction.UP);
+        }
+        return null;
+    }
 
-   public static boolean isAirOrLavaOcean(LevelAccessor world, int height, BlockPos pos)
-   {
-      BlockState state = world.getBlockState(pos);
-      return state.isAir() || state.is(Blocks.LAVA) && pos.getY() <= height;
-   }
+    public static boolean isAirOrLavaOcean(final LevelAccessor world, final int height, final BlockPos pos)
+    {
+        final BlockState state = world.getBlockState(pos);
+        return state.isAir() || state.is(Blocks.LAVA) && pos.getY() <= height;
+    }
 }

@@ -5,7 +5,6 @@ import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.data.worldgen.Features;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.NyliumBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,8 +29,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.AbstractFlowerFeature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.NetherForestVegetationFeature;
-import net.minecraft.world.level.levelgen.feature.TwistingVinesFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
@@ -111,10 +107,10 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
 //    }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
     {
-       BlockPos blockpos = pos.above();
-       BlockState blockstate = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
+       final BlockPos blockpos = pos.above();
+       final BlockState blockstate = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
 
        label48:
        for(int i = 0; i < 128; ++i) {
@@ -122,27 +118,20 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
 
           for(int j = 0; j < i / 16; ++j) {
              blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-             if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) {
-                continue label48;
-             }
+             if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) continue label48;
           }
 
-          BlockState blockstate2 = world.getBlockState(blockpos1);
-          if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0) {
-             ((BonemealableBlock)blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
-          }
+          final BlockState blockstate2 = world.getBlockState(blockpos1);
+          if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
 
           if (blockstate2.isAir()) {
              BlockState blockstate1;
              if (random.nextInt(8) == 0) {
-                List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
-                if (list.isEmpty()) {
-                   continue;
-                }
-                blockstate1 = getBlockState(random, blockpos1, list.get(0));
-             } else {
-                 blockstate1 = blockstate;
+                final List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
+                if (list.isEmpty()) continue;
+                blockstate1 = GrassCorruptedBlock.getBlockState(random, blockpos1, list.get(0));
              }
+            else blockstate1 = blockstate;
 
              if (blockstate1.canSurvive(world, blockpos1)) {
                 world.setBlock(blockpos1, blockstate1, 3);
@@ -153,27 +142,18 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable)
+    public boolean canSustainPlant(final BlockState state, final BlockGetter block, final BlockPos pos, final Direction direction, final IPlantable plantable)
     {
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
 
-        if (plantType == PlantType.PLAINS)
-        {
-            return true;
-        } else if (plantType == PlantType.WATER)
-        {
-            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == defaultBlockState();
-        } else if (plantType == PlantType.BEACH)
-        {
-            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        } else
-        {
-            return super.canSustainPlant(state, block, pos, direction, plantable);
-        }
+        if (plantType == PlantType.PLAINS) return true;
+        else if (plantType == PlantType.WATER) return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+        else if (plantType == PlantType.BEACH) return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        else return super.canSustainPlant(state, block, pos, direction, plantable);
     }
 
     @Override
@@ -197,9 +177,9 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
     }
 
     @SuppressWarnings("unchecked")
-    public static <U extends FeatureConfiguration> BlockState getBlockState(Random random, BlockPos pos, ConfiguredFeature<U, ?> config)
+    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
     {
-       AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
+       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
        return feature.getRandomFlower(random, pos, config.config());
     }
 }

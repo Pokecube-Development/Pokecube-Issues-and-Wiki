@@ -6,37 +6,33 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.IForgeShearable;
-import pokecube.legends.init.PlantsInit;
 
 public class TallCorruptedGrassBlock extends TallGrassBlock implements IForgeShearable
 {
 
-   public TallCorruptedGrassBlock(BlockBehaviour.Properties config)
+   public TallCorruptedGrassBlock(final BlockBehaviour.Properties config)
    {
       super(config);
    }
 
    @Override
-   public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+   public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state, final boolean b)
    {
       return false;
    }
 
    @Override
-   public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state)
+   public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
    {
       return false;
    }
 
    @Override
-   public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+   public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
    {
    }
 }

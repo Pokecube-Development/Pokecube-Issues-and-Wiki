@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
-import net.minecraft.world.level.levelgen.carver.CaveWorldCarver;
 import net.minecraft.world.level.levelgen.carver.UnderwaterCaveWorldCarver;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 

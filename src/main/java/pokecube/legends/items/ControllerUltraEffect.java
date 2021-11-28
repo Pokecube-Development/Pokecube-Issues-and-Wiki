@@ -16,7 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.ItemInit;
 
 public class ControllerUltraEffect extends ItemBase

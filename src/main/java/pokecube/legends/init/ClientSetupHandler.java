@@ -177,9 +177,8 @@ public class ClientSetupHandler
         event.registerEntityRenderer(EntityInit.WORMHOLE.get(), Wormhole::new);
     }
 
-    @SuppressWarnings("resource")
     @SubscribeEvent
-    public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
+    public static void registerParticleFactories(final ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);

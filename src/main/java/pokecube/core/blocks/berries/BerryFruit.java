@@ -9,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -23,7 +24,7 @@ public class BerryFruit extends BushBlock
     public static final VoxelShape BERRY_UP   = Block.box(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
     public static final VoxelShape BERRY_DOWN = Block.box(2.5D, 0.0D, 2.5D, 13.5D, 6.0D, 13.5D);
 
-    // Precise selection box
+    // Precise selection box @formatter:off
     private static final VoxelShape PECHA_BERRY = Shapes.or(
       Block.box(5.5, 12, 6.5, 10.5, 16, 9.5),
       Block.box(6, 10.5, 6.5, 10, 12, 9.5))
@@ -105,15 +106,14 @@ public class BerryFruit extends BushBlock
     private static final VoxelShape ROWAP_BERRY = Shapes.or(
       Block.box(0, 0, 0, 16, 7, 16))
       .optimize();
+    //@formatter:on
 
-    public final Integer index;
-    private final int    ind;
+    private final int ind;
 
-    public BerryFruit(final Properties builder, final int index)
+    public BerryFruit(final Properties builder, final int ind)
     {
         super(builder);
-        this.index = index;
-        this.ind = index;
+        this.ind = ind;
     }
 
     @Override
@@ -139,33 +139,32 @@ public class BerryFruit extends BushBlock
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-    	Vec3 vec3d = state.getOffset(worldIn, pos);
-        if (this.index == 3) { return BerryFruit.PECHA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 5) { return BerryFruit.ASPEAR_BERRY; }
-        else if (this.index == 6) { return BerryFruit.LEPPA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 7) { return BerryFruit.ORAN_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 9) { return BerryFruit.LUM_BERRY; }
-        else if (this.index == 10) { return BerryFruit.SITRUS_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 18) { return BerryFruit.NANAB_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 20) { return BerryFruit.PINAP_BERRY; }
-        else if (this.index == 21) { return BerryFruit.POMEG_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 22) { return BerryFruit.KELPSY_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 23) { return BerryFruit.QUALOT_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 24) { return BerryFruit.HONDEW_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 25) { return BerryFruit.GREPA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 26) { return BerryFruit.TAMATO_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 60) { return BerryFruit.ENIGMA_BERRY.move(vec3d.x, vec3d.y, vec3d.z); }
-        else if (this.index == 64) { return BerryFruit.ROWAP_BERRY; }
-        else return BerryGenManager.trees.containsKey(this.index) ? BerryFruit.BERRY_UP : BerryFruit.BERRY_DOWN;
+        final Vec3 vec3d = state.getOffset(worldIn, pos);
+        if (this.ind == 3) return BerryFruit.PECHA_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 5) return BerryFruit.ASPEAR_BERRY;
+        else if (this.ind == 6) return BerryFruit.LEPPA_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 7) return BerryFruit.ORAN_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 9) return BerryFruit.LUM_BERRY;
+        else if (this.ind == 10) return BerryFruit.SITRUS_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 18) return BerryFruit.NANAB_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 20) return BerryFruit.PINAP_BERRY;
+        else if (this.ind == 21) return BerryFruit.POMEG_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 22) return BerryFruit.KELPSY_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 23) return BerryFruit.QUALOT_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 24) return BerryFruit.HONDEW_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 25) return BerryFruit.GREPA_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 26) return BerryFruit.TAMATO_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 60) return BerryFruit.ENIGMA_BERRY.move(vec3d.x, vec3d.y, vec3d.z);
+        else if (this.ind == 64) return BerryFruit.ROWAP_BERRY;
+        else return BerryGenManager.trees.containsKey(this.ind) ? BerryFruit.BERRY_UP : BerryFruit.BERRY_DOWN;
     }
 
     @Override
-    public BlockBehaviour.OffsetType getOffsetType() {
-        if (this.index == 3 || this.index == 6 || this.index == 7 || this.index == 10 || this.index == 18 || this.index == 21 ||
-        		this.index == 22 || this.index == 23 || this.index == 24 || this.index == 25 || this.index == 26 || this.index == 60)
-        	{
-        		return BlockBehaviour.OffsetType.XZ;
-        	}
+    public BlockBehaviour.OffsetType getOffsetType()
+    {
+        if (this.ind == 3 || this.ind == 6 || this.ind == 7 || this.ind == 10 || this.ind == 18 || this.ind == 21
+                || this.ind == 22 || this.ind == 23 || this.ind == 24 || this.ind == 25 || this.ind == 26
+                || this.ind == 60) return BlockBehaviour.OffsetType.XZ;
         return BlockBehaviour.OffsetType.NONE;
     }
 
@@ -177,17 +176,15 @@ public class BerryFruit extends BushBlock
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player player, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
     {
-    	BlockState state2 = BerryManager.berryCrops.get(this.index).defaultBlockState();
+        final BlockState state2 = BerryManager.berryCrops.get(this.ind).defaultBlockState();
         if (!world.isClientSide)
         {
-        	if(world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.index)))
-        	{
-        		world.setBlockAndUpdate(pos.below(), state2.setValue(BerryCrop.AGE, Integer.valueOf(5)));
-        	}
-        	world.destroyBlock(pos, true);
+            if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind))) world.setBlockAndUpdate(pos
+                    .below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
+            world.destroyBlock(pos, true);
         }
         return InteractionResult.SUCCESS;
     }

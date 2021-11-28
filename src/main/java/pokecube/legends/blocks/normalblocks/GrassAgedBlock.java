@@ -20,8 +20,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
-import net.minecraft.world.level.block.MushroomBlock;
-import net.minecraft.world.level.block.SeagrassBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -93,27 +91,18 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable)
+    public boolean canSustainPlant(final BlockState state, final BlockGetter block, final BlockPos pos, final Direction direction, final IPlantable plantable)
     {
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
 
-        if (plantType == PlantType.PLAINS)
-        {
-            return true;
-        } else if (plantType == PlantType.WATER)
-        {
-            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == defaultBlockState();
-        } else if (plantType == PlantType.BEACH)
-        {
-            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        } else
-        {
-            return super.canSustainPlant(state, block, pos, direction, plantable);
-        }
+        if (plantType == PlantType.PLAINS) return true;
+        else if (plantType == PlantType.WATER) return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+        else if (plantType == PlantType.BEACH) return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        else return super.canSustainPlant(state, block, pos, direction, plantable);
     }
 
     @Override
@@ -136,10 +125,10 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state) {
-       BlockPos pos1 = pos.above();
-       BlockState state1 = (PlantsInit.GOLDEN_GRASS.get().defaultBlockState());
-       BlockState state2 = (PlantsInit.GOLDEN_FERN.get().defaultBlockState());
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state) {
+       final BlockPos pos1 = pos.above();
+       final BlockState state1 = (PlantsInit.GOLDEN_GRASS.get().defaultBlockState());
+       final BlockState state2 = (PlantsInit.GOLDEN_FERN.get().defaultBlockState());
 
        bonemealing:
        for(int i = 0; i < 128; ++i)
@@ -148,37 +137,23 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
           for(int j = 0; j < i / 16; ++j)
           {
              pos2 = pos2.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-             if (!world.getBlockState(pos2.below()).is(this) || world.getBlockState(pos2).isCollisionShapeFullBlock(world, pos2))
-             {
-                continue bonemealing;
-             }
+             if (!world.getBlockState(pos2.below()).is(this) || world.getBlockState(pos2).isCollisionShapeFullBlock(world, pos2)) continue bonemealing;
           }
 
-          BlockState state3 = world.getBlockState(pos2);
-          if (state3.is(state1.getBlock()) && random.nextInt(10) == 0)
-          {
-             ((BonemealableBlock)state1.getBlock()).performBonemeal(world, random, pos2, state3);
-          }
-          if (state3.is(state2.getBlock()) && random.nextInt(10) == 0)
-          {
-             ((BonemealableBlock)state2.getBlock()).performBonemeal(world, random, pos2, state3);
-          }
+          final BlockState state3 = world.getBlockState(pos2);
+          if (state3.is(state1.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)state1.getBlock()).performBonemeal(world, random, pos2, state3);
+          if (state3.is(state2.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)state2.getBlock()).performBonemeal(world, random, pos2, state3);
 
           if (state3.isAir())
           {
              BlockState state4;
              if (random.nextInt(8) == 0)
              {
-                List<ConfiguredFeature<?, ?>> list = world.getBiome(pos2).getGenerationSettings().getFlowerFeatures();
-                if (list.isEmpty())
-                {
-                   continue;
-                }
-                state4 = getBlockState(random, pos2, list.get(0));
-             } else
-             {
-                continue;
+                final List<ConfiguredFeature<?, ?>> list = world.getBiome(pos2).getGenerationSettings().getFlowerFeatures();
+                if (list.isEmpty()) continue;
+                state4 = GrassAgedBlock.getBlockState(random, pos2, list.get(0));
              }
+            else continue;
 
              if (state4.canSurvive(world, pos2))
              {
@@ -190,9 +165,9 @@ public class GrassAgedBlock extends GrassBlock implements BonemealableBlock
     }
 
     @SuppressWarnings("unchecked")
-    public static <U extends FeatureConfiguration> BlockState getBlockState(Random random, BlockPos pos, ConfiguredFeature<U, ?> config)
+    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
     {
-       AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
+       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
        return feature.getRandomFlower(random, pos, config.config());
     }
 }

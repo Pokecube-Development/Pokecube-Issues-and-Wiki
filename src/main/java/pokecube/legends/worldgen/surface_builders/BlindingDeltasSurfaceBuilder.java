@@ -17,7 +17,6 @@ import pokecube.legends.init.BlockInit;
 public class BlindingDeltasSurfaceBuilder extends NetherCappedSurfaceBuilder {
 	private static final BlockState DARKSTONE = BlockInit.ULTRA_DARKSTONE.get().defaultBlockState();
 	private static final BlockState BLACKSTONE = Blocks.BLACKSTONE.defaultBlockState();
-	private static final BlockState GRAVEL = Blocks.GRAVEL.defaultBlockState();
 	private static final ImmutableList<BlockState> FLOOR_BLOCK_STATES = ImmutableList.of(DARKSTONE, BLACKSTONE);
 	private static final ImmutableList<BlockState> CEILING_BLOCK_STATES = ImmutableList.of(DARKSTONE);
 
