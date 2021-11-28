@@ -1,0 +1,18 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "pokecube_legends:blackened_sandstone"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:blackened_sandstone_stairs",
+    "count": 4
+  }
+}

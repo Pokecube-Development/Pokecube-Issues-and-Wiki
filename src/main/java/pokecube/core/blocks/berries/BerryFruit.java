@@ -158,10 +158,10 @@ public class BerryFruit extends BushBlock
         else if (this.index == 64) { return BerryFruit.ROWAP_BERRY; }
         else return BerryGenManager.trees.containsKey(this.index) ? BerryFruit.BERRY_UP : BerryFruit.BERRY_DOWN;
     }
-    
+
     @Override
     public BlockBehaviour.OffsetType getOffsetType() {
-        if (this.index == 3 || this.index == 6 || this.index == 7 || this.index == 10 || this.index == 18 || this.index == 21 || 
+        if (this.index == 3 || this.index == 6 || this.index == 7 || this.index == 10 || this.index == 18 || this.index == 21 ||
         		this.index == 22 || this.index == 23 || this.index == 24 || this.index == 25 || this.index == 26 || this.index == 60)
         	{
         		return BlockBehaviour.OffsetType.XZ;
@@ -180,7 +180,15 @@ public class BerryFruit extends BushBlock
     public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
             final Player player, final InteractionHand hand, final BlockHitResult hit)
     {
-        if (!world.isClientSide) world.destroyBlock(pos, true);
+    	BlockState state2 = BerryManager.berryCrops.get(this.index).defaultBlockState();
+        if (!world.isClientSide)
+        {
+        	if(world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.index)))
+        	{
+        		world.setBlockAndUpdate(pos.below(), state2.setValue(BerryCrop.AGE, Integer.valueOf(5)));
+        	}
+        	world.destroyBlock(pos, true);
+        }
         return InteractionResult.SUCCESS;
     }
 }

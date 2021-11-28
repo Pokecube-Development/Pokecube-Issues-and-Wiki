@@ -2,24 +2,21 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
+              "name": "pokecube_legends:tall_crystallized_bush",
               "conditions": [
                 {
                   "condition": "minecraft:alternative",
                   "terms": [
                     {
                       "condition": "minecraft:match_tool",
-                      "block": "pokecube_legends:tall_crystallized_bush",
-                      "properties": {
-                        "half": "lower"
-                      },
                       "predicate": {
                         "items": [
                           "minecraft:shears"
@@ -28,10 +25,6 @@
                     },
                     {
                       "condition": "minecraft:match_tool",
-                      "block": "pokecube_legends:tall_crystallized_bush",
-                      "properties": {
-                        "half": "lower"
-                      },
                       "predicate": {
                         "enchantments": [
                           {
@@ -45,25 +38,17 @@
                     }
                   ]
                 }
-              ],
-              "name": "pokecube_legends:tall_crystallized_bush"
+              ]
             },
             {
               "type": "minecraft:item",
+              "name": "pokecube_legends:aquamarine_shard",
               "conditions": [
                 {
-                  "condition": "minecraft:block_state_property",
-                  "block": "pokecube_legends:tall_crystallized_bush",
-                  "properties": {
-                    "half": "lower"
-                  }
+                  "condition": "minecraft:survives_explosion"
                 },
                 {
-                  "condition": "minecraft:block_state_property",
-                  "block": "pokecube_legends:tall_crystallized_bush",
-                  "properties": {
-                    "half": "lower"
-                  },
+                  "condition": "minecraft:table_bonus",
                   "enchantment": "minecraft:fortune",
                   "chances": [
                     0.5,
@@ -72,10 +57,117 @@
                     0.002
                   ]
                 }
-              ],
-              "name": "pokecube_legends:crystal_shard"
+              ]
             }
           ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "pokecube_legends:tall_crystallized_bush",
+          "properties": {
+            "half": "lower"
+          }
+        },
+        {
+          "condition": "minecraft:location_check",
+          "offsetY": 1,
+          "predicate": {
+            "block": {
+              "blocks": [
+                "pokecube_legends:tall_crystallized_bush"
+              ],
+              "state": {
+                "half": "upper"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "pokecube_legends:tall_crystallized_bush",
+              "conditions": [
+                {
+                  "condition": "minecraft:alternative",
+                  "terms": [
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {
+                        "items": [
+                          "minecraft:shears"
+                        ]
+                      }
+                    },
+                    {
+                      "condition": "minecraft:match_tool",
+                      "predicate": {
+                        "enchantments": [
+                          {
+                            "enchantment": "minecraft:silk_touch",
+                            "levels": {
+                              "min": 1
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "pokecube_legends:aquamarine_shard",
+              "conditions": [
+                {
+                  "condition": "minecraft:survives_explosion"
+                },
+                {
+                  "condition": "minecraft:table_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "chances": [
+                    0.5,
+                    0.5,
+                    0.05,
+                    0.002
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "pokecube_legends:tall_crystallized_bush",
+          "properties": {
+            "half": "upper"
+          }
+        },
+        {
+          "condition": "minecraft:location_check",
+          "offsetY": -1,
+          "predicate": {
+            "block": {
+              "blocks": [
+                "pokecube_legends:tall_crystallized_bush"
+              ],
+              "state": {
+                "half": "lower"
+              }
+            }
+          }
         }
       ]
     }

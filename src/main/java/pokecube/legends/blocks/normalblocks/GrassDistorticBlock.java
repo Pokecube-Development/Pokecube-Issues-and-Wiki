@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -36,7 +37,9 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.NetherForestVegetationFeature;
 import net.minecraft.world.level.levelgen.feature.TwistingVinesFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 
@@ -164,13 +167,6 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
             NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
         }
-        else if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
-        {
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
-            if (random.nextInt(8) == 0) TwistingVinesFeature.place(world, random, blockpos, 3, 1, 2);
-        }
 
         label48:
         for (int i = 0; i < 128; ++i)
@@ -210,10 +206,27 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public boolean canSustainPlant(final BlockState state, final BlockGetter world, final BlockPos pos,
-            final Direction direction, final IPlantable plantable)
+    public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable)
     {
-        return true;
+        final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+        final PlantType plantType = plantable.getPlantType(block, plantPos);
+
+        if (plantType == PlantType.PLAINS)
+        {
+            return true;
+        } else if (plantType == PlantType.WATER)
+        {
+            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == defaultBlockState();
+        } else if (plantType == PlantType.BEACH)
+        {
+            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        } else
+        {
+            return super.canSustainPlant(state, block, pos, direction, plantable);
+        }
     }
 
     @Override

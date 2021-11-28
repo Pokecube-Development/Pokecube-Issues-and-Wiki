@@ -298,25 +298,25 @@ public class PokecubeMobs
     public void registerItems(final RegisterMiscItems event)
     {
 
-        ItemGenerator.berryWoods.put("pecha", MaterialColor.COLOR_MAGENTA);
-        ItemGenerator.berryWoods.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryWoods.put("leppa", MaterialColor.COLOR_RED);
-        ItemGenerator.berryWoods.put("sitrus", MaterialColor.TERRACOTTA_YELLOW);
         ItemGenerator.berryWoods.put("enigma", MaterialColor.COLOR_BLACK);
+        ItemGenerator.berryWoods.put("leppa", MaterialColor.COLOR_RED);
         ItemGenerator.berryWoods.put("nanab", MaterialColor.TERRACOTTA_BROWN);
+        ItemGenerator.berryWoods.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryWoods.put("pecha", MaterialColor.COLOR_MAGENTA);
+        ItemGenerator.berryWoods.put("sitrus", MaterialColor.TERRACOTTA_YELLOW);
 
-        ItemGenerator.berryLeaves.put("pecha", MaterialColor.TERRACOTTA_LIGHT_BLUE);
-        ItemGenerator.berryLeaves.put("oran", MaterialColor.COLOR_ORANGE);
-        ItemGenerator.berryLeaves.put("leppa", MaterialColor.SAND);
-        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
         ItemGenerator.berryLeaves.put("enigma", MaterialColor.TERRACOTTA_WHITE);
+        ItemGenerator.berryLeaves.put("leppa", MaterialColor.SAND);
         ItemGenerator.berryLeaves.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("oran", MaterialColor.COLOR_ORANGE);
+        ItemGenerator.berryLeaves.put("pecha", MaterialColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
 
-        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.COLOR_RED);
-        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.COLOR_PINK);
-        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.PLANT);
-        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.TERRACOTTA_PURPLE);
         ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.TERRACOTTA_PURPLE);
+        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.COLOR_PINK);
+        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.PLANT);
         ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
 
         ItemGenerator.berryCrops.put("aspear", MaterialColor.COLOR_RED);
@@ -367,36 +367,33 @@ public class PokecubeMobs
         ItemGenerator.berryFruits.put("sitrus", MaterialColor.COLOR_YELLOW);
         ItemGenerator.berryFruits.put("tamato", MaterialColor.TERRACOTTA_ORANGE);
 
-        ItemGenerator.variants.add("waterstone");
-        ItemGenerator.variants.add("firestone");
-        ItemGenerator.variants.add("leafstone");
-        ItemGenerator.variants.add("thunderstone");
-        ItemGenerator.variants.add("moonstone");
-        ItemGenerator.variants.add("sunstone");
-        ItemGenerator.variants.add("shinystone");
-        ItemGenerator.variants.add("ovalstone");
-        ItemGenerator.variants.add("everstone");
-        ItemGenerator.variants.add("duskstone");
         ItemGenerator.variants.add("dawnstone");
-        ItemGenerator.variants.add("kingsrock");
         ItemGenerator.variants.add("dubiousdisc");
+        ItemGenerator.variants.add("duskstone");
         ItemGenerator.variants.add("electirizer");
+        ItemGenerator.variants.add("everstone");
+        ItemGenerator.variants.add("firestone");
+        ItemGenerator.variants.add("kingsrock");
+        ItemGenerator.variants.add("leafstone");
         ItemGenerator.variants.add("magmarizer");
-        ItemGenerator.variants.add("reapercloth");
+        ItemGenerator.variants.add("metalcoat");
+        ItemGenerator.variants.add("moonstone");
+        ItemGenerator.variants.add("ovalstone");
         ItemGenerator.variants.add("prismscale");
         ItemGenerator.variants.add("protector");
+        ItemGenerator.variants.add("reapercloth");
+        ItemGenerator.variants.add("shinystone");
+        ItemGenerator.variants.add("sunstone");
+        ItemGenerator.variants.add("thunderstone");
         ItemGenerator.variants.add("upgrade");
-        ItemGenerator.variants.add("metalcoat");
+        ItemGenerator.variants.add("waterstone");
 
-        ItemGenerator.variants.add("megastone");
-        ItemGenerator.variants.add("shiny_charm");
-        ItemGenerator.variants.add("omegaorb");
-        ItemGenerator.variants.add("alphaorb");
-        ItemGenerator.variants.add("aerodactylmega");
         ItemGenerator.variants.add("abomasnowmega");
         ItemGenerator.variants.add("absolmega");
+        ItemGenerator.variants.add("aerodactylmega");
         ItemGenerator.variants.add("aggronmega");
         ItemGenerator.variants.add("alakazammega");
+        ItemGenerator.variants.add("alphaorb");
         ItemGenerator.variants.add("altariamega");
         ItemGenerator.variants.add("ampharosmega");
         ItemGenerator.variants.add("audinomega");
@@ -405,8 +402,8 @@ public class PokecubeMobs
         ItemGenerator.variants.add("blastoisemega");
         ItemGenerator.variants.add("blazikenmega");
         ItemGenerator.variants.add("cameruptmega");
-        ItemGenerator.variants.add("charizardmega-y");
         ItemGenerator.variants.add("charizardmega-x");
+        ItemGenerator.variants.add("charizardmega-y");
         ItemGenerator.variants.add("dianciemega");
         ItemGenerator.variants.add("gallademega");
         ItemGenerator.variants.add("garchompmega");
@@ -424,9 +421,11 @@ public class PokecubeMobs
         ItemGenerator.variants.add("manectricmega");
         ItemGenerator.variants.add("mawilemega");
         ItemGenerator.variants.add("medichammega");
+        ItemGenerator.variants.add("megastone");
         ItemGenerator.variants.add("metagrossmega");
-        ItemGenerator.variants.add("mewtwomega-y");
         ItemGenerator.variants.add("mewtwomega-x");
+        ItemGenerator.variants.add("mewtwomega-y");
+        ItemGenerator.variants.add("omegaorb");
         ItemGenerator.variants.add("pidgeotmega");
         ItemGenerator.variants.add("pinsirmega");
         ItemGenerator.variants.add("sableyemega");
@@ -434,6 +433,7 @@ public class PokecubeMobs
         ItemGenerator.variants.add("sceptilemega");
         ItemGenerator.variants.add("scizormega");
         ItemGenerator.variants.add("sharpedomega");
+        ItemGenerator.variants.add("shiny_charm");
         ItemGenerator.variants.add("slowbromega");
         ItemGenerator.variants.add("steelixmega");
         ItemGenerator.variants.add("swampertmega");
@@ -442,21 +442,21 @@ public class PokecubeMobs
 
         ItemGenerator.other.add("mewhair");
 
-        ItemGenerator.fossilVariants.add("omanyte");
-        ItemGenerator.fossilVariants.add("kabuto");
         ItemGenerator.fossilVariants.add("aerodactyl");
-        ItemGenerator.fossilVariants.add("lileep");
+        ItemGenerator.fossilVariants.add("amaura");
         ItemGenerator.fossilVariants.add("anorith");
-        ItemGenerator.fossilVariants.add("cranidos");
-        ItemGenerator.fossilVariants.add("shieldon");
         ItemGenerator.fossilVariants.add("archen");
+        ItemGenerator.fossilVariants.add("arctovish");
+        ItemGenerator.fossilVariants.add("arctozolt");
+        ItemGenerator.fossilVariants.add("cranidos");
+        ItemGenerator.fossilVariants.add("dracovish");
+        ItemGenerator.fossilVariants.add("dracozolt");
+        ItemGenerator.fossilVariants.add("kabuto");
+        ItemGenerator.fossilVariants.add("lileep");
+        ItemGenerator.fossilVariants.add("omanyte");
+        ItemGenerator.fossilVariants.add("shieldon");
         ItemGenerator.fossilVariants.add("tirtouga");
         ItemGenerator.fossilVariants.add("tyrunt");
-        ItemGenerator.fossilVariants.add("amaura");
-        ItemGenerator.fossilVariants.add("dracozolt");
-        ItemGenerator.fossilVariants.add("arctozolt");
-        ItemGenerator.fossilVariants.add("dracovish");
-        ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
     }
 

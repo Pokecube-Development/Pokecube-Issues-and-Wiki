@@ -11,7 +11,7 @@ license="All rights reserved"
     description='''
     This is a library of shared functionality for my mods.
 
-    This is the version embedded into pokecube, so use that for
+    This is the version embedded into Pokécube, so use that for
     the more reliable version number
     '''
     
@@ -32,7 +32,7 @@ license="All rights reserved"
     description='''
     Accessories Slots for Minecraft!
 
-    This is the version embedded into pokecube.
+    This is the version embedded into Pokécube.
     '''
 
 [[mods]]
@@ -43,25 +43,25 @@ license="All rights reserved"
     description='''
     Bling for Thut Wearables!
 
-    This is the version embedded into pokecube.
+    This is the version embedded into Pokécube.
     '''
 
 [[mods]]
     modId="pokecube"
     version="${file.jarVersion}"
-    displayName="Pokecube Core"
+    displayName="Pokécube Core"
     authors="Thutmose"
     description='''
-    Core mod for Pokecube Functionality
+    Core mod for Pokécube Functionality
     '''
 
 [[mods]]
     modId="pokecube_mobs"
     version="${file.jarVersion}"
-    displayName="Pokecube Mobs"
+    displayName="Pokécube Mobs"
     authors="Thutmose"
     description='''
-    General mobs provider for Pokecube
+    General mobs provider for Pokécube
     '''
 
 [[mods]]

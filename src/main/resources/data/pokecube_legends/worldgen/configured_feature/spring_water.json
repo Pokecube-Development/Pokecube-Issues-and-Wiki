@@ -9,8 +9,12 @@
                 "rock_count": 4,
                 "hole_count": 1,
                 "valid_blocks": [
+                  "minecraft:basalt",
+                  "minecraft:blackstone",
+                  "minecraft:magma_block",
                   "pokecube_legends:corrupted_dirt",
                   "pokecube_legends:crystallized_sandstone",
+                  "pokecube_legends:ultra_darkstone",
                   "pokecube_legends:ultra_stone"
                 ],
                 "state": {

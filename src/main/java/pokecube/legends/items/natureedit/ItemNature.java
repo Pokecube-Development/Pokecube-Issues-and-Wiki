@@ -26,7 +26,7 @@ public class ItemNature extends Item
 
     public ItemNature(final Nature type)
     {
-        super(new Item.Properties().tab(PokecubeItems.POKECUBEITEMS));
+        super(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
         final String name = type.name().equals("???") ? "unknown" : type.name();
         this.setRegistryName(Reference.ID, "mint_" + name.toLowerCase(Locale.ROOT));
         this.type = type;

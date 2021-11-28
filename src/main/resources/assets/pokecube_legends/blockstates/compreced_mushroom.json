@@ -1,7 +1,8 @@
 {
-   "variants": {
-       "": { 
-		"model": "pokecube_legends:block/compreced_mushroom"
-	}
+    "variants": {
+       "": [
+      { "model": "pokecube_legends:block/compreced_mushroom" },
+      { "model": "pokecube_legends:block/compreced_mushroom", "y": 180 }
+    ]
   }
 }

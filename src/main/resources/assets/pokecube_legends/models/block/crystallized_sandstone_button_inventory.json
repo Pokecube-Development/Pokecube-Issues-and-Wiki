@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_inventory",
   "textures": {
-    "texture": "pokecube_legends:blocks/ultrasandstoneside"
+    "texture": "pokecube_legends:blocks/crystallized_sandstone"
   }
 }

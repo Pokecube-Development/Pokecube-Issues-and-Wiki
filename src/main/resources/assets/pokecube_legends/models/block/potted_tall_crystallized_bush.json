@@ -1,7 +1,7 @@
 {
   "parent": "pokecube_legends:block/flower_pot_cross_shadeless",
   "textures": {
-    "dirt": "pokecube_legends:blocks/ultrasand",
+    "dirt": "pokecube_legends:blocks/crystallized_sand",
     "plant": "pokecube_legends:blocks/tall_crystallized_bush_top"
   }
 }

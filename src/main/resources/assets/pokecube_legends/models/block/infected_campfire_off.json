@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/campfire_off",
+  "textures": {
+    "particle": "pokecube_legends:blocks/infected_campfire_log",
+    "log": "pokecube_legends:blocks/infected_campfire_log"
+  }
+}

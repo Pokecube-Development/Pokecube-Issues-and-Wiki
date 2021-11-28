@@ -44,7 +44,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
 
     public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
     {
-        this(TileEntityInit.GENERIC_BOOKSHELF_EMPTY_TILE.get(), pos, state);
+        this(TileEntityInit.BOOKSHELF_EMPTY_ENTITY.get(), pos, state);
     }
 
     @Override

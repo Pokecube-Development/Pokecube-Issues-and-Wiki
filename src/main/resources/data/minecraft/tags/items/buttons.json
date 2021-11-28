@@ -8,17 +8,17 @@
     "pokecube:pecha_button",
     "pokecube:sitrus_button",
     "pokecube_legends:aged_button",
+    "pokecube_legends:aquamarine_button",
     "pokecube_legends:concrete_button",
     "pokecube_legends:concrete_dense_button",
     "pokecube_legends:corrupted_button",
-    "pokecube_legends:crystal_button",
+    "pokecube_legends:crystallized_sandstone_button",
     "pokecube_legends:distortic_button",
     "pokecube_legends:inverted_button",
     "pokecube_legends:mirage_button",
     "pokecube_legends:temporal_button",
-    "pokecube_legends:ultra_metal_button",
-    "pokecube_legends:ultra_stone_button",
     "pokecube_legends:ultra_darkstone_button",
-    "pokecube_legends:crystallized_sandstone_button"
+    "pokecube_legends:ultra_metal_button",
+    "pokecube_legends:ultra_stone_button"
   ]
 }

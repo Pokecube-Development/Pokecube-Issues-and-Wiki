@@ -6,7 +6,7 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "sky_color": 1250367,
+    "sky_color": 3943523,
     "fog_color": 3943523,
     "water_color": 4010074,
     "water_fog_color": 4010074,
@@ -14,57 +14,142 @@
     "grass_color": 6235691,
     "particle": {
       "options": {
-        "type": "minecraft:falling_dust",
-        "Name": "minecraft:gravel"
+        "type": "minecraft:crimson_spore"
       },
-      "probability": 0.005
+      "probability": 0.01
     },
     "ambient_sound": "minecraft:ambient.cave"
   },
   "surface_builder": "pokecube_legends:fungal_forest",
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:canyon"
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave"
     ]
   },
   "features": [
     [],
     [
-      "minecraft:lake_water"
+      "minecraft:lake_lava",
+      "pokecube_legends:lake_water"
+    ],
+    [
+      "pokecube_legends:rock_ultra_cobblestone",
+      "pokecube_legends:rock_ultra_stone"
     ],
     [],
     [],
     [],
-    [],
     [
+      "minecraft:prototype_underwater_magma",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_crystallized_sand",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_mushroom_dirt",
       "pokecube_legends:ore_spectrum",
-      "pokecube_legends:ore_cosmic",
       "pokecube_legends:ore_ultra_coal",
-      "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_copper",
+      "pokecube_legends:ore_ultra_diamond",
       "pokecube_legends:ore_ultra_gold",
-      "pokecube_legends:ore_ultra_emerald"
+      "pokecube_legends:ore_ultra_iron",
+      "pokecube_legends:ore_ultra_lapis",
+      "pokecube_legends:ore_ultra_redstone",
+      "pokecube_legends:ore_ultra_ruby",
+      "pokecube_legends:ore_ultra_sapphire"
     ],
-    [],
     [
-      "pokecube_legends:fungal_forest_vegetation",
-      "pokecube_legends:mushrooms_and_flowers",
-      "minecraft:patch_grass_plain",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "pokecube_legends:spring_water",
-      "pokecube_legends:spring_lava"
+      "minecraft:rare_dripstone_cluster",
+      "minecraft:rare_small_dripstone"
     ],
-    []
+    [
+      "minecraft:glow_lichen",
+      "minecraft:patch_grass_plain",
+      "pokecube_legends:brown_mushroom_fungal",
+      "pokecube_legends:compreced_mushroom_fungal",
+      "pokecube_legends:distorced_mushroom_fungal",
+      "pokecube_legends:fungal_forest_vegetation",
+      "pokecube_legends:inverted_orchid_flowers",
+      "pokecube_legends:red_mushroom_fungal",
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ],
   "starts": [],
-  "spawners": {},
+  "spawners": {
+    "monster": [],
+    "creature": [
+      {
+        "type": "minecraft:mooshroom",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 8
+      },
+      {
+        "type": "minecraft:sheep",
+        "weight": 12,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:pig",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:chicken",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:cow",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:wolf",
+        "weight": 5,
+        "minCount": 4,
+        "maxCount": 4
+      }
+    ],
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "weight": 10,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:axolotl",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
   "spawn_costs": {},
   "category": "forest",
   "precipitation": "rain",
-  "scale": 0.1,
-  "downfall": 0.4,
+  "scale": 0.2,
+  "downfall": 0.8,
   "depth": 0.12,
-  "temperature": 0.8,
+  "temperature": 0.7,
   "player_spawn_friendly": true
 }

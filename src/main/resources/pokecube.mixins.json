@@ -1,10 +1,11 @@
-  
+
 {
   "required": true,
   "package": "pokecube.mixin",
   "compatibilityLevel": "JAVA_16",
   "refmap": "pokecube.refmap.json",
   "mixins": [
+    "MixinBaseFireBlock",
     "MixinLakesFeature",
     "MixinMobEntity",
     "MixinStructure"

@@ -2,6 +2,7 @@
   "pools": [
     {
       "name": "pokecube:village/dark_forest/town_centers",
+      "ignoreAir": false,
       "options": [
         "pokecube:village/dark_forest/town_centers/center_1"
       ]
@@ -42,14 +43,14 @@
     },
     {
       "name": "pokecube:village/dark_forest/pokecenter/path",
-      "rigid": true,
+      "rigid": false,
       "options": [
         "pokecube:village/dark_forest/pokecenter/path"
       ]
     },
     {
       "name": "pokecube:village/dark_forest/gym/path",
-      "rigid": true,
+      "rigid": false,
       "options": [
         "pokecube:village/dark_forest/gym/path"
       ]

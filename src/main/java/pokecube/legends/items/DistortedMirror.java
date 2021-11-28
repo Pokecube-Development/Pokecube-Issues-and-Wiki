@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -27,9 +28,9 @@ import pokecube.legends.worldgen.DimensionTranserHelper;
 public class DistortedMirror extends ItemBase
 {
 
-    public DistortedMirror(final String name, final int num)
+    public DistortedMirror(final String name, final CreativeModeTab tab, final int maxStackSize)
     {
-        super(name, num, PokecubeLegends.TAB);
+        super(tab, maxStackSize);
     }
 
     @Override

@@ -30,7 +30,8 @@
   "features": [
     [],
     [
-      "pokecube_legends:distortic_lake"
+      "pokecube_legends:lake_distortic_water",
+      "pokecube_legends:patch_distortic_stone_boulders"
     ],
     [],
     [],
@@ -43,7 +44,7 @@
     [],
     [
       "pokecube_legends:distorted_vegetation",
-      "pokecube_legends:distortic_spring"
+      "pokecube_legends:spring_distortic_water"
     ],
     []
   ],
@@ -52,7 +53,7 @@
   "spawn_costs": {},
   "player_spawn_friendly": false,
   "precipitation": "none",
-  "scale": 0.05,
+  "scale": 0.1,
   "temperature": 2.0,
   "downfall": 0.0,
   "category": "the_end",

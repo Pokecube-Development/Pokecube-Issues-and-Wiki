@@ -1,0 +1,55 @@
+{
+  "config": {
+    "feature": {
+      "config": {
+        "feature": {
+          "config": {
+            "to_place": {
+              "state": {
+                "Name": "pokecube_legends:tainted_seagrass"
+              },
+              "type": "minecraft:simple_state_provider"
+            },
+            "place_on": [
+              {
+                  "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+                  "predicate_type": "minecraft:tag_match"
+              }
+            ],
+            "place_in": [
+              {
+                "Properties": {
+                  "level": "0"
+                },
+                "Name": "minecraft:water"
+              }
+            ],
+            "place_under": [
+              {
+                "Properties": {
+                  "level": "0"
+                },
+                "Name": "minecraft:water"
+              }
+            ]
+          },
+          "type": "minecraft:simple_block"
+        },
+        "decorator": {
+          "config": {
+            "chance": 5
+          },
+          "type": "minecraft:chance"
+        }
+      },
+      "type": "minecraft:decorated"
+    },
+    "decorator": {
+      "config": {
+        "step": "liquid"
+      },
+      "type": "minecraft:carving_mask"
+    }
+  },
+  "type": "minecraft:decorated"
+}

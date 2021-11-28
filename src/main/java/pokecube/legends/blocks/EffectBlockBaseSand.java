@@ -13,6 +13,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SandBlock;
+import net.minecraft.world.level.block.SeagrassBlock;
+import net.minecraft.world.level.block.TallSeagrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -34,33 +36,34 @@ public class EffectBlockBaseSand extends SandBlock
     }
 
     @Override
-    public int getDustColor(BlockState p_55970_, BlockGetter p_55971_, BlockPos p_55972_) 
+    public int getDustColor(BlockState state, BlockGetter block, BlockPos pos)
     {
        return this.dustColor;
     }
 
-	@Override
-	public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable) 
-	{
-		final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
-		final PlantType plantType = plantable.getPlantType(block, plantPos);
-		if (plantType == PlantType.DESERT) 
-		{
-			return true;
-		} else if (plantType == PlantType.WATER) 
-		{
-			return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == defaultBlockState();
-		} else if (plantType == PlantType.BEACH) 
-		{
-			return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-					|| (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-					|| (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-					|| (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-		} else 
-		{
-			return false;
-		}
-	}
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable)
+    {
+        final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+        final PlantType plantType = plantable.getPlantType(block, plantPos);
+        final BlockState plant = plantable.getPlant(block, plantPos);
+        if (plantType == PlantType.DESERT)
+        {
+            return true;
+        } else if (plantType == PlantType.BEACH)
+        {
+            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        } else if (plantType == PlantType.WATER)
+        {
+            return state.getMaterial() == Material.WATER;
+        } else
+        {
+            return super.canSustainPlant(state, block, pos, direction, plantable);
+        }
+    }
 
     @Override
     public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)

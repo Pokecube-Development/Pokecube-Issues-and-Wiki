@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:blackened_sand",
     "pokecube_legends:crystallized_sand"
   ]
 }

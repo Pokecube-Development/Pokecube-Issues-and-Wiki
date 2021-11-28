@@ -1,0 +1,85 @@
+{
+  "config": {
+    "feature": {
+      "config": {
+        "feature": {
+          "config": {
+            "state": {
+              "Name": "pokecube_legends:crystallized_sand"
+            },
+            "radius": {
+              "type": "minecraft:uniform",
+              "value": {
+                "min_inclusive": 2,
+                "max_inclusive": 6
+              }
+            },
+            "half_height": 2,
+            "targets": [
+              {
+                "Name": "pokecube_legends:aged_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:aged_grass_block"
+              },
+              {
+                "Name": "pokecube_legends:corrupted_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:corrupted_grass_block"
+              },
+              {
+                "Name": "pokecube_legends:jungle_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:jungle_grass_block"
+              },
+              {
+                "Name": "pokecube_legends:mushroom_dirt"
+              },
+              {
+                "Properties": {
+                  "snowy": "false"
+                },
+                "Name": "pokecube_legends:mushroom_grass_block"
+              }
+            ]
+          },
+          "type": "pokecube_legends:disk_feature"
+        },
+        "decorator": {
+          "config": {
+            "outer": {
+              "config": {},
+              "type": "minecraft:square"
+            },
+            "inner": {
+              "config": {
+                "heightmap": "OCEAN_FLOOR_WG"
+              },
+              "type": "minecraft:heightmap"
+            }
+          },
+          "type": "minecraft:decorated"
+        }
+      },
+      "type": "minecraft:decorated"
+    },
+    "decorator": {
+      "config": {
+        "count": 3
+      },
+      "type": "minecraft:count"
+    }
+  },
+  "type": "minecraft:decorated"
+}

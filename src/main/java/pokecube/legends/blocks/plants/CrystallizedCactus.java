@@ -65,9 +65,9 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     @Override
     public boolean canSurvive(final BlockState state, final LevelReader reader, final BlockPos pos)
     {
-       final BlockState blockstate1 = reader.getBlockState(pos.below());
-       return (blockstate1.isFaceSturdy(reader, pos, Direction.UP) || blockstate1.is(BlockInit.CRYSTALLIZED_CACTUS.get())
-    		   || blockstate1.is(Blocks.CACTUS));
+       final BlockState state1 = reader.getBlockState(pos.below());
+       return (state1.isFaceSturdy(reader, pos, Direction.UP) || state1.is(BlockInit.CRYSTALLIZED_CACTUS.get())
+    		   || state1.is(Blocks.CACTUS));
     }
 
 	@Override

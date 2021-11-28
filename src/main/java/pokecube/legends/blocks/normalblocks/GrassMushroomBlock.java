@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
@@ -22,10 +23,14 @@ import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.ParticleInit;
 
 public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
 {
@@ -33,13 +38,6 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(SnowyDirtBlock.SNOWY, false));
-    }
-
-    @Override
-    public boolean canSustainPlant(final BlockState state, final BlockGetter world, final BlockPos pos,
-            final Direction direction, final IPlantable plantable)
-    {
-        return true;
     }
 
     @Override
@@ -82,6 +80,40 @@ public class GrassMushroomBlock extends GrassBlock implements BonemealableBlock
                 blockstate.getLightBlock(world, blockpos));
             return i < world.getMaxLightLevel();
         }
+    }
+
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter block, BlockPos pos, Direction direction, IPlantable plantable)
+    {
+        final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+        final PlantType plantType = plantable.getPlantType(block, plantPos);
+
+        if (plantType == PlantType.PLAINS)
+        {
+            return true;
+        } else if (plantType == PlantType.WATER)
+        {
+            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == defaultBlockState();
+        } else if (plantType == PlantType.BEACH)
+        {
+            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        } else
+        {
+            return super.canSustainPlant(state, block, pos, direction, plantable);
+        }
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
+    {
+       super.animateTick(state, world, pos, random);
+       if (random.nextInt(10) == 0)
+       {
+          world.addParticle(ParticleInit.MUSHROOM.get(), (double)pos.getX() + random.nextDouble(), (double)pos.getY() + 1.1D, (double)pos.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
+       }
     }
 
     @Override

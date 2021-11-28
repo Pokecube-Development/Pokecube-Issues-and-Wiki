@@ -1,13 +1,22 @@
 {
   "variants": {
-    "type=bottom": {
-      "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab"
-    },
-    "type=double": {
-      "model": "pokecube_legends:block/crystallized_sandstone_smooth"
-    },
-    "type=top": {
-      "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab_top"
-    }
+    "type=bottom": [
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab" },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab", "y": 90 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab", "y": 180 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab", "y": 270 }
+    ],
+    "type=double": [
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth" },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 90 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 180 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth", "y": 270 }
+    ],
+    "type=top": [
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab_top" },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab_top", "y": 90 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab_top", "y": 180 },
+      { "model": "pokecube_legends:block/crystallized_sandstone_smooth_slab_top", "y": 270 }
+    ]
   }
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/blackened_sandstone_top",
+    "top": "pokecube_legends:blocks/blackened_sandstone_top",
+    "side": "pokecube_legends:blocks/blackened_sandstone_top"
+  }
+}

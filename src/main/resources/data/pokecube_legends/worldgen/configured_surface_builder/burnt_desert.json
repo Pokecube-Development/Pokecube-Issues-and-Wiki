@@ -1,0 +1,14 @@
+{
+  "config": {
+    "top_material": {
+      "Name": "pokecube_legends:blackened_sand"
+    },
+    "under_material": {
+      "Name": "pokecube_legends:blackened_sand"
+    },
+    "underwater_material": {
+      "Name": "pokecube_legends:blackened_sand"
+    }
+  },
+  "type": "pokecube_legends:burnt_desert_builder"
+}

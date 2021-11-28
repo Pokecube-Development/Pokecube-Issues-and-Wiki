@@ -4,7 +4,7 @@
   "experience": 1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:sapphire_ore"
+    "tag": "pokecube_legends:sapphire_ores"
   },
   "result": {
     "item": "pokecube_legends:sapphire"

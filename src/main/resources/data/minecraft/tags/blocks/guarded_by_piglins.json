@@ -2,7 +2,21 @@
   "replace": false,
   "values": [
     "#forge:barrels",
+    "pokecube_legends:aged_grass_block",
+    "pokecube_legends:aged_leaves",
     "pokecube_legends:blackwhite_spawn",
+    "pokecube_legends:golden_fern",
+    "pokecube_legends:golden_grass",
+    "pokecube_legends:golden_poppy",
+    "pokecube_legends:golden_sweet_berry_bush",
+    "pokecube_legends:large_golden_fern",
+    "pokecube_legends:potted_golden_fern",
+    "pokecube_legends:potted_golden_grass",
+    "pokecube_legends:potted_golden_poppy",
+    "pokecube_legends:potted_golden_sweet_berry_bush",
+    "pokecube_legends:potted_large_golden_fern",
+    "pokecube_legends:potted_tall_golden_grass",
+    "pokecube_legends:tall_golden_grass",
     "pokecube_legends:victini_spawn"
   ]
 }

@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -21,9 +22,9 @@ import pokecube.legends.init.ItemInit;
 public class ControllerUltraEffect extends ItemBase
 {
 
-    public ControllerUltraEffect(final String name, final int num)
+    public ControllerUltraEffect(final String name, final CreativeModeTab tab, final int maxStackSize)
     {
-        super(name, num, PokecubeLegends.TAB);
+        super(name, tab, maxStackSize);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ControllerUltraEffect extends ItemBase
     {
         return true;
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
@@ -43,7 +44,7 @@ public class ControllerUltraEffect extends ItemBase
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslatableComponent(message));
     }
-    
+
     @Override
 	public void inventoryTick(final ItemStack itemstack, final Level world, final Entity entity, final int slot, final boolean selected) {
 		super.inventoryTick(itemstack, world, entity, slot, selected);
@@ -53,10 +54,10 @@ public class ControllerUltraEffect extends ItemBase
 			ControllerUltraEffect.executeProcedure($_dependencies);
 		}
 	}
-    
-    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies) 
+
+    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
     {
-		if (dependencies.get("entity") == null) 
+		if (dependencies.get("entity") == null)
 		{
 			System.err.println("Failed!");
 			return;

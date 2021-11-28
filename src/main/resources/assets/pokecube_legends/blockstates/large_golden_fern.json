@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "pokecube_legends:block/large_golden_fern_bottom"
+    },
+    "half=upper": {
+      "model": "pokecube_legends:block/large_golden_fern_top"
+    }
+  }
+}

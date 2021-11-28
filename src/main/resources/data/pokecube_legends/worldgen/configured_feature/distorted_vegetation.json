@@ -6,15 +6,15 @@
           "config": {
             "features": [
               {
-                "feature": "pokecube_legends:distorted_vines",
+                "feature": "pokecube_legends:distortic_vines",
                 "chance": 0.95
               },
               {
-                "feature": "pokecube_legends:distorted_tree",
+                "feature": "pokecube_legends:distortic_tree",
                 "chance": 0.05
               }
             ],
-            "default": "pokecube_legends:distorted_tree"
+            "default": "pokecube_legends:distortic_tree"
           },
           "type": "minecraft:random_selector"
         },
@@ -49,7 +49,7 @@
     },
     "decorator": {
       "config": {
-        "count": 5,
+        "count": 4,
         "extra_chance": 0.05,
         "extra_count": 1
       },

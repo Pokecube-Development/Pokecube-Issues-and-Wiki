@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pokecube_legends:blocks/tall_golden_grass_top"
+  }
+}

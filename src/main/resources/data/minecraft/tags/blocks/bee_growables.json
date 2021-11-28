@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube:berry_leaves"
+    "#pokecube:berry_leaves",
+    "pokecube_legends:golden_sweet_berry_bush"
   ]
 }

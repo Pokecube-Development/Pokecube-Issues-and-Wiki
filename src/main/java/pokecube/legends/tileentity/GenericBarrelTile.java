@@ -39,7 +39,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
 
     public GenericBarrelTile(final BlockPos pos, final BlockState state)
     {
-        this(TileEntityInit.GENERIC_BARREL_TILE.get(), pos, state);
+        this(TileEntityInit.BARREL_ENTITY.get(), pos, state);
     }
 
     @Override

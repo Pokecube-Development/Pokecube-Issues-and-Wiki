@@ -10,9 +10,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RainbowSword extends SwordItem
 {
     public final Tier tier;
-    public RainbowSword(final Tier material, final int bonusDamage, final float attackSpeed, final CreativeModeTab group)
+    public RainbowSword(final Tier material, final CreativeModeTab tab, final int bonusDamage, final float attackSpeed)
     {
-        super(material, bonusDamage, attackSpeed, new Properties().tab(group));
+        super(material, bonusDamage, attackSpeed, new Properties().tab(tab));
         this.tier = material;
     }
 

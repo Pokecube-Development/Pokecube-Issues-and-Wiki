@@ -1,0 +1,94 @@
+{
+  "config": {
+    "feature": {
+      "config": {
+        "feature": {
+          "config": {
+            "state": {
+              "Name": "pokecube_legends:blackened_sand"
+            },
+            "radius": {
+              "type": "minecraft:uniform",
+              "value": {
+                "min_inclusive": 2,
+                "max_inclusive": 6
+              }
+            },
+            "half_height": 2,
+            "targets": [
+              {
+                "Name": "minecraft:basalt",
+                "Properties": {
+                  "axis": "y"
+                }
+              },
+              {
+                "Name": "pokecube_legends:aged_dirt"
+              },
+              {
+                "Name": "pokecube_legends:aged_grass_block",
+                "Properties": {
+                  "snowy": "false"
+                }
+              },
+              {
+                "Name": "pokecube_legends:corrupted_dirt"
+              },
+              {
+                "Name": "pokecube_legends:corrupted_grass_block",
+                "Properties": {
+                  "snowy": "false"
+                }
+              },
+              {
+                "Name": "pokecube_legends:jungle_dirt"
+              },
+              {
+                "Name": "pokecube_legends:jungle_grass_block",
+                "Properties": {
+                  "snowy": "false"
+                }
+              },
+              {
+                "Name": "pokecube_legends:mushroom_dirt"
+              },
+              {
+                "Name": "pokecube_legends:mushroom_grass_block",
+                "Properties": {
+                  "snowy": "false"
+                }
+              },
+              {
+                "Name": "pokecube_legends:ultra_darkstone"
+              }
+            ]
+          },
+          "type": "pokecube_legends:disk_feature"
+        },
+        "decorator": {
+          "config": {
+            "outer": {
+              "config": {},
+              "type": "minecraft:square"
+            },
+            "inner": {
+              "config": {
+                "heightmap": "OCEAN_FLOOR_WG"
+              },
+              "type": "minecraft:heightmap"
+            }
+          },
+          "type": "minecraft:decorated"
+        }
+      },
+      "type": "minecraft:decorated"
+    },
+    "decorator": {
+      "config": {
+        "count": 3
+      },
+      "type": "minecraft:count"
+    }
+  },
+  "type": "minecraft:decorated"
+}

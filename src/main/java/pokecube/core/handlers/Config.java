@@ -411,7 +411,7 @@ public class Config extends ConfigData
     public List<String> deactivateWhitelist    = Lists.newArrayList("pokecube_world:overworld");
     @Configure(category = Config.spawning, comment = "Vanilla monsters will not spawn via normal spawning, this does not prevent mob spawners or special spawns. [Default: false]")
     public boolean      deactivateMonsters     = false;
-    @Configure(category = Config.spawning, comment = "If true, vanilla monsters are removed entirely, similar to in peaceful mode. [Default: false]")
+    @Configure(category = Config.spawning, comment = "If true, vanilla monsters are removed entirely, similar to peaceful mode. [Default: false]")
     public boolean      disableVanillaMonsters = false;
     @Configure(category = Config.spawning, comment = "Similar to disableVanillaMonsters, but for vanilla animals. [Default: false]")
     public boolean      disableVanillaAnimals  = false;

@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:dead_brain_coral",
+    "minecraft:dead_bubble_coral",
+    "minecraft:dead_fire_coral",
+    "minecraft:dead_horn_coral",
+    "minecraft:dead_tube_coral"
+  ],
+  "optional": [
+    "upgrade_aquatic:dead_acan_coral",
+    "upgrade_aquatic:dead_branch_coral",
+    "upgrade_aquatic:dead_chrome_coral",
+    "upgrade_aquatic:dead_finger_coral",
+    "upgrade_aquatic:dead_moss_coral",
+    "upgrade_aquatic:dead_petal_coral",
+    "upgrade_aquatic:dead_pillow_coral",
+    "upgrade_aquatic:dead_rock_coral",
+    "upgrade_aquatic:dead_silk_coral",
+    "upgrade_aquatic:dead_star_coral"
+  ]
+}

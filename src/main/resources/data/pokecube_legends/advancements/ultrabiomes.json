@@ -25,31 +25,133 @@
     "biome_2": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:fungal_forest"
+        "biome": "pokecube_legends:burnt_beach"
       }
     },
     "biome_3": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:tainted_barrens"
+        "biome": "pokecube_legends:crystallized_beach"
       }
     },
     "biome_4": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:mirage_desert"
+        "biome": "pokecube_legends:dead_ocean"
       }
     },
     "biome_5": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "pokecube_legends:forsaken_taiga"
+        "biome": "pokecube_legends:dried_blinding_deltas"
       }
     },
     "biome_6": {
       "trigger": "minecraft:location",
       "conditions": {
+        "biome": "pokecube_legends:forbidden_taiga"
+      }
+    },
+    "biome_7": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:fungal_forest"
+      }
+    },
+    "biome_8": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:fungal_plains"
+      }
+    },
+    "biome_9": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:magmatic_blinding_deltas"
+      }
+    },
+    "biome_10": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:mirage_desert"
+      }
+    },
+    "biome_11": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:old_growth_forbidden_taiga"
+      }
+    },
+    "biome_12": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:polluted_ocean"
+      }
+    },
+    "biome_13": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:rocky_mirage_desert"
+      }
+    },
+    "biome_14": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:shattered_blinding_deltas"
+      }
+    },
+    "biome_15": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:shattered_tainted_barrens"
+      }
+    },
+    "biome_16": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:snowy_forbidden_taiga"
+      }
+    },
+    "biome_17": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:sparse_temporal_jungle"
+      }
+    },
+    "biome_18": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:tainted_barrens"
+      }
+    },
+    "biome_19": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:temporal_bamboo_jungle"
+      }
+    },
+    "biome_20": {
+      "trigger": "minecraft:location",
+      "conditions": {
         "biome": "pokecube_legends:temporal_jungle"
+      }
+    },
+    "biome_21": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:volcanic_blinding_deltas"
+      }
+    },
+    "biome_22": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:windswept_forbidden_taiga"
+      }
+    },
+    "biome_23": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "pokecube_legends:windswept_temporal_jungle"
       }
     }
   },

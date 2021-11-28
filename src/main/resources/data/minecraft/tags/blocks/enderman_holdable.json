@@ -3,9 +3,15 @@
   "values": [
     "#pokecube_legends:ultra_dirts",
     "#pokecube_legends:ultra_sands",
+    "pokecube_legends:compreced_mushroom",
+    "pokecube_legends:corrupted_grass",
     "pokecube_legends:crystallized_bush",
     "pokecube_legends:crystallized_cactus",
     "pokecube_legends:distorced_mushroom",
-    "pokecube_legends:compreced_mushroom"
+    "pokecube_legends:golden_fern",
+    "pokecube_legends:golden_grass",
+    "pokecube_legends:pink_blossom_tainted_lily_pad",
+    "pokecube_legends:tainted_lily_pad",
+    "pokecube_legends:tainted_roots"
   ]
 }
