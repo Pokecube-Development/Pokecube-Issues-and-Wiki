@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -82,5 +83,19 @@ public class CommonProxy implements Proxy
     public void setupClient()
     {
 
+    }
+
+    private MinecraftServer server;
+
+    @Override
+    public void setServer(final MinecraftServer server)
+    {
+        this.server = server;
+    }
+
+    @Override
+    public MinecraftServer getServer()
+    {
+        return this.server;
     }
 }

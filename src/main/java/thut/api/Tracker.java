@@ -15,10 +15,9 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import thut.core.common.ThutCore;
 
 public class Tracker
 {
@@ -55,7 +54,7 @@ public class Tracker
     }
 
     // Load the time and set it.
-    private static void onServerStart(final FMLServerStartedEvent event)
+    private static void onServerStart(final ServerStartedEvent event)
     {
         final MinecraftServer server = event.getServer();
         Path path = server.getWorldPath(new LevelResource("thutcore"));
@@ -89,7 +88,7 @@ public class Tracker
         final ServerLevel world = (ServerLevel) event.getWorld();
         if (world.dimension() != Level.OVERWORLD) return;
 
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         Path path = server.getWorldPath(new LevelResource("thutcore"));
         final File dir = path.toFile();
         // and this if the file itself

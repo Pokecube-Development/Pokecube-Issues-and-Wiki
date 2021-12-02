@@ -13,8 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.recipes.LegendsDistorticRecipeSerializer.SerializerDistortic;
 

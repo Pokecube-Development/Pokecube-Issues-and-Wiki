@@ -14,8 +14,8 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IShearable;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.api.terrain.ITerrainAffected;
 import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
+import thut.api.terrain.ITerrainAffected;
 import thut.api.world.mobs.data.DataSync;
 
 public class ThutCaps

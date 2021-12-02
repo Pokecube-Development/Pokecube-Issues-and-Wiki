@@ -147,7 +147,7 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
             final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(BlockStateProperties.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos,
+        if (state.getValue(BlockStateProperties.WATERLOGGED)) world.scheduleTick(currentPos,
                 Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }

@@ -120,7 +120,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
             final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos,
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.scheduleTick(currentPos,
                 Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }

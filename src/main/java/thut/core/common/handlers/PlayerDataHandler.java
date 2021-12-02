@@ -23,8 +23,6 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import thut.core.common.ThutCore;
 
 public class PlayerDataHandler
@@ -143,7 +141,7 @@ public class PlayerDataHandler
 
     public static File getFileForUUID(final String uuid, final String fileName)
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         Path path = server.getWorldPath(new LevelResource("thutcore"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
@@ -194,7 +192,7 @@ public class PlayerDataHandler
         // something may have requested the manager for an offline player, which
         // would have loaded it.
         final Set<String> toUnload = Sets.newHashSet();
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         for (final String uuid : this.data.keySet())
         {
             final ServerPlayer player = server.getPlayerList().getPlayer(UUID.fromString(uuid));

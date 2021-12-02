@@ -45,7 +45,7 @@ public class GuiNBTButton extends Button
     public void renderButton(final PoseStack mat, final int mx, final int my, final float tick)
     {
         // check if the mouse is over the button
-        if (this.isHovered())
+        if (this.isHoveredOrFocused())
         {
             // Draw a background
             GuiComponent.fill(mat, this.x, this.y, this.x + GuiNBTButton.WIDTH, this.y + GuiNBTButton.HEIGHT, 0x80ffffff);

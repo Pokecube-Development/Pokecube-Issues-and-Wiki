@@ -13,8 +13,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import thut.test.scripting.handlers.CmdHandler;
 import thut.test.scripting.handlers.GetBlockHandler;
 import thut.test.scripting.handlers.GetPlayerHandler;
@@ -176,7 +176,7 @@ public class CmdListener
         MinecraftForge.EVENT_BUS.addListener(CmdListener::onServerStopped);
     }
 
-    private static void onServerStarting(final FMLServerStartingEvent event)
+    private static void onServerStarting(final ServerStartingEvent event)
     {
         CmdListener.server.setServer(event.getServer());
         CmdListener.listener = CmdListener.makeListener();
@@ -184,7 +184,7 @@ public class CmdListener
         CmdListener.listener.start();
     }
 
-    private static void onServerStopped(final FMLServerStoppedEvent event)
+    private static void onServerStopped(final ServerStoppedEvent event)
     {
         CmdListener.server.setServer(null);
         CmdListener.listener.interrupt();

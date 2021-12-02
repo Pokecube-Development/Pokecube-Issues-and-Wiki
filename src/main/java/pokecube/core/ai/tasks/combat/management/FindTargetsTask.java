@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.combat.management;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -185,17 +184,14 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
-        final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)
-                .get();
         // Only allow valid guard targets.
-        for (final LivingEntity o : pokemobs)
-            if (this.validGuardTarget.test(o)) ret.add(o);
-        ret.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
-        if (ret.isEmpty()) return false;
+        final Optional<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(e -> this.validGuardTarget.test(e) && e
+                        .distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+        if (pokemobs.isEmpty()) return false;
 
         // This is already sorted by distance!
-        final LivingEntity newtarget = ret.get(0);
+        final LivingEntity newtarget = pokemobs.get();
         // Agro the target.
         if (newtarget != null)
         {
@@ -226,19 +222,16 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.tickCount % rate != 0) return false;
 
-        final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)
-                .get();
-        list.addAll(pokemobs);
-        list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance
-                && AITools.validTargets.test(e));
-        if (list.isEmpty()) return false;
+        final Iterable<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> AITools.validTargets.test(e) && e
+                        .distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
+        if (!pokemobs.iterator().hasNext()) return false;
 
         final Entity old = BrainUtils.getAttackTarget(this.entity);
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
-        for (final LivingEntity entity : list)
+        for (final LivingEntity entity : pokemobs)
         {
             if (oldOwner != null && entity == oldOwner) continue;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
@@ -275,14 +268,11 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             // Give some time to look for a new pokemob
             if (this.switchTargetTimer++ < 2 * FindTargetsTask.DEAGROTIMER)
             {
-                final List<LivingEntity> list = new ArrayList<>();
-                final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
-                        MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
-                list.addAll(pokemobs);
-                list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance
-                        && AITools.validTargets.test(e));
+                final Iterable<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                        MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> AITools.validTargets.test(
+                                e) && e.distanceTo(this.entity) <= PokecubeCore.getConfig().guardSearchDistance);
 
-                for (final LivingEntity entity : list)
+                for (final LivingEntity entity : pokemobs)
                 {
                     final LivingEntity owner = OwnableCaps.getOwner(entity);
                     if (owner == this.targetOwner)

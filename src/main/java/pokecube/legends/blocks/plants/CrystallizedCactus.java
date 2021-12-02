@@ -108,8 +108,8 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
 								  final BlockPos facingPos)
 	{
-		if (!state.canSurvive(world, currentPos)) world.getBlockTicks().scheduleTick(currentPos, this, 1);
-		if (state.getValue(CrystallizedCactus.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		if (!state.canSurvive(world, currentPos)) world.scheduleTick(currentPos, this, 1);
+		if (state.getValue(CrystallizedCactus.WATERLOGGED)) world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
 

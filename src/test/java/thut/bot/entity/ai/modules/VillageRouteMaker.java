@@ -24,6 +24,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -396,7 +397,7 @@ public class VillageRouteMaker implements IBotAI
             for (final StructureInfo i : nearby)
                 if (i.start.getFeature() == structure)
                 {
-                    village = i.start.getLocatePos();
+                    village = i.start.getFeature().getLocatePos(new ChunkPos(mid));
                     break infos;
                 }
         }

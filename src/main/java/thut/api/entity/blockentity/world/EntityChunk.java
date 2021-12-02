@@ -10,7 +10,6 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkBiomeContainer;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.ProtoChunk;
 import net.minecraft.world.level.chunk.UpgradeData;
@@ -22,7 +21,7 @@ public class EntityChunk extends LevelChunk
     {
         public EntityChunkPrimer(final ChunkPos pos, final LevelHeightAccessor access)
         {
-            super(pos, new UpgradeData(new CompoundTag(), access), access);
+            super(pos, new UpgradeData(new CompoundTag(), access), access, null, null);
         }
     }
 
@@ -30,7 +29,7 @@ public class EntityChunk extends LevelChunk
 
     public EntityChunk(final IBlockEntityWorld worldIn_, final ChunkPos pos)
     {
-        super((Level) worldIn_, pos, worldIn_.getChunk(pos.x, pos.z).getBiomes());
+        super((Level) worldIn_, pos);
         this.worldE = worldIn_;
     }
 
@@ -89,12 +88,6 @@ public class EntityChunk extends LevelChunk
             if (!invalid) tile.setRemoved();
             tile.clearRemoved();
         }
-    }
-
-    @Override
-    public ChunkBiomeContainer getBiomes()
-    {
-        return super.getBiomes();
     }
 
     @Override

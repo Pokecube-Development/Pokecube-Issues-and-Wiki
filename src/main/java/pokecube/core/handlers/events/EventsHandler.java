@@ -53,12 +53,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -656,14 +656,14 @@ public class EventsHandler
         }
     }
 
-    private static void onServerStarting(final FMLServerStartingEvent event)
+    private static void onServerStarting(final ServerStartingEvent event)
     {
         PokecubeCore.LOGGER.info("Server Starting");
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
     }
 
-    private static void onServerStopped(final FMLServerStoppedEvent event)
+    private static void onServerStopped(final ServerStoppedEvent event)
     {
         // Reset this.
         PokecubeSerializer.clearInstance();

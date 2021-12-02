@@ -106,7 +106,7 @@ public class TraderBlock extends InteractableHorizontalBlock implements SimpleWa
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState, final LevelAccessor world, final BlockPos currentPos,
                                   final BlockPos facingPos)
     {
-        if (state.getValue(TraderBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(TraderBlock.WATERLOGGED)) world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 

@@ -12,7 +12,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.BaseStoneSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
@@ -101,7 +100,7 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
                             world.setBlock(pos1, flag1 ? LakeFeature.AIR : stateConfig.state, 2);
                             if (flag1)
                             {
-                               world.getBlockTicks().scheduleTick(pos1, LakeFeature.AIR.getBlock(), 0);
+                               world.scheduleTick(pos1, LakeFeature.AIR.getBlock(), 0);
                                this.markAboveForPostProcessing(world, pos1);
                             }
                          }

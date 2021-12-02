@@ -6,16 +6,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.nbtedit.NBTEdit;
+import thut.core.common.Proxy;
 
-public class CommonProxy
+public class CommonProxy implements Proxy
 {
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
     public static class RegistryEvents
@@ -27,14 +27,29 @@ public class CommonProxy
             {
                 PokecubeCore.proxy = new CommonProxy();
                 NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
+                MinecraftForge.EVENT_BUS.addListener(PokecubeCore.proxy::handleServerAboutToStart);
+                MinecraftForge.EVENT_BUS.addListener(NBTEdit.proxy::handleServerAboutToStart);
             }
         }
     }
 
+    private MinecraftServer server;
+
+    @Override
+    public void setServer(final MinecraftServer server)
+    {
+        this.server = server;
+    }
+
+    @Override
+    public MinecraftServer getServer()
+    {
+        return this.server;
+    }
+
     public Player getPlayer(final UUID uuid)
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getPlayerList().getPlayer(uuid);
+        return this.getServer().getPlayerList().getPlayer(uuid);
     }
 
     public ResourceLocation getPlayerSkin(final String name)
@@ -49,8 +64,7 @@ public class CommonProxy
 
     public Level getWorld()
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        return server.getLevel(Level.OVERWORLD);
+        return this.getServer().getLevel(Level.OVERWORLD);
     }
 
     public Player getPlayer()

@@ -10,7 +10,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.inventory.pc.PCContainer;

@@ -18,10 +18,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import thut.api.inventory.big.BigInventory.LoadFactory;
 import thut.api.inventory.big.BigInventory.NewFactory;
 import thut.core.common.ThutCore;
@@ -89,7 +87,7 @@ public abstract class Manager<T extends BigInventory>
         if (ThutCore.proxy.isClientSide()) return;
         final T save = this.get(uuid, false);
         if (save == null || !save.dirty) return;
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         try
         {
 
@@ -154,7 +152,7 @@ public abstract class Manager<T extends BigInventory>
     }
 
     @SubscribeEvent
-    protected void serverStarting(final FMLServerAboutToStartEvent event)
+    protected void serverStarting(final ServerAboutToStartEvent event)
     {
         this.clear();
     }

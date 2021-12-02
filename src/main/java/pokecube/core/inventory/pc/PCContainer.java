@@ -19,7 +19,7 @@ import net.minecraft.world.item.WritableBookItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.network.IContainerFactory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;

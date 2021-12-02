@@ -616,7 +616,7 @@ public class GuiNBTTree extends Screen
     public boolean rightClick(final double x, final double y2, final int t)
     {
         for (int i = 0; i < 7; ++i)
-            if (this.saves[i].isHovered())
+            if (this.saves[i].isHoveredOrFocused())
             {
                 this.setFocusedNode(null);
                 if (this.focusedSlotIndex != -1) if (this.focusedSlotIndex != i)

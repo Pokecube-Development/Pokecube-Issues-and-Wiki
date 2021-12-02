@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.idle;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import net.minecraft.world.entity.LivingEntity;
@@ -72,17 +71,17 @@ public class GuardEggTask extends BaseIdleTask
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
 
-        final List<LivingEntity> list = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
-        list.addAll(pokemobs);
         final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && GuardEggTask.this.entity
-                .getUUID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();
-        list.removeIf(e -> !isEgg.test(e));
-        list.removeIf(e -> e.distanceTo(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
-        if (list.isEmpty()) return false;
+                .getUUID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive() && input.distanceTo(
+                        this.entity) <= PokecubeCore.getConfig().guardSearchDistance;
+
+        final Optional<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(isEgg);
+
+        if (pokemobs.isEmpty()) return false;
         // Select first egg found to guard, remove target, set not angry
 
-        this.egg = (EntityPokemobEgg) list.get(0);
+        this.egg = (EntityPokemobEgg) pokemobs.get();
         this.egg.mother = this.pokemob;
         BrainUtils.deagro(this.pokemob.getEntity());
 

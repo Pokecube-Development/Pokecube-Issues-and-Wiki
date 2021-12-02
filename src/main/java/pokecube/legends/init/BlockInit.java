@@ -33,7 +33,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.handlers.ItemGenerator.GenericStairs;

@@ -226,16 +226,27 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public double getDurabilityForDisplay(final ItemStack stack)
+    public boolean isDamaged(final ItemStack stack)
+    {
+        return PokecubeManager.isFilled(stack);
+    }
+
+    @Override
+    public int getDamage(final ItemStack stack)
     {
         if (stack.hasTag() && stack.getTag().contains("CHP"))
         {
             final float chp = stack.getTag().getFloat("CHP");
-            final float mhp = stack.getTag().getFloat("MHP");
-            if (chp == mhp) return 1 - 0.99999;
-            return 1 - chp / mhp;
+            return (int) chp;
         }
-        return super.getDurabilityForDisplay(stack);
+        return super.getDamage(stack);
+    }
+
+    @Override
+    public int getMaxDamage(final ItemStack stack)
+    {
+        final float mhp = stack.getTag().getFloat("MHP");
+        return (int) mhp;
     }
 
     @Override
@@ -351,12 +362,6 @@ public class Pokecube extends Item implements IPokecube
     public boolean shouldOverrideMultiplayerNbt()
     {
         return true;
-    }
-
-    @Override
-    public boolean showDurabilityBar(final ItemStack stack)
-    {
-        return PokecubeManager.isFilled(stack);
     }
 
     @Override
@@ -483,8 +488,8 @@ public class Pokecube extends Item implements IPokecube
             {
                 thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
                 world.addFreshEntity(entity);
-                if (PokecubeManager.isFilled(stack) && thrower instanceof Player) PlayerPokemobCache.UpdateCache(
-                        stack, false, false);
+                if (PokecubeManager.isFilled(stack) && thrower instanceof Player) PlayerPokemobCache.UpdateCache(stack,
+                        false, false);
             }
         }
         else if (!rightclick) return null;

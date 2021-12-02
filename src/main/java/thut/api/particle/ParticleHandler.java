@@ -10,7 +10,7 @@ import net.minecraft.client.ParticleStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
@@ -53,13 +53,13 @@ public class ParticleHandler
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onRenderWorldPost(final RenderWorldLastEvent event)
+    public static void onRenderWorldPost(final RenderLevelLastEvent event)
     {
         try
         {
             synchronized (ParticleHandler.particles)
             {
-                final PoseStack mat = event.getMatrixStack();
+                final PoseStack mat = event.getPoseStack();
                 mat.pushPose();
                 final List<ParticlePacket> list = Lists.newArrayList();
                 for (int i = 0; i < ParticleHandler.particles.size(); i++)
@@ -79,9 +79,9 @@ public class ParticleHandler
                     mat.pushPose();
                     source.set(target.subtract(source));
                     mat.translate(source.x, source.y, source.z);
-                    final double d0 = (-player.getX() + player.xOld) * event.getPartialTicks();
-                    final double d1 = (-player.getY() + player.yOld) * event.getPartialTicks();
-                    final double d2 = (-player.getZ() + player.zOld) * event.getPartialTicks();
+                    final double d0 = (-player.getX() + player.xOld) * event.getPartialTick();
+                    final double d1 = (-player.getY() + player.yOld) * event.getPartialTick();
+                    final double d2 = (-player.getZ() + player.zOld) * event.getPartialTick();
                     source.set(d0, d1, d2);
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());

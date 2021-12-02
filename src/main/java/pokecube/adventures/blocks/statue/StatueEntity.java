@@ -92,7 +92,7 @@ public class StatueEntity extends BlockEntity
     public ClientboundBlockEntityDataPacket getUpdatePacket()
     {
         this.checkMob();
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 6, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override

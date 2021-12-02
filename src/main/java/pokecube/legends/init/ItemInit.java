@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;

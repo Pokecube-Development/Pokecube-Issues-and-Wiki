@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -27,8 +26,8 @@ public class ZamazentaShieldItem extends ShieldItem {
     public final Tier tier;
 	String  tooltipname;
     boolean hasTooltip = false;
-    
-	public ZamazentaShieldItem(final Tier material, String name, Properties properties) {
+
+	public ZamazentaShieldItem(final Tier material, final String name, final Properties properties) {
 		super(properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
         this.tier = material;
@@ -36,30 +35,33 @@ public class ZamazentaShieldItem extends ShieldItem {
         this.tooltipname = name;
 	}
 
-	public String getDescriptionId(ItemStack stack) {
-	      return stack.getTagElement("BlockEntityTag") != null ? this.getDescriptionId() + '.' + getColor(stack).getName() : super.getDescriptionId(stack);
+	@Override
+    public String getDescriptionId(final ItemStack stack) {
+	      return stack.getTagElement("BlockEntityTag") != null ? this.getDescriptionId() + '.' + ShieldItem.getColor(stack).getName() : super.getDescriptionId(stack);
 	}
 
-	public UseAnim getUseAnimation(ItemStack stack) {
+	@Override
+    public UseAnim getUseAnimation(final ItemStack stack) {
       return UseAnim.BLOCK;
    }
 
-    public InteractionResultHolder<ItemStack> use(Level world, Player playerIn, InteractionHand hand) {
-        ItemStack itemstack = playerIn.getItemInHand(hand);
+    @Override
+    public InteractionResultHolder<ItemStack> use(final Level world, final Player playerIn, final InteractionHand hand) {
+        final ItemStack itemstack = playerIn.getItemInHand(hand);
         playerIn.startUsingItem(hand);
         return InteractionResultHolder.consume(itemstack);
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack item, ItemStack repair) {
+    public boolean isValidRepairItem(final ItemStack item, final ItemStack repair) {
         return this.tier.getRepairIngredient().test(repair) || super.isValidRepairItem(item, repair);
     }
-   
+
     @Override
-    public boolean isShield(ItemStack stack, LivingEntity entity) {
-	   return true;
-   }
-   
+    public boolean canPerformAction(final ItemStack stack, final net.minecraftforge.common.ToolAction toolAction) {
+       return net.minecraftforge.common.ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
+    }
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,

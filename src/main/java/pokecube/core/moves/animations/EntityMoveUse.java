@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
 import pokecube.core.interfaces.IMoveConstants;

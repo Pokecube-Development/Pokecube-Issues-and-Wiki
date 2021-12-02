@@ -9,8 +9,6 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -174,7 +172,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     public void mateWith(final IBreedingMob male)
     {
         if (ThutCore.proxy.isClientSide()) return;
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         server.tell(new TickTask(0, () -> this.mate(male)));
     }
 

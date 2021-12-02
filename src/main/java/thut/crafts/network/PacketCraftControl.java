@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent;
 import thut.core.common.network.Packet;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
@@ -55,7 +55,7 @@ public class PacketCraftControl extends Packet
     }
 
     @Override
-    public void handle(final Supplier<Context> ctx)
+    public void handle(final Supplier<NetworkEvent.Context> ctx)
     {
         ctx.get().enqueueWork(() ->
         {

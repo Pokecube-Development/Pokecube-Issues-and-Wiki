@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.misc;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableMap;
@@ -53,22 +54,21 @@ public class LookAtMob extends RootTask<LivingEntity>
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
-        return owner.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().stream().anyMatch(this.matcher);
+        return owner.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(
+                this.matcher).isPresent();
     }
 
     @Override
     protected void start(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = entityIn.getBrain();
-        brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).ifPresent((list) ->
+
+        final Optional<LivingEntity> found = brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
+                .findClosest(this.matcher.and(mob -> mob.distanceToSqr(entityIn) <= this.distance_squared));
+
+        found.ifPresent((mob) ->
         {
-            list.stream().filter(this.matcher).filter((mob) ->
-            {
-                return mob.distanceToSqr(entityIn) <= this.distance_squared;
-            }).findFirst().ifPresent((mob) ->
-            {
-                brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityTracker(mob, true));
-            });
+            brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityTracker(mob, true));
         });
     }
 }

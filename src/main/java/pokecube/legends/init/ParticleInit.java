@@ -2,7 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 

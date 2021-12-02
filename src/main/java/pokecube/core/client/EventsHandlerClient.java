@@ -36,18 +36,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -141,7 +141,7 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandlerClient::serverAboutToStart);
     }
 
-    private static void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    private static void serverAboutToStart(final ServerAboutToStartEvent event)
     {
         ClientProxy.pokecenter_sounds.clear();
     }
@@ -223,9 +223,9 @@ public class EventsHandlerClient
     {
         IPokemob mount;
 
-        if (evt.getInfo().getEntity() instanceof Player && evt.getInfo().getEntity().getVehicle() != null
-                && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo().getEntity().getVehicle())) != null) if (evt
-                        .getInfo().getEntity().isInWater() && mount.canUseDive())
+        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
+                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
+                        .getCamera().getEntity().isInWater() && mount.canUseDive())
         {
             evt.setDensity(0.005f);
             evt.setCanceled(true);
@@ -329,13 +329,13 @@ public class EventsHandlerClient
                 new ShoulderHolder((Player) event.getObject()));
     }
 
-    private static void onRenderGUIScreenPre(final GuiScreenEvent.DrawScreenEvent.Post event)
+    private static void onRenderGUIScreenPre(final DrawScreenEvent.Post event)
     {
         try
         {
-            if (!(event.getGui() instanceof AbstractContainerScreen)) return;
+            if (!(event.getScreen() instanceof AbstractContainerScreen)) return;
             if (!Screen.hasAltDown()) return;
-            final AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) event.getGui();
+            final AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) event.getScreen();
             final List<Slot> slots = gui.getMenu().slots;
             for (final Slot slot : slots)
                 if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))

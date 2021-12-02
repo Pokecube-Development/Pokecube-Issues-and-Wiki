@@ -135,8 +135,8 @@ public class HungerTask extends BaseIdleTask
         {
             final AABB bb = this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0).getAABB().inflate(
                     PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = this.entity.getCommandSenderWorld().getEntitiesOfClass(
-                    FishingHook.class, bb);
+            final List<FishingHook> hooks = this.entity.getCommandSenderWorld().getEntitiesOfClass(FishingHook.class,
+                    bb);
             if (!hooks.isEmpty())
             {
                 final double moveSpeed = 1.5;
@@ -174,8 +174,8 @@ public class HungerTask extends BaseIdleTask
         if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain().hasMemoryValue(
                 MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
         {
-            final List<LivingEntity> targets = this.entity.getBrain().getMemory(
-                    MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+            final Iterable<LivingEntity> targets = this.entity.getBrain().getMemory(
+                    MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> true);
             for (final LivingEntity mob : targets)
             {
                 final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
@@ -439,8 +439,8 @@ public class HungerTask extends BaseIdleTask
                     else if (this.lastMessageTick2 < this.entity.getCommandSenderWorld().getGameTime())
                     {
                         this.lastMessageTick2 = (int) (this.entity.getCommandSenderWorld().getGameTime() + 100);
-                        this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead",
-                                this.pokemob.getDisplayName()));
+                        this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead", this.pokemob
+                                .getDisplayName()));
                     }
                 }
             }

@@ -48,7 +48,8 @@ public class EggSensor extends Sensor<Mob>
             if (!eggRoom.isPresent()) return;
 
             final List<EntityPokemobEgg> eggs = Lists.newArrayList();
-            final List<LivingEntity> mobs = brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+            final Iterable<LivingEntity> mobs = brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
+                    .findAll(e -> true);
             mobs.forEach(e -> this.addIfEgg(e, eggs));
             eggs.removeIf(egg -> EggSensor.isInEggRoomOrCarried(tile, hab, egg));
             if (!eggs.isEmpty())

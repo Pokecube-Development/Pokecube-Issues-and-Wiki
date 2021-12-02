@@ -25,7 +25,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IMoveConstants;
@@ -403,11 +403,11 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTerrainEffects(final RenderWorldLastEvent event, final Vector3 origin)
+    public void renderTerrainEffects(final RenderLevelLastEvent event, final Vector3 origin)
     {
         if (this.hasEffects())
         {
-            final PoseStack mat = event.getMatrixStack();
+            final PoseStack mat = event.getPoseStack();
             assert Minecraft.getInstance().player != null;
             final int time = Minecraft.getInstance().player.tickCount;
 

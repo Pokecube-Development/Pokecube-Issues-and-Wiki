@@ -90,7 +90,7 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getYImage(button.isHovered());
+            final int i = button.getYImage(button.isHoveredOrFocused());
             button.blit(matrixStack,
                     button.x, button.y,
                     button.uOffset, button.vOffset + i * button.vSize,
@@ -124,7 +124,7 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getYImage(button.isHovered());
+            final int i = button.getYImage(button.isHoveredOrFocused());
             button.blit(matrixStack, button.x, button.y, this.u, this.v + i * this.h, this.w, this.h);
         }
     }
@@ -206,6 +206,6 @@ public class TexButton extends Button
             fontrenderer.draw(matrixStack, msg, this.x + this.getWidth() / 2 - dx, this.y + (this.getHeight() - 8) / 2,
                     j | 255 << 24);
         }
-        if (this.isHovered()) this.renderToolTip(matrixStack, mouseX, mouseY);
+        if (this.isHoveredOrFocused()) this.renderToolTip(matrixStack, mouseX, mouseY);
     }
 }

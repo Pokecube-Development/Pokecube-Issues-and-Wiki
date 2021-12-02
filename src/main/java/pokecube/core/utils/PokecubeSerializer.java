@@ -29,8 +29,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
@@ -201,7 +199,7 @@ public class PokecubeSerializer
 
     public static File getSafeFile()
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         Path path = server.getWorldPath(new LevelResource(PokecubeSerializer.POKECUBE));
         // The directory the file is in
         final File dir = path.toFile();

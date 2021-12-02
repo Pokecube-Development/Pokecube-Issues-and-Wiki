@@ -33,7 +33,6 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.bot.entity.ai.modules.VillageRouteMaker;
@@ -54,7 +53,7 @@ public class ThutBot
     {
         if (event.side == LogicalSide.CLIENT) return;
         if (event.phase == Phase.START) return;
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
         final UUID id = new UUID(2152346, 2344673);
         if (overworld.getPlayerByUUID(id) == null)

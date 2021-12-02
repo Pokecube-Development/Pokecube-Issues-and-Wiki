@@ -2,8 +2,9 @@ package thut.api.entity;
 
 import java.util.List;
 
-import net.minecraft.world.entity.Entity;
 import javax.annotation.Nonnull;
+
+import net.minecraft.world.entity.Entity;
 import thut.api.entity.animation.Animation;
 
 public interface IAnimated

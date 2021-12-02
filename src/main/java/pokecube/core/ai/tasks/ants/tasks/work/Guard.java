@@ -72,7 +72,8 @@ public class Guard extends AbstractWorkTask
         // Disabled via the boolean config.
         if (!PokecubeCore.getConfig().guardModeEnabled) return false;
 
-        // TODO find out why this happens, the needed memories should have dealt with it...
+        // TODO find out why this happens, the needed memories should have dealt
+        // with it...
         if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
 
         // Select either owner or home position as the centre of the check,
@@ -82,11 +83,12 @@ public class Guard extends AbstractWorkTask
         centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();
-        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final Iterable<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(e -> this.validGuardTarget.test(e) && e
+                        .distanceTo(this.entity) <= Guard.ANTGUARDDIST);
         // Only allow valid guard targets.
         for (final LivingEntity o : pokemobs)
-            if (this.validGuardTarget.test(o)) ret.add(o);
-        ret.removeIf(e -> e.distanceTo(this.entity) > Guard.ANTGUARDDIST);
+            ret.add(o);
         if (ret.isEmpty()) return false;
 
         // This is already sorted by distance!

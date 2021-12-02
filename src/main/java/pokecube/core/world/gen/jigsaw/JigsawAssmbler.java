@@ -45,10 +45,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
+import thut.core.common.ThutCore;
 
 public class JigsawAssmbler
 {
@@ -71,7 +72,7 @@ public class JigsawAssmbler
 
     public static ServerLevel getForGen(final ChunkGenerator chunkGen)
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         for (final ServerLevel w : server.getAllLevels())
             if (w.getChunkSource().generator == chunkGen) return w;
         throw new IllegalStateException("Did not find a world for this chunk generator!");

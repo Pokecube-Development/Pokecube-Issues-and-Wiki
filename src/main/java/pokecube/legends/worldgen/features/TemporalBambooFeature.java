@@ -1,6 +1,7 @@
 package pokecube.legends.worldgen.features;
 
 import java.util.Random;
+
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;

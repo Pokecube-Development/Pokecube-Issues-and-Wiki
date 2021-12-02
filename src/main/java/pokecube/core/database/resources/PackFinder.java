@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -26,12 +23,11 @@ import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fmllegacy.packs.ModFileResourcePack;
-import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.resource.PathResourcePack;
+import net.minecraftforge.resource.ResourcePackLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 
-@SuppressWarnings("removal")
 public class PackFinder implements RepositorySource
 {
     static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
@@ -59,9 +55,8 @@ public class PackFinder implements RepositorySource
         return Database.resourceManager.getResources(l);
     }
 
-    private Map<IModFile, ModFileResourcePack> modResourcePacks = Maps.newHashMap();
-    public final List<PackResources>           allPacks         = Lists.newArrayList();
-    public Set<PackResources>                  folderPacks      = Sets.newHashSet();
+    public final List<PackResources> allPacks    = Lists.newArrayList();
+    public Set<PackResources>        folderPacks = Sets.newHashSet();
 
     private final FolderRepositorySource folderFinder_old;
     private final FolderRepositorySource folderFinder_new;
@@ -79,14 +74,13 @@ public class PackFinder implements RepositorySource
         this.init(packInfoFactoryIn);
     }
 
-    @SuppressWarnings({ "deprecation" })
     public void init(final Pack.PackConstructor packInfoFactoryIn)
     {
         try
         {
-            this.modResourcePacks = ModList.get().getModFiles().stream().map(mf -> new ModFileResourcePack(mf
-                    .getFile())).collect(Collectors.toMap(ModFileResourcePack::getModFile, Function.identity()));
-            this.allPacks.addAll(this.modResourcePacks.values());
+            final List<PathResourcePack> packs = Lists.newArrayList();
+            ModList.get().getModFiles().stream().forEach(mf -> packs.add(ResourcePackLoader.createPackForMod(mf)));
+            this.allPacks.addAll(packs);
         }
         catch (final Exception e)
         {

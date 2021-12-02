@@ -34,10 +34,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmllegacy.RegistryObject;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
@@ -61,11 +61,11 @@ import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.adventures.blocks.siphon.SiphonBlock;
 import pokecube.adventures.blocks.siphon.SiphonTile;
-import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
-import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.blocks.statue.PokemobStatue;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.adventures.blocks.statue.StatueItem;
+import pokecube.adventures.blocks.warp_pad.WarpPadBlock;
+import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.SetupHandler;
@@ -148,7 +148,7 @@ public class PokecubeAdv
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
+            if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_dna"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_egg"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_bottle"));

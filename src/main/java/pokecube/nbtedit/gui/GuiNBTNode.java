@@ -77,7 +77,7 @@ public class GuiNBTNode extends Button
         this.x2 = mx;
         this.y2 = my;
         final boolean selected = this.tree.focusedNode() == this.node;
-        final boolean hover = this.isHovered();
+        final boolean hover = this.isHoveredOrFocused();
         final boolean chHover = this.inHideShowBounds();
         final int color = selected ? 0xff : hover ? 16777120 : this.node.hasParent() ? 14737632 : -6250336;
         final int dx = this.node.hasChildren() ? 10 : 0;

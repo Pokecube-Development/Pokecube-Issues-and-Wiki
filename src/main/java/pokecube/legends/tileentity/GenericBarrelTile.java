@@ -113,7 +113,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
 
     private void scheduleRecheck()
     {
-        this.level.getBlockTicks().scheduleTick(this.getBlockPos(), this.getBlockState().getBlock(), 5);
+        this.level.scheduleTick(this.getBlockPos(), this.getBlockState().getBlock(), 5);
     }
 
     public void recheckOpen()

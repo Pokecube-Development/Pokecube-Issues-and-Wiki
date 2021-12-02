@@ -1,6 +1,5 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -12,6 +11,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -48,8 +48,7 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         final Brain<?> brain = this.entity.getBrain();
         if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET)) return false;
@@ -73,7 +72,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
     {
         if (this.trainer.getCooldown() > gameTimeIn) return;
         if (worldIn.getRandom().nextDouble() > this.chance) return;
-        final List<LivingEntity> mobs = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
+        final NearestVisibleLivingEntities mobs = this.entity.getBrain().getMemory(
+                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get();
 
         // Count tame mobs as their owners, rather than seperately mobs
         final Predicate<LivingEntity> tameChecker = mob ->
@@ -94,37 +94,36 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         final int rep_cap = PokecubeAdv.config.trainer_max_rep;
         final int drep = rep_cap - rep_base;
 
-        for (LivingEntity mob : mobs)
-            if (this.isValidTarget(mob) && tameChecker.test(mob))
+        for (LivingEntity mob : mobs.findAll(mob -> this.isValidTarget(mob) && tameChecker.test(mob)))
+        {
+            if (mob instanceof Player && this.entity instanceof Villager)
             {
-                if (mob instanceof Player && this.entity instanceof Villager)
-                {
-                    final Villager villager = (Villager) this.entity;
-                    final int rep = villager.getPlayerReputation((Player) mob) + rep_base;
-                    double s1 = s;
-                    if (rep > rep_cap) s1 = 0;
-                    else if (rep < rep_base) s1 *= 2;
-                    else s1 *= (rep_cap - rep) / drep;
-                    line = entityIn.getViewVector(1).multiply(s1, s1, s1);
-                    end = start.add(line);
-                }
+                final Villager villager = (Villager) this.entity;
+                final int rep = villager.getPlayerReputation((Player) mob) + rep_base;
+                double s1 = s;
+                if (rep > rep_cap) s1 = 0;
+                else if (rep < rep_base) s1 *= 2;
+                else s1 *= (rep_cap - rep) / drep;
+                line = entityIn.getViewVector(1).multiply(s1, s1, s1);
+                end = start.add(line);
+            }
 
-                final boolean lookingAt = mob.getBoundingBox().clip(start, end).isPresent();
-                if (!lookingAt)
-                {
-                    BehaviorUtils.lookAtEntity(this.entity, mob);
-                    return;
-                }
-                final IOwnable owned = OwnableCaps.getOwnable(mob);
-                LivingEntity owner;
-                // Agro the owner of the mob, instead of the mob itself in this
-                // case.
-                if (owned != null && (owner = owned.getOwner(worldIn)) != null) mob = owner;
-                this.timer = 0;
-                this.target = mob;
-                this.trainer.onSetTarget(mob);
+            final boolean lookingAt = mob.getBoundingBox().clip(start, end).isPresent();
+            if (!lookingAt)
+            {
+                BehaviorUtils.lookAtEntity(this.entity, mob);
                 return;
             }
+            final IOwnable owned = OwnableCaps.getOwnable(mob);
+            LivingEntity owner;
+            // Agro the owner of the mob, instead of the mob itself in this
+            // case.
+            if (owned != null && (owner = owned.getOwner(worldIn)) != null) mob = owner;
+            this.timer = 0;
+            this.target = mob;
+            this.trainer.onSetTarget(mob);
+            return;
+        }
     }
 
     @Override

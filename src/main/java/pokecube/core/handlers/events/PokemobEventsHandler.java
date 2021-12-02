@@ -63,8 +63,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -115,6 +113,7 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.TerrainManager;
+import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
 public class PokemobEventsHandler
@@ -518,7 +517,7 @@ public class PokemobEventsHandler
     private static void onServerTick(final ServerTickEvent event)
     {
         if (event.phase != Phase.END || !PokecubeCore.getConfig().doLoadBalancing) return;
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         final double meanTickTime = PokemobEventsHandler.mean(server.tickTimes) * 1.0E-6D;
         final double maxTick = PokecubeCore.getConfig().loadBalanceThreshold;
         if (meanTickTime > maxTick)

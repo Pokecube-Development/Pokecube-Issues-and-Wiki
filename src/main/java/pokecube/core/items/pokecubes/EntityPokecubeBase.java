@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -33,6 +32,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -632,19 +632,18 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public static HitResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
             final boolean includeShooter, @Nullable final Entity shooter, final ClipContext.Block blockModeIn)
     {
-        return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, includeShooter, shooter, blockModeIn, true,
-                (p_221270_2_) ->
-                {
-                    return !p_221270_2_.isSpectator() && p_221270_2_.isPickable() && (includeShooter || !p_221270_2_.is(
-                            shooter)) && !p_221270_2_.noPhysics;
-                }, projectile.getBoundingBox().expandTowards(projectile.getDeltaMovement()).inflate(1.0D));
+        final Predicate<Entity> valid = (target) ->
+        {
+            return !target.isSpectator() && target.isPickable() && (includeShooter || !target.is(
+                    shooter)) && !target.noPhysics;
+        };
+        return ProjectileUtil.getHitResult(projectile, valid);
     }
 
     public static HitResult rayTrace(final Entity projectile, final AABB boundingBox, final Predicate<Entity> filter,
             final ClipContext.Block blockModeIn, final boolean checkEntityCollision)
     {
-        return EntityPokecubeBase.rayTrace(projectile, checkEntityCollision, false, (Entity) null, blockModeIn, false,
-                filter, boundingBox);
+        return ProjectileUtil.getHitResult(projectile, filter);
     }
 
     /**
@@ -656,35 +655,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         return EntityPokecubeBase.rayTraceEntities(worldIn, projectile, startVec, endVec, boundingBox, filter,
                 Double.MAX_VALUE);
-    }
-
-    private static HitResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
-            final boolean includeShooter, @Nullable final Entity shooter, final ClipContext.Block blockModeIn,
-            final boolean p_221268_5_, final Predicate<Entity> filter, final AABB boundingBox)
-    {
-        final Vec3 vec3d = projectile.getDeltaMovement();
-        final Level world = projectile.level;
-        final Vec3 vec3d1 = projectile.position();
-        if (p_221268_5_ && !world.noCollision(projectile, projectile.getBoundingBox(), e -> (!includeShooter
-                && shooter != null ? EntityPokecubeBase.getEntityAndMount(shooter) : ImmutableSet.of()).contains(e)))
-            return new BlockHitResult(vec3d1, Direction.getNearest(vec3d.x, vec3d.y, vec3d.z), new BlockPos(projectile
-                    .position()), false);
-        else
-        {
-            Vec3 vec3d2 = vec3d1.add(vec3d);
-            HitResult raytraceresult = world.clip(new ClipContext(vec3d1, vec3d2, blockModeIn, ClipContext.Fluid.NONE,
-                    projectile));
-            if (checkEntityCollision)
-            {
-                if (raytraceresult.getType() != HitResult.Type.MISS) vec3d2 = raytraceresult.getLocation();
-
-                final HitResult raytraceresult1 = EntityPokecubeBase.rayTraceEntities(world, projectile, vec3d1, vec3d2,
-                        boundingBox, filter);
-                if (raytraceresult1 != null) raytraceresult = raytraceresult1;
-            }
-
-            return raytraceresult;
-        }
     }
 
     /**

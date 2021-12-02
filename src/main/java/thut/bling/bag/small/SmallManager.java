@@ -11,8 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import thut.api.inventory.big.Manager;
 import thut.core.common.ThutCore;
 
@@ -22,7 +20,7 @@ public class SmallManager extends Manager<SmallInventory>
 
     public static File getFileForUUID(final String uuid, final String fileName)
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         Path path = server.getWorldPath(new LevelResource("thut_bling"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);

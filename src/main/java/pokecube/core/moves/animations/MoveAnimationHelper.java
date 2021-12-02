@@ -16,7 +16,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -164,7 +164,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderWorldPost(final RenderWorldLastEvent event)
+    public void onRenderWorldPost(final RenderLevelLastEvent event)
     {
         if (this.effects == 0) return;
         int num = 0;
@@ -177,7 +177,7 @@ public class MoveAnimationHelper
 
             final Minecraft mc = Minecraft.getInstance();
             final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-            final PoseStack mat = event.getMatrixStack();
+            final PoseStack mat = event.getPoseStack();
             mat.pushPose();
             mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();

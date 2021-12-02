@@ -106,9 +106,9 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
     public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
         if (keyCode != GLFW.GLFW_KEY_ENTER) return false;
-        boolean active = this.variation.isFocused() || this.variation.isHovered();
-        active = active || this.location.isFocused() || this.location.isHovered();
-        active = active || this.timeperiod.isFocused() || this.timeperiod.isHovered();
+        boolean active = this.variation.isFocused() || this.variation.isHoveredOrFocused();
+        active = active || this.location.isFocused() || this.location.isHoveredOrFocused();
+        active = active || this.timeperiod.isFocused() || this.timeperiod.isHoveredOrFocused();
         if (!active) return false;
         this.update();
         return true;

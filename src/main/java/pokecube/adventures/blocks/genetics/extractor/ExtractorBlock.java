@@ -105,7 +105,7 @@ public class ExtractorBlock extends InteractableHorizontalBlock implements Simpl
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
             final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(ExtractorBlock.WATERLOGGED)) world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER,
+        if (state.getValue(ExtractorBlock.WATERLOGGED)) world.scheduleTick(currentPos, Fluids.WATER,
                 Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }

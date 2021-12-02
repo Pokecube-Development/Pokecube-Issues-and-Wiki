@@ -145,7 +145,7 @@ public class ActionNaturePower implements IMoveAction
 
     public static class HillsChanger implements IBiomeChanger
     {
-        static final ResourceKey<Biome> HILLS = Biomes.MOUNTAINS;
+        static final ResourceKey<Biome> HILLS = Biomes.STONY_PEAKS;
 
         public HillsChanger()
         {
@@ -402,8 +402,9 @@ public class ActionNaturePower implements IMoveAction
                 {
                     vec.addTo(i, 0, j);
                     final Biome here = vec.getBiome(world);
+                    // TODO climate sampler
                     final Biome natural = world.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(vec
-                            .intX(), vec.intY(), vec.intZ());
+                            .intX(), vec.intY(), vec.intZ(), null);
                     if (natural != here)
                     {
                         vec.setBiome(natural, world);

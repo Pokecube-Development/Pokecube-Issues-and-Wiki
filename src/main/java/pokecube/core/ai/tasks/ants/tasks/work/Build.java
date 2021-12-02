@@ -13,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
@@ -62,7 +63,7 @@ public class Build extends AbstractConstructTask
             final int dz = pos.getZ() - mid.getZ();
 
             boolean light = false;
-            final WorldgenRandom rng = new WorldgenRandom();
+            final WorldgenRandom rng = new WorldgenRandom(new LegacyRandomSource(0L));
             rng.setDecorationSeed(world.getSeed(), pos.getX(), pos.getZ());
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)
@@ -134,7 +135,7 @@ public class Build extends AbstractConstructTask
             final int dz = pos.getZ() - mid.getZ();
 
             boolean light = false;
-            final WorldgenRandom rng = new WorldgenRandom();
+            final WorldgenRandom rng = new WorldgenRandom(new LegacyRandomSource(0L));
             rng.setDecorationSeed(world.getSeed(), pos.getX(), pos.getZ());
             final boolean tryLight = rng.nextDouble() > 0.9 || dx == 0 && dz == 0;
             if (tryLight)

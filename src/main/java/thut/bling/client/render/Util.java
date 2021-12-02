@@ -128,8 +128,9 @@ public class Util
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
             gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
+            @SuppressWarnings("deprecation")
             final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelShaper()
-                    .getParticleIcon(gem).getName();
+                    .getItemModel(gem).getParticleIcon().getName();
             final String namespace = sprite.getNamespace();
             final String val = "textures/" + sprite.getPath();
             tex0 = new ResourceLocation(namespace, val + ".png");

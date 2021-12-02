@@ -49,7 +49,7 @@ public class StructureManager
         private BoundingBox inflate(final BoundingBox other, final int amt)
         {
             return new BoundingBox(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(), other.maxZ())
-                    .inflate(amt);
+                    .inflatedBy(amt);
         }
 
         public boolean isNear(final BlockPos pos, final int distance)

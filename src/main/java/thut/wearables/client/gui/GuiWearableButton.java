@@ -28,7 +28,7 @@ public class GuiWearableButton extends Button
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GuiWearables.background);
-        final int i = this.getYImage(this.isHovered());
+        final int i = this.getYImage(this.isHoveredOrFocused());
         this.blit(mat, this.x, this.y, 0, i, this.width, this.height);
     }
 }

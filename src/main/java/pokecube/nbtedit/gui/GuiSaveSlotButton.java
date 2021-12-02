@@ -74,7 +74,7 @@ public class GuiSaveSlotButton extends Button
     public void draw(final PoseStack mat, final int mx, final int my)
     {
 
-        int textColor = this.isHovered() ? 16777120 : 0xffffff;
+        int textColor = this.isHoveredOrFocused() ? 16777120 : 0xffffff;
         this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
         GuiComponent.drawCenteredString(mat, this.mc.font, this.getMessage(), this.x + this.width / 2, this.y + 6,
                 textColor);

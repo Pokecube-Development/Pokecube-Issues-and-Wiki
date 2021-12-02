@@ -24,8 +24,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -33,7 +34,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
 import thut.crafts.Reference;
@@ -112,7 +112,7 @@ public class ClientProxy
     }
 
     @SubscribeEvent
-    public static void RenderBounds(final RenderWorldLastEvent event)
+    public static void RenderBounds(final RenderLevelLastEvent event)
     {
         ItemStack held;
         final Player player = Minecraft.getInstance().player;
@@ -124,7 +124,7 @@ public class ClientProxy
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getViewVector(
-                        event.getPartialTicks()));
+                        event.getPartialTick()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
@@ -144,7 +144,7 @@ public class ClientProxy
                 final double maxY = Math.max(one.maxY, two.maxY);
                 final double maxZ = Math.max(one.maxZ, two.maxZ);
 
-                final PoseStack mat = event.getMatrixStack();
+                final PoseStack mat = event.getPoseStack();
                 mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 
                 final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();

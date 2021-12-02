@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.TickList;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.block.Block;
@@ -36,6 +35,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
 
 public class WorldEntity implements IBlockEntityWorld
@@ -104,18 +104,6 @@ public class WorldEntity implements IBlockEntityWorld
     public FluidState getFluidState(final BlockPos pos)
     {
         return this.world.getFluidState(pos);
-    }
-
-    @Override
-    public TickList<Block> getBlockTicks()
-    {
-        return this.world.getBlockTicks();
-    }
-
-    @Override
-    public TickList<Fluid> getLiquidTicks()
-    {
-        return this.world.getLiquidTicks();
     }
 
     @Override
@@ -313,5 +301,24 @@ public class WorldEntity implements IBlockEntityWorld
     public boolean isFluidAtPosition(final BlockPos p_151584_, final Predicate<FluidState> p_151585_)
     {
         return this.world.isFluidAtPosition(p_151584_, p_151585_);
+    }
+
+    @Override
+    public long nextSubTickCount()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public LevelTickAccess<Block> getBlockTicks()
+    {
+        return this.world.getBlockTicks();
+    }
+
+    @Override
+    public LevelTickAccess<Fluid> getFluidTicks()
+    {
+        return this.world.getFluidTicks();
     }
 }

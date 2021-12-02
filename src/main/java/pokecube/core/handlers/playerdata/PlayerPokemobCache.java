@@ -12,11 +12,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
@@ -28,7 +27,7 @@ public class PlayerPokemobCache extends PlayerData
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
         if (!mob.getEntity().isEffectiveAi()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         // Schedule this to run at some point, as it takes a while.
         server.execute(() -> PlayerPokemobCache.UpdateCache(stack, false, false));
     }
@@ -36,7 +35,7 @@ public class PlayerPokemobCache extends PlayerData
     public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
         if (!(PokecubeCore.proxy.getWorld() instanceof ServerLevel)) return;
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, pc, deleted));
     }
 
@@ -70,7 +69,7 @@ public class PlayerPokemobCache extends PlayerData
         if (!pokemob.isPlayerOwned() || pokemob.getOwnerId() == null || owner == null) return;
         if (!pokemob.getEntity().isEffectiveAi()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(pokemob);
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = ThutCore.proxy.getServer();
         // Schedule this to run at some point, as it takes a while.
         server.execute(() -> PlayerPokemobCache.Remove(owner, stack));
 

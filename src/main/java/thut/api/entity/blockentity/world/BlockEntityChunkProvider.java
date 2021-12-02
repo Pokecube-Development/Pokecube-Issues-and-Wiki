@@ -6,6 +6,7 @@ import java.util.function.BooleanSupplier;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
@@ -73,7 +74,8 @@ public class BlockEntityChunkProvider extends ChunkSource
                     LevelChunkSection storage = ret.getSections()[j >> 4];
                     if (storage == null)
                     {
-                        storage = new LevelChunkSection(j >> 4 << 4);
+                        storage = new LevelChunkSection(j >> 4 << 4, this.world.world.registryAccess().registryOrThrow(
+                                Registry.BIOME_REGISTRY));
                         ret.getSections()[j >> 4] = storage;
                     }
                     storage.setBlockState(i & 15, j & 15, k & 15, state, false);

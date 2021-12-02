@@ -15,13 +15,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -277,10 +278,10 @@ public class TrainerEventHandler
         {
             if (messages != null)
             {
-                messages.sendMessage(MessageState.HURT, evt.getSource().getEntity(), evt.getEntity()
-                        .getDisplayName(), evt.getSource().getEntity().getDisplayName());
-                messages.doAction(MessageState.HURT, new ActionContext((LivingEntity) evt.getSource().getEntity(),
-                        evt.getEntityLiving(), evt.getSource()));
+                messages.sendMessage(MessageState.HURT, evt.getSource().getEntity(), evt.getEntity().getDisplayName(),
+                        evt.getSource().getEntity().getDisplayName());
+                messages.doAction(MessageState.HURT, new ActionContext((LivingEntity) evt.getSource().getEntity(), evt
+                        .getEntityLiving(), evt.getSource()));
             }
             if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.onSetTarget((LivingEntity) evt
                     .getSource().getEntity());
@@ -311,17 +312,12 @@ public class TrainerEventHandler
             if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
             {
                 final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
-                final Optional<List<LivingEntity>> optional = mob.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+                final Optional<NearestVisibleLivingEntities> optional = mob.getBrain().getMemory(
+                        MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
                 if (optional.isPresent())
                 {
-                    final List<LivingEntity> mobs = optional.get();
-                    mobs.stream().filter((gossipTarget) ->
-                    {
-                        // TODO use reputation tracking later instead, once
-                        // things support adding different types beyond the
-                        // hardcoded villager system!
-                        return gossipTarget instanceof Villager;
-                    }).forEach((gossipTarget) ->
+                    final Iterable<LivingEntity> mobs = optional.get().findAll(seen -> seen instanceof Villager);
+                    mobs.forEach((gossipTarget) ->
                     {
                         final Villager villager = (Villager) gossipTarget;
                         villager.getGossips().add(murderer.getUUID(), type, repGain);
@@ -362,8 +358,8 @@ public class TrainerEventHandler
         {
             final LivingEntity npc = event.getEntityLiving();
             final Brain<?> brain = npc.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET) && brain.isActive(Activities.BATTLE)) brain.setActiveActivityIfPossible(
-                    Activity.IDLE);
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET) && brain.isActive(Activities.BATTLE)) brain
+                    .setActiveActivityIfPossible(Activity.IDLE);
             pokemobHolder.onTick();
         }
     }
@@ -436,8 +432,8 @@ public class TrainerEventHandler
         // player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
         // }
 
-        if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayer) evt.getPlayer(),
-                target, evt.getItemStack()))
+        if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayer) evt.getPlayer(), target,
+                evt.getItemStack()))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -496,7 +492,7 @@ public class TrainerEventHandler
         DBLoader.load();
     }
 
-    public static void onPostServerStart(final FMLServerStartedEvent event)
+    public static void onPostServerStart(final ServerStartedEvent event)
     {
         TypeTrainer.postInitTrainers();
     }

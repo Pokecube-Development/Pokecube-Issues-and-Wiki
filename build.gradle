@@ -39,7 +39,7 @@ version = "${version_minecraft}-${VERSION_COMPILE}"
 group = 'thut'
 archivesBaseName = "${compile_name}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: "${channel_mappings}", version: "${version_mappings}"
@@ -158,28 +158,28 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
     //Computer Craft Support.
-    implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
+    //implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
     
     //Lost Cities
     //implementation "blank:lostcities-1.16-4.0.7-beta"
     
     //Thut Essentials
-    implementation "${depstr_thutessentials}"
+    //implementation "${depstr_thutessentials}"
     
     //JEI
     // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
+    //compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
+    //runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
     
     //WHYLA
-    implementation fg.deobf("curse.maven:Jade-${version_jade}")
+    //implementation fg.deobf("curse.maven:Jade-${version_jade}")
     
     //Minecolonies
-    implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
+    //implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
     
     //Immersive Enginnering
     //implementation "blusunrize:ImmersiveEngineering:0.15-+"
@@ -189,7 +189,7 @@ dependencies {
     //implementation "blank:LibVulpes-1.16.5-1.0.1-6-api"
 
     // Curios - Wearables Support
-    implementation fg.deobf("curse.maven:curios-${version_curios}")
+    //implementation fg.deobf("curse.maven:curios-${version_curios}")
 }
 
 sourceSets {
