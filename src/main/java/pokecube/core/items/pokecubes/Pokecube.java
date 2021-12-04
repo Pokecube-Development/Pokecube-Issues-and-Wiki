@@ -130,8 +130,7 @@ public class Pokecube extends Item implements IPokecube
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(new TranslatableComponent("pokecube.tooltip.moves", arg));
                 arg = "";
-                for (final Byte b : pokemob.getIVs())
-                    arg += b + ", ";
+                for (final Byte b : pokemob.getIVs()) arg += b + ", ";
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(new TranslatableComponent("pokecube.tooltip.ivs", arg));
                 arg = "";
@@ -177,13 +176,10 @@ public class Pokecube extends Item implements IPokecube
      * Returning null here will not kill the ItemEntity and will leave it to
      * function normally. Called when the item it placed in a world.
      *
-     * @param world
-     *            The world object
-     * @param location
-     *            The ItemEntity object, useful for getting the position of the
-     *            entity
-     * @param itemstack
-     *            The current item stack
+     * @param world     The world object
+     * @param location  The ItemEntity object, useful for getting the position
+     *                  of the entity
+     * @param itemstack The current item stack
      * @return A new Entity object to spawn or null
      */
     @Override
@@ -237,7 +233,8 @@ public class Pokecube extends Item implements IPokecube
         if (stack.hasTag() && stack.getTag().contains("CHP"))
         {
             final float chp = stack.getTag().getFloat("CHP");
-            return (int) chp;
+            final float mhp = stack.getTag().getFloat("MHP");
+            return (int) (255 - 255 * (chp) / mhp);
         }
         return super.getDamage(stack);
     }
@@ -245,8 +242,7 @@ public class Pokecube extends Item implements IPokecube
     @Override
     public int getMaxDamage(final ItemStack stack)
     {
-        final float mhp = stack.getTag().getFloat("MHP");
-        return (int) mhp;
+        return 255;
     }
 
     @Override
@@ -272,8 +268,7 @@ public class Pokecube extends Item implements IPokecube
      * Item#createCustomEntity returns non null, the ItemEntity will be
      * destroyed and the new Entity will be added to the world.
      *
-     * @param stack
-     *            The current item stack
+     * @param stack The current item stack
      * @return True of the item has a custom entity, If true,
      *         Item#createCustomEntity will be called
      */
@@ -294,8 +289,8 @@ public class Pokecube extends Item implements IPokecube
 
     @Override
     /**
-     * Called when the player stops using an Item (stops holding the right
-     * mouse button).
+     * Called when the player stops using an Item (stops holding the right mouse
+     * button).
      */
     public void releaseUsing(final ItemStack stack, final Level worldIn, final LivingEntity MobEntity,
             final int timeLeft)
@@ -318,12 +313,13 @@ public class Pokecube extends Item implements IPokecube
             if (targetMob != null) if (targetMob.getOwner() == MobEntity) target = null;
             final int dt = this.getUseDuration(stack) - timeLeft;
             final boolean filled = PokecubeManager.isFilled(stack);
-            if (!filled && target instanceof LivingEntity && this.getCaptureModifier(target, PokecubeItems.getCubeId(
-                    stack)) == 0) target = null;
+            if (!filled && target instanceof LivingEntity
+                    && this.getCaptureModifier(target, PokecubeItems.getCubeId(stack)) == 0)
+                target = null;
             boolean used = false;
             final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 5;
-            if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
-                    targetLocation, target) != null;
+            if (target != null && EntityPokecubeBase.SEEKING)
+                used = this.throwPokecubeAt(worldIn, player, stack, targetLocation, target) != null;
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
             {
                 float power = (this.getUseDuration(stack) - timeLeft) / (float) 100;
@@ -340,10 +336,10 @@ public class Pokecube extends Item implements IPokecube
                 if (PokecubeManager.isFilled(stack) || !player.isCreative()) stack.split(1);
                 if (stack.isEmpty()) for (int i = 0; i < player.getInventory().getContainerSize(); i++)
                     if (player.getInventory().getItem(i) == stack)
-                    {
-                        player.getInventory().setItem(i, ItemStack.EMPTY);
-                        break;
-                    }
+                {
+                    player.getInventory().setItem(i, ItemStack.EMPTY);
+                    break;
+                }
             }
         }
     }
@@ -381,10 +377,12 @@ public class Pokecube extends Item implements IPokecube
             final Player player = (Player) thrower;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
-            if (config.permsSendOut && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB,
-                    context)) return null;
-            if (config.permsSendOutSpecific && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.SENDOUTSPECIFIC.get(entry), context)) return null;
+            if (config.permsSendOut
+                    && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB, context))
+                return null;
+            if (config.permsSendOutSpecific
+                    && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTSPECIFIC.get(entry), context))
+                return null;
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
@@ -488,8 +486,8 @@ public class Pokecube extends Item implements IPokecube
             {
                 thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
                 world.addFreshEntity(entity);
-                if (PokecubeManager.isFilled(stack) && thrower instanceof Player) PlayerPokemobCache.UpdateCache(stack,
-                        false, false);
+                if (PokecubeManager.isFilled(stack) && thrower instanceof Player)
+                    PlayerPokemobCache.UpdateCache(stack, false, false);
             }
         }
         else if (!rightclick) return null;

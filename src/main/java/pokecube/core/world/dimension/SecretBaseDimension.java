@@ -30,17 +30,19 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.biome.Climate.Sampler;
 import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.GenerationStep.Carving;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.StructureSettings;
-import net.minecraft.world.level.levelgen.surfacebuilders.NopeSurfaceBuilder;
-import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.level.levelgen.surfacebuilders.SurfaceBuilderBaseConfiguration;
+import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -51,8 +53,6 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.EventsHandler;
@@ -63,16 +63,11 @@ import thut.api.maths.Vector3;
 
 public class SecretBaseDimension
 {
-    public static final DeferredRegister<SurfaceBuilder<?>> SURFREG = DeferredRegister.create(
-            ForgeRegistries.SURFACE_BUILDERS, PokecubeCore.MODID);
 
     public static void onConstruct(final IEventBus bus)
     {
         Registry.register(Registry.CHUNK_GENERATOR, "pokecube:secret_base", SecretChunkGenerator.CODEC);
         MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
-        SecretBaseDimension.SURFREG.register(bus);
-        SecretBaseDimension.SURFREG.register("secret_base", () -> new NopeSurfaceBuilder(
-                SurfaceBuilderBaseConfiguration.CODEC));
     }
 
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)
@@ -117,12 +112,13 @@ public class SecretBaseDimension
                 }
                 catch (final Exception e)
                 {
-                    old = GlobalPos.of(Level.OVERWORLD, new BlockPos(exito.getInt("x"), exito.getInt("y"), exito.getInt(
-                            "z")));
+                    old = GlobalPos.of(Level.OVERWORLD,
+                            new BlockPos(exito.getInt("x"), exito.getInt("y"), exito.getInt("z")));
                 }
                 final GlobalPos orig = old;
-                PokecubeSerializer.getInstance().bases.removeIf(c -> orig.dimension().location().equals(c.dimension()
-                        .location()) && orig.pos().equals(c.pos()));
+                PokecubeSerializer.getInstance().bases
+                        .removeIf(c -> orig.dimension().location().equals(c.dimension().location())
+                                && orig.pos().equals(c.pos()));
             }
             tag.put("secret_base_exit", exit);
             PokecubeSerializer.getInstance().bases.add(gpos);
@@ -171,8 +167,8 @@ public class SecretBaseDimension
             if (tag.contains("secret_base_internal"))
             {
                 final CompoundTag exit = tag.getCompound("secret_base_internal");
-                return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit
-                        .getInt("z")));
+                return GlobalPos.of(SecretBaseDimension.WORLD_KEY,
+                        new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt("z")));
             }
             int index;
             if (!tag.contains("secret_base_index"))
@@ -183,11 +179,11 @@ public class SecretBaseDimension
             }
             else index = tag.getInt("secret_base_index");
             final ChunkPos chunk = SecretBaseDimension.getFromIndex(index);
-            return GlobalPos.of(SecretBaseDimension.WORLD_KEY, new BlockPos((chunk.x << 4) + 8, 64, (chunk.z << 4)
-                    + 8));
+            return GlobalPos.of(SecretBaseDimension.WORLD_KEY,
+                    new BlockPos((chunk.x << 4) + 8, 64, (chunk.z << 4) + 8));
         }
-        else if (!tag.contains("secret_base_exit")) return GlobalPos.of(Level.OVERWORLD, server.getLevel(
-                Level.OVERWORLD).getSharedSpawnPos());
+        else if (!tag.contains("secret_base_exit"))
+            return GlobalPos.of(Level.OVERWORLD, server.getLevel(Level.OVERWORLD).getSharedSpawnPos());
         else
         {
             final CompoundTag exit = tag.getCompound("secret_base_exit");
@@ -197,8 +193,8 @@ public class SecretBaseDimension
             }
             catch (final Exception e)
             {
-                return GlobalPos.of(Level.OVERWORLD, new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt(
-                        "z")));
+                return GlobalPos.of(Level.OVERWORLD,
+                        new BlockPos(exit.getInt("x"), exit.getInt("y"), exit.getInt("z")));
             }
         }
     }
@@ -214,8 +210,8 @@ public class SecretBaseDimension
 
         public SecretChunkGenerator(final Registry<Biome> registry)
         {
-            super(new FixedBiomeSource(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)), new StructureSettings(
-                    false));
+            super(new FixedBiomeSource(registry.getOrThrow(SecretBaseDimension.BIOME_KEY)),
+                    new StructureSettings(false));
             this.registry = registry;
             Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
         }
@@ -238,42 +234,6 @@ public class SecretBaseDimension
         }
 
         @Override
-        public void buildSurfaceAndBedrock(final WorldGenRegion p_225551_1_, final ChunkAccess p_225551_2_)
-        {
-
-        }
-
-        @Override
-        public CompletableFuture<ChunkAccess> fillFromNoise(final Executor executor,
-                final StructureFeatureManager structures, final ChunkAccess chunk)
-        {
-            final ChunkPos pos = chunk.getPos();
-            final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
-            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-            BlockState state = Blocks.STONE.defaultBlockState();
-            final Heightmap heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
-            final Heightmap heightmap1 = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
-            for (int i = 0; i < 16; i++)
-                for (int k = 0; k < 16; k++)
-                {
-                    chunk.setBlockState(blockpos$mutableblockpos.set(i, 0, k), Blocks.BARRIER.defaultBlockState(),
-                            false);
-                    if (stone) for (int j = 57; j < 64; j++)
-                    {
-                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE
-                                .defaultBlockState() : Blocks.AIR.defaultBlockState();
-                        chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
-                        if (j < 64)
-                        {
-                            heightmap.update(i, j, k, state);
-                            heightmap1.update(i, j, k, state);
-                        }
-                    }
-                }
-            return CompletableFuture.completedFuture(chunk);
-        }
-
-        @Override
         public int getBaseHeight(final int x, final int z, final Types heightmapType,
                 final LevelHeightAccessor p_156156_)
         {
@@ -284,6 +244,81 @@ public class SecretBaseDimension
         public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor p_156152_)
         {
             return new NoiseColumn(0, this.states);
+        }
+
+        @Override
+        public Sampler climateSampler()
+        {
+            return (p_188507_, p_188508_, p_188509_) ->
+            {
+                return Climate.target(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            };
+        }
+
+        @Override
+        public void applyCarvers(WorldGenRegion p_187691_, long p_187692_, BiomeManager p_187693_,
+                StructureFeatureManager p_187694_, ChunkAccess p_187695_, Carving p_187696_)
+        {
+
+        }
+
+        @Override
+        public void buildSurface(WorldGenRegion p_187697_, StructureFeatureManager p_187698_, ChunkAccess p_187699_)
+        {
+
+        }
+
+        @Override
+        public void spawnOriginalMobs(WorldGenRegion p_62167_)
+        {
+
+        }
+
+        @Override
+        public int getGenDepth()
+        {
+            return 384;
+        }
+
+        @Override
+        public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_,
+                StructureFeatureManager p_187750_, ChunkAccess chunk)
+        {
+
+            final ChunkPos pos = chunk.getPos();
+            final boolean stone = pos.x % 16 == 0 && pos.z % 16 == 0;
+            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            BlockState state = Blocks.STONE.defaultBlockState();
+            final Heightmap heightmap = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
+            final Heightmap heightmap1 = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
+            for (int i = 0; i < 16; i++) for (int k = 0; k < 16; k++)
+            {
+                chunk.setBlockState(blockpos$mutableblockpos.set(i, 0, k), Blocks.BARRIER.defaultBlockState(), false);
+                if (stone) for (int j = 57; j < 64; j++)
+                {
+                    state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12 ? Blocks.STONE.defaultBlockState()
+                            : Blocks.AIR.defaultBlockState();
+                    chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
+                    if (j < 64)
+                    {
+                        heightmap.update(i, j, k, state);
+                        heightmap1.update(i, j, k, state);
+                    }
+                }
+            }
+            return CompletableFuture.completedFuture(chunk);
+        }
+
+        @Override
+        public int getSeaLevel()
+        {
+            return 63;
+        }
+
+        @Override
+        public int getMinY()
+        {
+            return 0;
         }
 
     }
@@ -303,34 +338,36 @@ public class SecretBaseDimension
     {
         final Level world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+            world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onWorldTick(final WorldTickEvent event)
     {
         final Level world = event.world;
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+            world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onWorldLoad(final WorldEvent.Load event)
     {
         final Level world = (Level) event.getWorld();
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984 && world.dimension().compareTo(
-                SecretBaseDimension.WORLD_KEY) == 0) world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+            world.getWorldBorder().setAbsoluteMaxSize(2999984);
     }
 
     @SubscribeEvent
     public static void onEnterChunk(final EntityEvent.EnteringSection event)
     {
-        final Level world = event.getEntity().getCommandSenderWorld();
+        final Level world = event.getEntity().level;
         // Only wrap in secret bases, only if chunk changes, and only server
         // side.
-        if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || event.getEntity()
-                .getCommandSenderWorld().isClientSide) return;
+        if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || world.isClientSide) return;
 
         final SectionPos newPos = event.getNewPos();
 

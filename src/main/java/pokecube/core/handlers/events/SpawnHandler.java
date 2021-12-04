@@ -88,7 +88,7 @@ public final class SpawnHandler
 
     public static class CubeRegion implements ForbidRegion
     {
-        public final int      range;
+        public final int range;
         public final BlockPos origin;
 
         public CubeRegion(final int range, final BlockPos origin)
@@ -191,7 +191,7 @@ public final class SpawnHandler
     }
 
     private static Object2ObjectOpenHashMap<ResourceKey<Level>, Function> functions = new Object2ObjectOpenHashMap<>();
-    public static final Object2ObjectOpenHashMap<ResourceKey<Level>, JEP> parsers   = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectOpenHashMap<ResourceKey<Level>, JEP> parsers = new Object2ObjectOpenHashMap<>();
 
     public static Variance DEFAULT_VARIANCE = new Variance();
 
@@ -199,8 +199,8 @@ public final class SpawnHandler
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
-    public static boolean doSpawns         = true;
-    public static boolean onlySubbiomes    = false;
+    public static boolean doSpawns = true;
+    public static boolean onlySubbiomes = false;
     public static boolean refreshSubbiomes = false;
 
     public static HashSet<ResourceKey<Level>> dimensionBlacklist = Sets.newHashSet();
@@ -212,10 +212,10 @@ public final class SpawnHandler
         return !input.shouldSave();
     };
 
-    public static double  MAX_DENSITY = 1;
-    public static int     MAXNUM      = 10;
-    public static boolean lvlCap      = false;
-    public static int     capLevel    = 50;
+    public static double MAX_DENSITY = 1;
+    public static int MAXNUM = 10;
+    public static boolean lvlCap = false;
+    public static int capLevel = 50;
 
     public static boolean addForbiddenSpawningCoord(final BlockPos pos, final Level dim, final int range,
             final ForbidReason reason)
@@ -243,8 +243,8 @@ public final class SpawnHandler
         final EntityType<?> entityTypeIn = entry.getEntityType();
         if (entityTypeIn == null) return false;
         if (NaturalSpawner.canSpawnAtBody(Type.ON_GROUND, world, location.getPos(), entityTypeIn)) return true;
-        if (entry.swims()) if (NaturalSpawner.canSpawnAtBody(Type.IN_WATER, world, location.getPos(), entityTypeIn))
-            return true;
+        if (entry.swims())
+            if (NaturalSpawner.canSpawnAtBody(Type.IN_WATER, world, location.getPos(), entityTypeIn)) return true;
         return false;
     }
 
@@ -301,7 +301,8 @@ public final class SpawnHandler
             }
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
-                MobSpawnType.NATURAL)) return null;
+                MobSpawnType.NATURAL))
+            return null;
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
@@ -316,8 +317,7 @@ public final class SpawnHandler
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
         if (entries == null) return null;
         final BlockPos here = new BlockPos(x, y, z);
-        for (final ForbiddenEntry entry : entries.values())
-            if (entry.region.isInside(here)) return entry;
+        for (final ForbiddenEntry entry : entries.values()) if (entry.region.isInside(here)) return entry;
         return null;
     }
 
@@ -326,8 +326,7 @@ public final class SpawnHandler
         final List<ForbiddenEntry> ret = Lists.newArrayList();
         final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
         if (entries == null) return ret;
-        for (final ForbiddenEntry entry : entries.values())
-            if (entry.region.isInside(pos)) ret.add(entry);
+        for (final ForbiddenEntry entry : entries.values()) if (entry.region.isInside(pos)) ret.add(entry);
         return ret;
     }
 
@@ -387,8 +386,8 @@ public final class SpawnHandler
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
         if (player == null || !(player.getCommandSenderWorld() instanceof ServerLevel)) return null;
-        return SpawnHandler.getRandomPointNear((ServerLevel) player.getCommandSenderWorld(), Vector3.getNewVector().set(
-                player), range);
+        return SpawnHandler.getRandomPointNear((ServerLevel) player.getCommandSenderWorld(),
+                Vector3.getNewVector().set(player), range);
     }
 
     public static PokedexEntry getSpawnForLoc(final Level world, final Vector3 pos)
@@ -417,9 +416,9 @@ public final class SpawnHandler
 
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final BiomeType type = t.getBiome(location);
-        if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(type)) variance = SpawnHandler.subBiomeLevels
-                .get(type);
-        else variance = SpawnHandler.DEFAULT_VARIANCE;
+        if (variance == null)
+            if (SpawnHandler.subBiomeLevels.containsKey(type)) variance = SpawnHandler.subBiomeLevels.get(type);
+            else variance = SpawnHandler.DEFAULT_VARIANCE;
         if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(type))
         {
             variance = SpawnHandler.subBiomeLevels.get(type);
@@ -460,8 +459,8 @@ public final class SpawnHandler
     public static int getSpawnXp(final Level world, final Vector3 location, final PokedexEntry pokemon,
             final Variance variance, final int baseLevel)
     {
-        return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(world, location, pokemon,
-                variance, baseLevel));
+        return Tools.levelToXp(pokemon.getEvolutionMode(),
+                SpawnHandler.getSpawnLevel(world, location, pokemon, variance, baseLevel));
     }
 
     public static boolean isPointValidForSpawn(final Level world, final Vector3 point, final PokedexEntry dbe)
@@ -496,16 +495,16 @@ public final class SpawnHandler
 
     public static void initSpawnFunctions()
     {
-        for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels)
-            SpawnHandler.loadFunctionFromString(s);
+        for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels) SpawnHandler.loadFunctionFromString(s);
     }
 
     public static void makeMeteor(final Level world, final Vector3 location, final float power)
     {
         if (power > 0)
         {
-            final ExplosionCustom boom = new ExplosionCustom(world, null, location, (float) (power * PokecubeCore
-                    .getConfig().meteorScale)).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
+            final ExplosionCustom boom = new ExplosionCustom(world, null, location,
+                    (float) (power * PokecubeCore.getConfig().meteorScale))
+                            .setMaxRadius(PokecubeCore.getConfig().meteorRadius);
 
             boom.breaker = new BlockBreaker()
             {
@@ -522,8 +521,8 @@ public final class SpawnHandler
                         if (power < 36)
                         {
                             if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE
-                                    .defaultBlockState();
+                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT)
+                                to = Blocks.FIRE.defaultBlockState();
                         }
                         final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
                         MinecraftForge.EVENT_BUS.post(event);
@@ -636,16 +635,16 @@ public final class SpawnHandler
         else for (int i = x1; i < x1 + 16; i += TerrainSegment.GRIDSIZE)
             for (int j = y1; j < y1 + 16; j += TerrainSegment.GRIDSIZE)
                 for (int k = z1; k < z1 + 16; k += TerrainSegment.GRIDSIZE)
-                {
-                    temp1.set(i, j, k);
-                    BiomeType biome = t.getBiome(i, j, k);
-                    if (SpawnHandler.biomeToRefresh.apply(biome))
-                    {
-                        biome = t.adjustedCaveBiome(world, temp1);
-                        if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
-                        t.setBiome(i, j, k, biome);
-                    }
-                }
+        {
+            temp1.set(i, j, k);
+            BiomeType biome = t.getBiome(i, j, k);
+            if (SpawnHandler.biomeToRefresh.apply(biome))
+            {
+                biome = t.adjustedCaveBiome(world, temp1);
+                if (biome.isNone()) biome = t.adjustedNonCaveBiome(world, temp1);
+                t.setBiome(i, j, k, biome);
+            }
+        }
     }
 
     public static boolean removeForbiddenSpawningCoord(final BlockPos pos, final Level world)
@@ -694,7 +693,8 @@ public final class SpawnHandler
                 if (location != null)
                 {
                     if (world.getNearestPlayer(location.x, location.y, location.z, 96,
-                            EntitySelector.NO_SPECTATORS) != null) return;
+                            EntitySelector.NO_SPECTATORS) != null)
+                        return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
                     SpawnHandler.makeMeteor(world, location, energy);
                 }
@@ -707,8 +707,8 @@ public final class SpawnHandler
         int ret = 0;
         int num = 0;
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
-        if (v.y <= 0 || v.y >= world.dimensionType().logicalHeight()) return ret;
-        if(!world.isAreaLoaded(v.getPos(), 8)) return ret;
+        if (v.y <= world.getMinBuildHeight() || v.y >= world.dimensionType().logicalHeight()) return ret;
+        if (!world.isAreaLoaded(v.getPos(), 8)) return ret;
         SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
         if (SpawnHandler.onlySubbiomes && t.getBiome(v).isNone()) return ret;
@@ -779,8 +779,8 @@ public final class SpawnHandler
         time = System.nanoTime();
         num = this.doSpawnForLocation(world, v1);
         dt = (System.nanoTime() - time) / 1e3D;
-        if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.debug(dt + "\u00B5" + "s for  " + v + ", spawned "
-                + num);
+        if (PokecubeMod.debug && dt > 100)
+            PokecubeCore.LOGGER.debug(dt + "\u00B5" + "s for  " + v + ", spawned " + num);
         return;
     }
 
@@ -875,8 +875,8 @@ public final class SpawnHandler
         for (final ServerPlayer player : players)
         {
             if (player.getCommandSenderWorld().dimension() != world.dimension()) continue;
-            this.doSpawnForPlayer(player, world, PokecubeCore.getConfig().minSpawnRadius, PokecubeCore
-                    .getConfig().maxSpawnRadius);
+            this.doSpawnForPlayer(player, world, PokecubeCore.getConfig().minSpawnRadius,
+                    PokecubeCore.getConfig().maxSpawnRadius);
         }
     }
 

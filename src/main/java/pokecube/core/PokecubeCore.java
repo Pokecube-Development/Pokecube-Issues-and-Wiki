@@ -1,5 +1,6 @@
 package pokecube.core;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -12,6 +13,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -32,11 +35,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -56,13 +64,11 @@ import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
-import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
@@ -160,7 +166,8 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerStructures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
-            new BerryGenManager().processStructures(event);
+            // FIXME Berry structures
+//            new BerryGenManager().processStructures(event);
         }
 
         @SubscribeEvent
@@ -172,28 +179,21 @@ public class PokecubeCore
 
             final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils && (BiomeDatabase
                     .contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
+
+            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(OreConfiguration.target(
+                    OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()));
+
+            final ConfiguredFeature<?, ?> ORE_FOSSIL_FEATURE = Feature.ORE.configured(new OreConfiguration(
+                    ORE_FOSSIL_TARGET_LIST, 9));
+
+            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore", ORE_FOSSIL_FEATURE
+                    .placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement.triangle(
+                            VerticalAnchor.absolute(-64), VerticalAnchor.absolute(32)), BiomeFilter.biome())));
+
             // Currently this uses same settings as gold ore.
-            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, Feature.ORE.configured(
-                    new OreConfiguration(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get()
-                            .defaultBlockState(), 9)).rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(31))
-                    .squared().count(2), new ResourceLocation("pokecube:fossil_ore"));
-
-            // Register the general structure piece we use
-            // Registry.register(Registry.STRUCTURE_PIECE,
-            // "pokecube:jigsaw_piece", JigsawPieces.CSP);
-
-            // Register structure processor types TODO Structure Processors
-            // PokecubeStructureProcessor.TYPE =
-            // IStructureProcessorType.register("pokecube:struct_process",
-            // PokecubeStructureProcessor::new);
-            // FillerProcessor.TYPE =
-            // IStructureProcessorType.register("pokecube:struct_process_filler",
-            // FillerProcessor::new);
-
-            // Register the configurable worldgen things from datapack
-
-            // Register village stuff
-            // TODO add in forge village stuff maybe here when it is done.
+            // FIXME worldgen
+//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_FEATURE,
+//                    new ResourceLocation("pokecube:fossil_ore"));
         }
 
         @SubscribeEvent
@@ -436,12 +436,13 @@ public class PokecubeCore
         bus.addGenericListener(Motive.class, PaintingsHandler::registerPaintings);
 
         RecipeHandler.init(bus);
-        SecretBaseDimension.onConstruct(bus);
-        PokecubeStructureProcessors.init(bus);
-        WorldgenFeatures.init(bus);
         PointsOfInterest.REG.register(bus);
-        new WorldgenHandler(bus);
 
+        // FIXME worldgen
+//        new WorldgenHandler(bus);
+//      PokecubeStructureProcessors.init(bus);
+//      WorldgenFeatures.init(bus);
+        SecretBaseDimension.onConstruct(bus);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

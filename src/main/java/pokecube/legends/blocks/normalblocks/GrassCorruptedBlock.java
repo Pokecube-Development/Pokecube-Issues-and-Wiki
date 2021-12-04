@@ -1,6 +1,5 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
@@ -27,18 +26,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.levelgen.feature.AbstractFlowerFeature;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
-import pokecube.legends.worldgen.features.ForestVegetationFeature;
 
 public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBlock
 {
@@ -125,18 +119,18 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
           if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
 
           if (blockstate2.isAir()) {
-             BlockState blockstate1;
-             if (random.nextInt(8) == 0) {
-                final List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
-                if (list.isEmpty()) continue;
-                blockstate1 = GrassCorruptedBlock.getBlockState(random, blockpos1, list.get(0));
-             }
-            else blockstate1 = blockstate;
-
-             if (blockstate1.canSurvive(world, blockpos1)) {
-                world.setBlock(blockpos1, blockstate1, 3);
-                ForestVegetationFeature.place(world, random, blockpos, FeaturesInit.Configs.TAINTED_BARRENS_CONFIG, 3, 1);
-             }
+//             BlockState blockstate1;
+//             if (random.nextInt(8) == 0) {
+//                final List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
+//                if (list.isEmpty()) continue;
+//                blockstate1 = GrassCorruptedBlock.getBlockState(random, blockpos1, list.get(0));
+//             }
+//            else blockstate1 = blockstate;
+//
+//             if (blockstate1.canSurvive(world, blockpos1)) {
+//                world.setBlock(blockpos1, blockstate1, 3);
+//                ForestVegetationFeature.place(world, random, blockpos, FeaturesInit.Configs.TAINTED_BARRENS_CONFIG, 3, 1);
+//             }
           }
        }
     }
@@ -176,10 +170,11 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
             ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 120, 1));
     }
 
-    @SuppressWarnings("unchecked")
-    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
-    {
-       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
-       return feature.getRandomFlower(random, pos, config.config());
-    }
+//    @SuppressWarnings("unchecked")
+//    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
+//    {
+        // FIXME grass bonemeal
+//       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
+//       return feature.getRandomFlower(random, pos, config.config());
+//    }
 }

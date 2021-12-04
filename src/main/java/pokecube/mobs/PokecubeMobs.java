@@ -78,7 +78,8 @@ public class PokecubeMobs
         public static void registerFeatures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
-            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
+            // FIXME worldgen
+//            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
         }
     }
 

@@ -8,7 +8,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
@@ -61,7 +60,8 @@ public class SetupHandler
 
         event.enqueueWork(() ->
         {
-            WorldgenHandler.setupAll();
+            // FIXME worldgen
+//            WorldgenHandler.setupAll();
         });
 
         // Register some Village stuff

@@ -1,8 +1,6 @@
 package pokecube.core.items.pokecubes.helper;
 
 import java.util.UUID;
-import java.util.stream.Stream;
-
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -76,9 +74,8 @@ public class SendOutManager
 
     public static boolean valid(final AABB box, final ServerLevel world)
     {
-        final Stream<VoxelShape> colliding = world.getBlockCollisions(null, box);
-        final long num = colliding.count();
-        return num == 0;
+        final Iterable<VoxelShape> colliding = world.getBlockCollisions(null, box);
+        return !colliding.iterator().hasNext();
     }
 
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon)

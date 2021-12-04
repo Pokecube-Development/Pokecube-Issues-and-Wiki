@@ -1,11 +1,9 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.data.worldgen.Features;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,9 +29,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.levelgen.feature.AbstractFlowerFeature;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.NetherForestVegetationFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
@@ -161,9 +156,9 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
         final BlockPos blockpos = pos.above();
         if (blockstate.is(BlockInit.DISTORTIC_GRASS.get()))
         {
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
-            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
+//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
+//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
+//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
         }
 
         label48:
@@ -185,20 +180,21 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
 
             if (blockstate2.isAir())
             {
-                BlockState blockstate3;
-                if (random.nextInt(8) == 0)
-                {
-                    final List<ConfiguredFeature<?, ?>> features = world.getBiome(blockpos1).getGenerationSettings()
-                            .getFlowerFeatures();
-                    if (features.isEmpty()) continue;
-
-                    final ConfiguredFeature<?, ?> features2 = features.get(0);
-                    final AbstractFlowerFeature flowers = (AbstractFlowerFeature) features2.feature;
-                    blockstate3 = flowers.getRandomFlower(random, blockpos1, features2.config());
-                }
-                else blockstate3 = blockstate1;
-
-                if (blockstate3.canSurvive(world, blockpos1)) world.setBlock(blockpos1, blockstate3, 3);
+                // FIXME grass bonemeal
+//                BlockState blockstate3;
+//                if (random.nextInt(8) == 0)
+//                {
+//                    final List<ConfiguredFeature<?, ?>> features = world.getBiome(blockpos1).getGenerationSettings()
+//                            .getFlowerFeatures();
+//                    if (features.isEmpty()) continue;
+//
+//                    final ConfiguredFeature<?, ?> features2 = features.get(0);
+//                    final AbstractFlowerFeature flowers = (AbstractFlowerFeature) features2.feature;
+//                    blockstate3 = flowers.getRandomFlower(random, blockpos1, features2.config());
+//                }
+//                else blockstate3 = blockstate1;
+//
+//                if (blockstate3.canSurvive(world, blockpos1)) world.setBlock(blockpos1, blockstate3, 3);
             }
         }
     }

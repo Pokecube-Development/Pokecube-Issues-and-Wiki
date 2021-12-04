@@ -14,6 +14,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.Proxy;
+import thut.core.common.ThutCore;
 
 public class CommonProxy implements Proxy
 {
@@ -33,18 +34,15 @@ public class CommonProxy implements Proxy
         }
     }
 
-    private MinecraftServer server;
-
     @Override
     public void setServer(final MinecraftServer server)
     {
-        this.server = server;
     }
 
     @Override
     public MinecraftServer getServer()
     {
-        return this.server;
+        return ThutCore.proxy.getServer();
     }
 
     public Player getPlayer(final UUID uuid)
