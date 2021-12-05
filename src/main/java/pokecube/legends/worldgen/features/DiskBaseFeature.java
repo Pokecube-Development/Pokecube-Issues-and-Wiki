@@ -26,8 +26,8 @@ public class DiskBaseFeature extends Feature<DiskConfiguration>
       WorldGenLevel world = context.level();
       boolean flag = false;
       int i = pos.getY();
-      int j = i + diskConfig.halfHeight;
-      int k = i - diskConfig.halfHeight - 1;
+      int j = i + diskConfig.halfHeight();
+      int k = i - diskConfig.halfHeight() - 1;
       boolean flag1 = diskConfig.state.getBlock() instanceof FallingBlock;
       int l = diskConfig.radius.sample(context.random());
 

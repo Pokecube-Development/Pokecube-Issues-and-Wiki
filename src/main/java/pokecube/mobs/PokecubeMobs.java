@@ -78,8 +78,7 @@ public class PokecubeMobs
         public static void registerFeatures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
-            // FIXME worldgen
-//            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
+            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
         }
     }
 
@@ -200,7 +199,7 @@ public class PokecubeMobs
         final IPokemob shuckle = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (shuckle != null && shuckle.getPokedexNb() == 213)
         {
-            if (evt.getEntity().getCommandSenderWorld().isClientSide) return;
+            if (evt.getEntity().level.isClientSide) return;
 
             final ItemStack item = shuckle.getEntity().getMainHandItem();
             if (item.isEmpty()) return;

@@ -35,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -64,11 +65,13 @@ import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
+import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
@@ -166,8 +169,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerStructures(final RegistryEvent.Register<StructureFeature<?>> event)
         {
-            // FIXME Berry structures
-//            new BerryGenManager().processStructures(event);
+            new BerryGenManager().processStructures(event);
         }
 
         @SubscribeEvent
@@ -177,23 +179,23 @@ public class PokecubeCore
 
             // Register the fossil stone spawning.
 
-            final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils && (BiomeDatabase
-                    .contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
+            final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils
+                    && (BiomeDatabase.contains(k, "ocean") || BiomeDatabase.contains(k, "sandy"));
 
-            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(OreConfiguration.target(
-                    OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()));
+            final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(OreConfiguration
+                    .target(OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()));
 
-            final ConfiguredFeature<?, ?> ORE_FOSSIL_FEATURE = Feature.ORE.configured(new OreConfiguration(
-                    ORE_FOSSIL_TARGET_LIST, 9));
+            final ConfiguredFeature<?, ?> ORE_FOSSIL_FEATURE = Feature.ORE
+                    .configured(new OreConfiguration(ORE_FOSSIL_TARGET_LIST, 9));
 
-            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore", ORE_FOSSIL_FEATURE
-                    .placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement.triangle(
-                            VerticalAnchor.absolute(-64), VerticalAnchor.absolute(32)), BiomeFilter.biome())));
+            final PlacedFeature ORE_FOSSIL_PLACEMENT = PlacementUtils.register("pokecube:fossil_ore",
+                    ORE_FOSSIL_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(),
+                            HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(32)),
+                            BiomeFilter.biome())));
 
             // Currently this uses same settings as gold ore.
             // FIXME worldgen
-//            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_FEATURE,
-//                    new ResourceLocation("pokecube:fossil_ore"));
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_FOSSIL_PLACEMENT);
         }
 
         @SubscribeEvent
@@ -264,8 +266,9 @@ public class PokecubeCore
             // register a new mob here
             PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
 
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE,
-                    16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
+                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK)
+                    .add(Attributes.MAX_HEALTH, 10.0D);
             event.put(EntityPokecube.TYPE, attribs.build());
             event.put(EntityPokemobEgg.TYPE, attribs.build());
             event.put(NpcMob.TYPE, attribs.build());
@@ -301,8 +304,8 @@ public class PokecubeCore
             Database.initSounds(event.getRegistry());
 
             ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
-            event.getRegistry().register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(
-                    sound));
+            event.getRegistry()
+                    .register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(sound));
             sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenter");
             event.getRegistry().register((HealerContainer.HEAL_SOUND = new SoundEvent(sound)).setRegistryName(sound));
             sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop");
@@ -330,7 +333,7 @@ public class PokecubeCore
 
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
-    public static final String MODID  = "pokecube";
+    public static final String MODID = "pokecube";
 
     private static final String NETVERSION = "1.0.2";
     // Handler for network stuff.
@@ -438,10 +441,10 @@ public class PokecubeCore
         RecipeHandler.init(bus);
         PointsOfInterest.REG.register(bus);
 
+        new WorldgenHandler(bus);
         // FIXME worldgen
-//        new WorldgenHandler(bus);
-//      PokecubeStructureProcessors.init(bus);
-//      WorldgenFeatures.init(bus);
+        PokecubeStructureProcessors.init(bus);
+        WorldgenFeatures.init(bus);
         SecretBaseDimension.onConstruct(bus);
 
         // Register the player data we use with thutcore

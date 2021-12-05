@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IInhabitor;
@@ -60,34 +61,8 @@ public class SetupHandler
 
         event.enqueueWork(() ->
         {
-            // FIXME worldgen
-//            WorldgenHandler.setupAll();
+            WorldgenHandler.setupAll();
         });
-
-        // Register some Village stuff
-        // if (PokecubeCore.getConfig().villagePokecenters)
-        // {
-        // TODO pokecenters in vanilla villages.
-        // final ImmutableList<StructureProcessor> replacementRules =
-        // ImmutableList.of(new RuleStructureProcessor(
-        // ImmutableList.of(new RuleEntry(new
-        // RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F),
-        // AlwaysTrueRuleTest.INSTANCE,
-        // Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
-        //
-        // final SingleJigsawPiece part = new SingleJigsawPiece(new
-        // ResourceLocation(PokecubeCore.MODID,
-        // "village/common/pokecenter").toString(), replacementRules,
-        // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
-        //
-        // JigsawManager.REGISTRY.register(new JigsawPattern(new
-        // ResourceLocation(PokecubeCore.MODID,
-        // "village/common/pokecenter"), new
-        // ResourceLocation("village/plains/terminators"), ImmutableList.of(
-        // new Pair<>(part, 100)),
-        // JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
-        // }
-
     }
 
     @SubscribeEvent
