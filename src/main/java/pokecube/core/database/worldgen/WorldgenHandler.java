@@ -170,9 +170,20 @@ public class WorldgenHandler
         public String name;
         public String root;
         public int offset = 1;
+
+        // This is max depth of the structure, ie how many times it can add new
+        // jigsaws onto a previous part.
         public int size = 4;
+
+        // These are for the rarity of the structure
         public int distance = 8;
         public int separation = 4;
+
+        // This defines if we need all biomes in the checked area to match. if
+        // this is -1, it will allow spawn if any biome matches, otherwise it
+        // will require all biomes to match within this number of blocks.
+        public int needed_space = -1;
+
         public String type = "";
         public String biomeType = "none";
         public SpawnRule spawn;

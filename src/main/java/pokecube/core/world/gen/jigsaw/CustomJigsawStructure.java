@@ -104,8 +104,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                         PokecubeCore.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,
                                 localTrader);
                         PokecubeSerializer.getInstance().setPlacedSpawn();
-                        sworld.getServer().execute(() ->
-                        {
+                        sworld.getServer().execute(() -> {
                             sworld.setDefaultSpawnPos(spos, 0);
                         });
                         piece.placedSpawn = false;
@@ -121,8 +120,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
     public CustomJigsawStructure(final Codec<JigsawConfig> codec)
     {
-        super(codec, (context) ->
-        {
+        super(codec, (context) -> {
             JigsawConfig config = context.config();
 
             boolean validContext = false;
@@ -132,11 +130,22 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
             final int x = context.chunkPos().getBlockX(7);
             final int z = context.chunkPos().getBlockZ(7);
             final BlockPos pos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
-            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), 16,
+
+            int dist = context.config().struct_config.needed_space;
+            boolean any = dist == -1;
+            if (any) dist = 1;
+
+            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
                     chunkGenerator.climateSampler());
+
+            if (!any) validContext = !biomes.isEmpty();
+
             for (Biome b : biomes)
             {
-                validContext = validContext || config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
+                if (any)
+                    validContext = validContext || config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
+                else 
+                    validContext = validContext && config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
             }
             if (!validContext)
             {
