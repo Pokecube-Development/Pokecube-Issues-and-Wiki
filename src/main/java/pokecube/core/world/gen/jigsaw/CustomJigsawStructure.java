@@ -2,6 +2,7 @@ package pokecube.core.world.gen.jigsaw;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -43,6 +44,7 @@ import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.terrain.BiomeDatabase;
 
 public class CustomJigsawStructure extends NoiseAffectingStructureFeature<JigsawConfig>
 {
@@ -58,9 +60,9 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
         StructureManager templateManagerIn = context.structureManager();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
 
-        final int x = context.chunkPos().getMinBlockX() + 7;
-        final int z = context.chunkPos().getMinBlockZ() + 7;
-        final BlockPos blockpos = new BlockPos(x, 0, z);
+        final int x = context.chunkPos().getBlockX(7);
+        final int z = context.chunkPos().getBlockZ(7);
+        final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
 
         for (final StructurePiece part : parts) if (part instanceof final PoolElementStructurePiece p)
             if (p.getElement()instanceof final CustomJigsawPiece piece)
@@ -123,8 +125,19 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
         {
             JigsawConfig config = context.config();
 
-            boolean validContext = true;
+            boolean validContext = false;
 
+            ChunkGenerator chunkGenerator = context.chunkGenerator();
+
+            final int x = context.chunkPos().getBlockX(7);
+            final int z = context.chunkPos().getBlockZ(7);
+            final BlockPos pos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
+            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), 16,
+                    chunkGenerator.climateSampler());
+            for (Biome b : biomes)
+            {
+                validContext = validContext || config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
+            }
             if (!validContext)
             {
                 return Optional.empty();
@@ -190,7 +203,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
         {
             if (s == this) break;
             // TODO check if feature is invalid?
-            
+
             final int ds1 = WorldgenHandler.getNeededSpace(s);
             final int ds = Math.max(ds0, ds1);
 

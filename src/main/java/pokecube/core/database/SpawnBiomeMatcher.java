@@ -87,10 +87,10 @@ public class SpawnBiomeMatcher
         public final ResourceKey<Biome> biome;
         public final BiomeType          type;
         public final Weather            weather;
-        public final BiomeCategory           cat;
+        public final BiomeCategory      cat;
         public final boolean            thundering;
-        public final LevelAccessor             world;
-        public final ChunkAccess             chunk;
+        public final LevelAccessor      world;
+        public final ChunkAccess        chunk;
         public final Vector3            location;
 
         public SpawnCheck(final Vector3 location, final LevelAccessor world, final Biome biome)
