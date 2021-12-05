@@ -53,6 +53,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
+import pokecube.core.interfaces.PokecubeMod;
 import thut.core.common.ThutCore;
 
 public class JigsawAssmbler
@@ -154,19 +155,20 @@ public class JigsawAssmbler
 
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
-        boolean built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
-                templateManagerIn, pos, parts, worldgenrandom, isValid, default_k, heightAccessor);
+        boolean built = build(dynamicRegistryManager, resourceLocationIn, context.config().struct_config.size,
+                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, worldgenrandom, isValid, default_k,
+                heightAccessor);
 
         LegacyRandomSource rand = new LegacyRandomSource(0);
 
         int n = 1;
-        while (!built && n++ < 40)
+        while (!built && n++ < 10)
         {
             worldgenrandom.setLargeFeatureSeed(rand.nextLong(), context.chunkPos().x, context.chunkPos().z);
             built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
                     templateManagerIn, pos, parts, worldgenrandom, isValid, default_k, heightAccessor);
         }
-        System.out.println(n + " " + context.config().struct_config.name);
+        if (n > 1) PokecubeMod.LOGGER.warn((n + " iterations of build for: " + context.config().struct_config.name));
 
         if (parts.isEmpty()) return Optional.empty();
 
