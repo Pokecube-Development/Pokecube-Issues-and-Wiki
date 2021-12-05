@@ -32,8 +32,8 @@ import pokecube.legends.worldgen.features.StringOfPearlsFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.TemporalBambooFeature;
-import pokecube.legends.worldgen.features.treedecorators.LeavesStringOfPearlsDecorator;
-import pokecube.legends.worldgen.features.treedecorators.TrunkStringOfPearlsDecorator;
+import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
+import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorator;
 
 public class WorldgenFeatures
 {
@@ -41,8 +41,6 @@ public class WorldgenFeatures
 //            ForgeRegistries.SURFACE_BUILDERS, Reference.ID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(
             ForgeRegistries.FEATURES, Reference.ID);
-    public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(
-            ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
 
 //    public static final RegistryObject<SurfaceBuilder<?>> BURNT_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("burnt_desert_builder",
 //            () -> new BurntDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
@@ -90,15 +88,10 @@ public class WorldgenFeatures
     public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
             () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
 
-    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = WorldgenFeatures.TREE_DECORATORS.register("leaves_string_of_pearls_decorator",
-            () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
-    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = WorldgenFeatures.TREE_DECORATORS.register("trunk_string_of_pearls_decorator",
-            () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
 
     public static void init(final IEventBus bus)
     {
 //        WorldgenFeatures.SURFACE_BUILDERS.register(bus);
         WorldgenFeatures.FEATURES.register(bus);
-        WorldgenFeatures.TREE_DECORATORS.register(bus);
     }
 }

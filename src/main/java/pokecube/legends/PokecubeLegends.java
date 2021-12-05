@@ -81,6 +81,8 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
+import pokecube.legends.worldgen.WorldgenFeatures;
+import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
 
@@ -173,9 +175,6 @@ public class PokecubeLegends
             // Currently this uses same settings as gold ore.
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES,
                     ORE_SAPPHIRE_PLACEMENT);
-
-            // FIXME worldgen
-//            Trees.register();
         }
 
         @SubscribeEvent
@@ -265,7 +264,8 @@ public class PokecubeLegends
                 Type.MOUNTAIN, Type.RARE, Type.WET);
 
         // FIXME worldgen features
-//        WorldgenFeatures.init(modEventBus);
+        // WorldgenFeatures.init(modEventBus);
+        Trees.init(modEventBus);
         BlockInit.init();
         ItemInit.init();
         MoveRegister.init();

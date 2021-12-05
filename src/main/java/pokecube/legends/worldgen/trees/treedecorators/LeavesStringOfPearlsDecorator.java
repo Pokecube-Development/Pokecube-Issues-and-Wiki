@@ -1,4 +1,4 @@
-package pokecube.legends.worldgen.features.treedecorators;
+package pokecube.legends.worldgen.trees.treedecorators;
 
 import java.util.List;
 import java.util.Random;
@@ -16,48 +16,47 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.WorldgenFeatures;
+import pokecube.legends.worldgen.trees.Trees;
 
 public class LeavesStringOfPearlsDecorator extends TreeDecorator
 {
     public static final Codec<LeavesStringOfPearlsDecorator> CODEC;
-    public static final LeavesStringOfPearlsDecorator        INSTANCE = new LeavesStringOfPearlsDecorator();
+    public static final LeavesStringOfPearlsDecorator INSTANCE = new LeavesStringOfPearlsDecorator();
 
     @Override
     public TreeDecoratorType<?> type()
     {
-        return WorldgenFeatures.LEAVES_STRING_OF_PEARLS.get();
+        return Trees.LEAVES_STRING_OF_PEARLS.get();
     }
 
     @Override
     public void place(final LevelSimulatedReader world, final BiConsumer<BlockPos, BlockState> blockPos,
             final Random random, final List<BlockPos> listPos, final List<BlockPos> listPos1)
     {
-        listPos1.forEach((listedPos) ->
-        {
+        listPos1.forEach((listedPos) -> {
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos = listedPos.west();
-                if (Feature.isAir(world, pos)) LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.EAST,
-                        blockPos, random);
+                if (Feature.isAir(world, pos))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos, VineBlock.EAST, blockPos, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos1 = listedPos.east();
-                if (Feature.isAir(world, pos1)) LeavesStringOfPearlsDecorator.addHangingVine(world, pos1,
-                        VineBlock.WEST, blockPos, random);
+                if (Feature.isAir(world, pos1))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos1, VineBlock.WEST, blockPos, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos2 = listedPos.north();
-                if (Feature.isAir(world, pos2)) LeavesStringOfPearlsDecorator.addHangingVine(world, pos2,
-                        VineBlock.SOUTH, blockPos, random);
+                if (Feature.isAir(world, pos2))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos2, VineBlock.SOUTH, blockPos, random);
             }
             if (random.nextInt(4) == 0)
             {
                 final BlockPos pos3 = listedPos.south();
-                if (Feature.isAir(world, pos3)) LeavesStringOfPearlsDecorator.addHangingVine(world, pos3,
-                        VineBlock.NORTH, blockPos, random);
+                if (Feature.isAir(world, pos3))
+                    LeavesStringOfPearlsDecorator.addHangingVine(world, pos3, VineBlock.NORTH, blockPos, random);
             }
         });
     }
@@ -85,8 +84,7 @@ public class LeavesStringOfPearlsDecorator extends TreeDecorator
 
     static
     {
-        CODEC = Codec.unit(() ->
-        {
+        CODEC = Codec.unit(() -> {
             return LeavesStringOfPearlsDecorator.INSTANCE;
         });
     }

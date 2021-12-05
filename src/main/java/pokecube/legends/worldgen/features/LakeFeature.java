@@ -45,8 +45,8 @@ public class LakeFeature extends Feature<BlockStateConfiguration>
       {
          pos = pos.below(4);
          for (final StructureFeature<?> village : StructureFeature.NOISE_AFFECTING_FEATURES)
-            if (world.startsForFeature(SectionPos.of(pos), village).findAny().isPresent()) return false;
-         if (world.startsForFeature(SectionPos.of(pos), StructureFeature.VILLAGE).findAny().isPresent()) return false;
+            if (!world.startsForFeature(SectionPos.of(pos), village).isEmpty()) return false;
+         if (!world.startsForFeature(SectionPos.of(pos), StructureFeature.VILLAGE).isEmpty()) return false;
         else
          {
             final boolean[] aboolean = new boolean[2048];

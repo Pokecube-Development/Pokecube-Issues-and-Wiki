@@ -38,7 +38,7 @@ public class Impl
     @SubscribeEvent
     public static void buildStructure(final PickLocation event)
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        final MinecraftServer server = Essentials.server;
         final ServerLevel world = server.getLevel(event.getDimensionKey());
         final IDimensionInfo dimInfo = Registration.LOSTCITY_FEATURE.getDimensionInfo(world);
         if (dimInfo == null)
