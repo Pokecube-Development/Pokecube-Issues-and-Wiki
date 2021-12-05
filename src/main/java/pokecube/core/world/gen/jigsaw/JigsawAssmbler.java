@@ -168,12 +168,25 @@ public class JigsawAssmbler
             built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
                     templateManagerIn, pos, parts, worldgenrandom, isValid, default_k, heightAccessor);
         }
-        if (n > 1) PokecubeMod.LOGGER.warn((n + " iterations of build for: " + context.config().struct_config.name));
+        if (n > 1) PokecubeMod.LOGGER.warn(n + " iterations of build for: " + context.config().struct_config.name);
 
         if (parts.isEmpty()) return Optional.empty();
 
-        return Optional.of((builder, context_) ->
+        int max_h = JigsawAssmbler.getForGen(chunkGenerator).dimensionType().logicalHeight() - 5;
+
+        int y_shift = 0;
+        for (StructurePiece p : parts)
         {
+            if (p.getBoundingBox().maxY > max_h) y_shift = Math.min(y_shift, max_h - p.getBoundingBox().maxY);
+        }
+
+        if (y_shift != 0)
+        {
+            PokecubeMod.LOGGER.debug("Shifting {} down by {} ", context.config().struct_config.name, y_shift);
+            for (StructurePiece p : parts) p.move(0, y_shift, 0);
+        }
+
+        return Optional.of((builder, context_) -> {
             postProcessor.accept(context_, parts);
             parts.forEach(builder::addPiece);
         });
@@ -283,8 +296,7 @@ public class JigsawAssmbler
         Collections.shuffle(needed, this.rand);
         for (final StructurePoolElement p : needed) list.add(0, p);
         final LevelAccessor world = JigsawAssmbler.getForGen(this.chunkGenerator);
-        list.forEach(p ->
-        {
+        list.forEach(p -> {
             if (p instanceof CustomJigsawPiece)
             {
                 ((CustomJigsawPiece) p).config = this.config;
@@ -371,8 +383,7 @@ public class JigsawAssmbler
                         final BoundingBox next_box = next_part.getBoundingBox(this.templateManager, BlockPos.ZERO, dir);
                         int i1;
                         if (next_box.getYSpan() > 16) i1 = 0;
-                        else i1 = next_jigsaws.stream().mapToInt((blockInfo) ->
-                        {
+                        else i1 = next_jigsaws.stream().mapToInt((blockInfo) -> {
                             if (!next_box.isInside(
                                     blockInfo.pos.relative(blockInfo.state.getValue(JigsawBlock.ORIENTATION).front())))
                                 return 0;
