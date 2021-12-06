@@ -43,3 +43,4 @@ processing_scripts/json_cleanup/outputs/*
 **/template_worlds/main_structures/la*
 **/template_worlds/main_structures/p*
 /.apt_generated_tests/
+/.apt_generated/
