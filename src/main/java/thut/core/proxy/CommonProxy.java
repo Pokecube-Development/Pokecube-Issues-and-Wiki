@@ -7,7 +7,6 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -154,19 +153,5 @@ public class CommonProxy implements Proxy
             }
             itemstack.getTag().remove("min");
         }
-    }
-
-    private MinecraftServer server;
-
-    @Override
-    public void setServer(final MinecraftServer server)
-    {
-        this.server = server;
-    }
-
-    @Override
-    public MinecraftServer getServer()
-    {
-        return this.server;
     }
 }

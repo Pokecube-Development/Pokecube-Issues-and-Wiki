@@ -2,18 +2,19 @@ package thut.core.common;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public interface Proxy
 {
-    void setServer(MinecraftServer server);
-
-    MinecraftServer getServer();
+    default MinecraftServer getServer()
+    {
+        return ServerLifecycleHooks.getCurrentServer();
+    }
 
     default boolean isClientSide()
     {
@@ -49,10 +50,5 @@ public interface Proxy
 
     default void setupClient(final FMLClientSetupEvent event)
     {
-    }
-
-    default void handleServerAboutToStart(final ServerAboutToStartEvent event)
-    {
-        this.setServer(event.getServer());
     }
 }

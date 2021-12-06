@@ -1,7 +1,6 @@
 package pokecube.adventures.proxy;
 
 import net.minecraft.core.Direction;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -53,19 +52,5 @@ public class CommonProxy implements Proxy
     public Wearable getWearable()
     {
         return new Wearable();
-    }
-
-    private MinecraftServer server;
-
-    @Override
-    public void setServer(final MinecraftServer server)
-    {
-        this.server = server;
-    }
-
-    @Override
-    public MinecraftServer getServer()
-    {
-        return this.server;
     }
 }

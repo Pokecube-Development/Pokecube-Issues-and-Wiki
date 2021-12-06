@@ -254,8 +254,6 @@ public class ThutCore
         // in
         MinecraftForge.EVENT_BUS.register(this);
 
-        MinecraftForge.EVENT_BUS.addListener(ThutCore.proxy::handleServerAboutToStart);
-
         Tracker.init();
 
         // Register Config stuff
