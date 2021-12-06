@@ -693,7 +693,7 @@ public class VillageRouteMaker implements IBotAI
             this.tryPath(vecHere);
             this.pathTicks++;
 
-            if (this.pathTicks > 20)
+            if (this.pathTicks > 200)
             {
                 final BlockPos tpTo = new BlockPos(vecHere);
                 this.telePlayer(tpTo);

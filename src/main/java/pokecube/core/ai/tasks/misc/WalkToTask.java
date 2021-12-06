@@ -19,7 +19,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.ai.brain.RootTask;
@@ -151,11 +150,6 @@ public class WalkToTask extends RootTask<Mob>
     private boolean isPathValid(final Mob mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().currentBlockPosition();
-
-        final Level world = mob.getCommandSenderWorld();
-
-        if (!world.isAreaLoaded(blockpos, 8)) return false;
-        if (!world.isAreaLoaded(mob.blockPosition(), 8)) return false;
 
         final Brain<?> brain = mob.getBrain();
         pathing:

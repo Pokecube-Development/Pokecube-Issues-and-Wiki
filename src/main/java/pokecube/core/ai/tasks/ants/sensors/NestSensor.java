@@ -31,7 +31,7 @@ public class NestSensor extends Sensor<Mob>
 
     public static class AntNest
     {
-        public final NestTile   nest;
+        public final NestTile nest;
         public final AntHabitat hab;
 
         public AntNest(final NestTile tile, final AntHabitat hab)
@@ -51,14 +51,14 @@ public class NestSensor extends Sensor<Mob>
             final Level world = mob.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
-            if (notHere || !world.isAreaLoaded(pos.pos(), 0)) return Optional.empty();
+            if (notHere) return Optional.empty();
             final BlockEntity tile = world.getBlockEntity(pos.pos());
             if (tile instanceof NestTile)
             {
                 final NestTile nest = (NestTile) tile;
                 if (!nest.isType(AntTasks.NESTLOC)) return Optional.empty();
-                if (nest.getWrappedHab() instanceof AntHabitat) return Optional.of(new AntNest(nest, (AntHabitat) nest
-                        .getWrappedHab()));
+                if (nest.getWrappedHab() instanceof AntHabitat)
+                    return Optional.of(new AntNest(nest, (AntHabitat) nest.getWrappedHab()));
             }
         }
         return Optional.empty();
@@ -73,15 +73,14 @@ public class NestSensor extends Sensor<Mob>
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
         final Random rand = ThutCore.newRandom();
-        final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
-                worldIn, entityIn), Occupancy.ANY, pos, NestSensor.NESTSPACING, rand);
+        final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(),
+                p -> this.validNest(p, worldIn, entityIn), Occupancy.ANY, pos, NestSensor.NESTSPACING, rand);
         if (opt.isPresent())
         {
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(AntTasks.NO_HIVE_TIMER);
-            brain.setMemory(AntTasks.NEST_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), opt
-                    .get()));
+            brain.setMemory(AntTasks.NEST_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), opt.get()));
         }
         else
         {

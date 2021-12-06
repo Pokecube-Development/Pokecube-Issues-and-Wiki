@@ -104,7 +104,7 @@ public class ClientProxy extends CommonProxy
         {
             final TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
             final File file0 = new File(Minecraft.getInstance().gameDirectory, "assets/");
-            final String s = Hashing.sha1().hashUnencodedChars(FilenameUtils.getBaseName(urlSkin)).toString();
+            final String s = Hashing.goodFastHash(32).hashUnencodedChars(FilenameUtils.getBaseName(urlSkin)).toString();
             final ResourceLocation resourcelocation = new ResourceLocation("skins/" + s);
             final File file1 = new File(new File(file0, "skins"), s.length() > 2 ? s.substring(0, 2) : "xx");
             file1.mkdirs();

@@ -117,8 +117,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         // path finding in the nest.
         if (world.getGameTime() % 100 == 0)
         {
-            if (!world.isAreaLoaded(this.here, 1)) return;
-
             BlockEntity tile = world.getBlockEntity(this.here);
             if (tile == null)
             {

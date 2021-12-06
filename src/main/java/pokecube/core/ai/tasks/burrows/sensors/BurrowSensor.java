@@ -51,14 +51,14 @@ public class BurrowSensor extends Sensor<Mob>
             final Level world = mob.getCommandSenderWorld();
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
-            if (notHere || !world.isAreaLoaded(pos.pos(), 0)) return Optional.empty();
+            if (notHere) return Optional.empty();
             final BlockEntity tile = world.getBlockEntity(pos.pos());
             if (tile instanceof NestTile)
             {
                 final NestTile nest = (NestTile) tile;
                 if (!nest.isType(BurrowTasks.BURROWLOC)) return Optional.empty();
-                if (nest.getWrappedHab() instanceof BurrowHab) return Optional.of(new Burrow(nest, (BurrowHab) nest
-                        .getWrappedHab()));
+                if (nest.getWrappedHab() instanceof BurrowHab)
+                    return Optional.of(new Burrow(nest, (BurrowHab) nest.getWrappedHab()));
             }
         }
         return Optional.empty();
@@ -73,20 +73,20 @@ public class BurrowSensor extends Sensor<Mob>
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
         final Random rand = ThutCore.newRandom();
-        final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(), p -> this.validNest(p,
-                worldIn, entityIn), Occupancy.ANY, pos, 64, rand);
+        final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(),
+                p -> this.validNest(p, worldIn, entityIn), Occupancy.ANY, pos, 64, rand);
         if (opt.isPresent())
         {
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(BurrowTasks.NO_HOME_TIMER);
-            brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), opt
-                    .get()));
+            brain.setMemory(BurrowTasks.BURROW, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), opt.get()));
         }
         else
         {
             int timer = 0;
-            if (brain.hasMemoryValue(BurrowTasks.NO_HOME_TIMER)) timer = brain.getMemory(BurrowTasks.NO_HOME_TIMER).get();
+            if (brain.hasMemoryValue(BurrowTasks.NO_HOME_TIMER))
+                timer = brain.getMemory(BurrowTasks.NO_HOME_TIMER).get();
             brain.setMemory(BurrowTasks.NO_HOME_TIMER, timer + 1);
         }
     }

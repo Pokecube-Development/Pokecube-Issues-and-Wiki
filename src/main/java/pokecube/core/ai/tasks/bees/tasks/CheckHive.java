@@ -44,7 +44,6 @@ public class CheckHive extends AbstractBeeTask
                 if (!clearHive)
                 {
                     // Not loaded, skip this check, hive may still be there.
-                    if (!world.isAreaLoaded(pos.pos(), 0)) return;
                     clearHive = !HiveSensor.doesHiveHaveSpace(this.entity, pos.pos());
                 }
                 // If we should clear the hive, remove the memory, the
