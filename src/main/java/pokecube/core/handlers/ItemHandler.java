@@ -52,7 +52,6 @@ public class ItemHandler
             final String name = i.getRegistryName().getPath();
             final Item.Properties props = new Item.Properties();
             props.tab(PokecubeItems.TAB_POKECUBES);
-            props.setNoRepair();
             props.durability(255).defaultDurability(255);
             final Pokecube cube = new Pokecube(props);
             if (PokecubeItems.POKECUBE_CUBES.isEmpty()) PokecubeItems.POKECUBE_CUBES = new ItemStack(cube);

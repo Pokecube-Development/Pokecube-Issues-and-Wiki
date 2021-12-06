@@ -37,6 +37,7 @@ import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -54,13 +55,13 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
+import thut.essentials.util.ItemList;
 
 public class Pokecube extends Item implements IPokecube
 {
     public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
 
-    private static final Predicate<Entity> capturable = t ->
-    {
+    private static final Predicate<Entity> capturable = t -> {
         if (Pokecube.snagblacklist.contains(t.getType().getRegistryName())) return false;
         return true;
     };
@@ -222,6 +223,12 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
+    public int getItemStackLimit(ItemStack stack)
+    {
+        return PokecubeManager.isFilled(stack) ? 1 : 64;
+    }
+
+    @Override
     public boolean isDamaged(final ItemStack stack)
     {
         return PokecubeManager.isFilled(stack);
@@ -243,6 +250,16 @@ public class Pokecube extends Item implements IPokecube
     public int getMaxDamage(final ItemStack stack)
     {
         return 255;
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack cube, ItemStack item)
+    {
+        if (PokecubeManager.isFilled(cube))
+        {
+            return ItemList.is(HungerTask.FOODTAG, item);
+        }
+        return super.isValidRepairItem(cube, item);
     }
 
     @Override
@@ -298,8 +315,7 @@ public class Pokecube extends Item implements IPokecube
         if (MobEntity instanceof Player && !worldIn.isClientSide)
         {
             final Player player = (Player) MobEntity;
-            final Predicate<Entity> selector = input ->
-            {
+            final Predicate<Entity> selector = input -> {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
                 if (!AITools.validTargets.test(input)) return false;
                 if (pokemob == null) return true;
