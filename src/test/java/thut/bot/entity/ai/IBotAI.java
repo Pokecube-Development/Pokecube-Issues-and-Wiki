@@ -10,9 +10,9 @@ import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.compress.utils.Lists;
 import org.objectweb.asm.Type;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.nbt.CompoundTag;

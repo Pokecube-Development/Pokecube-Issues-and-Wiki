@@ -739,13 +739,13 @@ public class VillageRouteMaker extends AbstractBot
             try
             {
                 maxNodes = Integer.parseInt(match.group(5));
-                this.getTag().putInt("max_n", this.maxNodes);
             }
             catch (Exception e)
             {
                 player.chat(e.getLocalizedMessage());
             }
         }
+        this.getTag().putInt("max_n", this.maxNodes);
         return super.init(args);
     }
 
