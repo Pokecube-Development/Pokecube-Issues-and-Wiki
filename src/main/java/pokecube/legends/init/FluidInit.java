@@ -30,10 +30,4 @@ public class FluidInit
     public static void init()
     {
     }
-
-    // FIXME remove this when forge fixes fluids crash
-    public static void finish()
-    {
-        FluidInit.DISTORTED_WATER_BLOCK.get().fluid = FluidInit.DISTORTED_WATER.get();
-    }
 }

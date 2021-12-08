@@ -20,11 +20,5 @@ public class SetupHandler
     public static void setup(final FMLCommonSetupEvent event)
     {
         WormholeSpawns.init();
-
-        // FIXME remove this when forge fixes fluids crash
-        event.enqueueWork(() ->
-        {
-            FluidInit.finish();
-        });
     }
 }
