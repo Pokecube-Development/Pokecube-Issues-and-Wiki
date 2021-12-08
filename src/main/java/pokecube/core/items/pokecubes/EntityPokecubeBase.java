@@ -1,13 +1,10 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -683,11 +680,5 @@ public abstract class EntityPokecubeBase extends LivingEntity
         }
 
         return entity == null ? null : new EntityHitResult(entity);
-    }
-
-    private static Set<Entity> getEntityAndMount(final Entity rider)
-    {
-        final Entity entity = rider.getVehicle();
-        return entity != null ? ImmutableSet.of(rider, entity) : ImmutableSet.of(rider);
     }
 }

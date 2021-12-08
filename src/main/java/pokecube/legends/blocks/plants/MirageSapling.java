@@ -29,7 +29,7 @@ public class MirageSapling extends SaplingBlock implements BonemealableBlock
     @Override
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random rand)
     {
-        if (!worldIn.isAreaLoaded(pos, 1)) return;
+        if (!worldIn.isPositionEntityTicking(pos)) return;
         if (worldIn.getMaxLocalRawBrightness(pos.above()) >= 0 && rand.nextInt(7) == 0) this.performBonemeal(worldIn,
                 rand, pos, state);
     }

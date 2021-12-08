@@ -2,6 +2,7 @@ package thut.core.common.network;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -19,8 +20,8 @@ public class TerrainUpdate extends NBTPacket
 
     public static void sendTerrainToClient(final ChunkPos pos, final ServerPlayer player)
     {
-        final Level world = player.getCommandSenderWorld();
-        if (!world.isAreaLoaded(pos.getWorldPosition(), 0)) return;
+        final ServerLevel world = (ServerLevel) player.level;
+        if (!world.isPositionEntityTicking(pos)) return;
         final ITerrainProvider provider = world.getChunk(pos.x, pos.z).getCapability(ThutCaps.TERRAIN_PROVIDER, null).orElse(
                 null);
         final CompoundTag terrainData = provider.serializeNBT();

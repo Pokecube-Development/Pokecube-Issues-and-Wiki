@@ -46,7 +46,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     @Override
     public void tick(final BlockState state, final ServerLevel server, final BlockPos pos, final Random random)
     {
-        if (!server.isAreaLoaded(pos, 1)) return;
+        if (!server.isPositionEntityTicking(pos)) return;
         if (!state.canSurvive(server, pos)) server.destroyBlock(pos, true);
     }
 

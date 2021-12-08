@@ -243,12 +243,11 @@ public class PokedexEntry
 
         public boolean isInBiome(final IPokemob mob)
         {
-            if (this.matcher != null)
+            if (this.matcher != null && mob.getEntity().level instanceof ServerLevel world)
             {
                 final LivingEntity entity = mob.getEntity();
                 final Vector3 loc = Vector3.getNewVector().set(entity);
-                final Level world = entity.getCommandSenderWorld();
-                if (!world.isAreaLoaded(loc.getPos(), 0))
+                if (!world.isPositionEntityTicking(loc.getPos()))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
                     PokecubeCore.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z);

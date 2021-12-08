@@ -37,20 +37,21 @@ public class BerryCrop extends CropBlock
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         super.randomTick(state, worldIn, pos, random);
-        if (!worldIn.isAreaLoaded(pos, 1)) return;
+        if (!worldIn.isPositionEntityTicking(pos)) return;
         final int age = this.getAge(worldIn.getBlockState(pos));
         if (age == this.getMaxAge())
         {
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.above();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
-            else if (worldIn.isEmptyBlock(up)) worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index)
-                    .defaultBlockState());
+            else if (worldIn.isEmptyBlock(up))
+                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
         }
     }
 
     @Override
-    public void performBonemeal(final ServerLevel worldIn, final Random rand, final BlockPos pos, final BlockState state)
+    public void performBonemeal(final ServerLevel worldIn, final Random rand, final BlockPos pos,
+            final BlockState state)
     {
         super.performBonemeal(worldIn, rand, pos, state);
         final int age = this.getAge(worldIn.getBlockState(pos));
@@ -59,8 +60,8 @@ public class BerryCrop extends CropBlock
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.above();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
-            else if (worldIn.isEmptyBlock(up)) worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index)
-                    .defaultBlockState());
+            else if (worldIn.isEmptyBlock(up))
+                worldIn.setBlockAndUpdate(up, BerryManager.berryFruits.get(this.index).defaultBlockState());
         }
     }
 }
