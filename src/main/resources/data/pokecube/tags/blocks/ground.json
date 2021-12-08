@@ -8,6 +8,7 @@
     "#forge:stone",
     "#forge:sandstone",
     "#minecraft:base_stone_overworld",
-    "#minecraft:base_stone_nether"
+    "#minecraft:base_stone_nether",
+    "#minecraft:lush_ground_replaceable"
   ]
 }

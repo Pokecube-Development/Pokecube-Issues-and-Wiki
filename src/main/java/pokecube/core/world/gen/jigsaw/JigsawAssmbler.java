@@ -162,7 +162,9 @@ public class JigsawAssmbler
         LegacyRandomSource rand = new LegacyRandomSource(0);
 
         int n = 1;
-        while (!built && n++ < 10)
+
+        int maxN = 5;
+        while (!built && n++ < maxN)
         {
             worldgenrandom.setLargeFeatureSeed(rand.nextLong(), context.chunkPos().x, context.chunkPos().z);
             built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
@@ -170,7 +172,7 @@ public class JigsawAssmbler
         }
         if (n > 1) PokecubeMod.LOGGER.warn(n + " iterations of build for: " + context.config().struct_config.name);
 
-        if (parts.isEmpty()) return Optional.empty();
+        if (parts.isEmpty() || n > maxN) return Optional.empty();
 
         int max_h = JigsawAssmbler.getForGen(chunkGenerator).dimensionType().logicalHeight() - 5;
 
