@@ -47,7 +47,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         return nbt;
     }
 
-    default void onBaseTick(final @Nonnull Level level, final @Nullable LivingEntity holder)
+    default void baseInit(final @Nonnull Level level, final @Nullable LivingEntity holder)
     {
         if (this.getCopiedID() == null)
         {
@@ -100,6 +100,11 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
                 return;
             }
         }
+    }
+
+    default void onBaseTick(final @Nonnull Level level, final @Nullable LivingEntity holder)
+    {
+        baseInit(level, holder);
         final LivingEntity living = this.getCopiedMob();
         if (living != null && holder != null)
         {
@@ -110,8 +115,8 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             living.onRemovedFromWorld();
 
             final float eye = living.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()));
-            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose()))) holder
-                    .refreshDimensions();
+            if (eye != holder.getEyeHeight(holder.getPose(), holder.getDimensions(holder.getPose())))
+                holder.refreshDimensions();
 
             living.setItemInHand(InteractionHand.MAIN_HAND, holder.getItemInHand(InteractionHand.MAIN_HAND));
             living.setItemInHand(InteractionHand.OFF_HAND, holder.getItemInHand(InteractionHand.OFF_HAND));

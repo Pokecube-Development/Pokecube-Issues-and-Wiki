@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import thut.core.common.ThutCore;
+import thut.bot.ThutBot;
 
 public class Edge extends Part
 {
@@ -129,7 +129,7 @@ public class Edge extends Part
 
         if (end1.closerThan(end2, 1))
         {
-            ThutCore.LOGGER.error("ERROR EDGE NOT VALID");
+            ThutBot.LOGGER.error("ERROR EDGE NOT VALID");
             new IllegalArgumentException().printStackTrace();
         }
 

@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -21,11 +23,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
@@ -33,35 +33,28 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import pokecube.core.PokecubeCore;
-import pokecube.core.utils.EntityTools;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
-import thut.bot.entity.ai.IBotAI;
-import thut.bot.entity.ai.helper.PathMob;
+import thut.bot.ThutBot;
+import thut.bot.entity.BotPlayer;
+import thut.bot.entity.ai.BotAI;
 import thut.bot.entity.ai.modules.map.Edge;
 import thut.bot.entity.ai.modules.map.Node;
 import thut.bot.entity.ai.modules.map.Part;
 import thut.bot.entity.ai.modules.map.Tree;
-import thut.core.common.ThutCore;
 
-public class VillageRouteMaker implements IBotAI
+@BotAI(key = "pokecube:village_routes", mod = "pokecube")
+public class VillageRouteMaker extends AbstractBot
 {
-    // The bot that goes with this routemaker
-    private final ServerPlayer player;
-
-    // The mob used for pathfinding
-    private PathfinderMob mob = null;
 
     // Counters for when to give up, etc
     int stuckTicks = 0;
-    int pathTicks  = 0;
+    int pathTicks = 0;
 
     int misc_1 = 0;
     int misc_2 = 0;
@@ -75,52 +68,17 @@ public class VillageRouteMaker implements IBotAI
     // Maximum number of nodes to put in the map.
     public int maxNodes = 16;
 
-    public VillageRouteMaker(final ServerPlayer player)
+    public VillageRouteMaker(final BotPlayer player)
     {
-        this.player = player;
-    }
-
-    /**
-     * Here we will teleport the botplayer to a location. This will also
-     * transfer all spectators as well.
-     *
-     * @param tpTo
-     *            pos to teleport botplayer to
-     */
-    private void telePlayer(final BlockPos tpTo)
-    {
-        // Collect and remove the spectators, prevent them from spectating while
-        // this transfer is done.
-        final List<ServerPlayer> readd = Lists.newArrayList();
-        for (final ServerPlayer player : ((ServerLevel) this.player.level).players())
-            if (player.getCamera() == this.player && player != this.player)
-            {
-                player.setCamera(player);
-                player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
-                readd.add(player);
-            }
-        // Move us to the nearest village to the target.
-        this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
-
-        // Re-add the specators
-        for (final ServerPlayer player : readd)
-            player.setCamera(this.player);
-
-        // Transfer the pathing mob as well.
-        EntityTools.copyPositions(this.mob, this.player);
-        EntityTools.copyRotations(this.mob, this.player);
-        EntityTools.copyEntityTransforms(this.mob, this.player);
+        super(player);
     }
 
     /**
      * Builds a route starting from start, in direction dir.
      *
-     * @param start
-     *            - where to start building
-     * @param dir
-     *            - direction to build in
-     * @param dist
-     *            - distance to build for
+     * @param start - where to start building
+     * @param dir   - direction to build in
+     * @param dist  - distance to build for
      */
     private void buildRoute(final Vec3 start, final Vec3 dir, final double dist)
     {
@@ -133,8 +91,7 @@ public class VillageRouteMaker implements IBotAI
         final ServerLevel level = (ServerLevel) this.player.level;
 
         // Returns the valid blocks to replace below with
-        final Function<BlockPos, BlockState> below = p ->
-        {
+        final Function<BlockPos, BlockState> below = p -> {
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
             // Over sea level water, we place planks
@@ -148,16 +105,15 @@ public class VillageRouteMaker implements IBotAI
             return paths.get(this.player.getRandom().nextInt(paths.size()));
         };
 
-        final BiFunction<BlockState, BlockPos, Boolean> canEdit = (s, p) ->
-        {
+        final BiFunction<BlockState, BlockPos, Boolean> canEdit = (s, p) -> {
             final BlockState up = level.getBlockState(p.above());
             if (up.getBlock() == Blocks.TORCH) return false;
-            return PokecubeTerrainChecker.isTerrain(s) || PokecubeTerrainChecker.isRock(s) || s
-                    .getBlock() == Blocks.WATER || s.getBlock() == Blocks.DIRT_PATH || s.is(BlockTags.ICE) || s.isAir();
+            return PokecubeTerrainChecker.isTerrain(s) || PokecubeTerrainChecker.isRock(s)
+                    || s.getBlock() == Blocks.WATER || s.getBlock() == Blocks.DIRT_PATH || s.is(BlockTags.ICE)
+                    || s.isAir();
         };
 
-        final BiFunction<BlockState, BlockPos, Boolean> shouldRemove = (s, p) ->
-        {
+        final BiFunction<BlockState, BlockPos, Boolean> shouldRemove = (s, p) -> {
             return PokecubeTerrainChecker.isLeaves(s) || PokecubeTerrainChecker.isWood(s);
         };
 
@@ -275,11 +231,10 @@ public class VillageRouteMaker implements IBotAI
             if (dh2 < n.size)
             {
                 n.setCenter(target, n.size);
-                for (final Edge e : n.edges)
-                    e.setEnds(e.node1.getCenter(), e.node2.getCenter());
+                for (final Edge e : n.edges) e.setEnds(e.node1.getCenter(), e.node2.getCenter());
             }
         }
-        this.player.getPersistentData().put("tree_map", this.getMap().serializeNBT());
+        getTag().put("tree_map", this.getMap().serializeNBT());
     }
 
     private void endTarget()
@@ -299,51 +254,60 @@ public class VillageRouteMaker implements IBotAI
             e.dig_done = Tracker.instance().getTick();
             this.setCurrentEdge(null);
         }
-        this.player.getPersistentData().put("tree_map", this.getMap().serializeNBT());
+        getTag().put("tree_map", this.getMap().serializeNBT());
     }
 
     private Tree getMap()
     {
         if (this.map == null)
         {
-            final CompoundTag tag = this.player.getPersistentData().getCompound("tree_map");
+            final CompoundTag tag = getTag().getCompound("tree_map");
             this.map = new Tree();
             this.map.deserializeNBT(tag);
+            if (this.map.nodeCount >= this.maxNodes) return this.map;
         }
-        else return this.map;
+        else if (getTag().getBoolean("made_map")) return this.map;
+
         // If no nodes yet, we start by populating the map with the nearby
         // towns.
-        if (this.getMap().nodeCount == 0)
+        if (this.map.nodeCount < this.maxNodes)
         {
-            for (int i = 0; i <= this.maxNodes; i++)
-                this.findNearestVillageNode(this.player.getOnPos(), i != 0);
-            final List<Node> nodes = Lists.newArrayList();
-            this.map.allParts.forEach((i, p) ->
+            if (this.player.tickCount % 20 == 0)
             {
+                this.player.chat("Looking for a village...");
+                this.findNearestVillageNode(this.player.getOnPos(), this.map.nodeCount != 0);
+            }
+        }
+        else
+        {
+            final List<Node> nodes = Lists.newArrayList();
+            this.map.allParts.forEach((i, p) -> {
                 if (p instanceof final Node n) nodes.add(n);
             });
             // First remove all edges for the nodes
-            nodes.forEach(n -> this.getMap().clearEdges(n));
+            nodes.forEach(n -> this.map.clearEdges(n));
             // Next add them back, the delay is so that all edges are properly
             // cleared before adding new ones.
             nodes.forEach(n -> this.addNodeEdges(n));
+            getTag().putBoolean("made_map", true);
         }
-        return this.map;
+        return null;
     }
 
     private Edge setCurrentEdge(final Edge e)
     {
-        if (e != null) this.player.getPersistentData().putUUID("t_edge", e.id);
-        else this.player.getPersistentData().remove("t_edge");
+        if (e != null) getTag().putUUID("t_edge", e.id);
+        else getTag().remove("t_edge");
         return this.currentEdge = e;
     }
 
     private Edge getCurrentEdge()
     {
+        if (this.currentEdge != null && this.currentEdge.dig_done > 0) this.currentEdge = null;
         if (this.currentEdge != null) return this.currentEdge;
-        if (this.player.getPersistentData().hasUUID("t_edge"))
+        if (getTag().hasUUID("t_edge"))
         {
-            final Part p = this.getMap().allParts.get(this.player.getPersistentData().getUUID("t_edge"));
+            final Part p = this.getMap().allParts.get(getTag().getUUID("t_edge"));
             if (p instanceof final Edge e) return this.currentEdge = e;
         }
         else
@@ -377,8 +341,8 @@ public class VillageRouteMaker implements IBotAI
 
     private Node setTargetNode(final Node n)
     {
-        if (n != null) this.player.getPersistentData().putUUID("t_node", n.id);
-        else this.player.getPersistentData().remove("t_node");
+        if (n != null) getTag().putUUID("t_node", n.id);
+        else getTag().remove("t_node");
         return this.targetNode = n;
     }
 
@@ -394,12 +358,11 @@ public class VillageRouteMaker implements IBotAI
         {
             final Set<StructureInfo> nearby = StructureManager.getNear(world.dimension(), mid, 0);
             infos:
-            for (final StructureInfo i : nearby)
-                if (i.start.getFeature() == structure)
-                {
-                    village = i.start.getFeature().getLocatePos(new ChunkPos(mid));
-                    break infos;
-                }
+            for (final StructureInfo i : nearby) if (i.start.getFeature() == structure)
+            {
+                village = i.start.getFeature().getLocatePos(new ChunkPos(mid));
+                break infos;
+            }
         }
         if (village == null) village = world.findNearestMapFeature(structure, mid, 50, skipKnownStructures);
         if (village != null && village.getY() < world.getSeaLevel())
@@ -407,13 +370,12 @@ public class VillageRouteMaker implements IBotAI
             world.getChunk(village);
             village = new BlockPos(village.getX(), world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()),
                     village.getZ());
-            if (village.getY() < world.getSeaLevel()) village = new BlockPos(village.getX(), world.getSeaLevel(),
-                    village.getZ());
+            if (village.getY() < world.getSeaLevel())
+                village = new BlockPos(village.getX(), world.getSeaLevel(), village.getZ());
         }
 
         final List<Node> nodes = Lists.newArrayList();
-        this.getMap().allParts.forEach((i, p) ->
-        {
+        this.map.allParts.forEach((i, p) -> {
             if (p instanceof final Node n) nodes.add(n);
         });
         for (final Node n : nodes)
@@ -421,12 +383,12 @@ public class VillageRouteMaker implements IBotAI
             final int dr = n.getCenter().atY(0).distManhattan(village);
             if (dr == 0)
             {
-                ThutCore.LOGGER.error("Error with duplicate node! {}, {} {}", skipKnownStructures, mid, village);
+                ThutBot.LOGGER.error("Error with duplicate node! {}, {} {}", skipKnownStructures, mid, village);
                 return null;
             }
         }
         if (village == null) return null;
-        PokecubeCore.LOGGER.info("Adding node for a village at: " + village);
+        ThutBot.LOGGER.info("Adding node for a village at: " + village);
         final Node newNode = this.addNode(village);
         return newNode;
     }
@@ -434,25 +396,22 @@ public class VillageRouteMaker implements IBotAI
     private Node getTargetNode()
     {
         if (this.currentEdge != null) return this.targetNode;
-        if (this.player.getPersistentData().hasUUID("t_node"))
+        if (getTag().hasUUID("t_node"))
         {
-            final Part p = this.getMap().allParts.get(this.player.getPersistentData().getUUID("t_node"));
+            final Part p = this.getMap().allParts.get(getTag().getUUID("t_node"));
             if (p instanceof final Node e) return this.setTargetNode(e);
         }
 
         if (this.getMap().nodeCount >= this.maxNodes)
         {
             final List<Edge> edges = Lists.newArrayList();
-            for (final Part o : this.getMap().allParts.values())
-                if (o instanceof final Edge e) edges.add(e);
+            for (final Part o : this.getMap().allParts.values()) if (o instanceof final Edge e) edges.add(e);
             Collections.shuffle(edges);
-            for (final Edge e : edges)
-                if (e.getBuildBounds().isEmpty())
-                {
-                    System.out.println(e.getBuildBounds() + " " + e);
-                    this.setCurrentEdge(e);
-                    return this.setTargetNode(e.node1);
-                }
+            for (final Edge e : edges) if (e.getBuildBounds().isEmpty())
+            {
+                this.setCurrentEdge(e);
+                return this.setTargetNode(e.node1);
+            }
             this.setCurrentEdge(null);
             return this.setTargetNode(null);
         }
@@ -463,7 +422,7 @@ public class VillageRouteMaker implements IBotAI
             this.setTargetNode(newNode);
             if (this.getTargetNode() == null)
             {
-                System.out.println("Null Node!!");
+                ThutBot.LOGGER.error("Null Node!!");
                 return null;
             }
             final List<Edge> edges = Lists.newArrayList(this.targetNode.edges);
@@ -492,13 +451,13 @@ public class VillageRouteMaker implements IBotAI
 
             if (prev == null || prev.getCenter().getY() == 0)
             {
-                ThutCore.LOGGER.error("Warning, no started node connected to us!");
+                ThutBot.LOGGER.error("Warning, no started node connected to us!");
                 return this.targetNode;
             }
             if (running != null) running.started = true;
 
             final BlockPos tpTo = prev.getCenter();
-            this.telePlayer(tpTo);
+            this.teleBot(tpTo);
         }
         return this.targetNode;
     }
@@ -508,8 +467,7 @@ public class VillageRouteMaker implements IBotAI
         final Vec3 mid1 = new Vec3(n1.mid.x, 0, n1.mid.z);
         // Collect the nodes, then sort them by distance from the new one.
         final List<Node> nodes = Lists.newArrayList();
-        this.getMap().allParts.forEach((i, p) ->
-        {
+        this.map.allParts.forEach((i, p) -> {
             // Selects for all the nodes, except the passed in one.
             if (p instanceof final Node n && n != n1) nodes.add(n);
         });
@@ -561,7 +519,7 @@ public class VillageRouteMaker implements IBotAI
             n1.edges.add(e);
             n2.edges.add(e);
         }
-        this.getMap().updateEdges(n1);
+        this.map.updateEdges(n1);
     }
 
     private Node addNode(final BlockPos next)
@@ -573,18 +531,16 @@ public class VillageRouteMaker implements IBotAI
         final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
         final StructureFeature<?> structure = reg.getValue(location);
         infos:
-        for (final StructureInfo i : near)
-            if (i.start.getFeature() == structure)
-            {
-                size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
-                break infos;
-            }
+        for (final StructureInfo i : near) if (i.start.getFeature() == structure)
+        {
+            size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
+            break infos;
+        }
         final Node n1 = new Node();
         n1.setCenter(next, size);
 
         final List<Node> nodes = Lists.newArrayList();
-        this.getMap().allParts.forEach((i, p) ->
-        {
+        this.map.allParts.forEach((i, p) -> {
             if (p instanceof final Node n) nodes.add(n);
         });
         final BlockPos o0 = n1.getCenter().atY(0);
@@ -595,9 +551,9 @@ public class VillageRouteMaker implements IBotAI
             if (dist == 0) return null;
         }
         this.addNodeEdges(n1);
-        this.getMap().add(n1);
-        final CompoundTag tag = this.getMap().serializeNBT();
-        this.player.getPersistentData().put("tree_map", tag);
+        this.map.add(n1);
+        final CompoundTag tag = this.map.serializeNBT();
+        getTag().put("tree_map", tag);
         return n1;
     }
 
@@ -620,8 +576,8 @@ public class VillageRouteMaker implements IBotAI
             final Vec3 randNear = near.add(dir.scale(r)).add(dx, 0, dz);
             BlockPos end = new BlockPos(randNear);
             end = this.player.level.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, end);
-            if (end.getY() < this.player.level.getSeaLevel()) end = new BlockPos(end.getX(), this.player.level
-                    .getSeaLevel(), end.getZ());
+            if (end.getY() < this.player.level.getSeaLevel())
+                end = new BlockPos(end.getX(), this.player.level.getSeaLevel(), end.getZ());
 
             final Set<StructureInfo> nearSet = StructureManager.getNear(this.player.level.dimension(), end, 0);
             if (nearSet.isEmpty())
@@ -688,15 +644,15 @@ public class VillageRouteMaker implements IBotAI
 
         vecHere = new Vec3(prev.getX(), prev.getY(), prev.getZ());
 
-        if (this.player.distanceToSqr(vecHere) > 9)
+        if (this.player.distanceToSqr(vecHere) > 36)
         {
             this.tryPath(vecHere);
             this.pathTicks++;
 
-            if (this.pathTicks > 200)
+            if (this.pathTicks > 50)
             {
                 final BlockPos tpTo = new BlockPos(vecHere);
-                this.telePlayer(tpTo);
+                this.teleBot(tpTo);
                 this.pathTicks = 0;
             }
             return;
@@ -713,10 +669,10 @@ public class VillageRouteMaker implements IBotAI
         Vec3 dir = randNear.subtract(vecHere);
         double dr = dir.length();
 
-        if (Math.abs(dir.y) > dr * 0.8)
+        if (Math.abs(dir.y) > dr * 0.5)
         {
-            if (randNear.y > vecHere.y) randNear = new Vec3(next.getX(), prev.getY() + 0.8 * dr, next.getZ());
-            else randNear = new Vec3(next.getX(), prev.getY() - 0.8 * dr, next.getZ());
+            if (randNear.y > vecHere.y) randNear = new Vec3(next.getX(), prev.getY() + 0.5 * dr, next.getZ());
+            else randNear = new Vec3(next.getX(), prev.getY() - 0.5 * dr, next.getZ());
             dir = randNear.subtract(vecHere);
             dr = dir.length();
             e.getBuildBounds().set(nextIndex, new BlockPos(randNear));
@@ -724,7 +680,7 @@ public class VillageRouteMaker implements IBotAI
 
         if (dr > 64)
         {
-            System.out.println("Error with distance! " + dr + " " + e.getBuildBounds().size() + " " + rev);
+            ThutBot.LOGGER.error("Error with distance! " + dr + " " + e.getBuildBounds().size() + " " + rev);
             if (e.getBuildBounds().size() < 3) e.getBuildBounds().clear();
             this.endTarget();
             return;
@@ -751,9 +707,15 @@ public class VillageRouteMaker implements IBotAI
         BlockPos end = new BlockPos(randNear);
 
         end = this.player.level.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, end);
-        if (end.getY() < this.player.level.getSeaLevel()) end = new BlockPos(end.getX(), this.player.level
-                .getSeaLevel(), end.getZ());
-
+        if (end.getY() < this.player.level.getSeaLevel())
+        {
+            end = new BlockPos(end.getX(), this.player.level.getSeaLevel(), end.getZ());
+        }
+        FluidState fluid = player.level.getFluidState(end.below());
+        if (!fluid.isEmpty())
+        {
+            end = new BlockPos(end.getX(), end.getY() + 3, end.getZ());
+        }
         if (rev)
         {
             e.digInd = 1;
@@ -766,58 +728,44 @@ public class VillageRouteMaker implements IBotAI
         }
     }
 
-    private void tryPath(final Vec3 targ)
+    public static final Pattern startPattern = Pattern.compile("(start)(\\s)(\\w+:\\w+)(\\s)(\\w+)");
+
+    @Override
+    public boolean init(String args)
     {
-        final PathNavigation navi = this.mob.getNavigation();
-        final BlockPos pos = new BlockPos(targ);
-
-        if (navi.isInProgress() && navi.getTargetPos().closerThan(pos, 1)) return;
-
-        final Path p = navi.createPath(pos, 16, 16);
-        if (p != null)
+        Matcher match = startPattern.matcher(args);
+        if (match.find())
         {
-            final double spd = this.player.getPersistentData().getBoolean("pathing") ? 1.2 : 0.6;
-            navi.moveTo(p, spd);
+            try
+            {
+                maxNodes = Integer.parseInt(match.group(5));
+                this.getTag().putInt("max_n", this.maxNodes);
+            }
+            catch (Exception e)
+            {
+                player.chat(e.getLocalizedMessage());
+            }
         }
+        return super.init(args);
     }
 
     @Override
-    public void tick()
+    public void start(ServerPlayer commander)
     {
-        this.player.setGameMode(GameType.CREATIVE);
-        this.player.setInvulnerable(true);
-        if (ForgeHooks.onLivingUpdate(this.player)) return;
-        if (!(this.player.level instanceof final ServerLevel world)) return;
+        super.start(commander);
+        this.maxNodes = this.getTag().getInt("max_n");
+    }
 
-        final PathfinderMob old = this.mob;
-        if (this.mob == null) this.mob = new PathMob(world);
-        final boolean init = this.mob != old;
-        if (init)
-        {
-            this.mob.setInvulnerable(true);
-            this.mob.setInvisible(true);
-            EntityTools.copyPositions(this.mob, this.player);
-            EntityTools.copyRotations(this.mob, this.player);
-            EntityTools.copyEntityTransforms(this.mob, this.player);
-        }
-        final List<ServerPlayer> readd = Lists.newArrayList();
-        for (final ServerPlayer player : world.players())
-            if (player.getCamera() == this.player && player != this.player) readd.add(player);
-
-        if (readd.isEmpty())
-        {
-            EntityTools.copyPositions(this.mob, this.player);
-            EntityTools.copyRotations(this.mob, this.player);
-            EntityTools.copyEntityTransforms(this.mob, this.player);
-            return;
-        }
+    @Override
+    public void botTick(final ServerLevel world)
+    {
+        if (this.getMap() == null) return;
 
         if (this.player.tickCount % 20 == 0)
         {
             final CompoundTag tag = this.getMap().serializeNBT();
-            this.player.getPersistentData().put("tree_map", tag);
+            getTag().put("tree_map", tag);
         }
-        if (this.getMap() == null) return;
 
         Vec3 targ = this.player.position;
 
@@ -826,10 +774,17 @@ public class VillageRouteMaker implements IBotAI
 
         if (targetNode == null || traverse == null)
         {
-            if (this.player.tickCount % 20 == 0) System.out.println("No Target, I am idle! " + targetNode + " "
-                    + traverse);
+            if (this.player.tickCount % 200 == 0)
+            {
+                player.chat("No Target, I am idle!");
+                Vec3 rand = LandRandomPos.getPos(mob, 32, 8);
+                if (rand != null) tryPath(rand);
+            }
             return;
         }
+
+        if (this.player.tickCount % 200 == 0)
+            player.chat("Bot Builds Roads. " + player.tickCount + " " + this.player.getOnPos());
 
         targ = targetNode.mid;
 
@@ -856,20 +811,19 @@ public class VillageRouteMaker implements IBotAI
         inside.removeIf(i -> !(i.start.getFeature() instanceof CustomJigsawStructure));
 
         boolean inVillage = false;
-        for (final StructureInfo i : inside)
-            if (i.name.contains("village")) inVillage = true;
+        for (final StructureInfo i : inside) if (i.name.contains("village")) inVillage = true;
 
         final boolean doRun = true;
 
         if (rr < d1 || rr < d3) this.endTarget();
         else if (rr > d3)
         {
-            this.player.getPersistentData().putBoolean("pathing", true);
+            getTag().putBoolean("pathing", true);
             this.directPath();
         }
         else if (!navi.isInProgress() && rr > d1)
         {
-            this.player.getPersistentData().putBoolean("pathing", false);
+            getTag().putBoolean("pathing", false);
             final Vec3 prev = this.player.position();
             final Vec3 dir = targ.subtract(prev).normalize();
             final int d = 4;
@@ -892,30 +846,16 @@ public class VillageRouteMaker implements IBotAI
             this.validatePath(targ, rr);
         }
 
-        this.mob.setSilent(true);
-        this.mob.maxUpStep = 1.25f;
-
-        // Prevent the mob from having its own ideas of what to do
-        this.mob.getBrain().removeAllBehaviors();
-
-        this.mob.setOldPosAndRot();
-        this.mob.tickCount = this.player.tickCount;
-
         if (doRun)
         {
-            this.player.getPersistentData().putBoolean("pathing", true);
-            this.player.getPersistentData().remove("end_segment");
+            getTag().putBoolean("pathing", true);
+            getTag().remove("end_segment");
             this.mob.tick();
             if (this.mob.getNavigation().isInProgress() || inVillage) this.checkStuck(targ, hmap, rr, naviing, diff);
         }
 
         if (this.mob.isInWater()) this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.05, 0));
         else this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, -0.08, 0));
-
-        EntityTools.copyEntityTransforms(this.player, this.mob);
-        EntityTools.copyPositions(this.player, this.mob);
-        EntityTools.copyRotations(this.player, this.mob);
-
     }
 
     private void checkStuck(final Vec3 targ, final BlockPos origin, final double rr, final boolean naviing,
@@ -953,7 +893,7 @@ public class VillageRouteMaker implements IBotAI
             if (this.stuckTicks > 10) this.stuckTicks = 0;
             if (this.stuckTicks % 2 == 99)
             {
-                this.player.getPersistentData().putBoolean("pathing", false);
+                getTag().putBoolean("pathing", false);
                 Vec3 pos = LandRandomPos.getPos(this.mob, 5, 5);
                 if (this.mob.getNavigation().isInProgress())
                 {
@@ -977,8 +917,8 @@ public class VillageRouteMaker implements IBotAI
             world.getChunk(village);
             village = new BlockPos(village.getX(), world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()),
                     village.getZ());
-            if (village.getY() < world.getSeaLevel()) village = new BlockPos(village.getX(), world.getSeaLevel(),
-                    village.getZ());
+            if (village.getY() < world.getSeaLevel())
+                village = new BlockPos(village.getX(), world.getSeaLevel(), village.getZ());
             targ = new Vec3(village.getX(), village.getY(), village.getZ());
             this.updateTargetMemory(village);
         }
