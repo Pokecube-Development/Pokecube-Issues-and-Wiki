@@ -12,7 +12,7 @@
           "id": "pokecube_legends:ice_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -28,7 +28,7 @@
           "id": "pokecube_legends:ice_dark_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -44,7 +44,7 @@
           "id": "pokecube_legends:electric_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -60,7 +60,7 @@
           "id": "pokecube_legends:static_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -76,7 +76,7 @@
           "id": "pokecube_legends:fire_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -92,7 +92,7 @@
           "id": "pokecube_legends:dark_fire_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -108,7 +108,7 @@
           "id": "pokecube_legends:thunder_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -124,7 +124,7 @@
           "id": "pokecube_legends:flame_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -140,7 +140,7 @@
           "id": "pokecube_legends:water_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -155,7 +155,7 @@
           "id": "pokecube_legends:oceanorb"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -170,7 +170,7 @@
           "id": "pokecube_legends:legendaryorb"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -186,7 +186,7 @@
           "id": "pokecube_legends:greenorb"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -202,7 +202,7 @@
           "id": "pokecube_legends:soul_dew"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -218,7 +218,7 @@
           "id": "pokecube_legends:soul_dew"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -230,7 +230,7 @@
           "id": "pokecube_legends:blueorb"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -242,7 +242,7 @@
           "id": "pokecube_legends:redorb"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -257,7 +257,7 @@
           "id": "pokecube_legends:ancient_stone"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -273,7 +273,7 @@
           "id": "pokecube_legends:star_core"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -289,7 +289,7 @@
           "id": "pokecube_legends:meteor_shard"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -305,7 +305,7 @@
           "id": "pokecube_legends:uxie_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -321,7 +321,7 @@
           "id": "pokecube_legends:mesprit_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -337,7 +337,7 @@
           "id": "pokecube_legends:azelf_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -407,7 +407,7 @@
           "id": "pokecube_legends:lunar_wing"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -423,7 +423,7 @@
           "id": "pokecube_legends:manaphy_necklace"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -611,7 +611,7 @@
           "id": "pokecube_legends:kyurem_core"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -722,7 +722,7 @@
           "id": "pokecube_legends:diamond_gem"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -738,7 +738,7 @@
           "id": "pokecube_legends:prisonbottle"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -848,7 +848,7 @@
           "id": "pokecube_legends:lighting_crystal"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -880,7 +880,7 @@
           "id": "pokecube_legends:rustedsword"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -896,7 +896,7 @@
           "id": "pokecube_legends:rustedshield"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
@@ -920,7 +920,7 @@
           "id": "pokecube_legends:kubfu_spawn"
         },
         "target": {
-          "id": "pokecube_legends:legendaryspawn"
+          "id": "pokecube_legends:legendary_spawn"
         }
       }
     },
