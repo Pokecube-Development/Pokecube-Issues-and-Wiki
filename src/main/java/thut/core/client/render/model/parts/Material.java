@@ -24,29 +24,34 @@ public class Material
             {
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
-            }, () ->
-            {
+            }, () -> {
                 RenderSystem.disableBlend();
             });
 
+    private static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
+            VertexFormat.Mode.TRIANGLES, 256,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_WATER_MASK_SHADER)
+                    .setTextureState(RenderStateShard.NO_TEXTURE).setWriteMaskState(RenderStateShard.DEPTH_WRITE)
+                    .createCompositeState(false));
+
     public static final DepthTestStateShard LESSTHAN = new DepthTestStateShard("<", 513);
 
-    public final String  name;
+    public final String name;
     private final String render_name;
 
-    public String   texture;
+    public String texture;
     public Vector3f diffuseColor;
     public Vector3f specularColor;
     public Vector3f emissiveColor;
 
     public ResourceLocation tex;
 
-    public float   emissiveMagnitude;
-    public float   ambientIntensity;
-    public float   shininess;
-    public float   alpha        = 1;
+    public float emissiveMagnitude;
+    public float ambientIntensity;
+    public float shininess;
+    public float alpha = 1;
     public boolean transluscent = false;
-    public boolean flat         = true;
+    public boolean flat = true;
 
     static MultiBufferSource.BufferSource lastImpl = null;
 
@@ -81,9 +86,16 @@ public class Material
     {
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
+        RenderType type = null;
+
+        if (this.render_name.contains("water_mask_"))
+        {
+            type = WATER_MASK;
+            this.types.put(tex, type);
+            return type;
+        }
 
         final String id = this.render_name + tex;
-        RenderType type = null;
         // if (this.emissiveMagnitude == 0)
         {
             final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
