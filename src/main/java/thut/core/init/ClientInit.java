@@ -87,9 +87,10 @@ public class ClientInit
         final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
         final BiomeType type = t.getBiome(v);
         final String msg = "Sub-Biome: " + I18n.get(type.readableName) + " (" + type.name + ")";
+        if (event.getLeft().contains(msg)) return;
         event.getLeft().add("");
         event.getLeft().add(msg);
-
+        
         if (Screen.hasAltDown())
         {
             event.getLeft().add("");
