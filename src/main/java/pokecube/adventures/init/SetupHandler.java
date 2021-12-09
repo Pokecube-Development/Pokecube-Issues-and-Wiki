@@ -11,6 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.BlockEventHandler;
+import pokecube.adventures.capabilities.CapabilityHasTrades;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.events.CompatEvent;
 import pokecube.adventures.events.TrainerEventHandler;
@@ -77,6 +78,7 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.register(InventoryHandler.class);
         MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
         MinecraftForge.EVENT_BUS.register(TrainerTracker.class);
+        MinecraftForge.EVENT_BUS.register(CapabilityHasTrades.class);
     }
 
     @SubscribeEvent

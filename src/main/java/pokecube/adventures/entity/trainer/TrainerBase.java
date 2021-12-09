@@ -39,15 +39,15 @@ public abstract class TrainerBase extends NpcMob
 {
     public static final ResourceLocation BRIBE = new ResourceLocation(PokecubeAdv.MODID, "trainer_bribe");
 
-    public List<IPokemob>  currentPokemobs = new ArrayList<>();
+    public List<IPokemob> currentPokemobs = new ArrayList<>();
     public DefaultPokemobs pokemobsCap;
-    public IHasMessages    messages;
-    public IHasRewards     rewardsCap;
+    public IHasMessages messages;
+    public IHasRewards rewardsCap;
     public IHasNPCAIStates aiStates;
-    public IHasTrades      trades;
+    public IHasTrades trades;
 
-    int     despawncounter = 0;
-    boolean fixedMobs      = false;
+    int despawncounter = 0;
+    boolean fixedMobs = false;
 
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final Level worldIn)
     {
@@ -64,8 +64,8 @@ public abstract class TrainerBase extends NpcMob
         final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
         final boolean pity = this.pokemobsCap.defeated(player);
         final boolean lost = this.pokemobsCap.defeatedBy(player);
-        final boolean trades = this.aiStates.getAIState(AIState.TRADES_ITEMS) || this.aiStates.getAIState(
-                AIState.TRADES_MOBS);
+        final boolean trades = this.aiStates.getAIState(AIState.TRADES_ITEMS)
+                || this.aiStates.getAIState(AIState.TRADES_MOBS);
         return trades && (friend || pity || lost);
     }
 
@@ -86,18 +86,18 @@ public abstract class TrainerBase extends NpcMob
                 }
                 player.sendMessage(new TextComponent(message), Util.NIL_UUID);
             }
-            else if (!this.getCommandSenderWorld().isClientSide && player.isCrouching() && player.getMainHandItem()
-                    .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
+            else if (!this.getCommandSenderWorld().isClientSide && player.isCrouching()
+                    && player.getMainHandItem().getItem() == Items.STICK)
+                this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
-                .isEmpty())
+        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0
+                && !this.getOffers().isEmpty())
         {
             stack.split(1);
             player.setItemInHand(hand, stack);
             this.pokemobsCap.onSetTarget(null);
-            for (final IPokemob pokemob : this.currentPokemobs)
-                pokemob.onRecall(false);
+            for (final IPokemob pokemob : this.currentPokemobs) pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
             this.playCelebrateSound();
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -111,9 +111,7 @@ public abstract class TrainerBase extends NpcMob
             {
                 this.resetTrades();
                 // This re-fills the default trades
-                this.getOffers();
-                // If we don't trade items, clear the offers
-                if (!this.aiStates.getAIState(AIState.TRADES_ITEMS)) this.getOffers().clear();
+                this.updateTrades();
                 // This adds in pokemobs to trade.
                 if (this.aiStates.getAIState(AIState.TRADES_MOBS)) this.addMobTrades(player, stack);
             }
@@ -121,8 +119,8 @@ public abstract class TrainerBase extends NpcMob
             else this.setTradingPlayer(null);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.onSetTarget(
-                player);
+        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK)
+            this.pokemobsCap.onSetTarget(player);
 
         return InteractionResult.PASS;
     }
@@ -183,8 +181,8 @@ public abstract class TrainerBase extends NpcMob
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
-                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(), Vector3.getNewVector().set(
-                        this), type.pokemon.get(0));
+                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(),
+                        Vector3.getNewVector().set(this), type.pokemon.get(0));
                 this.initTeam(level);
                 type.initTrainerItems(this);
             }
@@ -273,8 +271,7 @@ public abstract class TrainerBase extends NpcMob
     }
 
     /**
-     * @param male
-     *            the male to set
+     * @param male the male to set
      */
     @Override
     public void setMale(final boolean male)

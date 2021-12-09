@@ -18,6 +18,7 @@ public final class LogFormatter extends Formatter
         final StringBuilder sb = new StringBuilder();
 
         sb.append(this.dateFormat.format(record.getMillis()));
+        record.getLevel();
         sb.append(" [").append(record.getLevel().getLocalizedName()).append("] ");
 
         sb.append(record.getMessage());

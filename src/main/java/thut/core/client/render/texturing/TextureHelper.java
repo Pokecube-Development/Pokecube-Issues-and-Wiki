@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -35,18 +35,17 @@ public class TextureHelper implements IPartTexturer
 
     private static class TexState
     {
-        Map<String, double[]> infoStates   = Maps.newHashMap();
-        Set<RandomState>      randomStates = Sets.newHashSet();
-        Sequence              sequence     = null;
+        Map<String, double[]> infoStates = Maps.newHashMap();
+        Set<RandomState> randomStates = Sets.newHashSet();
+        Sequence sequence = null;
         // TODO way to handle cheaning this up.
-        Map<Integer, RandomState> running  = Maps.newHashMap();
-        Map<Integer, Integer>     setTimes = Maps.newHashMap();
+        Map<Integer, RandomState> running = Maps.newHashMap();
+        Map<Integer, Integer> setTimes = Maps.newHashMap();
 
         void addState(final String trigger, final String[] diffs)
         {
             final double[] arr = new double[diffs.length];
-            for (int i = 0; i < arr.length; i++)
-                arr[i] = Double.parseDouble(diffs[i].trim());
+            for (int i = 0; i < arr.length; i++) arr[i] = Double.parseDouble(diffs[i].trim());
 
             if (trigger.contains("random")) this.randomStates.add(new RandomState(trigger, arr));
             else if (trigger.equals("sequence") || trigger.equals("time")) this.sequence = new Sequence(arr);
@@ -65,16 +64,15 @@ public class TextureHelper implements IPartTexturer
             toFill[1] = dy;
             final Random random = new Random(mob.getRandomSeed());
             final List<String> states = mob.getTextureStates();
-            for (final String state : states)
-                if (this.infoStates.containsKey(state))
-                {
-                    final double[] arr = this.infoStates.get(state);
-                    dx = arr[0];
-                    dy = arr[1];
-                    toFill[0] = dx;
-                    toFill[1] = dy;
-                    return true;
-                }
+            for (final String state : states) if (this.infoStates.containsKey(state))
+            {
+                final double[] arr = this.infoStates.get(state);
+                dx = arr[0];
+                dy = arr[1];
+                toFill[0] = dx;
+                toFill[1] = dy;
+                return true;
+            }
 
             if (this.running.containsKey(mob.getEntity().getId()))
             {
@@ -137,15 +135,17 @@ public class TextureHelper implements IPartTexturer
         }
     }
 
-    public static final Capability<IMobTexturable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IMobTexturable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
-    protected IMobTexturable         mob;
+    protected IMobTexturable mob;
     /** Map of part/material name -> texture name */
-    Map<String, String>              texNames  = Maps.newHashMap();
+    Map<String, String> texNames = Maps.newHashMap();
     /** Map of part/material name -> map of custom state -> texture name */
     Map<String, Map<String, String>> texNames2 = Maps.newHashMap();
-    public ResourceLocation          default_tex;
-    String                           default_path;
+    public ResourceLocation default_tex;
+    String default_path;
 
     boolean default_flat = true;
 
@@ -161,8 +161,7 @@ public class TextureHelper implements IPartTexturer
     Map<String, String> formeMap = Maps.newHashMap();
 
     public TextureHelper()
-    {
-    }
+    {}
 
     @Override
     public void reset()
@@ -286,8 +285,8 @@ public class TextureHelper implements IPartTexturer
         tex = this.getResource(texName);
         TexState state;
         String texMod;
-        if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null) tex = this
-                .getResource(tex.getPath() + texMod);
+        if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null)
+            tex = this.getResource(tex.getPath() + texMod);
         tex = this.mob.preApply(tex);
         return tex;
     }
@@ -296,15 +295,15 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
-        if (this.mob == null && thing instanceof LivingEntity) this.mob = new IMobTexturable()
+        if (this.mob == null && thing instanceof Entity) this.mob = new IMobTexturable()
         {
-            LivingEntity entity = (LivingEntity) thing;
-            String       modid  = this.entity.getType().getRegistryName().getNamespace();
+            Entity entity = (Entity) thing;
+            String modid = this.entity.getType().getRegistryName().getNamespace();
 
             Map<ResourceLocation, ResourceLocation> remapped = Maps.newHashMap();
 
             @Override
-            public LivingEntity getEntity()
+            public Entity getEntity()
             {
                 return this.entity;
             }
@@ -321,8 +320,8 @@ public class TextureHelper implements IPartTexturer
                 if (this.remapped.containsKey(in)) return this.remapped.get(in);
                 if (!in.getPath().contains(".png"))
                 {
-                    final ResourceLocation updated = new ResourceLocation(in.getNamespace(), "entity/textures/" + in
-                            .getPath() + ".png");
+                    final ResourceLocation updated = new ResourceLocation(in.getNamespace(),
+                            "entity/textures/" + in.getPath() + ".png");
                     this.remapped.put(in, updated);
                 }
                 return this.remapped.getOrDefault(in, IMobTexturable.super.preApply(in));
@@ -337,25 +336,23 @@ public class TextureHelper implements IPartTexturer
         final Map<String, String> partNames = this.texNames2.get(part);
         if (partNames == null) return null;
         final List<String> states = this.mob.getTextureStates();
-        for (final String key : partNames.keySet())
-            if (states.contains(key))
+        for (final String key : partNames.keySet()) if (states.contains(key))
+        {
+            final String texKey = part + key;
+            String tex;
+            if ((tex = this.texNames.get(texKey)) != null)
+            {}
+            else
             {
-                final String texKey = part + key;
-                String tex;
-                if ((tex = this.texNames.get(texKey)) != null)
-                {
-                }
-                else
-                {
-                    tex = partNames.get(key);
-                    this.texNames.put(texKey, tex);
-                }
-                TexState state;
-                String texMod;
-                if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null)
-                    tex = tex + texMod;
-                return this.getResource(tex);
+                tex = partNames.get(key);
+                this.texNames.put(texKey, tex);
             }
+            TexState state;
+            String texMod;
+            if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null)
+                tex = tex + texMod;
+            return this.getResource(tex);
+        }
         return null;
     }
 
@@ -378,8 +375,7 @@ public class TextureHelper implements IPartTexturer
         toFill[0] = toFill[1] = 0;
         if (this.mob == null) return false;
         final Set<RandomFixed> offsets = this.fixedOffsets.getOrDefault(part, Collections.emptySet());
-        for (final RandomFixed state : offsets)
-            state.applyState(toFill, this.mob);
+        for (final RandomFixed state : offsets) state.applyState(toFill, this.mob);
         if (offsets.size() > 0) return true;
         TexState state;
         if ((state = this.texStates.get(part)) != null) return state.applyState(toFill, this.mob);

@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.Action;
 import pokecube.adventures.capabilities.utils.BattleAction;
@@ -71,8 +70,7 @@ public class Messages extends ListPage<MessageOption>
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
 
-            this.apply = new Button(0, 0, 50, 10, new TextComponent("Apply"), b ->
-            {
+            this.apply = new Button(0, 0, 50, 10, new TextComponent("Apply"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
@@ -132,18 +130,14 @@ public class Messages extends ListPage<MessageOption>
             final MessageState state = MessageState.values()[this.index];
             this.messages.setAction(state, newAction);
             this.messages.setMessage(state, msg);
-            if (this.messages instanceof ICapabilitySerializable)
-            {
-                final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.messages;
-                final Tag tag = ser.serializeNBT();
-                final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-                final CompoundTag nbt = message.getTag();
-                nbt.put("__messages__", tag);
-                nbt.putInt("I", this.parent.parent.entity.getId());
-                PacketTrainer.ASSEMBLER.sendToServer(message);
-            }
-        }
 
+            final Tag tag = this.messages.serializeNBT();
+            final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+            final CompoundTag nbt = message.getTag();
+            nbt.put("__messages__", tag);
+            nbt.putInt("I", this.parent.parent.entity.getId());
+            PacketTrainer.ASSEMBLER.sendToServer(message);
+        }
     }
 
     public Messages(final EditorGui parent)
@@ -167,9 +161,10 @@ public class Messages extends ListPage<MessageOption>
         this.children.add(this.list);
         x = this.width / 2;
         y = this.height / 2;
-        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
-        {
-            this.closeCallback.run();
-        }));
+        this.addRenderableWidget(
+                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                {
+                    this.closeCallback.run();
+                }));
     }
 }

@@ -13,19 +13,21 @@ import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
+import pokecube.core.events.NpcTradesEvent;
 
 public class CapabilityHasTrades
 {
     public static class DefaultTrades implements IHasTrades, ICapabilitySerializable<CompoundTag>
     {
         private final LazyOptional<IHasTrades> cap_holder = LazyOptional.of(() -> this);
-        public Consumer<ItemStack>             onTraded   = t ->
-                                                          {
-                                                          };
+        public Consumer<ItemStack> onTraded = t -> {};
         @Nullable
-        private Player                   customer;
+        private Player customer;
         @Nullable
-        protected MerchantOffers               offers;
+        protected MerchantOffers offers;
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -118,5 +120,14 @@ public class CapabilityHasTrades
         void verify(ItemStack stack);
 
         void setValidator(Consumer<ItemStack> validator);
+    }
+
+    @SubscribeEvent
+    public static void setup(final NpcTradesEvent event)
+    {
+        IHasNPCAIStates aiStates = event.getEntity().getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
+        if (aiStates == null) return;
+        // If we don't trade items, clear the offers
+        if (!aiStates.getAIState(AIState.TRADES_ITEMS)) event.offers.clear();
     }
 }

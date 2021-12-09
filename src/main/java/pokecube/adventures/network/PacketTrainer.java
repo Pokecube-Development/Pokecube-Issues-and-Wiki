@@ -57,19 +57,19 @@ public class PacketTrainer extends NBTPacket
     public static final PacketAssembly<PacketTrainer> ASSEMBLER = PacketAssembly.registerAssembler(PacketTrainer.class,
             PacketTrainer::new, PokecubeAdv.packets);
 
-    public static final String EDITSELF     = "pokecube_adventures.traineredit.self";
-    public static final String EDITOTHER    = "pokecube_adventures.traineredit.other";
-    public static final String EDITMOB      = "pokecube_adventures.traineredit.mob";
-    public static final String EDITTRAINER  = "pokecube_adventures.traineredit.trainer";
+    public static final String EDITSELF = "pokecube_adventures.traineredit.self";
+    public static final String EDITOTHER = "pokecube_adventures.traineredit.other";
+    public static final String EDITMOB = "pokecube_adventures.traineredit.mob";
+    public static final String EDITTRAINER = "pokecube_adventures.traineredit.trainer";
     public static final String SPAWNTRAINER = "pokecube_adventures.traineredit.spawn";
 
     public static final byte REQUESTEDIT = -1;
 
     public static final byte UPDATETRAINER = 0;
-    public static final byte NOTIFYDEFEAT  = 1;
-    public static final byte KILLTRAINER   = 2;
-    public static final byte UPDATEMOB     = 3;
-    public static final byte SPAWN         = 4;
+    public static final byte NOTIFYDEFEAT = 1;
+    public static final byte KILLTRAINER = 2;
+    public static final byte UPDATEMOB = 3;
+    public static final byte SPAWN = 4;
 
     public static void register()
     {
@@ -94,8 +94,8 @@ public class PacketTrainer extends NBTPacket
 
     public static void sendEditOpenPacket(final Entity target, final ServerPlayer editor)
     {
-        final String node = target == editor || target == null ? editor.isCrouching() ? PacketTrainer.EDITSELF
-                : PacketTrainer.SPAWNTRAINER
+        final String node = target == editor || target == null
+                ? editor.isCrouching() ? PacketTrainer.EDITSELF : PacketTrainer.SPAWNTRAINER
                 : target instanceof ServerPlayer ? PacketTrainer.EDITOTHER
                         : TrainerCaps.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
                                 : PacketTrainer.EDITMOB;
@@ -132,8 +132,7 @@ public class PacketTrainer extends NBTPacket
     byte message;
 
     public PacketTrainer()
-    {
-    }
+    {}
 
     public PacketTrainer(final byte message)
     {
@@ -170,8 +169,8 @@ public class PacketTrainer extends NBTPacket
                     if (nbt.contains("A")) if (ai != null) ai.deserializeNBT(nbt.getCompound("A"));
                     if (nbt.contains("G")) if (guard != null) guard.deserializeNBT(nbt.getCompound("G"));
                     if (nbt.contains("G")) if (pokemobs != null) pokemobs.deserializeNBT(nbt.getCompound("P"));
-                    if (nbt.contains("G")) if (rewards != null) rewards.deserializeNBT(nbt.getList("R",
-                            Tag.TAG_COMPOUND));
+                    if (nbt.contains("G"))
+                        if (rewards != null) rewards.deserializeNBT(nbt.getList("R", Tag.TAG_COMPOUND));
                     if (nbt.contains("G")) if (messages != null) messages.deserializeNBT(nbt.getCompound("M"));
                 }
                 net.minecraft.client.Minecraft.getInstance().setScreen(new EditorGui(mob));
@@ -274,7 +273,12 @@ public class PacketTrainer extends NBTPacket
                 final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
                 try
                 {
+                    boolean trades = aiStates.getAIState(AIState.TRADES_ITEMS);
                     aiStates.deserializeNBT((CompoundTag) this.getTag().get("__ai__"));
+                    if (trades != aiStates.getAIState(AIState.TRADES_ITEMS) && mob instanceof NpcMob npc)
+                    {
+                        npc.updateTrades();
+                    }
                     mob.setInvulnerable(aiStates.getAIState(AIState.INVULNERABLE));
                     player.displayClientMessage(new TextComponent("Updated AI Setting"), true);
                 }
@@ -358,8 +362,8 @@ public class PacketTrainer extends NBTPacket
                     cube = ItemStack.of(mobtag);
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, world);
                     // Load out the moves, since those don't send properly...
-                    if (mobtag.contains("__custom_info__")) this.readPokemob(pokemob, mobtag.getCompound(
-                            "__custom_info__"));
+                    if (mobtag.contains("__custom_info__"))
+                        this.readPokemob(pokemob, mobtag.getCompound("__custom_info__"));
                     cube = PokecubeManager.pokemobToItem(pokemob);
                 }
                 mobHolder.setPokemob(index, cube);

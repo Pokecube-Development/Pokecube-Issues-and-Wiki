@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IMobTexturable
@@ -15,13 +15,13 @@ public interface IMobTexturable
     public static class Defaults implements IMobTexturable
     {
         @Override
-        public LivingEntity getEntity()
+        public Entity getEntity()
         {
             return null;
         }
     }
 
-    LivingEntity getEntity();
+    Entity getEntity();
 
     default String getModId()
     {

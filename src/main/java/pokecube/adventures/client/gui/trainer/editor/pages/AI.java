@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
@@ -52,8 +51,7 @@ public class AI extends Page
 
         this.guardList = new ScrollGui<>(this, this.minecraft, 92, 120, 35, x + 30, y - 65);
 
-        final Function<CompoundTag, CompoundTag> function = t ->
-        {
+        final Function<CompoundTag, CompoundTag> function = t -> {
             PacketSyncRoutes.sendServerPacket(this.parent.entity, t);
             this.onPageOpened();
             return t;
@@ -69,17 +67,12 @@ public class AI extends Page
         final int sy = 12;
         int i = 0;
 
-        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
-                ""));
-        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
-                ""));
-        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(
-                ""));
-        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, new TextComponent(
-                ""));
+        this.resetTimeLose = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
+        this.resetTimeWin = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
+        this.battleCooldown = new EditBox(this.font, x + dx, y + dy + sy * i++, 50, 10, new TextComponent(""));
+        this.faceDirection = new EditBox(this.font, x + dx, y + dy + sy * i++, 30, 10, new TextComponent(""));
 
-        final Predicate<String> intValid = input ->
-        {
+        final Predicate<String> intValid = input -> {
             try
             {
                 Integer.parseInt(input);
@@ -90,8 +83,7 @@ public class AI extends Page
                 return input.isEmpty();
             }
         };
-        final Predicate<String> floatValid = input ->
-        {
+        final Predicate<String> floatValid = input -> {
             try
             {
                 Float.parseFloat(input);
@@ -129,23 +121,23 @@ public class AI extends Page
         {
             if (state.isTemporary()) continue;
             index++;
-            final OnPress action = b ->
-            {
+            final OnPress action = b -> {
                 final boolean flag = !this.parent.aiStates.getAIState(state);
                 this.parent.aiStates.setAIState(state, flag);
                 b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
                 this.onChanged();
             };
-            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new TextComponent(state
-                    .name()), action);
+            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, new TextComponent(state.name()),
+                    action);
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addRenderableWidget(press);
         }
 
-        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
-        {
-            this.closeCallback.run();
-        }));
+        this.addRenderableWidget(
+                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                {
+                    this.closeCallback.run();
+                }));
     }
 
     @Override
@@ -180,14 +172,11 @@ public class AI extends Page
 
     private void onChanged()
     {
-        if (this.parent.aiStates instanceof ICapabilitySerializable)
-        {
-            final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.parent.aiStates;
-            final Tag tag = ser.serializeNBT();
-            final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            message.getTag().putInt("I", this.parent.entity.getId());
-            message.getTag().put("__ai__", tag);
-            PacketTrainer.ASSEMBLER.sendToServer(message);
-        }
+        final Tag tag = this.parent.aiStates.serializeNBT();
+        final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+        message.getTag().putInt("I", this.parent.entity.getId());
+        message.getTag().put("__ai__", tag);
+        PacketTrainer.ASSEMBLER.sendToServer(message);
+
     }
 }

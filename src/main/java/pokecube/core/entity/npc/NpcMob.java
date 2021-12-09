@@ -46,6 +46,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
@@ -55,6 +56,7 @@ import pokecube.core.ai.npc.Tasks;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.events.NpcTradesEvent;
 import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
 
@@ -64,33 +66,29 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
     static
     {
-        TYPE = EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE).setCustomClientFactory((s,
-                w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
+        TYPE = EntityType.Builder.of(NpcMob::new, MobCategory.CREATURE)
+                .setCustomClientFactory((s, w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
 
-    static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String> defineId(NpcMob.class,
+    static final EntityDataAccessor<String> NAMEDW = SynchedEntityData.<String>defineId(NpcMob.class,
             EntityDataSerializers.STRING);
 
-    private NpcType   type       = NpcType.byType("none");
-    public String     playerName = "";
-    public String     urlSkin    = "";
-    public String     customTex  = "";
-    private boolean   male       = true;
-    public boolean    stationary = false;
-    protected boolean invuln     = false;
-    public Vector3    location   = null;
-    public GuardAI    guardAI;
+    private NpcType type = NpcType.byType("none");
+    public String playerName = "";
+    public String urlSkin = "";
+    public String customTex = "";
+    private boolean male = true;
+    public boolean stationary = false;
+    protected boolean invuln = false;
+    public Vector3 location = null;
+    public GuardAI guardAI;
 
-    public String  customTrades = "";
-    public boolean fixedTrades  = false;
+    public String customTrades = "";
+    public boolean fixedTrades = false;
 
-    private Consumer<MerchantOffers> init_offers = t ->
-    {
-    };
+    private Consumer<MerchantOffers> init_offers = t -> {};
 
-    private Consumer<MerchantOffer> use_offer = t ->
-    {
-    };
+    private Consumer<MerchantOffer> use_offer = t -> {};
 
     protected NpcMob(final EntityType<? extends NpcMob> type, final Level world)
     {
@@ -128,8 +126,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         {
             final GuardAI guardai = new GuardAI(this, guard);
             final VillagerProfession profession = this.getVillagerData().getProfession();
-            if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
-                    .getVillagerData().setLevel(3).setProfession(this.getNpcType().getProfession()));
+            if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(
+                    this.getVillagerData().setLevel(3).setProfession(this.getNpcType().getProfession()));
             final float f = 0.5f;
             if (this.isBaby())
             {
@@ -239,8 +237,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             final VillagerProfession proff = this.getNpcType().getProfession();
             this.setVillagerData(this.getVillagerData().setProfession(proff).setLevel(3));
         }
-        if (this.tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this.setHealth(
-                Math.min(this.getHealth() + 2, this.getMaxHealth()));
+        if (this.tickCount % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0)
+            this.setHealth(Math.min(this.getHealth() + 2, this.getMaxHealth()));
     }
 
     @Override
@@ -280,8 +278,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
                 else display = new TextComponent(this.getNPCName());
             }
             else display = new TextComponent(this.getNPCName());
-            display.withStyle((style) ->
-            {
+            display.withStyle((style) -> {
                 return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
             });
             return display;
@@ -353,8 +350,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     protected void onSetOffers()
-    {
-    }
+    {}
 
     @Override
     public MerchantOffers getOffers()
@@ -369,10 +365,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void updateTrades()
+    public void updateTrades()
     {
         if (this.offers != null) this.offers.clear();
+        else this.offers = new MerchantOffers();
         this.init_offers.accept(this.offers);
+        MinecraftForge.EVENT_BUS.post(new NpcTradesEvent(this, offers));
     }
 
     public void setInitOffers(final Consumer<MerchantOffers> in)
@@ -396,8 +394,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     /**
-     * @param type
-     *            the type to set
+     * @param type the type to set
      */
     public void setNpcType(final NpcType type)
     {
@@ -413,8 +410,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     }
 
     /**
-     * @param male
-     *            the male to set
+     * @param male the male to set
      */
     public void setMale(final boolean male)
     {

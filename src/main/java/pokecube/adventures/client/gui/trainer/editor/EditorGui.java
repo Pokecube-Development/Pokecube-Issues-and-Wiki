@@ -170,6 +170,7 @@ public class EditorGui extends Screen
         this.current_page = this.createPage(this.index);
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
+        
     }
 
     public Page createPage(final int index)

@@ -15,7 +15,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
@@ -65,8 +64,7 @@ public class Rewards extends ListPage<RewardOption>
 
             this.chance.setValue("1.0");
 
-            final Predicate<String> floatValid = input ->
-            {
+            final Predicate<String> floatValid = input -> {
                 try
                 {
                     Float.parseFloat(input);
@@ -89,14 +87,12 @@ public class Rewards extends ListPage<RewardOption>
                 this.chance.setValue(r.chance + "");
             }
 
-            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b ->
-            {
+            this.confirm = new Button(0, 0, 10, 10, new TextComponent("Y"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.reward.setValue("");
                 this.onUpdated();
             });
-            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b ->
-            {
+            this.delete = new Button(0, 0, 10, 10, new TextComponent("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
             });
@@ -104,8 +100,7 @@ public class Rewards extends ListPage<RewardOption>
             if (index == this.rewards.getRewards().size()) this.delete.active = false;
             this.confirm.active = false;
 
-            this.apply = new Button(0, 0, 45, 10, new TextComponent("Apply"), b ->
-            {
+            this.apply = new Button(0, 0, 45, 10, new TextComponent("Apply"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
             });
@@ -184,7 +179,6 @@ public class Rewards extends ListPage<RewardOption>
             {
                 final NbtTagArgument arg = NbtTagArgument.nbtTag();
                 final CompoundTag tag = (CompoundTag) arg.parse(new StringReader(this.reward.getValue()));
-                System.out.println(tag);
                 final float chance = Float.parseFloat(this.chance.getValue());
                 final Reward r = new Reward(ItemStack.of(tag), chance);
                 if (this.index == this.rewards.getRewards().size())
@@ -200,18 +194,13 @@ public class Rewards extends ListPage<RewardOption>
                 Minecraft.getInstance().player.displayClientMessage(new TextComponent("Errored format for reward!"),
                         true);
             }
-            if (this.rewards instanceof ICapabilitySerializable)
-            {
-                final ICapabilitySerializable<? extends Tag> ser = (ICapabilitySerializable<?>) this.rewards;
-                final Tag tag = ser.serializeNBT();
-                final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-                final CompoundTag nbt = message.getTag();
-                nbt.put("__rewards__", tag);
-                nbt.putInt("I", this.parent.parent.entity.getId());
-                PacketTrainer.ASSEMBLER.sendToServer(message);
-            }
+            final Tag tag = this.rewards.serializeNBT();
+            final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+            final CompoundTag nbt = message.getTag();
+            nbt.put("__rewards__", tag);
+            nbt.putInt("I", this.parent.parent.entity.getId());
+            PacketTrainer.ASSEMBLER.sendToServer(message);
         }
-
     }
 
     public Rewards(final EditorGui parent)
@@ -235,9 +224,10 @@ public class Rewards extends ListPage<RewardOption>
 
         x = this.width / 2;
         y = this.height / 2;
-        this.addRenderableWidget(new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
-        {
-            this.closeCallback.run();
-        }));
+        this.addRenderableWidget(
+                new Button(x + 73, y + 64, 50, 12, new TranslatableComponent("traineredit.button.home"), b ->
+                {
+                    this.closeCallback.run();
+                }));
     }
 }
