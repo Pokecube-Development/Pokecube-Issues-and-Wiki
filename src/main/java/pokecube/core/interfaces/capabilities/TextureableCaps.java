@@ -119,6 +119,7 @@ public class TextureableCaps
         public int getRandomSeed()
         {
             if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.mob.isAddedToWorld()) return (int) System.nanoTime();
             return this.pokemob.getRNGValue();
         }
 
