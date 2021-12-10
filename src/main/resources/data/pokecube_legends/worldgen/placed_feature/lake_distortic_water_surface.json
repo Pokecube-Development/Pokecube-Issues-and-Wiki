@@ -1,0 +1,19 @@
+{
+  "feature": "pokecube_legends:lake_distortic_water",
+  "placement": [
+    {
+      "chance": 200,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "WORLD_SURFACE_WG",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

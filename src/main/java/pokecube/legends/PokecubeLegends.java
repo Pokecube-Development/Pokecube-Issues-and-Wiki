@@ -264,7 +264,7 @@ public class PokecubeLegends
                 Type.MOUNTAIN, Type.RARE, Type.WET);
 
         // FIXME worldgen features
-        // WorldgenFeatures.init(modEventBus);
+        WorldgenFeatures.init(modEventBus);
         Trees.init(modEventBus);
         BlockInit.init();
         ItemInit.init();
