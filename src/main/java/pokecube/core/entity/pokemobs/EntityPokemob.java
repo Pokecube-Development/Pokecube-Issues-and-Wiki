@@ -52,7 +52,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;

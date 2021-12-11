@@ -1,7 +1,8 @@
-package pokecube.core.database;
+package pokecube.core.database.spawns;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -9,135 +10,37 @@ import javax.xml.namespace.QName;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.spawns.SpawnCheck.MatchResult;
+import pokecube.core.database.spawns.SpawnCheck.Weather;
 import pokecube.core.events.pokemob.SpawnCheckEvent;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
-import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 
-public class SpawnBiomeMatcher
+public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 {
-    public static enum Weather
-    {
-        SUN, CLOUD, RAIN, SNOW, NONE;
-
-        public static Weather getForWorld(final Level world, final Vector3 location)
-        {
-            final boolean globalRain = world.isRaining();
-            final BlockPos position = location.getPos();
-            boolean outside = world.canSeeSky(position);
-            outside = outside && world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY() > position
-                    .getY();
-            if (!outside) return NONE;
-            if (globalRain)
-            {
-                final Biome.Precipitation type = world.getBiome(position).getPrecipitation();
-                switch (type)
-                {
-                case NONE:
-                    return CLOUD;
-                case RAIN:
-                    return RAIN;
-                case SNOW:
-                    return SNOW;
-                default:
-                    break;
-                }
-            }
-            return SUN;
-        }
-    }
-
-    public static class SpawnCheck
-    {
-        public final boolean            day;
-        public final boolean            dusk;
-        public final boolean            dawn;
-        public final boolean            night;
-        public final Material           material;
-        public final float              light;
-        public final ResourceKey<Biome> biome;
-        public final BiomeType          type;
-        public final Weather            weather;
-        public final BiomeCategory      cat;
-        public final boolean            thundering;
-        public final LevelAccessor      world;
-        public final ChunkAccess        chunk;
-        public final Vector3            location;
-
-        public SpawnCheck(final Vector3 location, final LevelAccessor world, final Biome biome)
-        {
-            this.world = world;
-            this.location = location;
-            this.biome = BiomeDatabase.getKey(biome);
-            this.day = this.dusk = this.dawn = this.night = true;
-            this.weather = Weather.NONE;
-            this.thundering = false;
-            this.light = 1f;
-            this.type = BiomeType.NONE;
-            this.material = Material.AIR;
-            this.chunk = world.getChunk(location.intX() >> 4, location.intZ() >> 4, ChunkStatus.EMPTY, false);
-            this.cat = biome.getBiomeCategory();
-        }
-
-        public SpawnCheck(final Vector3 location, final LevelAccessor world)
-        {
-            this.world = world;
-            this.location = location;
-            final Biome biome = location.getBiome(world);
-            this.biome = BiomeDatabase.getKey(biome);
-            this.cat = biome.getBiomeCategory();
-            this.material = location.getBlockMaterial(world);
-            this.chunk = ITerrainProvider.getChunk(((Level) world).dimension(), new ChunkPos(location.getPos()));
-            final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-            this.type = t.getBiome(location);
-            // TODO better way to choose current time.
-            final double time = ((ServerLevel) world).getDayTime() / 24000.0;
-            final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
-            this.light = lightBlock / 15f;
-            final Level w = (ServerLevel) world;
-            this.weather = Weather.getForWorld(w, location);
-            this.thundering = this.weather == Weather.RAIN && w.isThundering();
-            this.day = PokedexEntry.day.contains(time);
-            this.dusk = PokedexEntry.dusk.contains(time);
-            this.dawn = PokedexEntry.dawn.contains(time);
-            this.night = PokedexEntry.night.contains(time);
-        }
-    }
-
-    public static enum MatchResult
-    {
-        PASS, SUCCEED, FAIL;
-    }
-
     public static interface StructureMatcher
     {
 
@@ -171,34 +74,40 @@ public class SpawnBiomeMatcher
         }
     }
 
-    public static final QName ATYPES         = new QName("anyType");
-    public static final QName TYPES          = new QName("types");
+    public static final QName TYPES = new QName("types");
     public static final QName TYPESBLACKLIST = new QName("typesBlacklist");
 
-    public static final QName STRUCTURES      = new QName("structures");
+    public static final QName STRUCTURES = new QName("structures");
     public static final QName STRUCTURESBLACK = new QName("noStructures");
 
     public static final QName NIGHT = new QName("night");
-    public static final QName DAY   = new QName("day");
-    public static final QName DUSK  = new QName("dusk");
-    public static final QName DAWN  = new QName("dawn");
+    public static final QName DAY = new QName("day");
+    public static final QName DUSK = new QName("dusk");
+    public static final QName DAWN = new QName("dawn");
 
-    public static final QName AIR      = new QName("air");
-    public static final QName WATER    = new QName("water");
+    public static final QName AIR = new QName("air");
+    public static final QName WATER = new QName("water");
     public static final QName MINLIGHT = new QName("minLight");
 
-    public static final QName WEATHER    = new QName("weather");
+    public static final QName WEATHER = new QName("weather");
     public static final QName WEATHERNOT = new QName("noWeather");
 
-    public static final QName BIOMECAT   = new QName("category");
+    public static final QName BIOMECAT = new QName("category");
     public static final QName NOBIOMECAT = new QName("categoryBlacklist");
 
-    public static final QName BIOMES          = new QName("biomes");
+    public static final QName STRICTTYPECAT = new QName("strict_type_cat");
+
+    public static final QName BIOMES = new QName("biomes");
     public static final QName BIOMESBLACKLIST = new QName("biomesBlacklist");
 
     public static final QName MAXLIGHT = new QName("maxLight");
 
     public static final QName SPAWNCOMMAND = new QName("command");
+
+    public static final QName PRESET = new QName("preset");
+
+    public static final QName ANDPRESET = new QName("and_presets");
+    public static final QName ORPRESET = new QName("or_presets");
 
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
@@ -211,15 +120,41 @@ public class SpawnBiomeMatcher
         rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "none");
         NONEMATCHER = new SpawnBiomeMatcher(rule);
+
+        // FIXME remove this once forge does it itself.
+
+        BiomeDictionary.addTypes(Biomes.MEADOW, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.PLATEAU,
+                BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.GROVE, BiomeDictionary.Type.COLD, BiomeDictionary.Type.CONIFEROUS,
+                BiomeDictionary.Type.FOREST, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN,
+                BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.SNOWY_SLOPES, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
+                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.JAGGED_PEAKS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
+                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.FROZEN_PEAKS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
+                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.STONY_PEAKS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.MOUNTAIN,
+                BiomeDictionary.Type.OVERWORLD);
+
+        BiomeDictionary.Type UNDERGROUND = BiomeDictionary.Type.getType("UNDERGROUND");
+
+        BiomeDictionary.addTypes(Biomes.LUSH_CAVES, UNDERGROUND, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.WET,
+                BiomeDictionary.Type.OVERWORLD);
+        BiomeDictionary.addTypes(Biomes.DRIPSTONE_CAVES, UNDERGROUND, BiomeDictionary.Type.SPARSE,
+                BiomeDictionary.Type.OVERWORLD);
+
     }
 
-    private static int                      lastBiomesSize = -1;
-    private static List<ResourceKey<Biome>> allBiomeKeys   = Lists.newArrayList();
-    private static List<Biome>              allBiomes      = Lists.newArrayList();
+    private static int lastBiomesSize = -1;
+    private static List<ResourceKey<Biome>> allBiomeKeys = Lists.newArrayList();
+    private static List<Biome> allBiomes = Lists.newArrayList();
 
     public static Set<ResourceKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
 
     private static boolean loadedIn = false;
+
+    public static final Map<String, SpawnRule> PRESETS = Maps.newHashMap();
 
     public static Collection<ResourceKey<Biome>> getAllBiomeKeys()
     {
@@ -252,17 +187,17 @@ public class SpawnBiomeMatcher
     }
 
     // These are private so that they can force an update based on categories
-    private Set<ResourceKey<Biome>> _validBiomes     = Sets.newHashSet();
-    private Set<ResourceKey<Biome>> _blackListBiomes = Sets.newHashSet();
+    public Set<ResourceKey<Biome>> _validBiomes = Sets.newHashSet();
+    public Set<ResourceKey<Biome>> _blackListBiomes = Sets.newHashSet();
 
-    private Set<BiomeCategory> _validCats     = Sets.newHashSet();
-    private Set<BiomeCategory> _blackListCats = Sets.newHashSet();
+    public Set<BiomeCategory> _validCats = Sets.newHashSet();
+    public Set<BiomeCategory> _blackListCats = Sets.newHashSet();
 
-    public Set<BiomeDictionary.Type> _validTypes   = Sets.newHashSet();
+    public Set<BiomeDictionary.Type> _validTypes = Sets.newHashSet();
     public Set<BiomeDictionary.Type> _invalidTypes = Sets.newHashSet();
 
-    public Set<String>    _validStructures    = Sets.newHashSet();
-    public Set<BiomeType> _validSubBiomes     = Sets.newHashSet();
+    public Set<String> _validStructures = Sets.newHashSet();
+    public Set<BiomeType> _validSubBiomes = Sets.newHashSet();
     public Set<BiomeType> _blackListSubBiomes = Sets.newHashSet();
 
     public Set<Weather> _neededWeather = Sets.newHashSet();
@@ -278,7 +213,8 @@ public class SpawnBiomeMatcher
      * If the spawnRule has an anyType key, make a child for each type in it,
      * then check if any of the children are valid.
      */
-    public Set<SpawnBiomeMatcher> children = Sets.newHashSet();
+    public Set<SpawnBiomeMatcher> _and_children = Sets.newHashSet();
+    public Set<SpawnBiomeMatcher> _or_children = Sets.newHashSet();
 
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
@@ -289,27 +225,28 @@ public class SpawnBiomeMatcher
     public float minLight = 0;
     public float maxLight = 1;
 
-    public boolean day   = true;
-    public boolean dusk  = true;
+    public boolean day = true;
+    public boolean dusk = true;
     public boolean night = true;
-    public boolean dawn  = true;
-    public boolean air   = true;
+    public boolean dawn = true;
+    public boolean air = true;
     public boolean water = false;
 
     public boolean needThunder = false;
-    public boolean noThunder   = false;
+    public boolean noThunder = false;
+
+    public boolean strict_type_cat = false;
 
     public final SpawnRule spawnRule;
 
     boolean parsed = false;
-    boolean valid  = true;
+    boolean valid = true;
 
     private boolean _checked_cats = false;
 
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
-        this.parseBasic();
     }
 
     public boolean validCategory(final BiomeCategory cat)
@@ -332,12 +269,11 @@ public class SpawnBiomeMatcher
             {
                 final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
                 if (this._blackListCats.contains(b.getBiomeCategory())) this._blackListBiomes.add(key);
-                for (final BiomeDictionary.Type type : this._invalidTypes)
-                    if (BiomeDictionary.hasType(key, type))
-                    {
-                        this.getInvalidBiomes().add(key);
-                        break;
-                    }
+                for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(key, type))
+                {
+                    this.getInvalidBiomes().add(key);
+                    break;
+                }
             }
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
@@ -349,14 +285,17 @@ public class SpawnBiomeMatcher
                     continue;
                 }
                 if (this._validCats.isEmpty() && this._validTypes.isEmpty()) continue;
-                if (!this._validCats.isEmpty() && !this._validCats.contains(b.getBiomeCategory())) continue;
+
+                boolean validCat = this._validCats.isEmpty() || this._validCats.contains(b.getBiomeCategory());
+
+                if (!validCat && _validTypes.isEmpty()) continue;
+                boolean validType = true;
                 if (!this._validTypes.isEmpty())
                 {
-                    boolean hasAll = true;
                     for (final BiomeDictionary.Type type : this._validTypes)
-                        hasAll = hasAll && BiomeDictionary.hasType(key, type);
-                    if (!hasAll) continue;
+                        validType = validType && BiomeDictionary.hasType(key, type);
                 }
+                if (!validType) continue;
                 this._validBiomes.add(key);
             }
         }
@@ -378,21 +317,30 @@ public class SpawnBiomeMatcher
     {
         // Parse this to initialize the lists at least.
         this.parse();
+
+        // First check children
+        if (!this._and_children.isEmpty())
+        {
+            return _and_children.stream().allMatch(m -> m.checkLoadEvent(event));
+        }
+        if (!this._or_children.isEmpty())
+        {
+            return _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
+        }
+
         // This checks if there is acategory at all.
         if (!this.validCategory(event.getCategory())) return false;
         final ResourceKey<Biome> key = this.from(event);
         // Check types, etc manually here, as this can be run before biomes are
         // actually valid.
-        for (final BiomeDictionary.Type type : this._invalidTypes)
-            if (BiomeDictionary.hasType(key, type)) return false;
+        for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(key, type)) return false;
         if (this._blackListBiomes.contains(key)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (!this._validTypes.isEmpty())
         {
             boolean all = true;
 
-            for (final BiomeDictionary.Type type : this._validTypes)
-                all = all && BiomeDictionary.hasType(key, type);
+            for (final BiomeDictionary.Type type : this._validTypes) all = all && BiomeDictionary.hasType(key, type);
             if (!all) return false;
         }
         if (!this._validBiomes.isEmpty()) return this._validBiomes.contains(key);
@@ -410,6 +358,17 @@ public class SpawnBiomeMatcher
     {
         this.parse();
         if (!this.valid) return false;
+        
+        // First check children
+        if (!this._and_children.isEmpty())
+        {
+            return _and_children.stream().allMatch(m -> m.checkBiome(biome));
+        }
+        if (!this._or_children.isEmpty())
+        {
+            return _or_children.stream().anyMatch(m -> m.checkBiome(biome));
+        }
+        
         if (this.getInvalidBiomes().contains(biome)) return false;
         if (this.getValidBiomes().contains(biome)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
@@ -417,6 +376,30 @@ public class SpawnBiomeMatcher
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         // Otherwise, only return true if we have no valid biomes otherwise!
         return this.getValidBiomes().isEmpty();
+    }
+
+    public boolean matches(final SpawnCheck checker)
+    {
+        this.parse();
+        if (!this.valid) return false;
+        // First check children
+        if (!this._and_children.isEmpty())
+        {
+            return _and_children.stream().allMatch(m -> m.matches(checker));
+        }
+        if (!this._or_children.isEmpty())
+        {
+            return _or_children.stream().anyMatch(m -> m.matches(checker));
+        }
+        
+        if (!this.weatherMatches(checker)) return false;
+        final boolean biome = this.biomeMatches(checker);
+        if (!biome) return false;
+        final boolean loc = this.conditionsMatch(checker);
+        if (!loc) return false;
+        boolean subCondition = true;
+        for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
+        return subCondition && !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
     }
 
     private boolean weatherMatches(final SpawnCheck checker)
@@ -440,7 +423,7 @@ public class SpawnBiomeMatcher
 
         if (blackListed) return false;
 
-        final boolean rightBiome = this.checkBiome(checker.biome) && this.validCategory(checker.cat);
+        final boolean rightBiome = this.checkBiome(checker.biome);
 
         // If we are not allowed in this biome, return false.
         // This checks if we are blackisted for the biome, or if we need
@@ -505,100 +488,107 @@ public class SpawnBiomeMatcher
         return light <= this.maxLight && light >= this.minLight;
     }
 
-    public boolean matches(final SpawnCheck checker)
-    {
-        this.parse();
-        if (!this.valid) return false;
-        if (!this.children.isEmpty())
-        {
-            for (final SpawnBiomeMatcher child : this.children)
-                if (child.matches(checker)) return true;
-            return false;
-        }
-        if (!this.weatherMatches(checker)) return false;
-        final boolean biome = this.biomeMatches(checker);
-        if (!biome) return false;
-        final boolean loc = this.conditionsMatch(checker);
-        if (!loc) return false;
-        boolean subCondition = true;
-        for (final Predicate<SpawnCheck> c : this._additionalConditions)
-            subCondition &= c.apply(checker);
-        return subCondition && !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
-    }
-
     private BiomeCategory getCat(final String name)
     {
-        for (final BiomeCategory c : BiomeCategory.values())
-            if (c.getName().equalsIgnoreCase(name)) return c;
+        for (final BiomeCategory c : BiomeCategory.values()) if (c.getName().equalsIgnoreCase(name)) return c;
         return null;
     }
 
     private Weather getWeather(final String name)
     {
-        for (final Weather c : Weather.values())
-            if (c.name().equalsIgnoreCase(name)) return c;
+        for (final Weather c : Weather.values()) if (c.name().equalsIgnoreCase(name)) return c;
         return null;
     }
 
     private void parseBasic()
     {
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.NIGHT));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DUSK)) this.dusk = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DUSK));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAWN)) this.dawn = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.DAWN));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.WATER)) this.water = Boolean.parseBoolean(
-                this.spawnRule.values.get(SpawnBiomeMatcher.WATER));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY))
+            this.day = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT))
+            this.night = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.NIGHT));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DUSK))
+            this.dusk = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.DUSK));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAWN))
+            this.dawn = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.DAWN));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.WATER))
+            this.water = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.WATER));
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.AIR))
         {
             this.air = Boolean.parseBoolean(this.spawnRule.values.get(SpawnBiomeMatcher.AIR));
             if (!this.air && !this.water) this.water = true;
         }
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MINLIGHT)) this.minLight = Float.parseFloat(
-                this.spawnRule.values.get(SpawnBiomeMatcher.MINLIGHT));
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT)) this.maxLight = Float.parseFloat(
-                this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MINLIGHT))
+            this.minLight = Float.parseFloat(this.spawnRule.values.get(SpawnBiomeMatcher.MINLIGHT));
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT))
+            this.maxLight = Float.parseFloat(this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
     }
 
     public void parse()
     {
         if (this.parsed) return;
 
+        SpawnRule spawnRule = this.spawnRule;
+        if (spawnRule.values.containsKey(PRESET))
+            spawnRule = PRESETS.getOrDefault(spawnRule.values.get(PRESET), spawnRule);
+
+        String or_presets = spawnRule.values.get(SpawnBiomeMatcher.ORPRESET);
+        String and_presets = spawnRule.values.get(SpawnBiomeMatcher.ANDPRESET);
+
         this.reset();
+
         this.parsed = true;
         this.valid = true;
 
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.ATYPES))
+        if (or_presets != null)
         {
-            final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.ATYPES);
-            final String[] args = typeString.split(",");
+            String[] args = or_presets.split(",");
             for (String s : args)
             {
-                s = s.trim();
-                final SpawnRule newRule = new SpawnRule();
-                newRule.values.putAll(this.spawnRule.values);
-                newRule.values.remove(SpawnBiomeMatcher.ATYPES);
-                newRule.values.put(SpawnBiomeMatcher.TYPES, s);
-                this.children.add(new SpawnBiomeMatcher(newRule));
+                SpawnRule rule = PRESETS.get(s);
+                if (rule != null)
+                {
+                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule);
+                    if (child.valid) this._or_children.add(child);
+                }
             }
         }
+
+        if (and_presets != null)
+        {
+            String[] args = and_presets.split(",");
+            for (String s : args)
+            {
+                SpawnRule rule = PRESETS.get(s);
+                if (rule != null)
+                {
+                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule);
+                    if (child.valid) this._and_children.add(child);
+                }
+            }
+        }
+
         this._structs = new StructureMatcher()
         {
         };
         MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
 
-        if (!this.children.isEmpty())
+        for (final SpawnBiomeMatcher child : this._and_children) child.parse();
+        for (final SpawnBiomeMatcher child : this._or_children) child.parse();
+
+        if (this._or_children.size() > 0 || this._and_children.size() > 0)
         {
-            for (final SpawnBiomeMatcher child : this.children)
-                child.parse();
+            boolean or_valid = this._or_children.size() > 0;
+            boolean and_valid = this._and_children.size() > 0;
+
+            for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child.valid;
+            for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid && child.valid;
+
+            this.valid = or_valid || and_valid;
             return;
         }
 
         // Lets deal with the weather checks
-        String weather = this.spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
+        String weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -613,7 +603,7 @@ public class SpawnBiomeMatcher
                 if (w != null) this._neededWeather.add(w);
             }
         }
-        weather = this.spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
+        weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -632,30 +622,53 @@ public class SpawnBiomeMatcher
         this.preParseSubBiomes();
         this.parseBasic();
 
-        final String biomeString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
-        final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
-        final String biomeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
-        final String typeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
-        final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
-        final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
-        final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
+        final String biomeString = spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
+        final String typeString = spawnRule.values.get(SpawnBiomeMatcher.TYPES);
+        final String biomeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
+        final String typeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
+        final String biomeCat = spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
+        final String noBiomeCat = spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
+        final String validStructures = spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
+
+        this.strict_type_cat = false;
+        if (spawnRule.values.containsKey(STRICTTYPECAT))
+        {
+            this.strict_type_cat = true;
+        }
 
         final Set<BiomeCategory> biomeCats = this._validCats;
         final Set<BiomeCategory> noBiomeCats = this._blackListCats;
 
         if (biomeCat != null)
         {
-            final String[] args = biomeCat.split(",");
+            String[] args = biomeCat.split(",");
             for (final String s : args)
             {
                 final BiomeCategory c = this.getCat(s);
                 if (c != null) biomeCats.add(c);
             }
-
+        }
+        if (!this.strict_type_cat && typeString != null)
+        {
+            String[] args = typeString.split(",");
+            for (final String s : args)
+            {
+                final BiomeCategory c = this.getCat(s);
+                if (c != null) biomeCats.add(c);
+            }
         }
         if (noBiomeCat != null)
         {
-            final String[] args = noBiomeCat.split(",");
+            String[] args = noBiomeCat.split(",");
+            for (final String s : args)
+            {
+                final BiomeCategory c = this.getCat(s);
+                if (c != null) noBiomeCats.add(c);
+            }
+        }
+        if (!this.strict_type_cat && typeBlacklistString != null)
+        {
+            String[] args = typeBlacklistString.split(",");
             for (final String s : args)
             {
                 final BiomeCategory c = this.getCat(s);
@@ -666,8 +679,7 @@ public class SpawnBiomeMatcher
         if (validStructures != null)
         {
             final String[] args = validStructures.split(",");
-            for (final String s : args)
-                this._validStructures.add(s);
+            for (final String s : args) this._validStructures.add(s);
         }
 
         if (biomeString != null)
@@ -685,7 +697,7 @@ public class SpawnBiomeMatcher
         boolean hasForgeTypes = false;
         if (typeString != null)
         {
-            final String[] args = typeString.split(",");
+            String[] args = typeString.split(",");
             for (String s : args)
             {
                 s = Database.trim(s);
@@ -704,6 +716,25 @@ public class SpawnBiomeMatcher
                 this._validSubBiomes.add(subBiome);
             }
         }
+        if (!this.strict_type_cat && biomeCat != null)
+        {
+            String[] args = biomeCat.split(",");
+            for (String s : args)
+            {
+                s = Database.trim(s);
+                if (BiomeDatabase.isAType(s))
+                {
+                    hasForgeTypes = true;
+                    if (s.equalsIgnoreCase("water"))
+                    {
+                        this._validTypes.add(BiomeDictionary.Type.getType("river"));
+                        this._validTypes.add(BiomeDictionary.Type.getType("ocean"));
+                    }
+                    else this._validTypes.add(BiomeDictionary.Type.getType(s));
+                    continue;
+                }
+            }
+        }
         if (biomeBlacklistString != null)
         {
             final String[] args = biomeBlacklistString.split(",");
@@ -718,7 +749,7 @@ public class SpawnBiomeMatcher
         }
         if (typeBlacklistString != null)
         {
-            final String[] args = typeBlacklistString.split(",");
+            String[] args = typeBlacklistString.split(",");
             for (String s : args)
             {
                 s = Database.trim(s);
@@ -733,17 +764,33 @@ public class SpawnBiomeMatcher
                     continue;
                 }
                 BiomeType subBiome = null;
-                for (final BiomeType b : BiomeType.values())
-                    if (Database.trim(b.name).equals(s))
-                    {
-                        subBiome = b;
-                        break;
-                    }
+                for (final BiomeType b : BiomeType.values()) if (Database.trim(b.name).equals(s))
+                {
+                    subBiome = b;
+                    break;
+                }
                 if (subBiome == null) subBiome = BiomeType.getBiome(s);
                 if (subBiome != BiomeType.NONE) this._blackListSubBiomes.add(subBiome);
             }
         }
-
+        if (!this.strict_type_cat && noBiomeCat != null)
+        {
+            String[] args = noBiomeCat.split(",");
+            for (String s : args)
+            {
+                s = Database.trim(s);
+                if (BiomeDatabase.isAType(s))
+                {
+                    if (s.equalsIgnoreCase("water"))
+                    {
+                        this._invalidTypes.add(BiomeDictionary.Type.getType("river"));
+                        this._invalidTypes.add(BiomeDictionary.Type.getType("ocean"));
+                    }
+                    else this._invalidTypes.add(BiomeDictionary.Type.getType(s));
+                    continue;
+                }
+            }
+        }
         this._validBiomes.removeAll(this._blackListBiomes);
 
         // This refeshes the _validBiomes, and validates things.
@@ -763,8 +810,8 @@ public class SpawnBiomeMatcher
         //@formatter:on
         if (!hasSomething) this.valid = false;
 
-        if (!this.valid && SpawnBiomeMatcher.loadedIn) PokecubeCore.LOGGER.error("Invalid Matcher: {}",
-                PacketPokedex.gson.toJson(this));
+        if (!this.valid && SpawnBiomeMatcher.loadedIn)
+            PokecubeCore.LOGGER.error("Invalid Matcher: {}", PacketPokedex.gson.toJson(this));
     }
 
     private void preParseSubBiomes()
@@ -777,12 +824,11 @@ public class SpawnBiomeMatcher
             {
                 s = s.trim();
                 BiomeType subBiome = null;
-                for (final BiomeType b : BiomeType.values())
-                    if (Database.trim(b.name).equals(Database.trim(s)))
-                    {
-                        subBiome = b;
-                        break;
-                    }
+                for (final BiomeType b : BiomeType.values()) if (Database.trim(b.name).equals(Database.trim(s)))
+                {
+                    subBiome = b;
+                    break;
+                }
                 if (subBiome == null && !BiomeDatabase.isAType(s)) BiomeType.getBiome(s.trim(), true);
             }
         }
@@ -806,7 +852,8 @@ public class SpawnBiomeMatcher
         if (this._neededWeather == null) this._neededWeather = Sets.newHashSet();
         if (this._validCats == null) this._validCats = Sets.newHashSet();
         if (this._blackListCats == null) this._blackListCats = Sets.newHashSet();
-        if (this.children == null) this.children = Sets.newHashSet();
+        if (this._and_children == null) this._and_children = Sets.newHashSet();
+        if (this._or_children == null) this._or_children = Sets.newHashSet();
 
         // Now lets ensure they are empty.
         this._validCats.clear();
@@ -820,6 +867,17 @@ public class SpawnBiomeMatcher
         this._validStructures.clear();
         this._bannedWeather.clear();
         this._neededWeather.clear();
-        this.children.clear();
+        this._and_children.clear();
+        this._or_children.clear();
+
+        minLight = 0;
+        maxLight = 1;
+
+        day = true;
+        dusk = true;
+        night = true;
+        dawn = true;
+        air = true;
+        water = false;
     }
 }

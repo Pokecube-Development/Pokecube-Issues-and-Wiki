@@ -23,7 +23,7 @@ import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 
 public class SpawnListEntry
 {

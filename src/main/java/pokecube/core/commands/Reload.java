@@ -27,7 +27,7 @@ public class Reload
     {
         source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.start"), true);
         Database.listener.loaded = true;
-        Database.lastLoad = -1;
+        Database.needs_reload = true;
         Database.onResourcesReloaded();
         source.sendSuccess(new TranslatableComponent("pokecube.command.reloading_packs.end"), true);
         return 0;

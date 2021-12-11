@@ -877,7 +877,7 @@ public class Vector3
 
     public Biome getBiome(final LevelAccessor world)
     {
-        return world.getBiome(new BlockPos(this.intX(), 0, this.intZ()));
+        return world.getBiome(new BlockPos(this.intX(), this.intY(), this.intZ()));
     }
 
     public Block getBlock(final BlockGetter worldMap)

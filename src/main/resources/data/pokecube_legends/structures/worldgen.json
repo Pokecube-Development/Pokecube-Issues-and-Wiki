@@ -837,7 +837,8 @@
       "separation":5,
       "spawn":{
         "values":{
-          "category":"the_end"
+          "category":"the_end",
+          "strict_type_cat":true
         }
       }
     },
@@ -1095,7 +1096,8 @@
       "separation":32,
       "spawn":{
         "values":{
-          "category":"the_end"
+          "category":"the_end",
+          "strict_type_cat":true
         }
       }
     },
@@ -1182,7 +1184,8 @@
       "base_under":false,
       "spawn":{
         "values":{
-          "category":"nether"
+          "category":"nether",
+          "strict_type_cat":true
         }
       }
     },
@@ -1194,7 +1197,8 @@
       "separation":3,
       "spawn":{
         "values":{
-          "category":"extreme_hills"
+          "category":"extreme_hills",
+          "strict_type_cat":true
         }
       }
     },

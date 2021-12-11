@@ -53,7 +53,7 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
