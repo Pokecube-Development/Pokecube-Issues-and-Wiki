@@ -27,6 +27,19 @@
           "types": "ocean",
           "air": "false"
         }
+      },
+      {
+        "values": {
+          "preset": "cave_water",
+          "types": "cavewater",
+          "air": "false"
+        }
+      },
+      {
+        "values": {
+          "preset": "any_water",
+          "or_presets": "ocean_water,beach_water,lake_water,river_water,cave_water"
+        }
       }
   ]
 }

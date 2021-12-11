@@ -260,7 +260,9 @@ public class WorldgenHandler
 
     private static List<StructureFeature<?>> SORTED_PRIOR_LIST = Lists.newArrayList();
 
-    private static Map<StructureFeature<?>, Integer> SPACENEEDS = Maps.newConcurrentMap();
+    private static Map<ResourceLocation, Integer> SPACENEEDS = Maps.newConcurrentMap();
+
+    private static Map<ResourceLocation, StructureFeature<?>> FEATURELOOKUP = Maps.newConcurrentMap();
 
     public static Set<ResourceKey<Level>> SOFTBLACKLIST = Sets.newHashSet();
 
@@ -271,19 +273,18 @@ public class WorldgenHandler
             if (WorldgenHandler.SORTED_PRIOR_LIST.isEmpty())
             {
                 WorldgenHandler.SORTED_PRIOR_LIST.addAll(StructureFeature.STEP.keySet());
-                WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) ->
-                {
+                WorldgenHandler.SORTED_PRIOR_LIST.sort((s1, s2) -> {
                     int p1 = 5;
                     int p2 = 5;
                     if (s1 instanceof CustomJigsawStructure) p1 = ((CustomJigsawStructure) s1).priority;
                     if (s2 instanceof CustomJigsawStructure) p2 = ((CustomJigsawStructure) s2).priority;
                     return Integer.compare(p1, p2);
                 });
-                WorldgenHandler.SORTED_PRIOR_LIST.forEach(s ->
-                {
+                WorldgenHandler.SORTED_PRIOR_LIST.forEach(s -> {
                     int space = 6;
                     if (s instanceof CustomJigsawStructure) space = ((CustomJigsawStructure) s).spacing;
-                    WorldgenHandler.SPACENEEDS.put(s, space);
+                    WorldgenHandler.SPACENEEDS.put(s.getRegistryName(), space);
+                    WorldgenHandler.FEATURELOOKUP.put(s.getRegistryName(), s);
                 });
             }
         }
@@ -295,10 +296,15 @@ public class WorldgenHandler
         return WorldgenHandler.SORTED_PRIOR_LIST;
     }
 
-    public static Integer getNeededSpace(final StructureFeature<?> s)
+    public static Integer getNeededSpace(final ResourceLocation s)
     {
         WorldgenHandler.initSpaceMap();
         return WorldgenHandler.SPACENEEDS.get(s);
+    }
+
+    public static StructureFeature<?> getFeature(final ResourceLocation s)
+    {
+        return WorldgenHandler.FEATURELOOKUP.get(s);
     }
 
     public final String MODID;
@@ -514,10 +520,8 @@ public class WorldgenHandler
             // registering the structure features
             HashMap<StructureFeature<?>, Builder<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> hashmap = new HashMap<>();
 
-            BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer = (structure, biome) ->
-            {
-                hashmap.computeIfAbsent(structure.feature, (feature) ->
-                {
+            BiConsumer<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> consumer = (structure, biome) -> {
+                hashmap.computeIfAbsent(structure.feature, (feature) -> {
                     return ImmutableMultimap.builder();
                 }).put(structure, biome);
             };

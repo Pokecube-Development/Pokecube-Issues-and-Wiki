@@ -173,6 +173,13 @@
       
       {
         "values": {
+          "preset": "flowers",
+          "types": "flower"
+        }
+      },
+      
+      {
+        "values": {
           "preset": "wet_areas",
           "typesBlacklist": "sparse,cold,dry",
           "types": "wet"

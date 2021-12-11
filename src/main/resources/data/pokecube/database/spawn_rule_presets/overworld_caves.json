@@ -21,6 +21,12 @@
           "typesBlacklist": "dry,cold",
           "types": "cave"
         }
+      },
+      {
+        "values": {
+          "preset": "caves_cold",
+          "types": "cave,cold"
+        }
       }
   ]
 }
