@@ -382,7 +382,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     {
         this.parse();
         if (!this.valid) return false;
-        
         // First check children
         if (!this._and_children.isEmpty())
         {
@@ -581,7 +580,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             boolean or_valid = this._or_children.size() > 0;
             boolean and_valid = this._and_children.size() > 0;
 
-            for (final SpawnBiomeMatcher child : this._and_children) and_valid = or_valid && child.valid;
+            for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child.valid;
             for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid && child.valid;
 
             this.valid = or_valid || and_valid;

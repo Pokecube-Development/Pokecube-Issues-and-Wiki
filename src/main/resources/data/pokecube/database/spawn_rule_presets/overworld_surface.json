@@ -21,7 +21,12 @@
           "category": "forest"
         }
       },
-      
+      {
+        "values": {
+          "preset": "forests_snow",
+          "and_presets":"forests,snowy_areas"
+        }
+      },
  
       {
         "values": {
@@ -68,13 +73,6 @@
       },
       {
         "values": {
-          "preset": "desert_and_mesa",
-          "typesBlacklist": "wet",
-          "types": "sandy"
-        }
-      },
-      {
-        "values": {
           "preset": "mesa",
           "category": "mesa"
         }
@@ -116,8 +114,7 @@
       {
         "values": {
           "preset": "river",
-          "types": "river",
-          "water": "true"
+          "or_presets":"river_ground,river_water"
         }
       },
       
@@ -130,8 +127,7 @@
       {
         "values": {
           "preset": "lake",
-          "types": "lake",
-          "water": "true"
+          "or_presets":"lake_ground,lake_water"
         }
       },
       
@@ -144,8 +140,7 @@
       {
         "values": {
           "preset": "beach",
-          "category": "beach",
-          "water": "true"
+          "or_presets":"beach_ground,beach_water"
         }
       },
       
@@ -158,8 +153,7 @@
       {
         "values": {
           "preset": "ocean",
-          "category": "ocean",
-          "water": "true"
+          "or_presets":"ocean_ground,ocean_water"
         }
       },
       
