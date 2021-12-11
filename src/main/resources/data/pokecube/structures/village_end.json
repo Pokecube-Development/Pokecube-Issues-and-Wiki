@@ -71,7 +71,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "the_end"
+          "category": "the_end",
+          "strict_type_cat":true
         }
       }
     }

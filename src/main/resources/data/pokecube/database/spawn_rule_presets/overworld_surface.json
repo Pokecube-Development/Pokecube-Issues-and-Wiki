@@ -1,0 +1,108 @@
+{
+ "rules": [
+ 
+      {
+        "values": {
+          "preset": "forests",
+          "category": "forest"
+        }
+      },
+      {
+        "values": {
+          "preset": "forests_warm_wet",
+          "typesBlacklist": "sparse,cold,dry",
+          "category": "forest"
+        }
+      },
+      {
+        "values": {
+          "preset": "forests_warm_dry",
+          "typesBlacklist": "sparse,cold,wet",
+          "category": "forest"
+        }
+      },
+      
+ 
+      {
+        "values": {
+          "preset": "jungle_hills",
+          "typesBlacklist": "dry,cold",
+          "types": "jungle,hills"
+        }
+      },
+      
+      
+      {
+        "values": {
+          "preset": "plains",
+          "category": "plains"
+        }
+      },
+      {
+        "values": {
+          "preset": "plains_not_wet",
+          "typesBlacklist": "wet",
+          "category": "plains"
+        }
+      },
+      {
+        "values": {
+          "preset": "plains_not_dry",
+          "typesBlacklist": "dry,savanna",
+          "category": "plains"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "desert",
+          "typesBlacklist": "wet",
+          "types": "sandy"
+        }
+      },
+      {
+        "values": {
+          "preset": "desert_dry",
+          "typesBlacklist": "wet",
+          "types": "sandy,dry"
+        }
+      },
+      
+      
+      {
+        "values": {
+          "preset": "hills",
+          "category": "hills"
+        }
+      },
+      {
+        "values": {
+          "preset": "mountains",
+          "category": "extreme_hills"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "meteor",
+          "types": "meteor"
+        }
+      },
+      
+      
+      {
+        "values": {
+          "preset": "snowy_areas",
+          "types": "snowy"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "wet_areas",
+          "typesBlacklist": "sparse,cold,dry",
+          "types": "wet"
+        }
+      }
+  ]
+}

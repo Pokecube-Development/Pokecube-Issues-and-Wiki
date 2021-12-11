@@ -63,6 +63,7 @@ import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
+import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
@@ -427,6 +428,8 @@ public class Database
     public static void init()
     {
         PokecubeCore.LOGGER.debug("Database Init()");
+        
+        SpawnPresets.init();
 
         // Fire load event to let addons do stuff after databases have been
         // loaded.

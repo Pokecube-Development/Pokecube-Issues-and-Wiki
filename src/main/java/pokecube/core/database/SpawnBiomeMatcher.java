@@ -2,6 +2,7 @@ package pokecube.core.database;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
@@ -214,6 +216,8 @@ public class SpawnBiomeMatcher
 
     public static final QName SPAWNCOMMAND = new QName("command");
 
+    public static final QName PRESET = new QName("preset");
+
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
 
@@ -258,6 +262,8 @@ public class SpawnBiomeMatcher
     public static Set<ResourceKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
 
     private static boolean loadedIn = false;
+
+    public static final Map<String, SpawnRule> PRESETS = Maps.newHashMap();
 
     public static Collection<ResourceKey<Biome>> getAllBiomeKeys()
     {
@@ -349,7 +355,6 @@ public class SpawnBiomeMatcher
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
-        this.parseBasic();
     }
 
     public boolean validCategory(final BiomeCategory cat)
@@ -390,7 +395,7 @@ public class SpawnBiomeMatcher
                 if (this._validCats.isEmpty() && this._validTypes.isEmpty()) continue;
 
                 boolean validCat = this._validCats.isEmpty() || this._validCats.contains(b.getBiomeCategory());
-                if (!validCat && strict_type_cat) continue;
+                if (!validCat) continue;
                 boolean validType = true;
                 if (!this._validTypes.isEmpty())
                 {
@@ -603,19 +608,24 @@ public class SpawnBiomeMatcher
     {
         if (this.parsed) return;
 
+        SpawnRule spawnRule = this.spawnRule;
+        if (spawnRule.values.containsKey(PRESET))
+            spawnRule = PRESETS.getOrDefault(spawnRule.values.get(PRESET), spawnRule);
+
         this.reset();
+
         this.parsed = true;
         this.valid = true;
 
-        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.ATYPES))
+        if (spawnRule.values.containsKey(SpawnBiomeMatcher.ATYPES))
         {
-            final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.ATYPES);
+            final String typeString = spawnRule.values.get(SpawnBiomeMatcher.ATYPES);
             final String[] args = typeString.split(",");
             for (String s : args)
             {
                 s = s.trim();
                 final SpawnRule newRule = new SpawnRule();
-                newRule.values.putAll(this.spawnRule.values);
+                newRule.values.putAll(spawnRule.values);
                 newRule.values.remove(SpawnBiomeMatcher.ATYPES);
                 newRule.values.put(SpawnBiomeMatcher.TYPES, s);
                 this.children.add(new SpawnBiomeMatcher(newRule));
@@ -633,7 +643,7 @@ public class SpawnBiomeMatcher
         }
 
         // Lets deal with the weather checks
-        String weather = this.spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
+        String weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -648,7 +658,7 @@ public class SpawnBiomeMatcher
                 if (w != null) this._neededWeather.add(w);
             }
         }
-        weather = this.spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
+        weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -667,13 +677,13 @@ public class SpawnBiomeMatcher
         this.preParseSubBiomes();
         this.parseBasic();
 
-        final String biomeString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
-        final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
-        final String biomeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
-        final String typeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
-        final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
-        final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
-        final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
+        final String biomeString = spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
+        final String typeString = spawnRule.values.get(SpawnBiomeMatcher.TYPES);
+        final String biomeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
+        final String typeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
+        final String biomeCat = spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
+        final String noBiomeCat = spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
+        final String validStructures = spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
 
         this.strict_type_cat = false;
         if (spawnRule.values.containsKey(STRICTTYPECAT))
@@ -912,5 +922,15 @@ public class SpawnBiomeMatcher
         this._bannedWeather.clear();
         this._neededWeather.clear();
         this.children.clear();
+
+        minLight = 0;
+        maxLight = 1;
+
+        day = true;
+        dusk = true;
+        night = true;
+        dawn = true;
+        air = true;
+        water = false;
     }
 }
