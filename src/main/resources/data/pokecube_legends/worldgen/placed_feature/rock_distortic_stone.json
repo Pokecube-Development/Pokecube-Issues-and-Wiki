@@ -2,7 +2,11 @@
   "feature": "pokecube_legends:rock_distortic_stone",
   "placement": [
     {
-      "count": 2,
+      "chance": 15,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "count": 1,
       "type": "minecraft:count"
     },
     {

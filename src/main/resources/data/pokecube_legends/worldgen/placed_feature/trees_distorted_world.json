@@ -1,0 +1,47 @@
+{
+  "feature": "pokecube_legends:distortic_tree",
+  "placement": [
+    {
+      "count": {
+        "distribution": [
+          {
+            "data": 0,
+            "weight": 15
+          },
+          {
+            "data": 1,
+            "weight": 3
+          }
+        ],
+        "type": "minecraft:weighted_list"
+      },
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "max_water_depth": 2,
+      "type": "minecraft:surface_water_depth_filter"
+    },
+    {
+      "heightmap": "OCEAN_FLOOR",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "predicate": {
+        "state": {
+          "Properties": {
+            "stage": "0"
+          },
+          "Name": "pokecube_legends:distortic_sapling"
+        },
+        "type": "minecraft:would_survive"
+      },
+      "type": "minecraft:block_predicate_filter"
+    }
+  ]
+}

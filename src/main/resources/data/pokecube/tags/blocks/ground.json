@@ -9,6 +9,8 @@
     "#forge:sandstone",
     "#minecraft:base_stone_overworld",
     "#minecraft:base_stone_nether",
-    "#minecraft:lush_ground_replaceable"
+    "#minecraft:lush_ground_replaceable",
+    "#pokecube_legends:base_stone_distorted_world",
+    "#pokecube_legends:base_stone_ultraspace"
   ]
 }

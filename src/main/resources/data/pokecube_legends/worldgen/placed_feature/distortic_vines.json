@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:distortic_vines",
   "placement": [
     {
-      "count": 10,
+      "count": 25,
       "type": "minecraft:count"
     },
     {

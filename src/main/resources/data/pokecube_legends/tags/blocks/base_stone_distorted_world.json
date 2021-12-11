@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube_legends:distortic_stone_ore_replaceables",
+    "pokecube_legends:distortic_glowstone",
+    "pokecube_legends:distortic_mirror"
+  ]
+}

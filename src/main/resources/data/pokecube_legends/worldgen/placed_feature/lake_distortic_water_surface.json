@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:lake_distortic_water",
   "placement": [
     {
-      "chance": 200,
+      "chance": 15,
       "type": "minecraft:rarity_filter"
     },
     {
