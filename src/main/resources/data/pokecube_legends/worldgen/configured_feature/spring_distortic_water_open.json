@@ -1,0 +1,18 @@
+{
+  "config": {
+    "rock_count": 4,
+    "hole_count": 1,
+    "valid_blocks": [
+	  "pokecube_legends:distortic_stone",
+	  "pokecube_legends:distortic_grass_block"
+    ],
+    "state": {
+      "Properties": {
+        "falling": "true"
+      },
+      "Name": "pokecube_legends:distortic_water"
+    },
+    "requires_block_below": false
+  },
+  "type": "minecraft:spring_feature"
+}

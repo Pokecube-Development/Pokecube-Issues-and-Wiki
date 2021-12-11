@@ -97,6 +97,7 @@ import pokecube.legends.blocks.plants.AgedTree;
 import pokecube.legends.blocks.plants.CorruptedTree;
 import pokecube.legends.blocks.plants.CrystallizedBush;
 import pokecube.legends.blocks.plants.CrystallizedCactus;
+import pokecube.legends.blocks.plants.DistorticSapling;
 import pokecube.legends.blocks.plants.DistorticTree;
 import pokecube.legends.blocks.plants.InvertedTree;
 import pokecube.legends.blocks.plants.MirageSapling;
@@ -1025,9 +1026,9 @@ public class BlockInit
                         3.0f).noOcclusion()));
 
         // Distorted Blocks
-        DISTORTIC_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("distortic_sapling", () -> new SaplingBase(
-                () -> new DistorticTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
-                        .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
+        DISTORTIC_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("distortic_sapling", () -> new DistorticSapling(
+                new DistorticTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).strength(0f,
+                1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         DISTORTIC_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_leaves", () -> new LeavesBlock(
                 BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_PURPLE).strength(0.2f).sound(

@@ -1,0 +1,16 @@
+{
+  "feature": "pokecube_legends:small_distortic_stone_boulders",
+  "placement": [
+    {
+      "chance": 15,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "count": 1,
+      "type": "minecraft:count_on_every_layer"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "temperature": 2,
+  "downfall": 0,
+  "precipitation": "none",
+  "category": "the_end",
+  "effects": {
+    "sky_color": 8501625,
+    "fog_color": 926014,
+    "water_color": 65505,
+    "water_fog_color": 65505,
+    "grass_color": 16147822,
+    "foliage_color": 13187908,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 3000,
+      "block_search_extent": 10,
+      "offset": 2
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:falling_dust"
+      },
+      "probability": 0.2
+    }
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:lake_distortic_water_surface",
+      "pokecube_legends:lake_distortic_water_underground",
+      "pokecube_legends:small_distortic_stone_boulders",
+      "pokecube_legends:rock_distortic_stone"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "pokecube_legends:ore_fractal",
+      "pokecube_legends:ore_fractal_buried",
+      "pokecube_legends:ore_fractal_large"
+    ],
+    [],
+    [
+      "pokecube_legends:distortic_vines",
+      "pokecube_legends:trees_distorted_world",
+      "pokecube_legends:spring_distortic_water_open"
+    ],
+    []
+  ]
+}
