@@ -17,7 +17,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;

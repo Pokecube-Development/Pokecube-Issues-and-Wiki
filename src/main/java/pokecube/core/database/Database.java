@@ -87,7 +87,7 @@ public class Database
         @XmlAttribute
         boolean overwrite = false;
         @XmlAttribute
-        String  name;
+        String name;
     }
 
     @XmlRootElement(name = "Drops")
@@ -103,7 +103,7 @@ public class Database
         @XmlAttribute
         boolean overwrite = false;
         @XmlAttribute
-        String  name;
+        String name;
     }
 
     @XmlRootElement(name = "Helds")
@@ -116,11 +116,11 @@ public class Database
     @XmlRootElement(name = "Spawn")
     public static class XMLSpawnEntry extends SpawnRule
     {
-        static final QName STARTER   = new QName("starter");
+        static final QName STARTER = new QName("starter");
         @XmlAttribute
-        boolean            overwrite = false;
+        boolean overwrite = false;
         @XmlAttribute
-        String             name;
+        String name;
 
         public Boolean isStarter()
         {
@@ -152,11 +152,9 @@ public class Database
                 final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
                 final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
         {
-            return CompletableFuture.supplyAsync(() ->
-            {
+            return CompletableFuture.supplyAsync(() -> {
                 return this.prepare(resourceManager, preparationsProfiler);
-            }, backgroundExecutor).thenCompose(stage::wait).thenAcceptAsync((object) ->
-            {
+            }, backgroundExecutor).thenCompose(stage::wait).thenAcceptAsync((object) -> {
                 this.apply(object, resourceManager, reloadProfiler);
             }, gameExecutor);
         }
@@ -177,18 +175,18 @@ public class Database
         }
     }
 
-    public static List<ItemStack>                          starterPack     = Lists.newArrayList();
-    public static Int2ObjectOpenHashMap<PokedexEntry>      data            = new Int2ObjectOpenHashMap<>();
-    public static HashMap<String, PokedexEntry>            data2           = new HashMap<>();
-    static HashSet<PokedexEntry>                           allFormes       = new HashSet<>();
-    private static List<PokedexEntry>                      sortedFormes    = Lists.newArrayList();
-    private static List<String>                            sortedFormNames = Lists.newArrayList();
-    public static HashMap<Integer, PokedexEntry>           baseFormes      = new HashMap<>();
-    public static HashMap<Integer, PokedexEntry>           dummyMap        = new HashMap<>();
+    public static List<ItemStack> starterPack = Lists.newArrayList();
+    public static Int2ObjectOpenHashMap<PokedexEntry> data = new Int2ObjectOpenHashMap<>();
+    public static HashMap<String, PokedexEntry> data2 = new HashMap<>();
+    static HashSet<PokedexEntry> allFormes = new HashSet<>();
+    private static List<PokedexEntry> sortedFormes = Lists.newArrayList();
+    private static List<String> sortedFormNames = Lists.newArrayList();
+    public static HashMap<Integer, PokedexEntry> baseFormes = new HashMap<>();
+    public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
-    public static HashMap<PokedexEntry, List<FormeHolder>> customModels    = new HashMap<>();
-    public static HashMap<ResourceLocation, FormeHolder>   formeHolders    = new HashMap<>();
-    public static HashMap<ResourceLocation, PokedexEntry>  formeToEntry    = new HashMap<>();
+    public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
+    public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
+    public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
@@ -196,8 +194,7 @@ public class Database
 
     public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
 
-    public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) ->
-    {
+    public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
         if (diff == 0) if (o1.base && !o2.base) diff = -1;
         else if (o2.base && !o1.base) diff = 1;
@@ -251,25 +248,24 @@ public class Database
         if (entry.dummy)
         {
             Database.dummyMap.put(vars.getKey(), entry);
-            for (final PokedexEntry entry1 : formes)
-                if (!entry1.dummy)
+            for (final PokedexEntry entry1 : formes) if (!entry1.dummy)
+            {
+                entry1.base = true;
+                entry.base = false;
+                Database.data.put(entry1.getPokedexNb(), entry1);
+                Database.data2.put(entry.getTrimmedName(), entry1);
+                Database.data2.put(entry.getName(), entry1);
+                // Set all the subformes base to this new one.
+                for (final PokedexEntry e : formes)
                 {
-                    entry1.base = true;
-                    entry.base = false;
-                    Database.data.put(entry1.getPokedexNb(), entry1);
-                    Database.data2.put(entry.getTrimmedName(), entry1);
-                    Database.data2.put(entry.getName(), entry1);
-                    // Set all the subformes base to this new one.
-                    for (final PokedexEntry e : formes)
-                    {
-                        // Set the forme.
-                        e.setBaseForme(entry1);
-                        // Initialize some things.
-                        e.getBaseForme();
-                    }
-                    vars.setValue(entry1);
-                    break;
+                    // Set the forme.
+                    e.setBaseForme(entry1);
+                    // Initialize some things.
+                    e.getBaseForme();
                 }
+                vars.setValue(entry1);
+                break;
+            }
         }
     }
 
@@ -293,8 +289,8 @@ public class Database
         final PokedexEntry male = entry.getForGender(IPokemob.MALE);
 
         /**
-         * If the forme has both male and female entries, replace the base
-         * forme with the male forme.
+         * If the forme has both male and female entries, replace the base forme
+         * with the male forme.
          */
         if (male != female && male != entry && female != entry)
         {
@@ -362,8 +358,8 @@ public class Database
                 return e;
             }
         }
-        if (ThutCore.trim(name).contains("mega_")) return Database.getEntry((ThutCore.trim(name).replace("mega_", "")
-                + "_mega").trim());
+        if (ThutCore.trim(name).contains("mega_"))
+            return Database.getEntry((ThutCore.trim(name).replace("mega_", "") + "_mega").trim());
         return ret;
     }
 
@@ -395,8 +391,7 @@ public class Database
             Database.sortedFormes.clear();
             Database.sortedFormes.addAll(Database.allFormes);
             Database.sortedFormes.sort(Database.COMPARATOR);
-            for (final PokedexEntry e : Database.sortedFormes)
-                Database.sortedFormNames.add(e.getTrimmedName());
+            for (final PokedexEntry e : Database.sortedFormes) Database.sortedFormNames.add(e.getTrimmedName());
             Database.lastCount = Database.sortedFormes.size();
         }
         return Database.sortedFormes;
@@ -414,8 +409,7 @@ public class Database
         {
             Database.checkedStarts = true;
             final List<PokedexEntry> starts = Lists.newArrayList();
-            for (final PokedexEntry e : Database.getSortedFormes())
-                if (e.isStarter) starts.add(e);
+            for (final PokedexEntry e : Database.getSortedFormes()) if (e.isStarter) starts.add(e);
             Database.starters = starts.toArray(Database.starters);
         }
         return Database.starters;
@@ -428,7 +422,7 @@ public class Database
     public static void init()
     {
         PokecubeCore.LOGGER.debug("Database Init()");
-        
+
         SpawnPresets.init();
 
         // Fire load event to let addons do stuff after databases have been
@@ -453,12 +447,10 @@ public class Database
         {
             // Debug some dummy lists.
             final List<PokedexEntry> dummies = Lists.newArrayList();
-            for (final PokedexEntry entry : Database.allFormes)
-                if (entry.dummy) dummies.add(entry);
+            for (final PokedexEntry entry : Database.allFormes) if (entry.dummy) dummies.add(entry);
             dummies.sort(Database.COMPARATOR);
             final StringBuilder builder = new StringBuilder("Dummy Pokedex Entries:");
-            for (final PokedexEntry e : dummies)
-                builder.append("\n-   ").append(e.getName());
+            for (final PokedexEntry e : dummies) builder.append("\n-   ").append(e.getName());
             PokecubeCore.LOGGER.debug(builder.toString());
         }
 
@@ -469,10 +461,8 @@ public class Database
     /**
      * Initializes the various values for the forms from the base form.
      *
-     * @param formes
-     *            to initialize
-     * @param base
-     *            to copy values from
+     * @param formes to initialize
+     * @param base   to copy values from
      */
     private static void initFormes(final List<PokedexEntry> formes, final PokedexEntry base)
     {
@@ -481,8 +471,7 @@ public class Database
         for (final PokedexEntry e : formes)
         {
             e.forms.clear();
-            for (final PokedexEntry e1 : formes)
-                if (e1 != e) e.forms.put(e1.getTrimmedName(), e1);
+            for (final PokedexEntry e1 : formes) if (e1 != e) e.forms.put(e1.getTrimmedName(), e1);
             if (base != e)
             {
                 try
@@ -517,8 +506,8 @@ public class Database
                 if (noAbilities && e.abilitiesHidden.isEmpty()) e.abilitiesHidden.addAll(base.abilitiesHidden);
             }
             if (e.type2 == null) e.type2 = PokeType.unknown;
-            if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty()) e._loaded_interactions.addAll(
-                    base._loaded_interactions);
+            if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty())
+                e._loaded_interactions.addAll(base._loaded_interactions);
         }
     }
 
@@ -533,8 +522,7 @@ public class Database
             set.addAll(entry.forms.values());
             set.add(entry);
             /** Collect all the different forms we can for this mob. */
-            for (final PokedexEntry e : Database.allFormes)
-                if (e.getPokedexNb() == entry.getPokedexNb()) set.add(e);
+            for (final PokedexEntry e : Database.allFormes) if (e.getPokedexNb() == entry.getPokedexNb()) set.add(e);
             formes.addAll(set);
             /** If only 1 form, no point in processing this. */
             if (formes.size() > 1)
@@ -566,8 +554,8 @@ public class Database
             if (e.getType1() == null)
             {
                 e.type1 = PokeType.unknown;
-                if (e != Database.missingno) PokecubeCore.LOGGER.error("Error with typing for " + e + " " + e
-                        .getType2());
+                if (e != Database.missingno)
+                    PokecubeCore.LOGGER.error("Error with typing for " + e + " " + e.getType2());
             }
             if (e.getType2() == null) e.type2 = PokeType.unknown;
             if (e.dummy) dummies++;
@@ -626,17 +614,16 @@ public class Database
                 }
             }
             // Register sounds for the animations
-            if (entry.animations != null) for (final AnimationJson anim : entry.animations)
-                if (anim.sound != null)
+            if (entry.animations != null) for (final AnimationJson anim : entry.animations) if (anim.sound != null)
+            {
+                final ResourceLocation sound = new ResourceLocation(anim.sound);
+                final SoundEvent event = new SoundEvent(sound);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
                 {
-                    final ResourceLocation sound = new ResourceLocation(anim.sound);
-                    final SoundEvent event = new SoundEvent(sound);
-                    if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
-                    {
-                        event.setRegistryName(sound);
-                        registry.register(event);
-                    }
+                    event.setRegistryName(sound);
+                    registry.register(event);
                 }
+            }
         }
 
         // Register sound events from config.
@@ -654,33 +641,31 @@ public class Database
 
     public static void loadRecipes()
     {
-        for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values())
-            parser.init();
+        for (final IRecipeParser parser : XMLRecipeHandler.recipeParsers.values()) parser.init();
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/recipes");
-        for (final ResourceLocation file : resources)
-            try
-            {
-                final Reader reader = new InputStreamReader(PackFinder.getStream(file));
-                final JsonObject database = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
-                reader.close();
+        for (final ResourceLocation file : resources) try
+        {
+            final Reader reader = new InputStreamReader(PackFinder.getStream(file));
+            final JsonObject database = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+            reader.close();
 
-                // Handle lists of recipes in the json
-                if (database.has("recipes") && database.get("recipes").isJsonArray())
-                    for (final JsonElement drop : database.get("recipes").getAsJsonArray())
+            // Handle lists of recipes in the json
+            if (database.has("recipes") && database.get("recipes").isJsonArray())
+                for (final JsonElement drop : database.get("recipes").getAsJsonArray())
                     if (drop.isJsonObject()) XMLRecipeHandler.addRecipe(drop.getAsJsonObject());
 
-                // Handle single json as a recipe
-                if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
+            // Handle single json as a recipe
+            if (database.has("type") || database.has("handler")) XMLRecipeHandler.addRecipe(database);
 
-            }
-            catch (final FileNotFoundException e)
-            {
-                PokecubeCore.LOGGER.info("No Custom Recipes of name {}", file);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with " + file, e);
-            }
+        }
+        catch (final FileNotFoundException e)
+        {
+            PokecubeCore.LOGGER.info("No Custom Recipes of name {}", file);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error with " + file, e);
+        }
     }
 
     public static void loadRewards(final String input)
@@ -691,32 +676,29 @@ public class Database
     private static void loadRewards(final Reader reader)
     {
         final XMLRewards database = PokedexEntryLoader.gson.fromJson(reader, XMLRewards.class);
-        for (final XMLReward drop : database.recipes)
-            XMLRewardsHandler.addReward(drop);
+        for (final XMLReward drop : database.recipes) XMLRewardsHandler.addReward(drop);
     }
 
     private static void loadRewards()
     {
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources("database/rewards");
-        for (final ResourceLocation file : resources)
-            try
-            {
-                final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
-                final StringBuffer sb = new StringBuffer();
-                String str;
-                while ((str = reader.readLine()) != null)
-                    sb.append(str);
-                reader.close();
-                Database.loadRewards(sb.toString());
-            }
-            catch (final FileNotFoundException e)
-            {
-                PokecubeCore.LOGGER.info("No Custom Rewards of name {}", file);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with " + file, e);
-            }
+        for (final ResourceLocation file : resources) try
+        {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
+            final StringBuffer sb = new StringBuffer();
+            String str;
+            while ((str = reader.readLine()) != null) sb.append(str);
+            reader.close();
+            Database.loadRewards(sb.toString());
+        }
+        catch (final FileNotFoundException e)
+        {
+            PokecubeCore.LOGGER.info("No Custom Rewards of name {}", file);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error with " + file, e);
+        }
     }
 
     private static void loadStarterPack()
@@ -758,18 +740,16 @@ public class Database
         final List<PokedexEntry> toRemove = new ArrayList<>();
         final Set<Integer> removedNums = Sets.newHashSet();
         final List<PokedexEntry> removed = Lists.newArrayList();
-        for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
-            if (e.base) Database.addEntry(e);
+        for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries()) if (e.base) Database.addEntry(e);
         int dummies = 0;
         /** find non-registered entries to remove later. */
-        for (final PokedexEntry p : Database.allFormes)
-            if (!Pokedex.getInstance().getRegisteredEntries().contains(p))
-            {
-                if (p.dummy) dummies++;
-                else removedNums.add(p.getPokedexNb());
-                toRemove.add(p);
-                removed.add(p);
-            }
+        for (final PokedexEntry p : Database.allFormes) if (!Pokedex.getInstance().getRegisteredEntries().contains(p))
+        {
+            if (p.dummy) dummies++;
+            else removedNums.add(p.getPokedexNb());
+            toRemove.add(p);
+            removed.add(p);
+        }
         Collections.sort(toRemove, Database.COMPARATOR);
         final List<PokedexEntry> messageList = Lists.newArrayList(toRemove);
         messageList.removeIf(t -> t.dummy);
@@ -777,8 +757,7 @@ public class Database
         {
             messageList.sort(Database.COMPARATOR);
             final StringBuilder builder = new StringBuilder("UnRegistered Pokedex Entries:");
-            for (final PokedexEntry e : messageList)
-                builder.append("\n-   ").append(e.getName());
+            for (final PokedexEntry e : messageList) builder.append("\n-   ").append(e.getName());
             PokecubeCore.LOGGER.debug(builder.toString());
         }
         /** Remove the non-registered entries found earlier */
@@ -786,8 +765,8 @@ public class Database
         {
             if (p == Database.getEntry(p.pokedexNb) && !p.dummy)
             {
-                if (p.dummy) PokecubeCore.LOGGER.debug("Error with " + p
-                        + ", It is still listed as base forme, as well as being dummy.");
+                if (p.dummy) PokecubeCore.LOGGER
+                        .debug("Error with " + p + ", It is still listed as base forme, as well as being dummy.");
                 Database.data.remove(p.pokedexNb);
                 Database.baseFormes.remove(p.pokedexNb);
                 Database.formLists.remove(p.pokedexNb);
@@ -806,14 +785,14 @@ public class Database
         }
 
         Database.allFormes.removeAll(toRemove);
-        PokecubeCore.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and " + (toRemove.size()
-                - dummies) + " missing Formes");
+        PokecubeCore.LOGGER.debug("Removed " + removedNums.size() + " Missing Pokemon and "
+                + (toRemove.size() - dummies) + " missing Formes");
         if (removedNums.size() > 0) PokecubeCore.LOGGER.debug("Removed " + toRemove);
 
         toRemove.clear();
     }
 
-    public static long lastLoad = -1;
+    public static boolean needs_reload = true;
 
     public static void onResourcesReloaded()
     {
@@ -821,17 +800,15 @@ public class Database
         // don't want to do anything here.
         if (!Database.listener.loaded) return;
 
-        long time = System.nanoTime();
-        long dt = time - Database.lastLoad;
-
-        if (dt < 5e11)
+        if (!needs_reload)
         {
             PokecubeCore.LOGGER.info("Skipping Load, too soon since last load.");
             return;
         }
 
+        long time = System.nanoTime();
         StructureSpawnPresetLoader.loadDatabase();
-        dt = System.nanoTime() - time;
+        long dt = System.nanoTime() - time;
         PokecubeCore.LOGGER.info("Resource Stage 1: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
@@ -873,33 +850,28 @@ public class Database
         Database.loadRewards();
 
         /** Initialize relations, prey, children. */
-        for (final PokedexEntry p : Database.allFormes)
-            p.initRelations();
-        for (final PokedexEntry p : Database.allFormes)
-            p.initPrey();
+        for (final PokedexEntry p : Database.allFormes) p.initRelations();
+        for (final PokedexEntry p : Database.allFormes) p.initPrey();
         // Children last, as relies on relations.
-        for (final PokedexEntry p : Database.allFormes)
-            p.getChild();
+        for (final PokedexEntry p : Database.allFormes) p.getChild();
         // Final setup of things
-        for (final PokedexEntry entry : Database.getSortedFormes())
-            entry.onResourcesReloaded();
+        for (final PokedexEntry entry : Database.getSortedFormes()) entry.onResourcesReloaded();
 
         // Some debug messages
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
-            if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty()) PokecubeCore.LOGGER.debug(
-                    "No egg group assigned for {}", entry.getTrimmedName());
+            if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
+                PokecubeCore.LOGGER.debug("No egg group assigned for {}", entry.getTrimmedName());
         }
         for (final PokedexEntry entry : Database.getSortedFormes())
-            if (entry.lootTable == null && !(entry.isMega() || entry.isGMax())) PokecubeCore.LOGGER.debug(
-                    "Missing loot table for {}", entry.getTrimmedName());
+            if (entry.lootTable == null && !(entry.isMega() || entry.isGMax()))
+                PokecubeCore.LOGGER.debug("Missing loot table for {}", entry.getTrimmedName());
 
         // This gets re-set to true if listener hears a reload
         Database.listener.loaded = false;
-
-        Database.lastLoad = System.nanoTime();
-        dt = Database.lastLoad - time;
+        Database.needs_reload = false;
+        dt = System.nanoTime() - time;
         PokecubeCore.LOGGER.info("Resource Stage 3: {}s", dt / 1e9d);
     }
 
@@ -910,7 +882,7 @@ public class Database
     public static void onLoadComplete()
     {
         Database.listener.loaded = true;
-        Database.lastLoad = -1;
+        Database.needs_reload = true;
         Database.onResourcesReloaded();
         // Process custom forme models, etc
         for (final PokedexEntry entry : Database.getSortedFormes())
@@ -949,28 +921,28 @@ public class Database
     {
         Database.customPacks.clear();
         final PackRepository resourcePacks = new PackRepository(PackType.SERVER_DATA, new ServerPacksSource());
-        final PackFinder finder = new PackFinder((name, component, bool, supplier, metadata, source, p_143900_,
-                hidden) ->
-        {
-            return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source, p_143900_, hidden);
-        });
-        resourcePacks.addPackFinder(finder);
-        for (final PackResources info : finder.allPacks)
-            try
-            {
-                if (applyToManager)
+        final PackFinder finder = new PackFinder(
+                (name, component, bool, supplier, metadata, source, p_143900_, hidden) ->
                 {
-                    PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
-                    ((SimpleReloadableResourceManager) Database.resourceManager).add(info);
-                }
-                // Only add the zips or folders here, jars get properly added by
-                // forge to the real resourcemanager later
-                else if (!info.getName().endsWith(".jar")) Database.customPacks.add(info);
-            }
-            catch (final Exception e)
+                    return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source, p_143900_,
+                            hidden);
+                });
+        resourcePacks.addPackFinder(finder);
+        for (final PackResources info : finder.allPacks) try
+        {
+            if (applyToManager)
             {
-                PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
+                PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
+                ((SimpleReloadableResourceManager) Database.resourceManager).add(info);
             }
+            // Only add the zips or folders here, jars get properly added by
+            // forge to the real resourcemanager later
+            else if (!info.getName().endsWith(".jar")) Database.customPacks.add(info);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
+        }
         resourcePacks.close();
     }
 

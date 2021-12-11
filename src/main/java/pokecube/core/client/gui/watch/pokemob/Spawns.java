@@ -8,7 +8,7 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
-import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
 

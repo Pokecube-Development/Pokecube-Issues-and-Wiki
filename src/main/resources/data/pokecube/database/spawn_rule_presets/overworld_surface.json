@@ -25,9 +25,9 @@
  
       {
         "values": {
-          "preset": "jungle_hills",
+          "preset": "jungle",
           "typesBlacklist": "dry,cold",
-          "types": "jungle,hills"
+          "category": "jungle"
         }
       },
       
@@ -52,19 +52,37 @@
           "category": "plains"
         }
       },
+      {
+        "values": {
+          "preset": "savanna",
+          "category": "savanna"
+        }
+      },
       
       {
         "values": {
           "preset": "desert",
+          "typesBlacklist": "wet,mesa",
+          "types": "sandy"
+        }
+      },
+      {
+        "values": {
+          "preset": "desert_and_mesa",
           "typesBlacklist": "wet",
           "types": "sandy"
         }
       },
       {
         "values": {
-          "preset": "desert_dry",
-          "typesBlacklist": "wet",
-          "types": "sandy,dry"
+          "preset": "mesa",
+          "category": "mesa"
+        }
+      },
+      {
+        "values": {
+          "preset": "mesa_forests",
+          "types": "sparse,mesa"
         }
       },
       
@@ -89,11 +107,73 @@
         }
       },
       
+      {
+        "values": {
+          "preset": "river_ground",
+          "types": "river"
+        }
+      },
+      {
+        "values": {
+          "preset": "river",
+          "types": "river",
+          "water": "true"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "lake_ground",
+          "types": "lake"
+        }
+      },
+      {
+        "values": {
+          "preset": "lake",
+          "types": "lake",
+          "water": "true"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "beach_ground",
+          "category": "beach"
+        }
+      },
+      {
+        "values": {
+          "preset": "beach",
+          "category": "beach",
+          "water": "true"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "ocean_ground",
+          "category": "ocean"
+        }
+      },
+      {
+        "values": {
+          "preset": "ocean",
+          "category": "ocean",
+          "water": "true"
+        }
+      },
       
       {
         "values": {
           "preset": "snowy_areas",
           "types": "snowy"
+        }
+      },
+      
+      {
+        "values": {
+          "preset": "sky",
+          "types": "sky"
         }
       },
       

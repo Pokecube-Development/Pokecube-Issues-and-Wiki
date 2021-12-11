@@ -1,2 +1,32 @@
 {
+ "rules": [
+      {
+        "values": {
+          "preset": "river_water",
+          "types": "river",
+          "air": "false"
+        }
+      },
+      {
+        "values": {
+          "preset": "lake_water",
+          "types": "lake",
+          "air": "false"
+        }
+      },
+      {
+        "values": {
+          "preset": "beach_water",
+          "types": "beach",
+          "air": "false"
+        }
+      },
+      {
+        "values": {
+          "preset": "ocean_water",
+          "types": "ocean",
+          "air": "false"
+        }
+      }
+  ]
 }

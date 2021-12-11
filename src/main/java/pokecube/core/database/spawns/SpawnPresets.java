@@ -13,17 +13,15 @@ import com.google.common.collect.Lists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
-import pokecube.legends.conditions.data.ConditionLoader;
 
 public class SpawnPresets implements IResourceData
 {
-    public static final ConditionLoader CONDITIONS = new ConditionLoader("database/spawn_rule_presets/");
+    public static final SpawnPresets CONDITIONS = new SpawnPresets("database/spawn_rule_presets/");
 
     public static void init()
     {}
@@ -55,7 +53,11 @@ public class SpawnPresets implements IResourceData
         this.validLoad = !resources.isEmpty();
         PRESETS.clear();
         resources.forEach(l -> this.loadFile(l));
-        if (this.validLoad) valid.set(true);
+        if (this.validLoad)
+        {
+            PokecubeCore.LOGGER.info("Loaded Spawn Rule presets.");
+            valid.set(true);
+        }
     }
 
     private void loadFile(final ResourceLocation l)
@@ -93,7 +95,6 @@ public class SpawnPresets implements IResourceData
                         PokecubeCore.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);
                         continue;
                     }
-                    rule.values.remove(SpawnBiomeMatcher.PRESET);
                     PRESETS.put(preset, rule);
                 }
             }

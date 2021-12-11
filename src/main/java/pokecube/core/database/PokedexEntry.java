@@ -50,7 +50,6 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
@@ -62,6 +61,8 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Interact;
 import pokecube.core.database.pokedex.PokedexEntryLoader.MegaEvoRule;
 import pokecube.core.database.pokedex.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLMegaRule;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
@@ -192,21 +193,6 @@ public class PokedexEntry
                         final String key = String.format("biome.%s.%s", test.location().getNamespace(), test.location()
                                 .getPath());
                         biomeNames.add(I18n.get(key));
-                    }
-                }
-                for (final SpawnBiomeMatcher matcher : this.matcher.children)
-                {
-                    for (final BiomeType t : matcher._validSubBiomes)
-                        biomeNames.add(I18n.get(t.readableName));
-                    for (final ResourceKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
-                    {
-                        final boolean valid = matcher.getValidBiomes().contains(test);
-                        if (valid)
-                        {
-                            final String key = String.format("biome.%s.%s", test.location().getNamespace(), test
-                                    .location().getPath());
-                            biomeNames.add(I18n.get(key));
-                        }
                     }
                 }
                 comps.add(new TranslatableComponent("pokemob.description.evolve.locations", biomeNames));

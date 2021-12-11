@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -12,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.Util;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -71,6 +73,9 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
@@ -113,6 +118,7 @@ import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
 import thut.api.item.ItemList;
+import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 import thut.core.common.commands.CommandConfigs;
@@ -202,12 +208,12 @@ public class EventsHandler
         }
     }
 
-    public static final ResourceLocation POKEMOBCAP   = new ResourceLocation(PokecubeMod.ID, "pokemob");
-    public static final ResourceLocation AFFECTEDCAP  = new ResourceLocation(PokecubeMod.ID, "affected");
-    public static final ResourceLocation DATACAP      = new ResourceLocation(PokecubeMod.ID, "data");
-    public static final ResourceLocation BEECAP       = new ResourceLocation(PokecubeMod.ID, "bee");
-    public static final ResourceLocation ANTCAP       = new ResourceLocation(PokecubeMod.ID, "ant");
-    public static final ResourceLocation TEXTURECAP   = new ResourceLocation(PokecubeMod.ID, "textured");
+    public static final ResourceLocation POKEMOBCAP = new ResourceLocation(PokecubeMod.ID, "pokemob");
+    public static final ResourceLocation AFFECTEDCAP = new ResourceLocation(PokecubeMod.ID, "affected");
+    public static final ResourceLocation DATACAP = new ResourceLocation(PokecubeMod.ID, "data");
+    public static final ResourceLocation BEECAP = new ResourceLocation(PokecubeMod.ID, "bee");
+    public static final ResourceLocation ANTCAP = new ResourceLocation(PokecubeMod.ID, "ant");
+    public static final ResourceLocation TEXTURECAP = new ResourceLocation(PokecubeMod.ID, "textured");
     public static final ResourceLocation INVENTORYCAP = new ResourceLocation(PokecubeMod.ID, "tile_inventory");
 
     static double max = 0;
@@ -234,8 +240,7 @@ public class EventsHandler
     {
         // This deals with making sure it is actually a mob, as well as not an
         // npc, or a pokemob
-        EventsHandler.NOTVANILLAANIMALORMOB = e ->
-        {
+        EventsHandler.NOTVANILLAANIMALORMOB = e -> {
             boolean canSpawn = false;
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
             // This includes players, armour stands, effects, etc
@@ -248,8 +253,8 @@ public class EventsHandler
             // Now also check that the world is also a vanilla world, or one
             // specifically allowed to have spawns revoked.
             final String worldRegName = e.level.dimension().location().toString();
-            isVanilla = isVanilla && (worldRegName.startsWith("minecraft:") || PokecubeCore
-                    .getConfig().deactivateWhitelist.contains(worldRegName));
+            isVanilla = isVanilla && (worldRegName.startsWith("minecraft:")
+                    || PokecubeCore.getConfig().deactivateWhitelist.contains(worldRegName));
 
             // Lets not block villagers/merchants/pillagers
             final boolean isNpc = e instanceof Npc || e instanceof Merchant || e instanceof WitherBoss;
@@ -306,10 +311,10 @@ public class EventsHandler
 
     static int count = 0;
 
-    static int     countAbove = 0;
-    static double  mean       = 0;
-    static long    starttime  = 0;
-    static boolean notified   = false;
+    static int countAbove = 0;
+    static double mean = 0;
+    static long starttime = 0;
+    static boolean notified = false;
 
     // 4 = 1 per 10mins, 2 = 1 per 10s, 5 = 1 per 48 hours
     public static double candyChance = 4.5;
@@ -460,6 +465,38 @@ public class EventsHandler
             if (player.getPersistentData().getLong("__poke_int_c_") == time) evt.setCanceled(true);
             return;
         }
+
+        boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
+
+        if (isSpawnPresetDebug)
+        {
+            Vector3 v = Vector3.getNewVector().set(player);
+            Level level = player.level;
+            SpawnCheck check = new SpawnCheck(v, level);
+
+            List<String> valid = Lists.newArrayList();
+
+            for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
+            {
+                SpawnBiomeMatcher m = new SpawnBiomeMatcher(entry.getValue());
+                if (m.matches(check)) valid.add(entry.getKey());
+//                else System.out.println(entry.getKey() + " " + check);
+            }
+
+//            SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("river_ground");
+//            SpawnBiomeMatcher m = new SpawnBiomeMatcher(rule);
+//            m.parse();
+//            System.out.println(check.biome.location() + " " + BiomeDictionary.getTypes(check.biome) + " " + check);
+//            System.out.println(m.getValidBiomes() + " " + m._validTypes);
+//            System.out.println(m.matches(check));
+
+            if (!valid.isEmpty())
+            {
+                player.sendMessage(new TextComponent("Spawn Presets valid for here:"), player.getUUID());
+                for (String s : valid) player.sendMessage(new TextComponent(s), player.getUUID());
+            }
+            else player.sendMessage(new TextComponent("No matching presets for this location"), player.getUUID());
+        }
     }
 
     private static void onEmptyRightClick(final PlayerInteractEvent.RightClickEmpty evt)
@@ -491,14 +528,14 @@ public class EventsHandler
     private static void onEntityCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof LivingEntity)) return;
-        if (event.getObject() instanceof LivingEntity && !event.getCapabilities().containsKey(
-                EventsHandler.AFFECTEDCAP))
+        if (event.getObject() instanceof LivingEntity
+                && !event.getCapabilities().containsKey(EventsHandler.AFFECTEDCAP))
         {
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
-        if (event.getObject() instanceof EntityPokemob && !event.getCapabilities().containsKey(
-                EventsHandler.POKEMOBCAP))
+        if (event.getObject() instanceof EntityPokemob
+                && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final EntityPokemob mob = (EntityPokemob) event.getObject();
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
@@ -516,10 +553,10 @@ public class EventsHandler
             IGuardAICapability.addCapability(event);
 
             // If it is a bee, we will add this to it.
-            if (EntityTypeTags.BEEHIVE_INHABITORS.contains(mob.getType())) event.addCapability(EventsHandler.BEECAP,
-                    new InhabitorProvider(new BeeInhabitor(mob)));
-            if (ItemList.is(IMoveConstants.ANTS, mob)) event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(
-                    new AntInhabitor(mob)));
+            if (EntityTypeTags.BEEHIVE_INHABITORS.contains(mob.getType()))
+                event.addCapability(EventsHandler.BEECAP, new InhabitorProvider(new BeeInhabitor(mob)));
+            if (ItemList.is(IMoveConstants.ANTS, mob))
+                event.addCapability(EventsHandler.ANTCAP, new InhabitorProvider(new AntInhabitor(mob)));
         }
 
         if (event.getObject() instanceof NpcMob)
@@ -546,8 +583,8 @@ public class EventsHandler
         final ResourceLocation key = EventsHandler.INVENTORYCAP;
         if (event.getCapabilities().containsKey(key)) return;
         if (event.getObject() instanceof TMTile) event.addCapability(key, new TMInventory((TMTile) event.getObject()));
-        if (event.getObject() instanceof TraderTile) event.addCapability(key, new TradeInventory((TraderTile) event
-                .getObject()));
+        if (event.getObject() instanceof TraderTile)
+            event.addCapability(key, new TradeInventory((TraderTile) event.getObject()));
         if (event.getObject() instanceof PCTile) event.addCapability(key, new PCWrapper((PCTile) event.getObject()));
         if (event.getObject() instanceof NestTile)
         {
@@ -598,12 +635,13 @@ public class EventsHandler
     {
         // Only deny them from these reasons.
         if (!(event.getSpawnReason() == MobSpawnType.NATURAL || event.getSpawnReason() == MobSpawnType.CHUNK_GENERATION
-                || event.getSpawnReason() == MobSpawnType.STRUCTURE)) return;
+                || event.getSpawnReason() == MobSpawnType.STRUCTURE))
+            return;
 
-        if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters) event
-                .setResult(Result.DENY);
-        if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals) event
-                .setResult(Result.DENY);
+        if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters)
+            event.setResult(Result.DENY);
+        if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals)
+            event.setResult(Result.DENY);
     }
 
     private static void onPlayerWakeUp(final PlayerWakeUpEvent evt)
@@ -645,8 +683,9 @@ public class EventsHandler
         if (event.getTarget() instanceof EntityPokecube && event.getEntity() instanceof ServerPlayer)
         {
             final EntityPokecube pokecube = (EntityPokecube) event.getTarget();
-            if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity())) PacketPokecube.sendMessage((Player) event
-                    .getEntity(), pokecube.getId(), Tracker.instance().getTick() + pokecube.resetTime);
+            if (pokecube.isLoot && pokecube.cannotCollect(event.getEntity()))
+                PacketPokecube.sendMessage((Player) event.getEntity(), pokecube.getId(),
+                        Tracker.instance().getTick() + pokecube.resetTime);
         }
         if (event.getTarget() instanceof ServerPlayer && event.getEntity() instanceof ServerPlayer)
         {
@@ -689,8 +728,8 @@ public class EventsHandler
         final ServerLevel world = (ServerLevel) tworld;
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
-        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
-                e -> EventsHandler.validFollowing(entity, e)));
+        final List<Entity> pokemobs = new ArrayList<>(
+                world.getEntities(EntityTypeTest.forClass(Entity.class), e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
@@ -745,16 +784,16 @@ public class EventsHandler
     public static void recallAllPokemobs(final LivingEntity user)
     {
         if (!user.isEffectiveAi()) return;
-        final List<Entity> pokemobs = PokemobTracker.getMobs(user, e -> EventsHandler.validRecall(user, e, null,
-                false));
+        final List<Entity> pokemobs = PokemobTracker.getMobs(user,
+                e -> EventsHandler.validRecall(user, e, null, false));
         PCEventsHandler.recallAll(pokemobs, true);
     }
 
     public static void recallAllPokemobsExcluding(final ServerPlayer player, final IPokemob excluded,
             final boolean includeStaying)
     {
-        final List<Entity> pokemobs = PokemobTracker.getMobs(player, e -> EventsHandler.validRecall(player, e, excluded,
-                includeStaying));
+        final List<Entity> pokemobs = PokemobTracker.getMobs(player,
+                e -> EventsHandler.validRecall(player, e, excluded, includeStaying));
         PCEventsHandler.recallAll(pokemobs, true);
     }
 
@@ -804,8 +843,9 @@ public class EventsHandler
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(toRecall);
         if (pokemob != null)
         {
-            if (pokemob != excluded && pokemob.getOwner() == player && (includeStay || !pokemob.getGeneralState(
-                    GeneralStates.STAYING))) return true;
+            if (pokemob != excluded && pokemob.getOwner() == player
+                    && (includeStay || !pokemob.getGeneralState(GeneralStates.STAYING)))
+                return true;
         }
         else if (toRecall instanceof EntityPokecube)
         {
