@@ -1,0 +1,129 @@
+{
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "precipitation": "rain",
+  "category": "mushroom",
+  "effects": {
+    "sky_color": 1250367,
+    "fog_color": 3943523,
+    "water_color": 4010074,
+    "water_fog_color": 4010074,
+    "grass_color": 6235691,
+    "foliage_color": 9169902,
+    "ambient_sound": "minecraft:ambient.cave",
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:crimson_spore"
+      },
+      "probability": 0.01
+    }
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [
+      {
+        "type": "minecraft:mooshroom",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 8
+      },
+      {
+        "type": "minecraft:sheep",
+        "weight": 12,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:pig",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:chicken",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:cow",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:horse",
+        "weight": 5,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:donkey",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ],
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "weight": 10,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:axolotl",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground",
+      "minecraft:lake_lava_surface"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma"
+    ],
+    [],
+    [
+      "minecraft:patch_grass_plain",
+      "minecraft:patch_sunflower"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

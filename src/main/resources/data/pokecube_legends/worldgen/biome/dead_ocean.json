@@ -1,0 +1,166 @@
+{
+  "temperature": 0.5,
+  "downfall": 0.5,
+  "precipitation": "rain",
+  "category": "ocean",
+  "effects": {
+    "sky_color": 9079434,
+    "fog_color": 9079434,
+    "water_color": 13161450,
+    "water_fog_color": 13161450,
+    "grass_color": 2956038,
+    "foliage_color": 2956038,
+    "grass_color_modifier": "swamp",
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "mood_sound": {
+      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.006
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:spider",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:zombie",
+        "weight": 95,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:zombie_villager",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecraft:skeleton",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:creeper",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:slime",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:enderman",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:witch",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecraft:drowned",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "creature": [],
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "weight": 10,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:axolotl",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
+    "water_creature": [
+      {
+        "type": "minecraft:squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:dolphin",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "water_ambient": [
+      {
+        "type": "minecraft:pufferfish",
+        "weight": 15,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:tropical_fish",
+        "weight": 25,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "minecraft:lake_lava_underground",
+      "minecraft:lake_lava_surface"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma",
+      "minecraft:disk_gravel"
+    ],
+    [],
+    [],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

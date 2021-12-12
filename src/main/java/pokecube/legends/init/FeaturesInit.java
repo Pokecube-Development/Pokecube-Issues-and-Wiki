@@ -25,25 +25,30 @@ public class FeaturesInit
 
     public static final ResourceKey<Level> DISTORTEDWORLD_KEY = ResourceKey.create(
             Registry.DIMENSION_REGISTRY, FeaturesInit.IDLOC_DISTO);
-    //
 
     // Biomes
     public static final ResourceKey<Biome> BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "blinding_deltas"));
     public static final ResourceKey<Biome> BURNT_BEACH = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "burnt_beach"));
+    public static final ResourceKey<Biome> CORRUPTED_CAVES = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "corrupted_caves"));
     public static final ResourceKey<Biome> CRYSTALLIZED_BEACH = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "crystallized_beach"));
     public static final ResourceKey<Biome> DEAD_OCEAN = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "dead_ocean"));
     public static final ResourceKey<Biome> DRIED_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "dried_blinding_deltas"));
     public static final ResourceKey<Biome> FORBIDDEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "forbidden_taiga"));
+    public static final ResourceKey<Biome> FROZEN_POLLUTED_RIVER= ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "frozen_polluted_river"));
+    public static final ResourceKey<Biome> FUNGAL_FLOWER_FOREST = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_flower_forest"));
     public static final ResourceKey<Biome> FUNGAL_FOREST = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_forest"));
     public static final ResourceKey<Biome> FUNGAL_PLAINS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_plains"));
+    public static final ResourceKey<Biome> FUNGAL_SUNFLOWER_PLAINS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "fungal_sunflower_plains"));
     public static final ResourceKey<Biome> MAGMATIC_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "magmatic_blinding_deltas"));
     public static final ResourceKey<Biome> MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "mirage_desert"));
     public static final ResourceKey<Biome> OLD_GROWTH_FORBIDDEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "old_growth_forbidden_taiga"));
     public static final ResourceKey<Biome> POLLUTED_OCEAN = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "polluted_ocean"));
+    public static final ResourceKey<Biome> POLLUTED_RIVER= ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "polluted_river"));
     public static final ResourceKey<Biome> ROCKY_MIRAGE_DESERT = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "rocky_mirage_desert"));
     public static final ResourceKey<Biome> SHATTERED_BLINDING_DELTAS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "shattered_blinding_deltas"));
     public static final ResourceKey<Biome> SHATTERED_TAINTED_BARRENS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "shattered_tainted_barrens"));
     public static final ResourceKey<Biome> SNOWY_FORBIDDEN_TAIGA = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "snowy_forbidden_taiga"));
+    public static final ResourceKey<Biome> SNOWY_FUNGAL_PLAINS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "snowy_fungal_plains"));
     public static final ResourceKey<Biome> SPARSE_TEMPORAL_JUNGLE = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "sparse_temporal_jungle"));
     public static final ResourceKey<Biome> TAINTED_BARRENS = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "tainted_barrens"));
     public static final ResourceKey<Biome> TEMPORAL_BAMBOO_JUNGLE = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Reference.ID, "temporal_bamboo_jungle"));

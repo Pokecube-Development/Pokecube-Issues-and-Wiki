@@ -18,9 +18,9 @@
     },
     "particle": {
       "options": {
-        "type": "minecraft:falling_dust"
+        "type": "minecraft:white_ash"
       },
-      "probability": 0.2
+      "probability": 0.012
     }
   },
   "spawners": {},
