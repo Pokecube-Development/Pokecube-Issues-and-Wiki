@@ -13,15 +13,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
+import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.maths.Vector3;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
 import thut.core.common.network.TileUpdate;
@@ -110,6 +114,101 @@ public class StatueEntity extends BlockEntity
     }
 
     @Override
+    public void onLoad()
+    {
+        super.onLoad();
+        if (!level.isClientSide)
+        {
+            PokecubeCore.POKEMOB_BUS.register(this);
+        }
+    }
+
+    @Override
+    public void onChunkUnloaded()
+    {
+        super.onChunkUnloaded();
+        if (!level.isClientSide)
+        {
+            PokecubeCore.POKEMOB_BUS.unregister(this);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSpawnEvent(SpawnEvent.Pick.Pre event)
+    {
+        final ICopyMob copy = CopyCaps.get(this);
+
+        if (copy == null)
+        {
+            PokecubeCore.POKEMOB_BUS.unregister(this);
+            return;
+        }
+
+        if (copy != null && copy.getCopiedMob() != null)
+        {
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+            if (pokemob != null)
+            {
+                PokedexEntry entry = pokemob.getPokedexEntry();
+                if (entry != event.getPicked())
+                {
+                    boolean powered = level.hasNeighborSignal(getBlockPos());
+                    double d = PokecubeCore.getConfig().maxSpawnRadius;
+                    if (powered && event.location.distToSq(Vector3.getNewVector().set(this)) < d * d)
+                    {
+                        double rng = this.level.getRandom().nextDouble();
+                        PokedexEntry newEntry = rng < 0.5 ? rng < 0.1 ? entry : null : event.entry;
+                        event.setPick(newEntry);
+                    }
+                }
+            }
+        }
+    }
+
+    public static LivingEntity initMob(ICopyMob copy, CompoundTag modelTag, Runnable initMob)
+    {
+        String tex = null;
+        String anim = null;
+        String over_tex = null;
+        String id = null;
+        float size = 1;
+        if (modelTag.contains("id")) id = modelTag.getString("id");
+        if (modelTag.contains("tex")) tex = modelTag.getString("tex");
+        if (modelTag.contains("over_tex")) over_tex = modelTag.getString("over_tex");
+        if (modelTag.contains("anim")) anim = modelTag.getString("anim");
+        if (modelTag.contains("size")) size = modelTag.getFloat("size");
+
+        // First update ID if present, and refresh the mob
+        if (id != null)
+        {
+            copy.setCopiedID(new ResourceLocation(id));
+            copy.setCopiedMob(null);
+        }
+        initMob.run();
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
+        if (tex != null && pokemob != null)
+        {
+            final ResourceLocation texRes = new ResourceLocation(tex);
+            final ResourceLocation name = new ResourceLocation(texRes.getNamespace(),
+                    pokemob.getPokedexEntry().getTrimmedName() + texRes.getPath());
+            final FormeHolder old = pokemob.getCustomHolder();
+            final ResourceLocation model = old != null ? old.model : null;
+            final ResourceLocation animation = old != null ? old.animation : null;
+            final FormeHolder holder = FormeHolder.get(model, texRes, animation, name);
+            pokemob.setCustomHolder(holder);
+        }
+        if (over_tex != null) copy.getCopiedMob().getPersistentData().putString("statue:over_tex", over_tex);
+        if (pokemob != null) pokemob.setSize(size);
+        final IAnimationHolder anims = copy.getCopiedMob().getCapability(ThutCaps.ANIMCAP).orElse(null);
+        if (anim != null && anims != null)
+        {
+            anims.setFixed(true);
+            anims.overridePlaying(anim);
+        }
+        return copy.getCopiedMob();
+    }
+
+    @Override
     public void load(final CompoundTag tag)
     {
         super.load(tag);
@@ -120,42 +219,8 @@ public class StatueEntity extends BlockEntity
         if (tag.contains("custom_model"))
         {
             final CompoundTag modelTag = tag.getCompound("custom_model");
-            String tex = null;
-            String anim = null;
-            String id = null;
-            float size = 1;
-            if (modelTag.contains("id")) id = modelTag.getString("id");
-            if (modelTag.contains("tex")) tex = modelTag.getString("tex");
-            if (modelTag.contains("anim")) anim = modelTag.getString("anim");
-            if (modelTag.contains("size")) size = modelTag.getFloat("size");
-
-            // First update ID if present, and refresh the mob
-            if (id != null)
-            {
-                copy.setCopiedID(new ResourceLocation(id));
-                copy.setCopiedMob(null);
-            }
-            this.checkMob();
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
-            if (tex != null && pokemob != null)
-            {
-                final ResourceLocation texRes = new ResourceLocation(tex);
-                final ResourceLocation name = new ResourceLocation(texRes.getNamespace(), pokemob.getPokedexEntry()
-                        .getTrimmedName() + texRes.getPath());
-                final FormeHolder old = pokemob.getCustomHolder();
-                final ResourceLocation model = old != null ? old.model : null;
-                final ResourceLocation animation = old != null ? old.animation : null;
-                final FormeHolder holder = FormeHolder.get(model, texRes, animation, name);
-                pokemob.setCustomHolder(holder);
-            }
-            if (pokemob != null) pokemob.setSize(size);
-            final IAnimationHolder anims = copy.getCopiedMob().getCapability(ThutCaps.ANIMCAP).orElse(null);
-            if (anim != null && anims != null)
-            {
-                anims.setFixed(true);
-                anims.overridePlaying(anim);
-            }
-            copy.setCopiedNBT(copy.getCopiedMob().serializeNBT());
+            LivingEntity mob = initMob(copy, modelTag, () -> this.checkMob());
+            copy.setCopiedNBT(mob.serializeNBT());
         }
         // Server side send packet that it changed
         if (!this.level.isClientSide()) TileUpdate.sendUpdate(this);

@@ -11,13 +11,16 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemRenderProperties;
+import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import pokecube.core.database.Database;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
@@ -25,6 +28,8 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.wrappers.ModelWrapper;
 import thut.api.entity.ICopyMob;
 
 public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItemRenderProperties
@@ -86,45 +91,21 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
 
         if (!hasCache)
         {
-            String tex = null;
-            String anim = null;
             String id = null;
-            float size = 1;
             if (modelTag.contains("id")) id = modelTag.getString("id");
-            if (modelTag.contains("tex")) tex = modelTag.getString("tex");
-            if (modelTag.contains("anim")) anim = modelTag.getString("anim");
-            if (modelTag.contains("size")) size = modelTag.getFloat("size");
-
-            if (id != null)
-            {
-                copy.setCopiedID(new ResourceLocation(id));
-                copy.setCopiedMob(null);
-                copy.onBaseTick(mc.level, null);
-                mob = copy.getCopiedMob();
-            }
+            final String _id = id;
+            mob = StatueEntity.initMob(copy, modelTag, () -> {
+                if (_id != null)
+                {
+                    copy.setCopiedID(new ResourceLocation(_id));
+                    copy.setCopiedMob(null);
+                    copy.onBaseTick(mc.level, null);
+                }
+            });
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-            if (tex != null && pokemob != null)
-            {
-                final ResourceLocation texRes = new ResourceLocation(tex);
-                final ResourceLocation name = new ResourceLocation(texRes.getNamespace(), pokemob.getPokedexEntry()
-                        .getTrimmedName() + texRes.getPath());
-                final FormeHolder old = pokemob.getCustomHolder();
-                final ResourceLocation model = old != null ? old.model : null;
-                final ResourceLocation animation = old != null ? old.animation : null;
-                final FormeHolder holder = FormeHolder.get(model, texRes, animation, name);
-                pokemob.setCustomHolder(holder);
-            }
-            if (pokemob != null) pokemob.setSize(size);
-            final IAnimationHolder anims = mob.getCapability(ThutCaps.ANIMCAP).orElse(null);
-            if (anim != null && anims != null)
-            {
-                anims.setFixed(true);
-                anims.overridePlaying(anim);
-            }
             if (pokemob != null)
             {
                 float mobScale = 1;
-
                 if (transform == TransformType.GUI)
                 {
                     final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
@@ -155,6 +136,26 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
         mob.yRot = 0;
         mc.getEntityRenderDispatcher().setRenderShadow(false);
         mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 0, mat, bufs, light);
+        if (mob.getPersistentData().contains("statue:over_tex")
+                && mc.getEntityRenderDispatcher().getRenderer(mob) instanceof LivingEntityRenderer<?, ?> renderer)
+        {
+            ResourceLocation tex = new ResourceLocation(mob.getPersistentData().getString("statue:over_tex"));
+            StatusTexturer newTexer = new StatusTexturer(tex);
+            newTexer.alpha = 200;
+            newTexer.animated = false;
+            final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
+            final IPartTexturer texer = wrap.renderer.getTexturer();
+            wrap.renderer.setTexturer(newTexer);
+            if (newTexer != null)
+            {
+                newTexer.bindObject(mob);
+                wrap.getParts().forEach((n, p) -> {
+                    p.applyTexture(bufs, tex, newTexer);
+                });
+            }
+            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 0, mat, bufs, light);
+            wrap.renderer.setTexturer(texer);
+        }
     }
 
     @Override
