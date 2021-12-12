@@ -20,6 +20,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.FogRenderer.FogMode;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -221,15 +222,15 @@ public class EventsHandlerClient
 
     private static void onFogRender(final EntityViewRenderEvent.FogDensity evt)
     {
-        IPokemob mount;
-
-        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
-                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
-                        .getCamera().getEntity().isInWater() && mount.canUseDive())
-        {
-            evt.setDensity(0.005f);
-            evt.setCanceled(true);
-        }
+//        IPokemob mount;
+//
+//        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
+//                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
+//                        .getCamera().getEntity().isInWater() && mount.canUseDive())
+//        {
+//            evt.setDensity(0.0f);
+//            evt.setCanceled(true);
+//        }
     }
 
     private static void onMouseInput(final RawMouseEvent evt)
