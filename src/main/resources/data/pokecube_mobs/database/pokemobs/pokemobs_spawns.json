@@ -49,59 +49,9 @@
       }
     },
     {
-      "name": "pidgey",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "rattata",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "min": "5",
-              "rate": "0.4",
-              "max": "10"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "rattata_alola",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "min": "5",
-              "rate": "0.1",
-              "max": "10"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "spearow",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.3"
-            }
-          },
           {
             "values": {
               "types": "hills",
@@ -146,34 +96,6 @@
       }
     },
     {
-      "name": "nidoranf",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet,cold",
-              "category": "plains",
-              "rate": "0.25"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "nidoranm",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet,cold",
-              "category": "plains",
-              "rate": "0.25"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "clefairy",
       "stats": {
         "spawnRules": [
@@ -187,19 +109,6 @@
             "values": {
               "types": "cave",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "vulpix",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.2"
             }
           }
         ]
@@ -256,31 +165,9 @@
       }
     },
     {
-      "name": "oddish",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "dry,savanna",
-              "category": "plains",
-              "rate": "0.2",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "paras",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "dry,cold",
-              "types": "jungle,hills",
-              "rate": "0.15"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "dry,cold",
@@ -369,12 +256,6 @@
               "types": "village",
               "rate": "0.25"
             }
-          },
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.1"
-            }
           }
         ]
       }
@@ -438,20 +319,6 @@
       }
     },
     {
-      "name": "growlithe",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "poliwag",
       "stats": {
         "spawnRules": [
@@ -505,21 +372,6 @@
       }
     },
     {
-      "name": "bellsprout",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "dry,savanna",
-              "category": "plains",
-              "rate": "0.2",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "tentacool",
       "stats": {
         "spawnRules": [
@@ -566,19 +418,6 @@
             "values": {
               "types": "cave",
               "rate": "0.25"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "ponyta",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.2"
             }
           }
         ]
@@ -745,19 +584,6 @@
             "values": {
               "category": "river",
               "rate": "0.05"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "doduo",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.2"
             }
           }
         ]
@@ -951,21 +777,6 @@
       }
     },
     {
-      "name": "exeggcute",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "dry,savanna",
-              "category": "plains",
-              "rate": "0.08",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "cubone",
       "stats": {
         "spawnRules": [
@@ -1048,25 +859,6 @@
             "values": {
               "types": "cave",
               "rate": "0.025"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tangela",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "plains,wet",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1"
             }
           }
         ]
@@ -1189,19 +981,6 @@
       }
     },
     {
-      "name": "scyther",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.05"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "jynx",
       "stats": {
         "spawnRules": [
@@ -1241,32 +1020,6 @@
             "values": {
               "category": "nether",
               "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pinsir",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.02"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tauros",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.1"
             }
           }
         ]
@@ -1502,19 +1255,6 @@
       }
     },
     {
-      "name": "mew",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle,hills",
-              "rate": "0.003"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "totodile",
       "stats": {
         "spawnRules": [
@@ -1525,20 +1265,6 @@
               "rate": "0.01",
               "max": "2",
               "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "sentret",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.3",
-              "night": "false"
             }
           }
         ]
@@ -1573,48 +1299,6 @@
       }
     },
     {
-      "name": "togepi",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "natu",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "mareep",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "marill",
       "stats": {
         "spawnRules": [
@@ -1623,49 +1307,6 @@
               "typesBlacklist": "cold",
               "types": "swamp",
               "rate": "0.04"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "hoppip",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "aipom",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "sunkern",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.1",
-              "night": "false"
             }
           }
         ]
@@ -1771,27 +1412,6 @@
             "values": {
               "types": "cave",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "girafarig",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,wet",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,wet",
-              "category": "plains",
-              "rate": "0.2"
             }
           }
         ]
@@ -1912,20 +1532,6 @@
       }
     },
     {
-      "name": "heracross",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "coniferous,savanna",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "sneasel",
       "stats": {
         "spawnRules": [
@@ -1938,19 +1544,6 @@
           {
             "values": {
               "types": "cold",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "teddiursa",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "cold,forest,cave",
               "rate": "0.2"
             }
           }
@@ -2128,20 +1721,6 @@
       }
     },
     {
-      "name": "phanpy",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "smeargle",
       "stats": {
         "spawnRules": [
@@ -2162,20 +1741,6 @@
             "values": {
               "types": "village",
               "rate": "0.08"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "miltank",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.1",
-              "night": "false"
             }
           }
         ]
@@ -2208,14 +1773,6 @@
       "name": "entei",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
-            }
-          },
           {
             "values": {
               "category": "nether",
@@ -2303,35 +1860,6 @@
       }
     },
     {
-      "name": "zigzagoon",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "zigzagoon_galar",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "wurmple",
       "stats": {
         "spawnRules": [
@@ -2373,20 +1901,6 @@
               "category": "river",
               "rate": "0.4",
               "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "taillow",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.1"
             }
           }
         ]
@@ -2456,49 +1970,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "mushroom",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "slakoth",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "forest,hills",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "nincada",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
               "rate": "0.1"
             }
           }
@@ -2648,78 +2120,6 @@
       }
     },
     {
-      "name": "electrike",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "plusle",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "minun",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "volbeat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
-              "rate": "0.3",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "illumise",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
-              "rate": "0.3",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "roselia",
       "stats": {
         "spawnRules": [
@@ -2727,13 +2127,6 @@
             "values": {
               "typesBlacklist": "cold",
               "types": "flower",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
               "rate": "0.3"
             }
           }
@@ -2992,32 +2385,6 @@
       }
     },
     {
-      "name": "zangoose",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.02"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "seviper",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.02"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "lunatone",
       "stats": {
         "spawnRules": [
@@ -3159,27 +2526,6 @@
             "values": {
               "types": "industrial",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "kecleon",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.01"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.01"
             }
           }
         ]
@@ -3480,76 +2826,14 @@
       }
     },
     {
-      "name": "starly",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "bidoof",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.6",
-              "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "shinx",
       "stats": {
         "spawnRules": [
           {
             "values": {
-              "category": "plains",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
               "typesBlacklist": "cold",
               "types": "industrial",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "burmy",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "types": "cave",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "combee",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "plains",
-              "rate": "0.06"
             }
           }
         ]
@@ -3605,20 +2889,6 @@
               "types": "lake",
               "rate": "0.2",
               "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "cherubi",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna",
-              "category": "plains",
-              "rate": "0.02"
             }
           }
         ]
@@ -3745,13 +3015,6 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna",
-              "category": "plains",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna",
               "types": "beach",
               "rate": "0.2"
             }
@@ -3763,13 +3026,6 @@
       "name": "stunky",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna",
-              "category": "plains",
-              "rate": "0.2"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold,savanna",
@@ -3788,20 +3044,6 @@
             "values": {
               "types": "mountain,hills,ruin",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "chatot",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1",
-              "night": "false"
             }
           }
         ]
@@ -3915,38 +3157,13 @@
         "spawnRules": [
           {
             "values": {
-              "types": "jungle,cave",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
               "types": "swamp,cave",
               "rate": "0.3"
             }
           },
           {
             "values": {
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
               "types": "swamp",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "carnivine",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
               "rate": "0.1"
             }
           }
@@ -4176,119 +3393,14 @@
       }
     },
     {
-      "name": "patrat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "lillipup",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "purrloin",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pansage",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pansear",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "panpour",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "pidove",
       "stats": {
         "spawnRules": [
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "village",
               "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "blitzle",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet,cold",
-              "category": "plains",
-              "rate": "0.1"
             }
           }
         ]
@@ -4423,36 +3535,6 @@
             "values": {
               "types": "beach",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "sewaddle",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
-              "types": "jungle",
-              "rate": "0.1",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "venipede",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
-              "types": "jungle",
-              "rate": "0.1",
-              "day": "false"
             }
           }
         ]
@@ -4756,50 +3838,6 @@
       }
     },
     {
-      "name": "minccino",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "gothita",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "solosis",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "ducklett",
       "stats": {
         "spawnRules": [
@@ -4919,20 +3957,6 @@
           {
             "values": {
               "typesBlacklist": "savanna,dry",
-              "types": "plains,cave",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "savanna,dry",
-              "category": "plains",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "savanna,dry",
               "types": "mushroom",
               "rate": "0.2"
             }
@@ -5046,19 +4070,6 @@
           {
             "values": {
               "types": "mountain,hills",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "elgyem",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle,hills",
               "rate": "0.1"
             }
           }
@@ -5208,19 +4219,6 @@
       }
     },
     {
-      "name": "druddigon",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "forest,cave,cold",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "golett",
       "stats": {
         "spawnRules": [
@@ -5228,19 +4226,6 @@
             "values": {
               "category": "nether",
               "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "bouffalant",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.1"
             }
           }
         ]
@@ -5418,25 +4403,6 @@
       }
     },
     {
-      "name": "bunnelby",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "plains,cave",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "scatterbug",
       "stats": {
         "spawnRules": [
@@ -5459,13 +4425,6 @@
             "values": {
               "typesBlacklist": "mesa",
               "types": "sandy",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "mesa",
-              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -5508,21 +4467,6 @@
               "types": "village",
               "rate": "0.08",
               "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "espurr",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "plains",
-              "rate": "0.1",
-              "day": "false"
             }
           }
         ]
@@ -5880,34 +4824,6 @@
       }
     },
     {
-      "name": "pikipek",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "plains",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "yungoos",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.4"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "grubbin",
       "stats": {
         "spawnRules": [
@@ -5982,13 +4898,6 @@
               "types": "flower",
               "rate": "0.7"
             }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05"
-            }
           }
         ]
       }
@@ -6002,13 +4911,6 @@
               "typesBlacklist": "cold",
               "types": "flower",
               "rate": "0.7"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05"
             }
           }
         ]
@@ -6024,13 +4926,6 @@
               "types": "flower",
               "rate": "0.7"
             }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05"
-            }
           }
         ]
       }
@@ -6044,48 +4939,6 @@
               "typesBlacklist": "cold",
               "types": "flower",
               "rate": "0.7"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.05"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "cutiefly",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "jungle",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "rockruff",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "plains",
-              "rate": "0.3"
             }
           }
         ]
@@ -6155,19 +5008,6 @@
       }
     },
     {
-      "name": "mudbray",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "dewpider",
       "stats": {
         "spawnRules": [
@@ -6175,38 +5015,6 @@
             "values": {
               "types": "swamp",
               "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "fomantis",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "morelull",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.4"
-            }
-          },
-          {
-            "values": {
-              "types": "jungle,hills",
-              "rate": "0.4"
             }
           }
         ]
@@ -6242,58 +5050,6 @@
           {
             "values": {
               "types": "village",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "bounsweet",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "comfey",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "oranguru",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "passimian",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
               "rate": "0.1"
             }
           }
@@ -6713,19 +5469,6 @@
       }
     },
     {
-      "name": "scorbunny",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.01"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "sobble",
       "stats": {
         "spawnRules": [
@@ -6769,12 +5512,6 @@
       "name": "gossifleur",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.4"
-            }
-          },
           {
             "values": {
               "types": "flower",
@@ -7054,12 +5791,6 @@
         "spawnRules": [
           {
             "values": {
-              "types": "jungle",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
               "types": "spooky",
               "rate": "0.18"
             }
@@ -7269,14 +6000,6 @@
       "name": "zarude",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "types": "jungle",
-              "min": "1",
-              "max": "1",
-              "rate": "0.002"
-            }
-          },
           {
             "values": {
               "structures": "pokecube_legends:celebi_temple",

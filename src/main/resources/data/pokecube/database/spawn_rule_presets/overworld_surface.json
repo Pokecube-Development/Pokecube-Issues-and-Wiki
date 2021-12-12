@@ -9,26 +9,7 @@
     },
     {
       "values": {
-        "preset": "forests_day",
-        "and_presets": "forests,day_time"
-      }
-    },
-    {
-      "values": {
-        "preset": "forests_night",
-        "and_presets": "forests,night_time"
-      }
-    },
-    {
-      "values": {
-        "preset": "forests_snow",
-        "and_presets": "forests,snowy_areas"
-      }
-    },
-    {
-      "values": {
-        "preset": "jungle",
-        "typesBlacklist": "dry,cold",
+        "preset": "jungles",
         "category": "jungle",
         "types": "overworld"
       }
@@ -36,22 +17,6 @@
     {
       "values": {
         "preset": "plains",
-        "category": "plains",
-        "types": "overworld"
-      }
-    },
-    {
-      "values": {
-        "preset": "plains_not_wet",
-        "typesBlacklist": "wet",
-        "category": "plains",
-        "types": "overworld"
-      }
-    },
-    {
-      "values": {
-        "preset": "plains_not_dry",
-        "typesBlacklist": "dry,savanna",
         "category": "plains",
         "types": "overworld"
       }
@@ -66,8 +31,8 @@
     {
       "values": {
         "preset": "desert",
-        "typesBlacklist": "wet,mesa",
-        "types": "sandy,overworld"
+        "category": "desert",
+        "types": "overworld"
       }
     },
     {
@@ -85,15 +50,8 @@
     },
     {
       "values": {
-        "preset": "hills",
-        "category": "hills",
-        "types": "overworld"
-      }
-    },
-    {
-      "values": {
         "preset": "mountains",
-        "category": "extreme_hills"
+        "category": "mountain"
       }
     },
     {
@@ -209,6 +167,13 @@
       "values": {
         "preset": "snowy_areas",
         "types": "snowy,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "hills",
+        "terrain": "hills",
+        "types": "overworld"
       }
     }
   ]

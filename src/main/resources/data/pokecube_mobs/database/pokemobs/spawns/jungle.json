@@ -1,0 +1,65 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "jungles",
+      "entries": [
+        
+        {"key": "morelull","min": 4,"max": 8,"rate": 0.3},
+        {"key": "cutiefly","min": 4,"max": 8,"rate": 0.3},
+        {"key": "fomantis","min": 4,"max": 8,"rate": 0.3},
+        {"key": "impidimp","min": 4,"max": 8,"rate": 0.3},
+        
+        {"key": "caterpie","min": 4,"max": 8,"rate": 0.2},
+        {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
+        {"key": "wurmple","min": 4,"max": 8,"rate": 0.2},
+        
+        {"key": "paras","min": 3,"max": 6,"rate": 0.2},
+        {"key": "shroomish","min": 3,"max": 6,"rate": 0.2},
+        {"key": "roselia","min": 3,"max": 6,"rate": 0.2},
+        
+        {"key": "aipom","min": 2,"max": 4,"rate": 0.1},
+        {"key": "heracross","min": 2,"max": 4,"rate": 0.1},
+        {"key": "tangela","min": 2,"max": 4,"rate": 0.1},
+        {"key": "carnivine","min": 2,"max": 4,"rate": 0.1},
+        {"key": "kecleon","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slakoth","min": 2,"max": 4,"rate": 0.1},
+        {"key": "nincada","min": 2,"max": 4,"rate": 0.1},
+        {"key": "chatot","min": 2,"max": 4,"rate": 0.1},
+        {"key": "croagunk","min": 2,"max": 4,"rate": 0.1},
+        {"key": "bounsweet","min": 2,"max": 4,"rate": 0.1},
+        {"key": "comfey","min": 2,"max": 4,"rate": 0.1},
+        {"key": "oranguru","min": 2,"max": 4,"rate": 0.1},
+        {"key": "passimian","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "pansage","min": 2,"max": 4,"rate": 0.1},
+        {"key": "pansear","min": 2,"max": 4,"rate": 0.1},
+        {"key": "panpour","min": 2,"max": 4,"rate": 0.1},
+        {"key": "tropius","min": 1,"max": 5,"rate": 0.1},
+        {"key": "elgyem","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "zarude","min": 1,"max": 1,"rate": 0.002},
+        {"key": "mew","min": 1,"max": 1,"rate": 0.002}
+      ]
+    },
+    {
+      "spawn_preset": "jungles,times_night",
+      "entries": [
+        {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
+        {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
+        {"key": "illumise","min": 2,"max": 4,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "jungles,times_day",
+      "entries": [
+        {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "jungles,caves",
+      "entries": [
+        {"key": "croagunk","min": 2,"max": 5,"rate": 0.3}
+      ]
+    }
+  ]
+}

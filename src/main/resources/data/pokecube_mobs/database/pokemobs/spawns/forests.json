@@ -6,6 +6,7 @@
         {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
         {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
         {"key": "pidove","min": 2,"max": 4,"rate": 0.4},
+        {"key": "starly","min": 2,"max": 4,"rate": 0.4},
         {"key": "fletchling","min": 2,"max": 4,"rate": 0.4},
         {"key": "rattata","min": 3,"max": 6,"rate": 0.4},
         {"key": "bidoof","min": 3,"max": 6,"rate": 0.4},
@@ -52,6 +53,7 @@
         
         {"key": "cottonee","min": 2,"max": 4,"rate": 0.1},
         {"key": "audino","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slakoth","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "swablu","min": 2,"max": 4,"rate": 0.05},
         {"key": "bonsly","min": 2,"max": 4,"rate": 0.05},
@@ -91,6 +93,8 @@
         {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
         {"key": "wurmple","min": 4,"max": 8,"rate": 0.2},
         
+        {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
+        
         {"key": "pansage","min": 2,"max": 4,"rate": 0.1},
         {"key": "pansear","min": 2,"max": 4,"rate": 0.1},
         {"key": "panpour","min": 2,"max": 4,"rate": 0.1},
@@ -112,11 +116,12 @@
       ]
     },
     {
-      "spawn_preset": "forests_night",
+      "spawn_preset": "forests,night_time",
       "entries": [
         {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
         {"key": "illumise","min": 2,"max": 4,"rate": 0.3},
         {"key": "venonat","min": 2,"max": 4,"rate": 0.2},
+        {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
         {"key": "hoothoot","min": 2,"max": 4,"rate": 0.2},
         {"key": "stantler","min": 2,"max": 4,"rate": 0.2},
         {"key": "munna","min": 2,"max": 4,"rate": 0.2},
@@ -125,12 +130,18 @@
       ]
     },
     {
-      "spawn_preset": "forests_day",
+      "spawn_preset": "forests,day_time",
       "entries": [
         {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1},
-        {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
         {"key": "seedot","min": 2,"max": 5,"rate": 0.3},
         {"key": "ledyba","min": 2,"max": 5,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "forests,cave",
+      "entries": [
+        {"key": "burmy","min": 2,"max": 5,"rate": 0.2},
+        {"key": "druddigon","min": 2,"max": 5,"rate": 0.2}
       ]
     }
   ]
