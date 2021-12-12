@@ -1,0 +1,46 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "sky",
+        "types": "sky"
+      }
+    },
+    {
+      "values": {
+        "preset": "flowers",
+        "types": "flower"
+      }
+    },
+    {
+      "values": {
+        "preset": "hills",
+        "terrain": "hills"
+      }
+    },
+    {
+      "values": {
+        "preset": "meteors",
+        "types": "meteor"
+      }
+    },
+    {
+      "values": {
+        "preset": "villages",
+        "types": "village"
+      }
+    },
+    {
+      "values": {
+        "preset": "ruins",
+        "types": "ruin"
+      }
+    },
+    {
+      "values": {
+        "preset": "industrial",
+        "types": "industrial"
+      }
+    }
+  ]
+}

@@ -1,2 +1,24 @@
 {
+  "rules": [
+    {
+      "values": {
+        "preset": "nether_forests",
+        "types": "forest",
+        "and_presets": "nether"
+      }
+    },
+    {
+      "values": {
+        "preset": "nether_not_forests",
+        "typesBlacklist": "forest",
+        "and_presets": "nether"
+      }
+    },
+    {
+      "values": {
+        "preset": "nether",
+        "types": "nether"
+      }
+    }
+  ]
 }

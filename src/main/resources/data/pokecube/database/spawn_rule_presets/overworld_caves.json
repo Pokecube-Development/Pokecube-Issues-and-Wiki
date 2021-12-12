@@ -1,6 +1,5 @@
 {
  "rules": [
- 
       {
         "values": {
           "preset": "desert_caves",
@@ -8,24 +7,10 @@
           "types": "sandy,dry,cave"
         }
       },
-      
       {
         "values": {
           "preset": "caves",
           "types": "cave"
-        }
-      },
-      {
-        "values": {
-          "preset": "caves_warm_wet",
-          "typesBlacklist": "dry,cold",
-          "types": "cave"
-        }
-      },
-      {
-        "values": {
-          "preset": "caves_cold",
-          "types": "cave,cold"
         }
       }
   ]

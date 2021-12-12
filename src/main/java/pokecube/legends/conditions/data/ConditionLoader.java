@@ -17,13 +17,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import pokecube.core.database.util.DataHelpers.ResourceData;
 import pokecube.legends.conditions.data.Conditions.EntriedCondition;
 import pokecube.legends.conditions.data.Conditions.PresetCondition;
 import pokecube.legends.conditions.data.Conditions.TypedCondition;
 import pokecube.legends.spawns.LegendarySpawn;
 
-public class ConditionLoader implements IResourceData
+public class ConditionLoader extends ResourceData
 {
 
     public static Map<String, Class<? extends PresetCondition>> __presets__ = Maps.newHashMap();
@@ -56,6 +56,7 @@ public class ConditionLoader implements IResourceData
         this.validLoad = !resources.isEmpty();
         this.conditions.clear();
         LegendarySpawn.data_spawns.clear();
+        this.preLoad();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad) valid.set(true);
     }
@@ -80,6 +81,7 @@ public class ConditionLoader implements IResourceData
                 try
                 {
                     final Conditions temp = PokedexEntryLoader.gson.fromJson(reader, Conditions.class);
+                    if (!confirmNew(temp, l)) continue;
                     if (temp.replace) loaded.clear();
                     loaded.add(temp);
                 }

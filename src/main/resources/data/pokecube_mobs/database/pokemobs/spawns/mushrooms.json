@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "mushrooms",
+      "entries": [
+        {"key": "paras","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "foongus","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1},
+        {"key": "shroomish","min": 2,"max": 4,"rate": 0.1}
+        
+      ]
+    },
+    {
+      "spawn_preset": "mushrooms,caves",
+      "entries": [
+        {"key": "foongus","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "paras","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+      ]
+    }
+  ]
+}

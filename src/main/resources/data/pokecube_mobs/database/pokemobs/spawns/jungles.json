@@ -38,11 +38,11 @@
         {"key": "elgyem","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "zarude","min": 1,"max": 1,"rate": 0.002},
-        {"key": "mew","min": 1,"max": 1,"rate": 0.002}
+        {"key": "mew","min": 1,"max": 1,"rate": 0.001}
       ]
     },
     {
-      "spawn_preset": "jungles,times_night",
+      "spawn_preset": "jungles,night_time",
       "entries": [
         {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
         {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
@@ -50,15 +50,15 @@
       ]
     },
     {
-      "spawn_preset": "jungles,times_day",
+      "spawn_preset": "jungles,hills",
       "entries": [
-        {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1}
+        {"key": "mew","min": 1,"max": 1,"rate": 0.01}
       ]
     },
     {
-      "spawn_preset": "jungles,caves",
+      "spawn_preset": "jungles,day_time",
       "entries": [
-        {"key": "croagunk","min": 2,"max": 5,"rate": 0.3}
+        {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1}
       ]
     }
   ]

@@ -1,0 +1,38 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "industrial",
+      "entries": [
+        {"key": "magnemite","min": 2,"max": 4,"rate": 0.7},
+        {"key": "grimer","min": 2,"max": 4,"rate": 0.7},
+        {"key": "grimer_alola","min": 2,"max": 4,"rate": 0.7},
+        {"key": "voltorb","min": 2,"max": 4,"rate": 0.7},
+        
+        {"key": "klink","min": 2,"max": 4,"rate": 0.1},
+        {"key": "joltik","min": 2,"max": 4,"rate": 0.1},
+        {"key": "electabuzz","min": 2,"max": 4,"rate": 0.1},
+        {"key": "porygon","min": 2,"max": 4,"rate": 0.1},
+        {"key": "shinx","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "meltan","min": 1,"max": 1,"rate": 0.05},
+        
+        {"key": "raikou","min": 1,"max": 1,"rate": 0.02}
+      ]
+    },
+    {
+      "spawn_preset": "industrial,day_time",
+      "entries": [
+        {"key": "helioptile","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "castform","min": 2,"max": 4,"rate": 0.1},
+        {"key": "ferroseed","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "industrial,night_time",
+      "entries": [
+        {"key": "rotom","min": 2,"max": 4,"rate": 0.1}
+      ]
+    }
+  ]
+}

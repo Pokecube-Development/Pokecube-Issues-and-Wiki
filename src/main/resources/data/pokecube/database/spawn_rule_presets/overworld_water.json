@@ -37,6 +37,19 @@
     },
     {
       "values": {
+        "preset": "swamp_water",
+        "types": "swamp",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "cave_lake_shore",
+        "types": "cavewater"
+      }
+    },
+    {
+      "values": {
         "preset": "any_water",
         "or_presets": "ocean_water,beach_water,lake_water,river_water,cave_water"
       }

@@ -1,0 +1,107 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "lakes",
+      "entries": [
+        {"key": "lotad","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "corphish","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "chewtle","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "clobbopus","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "psyduck","min": 2,"max": 4,"rate": 0.15},
+        
+        {"key": "squirtle","min": 1,"max": 2,"rate": 0.01},
+        {"key": "totodile","min": 1,"max": 2,"rate": 0.01},
+        {"key": "oshawott","min": 1,"max": 2,"rate": 0.01},
+        {"key": "suicune","min": 1,"max": 1,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "rivers",
+      "entries": [
+        {"key": "lotad","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "corphish","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "poliwag","min": 2,"max": 4,"rate": 0.15},
+        {"key": "ducklett","min": 2,"max": 4,"rate": 0.15},
+        {"key": "psyduck","min": 2,"max": 4,"rate": 0.15}
+      ]
+    },
+    {
+      "spawn_preset": "river_ground",
+      "entries": [
+        {"key": "yanma","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "cramorant","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "castform","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "corsola_galar","min": 2,"max": 4,"rate": 0.08},
+        
+        {"key": "farfetchd","min": 2,"max": 4,"rate": 0.05},
+        {"key": "farfetchd_galar","min": 2,"max": 4,"rate": 0.05}
+      ]
+    },
+    {
+      "spawn_preset": "lake_ground",
+      "entries": [
+        {"key": "surskit","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "yanma","min": 2,"max": 4,"rate": 0.3},
+        {"key": "farfetchd","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "uxie","min": 1,"max": 1,"rate": 0.005},
+        {"key": "mesprit","min": 1,"max": 1,"rate": 0.005},
+        {"key": "azelf","min": 1,"max": 1,"rate": 0.005},
+        {"key": "meloetta_aria","min": 1,"max": 1,"rate": 0.005}
+      ]
+    },
+    {
+      "spawn_preset": "lake_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
+        
+        {"key": "stunfisk","min": 2,"max": 4,"rate": 0.4},
+        {"key": "stunfisk_galar","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "corphish","min": 2,"max": 4,"rate": 0.3},
+        {"key": "barboach","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "arrokuda","min": 2,"max": 4,"rate": 0.12},
+        
+        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "river_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
+        
+        {"key": "corphish","min": 2,"max": 4,"rate": 0.3},
+        {"key": "barboach","min": 2,"max": 4,"rate": 0.3},
+        {"key": "finneon","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1}
+      ]
+    }
+  ]
+}

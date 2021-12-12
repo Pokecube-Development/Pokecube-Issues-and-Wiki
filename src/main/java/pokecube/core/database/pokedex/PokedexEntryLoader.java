@@ -440,9 +440,7 @@ public class PokedexEntryLoader
 
         public SpawnRule copy()
         {
-            SpawnRule copy = new SpawnRule();
-            copy.values.putAll(values);
-            copy.model = this.model;
+            SpawnRule copy = gson.fromJson(gson.toJson(this), getClass());
             return copy;
         }
     }
@@ -711,18 +709,20 @@ public class PokedexEntryLoader
      * @param spawnData
      * @param rule
      */
-    public static SpawnBiomeMatcher handleAddSpawn(PokedexEntry entry, final SpawnBiomeMatcher matcher)
+    public static SpawnBiomeMatcher handleAddSpawn(PokedexEntry entry, SpawnBiomeMatcher matcher)
     {
         final SpawnEntry spawnEntry = new SpawnEntry();
         String val;
-        SpawnRule rule = matcher.spawnRule;
-        if ((val = rule.values.get(new QName("min"))) != null) spawnEntry.min = Integer.parseInt(val);
-        if ((val = rule.values.get(new QName("max"))) != null) spawnEntry.max = Integer.parseInt(val);
-        if ((val = rule.values.get(new QName("rate"))) != null) spawnEntry.rate = Float.parseFloat(val);
-        if ((val = rule.values.get(new QName("level"))) != null) spawnEntry.level = Integer.parseInt(val);
-        if ((val = rule.values.get(new QName("variance"))) != null) spawnEntry.variance = new FunctionVariance(val);
+        SpawnRule rule = matcher.spawnRule.copy();
+        if ((val = rule.values.remove(new QName("min"))) != null) spawnEntry.min = Integer.parseInt(val);
+        if ((val = rule.values.remove(new QName("max"))) != null) spawnEntry.max = Integer.parseInt(val);
+        if ((val = rule.values.remove(new QName("rate"))) != null) spawnEntry.rate = Float.parseFloat(val);
+        if ((val = rule.values.remove(new QName("level"))) != null) spawnEntry.level = Integer.parseInt(val);
+        if ((val = rule.values.remove(new QName("variance"))) != null) spawnEntry.variance = new FunctionVariance(val);
         if (entry.getSpawnData() == null) entry.setSpawnData(new SpawnData(entry));
+        matcher = new SpawnBiomeMatcher(rule);
         entry.getSpawnData().matchers.put(matcher, spawnEntry);
+        if (!Database.spawnables.contains(entry)) Database.spawnables.add(entry);
         // If it can spawn in water, then it can swim in water.
         if (matcher.water) entry.mobType |= MovementType.WATER.mask;
         return matcher;
@@ -1108,7 +1108,6 @@ public class PokedexEntryLoader
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for " + entry);
         }
         entry.setSpawnData(spawnData);
-        if (!Database.spawnables.contains(entry)) Database.spawnables.add(entry);
 
     }
 

@@ -1,0 +1,74 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "nether_forests",
+      "entries": [
+        {"key": "ponyta_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "misdreavus","min": 2,"max": 4,"rate": 0.3},
+        {"key": "phantump","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "pumpkaboo","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo_large","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo_small","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo_super","min": 2,"max": 4,"rate": 0.08}
+      ]
+    },
+    {
+      "spawn_preset": "nether_not_forests",
+      "entries": [
+        {"key": "slugma","min": 2,"max": 4,"rate": 0.5},
+        {"key": "magmar","min": 2,"max": 4,"rate": 0.2}
+      ]
+    },
+    {
+      "spawn_preset": "nether",
+      "entries": [
+        {"key": "koffing","min": 2,"max": 4,"rate": 0.8},
+        {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
+        {"key": "litwick","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "houndour","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "shuppet","min": 2,"max": 4,"rate": 0.2},
+        {"key": "duskull","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "yamask","min": 2,"max": 4,"rate": 0.1},
+        {"key": "yamask_galar","min": 2,"max": 4,"rate": 0.1},
+        {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
+        {"key": "golett","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "entei","min": 1,"max": 1,"rate": 0.02}
+      ]
+    },
+    {
+      "spawn_preset": "spooky_areas",
+      "entries": [
+        {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
+        {"key": "litwick","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "shuppet","min": 2,"max": 4,"rate": 0.3},
+        {"key": "duskull","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "hatenna","min": 2,"max": 4,"rate": 0.2},
+        {"key": "impidimp","min": 2,"max": 4,"rate": 0.2},
+        {"key": "ponyta_galar","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
+        {"key": "misdreavus","min": 2,"max": 4,"rate": 0.1},
+        {"key": "drifloon","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "corsola_galar","min": 2,"max": 4,"rate": 0.08},
+        
+        {"key": "spiritomb","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "marshadow","min": 1,"max": 1,"rate": 0.002}
+      ]
+    },
+    {
+      "spawn_preset": "spooky_areas,caves",
+      "entries": [
+        {"key": "spiritomb","min": 2,"max": 4,"rate": 0.2}
+      ]
+    }
+  ]
+}

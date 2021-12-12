@@ -20,9 +20,9 @@ import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import pokecube.core.database.util.DataHelpers.ResourceData;
 
-public class PokemobSpawns implements IResourceData
+public class PokemobSpawns extends ResourceData
 {
     public static final PokemobSpawns INSTANCE = new PokemobSpawns("database/pokemobs/spawns/");
 
@@ -76,6 +76,7 @@ public class PokemobSpawns implements IResourceData
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         MASTER_LIST.rules.clear();
+        preLoad();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
@@ -86,6 +87,7 @@ public class PokemobSpawns implements IResourceData
 
     private void apply()
     {
+        PokecubeCore.LOGGER.info("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
             String[] presets = entry.spawn_preset.split(",");
@@ -94,13 +96,10 @@ public class PokemobSpawns implements IResourceData
 
             if (presets.length > 1)
             {
-                String prev_and = rule.values.get(SpawnBiomeMatcher.ANDPRESET);
-                if (prev_and != null) preset = prev_and + "," + preset;
-                for (int i = 1; i < presets.length; i++)
-                {
-                    preset = prev_and + "," + presets[i];
-                }
-                rule.values.put(SpawnBiomeMatcher.ANDPRESET, preset);
+                // In this case, we merge all of the other rules in via
+                // ANDPRESETS
+                rule = new SpawnRule();
+                rule.values.put(SpawnBiomeMatcher.ANDPRESET, entry.spawn_preset);
             }
 
             if (rule != null)
@@ -125,12 +124,18 @@ public class PokemobSpawns implements IResourceData
                         if (mob.level > 0) customRule.values.put(new QName("level"), mob.level + "");
                         if (mob.variance != null) customRule.values.put(new QName("variance"), mob.variance);
 
+                        if (customRule.toString().contains("deserts")) System.out.println(key + " " + customRule);
                         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
+                    }
+                    else
+                    {
+                        PokecubeCore.LOGGER.error("Error with key {} for spawns", key);
                     }
                 });
             }
         });
+        PokecubeCore.LOGGER.info("Applied Pokemob spawns.");
     }
 
     private void loadFile(final ResourceLocation l)
@@ -145,6 +150,7 @@ public class PokemobSpawns implements IResourceData
                 try
                 {
                     final SpawnList temp = PokedexEntryLoader.gson.fromJson(reader, SpawnList.class);
+                    if (!confirmNew(temp, l)) continue;
                     if (temp.replace) loaded.clear();
                     loaded.add(temp);
                 }

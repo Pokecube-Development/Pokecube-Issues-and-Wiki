@@ -20,9 +20,9 @@ import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import pokecube.core.database.util.DataHelpers.ResourceData;
 
-public class MutationHelper implements IResourceData
+public class MutationHelper extends ResourceData
 {
     private final String tagPath;
 
@@ -49,6 +49,7 @@ public class MutationHelper implements IResourceData
         final String path = new ResourceLocation(this.tagPath).getPath();
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
+        preLoad();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad) valid.set(true);
     }
@@ -65,6 +66,7 @@ public class MutationHelper implements IResourceData
                 try
                 {
                     final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
+                    if (!confirmNew(temp, l)) continue;
                     if (temp.replace) loaded.clear();
                     loaded.add(temp);
                 }

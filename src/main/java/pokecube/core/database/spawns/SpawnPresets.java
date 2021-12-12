@@ -17,9 +17,9 @@ import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import pokecube.core.database.util.DataHelpers.ResourceData;
 
-public class SpawnPresets implements IResourceData
+public class SpawnPresets extends ResourceData
 {
     public static final SpawnPresets INSTANCE = new SpawnPresets("database/spawn_rule_presets/");
 
@@ -52,6 +52,7 @@ public class SpawnPresets implements IResourceData
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         PRESETS.clear();
+        preLoad();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
@@ -73,6 +74,7 @@ public class SpawnPresets implements IResourceData
                 {
                     final MatcherList temp = PokedexEntryLoader.gson.fromJson(reader, MatcherList.class);
                     if (temp.replace) loaded.clear();
+                    if (!confirmNew(temp, l)) continue;
                     loaded.add(temp);
                 }
                 catch (final Exception e)
