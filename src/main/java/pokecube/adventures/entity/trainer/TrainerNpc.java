@@ -89,7 +89,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
                 mon.setTraded(!everstone);
                 stack = PokecubeManager.pokemobToItem(mon);
                 stack.getTag().putInt("slotnum", i);
-                this.getOffers().add(new MerchantOffer(buy, stack, 1, 1, 1));
+                this.getOffers().add(new MerchantOffer(buy, stack.copy(), 2, 2, 2));
             }
         }
     }

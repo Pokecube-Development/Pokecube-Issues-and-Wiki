@@ -107,7 +107,7 @@ public abstract class TrainerBase extends NpcMob
             final boolean customer = player == this.getTradingPlayer();
             if (customer) return InteractionResult.sidedSuccess(this.level.isClientSide);
             this.setTradingPlayer(player);
-            if (!this.fixedTrades)
+            if (!this.fixedTrades && !this.level.isClientSide)
             {
                 this.resetTrades();
                 // This re-fills the default trades
@@ -115,8 +115,11 @@ public abstract class TrainerBase extends NpcMob
                 // This adds in pokemobs to trade.
                 if (this.aiStates.getAIState(AIState.TRADES_MOBS)) this.addMobTrades(player, stack);
             }
-            if (!this.getOffers().isEmpty()) this.openTradingScreen(player, this.getDisplayName(), 0);
-            else this.setTradingPlayer(null);
+            if (!this.level.isClientSide)
+            {
+                if (!this.getOffers().isEmpty()) this.openTradingScreen(player, this.getDisplayName(), 0);
+                else this.setTradingPlayer(null);
+            }
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
         else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK)

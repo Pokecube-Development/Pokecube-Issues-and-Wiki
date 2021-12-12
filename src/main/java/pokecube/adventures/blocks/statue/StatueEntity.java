@@ -188,6 +188,11 @@ public class StatueEntity extends BlockEntity
             copy.setCopiedID(new ResourceLocation(id));
             copy.setCopiedMob(null);
         }
+        else
+        {
+            copy.setCopiedID(new ResourceLocation("pokecube:missingno"));
+            copy.setCopiedMob(null);
+        }
         initMob.run();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
         if (tex != null && pokemob != null)

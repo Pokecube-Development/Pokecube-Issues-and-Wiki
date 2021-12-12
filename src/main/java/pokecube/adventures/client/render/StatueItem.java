@@ -92,6 +92,11 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
                     copy.setCopiedMob(null);
                     copy.onBaseTick(mc.level, null);
                 }
+                else
+                {
+                    copy.setCopiedID(new ResourceLocation("pokecube:missingno"));
+                    copy.setCopiedMob(PokecubeCore.createPokemob(Database.missingno, mc.level));
+                }
             });
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null)

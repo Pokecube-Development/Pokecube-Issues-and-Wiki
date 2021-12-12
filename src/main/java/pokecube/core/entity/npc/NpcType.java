@@ -46,29 +46,30 @@ public class NpcType
     public static final Map<String, NpcType> typeMap = Maps.newHashMap();
 
     private static final NpcType PROFESSOR = new NpcType("professor");
-    private static final NpcType HEALER    = new NpcType("healer");
-    private static final NpcType TRADER    = new NpcType("trader");
+    private static final NpcType HEALER = new NpcType("healer");
+    private static final NpcType TRADER = new NpcType("trader");
 
     static
     {
         // Initialize a "none" type, this will be the default return unless
         // something else overrides by constructing another type by name "none"
         new NpcType("none");
-        final IInteract trade = (player, hand, mob) ->
-        {
+        final IInteract trade = (player, hand, mob) -> {
             if (player.isShiftKeyDown()) return false;
             final boolean validCustomer = mob.getTradingPlayer() == null;
             if (validCustomer && !mob.getOffers().isEmpty())
             {
                 if (mob.getTradingPlayer() == player) return true;
-                mob.setTradingPlayer(player);
-                mob.openTradingScreen(player, mob.getDisplayName(), 10);
+                if (!player.level.isClientSide())
+                {
+                    mob.setTradingPlayer(player);
+                    mob.openTradingScreen(player, mob.getDisplayName(), 10);
+                }
                 return true;
             }
             return false;
         };
-        final IInteract starter = (player, hand, mob) ->
-        {
+        final IInteract starter = (player, hand, mob) -> {
             if (player instanceof ServerPlayer && !PokecubeSerializer.getInstance().hasStarter(player))
             {
                 if (player.isShiftKeyDown()) return false;
@@ -81,12 +82,13 @@ public class NpcType
             }
             return false;
         };
-        final IInteract heal = (player, hand, mob) ->
-        {
+        final IInteract heal = (player, hand, mob) -> {
             if (player.isShiftKeyDown()) return false;
-            if (player instanceof ServerPlayer) player.openMenu(new SimpleMenuProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, ContainerLevelAccess.create(
-                            mob.level, mob.blockPosition())), player.getDisplayName()));
+            if (player instanceof ServerPlayer) player
+                    .openMenu(new SimpleMenuProvider(
+                            (id, playerInventory, playerIn) -> new HealerContainer(id, playerInventory,
+                                    ContainerLevelAccess.create(mob.level, mob.blockPosition())),
+                            player.getDisplayName()));
             return true;
         };
         // Initialize the interactions for these defaults.
@@ -101,7 +103,7 @@ public class NpcType
         return NpcType.typeMap.get("none");
     }
 
-    private final String     name;
+    private final String name;
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
@@ -125,8 +127,7 @@ public class NpcType
     }
 
     /**
-     * @param maleTex
-     *            the maleTex to set
+     * @param maleTex the maleTex to set
      */
     public NpcType setMaleTex(final ResourceLocation maleTex)
     {
@@ -135,8 +136,7 @@ public class NpcType
     }
 
     /**
-     * @param femaleTex
-     *            the femaleTex to set
+     * @param femaleTex the femaleTex to set
      */
     public NpcType setFemaleTex(final ResourceLocation femaleTex)
     {
@@ -145,8 +145,7 @@ public class NpcType
     }
 
     /**
-     * @param interaction
-     *            the interaction to set
+     * @param interaction the interaction to set
      */
     public NpcType setInteraction(final IInteract interaction)
     {
