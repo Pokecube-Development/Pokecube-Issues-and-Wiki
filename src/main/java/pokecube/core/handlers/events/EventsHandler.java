@@ -38,6 +38,7 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -483,12 +484,12 @@ public class EventsHandler
 //                else System.out.println(entry.getKey() + " " + check);
             }
 
-//            SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("river_ground");
-//            SpawnBiomeMatcher m = new SpawnBiomeMatcher(rule);
-//            m.parse();
-//            System.out.println(check.biome.location() + " " + BiomeDictionary.getTypes(check.biome) + " " + check);
-//            System.out.println(m.getValidBiomes() + " " + m._validTypes);
-//            System.out.println(m.matches(check));
+            SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("river_ground");
+            SpawnBiomeMatcher m = new SpawnBiomeMatcher(rule);
+            m.parse();
+            System.out.println(check.biome.location() + " " + BiomeDictionary.getTypes(check.biome) + " " + check);
+            System.out.println(m.getValidBiomes() + " " + m._validTypes);
+            System.out.println(m.matches(check));
 
             if (!valid.isEmpty())
             {

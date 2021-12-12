@@ -83,13 +83,12 @@ public class BotPlayer extends ServerPlayer
         if (!isOrder) return;
 
         PermissionAPI.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        String s1 = "I Am A Bot";
+        chat(s1);
 
         if (!PermissionAPI.hasPermission(talker, PERMBOTORDER)) return;
 
         Matcher startOrder = startPattern.matcher(event.getMessage());
-
-        String s1 = "I Am A Bot";
-        chat(s1);
 
         if (startOrder.find())
         {

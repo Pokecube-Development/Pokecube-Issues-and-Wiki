@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "day_time",
+        "night": "false",
+        "day": "true",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "night_time",
+        "night": "true",
+        "day": "false",
+        "types": "all"
+      }
+    }
+  ]
+}

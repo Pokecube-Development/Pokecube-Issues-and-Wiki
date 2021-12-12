@@ -1,189 +1,215 @@
 {
- "rules": [
- 
-      {
-        "values": {
-          "preset": "forests",
-          "category": "forest"
-        }
-      },
-      {
-        "values": {
-          "preset": "forests_warm_wet",
-          "typesBlacklist": "sparse,cold,dry",
-          "category": "forest"
-        }
-      },
-      {
-        "values": {
-          "preset": "forests_warm_dry",
-          "typesBlacklist": "sparse,cold,wet",
-          "category": "forest"
-        }
-      },
-      {
-        "values": {
-          "preset": "forests_snow",
-          "and_presets":"forests,snowy_areas"
-        }
-      },
- 
-      {
-        "values": {
-          "preset": "jungle",
-          "typesBlacklist": "dry,cold",
-          "category": "jungle"
-        }
-      },
-      
-      
-      {
-        "values": {
-          "preset": "plains",
-          "category": "plains"
-        }
-      },
-      {
-        "values": {
-          "preset": "plains_not_wet",
-          "typesBlacklist": "wet",
-          "category": "plains"
-        }
-      },
-      {
-        "values": {
-          "preset": "plains_not_dry",
-          "typesBlacklist": "dry,savanna",
-          "category": "plains"
-        }
-      },
-      {
-        "values": {
-          "preset": "savanna",
-          "category": "savanna"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "desert",
-          "typesBlacklist": "wet,mesa",
-          "types": "sandy"
-        }
-      },
-      {
-        "values": {
-          "preset": "mesa",
-          "category": "mesa"
-        }
-      },
-      {
-        "values": {
-          "preset": "mesa_forests",
-          "types": "sparse,mesa"
-        }
-      },
-      
-      
-      {
-        "values": {
-          "preset": "hills",
-          "category": "hills"
-        }
-      },
-      {
-        "values": {
-          "preset": "mountains",
-          "category": "extreme_hills"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "meteor",
-          "types": "meteor"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "river_ground",
-          "types": "river"
-        }
-      },
-      {
-        "values": {
-          "preset": "river",
-          "or_presets":"river_ground,river_water"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "lake_ground",
-          "types": "lake"
-        }
-      },
-      {
-        "values": {
-          "preset": "lake",
-          "or_presets":"lake_ground,lake_water"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "beach_ground",
-          "category": "beach"
-        }
-      },
-      {
-        "values": {
-          "preset": "beach",
-          "or_presets":"beach_ground,beach_water"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "ocean_ground",
-          "category": "ocean"
-        }
-      },
-      {
-        "values": {
-          "preset": "ocean",
-          "or_presets":"ocean_ground,ocean_water"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "snowy_areas",
-          "types": "snowy"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "sky",
-          "types": "sky"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "flowers",
-          "types": "flower"
-        }
-      },
-      
-      {
-        "values": {
-          "preset": "wet_areas",
-          "typesBlacklist": "sparse,cold,dry",
-          "types": "wet"
-        }
+  "rules": [
+    {
+      "values": {
+        "preset": "forests",
+        "category": "forest",
+        "types": "overworld"
       }
+    },
+    {
+      "values": {
+        "preset": "forests_day",
+        "and_presets": "forests,day_time"
+      }
+    },
+    {
+      "values": {
+        "preset": "forests_night",
+        "and_presets": "forests,night_time"
+      }
+    },
+    {
+      "values": {
+        "preset": "forests_snow",
+        "and_presets": "forests,snowy_areas"
+      }
+    },
+    {
+      "values": {
+        "preset": "jungle",
+        "typesBlacklist": "dry,cold",
+        "category": "jungle",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "plains",
+        "category": "plains",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "plains_not_wet",
+        "typesBlacklist": "wet",
+        "category": "plains",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "plains_not_dry",
+        "typesBlacklist": "dry,savanna",
+        "category": "plains",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "savanna",
+        "category": "savanna",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "desert",
+        "typesBlacklist": "wet,mesa",
+        "types": "sandy,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "mesa",
+        "category": "mesa",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "mesa_forests",
+        "types": "sparse,mesa,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "hills",
+        "category": "hills",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "mountains",
+        "category": "extreme_hills"
+      }
+    },
+    {
+      "values": {
+        "preset": "meteor",
+        "types": "meteor,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "river_ground",
+        "types": "river,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "river",
+        "or_presets": "river_ground,river_water"
+      }
+    },
+    {
+      "values": {
+        "preset": "lake_ground",
+        "types": "lake,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "lake",
+        "or_presets": "lake_ground,lake_water"
+      }
+    },
+    {
+      "values": {
+        "preset": "beach_ground",
+        "category": "beach",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "beach",
+        "or_presets": "beach_ground,beach_water"
+      }
+    },
+    {
+      "values": {
+        "preset": "ocean_ground",
+        "category": "ocean",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "ocean",
+        "or_presets": "ocean_ground,ocean_water"
+      }
+    },
+    {
+      "values": {
+        "preset": "sky",
+        "types": "sky,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "flowers",
+        "types": "flower,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "wet_areas",
+        "typesBlacklist": "cold,dry",
+        "types": "wet,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "dry_areas",
+        "typesBlacklist": "cold,wet",
+        "types": "wet,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "cold_areas",
+        "types": "cold,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_cold_areas",
+        "typesBlacklist": "cold",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_dry_areas",
+        "typesBlacklist": "dry",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_wet_areas",
+        "typesBlacklist": "wet",
+        "types": "overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "snowy_areas",
+        "types": "snowy,overworld"
+      }
+    }
   ]
 }

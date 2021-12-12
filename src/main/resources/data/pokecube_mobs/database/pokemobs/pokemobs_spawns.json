@@ -1,36 +1,6 @@
 {
   "pokemon": [
     {
-      "name": "bulbasaur",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "charmander",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "squirtle",
       "stats": {
         "spawnRules": [
@@ -53,15 +23,6 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
-              "category": "forest",
-              "min": "4",
-              "rate": "0.2",
-              "max": "8"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold,dry",
               "types": "wet",
               "min": "4",
               "rate": "0.2",
@@ -75,15 +36,6 @@
       "name": "weedle",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold,dry",
-              "category": "forest",
-              "min": "4",
-              "rate": "0.2",
-              "max": "8"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
@@ -116,14 +68,6 @@
         "spawnRules": [
           {
             "values": {
-              "category": "forest",
-              "min": "5",
-              "rate": "0.4",
-              "max": "10"
-            }
-          },
-          {
-            "values": {
               "category": "plains",
               "min": "5",
               "rate": "0.4",
@@ -137,14 +81,6 @@
       "name": "rattata_alola",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "5",
-              "rate": "0.1",
-              "max": "10"
-            }
-          },
           {
             "values": {
               "category": "plains",
@@ -170,35 +106,6 @@
             "values": {
               "types": "hills",
               "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "ekans",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.15"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pikachu",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold,wet",
-              "category": "forest",
-              "min": "4",
-              "rate": "0.1",
-              "max": "8"
             }
           }
         ]
@@ -392,20 +299,6 @@
       }
     },
     {
-      "name": "venonat",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "diglett",
       "stats": {
         "spawnRules": [
@@ -545,20 +438,6 @@
       }
     },
     {
-      "name": "mankey",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold",
-              "category": "forest",
-              "rate": "0.15"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "growlithe",
       "stats": {
         "spawnRules": [
@@ -597,12 +476,6 @@
       "name": "abra",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.125"
-            }
-          },
           {
             "values": {
               "types": "cave",
@@ -1493,12 +1366,6 @@
         "spawnRules": [
           {
             "values": {
-              "category": "forest",
-              "rate": "0.03"
-            }
-          },
-          {
-            "values": {
               "types": "cave",
               "rate": "0.03"
             }
@@ -1648,36 +1515,6 @@
       }
     },
     {
-      "name": "chikorita",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "cyndaquil",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "totodile",
       "stats": {
         "spawnRules": [
@@ -1713,45 +1550,9 @@
         "spawnRules": [
           {
             "values": {
-              "category": "forest",
-              "rate": "0.3",
-              "day": "false"
-            }
-          },
-          {
-            "values": {
               "types": "hills",
               "rate": "0.3",
               "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "ledyba",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "spinarak",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
             }
           }
         ]
@@ -1792,13 +1593,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "category": "plains",
               "rate": "0.1"
             }
@@ -1824,13 +1618,6 @@
       "name": "marill",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "forest,wet",
-              "rate": "0.1"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -1873,14 +1660,6 @@
       "name": "sunkern",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1",
-              "night": "false"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -1934,21 +1713,6 @@
             "values": {
               "types": "swamp",
               "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "murkrow",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.05",
-              "day": "false"
             }
           }
         ]
@@ -2028,19 +1792,6 @@
               "typesBlacklist": "cold,wet",
               "category": "plains",
               "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pineco",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.1"
             }
           }
         ]
@@ -2167,13 +1918,6 @@
           {
             "values": {
               "typesBlacklist": "coniferous,savanna",
-              "types": "forest,hills",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "coniferous,savanna",
               "types": "jungle",
               "rate": "0.1"
             }
@@ -2208,12 +1952,6 @@
             "values": {
               "types": "cold,forest,cave",
               "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "types": "cold,forest",
-              "rate": "0.1"
             }
           }
         ]
@@ -2404,20 +2142,6 @@
       }
     },
     {
-      "name": "stantler",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2",
-              "day": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "smeargle",
       "stats": {
         "spawnRules": [
@@ -2461,14 +2185,6 @@
       "name": "raikou",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
-            }
-          },
           {
             "values": {
               "types": "industrial",
@@ -2572,36 +2288,6 @@
       }
     },
     {
-      "name": "treecko",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "torchic",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "mudkip",
       "stats": {
         "spawnRules": [
@@ -2617,30 +2303,9 @@
       }
     },
     {
-      "name": "poochyena",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "zigzagoon",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -2658,14 +2323,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3",
-              "day": "false"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "category": "plains",
               "rate": "0.3",
               "day": "false"
@@ -2678,15 +2335,6 @@
       "name": "wurmple",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold,dry",
-              "category": "forest",
-              "min": "4",
-              "rate": "0.2",
-              "max": "8"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
@@ -2731,31 +2379,9 @@
       }
     },
     {
-      "name": "seedot",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3",
-              "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "taillow",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -2830,13 +2456,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "jungle",
               "rate": "0.1"
             }
@@ -2876,13 +2495,6 @@
       "name": "nincada",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -2945,19 +2557,6 @@
             "values": {
               "types": "cave",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "skitty",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2"
             }
           }
         ]
@@ -3097,14 +2696,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3",
-              "day": "false"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "jungle",
               "rate": "0.3",
               "day": "false"
@@ -3120,14 +2711,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3",
-              "day": "false"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "jungle",
               "rate": "0.3",
               "day": "false"
@@ -3140,13 +2723,6 @@
       "name": "roselia",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -3416,19 +2992,6 @@
       }
     },
     {
-      "name": "swablu",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.05"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "zangoose",
       "stats": {
         "spawnRules": [
@@ -3643,20 +3206,6 @@
             "values": {
               "types": "spooky",
               "rate": "0.3"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tropius",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.1"
             }
           }
         ]
@@ -3916,36 +3465,6 @@
       }
     },
     {
-      "name": "turtwig",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "chimchar",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "piplup",
       "stats": {
         "spawnRules": [
@@ -3984,26 +3503,6 @@
               "rate": "0.6",
               "water": "true"
             }
-          },
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.6",
-              "water": "true"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "kricketot",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2"
-            }
           }
         ]
       }
@@ -4035,12 +3534,6 @@
           {
             "values": {
               "category": "forest",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "category": "forest",
               "types": "cave",
               "rate": "0.2"
             }
@@ -4057,26 +3550,6 @@
               "typesBlacklist": "cold,snowy",
               "category": "plains",
               "rate": "0.06"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "forest",
-              "rate": "0.06"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pachirisu",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2"
             }
           }
         ]
@@ -4266,20 +3739,6 @@
       }
     },
     {
-      "name": "buneary",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "glameow",
       "stats": {
         "spawnRules": [
@@ -4329,20 +3788,6 @@
             "values": {
               "types": "mountain,hills,ruin",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "bonsly",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "forest",
-              "rate": "0.05"
             }
           }
         ]
@@ -4715,36 +4160,6 @@
       }
     },
     {
-      "name": "snivy",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "tepig",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "oshawott",
       "stats": {
         "spawnRules": [
@@ -4784,13 +4199,6 @@
               "category": "plains",
               "rate": "0.1"
             }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,snowy",
-              "category": "forest",
-              "rate": "0.1"
-            }
           }
         ]
       }
@@ -4816,13 +4224,6 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
               "types": "jungle",
               "rate": "0.1"
             }
@@ -4834,13 +4235,6 @@
       "name": "pansear",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
@@ -4858,30 +4252,8 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,savanna,snowy",
               "types": "jungle",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "munna",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.2",
-              "day": "false"
             }
           }
         ]
@@ -4895,13 +4267,6 @@
             "values": {
               "typesBlacklist": "cold",
               "category": "plains",
-              "rate": "0.2"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
               "rate": "0.2"
             }
           },
@@ -4994,19 +4359,6 @@
       }
     },
     {
-      "name": "audino",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "timburr",
       "stats": {
         "spawnRules": [
@@ -5083,14 +4435,6 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "category": "forest",
-              "rate": "0.1",
-              "night": "false"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
               "types": "jungle",
               "rate": "0.1",
               "night": "false"
@@ -5106,14 +4450,6 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "category": "forest",
-              "rate": "0.1",
-              "day": "false"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
               "types": "jungle",
               "rate": "0.1",
               "day": "false"
@@ -5123,30 +4459,9 @@
       }
     },
     {
-      "name": "cottonee",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
-              "category": "forest",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "petilil",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold,dry",
@@ -5572,20 +4887,6 @@
       }
     },
     {
-      "name": "emolga",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold,dry",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "karrablast",
       "stats": {
         "spawnRules": [
@@ -5933,19 +5234,6 @@
       }
     },
     {
-      "name": "pawniard",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.05"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "bouffalant",
       "stats": {
         "spawnRules": [
@@ -5953,19 +5241,6 @@
             "values": {
               "category": "plains",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "rufflet",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.05"
             }
           }
         ]
@@ -6088,14 +5363,6 @@
         "spawnRules": [
           {
             "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          },
-          {
-            "values": {
               "structures": "pokecube_legends:keldeo_place",
               "min": "1",
               "rate": "0.005",
@@ -6136,36 +5403,6 @@
       }
     },
     {
-      "name": "chespin",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "fennekin",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "froakie",
       "stats": {
         "spawnRules": [
@@ -6194,20 +5431,6 @@
             "values": {
               "category": "plains",
               "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "fletchling",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
             }
           }
         ]
@@ -6271,21 +5494,6 @@
               "types": "hills",
               "rate": "0.3",
               "night": "false"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "pancham",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "wet,savanna",
-              "category": "forest",
-              "rate": "0.1",
-              "day": "false"
             }
           }
         ]
@@ -6451,34 +5659,6 @@
       }
     },
     {
-      "name": "hawlucha",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "dedenne",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "carbink",
       "stats": {
         "spawnRules": [
@@ -6622,14 +5802,6 @@
         "spawnRules": [
           {
             "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.002",
-              "max": "1"
-            }
-          },
-          {
-            "values": {
               "structures": "pokecube_legends:yveltal_place",
               "min": "1",
               "rate": "0.005",
@@ -6693,36 +5865,6 @@
       }
     },
     {
-      "name": "rowlet",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "litten",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "2"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "popplio",
       "stats": {
         "spawnRules": [
@@ -6747,13 +5889,6 @@
               "category": "plains",
               "rate": "0.2"
             }
-          },
-          {
-            "values": {
-              "typesBlacklist": "wet",
-              "category": "forest",
-              "rate": "0.2"
-            }
           }
         ]
       }
@@ -6776,15 +5911,6 @@
       "name": "grubbin",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "sparse,cold,dry",
-              "category": "forest",
-              "min": "4",
-              "rate": "0.2",
-              "max": "8"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
@@ -6944,13 +6070,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "jungle",
               "rate": "0.3"
             }
@@ -6962,13 +6081,6 @@
       "name": "rockruff",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
-              "rate": "0.3"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -7241,20 +6353,6 @@
           {
             "values": {
               "types": "meteor",
-              "rate": "0.1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "komala",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -7615,19 +6713,6 @@
       }
     },
     {
-      "name": "grookey",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.01"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "scorbunny",
       "stats": {
         "spawnRules": [
@@ -7655,19 +6740,6 @@
       }
     },
     {
-      "name": "skwovet",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.15"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "rookidee",
       "stats": {
         "spawnRules": [
@@ -7675,19 +6747,6 @@
             "values": {
               "types": "hills",
               "rate": "0.23"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "blipbug",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.33"
             }
           }
         ]
@@ -8132,12 +7191,6 @@
             "values": {
               "category": "extreme_hills",
               "rate": "0.18"
-            }
-          },
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.2"
             }
           }
         ]

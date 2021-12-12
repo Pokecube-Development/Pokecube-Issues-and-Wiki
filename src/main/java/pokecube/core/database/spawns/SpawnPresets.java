@@ -21,14 +21,14 @@ import pokecube.core.database.util.DataHelpers.IResourceData;
 
 public class SpawnPresets implements IResourceData
 {
-    public static final SpawnPresets CONDITIONS = new SpawnPresets("database/spawn_rule_presets/");
+    public static final SpawnPresets INSTANCE = new SpawnPresets("database/spawn_rule_presets/");
 
     public static void init()
     {}
 
     public static final class MatcherList
     {
-        public List<SpawnRule> rules;
+        public List<SpawnRule> rules = Lists.newArrayList();
         public boolean replace = false;
     }
 

@@ -63,6 +63,7 @@ import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
+import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.DataHelpers;
@@ -424,6 +425,7 @@ public class Database
         PokecubeCore.LOGGER.debug("Database Init()");
 
         SpawnPresets.init();
+        PokemobSpawns.init();
 
         // Fire load event to let addons do stuff after databases have been
         // loaded.
@@ -844,6 +846,8 @@ public class Database
 
         // Reload the database incase things are adjusted
         PokedexEntryLoader.onReloaded();
+        // Also register bulk defined spawns
+        PokemobSpawns.registerSpawns();
 
         Database.loadStarterPack();
         Database.loadRecipes();

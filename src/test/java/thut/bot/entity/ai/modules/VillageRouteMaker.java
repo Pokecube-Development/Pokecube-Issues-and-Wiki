@@ -145,7 +145,7 @@ public class VillageRouteMaker extends AbstractBot
             final boolean makeTorch = i % 5 == 0;
 
             // Loop horizontally across the path.
-            for (int h = -2; h <= 2; h++)
+            for (int h = -3; h <= 3; h++)
             {
                 vec = start.add(dir.scale(i).add(dir_h.scale(h)));
                 pos = new BlockPos(vec);
@@ -171,13 +171,17 @@ public class VillageRouteMaker extends AbstractBot
                 }
 
                 // Edges are first and last of this loop
-                final boolean onEdge = Math.abs(h) >= 2;
+                final boolean onEdge = Math.abs(h) >= 3;
                 // Edges will occasionally have a torch, but otherwise be at
                 // ground level
+                // Place a stone brick wall, and a torch on top of that.
                 if (onEdge)
                 {
+                    boolean doEdge = level.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(),
+                            pos.getZ()) < pos.getY() - 1;
+
                     // Handle building the edge
-                    for (int y = -1; y <= 3; y++)
+                    for (int y = -1; y <= 3 && doEdge; y++)
                     {
                         here = pos.above(y);
                         state = level.getBlockState(here);
@@ -192,25 +196,27 @@ public class VillageRouteMaker extends AbstractBot
                             level.setBlock(here, state, 2);
                         }
                     }
-                    // Place a stone brick wall, and a torch on top of that.
-                    if (makeTorch)
-                    {
-                        level.setBlock(pos.above(1), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
-                        level.setBlock(pos.above(2), Blocks.TORCH.defaultBlockState(), 2);
-                    }
                 }
                 // Otherwise make the base path, and clear area above it.
-                else for (int y = -1; y <= 3; y++)
+                else
                 {
-                    here = pos.above(y);
-                    state = level.getBlockState(here);
-                    final boolean editable = canEdit.apply(state, here);
-                    final boolean remove = shouldRemove.apply(state, here);
-                    if (y >= 0 && (remove || editable)) level.removeBlock(here, false);
-                    else if ((y < 0 && editable) || (y <= 0 && remove))
+                    for (int y = -1; y <= 3; y++)
                     {
-                        state = below.apply(here);
-                        if (state.getBlock() != Blocks.STRUCTURE_VOID) level.setBlock(here, state, 2);
+                        here = pos.above(y);
+                        state = level.getBlockState(here);
+                        final boolean editable = canEdit.apply(state, here);
+                        final boolean remove = shouldRemove.apply(state, here);
+                        if (y >= 0 && (remove || editable)) level.removeBlock(here, false);
+                        else if ((y < 0 && editable) || (y <= 0 && remove))
+                        {
+                            state = below.apply(here);
+                            if (state.getBlock() != Blocks.STRUCTURE_VOID) level.setBlock(here, state, 2);
+                        }
+                    }
+                    if (makeTorch && Math.abs(h) == 2)
+                    {
+                        level.setBlock(pos, Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
+                        level.setBlock(pos.above(1), Blocks.TORCH.defaultBlockState(), 2);
                     }
                 }
             }

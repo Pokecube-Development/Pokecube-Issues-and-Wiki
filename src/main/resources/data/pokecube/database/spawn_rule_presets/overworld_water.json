@@ -1,45 +1,45 @@
 {
- "rules": [
-      {
-        "values": {
-          "preset": "river_water",
-          "types": "river",
-          "air": "false"
-        }
-      },
-      {
-        "values": {
-          "preset": "lake_water",
-          "types": "lake",
-          "air": "false"
-        }
-      },
-      {
-        "values": {
-          "preset": "beach_water",
-          "types": "beach",
-          "air": "false"
-        }
-      },
-      {
-        "values": {
-          "preset": "ocean_water",
-          "types": "ocean",
-          "air": "false"
-        }
-      },
-      {
-        "values": {
-          "preset": "cave_water",
-          "types": "cavewater",
-          "air": "false"
-        }
-      },
-      {
-        "values": {
-          "preset": "any_water",
-          "or_presets": "ocean_water,beach_water,lake_water,river_water,cave_water"
-        }
+  "rules": [
+    {
+      "values": {
+        "preset": "river_water",
+        "types": "river",
+        "air": "false"
       }
+    },
+    {
+      "values": {
+        "preset": "lake_water",
+        "types": "lake",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "beach_water",
+        "types": "beach",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "ocean_water",
+        "types": "ocean",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "cave_water",
+        "types": "cavewater",
+        "air": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "any_water",
+        "or_presets": "ocean_water,beach_water,lake_water,river_water,cave_water"
+      }
+    }
   ]
 }
