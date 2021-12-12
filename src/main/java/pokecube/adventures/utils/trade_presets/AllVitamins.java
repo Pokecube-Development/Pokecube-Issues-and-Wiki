@@ -14,6 +14,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.items.vitamins.ItemVitamin;
 import pokecube.core.utils.Tools;
 
+@TradePresetAn(key = "allVitamins")
 public class AllVitamins implements TradePreset
 {
 

@@ -19,6 +19,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.BossEvent;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -60,6 +62,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -174,6 +177,10 @@ public class PokemobEventsHandler
         // this is the case, then some extra processing is done related to
         // finishing tasks, etc upon leaving the nest.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
+
+        // Checks to see if we are diving mob+dive, or flyingmob+fly, and if so,
+        // we speed back up breaking.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
     }
 
     /**
@@ -540,6 +547,26 @@ public class PokemobEventsHandler
 
             // Tick the logic stuff for this mob.
             for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getCommandSenderWorld());
+        }
+    }
+
+    private static void onBreakSpeed(final PlayerEvent.BreakSpeed evt)
+    {
+        Entity mount = evt.getPlayer().getVehicle();
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mount);
+        if (pokemob == null) return;
+
+        boolean inWater = evt.getPlayer().isEyeInFluid(FluidTags.WATER)
+                && !EnchantmentHelper.hasAquaAffinity(evt.getPlayer());
+        boolean inAir = !evt.getPlayer().onGround;
+
+        if (inWater && pokemob.canUseDive())
+        {
+            evt.setNewSpeed(evt.getNewSpeed() * 5);
+        }
+        if (inAir && pokemob.canUseFly())
+        {
+            evt.setNewSpeed(evt.getNewSpeed() * 5);
         }
     }
 

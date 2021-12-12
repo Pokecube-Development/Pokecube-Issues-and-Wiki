@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,16 +19,10 @@ import net.minecraftforge.client.IItemRenderProperties;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import pokecube.core.database.Database;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
-import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.wrappers.ModelWrapper;
 import thut.api.entity.ICopyMob;
 
 public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItemRenderProperties
@@ -41,9 +34,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
 
     static Map<UUID, LivingEntity> CACHE = Maps.newHashMap();
 
-    @Override
-    public void renderByItem(final ItemStack stack, final ItemTransforms.TransformType transform, final PoseStack mat,
-            final MultiBufferSource bufs, final int light, final int overlay)
+    private LivingEntity getMob(ItemStack stack, final ItemTransforms.TransformType transform)
     {
         final boolean flag = stack.getTagElement("BlockEntityTag") != null;
         LivingEntity mob = null;
@@ -134,28 +125,15 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
         mob.yHeadRot = 0;
         mob.yBodyRot = 0;
         mob.yRot = 0;
-        mc.getEntityRenderDispatcher().setRenderShadow(false);
-        mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 0, mat, bufs, light);
-        if (mob.getPersistentData().contains("statue:over_tex")
-                && mc.getEntityRenderDispatcher().getRenderer(mob) instanceof LivingEntityRenderer<?, ?> renderer)
-        {
-            ResourceLocation tex = new ResourceLocation(mob.getPersistentData().getString("statue:over_tex"));
-            StatusTexturer newTexer = new StatusTexturer(tex);
-            newTexer.alpha = 200;
-            newTexer.animated = false;
-            final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
-            final IPartTexturer texer = wrap.renderer.getTexturer();
-            wrap.renderer.setTexturer(newTexer);
-            if (newTexer != null)
-            {
-                newTexer.bindObject(mob);
-                wrap.getParts().forEach((n, p) -> {
-                    p.applyTexture(bufs, tex, newTexer);
-                });
-            }
-            mc.getEntityRenderDispatcher().render(mob, 0.5f, 0, 0.5f, 0, 0, mat, bufs, light);
-            wrap.renderer.setTexturer(texer);
-        }
+        return mob;
+    }
+
+    @Override
+    public void renderByItem(final ItemStack stack, final ItemTransforms.TransformType transform, final PoseStack mat,
+            final MultiBufferSource bufs, final int light, final int overlay)
+    {
+        LivingEntity mob = getMob(stack, transform);
+        StatueBlock.renderStatue(mob, 0, mat, bufs, light, overlay);
     }
 
     @Override

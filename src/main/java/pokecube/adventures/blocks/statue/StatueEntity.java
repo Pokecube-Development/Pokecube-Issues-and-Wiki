@@ -170,13 +170,17 @@ public class StatueEntity extends BlockEntity
         String tex = null;
         String anim = null;
         String over_tex = null;
+        int over_tex_a = -1;
         String id = null;
+        String variant = null;
         float size = 1;
         if (modelTag.contains("id")) id = modelTag.getString("id");
         if (modelTag.contains("tex")) tex = modelTag.getString("tex");
         if (modelTag.contains("over_tex")) over_tex = modelTag.getString("over_tex");
+        if (modelTag.contains("over_tex_a")) over_tex_a = modelTag.getInt("over_tex_a");
         if (modelTag.contains("anim")) anim = modelTag.getString("anim");
         if (modelTag.contains("size")) size = modelTag.getFloat("size");
+        if (modelTag.contains("variant")) variant = modelTag.getString("variant");
 
         // First update ID if present, and refresh the mob
         if (id != null)
@@ -189,15 +193,26 @@ public class StatueEntity extends BlockEntity
         if (tex != null && pokemob != null)
         {
             final ResourceLocation texRes = new ResourceLocation(tex);
-            final ResourceLocation name = new ResourceLocation(texRes.getNamespace(),
-                    pokemob.getPokedexEntry().getTrimmedName() + texRes.getPath());
-            final FormeHolder old = pokemob.getCustomHolder();
+
+            String base_name = pokemob.getPokedexEntry().getTrimmedName();
+            if (variant != null) base_name = variant;
+
+            final ResourceLocation name = new ResourceLocation(texRes.getNamespace(), base_name + texRes.getPath());
+            FormeHolder old = pokemob.getCustomHolder();
+
+            if (variant != null)
+            {
+                old = Database.formeHolders.get(new ResourceLocation(variant));
+                if (old == null) old = pokemob.getCustomHolder();
+            }
+
             final ResourceLocation model = old != null ? old.model : null;
             final ResourceLocation animation = old != null ? old.animation : null;
             final FormeHolder holder = FormeHolder.get(model, texRes, animation, name);
             pokemob.setCustomHolder(holder);
         }
         if (over_tex != null) copy.getCopiedMob().getPersistentData().putString("statue:over_tex", over_tex);
+        if (over_tex_a != -1) copy.getCopiedMob().getPersistentData().putInt("statue:over_tex_a", over_tex_a);
         if (pokemob != null) pokemob.setSize(size);
         final IAnimationHolder anims = copy.getCopiedMob().getCapability(ThutCaps.ANIMCAP).orElse(null);
         if (anim != null && anims != null)
