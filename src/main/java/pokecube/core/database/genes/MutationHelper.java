@@ -31,6 +31,7 @@ public class MutationHelper extends ResourceData
 
     public MutationHelper(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }

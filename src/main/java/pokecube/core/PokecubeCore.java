@@ -19,10 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.animal.ShoulderRidingEntity;
@@ -46,13 +43,9 @@ import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -261,34 +254,6 @@ public class PokecubeCore
         }
 
         @SubscribeEvent
-        public static void onEntityAttributes(final EntityAttributeCreationEvent event)
-        {
-            // register a new mob here
-            PokecubeCore.LOGGER.debug("Registering Pokecube Attributes");
-
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK)
-                    .add(Attributes.MAX_HEALTH, 10.0D);
-            event.put(EntityPokecube.TYPE, attribs.build());
-            event.put(EntityPokemobEgg.TYPE, attribs.build());
-            event.put(NpcMob.TYPE, attribs.build());
-
-            for (final PokedexEntry entry : Database.getSortedFormes())
-            {
-                if (entry.dummy) continue;
-                if (!entry.stock) continue;
-                try
-                {
-                    event.put(entry.getEntityType(), attribs.build());
-                }
-                catch (final Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-        @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             // register a new item here
@@ -318,16 +283,6 @@ public class PokecubeCore
             // register a new TE here
             PokecubeCore.LOGGER.debug("Registering Pokecube TEs");
             ItemHandler.registerTiles(event.getRegistry());
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        @SubscribeEvent
-        public static void textureStitch(final TextureStitchEvent.Pre event)
-        {
-            if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-            PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
-            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
-            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));
         }
     }
 

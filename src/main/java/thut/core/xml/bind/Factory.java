@@ -71,8 +71,6 @@ public class Factory<T>
         final String value = n.getNodeValue();
         if (field == null) return;
         final Class<?> fclaz = field.getType();
-        // System.out.print(tabbing + "attr=" + name + " val=" + value + "
-        // field=" + fclaz + "\n");
         Object obj2;
         try
         {
@@ -87,8 +85,6 @@ public class Factory<T>
             {
                 final ParameterizedType pType = (ParameterizedType) field.getGenericType();
                 final Class<?> clazz = (Class<?>) pType.getActualTypeArguments()[0];
-                // System.out.print(tabbing + pType.getActualTypeArguments()[0]
-                // + "\n");
                 @SuppressWarnings("rawtypes")
                 final List list = (List<?>) obj2;
                 if (clazz == String.class) obj2 = value;
@@ -128,7 +124,6 @@ public class Factory<T>
 
     private void processNode(final Node node, final Object obj, final int depth)
     {
-        // if (depth == 0) System.out.print("\n\n\n\n");
         String tabbing = "";
         for (int i = 0; i < depth; i++)
             tabbing = tabbing + "   ";
@@ -137,7 +132,6 @@ public class Factory<T>
         final NodeList children = node.getChildNodes();
         final NamedNodeMap attributes = node.getAttributes();
         if (name.equals("#text")) return;
-        // System.out.print(tabbing + name + "\n");
 
         final Class<?> clazz = obj.getClass();
         Map<String, Field> attrs = Factory.knownAttrMappins.get(clazz);
@@ -163,9 +157,6 @@ public class Factory<T>
             }
             Factory.knownAnyAtrMappins.put(clazz, otherAttrs);
         }
-        // System.out.print(tabbing + "elems=" + elems.keySet() + "\n");
-        // System.out.print(tabbing + "attrs=" + attrs.keySet() + "\n");
-        // System.out.print(tabbing + "anyatr=" + otherAttrs + "\n");
 
         if (children != null && children.getLength() > 0) for (int i = 0; i < children.getLength(); i++)
         {

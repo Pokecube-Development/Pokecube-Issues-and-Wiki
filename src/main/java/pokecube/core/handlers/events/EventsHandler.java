@@ -482,7 +482,6 @@ public class EventsHandler
             {
                 SpawnBiomeMatcher m = new SpawnBiomeMatcher(entry.getValue().copy());
                 if (m.matches(check)) valid.add(entry.getKey());
-//                else System.out.println(entry.getKey() + " " + check);
             }
 
             SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("deserts").copy();

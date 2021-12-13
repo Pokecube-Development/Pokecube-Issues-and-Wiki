@@ -126,8 +126,6 @@ public class SpawnListEntry
             {
 
             }
-            System.out.println(val);
-
             if (val > 10e-4) val = (int) (val * 1000) / 10f;
             else if (val != 0)
             {

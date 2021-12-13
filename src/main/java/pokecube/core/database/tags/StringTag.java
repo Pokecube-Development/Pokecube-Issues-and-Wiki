@@ -229,4 +229,10 @@ public class StringTag implements IResourceData
         return false;
     }
 
+    @Override
+    public String getKey()
+    {
+        return tagPath;
+    }
+
 }

@@ -57,7 +57,6 @@ public class BlockEntityUpdater
         this.theEntity.setBoundingBox(this.getBoundingBox());
         this.theEntity.setPos(here.x, here.y, here.z);
         final Vec3 shifted = this.theEntity.position();
-        if (here.subtract(shifted).lengthSqr() > 0.25) System.out.println(here.subtract(shifted));
     }
 
     public VoxelShape buildShape()
@@ -206,7 +205,6 @@ public class BlockEntityUpdater
 
         AABB toUse = testBox;
         final AABB orig = toUse;
-        // System.out.println("_____________________________");
 
         for (final AABB aabb : blockBoxes)
         {
@@ -223,11 +221,8 @@ public class BlockEntityUpdater
             // are concerned
             if (inter.getXsize() == 0 || inter.getYsize() == 0 || inter.getZsize() == 0) continue;
 
-            // System.out.println("X");
             dx1 = BlockEntityUpdater.getIntersect(Axis.X, inter, toUse, aabb);
-            // System.out.println("Y");
             dy1 = BlockEntityUpdater.getIntersect(Axis.Y, inter, toUse, aabb);
-            // System.out.println("Z");
             dz1 = BlockEntityUpdater.getIntersect(Axis.Z, inter, toUse, aabb);
 
             // Take the minimum of x and z

@@ -55,7 +55,6 @@ public class GuiSaveSlotButton extends Button
     @Override
     public boolean charTyped(final char c, final int key)
     {
-        System.out.println(c + " " + key);
         if (key == GLFW.GLFW_KEY_BACKSPACE)
         {
             this.backSpace();

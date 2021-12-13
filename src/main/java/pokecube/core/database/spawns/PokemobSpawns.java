@@ -63,6 +63,7 @@ public class PokemobSpawns extends ResourceData
 
     public PokemobSpawns(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }
@@ -79,14 +80,14 @@ public class PokemobSpawns extends ResourceData
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.info("Loaded Pokemob spawns.");
+            PokecubeCore.LOGGER.debug("Loaded Pokemob spawns.");
             valid.set(true);
         }
     }
 
     private void apply()
     {
-        PokecubeCore.LOGGER.info("Applying Pokemob spawns.");
+        PokecubeCore.LOGGER.debug("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
             String[] presets = entry.spawn_preset.split(",");
@@ -132,7 +133,7 @@ public class PokemobSpawns extends ResourceData
                 });
             }
         });
-        PokecubeCore.LOGGER.info("Applied Pokemob spawns.");
+        PokecubeCore.LOGGER.debug("Applied Pokemob spawns.");
     }
 
     private void loadFile(final ResourceLocation l)

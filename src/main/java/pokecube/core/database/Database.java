@@ -805,14 +805,14 @@ public class Database
 
         if (!needs_reload)
         {
-            PokecubeCore.LOGGER.info("Skipping Load, too soon since last load.");
+            PokecubeCore.LOGGER.debug("Skipping Load, too soon since last load.");
             return;
         }
 
         long time = System.nanoTime();
         StructureSpawnPresetLoader.loadDatabase();
         long dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.info("Resource Stage 1: {}s", dt / 1e9d);
+        PokecubeCore.LOGGER.debug("Resource Stage 1: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
@@ -823,12 +823,12 @@ public class Database
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.info("Resource Stage 2: {}s", dt / 1e9d);
-        time = System.nanoTime();
+        PokecubeCore.LOGGER.debug("Resource Stage 2: {}s", dt / 1e9d);
 
         // In this case, we are not acually a real datapack load, just an
         // initial world check thing.
         if (!Tags.BREEDING.validLoad) return;
+        time = System.nanoTime();
 
         BerryGenManager.parseConfig();
 
@@ -837,7 +837,7 @@ public class Database
         XMLRewardsHandler.loadedRecipes.clear();
 
         // Clear the values that will be set below
-        for (final PokedexEntry p : Database.allFormes)
+        for (final PokedexEntry p : Database.getSortedFormes())
         {
             p.related.clear();
             p._childNb = null;
@@ -852,15 +852,27 @@ public class Database
         // And the spawn masks
         SpawnRateMask.init();
 
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 3: {}s", dt / 1e9d);
+        time = System.nanoTime();
+
         Database.loadStarterPack();
         Database.loadRecipes();
         Database.loadRewards();
 
+        dt = System.nanoTime() - time;
+        PokecubeCore.LOGGER.debug("Resource Stage 4: {}s", dt / 1e9d);
+        time = System.nanoTime();
+
         /** Initialize relations, prey, children. */
-        for (final PokedexEntry p : Database.allFormes) p.initRelations();
-        for (final PokedexEntry p : Database.allFormes) p.initPrey();
-        // Children last, as relies on relations.
-        for (final PokedexEntry p : Database.allFormes) p.getChild();
+        for (final PokedexEntry p : Database.getSortedFormes()) p.initRelations();
+        // Finally prey and children, as they depend on relations
+        for (final PokedexEntry p : Database.getSortedFormes())
+        {
+            p.getChild();
+            p.initPrey();
+        }
+
         // Final setup of things
         for (final PokedexEntry entry : Database.getSortedFormes()) entry.onResourcesReloaded();
 
@@ -879,7 +891,7 @@ public class Database
         Database.listener.loaded = false;
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
-        PokecubeCore.LOGGER.info("Resource Stage 3: {}s", dt / 1e9d);
+        PokecubeCore.LOGGER.debug("Resource Stage 5: {}s", dt / 1e9d);
     }
 
     /**

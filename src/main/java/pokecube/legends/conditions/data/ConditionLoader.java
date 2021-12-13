@@ -40,6 +40,7 @@ public class ConditionLoader extends ResourceData
 
     public ConditionLoader(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }

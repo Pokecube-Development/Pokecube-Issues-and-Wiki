@@ -8,6 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.core.common.ThutCore;
 
 public class Vector4
 {
@@ -17,7 +18,7 @@ public class Vector4
         return new Vector4(quat);
     }
 
-    public float       x, y, z, w;
+    public float x, y, z, w;
     @OnlyIn(value = Dist.CLIENT)
     private Quaternion quat;
 
@@ -87,8 +88,7 @@ public class Vector4
 
         if (Float.isNaN(temp.x) || Float.isNaN(temp.y) || Float.isNaN(temp.z) || Float.isNaN(temp.w))
         {
-            System.out.println(temp + " " + toAdd);
-            new Exception().printStackTrace();
+            ThutCore.LOGGER.error(temp + " " + toAdd, new IllegalStateException());
             temp.x = 0;
             temp.y = 0;
             temp.z = 0;
@@ -224,8 +224,8 @@ public class Vector4
 
     public String toIntString()
     {
-        return "x:" + Mth.floor(this.x) + " y:" + Mth.floor(this.y) + " z:" + Mth.floor(this.z)
-                + " w:" + Mth.floor(this.w);
+        return "x:" + Mth.floor(this.x) + " y:" + Mth.floor(this.y) + " z:" + Mth.floor(this.z) + " w:"
+                + Mth.floor(this.w);
     }
 
     public Vector4 toQuaternion()

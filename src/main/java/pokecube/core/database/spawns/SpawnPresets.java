@@ -39,6 +39,7 @@ public class SpawnPresets extends ResourceData
 
     public SpawnPresets(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }
@@ -55,7 +56,7 @@ public class SpawnPresets extends ResourceData
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.info("Loaded Spawn Rule presets.");
+            PokecubeCore.LOGGER.debug("Loaded Spawn Rule presets.");
             valid.set(true);
         }
     }

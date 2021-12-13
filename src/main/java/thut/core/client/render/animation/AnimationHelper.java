@@ -52,8 +52,6 @@ public class AnimationHelper
         {
             final float time = component.limbBased ? time2 : time1;
             if (component.limbBased) aniTick = (int) time2;
-            // if (partName.equals("body"))
-            // System.out.println(Arrays.toString(component.posChange));
             if (time >= component.startKey)
             {
                 animated = true;

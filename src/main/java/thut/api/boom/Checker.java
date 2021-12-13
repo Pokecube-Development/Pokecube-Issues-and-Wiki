@@ -191,7 +191,7 @@ public class Checker
     {
         final Int2ObjectOpenHashMap<Cube> cubes;
 
-        int minCube  = Integer.MAX_VALUE;
+        int minCube = Integer.MAX_VALUE;
         int minFound = -1;
 
         Vector3 tmp = Vector3.getNewVector();
@@ -211,7 +211,6 @@ public class Checker
             {
                 final Cube c = new Cube();
                 c.radius = max;
-                // System.out.println("New Cube: " + max);
                 this.cubes.put(max, c);
                 return c;
             }
@@ -243,11 +242,9 @@ public class Checker
         {
             // TODO this should also compound these cubes outwards, so that
             // their blast resistances all get added to the now-smallest-cube.
-            // System.out.println("Clean cubes less than: " + this.minFound);
             while (this.minFound > this.minCube)
             {
                 this.cubes.remove(this.minCube);
-                // System.out.println("Dead Cube: " + this.minCube);
                 this.minCube++;
             }
             this.minFound = -1;
@@ -314,7 +311,7 @@ public class Checker
         {
             if (!this.isOn(r))
             {
-                System.out.println("wrong cube? " + r + " " + this.radius);
+                ThutCore.LOGGER.error("wrong cube? " + r + " " + this.radius);
                 return 0;
             }
             this.had = false;
@@ -329,7 +326,7 @@ public class Checker
         {
             if (!this.isOn(r))
             {
-                System.out.println("wrong cube? " + r + " " + this.radius);
+                ThutCore.LOGGER.error("wrong cube? " + r + " " + this.radius);
                 return;
             }
             this.resistMap.put(r.asLong(), v);
@@ -378,9 +375,7 @@ public class Checker
             this.boom.min_next.set(1, 1, 1);
             this.boom.max_next.set(-1, -1, -1);
             this.boom.lastBoundCheck = r;
-            ThutCore.LOGGER.debug("Strength: {}, Max radius: {}, Last Radius: {}",
-                    this.boom.strength,
-                    this.boom.radius,
+            ThutCore.LOGGER.debug("Strength: {}, Max radius: {}, Last Radius: {}", this.boom.strength, this.boom.radius,
                     (int) r);
             this.boom.shadow.clean(this.boom);
         }
@@ -396,8 +391,7 @@ public class Checker
         }
     }
 
-    private boolean run(final double radSq, final int num,
-            final Set<ChunkPos> seen,
+    private boolean run(final double radSq, final int num, final Set<ChunkPos> seen,
             final Object2FloatOpenHashMap<BlockPos> ret, final List<HitEntity> entityAffected)
     {
         double rMag;
@@ -449,8 +443,7 @@ public class Checker
                 {
                     rMag = this.boom.r.mag();
                     final float res = this.boom.resists.getTotalValue(this.boom.rHat, (float) rMag, 0, this.boom);
-                    if (res <= str) for (final Entity e : hits)
-                        entityAffected.add(new HitEntity(e, (float) str));
+                    if (res <= str) for (final Entity e : hits) entityAffected.add(new HitEntity(e, (float) str));
                 }
             }
             this.validateMinMax((float) rMag);
@@ -484,8 +477,7 @@ public class Checker
         // Check for additional mobs to hit.
         final List<Entity> hits = this.boom.world.getEntities(this.boom.exploder,
                 this.boom.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
-        if (hits != null) for (final Entity e : hits)
-            entityAffected.add(new HitEntity(e, (float) str));
+        if (hits != null) for (final Entity e : hits) entityAffected.add(new HitEntity(e, (float) str));
         // Add to blocks to remove list.
         ret.addTo(pos, (float) str);
 

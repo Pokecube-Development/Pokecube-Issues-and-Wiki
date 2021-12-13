@@ -25,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.ItemGenerator;
@@ -96,7 +97,9 @@ public class CommandGenStuff
 
         public static String[][] makeRequirements(final PokedexEntry entry)
         {
-            return new String[][] { { entry.getTrimmedName() } };
+            return new String[][]
+            {
+                    { entry.getTrimmedName() } };
         }
     }
 
@@ -112,7 +115,7 @@ public class CommandGenStuff
             {
                 if (entry.getSoundEvent() == null)
                 {
-                    System.out.println(entry);
+                    PokecubeCore.LOGGER.error("No sound event for {}", entry);
                     continue;
                 }
                 ResourceLocation event = entry.getSoundEvent().getLocation();
@@ -121,8 +124,8 @@ public class CommandGenStuff
 
                 final String backup = "rattata";
 
-                final ResourceLocation test = new ResourceLocation(event.getNamespace() + ":" + event.getPath()
-                        .replaceFirst("mobs.", "sounds/mobs/") + ".ogg");
+                final ResourceLocation test = new ResourceLocation(
+                        event.getNamespace() + ":" + event.getPath().replaceFirst("mobs.", "sounds/mobs/") + ".ogg");
                 try
                 {
                     Minecraft.getInstance().getResourceManager().getResource(test);
@@ -130,7 +133,7 @@ public class CommandGenStuff
                 catch (final Exception e)
                 {
                     event = new ResourceLocation(backup);
-                    System.out.println(entry + "->" + backup + " " + test);
+                    PokecubeCore.LOGGER.error("Mapped sound: {} -> {} instead of {}", entry, backup, test);
                 }
 
                 final String soundName = event.getPath().replaceFirst("mobs.", "");
@@ -170,15 +173,14 @@ public class CommandGenStuff
         if (!dir.exists()) dir.mkdirs();
         File file = null;
         boolean small = false;
-        for (final String s : args)
-            if (s.startsWith("s")) small = true;
+        for (final String s : args) if (s.startsWith("s")) small = true;
         String json = "";
         try
         {
             file = new File(dir, "sounds.json");
             json = SoundJsonGenerator.generateSoundJson(small);
-            final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
-                    "UTF-8").newEncoder());
+            final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
+                    Charset.forName("UTF-8").newEncoder());
             writer.write(json);
             writer.close();
         }
@@ -205,8 +207,8 @@ public class CommandGenStuff
         {
             final String name = entry.getUnlocalizedName();
             if (entry.getBaseForme() != null) entry = entry.getBaseForme();
-            if (Database.dummyMap.containsKey(entry.getPokedexNb())) entry = Database.dummyMap.get(entry
-                    .getPokedexNb());
+            if (Database.dummyMap.containsKey(entry.getPokedexNb()))
+                entry = Database.dummyMap.get(entry.getPokedexNb());
             langJson.addProperty(name, entry.getName());
         }
 
@@ -215,8 +217,8 @@ public class CommandGenStuff
 
         try
         {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8")
-                    .newEncoder());
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
+                    Charset.forName("UTF-8").newEncoder());
             writer.write(json);
             writer.close();
 

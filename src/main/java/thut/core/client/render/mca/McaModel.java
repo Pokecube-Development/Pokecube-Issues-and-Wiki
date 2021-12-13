@@ -106,8 +106,6 @@ public class McaModel extends X3dModel
             if (!children.isEmpty()) childMap.put(name, children);
             this.parts.put(name, o);
         }
-        System.out.println(childMap.size());
-        System.out.println(this.parts.size() + " parts");
         for (final Map.Entry<String, Set<String>> entry : childMap.entrySet())
         {
             final String key = entry.getKey();

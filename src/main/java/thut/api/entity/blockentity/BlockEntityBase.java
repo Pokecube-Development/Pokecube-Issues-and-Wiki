@@ -285,9 +285,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         dv_y = shapeHere.collide(Axis.Y, box, dv.y);
         dv_z = shapeHere.collide(Axis.Z, box, dv.z);
 
-        if (entityIn.tickCount % 50 == 0) System.out.println(dv_y + "," + dv + " " + entityIn + " " + shapeHere + " "
-                + r0);
-
         // This means a collision has actually occured
         if (!Mth.equal(dv_x, dv.x) || !Mth.equal(dv_y, dv.y) || !Mth.equal(dv_z, dv.z))
         {
@@ -648,9 +645,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                     .getZ() != pos.getZ();
             // if (update) EntityUpdate.sendEntityUpdate(this);
         }
-        // if (this.tickCount % 100 == 0)
-        // System.out.println(this.isServerWorld() + " " +
-        // this.collider.buildShape());
         this.checkCollision();
     }
 

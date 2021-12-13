@@ -1352,8 +1352,6 @@ public class PokedexEntry
     {
         this.lvlUpMoves = lvlUpMoves2;
         this.possibleMoves = moves;
-        // System.out.println("Adding moves for " + this.name+"
-        // "+this.lvlUpMoves);
     }
 
     private void addRelation(final PokedexEntry toAdd)
@@ -1921,9 +1919,17 @@ public class PokedexEntry
             PokedexEntry.addFromEvolution(temp, this);
         }
         final Set<String> ourTags = Tags.BREEDING.lookupTags(this.getTrimmedName());
+
+        List<PokedexEntry> sorted = Database.getSortedFormes();
         entries:
-        for (final PokedexEntry e : Pokedex.getInstance().getRegisteredEntries())
+        for (int i = sorted.indexOf(this) + 1; i < sorted.size(); i++)
         {
+            // By this point, we are already in a loop of getSortedFormes(), and
+            // anyone below us in the list has already checked us for relations.
+            // So we start from our index + 1, as to not have n^2 complexity in
+            // this lookup.
+
+            PokedexEntry e = sorted.get(i);
             // Already related, skip
             if (this.areRelated(e)) continue;
             final Set<String> theirTags = Tags.BREEDING.lookupTags(e.getTrimmedName());
