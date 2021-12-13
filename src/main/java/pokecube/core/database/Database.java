@@ -65,6 +65,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.SpawnPresets;
+import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
@@ -848,6 +849,8 @@ public class Database
         PokedexEntryLoader.onReloaded();
         // Also register bulk defined spawns
         PokemobSpawns.registerSpawns();
+        // And the spawn masks
+        SpawnRateMask.init();
 
         Database.loadStarterPack();
         Database.loadRecipes();

@@ -42,6 +42,7 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
+import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
@@ -69,28 +70,28 @@ public class PacketPokedex extends NBTPacket
     public static final PacketAssembly<PacketPokedex> ASSEMBLER = PacketAssembly.registerAssembler(PacketPokedex.class,
             PacketPokedex::new, PokecubeCore.packets);
 
-    public static final byte CHECKLEGEND  = -14;
-    public static final byte REWARDS      = -13;
-    public static final byte BREEDLIST    = -12;
-    public static final byte OPEN         = -11;
-    public static final byte REORDER      = -10;
-    public static final byte INSPECTMOB   = -9;
+    public static final byte CHECKLEGEND = -14;
+    public static final byte REWARDS = -13;
+    public static final byte BREEDLIST = -12;
+    public static final byte OPEN = -11;
+    public static final byte REORDER = -10;
+    public static final byte INSPECTMOB = -9;
     public static final byte SETWATCHPOKE = -8;
-    public static final byte REQUESTLOC   = -7;
-    public static final byte REQUESTMOB   = -6;
-    public static final byte REQUEST      = -5;
-    public static final byte INSPECT      = -4;
-    public static final byte BASERADAR    = -3;
-    public static final byte REMOVE       = -2;
-    public static final byte RENAME       = -1;
+    public static final byte REQUESTLOC = -7;
+    public static final byte REQUESTMOB = -6;
+    public static final byte REQUEST = -5;
+    public static final byte INSPECT = -4;
+    public static final byte BASERADAR = -3;
+    public static final byte REMOVE = -2;
+    public static final byte RENAME = -1;
 
     public static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
             .setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
-    public static List<String>                         values       = Lists.newArrayList();
-    public static List<SpawnBiomeMatcher>              selectedMob  = Lists.newArrayList();
-    public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc  = Maps.newHashMap();
-    public static Map<String, List<String>>            relatedLists = Maps.newHashMap();
+    public static List<String> values = Lists.newArrayList();
+    public static List<SpawnBiomeMatcher> selectedMob = Lists.newArrayList();
+    public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc = Maps.newHashMap();
+    public static Map<String, List<String>> relatedLists = Maps.newHashMap();
 
     public static Set<PokedexEntry> haveConditions = Sets.newHashSet();
 
@@ -197,8 +198,7 @@ public class PacketPokedex extends NBTPacket
         packet.getTag().putInt("R", PokecubeCore.getConfig().baseRadarRange);
         final List<GlobalPos> meteors = Lists.newArrayList(PokecubeSerializer.getInstance().meteors);
         meteors.removeIf(p -> p.dimension() != here.dimension());
-        meteors.sort((c1, c2) ->
-        {
+        meteors.sort((c1, c2) -> {
             final int d1 = c1.pos().compareTo(pos);
             final int d2 = c2.pos().compareTo(pos);
             return d2 - d1;
@@ -235,8 +235,8 @@ public class PacketPokedex extends NBTPacket
     @OnlyIn(value = Dist.CLIENT)
     public static void updateWatchEntry(final PokedexEntry entry)
     {
-        final String name = PokecubePlayerDataHandler.getCustomDataTag(PokecubeCore.proxy.getPlayer()).getString(
-                "WEntry");
+        final String name = PokecubePlayerDataHandler.getCustomDataTag(PokecubeCore.proxy.getPlayer())
+                .getString("WEntry");
         if (Database.getEntry(name) == entry) return;
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.SETWATCHPOKE);
         PokecubePlayerDataHandler.getCustomDataTag(PokecubeCore.proxy.getPlayer()).putString("WEntry", entry.getName());
@@ -267,8 +267,7 @@ public class PacketPokedex extends NBTPacket
     byte message;
 
     public PacketPokedex()
-    {
-    }
+    {}
 
     public PacketPokedex(final byte message)
     {
@@ -292,19 +291,18 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.getTag()
-                    .getInt("M"), true);
+            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(),
+                    this.getTag().getInt("M"), true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
-            if (watch) net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokeWatch(player,
-                    mob instanceof LivingEntity ? (LivingEntity) mob : null));
+            if (watch) net.minecraft.client.Minecraft.getInstance()
+                    .setScreen(new GuiPokeWatch(player, mob instanceof LivingEntity ? (LivingEntity) mob : null));
             else net.minecraft.client.Minecraft.getInstance().setScreen(new GuiPokedex(pokemob, player));
             return;
         case REQUEST:
             PacketPokedex.values.clear();
             n = this.getTag().getAllKeys().size();
-            for (int i = 0; i < n; i++)
-                PacketPokedex.values.add(this.getTag().getString("" + i));
+            for (int i = 0; i < n; i++) PacketPokedex.values.add(this.getTag().getString("" + i));
             return;
         case BASERADAR:
             pokecube.core.client.gui.watch.SecretBaseRadarPage.updateRadar(this.getTag());
@@ -313,28 +311,25 @@ public class PacketPokedex extends NBTPacket
             PacketPokedex.selectedLoc.clear();
             data = this.getTag().getCompound("V");
             n = data.getAllKeys().size() / 2;
-            for (int i = 0; i < n; i++)
-                PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)), PacketPokedex.gson.fromJson(
-                        data.getString("" + i), SpawnBiomeMatcher.class));
-            if (this.getTag().contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this
-                    .getTag().getString("E"));
+            for (int i = 0; i < n; i++) PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)),
+                    PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class));
+            if (this.getTag().contains("E"))
+                PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("E"));
             PacketPokedex.repelled = this.getTag().getBoolean("R");
             return;
         case REQUESTMOB:
             PacketPokedex.selectedMob.clear();
             data = this.getTag().getCompound("V");
             num = data.getInt("n");
-            for (int i = 0; i < num; i++)
-                PacketPokedex.selectedMob.add(PacketPokedex.gson.fromJson(data.getString("" + i),
-                        SpawnBiomeMatcher.class));
+            for (int i = 0; i < num; i++) PacketPokedex.selectedMob
+                    .add(PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class));
             return;
         case BREEDLIST:
             data = this.getTag().getCompound("V");
             final String entry = this.getTag().getString("e");
             final List<String> related = Lists.newArrayList();
             num = data.getInt("n");
-            for (int i = 0; i < num; i++)
-                related.add(data.getString("" + i));
+            for (int i = 0; i < num; i++) related.add(data.getString("" + i));
             PacketPokedex.relatedLists.put(entry, related);
             return;
         case REWARDS:
@@ -400,8 +395,8 @@ public class PacketPokedex extends NBTPacket
             mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.getTag().getInt("V"),
                     true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
-            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
-                    PokecubePlayerStats.class).inspect(player, pokemob);
+            if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
+                    .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             return;
         case SETWATCHPOKE:
             PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("V"));
@@ -411,8 +406,8 @@ public class PacketPokedex extends NBTPacket
             checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             entry = Database.getEntry(this.getTag().getString("V"));
             packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
-            if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers
-                    .keySet())
+            if (entry.getSpawnData() != null)
+                for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
                 spawns.putString("" + n, this.serialize(matcher));
                 n++;
@@ -439,8 +434,8 @@ public class PacketPokedex extends NBTPacket
             pos = Vector3.getNewVector().set(player);
             checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getCommandSenderWorld(), pos
-                    .getPos()) != ForbidReason.NONE;
+            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getCommandSenderWorld(),
+                    pos.getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
@@ -464,7 +459,8 @@ public class PacketPokedex extends NBTPacket
             for (final PokedexEntry e : names)
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);
-                matcher.spawnRule.values.put(new QName("Local_Rate"), rates.get(e) + "");
+                double scale = SpawnRateMask.getMask(e, player.level, pos);
+                matcher.spawnRule.values.put(new QName("Local_Rate"), rates.get(e) * scale + "");
                 spawns.putString("e" + n, e.getName());
                 spawns.putString("" + n, this.serialize(matcher));
                 n++;
@@ -482,22 +478,22 @@ public class PacketPokedex extends NBTPacket
             {
                 rates = Maps.newHashMap();
                 pos = Vector3.getNewVector().set(player);
-                checker = new SpawnCheck(pos, player.getCommandSenderWorld());
+                checker = new SpawnCheck(pos, player.level);
                 names = new ArrayList<>();
                 for (final PokedexEntry e : Database.spawnables)
                     if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
-                Collections.sort(names, (o1, o2) ->
-                {
-                    final float rate1 = o1.getSpawnData().getWeight(o1.getSpawnData().getMatcher(checker, false))
-                            * 10e5f;
-                    final float rate2 = o2.getSpawnData().getWeight(o2.getSpawnData().getMatcher(checker, false))
-                            * 10e5f;
+                Collections.sort(names, (o1, o2) -> {
+                    float rate1 = o1.getSpawnData().getWeight(o1.getSpawnData().getMatcher(checker, false)) * 10e5f;
+                    rate1 *= SpawnRateMask.getMask(o1, player.level, pos);
+                    float rate2 = o2.getSpawnData().getWeight(o2.getSpawnData().getMatcher(checker, false)) * 10e5f;
+                    rate2 *= SpawnRateMask.getMask(o2, player.level, pos);
                     return (int) (-rate1 + rate2);
                 });
                 for (final PokedexEntry e : names)
                 {
                     final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(checker, false);
                     float val = e.getSpawnData().getWeight(matcher);
+                    val *= SpawnRateMask.getMask(e, player.level, pos);
                     final float min = e.getSpawnData().getMin(matcher);
                     final float num = min + (e.getSpawnData().getMax(matcher) - min) / 2;
                     val *= num;
@@ -544,10 +540,10 @@ public class PacketPokedex extends NBTPacket
                             {
                                 for (final BiomeType b : BiomeType.values())
                                     if (b.name.replaceAll(" ", "").equalsIgnoreCase(s))
-                                    {
-                                        subBiome = b;
-                                        break;
-                                    }
+                                {
+                                    subBiome = b;
+                                    break;
+                                }
                                 if (subBiome == null) hasBiomes = true;
                                 subBiome = null;
                                 if (hasBiomes) break;
@@ -557,10 +553,8 @@ public class PacketPokedex extends NBTPacket
                     }
                     if (hasBiomes) for (final ResourceKey<Biome> b : SpawnBiomeMatcher.getAllBiomeKeys())
                         if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
-                    for (final BiomeType b : BiomeType.values())
-                        if (data.isValid(b)) biomes.add(b.readableName);
-                    for (int i = 0; i < biomes.size(); i++)
-                        packet.getTag().putString("" + i, biomes.get(i));
+                    for (final BiomeType b : BiomeType.values()) if (data.isValid(b)) biomes.add(b.readableName);
+                    for (int i = 0; i < biomes.size(); i++) packet.getTag().putString("" + i, biomes.get(i));
                 }
             }
             PacketPokedex.ASSEMBLER.sendTo(packet, player);
@@ -594,13 +588,12 @@ public class PacketPokedex extends NBTPacket
 
             if (!reward)
             {
-                if (inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.available"),
-                        Util.NIL_UUID);
+                if (inspected)
+                    player.sendMessage(new TranslatableComponent("pokedex.inspect.available"), Util.NIL_UUID);
             }
             else
             {
-                if (!inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.nothing"),
-                        Util.NIL_UUID);
+                if (!inspected) player.sendMessage(new TranslatableComponent("pokedex.inspect.nothing"), Util.NIL_UUID);
                 player.closeContainer();
             }
             return;
@@ -610,18 +603,20 @@ public class PacketPokedex extends NBTPacket
             {
                 final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
-                if (valid) player.sendMessage(new TranslatableComponent("pokewatch.capture.check.yes", entry
-                        .getTranslatedName()), Util.NIL_UUID);
+                if (valid) player.sendMessage(
+                        new TranslatableComponent("pokewatch.capture.check.yes", entry.getTranslatedName()),
+                        Util.NIL_UUID);
                 else
                 {
                     player.sendMessage(condition.getFailureMessage(player), Util.NIL_UUID);
-                    player.sendMessage(new TranslatableComponent("pokewatch.capture.check.no", entry
-                            .getTranslatedName()), Util.NIL_UUID);
+                    player.sendMessage(
+                            new TranslatableComponent("pokewatch.capture.check.no", entry.getTranslatedName()),
+                            Util.NIL_UUID);
                 }
             }
             return;
         }
-        if (this.getTag().contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this
-                .getTag().getString("E"));
+        if (this.getTag().contains("E"))
+            PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("E"));
     }
 }

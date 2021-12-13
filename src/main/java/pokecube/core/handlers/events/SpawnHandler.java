@@ -206,8 +206,7 @@ public final class SpawnHandler
     public static HashSet<ResourceKey<Level>> dimensionBlacklist = Sets.newHashSet();
     public static HashSet<ResourceKey<Level>> dimensionWhitelist = Sets.newHashSet();
 
-    public static Predicate<BiomeType> biomeToRefresh = input ->
-    {
+    public static Predicate<BiomeType> biomeToRefresh = input -> {
         if (SpawnHandler.refreshSubbiomes) return true;
         return !input.shouldSave();
     };
@@ -542,9 +541,9 @@ public final class SpawnHandler
 
     private static int parse(final Level world, final Vector3 location)
     {
-        if (!(world instanceof ServerLevel)) return 0;
+        if (!(world instanceof ServerLevel level)) return 0;
         // BlockPos p = world.
-        final Vector3 spawn = Vector3.getNewVector().set(((ServerLevel) world).getSharedSpawnPos());
+        final Vector3 spawn = Vector3.getNewVector().set(level.getSharedSpawnPos());
         final ResourceKey<Level> type = world.dimension();
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
@@ -566,7 +565,7 @@ public final class SpawnHandler
         return (int) Math.abs(toUse.getValue());
     }
 
-    private static JEP initJEP(final JEP parser, final String toParse, final boolean radial)
+    public static JEP initJEP(final JEP parser, final String toParse, final boolean radial)
     {
         parser.initFunTab(); // clear the contents of the function table
         parser.addStandardFunctions();

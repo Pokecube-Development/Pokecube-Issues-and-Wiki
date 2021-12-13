@@ -27,12 +27,12 @@ import pokecube.core.database.spawns.SpawnBiomeMatcher;
 
 public class SpawnListEntry
 {
-    final int               width;
-    final int               height;
-    final int               yMin;
+    final int width;
+    final int height;
+    final int yMin;
     final SpawnBiomeMatcher value;
-    final WatchPage         parent;
-    final Font      fontRender;
+    final WatchPage parent;
+    final Font fontRender;
 
     public final List<MutableComponent> output = Lists.newArrayList();
 
@@ -50,9 +50,8 @@ public class SpawnListEntry
         value.parse();
 
         final List<Component> biomes = Lists.newArrayList();
-        for (final ResourceKey<Biome> b : value.clientBiomes)
-            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.location().getNamespace(), b
-                    .location().getPath())));
+        for (final ResourceKey<Biome> b : value.clientBiomes) biomes.add(new TranslatableComponent(
+                String.format("biome.%s.%s", b.location().getNamespace(), b.location().getPath())));
 
         if (entry != null)
         {
@@ -65,24 +64,22 @@ public class SpawnListEntry
         if (!biomes.isEmpty())
         {
             String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
-            for (final Component s : biomes)
-                biomeString = biomeString + s.getString() + ",\n";
+            for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            for (final MutableComponent line : ListHelper.splitText(new TextComponent(biomeString), width
-                    - fontRender.width(ind), fontRender, true))
+            for (final MutableComponent line : ListHelper.splitText(new TextComponent(biomeString),
+                    width - fontRender.width(ind), fontRender, true))
                 this.output.add(new TextComponent(ind + line.getString()));
         }
 
         final List<String> types = Lists.newArrayList();
-        if (value.clientTypes != null) for (final String s : value.clientTypes)
-            types.add(I18n.get("thutcore.biometype." + s));
+        if (value.clientTypes != null)
+            for (final String s : value.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
         if (!types.isEmpty())
         {
             String typeString = I18n.get("pokewatch.spawns.types") + " ";
-            for (final String s : types)
-                typeString = typeString + s + ", ";
-            for (final MutableComponent line : ListHelper.splitText(new TextComponent(typeString), width
-                    - fontRender.width(ind), fontRender, false))
+            for (final String s : types) typeString = typeString + s + ", ";
+            for (final MutableComponent line : ListHelper.splitText(new TextComponent(typeString),
+                    width - fontRender.width(ind), fontRender, false))
                 this.output.add(new TextComponent(ind + line.getString()));
         }
         final boolean day = value.day;
@@ -91,11 +88,11 @@ public class SpawnListEntry
         final boolean dawn = value.dawn;
         final boolean water = value.water;
         final boolean air = value.air;
-        if (water) if (air) for (final MutableComponent line : ListHelper.splitText(new TextComponent(ind
-                + I18n.get("pokewatch.spawns.water_optional")), width, fontRender, false))
+        if (water) if (air) for (final MutableComponent line : ListHelper.splitText(
+                new TextComponent(ind + I18n.get("pokewatch.spawns.water_optional")), width, fontRender, false))
             this.output.add(line);
-        else for (final MutableComponent line : ListHelper.splitText(new TextComponent(ind + I18n.get(
-                "pokewatch.spawns.water_only")), width, fontRender, false))
+        else for (final MutableComponent line : ListHelper
+                .splitText(new TextComponent(ind + I18n.get("pokewatch.spawns.water_only")), width, fontRender, false))
             this.output.add(line);
         String times = I18n.get("pokewatch.spawns.times");
         if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
@@ -114,8 +111,8 @@ public class SpawnListEntry
             if (day || night || dawn) times = times + ", ";
             times = times + I18n.get("pokewatch.spawns.dawn");
         }
-        for (final MutableComponent line : ListHelper.splitText(new TextComponent(times), width
-                - fontRender.width(ind), fontRender, false))
+        for (final MutableComponent line : ListHelper.splitText(new TextComponent(times), width - fontRender.width(ind),
+                fontRender, false))
             this.output.add(new TextComponent(ind + line.getString()));
         String rate = "";
         if (value.spawnRule.values.containsKey(new QName("Local_Rate")))
@@ -129,6 +126,7 @@ public class SpawnListEntry
             {
 
             }
+            System.out.println(val);
 
             if (val > 10e-4) val = (int) (val * 1000) / 10f;
             else if (val != 0)
@@ -136,7 +134,7 @@ public class SpawnListEntry
                 float denom = 1000f;
                 float numer = 100000f;
                 float val2 = (int) (val * numer) / denom;
-                while (val2 == 0)
+                if ((val * numer) != 0) while (val2 == 0)
                 {
                     numer *= 100;
                     denom *= 100;
