@@ -1,7 +1,6 @@
 {
   "replace": false,
-  "values": [],
-  "optional": [
+  "values": [
     "pokecube:growlithe",
     "pokecube:arcanine",
     "pokecube:houndour",
