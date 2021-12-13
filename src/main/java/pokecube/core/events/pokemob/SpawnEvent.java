@@ -8,6 +8,7 @@ import org.nfunk.jep.JEP;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.PokedexEntry;
@@ -47,6 +48,18 @@ public class SpawnEvent extends Event
         public SpawnContext(ServerLevel level, PokedexEntry entry, Vector3 location)
         {
             this(null, level, entry, location);
+        }
+
+        /**
+         * 
+         * @return either the player associated with this context, or the
+         *         nearest one to the location.
+         */
+        public ServerPlayer getPlayer()
+        {
+            return player != null ? player
+                    : (ServerPlayer) level.getNearestPlayer(TargetingConditions.DEFAULT, location.x, location.y,
+                            location.x);
         }
     }
 

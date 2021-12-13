@@ -5,7 +5,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.maths.Vector3;
 
 public class Illuminate extends Ability
 {
