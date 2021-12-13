@@ -10,11 +10,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.utils.RecipePokeAdv;
-import pokecube.core.PokecubeItems;
-import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
-import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.items.revive.RecipeRevive;
-import thut.api.item.ItemList;
 
 public class RecipeStatueCoat extends CustomRecipe
 {
@@ -63,8 +58,6 @@ public class RecipeStatueCoat extends CustomRecipe
         modelTag.putString("over_tex", block.getItem().getRegistryName().toString());
 
         blockTag.put("custom_model", modelTag);
-
-        System.out.println(statue.getTag());
 
         return statue;
     }
