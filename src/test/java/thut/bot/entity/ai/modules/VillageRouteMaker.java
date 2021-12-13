@@ -2,16 +2,13 @@ package thut.bot.entity.ai.modules;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.math.Vector3f;
 
@@ -290,11 +287,7 @@ public class VillageRouteMaker extends AbstractBot
             this.map.allParts.forEach((i, p) -> {
                 if (p instanceof final Node n) nodes.add(n);
             });
-            // First remove all edges for the nodes
-            nodes.forEach(n -> this.map.clearEdges(n));
-            // Next add them back, the delay is so that all edges are properly
-            // cleared before adding new ones.
-            nodes.forEach(n -> this.addNodeEdges(n));
+            this.map.computeEdges(0.7, 4);
             getTag().putBoolean("made_map", true);
         }
         return null;
@@ -407,13 +400,12 @@ public class VillageRouteMaker extends AbstractBot
             final Part p = this.getMap().allParts.get(getTag().getUUID("t_node"));
             if (p instanceof final Node e) return this.setTargetNode(e);
         }
-
         if (this.getMap().nodeCount >= this.maxNodes)
         {
             final List<Edge> edges = Lists.newArrayList();
             for (final Part o : this.getMap().allParts.values()) if (o instanceof final Edge e) edges.add(e);
             Collections.shuffle(edges);
-            for (final Edge e : edges) if (e.getBuildBounds().isEmpty())
+            for (final Edge e : edges) if (e.getBuildBounds().isEmpty() && e.dig_done <= 0)
             {
                 this.setCurrentEdge(e);
                 return this.setTargetNode(e.node1);
@@ -421,111 +413,7 @@ public class VillageRouteMaker extends AbstractBot
             this.setCurrentEdge(null);
             return this.setTargetNode(null);
         }
-
-        final Node newNode = this.findNearestVillageNode(BlockPos.ZERO, true);
-        if (newNode != null)
-        {
-            this.setTargetNode(newNode);
-            if (this.getTargetNode() == null)
-            {
-                ThutBot.LOGGER.error("Null Node!!");
-                return null;
-            }
-            final List<Edge> edges = Lists.newArrayList(this.targetNode.edges);
-            Node prev = null;
-            Edge running = null;
-            final List<Node> options = Lists.newArrayList();
-            final Map<UUID, Edge> opts_e = Maps.newHashMap();
-            // Check the edges to find some nodes to try to go from.
-            for (final Edge e : edges)
-            {
-                final Node other = e.node1 == this.targetNode ? e.node2 : e.node1;
-                if (!other.started) continue;
-                options.add(other);
-                opts_e.put(other.id, e);
-                break;
-            }
-
-            // Sort the found nodes, and pick closest one to do.
-            if (!options.isEmpty())
-            {
-                final BlockPos o0 = newNode.getCenter().atY(0);
-                options.sort((o1, o2) -> (int) (o1.getCenter().atY(0).distSqr(o0) - o2.getCenter().atY(0).distSqr(o0)));
-                prev = options.get(0);
-                running = opts_e.get(prev.id);
-            }
-
-            if (prev == null || prev.getCenter().getY() == 0)
-            {
-                ThutBot.LOGGER.error("Warning, no started node connected to us!");
-                return this.targetNode;
-            }
-            if (running != null) running.started = true;
-
-            final BlockPos tpTo = prev.getCenter();
-            this.teleBot(tpTo);
-        }
         return this.targetNode;
-    }
-
-    private void addNodeEdges(final Node n1)
-    {
-        final Vec3 mid1 = new Vec3(n1.mid.x, 0, n1.mid.z);
-        // Collect the nodes, then sort them by distance from the new one.
-        final List<Node> nodes = Lists.newArrayList();
-        this.map.allParts.forEach((i, p) -> {
-            // Selects for all the nodes, except the passed in one.
-            if (p instanceof final Node n && n != n1) nodes.add(n);
-        });
-        final BlockPos o0 = n1.getCenter().atY(0);
-        // For this step, we only want nodes with few edges already.
-        nodes.removeIf(n -> n.edges.size() > 2);
-        // This is a fairly quick way to sort by distance
-        nodes.sort((o1, o2) -> (o1.getCenter().atY(0).distManhattan(o0) - o2.getCenter().atY(0).distManhattan(o0)));
-        for (final Node node : nodes)
-        {
-            final int dist = node.getCenter().atY(0).distManhattan(o0);
-            if (dist == 0) throw new IllegalStateException("Duplicate node added!");
-        }
-
-        int n = 0;
-        nodes:
-        // Add edges to the nearest up to 3 nodes, or until we run out of nodes.
-        for (int i = 0; i < nodes.size() && n < 3; i++)
-        {
-            final Node n2 = nodes.get(i);
-            final Vec3 mid2 = new Vec3(n2.mid.x, 0, n2.mid.z);
-            final Vec3 dir1_2 = mid2.subtract(mid1).normalize();
-
-            final List<Edge> edges = Lists.newArrayList(n1.edges);
-
-            final Edge e = new Edge();
-
-            e.node1 = n1;
-            e.node2 = n2;
-            e.setEnds(n1.getCenter(), n2.getCenter());
-
-            // If we have already added an edge to the nearest village, ensure
-            // the next villages are not also in too straight of a line.
-            for (final Edge e2 : edges)
-            {
-                final Node n3 = e2.node1 == n1 ? e2.node2 : e2.node1;
-                final Vec3 mid3 = new Vec3(n3.mid.x, 0, n3.mid.z);
-                final Vec3 dir1_3 = mid3.subtract(mid1).normalize();
-                // |v.dot(v)| will give an indication of parallelness
-                final double dot = Math.abs(dir1_3.dot(dir1_2));
-                // Lets say 0.7 is too parallel.
-                if (dot > 0.7 || e.equals(e2))
-                {
-                    n--;
-                    continue nodes;
-                }
-            }
-            n++;
-            n1.edges.add(e);
-            n2.edges.add(e);
-        }
-        this.map.updateEdges(n1);
     }
 
     private Node addNode(final BlockPos next)
@@ -556,7 +444,6 @@ public class VillageRouteMaker extends AbstractBot
             final int dist = node.getCenter().atY(0).distManhattan(o0);
             if (dist == 0) return null;
         }
-        this.addNodeEdges(n1);
         this.map.add(n1);
         final CompoundTag tag = this.map.serializeNBT();
         getTag().put("tree_map", tag);
