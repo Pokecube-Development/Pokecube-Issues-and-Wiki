@@ -53,9 +53,11 @@ import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -131,8 +133,8 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean canBreatheUnderwater()
     {
-        return this.pokemobCap.swims() || this.pokemobCap.canUseDive() || this.pokemobCap.isType(PokeType.getType(
-                "water"));
+        return this.pokemobCap.swims() || this.pokemobCap.canUseDive()
+                || this.pokemobCap.isType(PokeType.getType("water"));
     }
 
     @Override
@@ -174,10 +176,11 @@ public class EntityPokemob extends PokemobRidable
                 final double d2 = this.random.nextGaussian() * 0.02D;
                 final double d0 = this.random.nextGaussian() * 0.02D;
                 final double d1 = this.random.nextGaussian() * 0.02D;
-                this.level.addParticle(ParticleTypes.POOF, this.getX() + this.random.nextFloat() * this.getBbWidth()
-                        * 2.0F - this.getBbWidth(), this.getY() + this.random.nextFloat() * this.getBbHeight(), this
-                                .getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2,
-                        d0, d1);
+                this.level.addParticle(ParticleTypes.POOF,
+                        this.getX() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(),
+                        this.getY() + this.random.nextFloat() * this.getBbHeight(),
+                        this.getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2, d0,
+                        d1);
             }
         }
         if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
@@ -238,8 +241,8 @@ public class EntityPokemob extends PokemobRidable
                 final double jumpStrength = 1.7;
                 final double preBoostJump = jumpStrength * this.jumpPower * this.getBlockJumpFactor();
                 double jumpAmount;
-                if (this.hasEffect(MobEffects.JUMP)) jumpAmount = preBoostJump + (this.getEffect(MobEffects.JUMP)
-                        .getAmplifier() + 1) * 0.1F;
+                if (this.hasEffect(MobEffects.JUMP))
+                    jumpAmount = preBoostJump + (this.getEffect(MobEffects.JUMP).getAmplifier() + 1) * 0.1F;
                 else jumpAmount = preBoostJump;
 
                 final Vec3 vector3d = this.getDeltaMovement();
@@ -251,8 +254,8 @@ public class EntityPokemob extends PokemobRidable
                 {
                     final float sinYaw = Mth.sin(this.yRot * ((float) Math.PI / 180F));
                     final float cosYaw = Mth.cos(this.yRot * ((float) Math.PI / 180F));
-                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D, 0.4F
-                            * cosYaw * this.jumpPower));
+                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D,
+                            0.4F * cosYaw * this.jumpPower));
                 }
                 this.jumpPower = 0.0F;
             }
@@ -309,13 +312,17 @@ public class EntityPokemob extends PokemobRidable
             final MobSpawnType reason, final SpawnGroupData spawnDataIn, final CompoundTag dataTag)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(this);
-        if (pokemob == null || !(worldIn instanceof Level)) return super.finalizeSpawn(worldIn, difficultyIn, reason,
-                spawnDataIn, dataTag);
+        if (pokemob == null || !(worldIn instanceof Level))
+            return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
         if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
         final Vector3 loc = Vector3.getNewVector().set(this);
-        final SpawnBiomeMatcher matcher = entry.getMatcher(worldIn, loc);
+
+        SpawnContext context = new SpawnContext(pokemob);
+        SpawnCheck checker = new SpawnCheck(loc, worldIn);
+
+        final SpawnBiomeMatcher matcher = entry.getMatcher(context, checker);
 
         final int orig_override = entry.getLevel(matcher);
         int overrideLevel = orig_override;
@@ -327,12 +334,11 @@ public class EntityPokemob extends PokemobRidable
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;
-            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(this.level, loc, pokemob.getPokedexEntry(),
-                    variance, overrideLevel);
+            if (orig_override == -1)
+                level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
             else
             {
-                final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), loc, this.level,
-                        overrideLevel, variance);
+                final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
                 PokecubeCore.POKEMOB_BUS.post(event);
                 level = event.getLevel();
             }
@@ -394,14 +400,13 @@ public class EntityPokemob extends PokemobRidable
 
     @Override
     protected void checkFallDamage(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
-    {
-    }
+    {}
 
     @Override
     protected void jumpInLiquid(final Tag<Fluid> fluidTag)
     {
-        this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.04F * this.getAttribute(
-                net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
+        this.setDeltaMovement(this.getDeltaMovement().add(0.0D,
+                0.04F * this.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
     }
 
     @Override
@@ -443,8 +448,8 @@ public class EntityPokemob extends PokemobRidable
     public void onRemovedFromWorld()
     {
         PokemobTracker.removePokemob(this.pokemobCap);
-        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
-                this.pokemobCap);
+        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null)
+            PlayerPokemobCache.UpdateCache(this.pokemobCap);
         super.onRemovedFromWorld();
     }
 
@@ -533,8 +538,8 @@ public class EntityPokemob extends PokemobRidable
             if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
             else if (this.despawntimer == 0) return true;
         }
-        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getCommandSenderWorld()
-                .getMaxBuildHeight(), this);
+        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance,
+                this.getCommandSenderWorld().getMaxBuildHeight(), this);
         if (PokecubeCore.getConfig().cull && !player) return true;
         return false;
     }
@@ -648,8 +653,7 @@ public class EntityPokemob extends PokemobRidable
 
     /**
      * Returns true if this entity should move as if it were on a ladder (either
-     * because it's actually on a ladder, or
-     * for AI reasons)
+     * because it's actually on a ladder, or for AI reasons)
      */
     @Override
     public boolean onClimbable()
@@ -659,8 +663,7 @@ public class EntityPokemob extends PokemobRidable
 
     /**
      * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns
-     * false. The WatchableObject is updated using
-     * setBesideClimableBlock.
+     * false. The WatchableObject is updated using setBesideClimableBlock.
      */
     public boolean isBesideClimbableBlock()
     {
@@ -669,8 +672,7 @@ public class EntityPokemob extends PokemobRidable
 
     /**
      * Updates the WatchableObject (Byte) created in entityInit(), setting it to
-     * 0x01 if par1 is true or 0x00 if it is
-     * false.
+     * 0x01 if par1 is true or 0x00 if it is false.
      */
     public void setBesideClimbableBlock(final boolean climbing)
     {

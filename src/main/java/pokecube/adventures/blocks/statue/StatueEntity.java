@@ -154,7 +154,7 @@ public class StatueEntity extends BlockEntity
                 {
                     boolean powered = level.hasNeighborSignal(getBlockPos());
                     double d = PokecubeCore.getConfig().maxSpawnRadius;
-                    if (powered && event.location.distToSq(Vector3.getNewVector().set(this)) < d * d)
+                    if (powered && event.getLocation().distToSq(Vector3.getNewVector().set(this)) < d * d)
                     {
                         double rng = this.level.getRandom().nextDouble();
 
@@ -163,7 +163,7 @@ public class StatueEntity extends BlockEntity
                         sup_chance *= event.getPicked().isType(entry.getType1()) ? sup_chance : 1;
                         sup_chance *= event.getPicked().isType(entry.getType2()) ? sup_chance : 1;
 
-                        PokedexEntry newEntry = rng < sup_chance ? rng < sup_chance / 5f ? entry : null : event.entry;
+                        PokedexEntry newEntry = rng < sup_chance ? rng < sup_chance / 5f ? entry : null : event.getPicked();
                         event.setPick(newEntry);
                     }
                 }

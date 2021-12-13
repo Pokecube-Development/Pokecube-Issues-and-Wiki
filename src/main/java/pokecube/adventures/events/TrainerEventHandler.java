@@ -80,6 +80,7 @@ import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -150,11 +151,11 @@ public class TrainerEventHandler
     }
 
     public static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.MODID, "pokemobs");
-    public static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.MODID, "ai");
-    public static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.MODID, "messages");
-    public static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
-    public static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
-    public static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
+    public static final ResourceLocation AICAP = new ResourceLocation(PokecubeAdv.MODID, "ai");
+    public static final ResourceLocation MESSAGECAP = new ResourceLocation(PokecubeAdv.MODID, "messages");
+    public static final ResourceLocation REWARDSCAP = new ResourceLocation(PokecubeAdv.MODID, "rewards");
+    public static final ResourceLocation DATASCAP = new ResourceLocation(PokecubeAdv.MODID, "data");
+    public static final ResourceLocation TRADESCAP = new ResourceLocation(PokecubeAdv.MODID, "trades");
 
     public static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
@@ -205,11 +206,10 @@ public class TrainerEventHandler
         mobs.setDataSync(data);
         mobs.holder.TYPE = data.register(new Data_String(), "");
 
-        for (int i = 0; i < 6; i++)
-            mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
+        for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
 
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Initializing caps " + event.getObject() + " " + event
-                .getObject().isAlive());
+        if (PokecubeMod.debug)
+            PokecubeCore.LOGGER.debug("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
     }
 
     public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
@@ -226,9 +226,9 @@ public class TrainerEventHandler
         try
         {
             drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
-            return Tools.getStack(drop.getValues(), sender.getCommandSenderWorld() instanceof ServerLevel
-                    ? (ServerLevel) sender.getCommandSenderWorld()
-                    : null);
+            return Tools.getStack(drop.getValues(),
+                    sender.getCommandSenderWorld() instanceof ServerLevel ? (ServerLevel) sender.getCommandSenderWorld()
+                            : null);
         }
         catch (final JsonSyntaxException e)
         {
@@ -241,8 +241,8 @@ public class TrainerEventHandler
     public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
     {
         for (final ICapabilityProvider provider : event.getCapabilities().values())
-            if (provider.getCapability(ThutCaps.DATASYNC).isPresent()) return provider.getCapability(ThutCaps.DATASYNC)
-                    .orElse(null);
+            if (provider.getCapability(ThutCaps.DATASYNC).isPresent())
+                return provider.getCapability(ThutCaps.DATASYNC).orElse(null);
         return null;
     }
 
@@ -260,8 +260,8 @@ public class TrainerEventHandler
     }
 
     /**
-     * This manages invulnerability of npcs to pokemobs, as well as managing
-     * the target allocation for trainers.
+     * This manages invulnerability of npcs to pokemobs, as well as managing the
+     * target allocation for trainers.
      *
      * @param evt
      */
@@ -270,9 +270,9 @@ public class TrainerEventHandler
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
         final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
 
-        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs && (evt
-                .getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource)) evt
-                        .setAmount(0);
+        if (evt.getEntity() instanceof Npc && !Config.instance.pokemobsHarmNPCs
+                && (evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource))
+            evt.setAmount(0);
 
         if (evt.getSource().getEntity() instanceof LivingEntity)
         {
@@ -280,22 +280,21 @@ public class TrainerEventHandler
             {
                 messages.sendMessage(MessageState.HURT, evt.getSource().getEntity(), evt.getEntity().getDisplayName(),
                         evt.getSource().getEntity().getDisplayName());
-                messages.doAction(MessageState.HURT, new ActionContext((LivingEntity) evt.getSource().getEntity(), evt
-                        .getEntityLiving(), evt.getSource()));
+                messages.doAction(MessageState.HURT, new ActionContext((LivingEntity) evt.getSource().getEntity(),
+                        evt.getEntityLiving(), evt.getSource()));
             }
-            if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.onSetTarget((LivingEntity) evt
-                    .getSource().getEntity());
+            if (pokemobHolder != null && pokemobHolder.getTarget() == null)
+                pokemobHolder.onSetTarget((LivingEntity) evt.getSource().getEntity());
         }
     }
 
-    public static Function<LivingEntity, Integer> goodKill = (e) ->
-    {
+    public static Function<LivingEntity, Integer> goodKill = (e) -> {
         // The VillagerEntity.sawMurder handles this case just fine.
         if (e instanceof Villager) return 0;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
-        if (pokemob != null) return pokemob.getGeneralState(GeneralStates.TAMED)
-                ? PokecubeAdv.config.trainer_tame_kill_rep
-                : PokecubeAdv.config.trainer_wild_kill_rep;
+        if (pokemob != null)
+            return pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeAdv.config.trainer_tame_kill_rep
+                    : PokecubeAdv.config.trainer_wild_kill_rep;
         return 0;
     };
 
@@ -312,13 +311,12 @@ public class TrainerEventHandler
             if (repGain != 0 && mob.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
             {
                 final GossipType type = repGain > 0 ? GossipType.MINOR_POSITIVE : GossipType.MINOR_NEGATIVE;
-                final Optional<NearestVisibleLivingEntities> optional = mob.getBrain().getMemory(
-                        MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+                final Optional<NearestVisibleLivingEntities> optional = mob.getBrain()
+                        .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
                 if (optional.isPresent())
                 {
                     final Iterable<LivingEntity> mobs = optional.get().findAll(seen -> seen instanceof Villager);
-                    mobs.forEach((gossipTarget) ->
-                    {
+                    mobs.forEach((gossipTarget) -> {
                         final Villager villager = (Villager) gossipTarget;
                         villager.getGossips().add(murderer.getUUID(), type, repGain);
                     });
@@ -358,8 +356,8 @@ public class TrainerEventHandler
         {
             final LivingEntity npc = event.getEntityLiving();
             final Brain<?> brain = npc.getBrain();
-            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET) && brain.isActive(Activities.BATTLE)) brain
-                    .setActiveActivityIfPossible(Activity.IDLE);
+            if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET) && brain.isActive(Activities.BATTLE))
+                brain.setActiveActivityIfPossible(Activity.IDLE);
             pokemobHolder.onTick();
         }
     }
@@ -391,26 +389,28 @@ public class TrainerEventHandler
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
         if (mobs == null || !(mob.getCommandSenderWorld() instanceof ServerLevel) || mob instanceof Player) return;
-        if (mob.getPersistentData().contains("pokeadv_join") && mob.getPersistentData().getLong("pokeadv_join") == mob
-                .getCommandSenderWorld().getGameTime()) return;
+        if (mob.getPersistentData().contains("pokeadv_join")
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.getCommandSenderWorld().getGameTime())
+            return;
         mob.getPersistentData().putLong("pokeadv_join", mob.getCommandSenderWorld().getGameTime());
 
         if (mobs.countPokemon() != 0) return;
         final TypeTrainer newType = TypeTrainer.get(mob, true);
         if (newType == null) return;
         mobs.setType(newType);
-        final int level = SpawnHandler.getSpawnLevel(mob.getCommandSenderWorld(), Vector3.getNewVector().set(mob),
-                Database.missingno);
+        SpawnContext context = new SpawnContext((ServerLevel) mob.level, Database.missingno,
+                Vector3.getNewVector().set(mob));
+        final int level = SpawnHandler.getSpawnLevel(context);
         if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
         else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getCommandSenderWorld());
         if (mob.isAddedToWorld()) EntityUpdate.sendEntityUpdate(mob);
     }
 
     /**
-     * This deals with the interaction logic for trainers. It sends the
-     * messages for MessageState.INTERACT, as well as applies the doAction. It
-     * also handles opening the edit gui for the trainers when the player has
-     * the trainer editor.
+     * This deals with the interaction logic for trainers. It sends the messages
+     * for MessageState.INTERACT, as well as applies the doAction. It also
+     * handles opening the edit gui for the trainers when the player has the
+     * trainer editor.
      *
      * @param evt
      * @param target
@@ -432,8 +432,8 @@ public class TrainerEventHandler
         // player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
         // }
 
-        if (evt.getItemStack().getItem() instanceof Linker && Linker.interact((ServerPlayer) evt.getPlayer(), target,
-                evt.getItemStack()))
+        if (evt.getItemStack().getItem() instanceof Linker
+                && Linker.interact((ServerPlayer) evt.getPlayer(), target, evt.getItemStack()))
         {
             evt.setCanceled(true);
             evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -475,11 +475,11 @@ public class TrainerEventHandler
                 if (canTrade) state = MessageState.INTERACT;
             }
             final int timer = evt.getPlayer().tickCount;
-            if (evt.getPlayer().getPersistentData().getInt("__msg_sent_last_") != timer) messages.sendMessage(state, evt
-                    .getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
+            if (evt.getPlayer().getPersistentData().getInt("__msg_sent_last_") != timer)
+                messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
             evt.getPlayer().getPersistentData().putInt("__msg_sent_last_", timer);
-            if (messages.doAction(state, pokemobs.setLatestContext(new ActionContext(evt.getPlayer(),
-                    (LivingEntity) target, evt.getItemStack()))))
+            if (messages.doAction(state, pokemobs
+                    .setLatestContext(new ActionContext(evt.getPlayer(), (LivingEntity) target, evt.getItemStack()))))
             {
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);

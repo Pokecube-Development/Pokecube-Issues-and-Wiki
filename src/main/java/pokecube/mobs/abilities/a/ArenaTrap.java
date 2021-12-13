@@ -3,8 +3,8 @@ package pokecube.mobs.abilities.a;
 import net.minecraft.server.level.ServerLevel;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.maths.Vector3;
 
 public class ArenaTrap extends Ability
 {
@@ -15,12 +15,11 @@ public class ArenaTrap extends Ability
     public Ability init(final Object... args)
     {
         if (args == null) return this;
-        for (final Object arg : args)
-            if (arg instanceof Integer)
-            {
-                this.range = (int) arg;
-                return this;
-            }
+        for (final Object arg : args) if (arg instanceof Integer)
+        {
+            this.range = (int) arg;
+            return this;
+        }
         return this;
     }
 
@@ -30,8 +29,9 @@ public class ArenaTrap extends Ability
         if (!(mob.getEntity().getCommandSenderWorld() instanceof ServerLevel)) return;
         if (mob.getEntity().tickCount % 20 == 0)
         {
-            final ServerLevel world = (ServerLevel) mob.getEntity().getCommandSenderWorld();
-            PokecubeCore.spawner.doSpawnForPoint(Vector3.getNewVector().set(mob.getEntity()), world, 0, this.range);
+            SpawnContext context = new SpawnContext(mob);
+            context = PokecubeCore.spawner.randomSpawnContext(context, 0, this.range);
+            PokecubeCore.spawner.doSpawnForContext(context);
         }
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.Nature;
@@ -64,8 +65,7 @@ public abstract class PokemobHungry extends PokemobMoves
         // hatches
         if (!this.getGeneralState(GeneralStates.TAMED))
         {
-            final int exp = SpawnHandler.getSpawnXp(this.getEntity().getCommandSenderWorld(), this.here.set(this.getEntity()),
-                    this.getPokedexEntry());
+            final int exp = SpawnHandler.getSpawnXp(new SpawnContext(this));
             if (this.getExp() < exp)
             {
                 final int n = ThutCore.newRandom().nextInt(exp - this.getExp()) / 3 + 1;

@@ -46,6 +46,7 @@ import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -389,6 +390,10 @@ public class PacketPokedex extends NBTPacket
         PokedexEntry entry;
         SpawnData data;
         final CompoundTag spawns = new CompoundTag();
+
+        pos = Vector3.getNewVector().set(player);
+        checker = new SpawnCheck(pos, player.level);
+
         switch (this.message)
         {
         case INSPECTMOB:
@@ -402,8 +407,6 @@ public class PacketPokedex extends NBTPacket
             PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("V"));
             return;
         case REQUESTMOB:
-            pos = Vector3.getNewVector().set(player);
-            checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             entry = Database.getEntry(this.getTag().getString("V"));
             packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
             if (entry.getSpawnData() != null)
@@ -431,17 +434,16 @@ public class PacketPokedex extends NBTPacket
             return;
         case REQUESTLOC:
             rates = Maps.newHashMap();
-            pos = Vector3.getNewVector().set(player);
-            checker = new SpawnCheck(pos, player.getCommandSenderWorld());
             names = new ArrayList<>();
             final boolean repelled = SpawnHandler.getNoSpawnReason(player.getCommandSenderWorld(),
                     pos.getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
-                if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
+                if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
             for (final PokedexEntry e : names)
             {
-                final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(checker, false);
+                final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(new SpawnContext(player, e), checker,
+                        false);
                 matchers.put(e, matcher);
                 float val = e.getSpawnData().getWeight(matcher);
                 final float min = e.getSpawnData().getMin(matcher);
@@ -477,21 +479,22 @@ public class PacketPokedex extends NBTPacket
             if (!mode)
             {
                 rates = Maps.newHashMap();
-                pos = Vector3.getNewVector().set(player);
-                checker = new SpawnCheck(pos, player.level);
                 names = new ArrayList<>();
                 for (final PokedexEntry e : Database.spawnables)
-                    if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
+                    if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
                 Collections.sort(names, (o1, o2) -> {
-                    float rate1 = o1.getSpawnData().getWeight(o1.getSpawnData().getMatcher(checker, false)) * 10e5f;
+                    float rate1 = o1.getSpawnData().getWeight(
+                            o1.getSpawnData().getMatcher(new SpawnContext(player, o1), checker, false)) * 10e5f;
                     rate1 *= SpawnRateMask.getMask(o1, player.level, pos);
-                    float rate2 = o2.getSpawnData().getWeight(o2.getSpawnData().getMatcher(checker, false)) * 10e5f;
+                    float rate2 = o2.getSpawnData().getWeight(
+                            o2.getSpawnData().getMatcher(new SpawnContext(player, o2), checker, false)) * 10e5f;
                     rate2 *= SpawnRateMask.getMask(o2, player.level, pos);
                     return (int) (-rate1 + rate2);
                 });
                 for (final PokedexEntry e : names)
                 {
-                    final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(checker, false);
+                    final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(new SpawnContext(player, e), checker,
+                            false);
                     float val = e.getSpawnData().getWeight(matcher);
                     val *= SpawnRateMask.getMask(e, player.level, pos);
                     final float min = e.getSpawnData().getMin(matcher);

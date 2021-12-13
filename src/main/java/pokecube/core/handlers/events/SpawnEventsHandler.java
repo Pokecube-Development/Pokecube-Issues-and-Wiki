@@ -51,6 +51,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 import thut.api.entity.CopyCaps;
@@ -96,19 +97,21 @@ public class SpawnEventsHandler
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld((Level) event.world, event.forSpawn)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((Level) event.level(), event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
-        final LevelAccessor world = event.world;
+        final LevelAccessor world = event.level();
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
         Collections.shuffle(entries);
         int index = 0;
         PokedexEntry dbe = entries.get(index);
-        final SpawnCheck checker = new SpawnCheck(v, world);
-        float weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(checker));
+        SpawnCheck checker = new SpawnCheck(v, world);
+        SpawnContext context = event.context();
+        context = new SpawnContext(context, dbe);
+        float weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
         weight *= SpawnRateMask.getMask(dbe, world, v);
 
         /**
@@ -125,7 +128,9 @@ public class SpawnEventsHandler
         while (weight <= random && index++ < max)
         {
             dbe = entries.get(index % entries.size());
-            weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(checker));
+            context = new SpawnContext(context, v);
+            context = new SpawnContext(context, dbe);
+            weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
             weight *= SpawnRateMask.getMask(dbe, world, v);
 
             if (weight == 0) continue;
@@ -135,7 +140,9 @@ public class SpawnEventsHandler
                 if (v != null)
                 {
                     v.offsetBy(Direction.UP);
-                    weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(world, v));
+                    context = new SpawnContext(context, v);
+                    checker = new SpawnCheck(v, world);
+                    weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
                     weight *= SpawnRateMask.getMask(dbe, world, v);
                 }
                 else weight = 0;
@@ -145,7 +152,7 @@ public class SpawnEventsHandler
         if (random > weight || v == null) return;
         if (dbe.isLegendary())
         {
-            final int level = SpawnHandler.getSpawnLevel((Level) world, v, dbe);
+            final int level = SpawnHandler.getSpawnLevel(context);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;
         }
         event.setLocation(v);

@@ -2,9 +2,9 @@ package pokecube.legends.conditions.custom;
 
 import java.util.ArrayList;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.conditions.AbstractCondition;
 import pokecube.legends.conditions.AbstractRegiCondition;
@@ -41,14 +41,15 @@ public class Registeel extends AbstractRegiCondition
     }
 
     @Override
-    public CanSpawn canSpawn(final Entity trainer, final Vector3 location, final boolean message)
+    public CanSpawn canSpawn(SpawnContext context, final boolean message)
     {
-        final CanSpawn test = super.canSpawn(trainer, location, message);
+        final CanSpawn test = super.canSpawn(context, message);
         if (!test.test()) return test;
 
         final ArrayList<Vector3> locations = new ArrayList<>();
         boolean check = false;
-        final Level world = trainer.getCommandSenderWorld();
+        final Level world = context.level();
+        Vector3 location = context.location();
 
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));
@@ -80,7 +81,7 @@ public class Registeel extends AbstractRegiCondition
         }
         if (!check)
         {
-            if (message) this.sendLegendBuild(trainer, "Registeel");
+            if (message) this.sendLegendBuild(context.player(), "Registeel");
             return CanSpawn.NO;
         }
         return CanSpawn.YES;

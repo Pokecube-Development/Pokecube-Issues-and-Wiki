@@ -32,6 +32,7 @@ import pokecube.core.entity.pokemobs.AnimalChest;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.combat.MoveMessageEvent;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.EventsHandler;
@@ -49,14 +50,13 @@ import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
-import thut.api.maths.Vector3;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
-    public static final QName KEY   = new QName("forme_key");
-    public static final QName TEX   = new QName("tex");
+    public static final QName KEY = new QName("forme_key");
+    public static final QName TEX = new QName("tex");
     public static final QName MODEL = new QName("model");
-    public static final QName ANIM  = new QName("anim");
+    public static final QName ANIM = new QName("anim");
 
     @Override
     public void displayMessageToOwner(final Component message)
@@ -82,8 +82,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     public int getDyeColour()
     {
         int info = this.dataSync().get(this.params.DYECOLOUR);
-        if (info == -1) info = this.isShiny() ? this.getPokedexEntry().defaultSpecials
-                : this.getPokedexEntry().defaultSpecial;
+        if (info == -1)
+            info = this.isShiny() ? this.getPokedexEntry().defaultSpecials : this.getPokedexEntry().defaultSpecial;
         return info;
     }
 
@@ -121,8 +121,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (ownerID == null) return null;
         final Level world = this.getEntity().getCommandSenderWorld();
         final boolean serv = world instanceof ServerLevel;
-        if (!serv && ownerID.equals(PokecubeCore.proxy.getPlayer().getUUID())) if (this.getOwnerHolder()
-                .getOwner() == null) this.getOwnerHolder().setOwner(PokecubeCore.proxy.getPlayer());
+        if (!serv && ownerID.equals(PokecubeCore.proxy.getPlayer().getUUID()))
+            if (this.getOwnerHolder().getOwner() == null)
+                this.getOwnerHolder().setOwner(PokecubeCore.proxy.getPlayer());
         return serv ? this.getOwnerHolder().getOwner((ServerLevel) world) : this.getOwnerHolder().getOwner();
     }
 
@@ -191,8 +192,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     @Override
     public void containerChanged(final Container inventory)
-    {
-    }
+    {}
 
     @Override
     public void onRecall(final boolean onDeath)
@@ -269,15 +269,14 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             final float hp = this.getHealth();
             base.setHealth(hp);
             if (base == this) this.returning = false;
-            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbilityRaw(AbilityManager
-                    .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
+            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbilityRaw(
+                    AbilityManager.getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             base.onRecall();
             this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
             this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
             this.getEntity().captureDrops(null);
             this.getEntity().discard();
-            EventsHandler.Schedule(world, w ->
-            {
+            EventsHandler.Schedule(world, w -> {
                 final ServerLevel srld = (ServerLevel) w;
                 final Entity original = srld.getEntity(id);
                 if (original == mob) srld.removeEntity(original, false);
@@ -345,8 +344,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
         /**
-         * If we have a target, and we were recalled with health, assign
-         * the target to our owner instead.
+         * If we have a target, and we were recalled with health, assign the
+         * target to our owner instead.
          */
         if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
             if (owner instanceof LivingEntity)
@@ -360,8 +359,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             else targ.setLastHurtByMob(this.getOwner());
         }
 
-        EventsHandler.Schedule(world, w ->
-        {
+        EventsHandler.Schedule(world, w -> {
             final ServerLevel srld = (ServerLevel) w;
             final Entity original = srld.getEntity(id);
             if (original == mob) srld.removeEntity(original, false);
@@ -466,8 +464,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         /*
          * Trigger vanilla event for taming a mob.
          */
-        if (e instanceof ServerPlayer && this.getEntity() instanceof Animal) CriteriaTriggers.TAME_ANIMAL.trigger(
-                (ServerPlayer) e, (Animal) this.getEntity());
+        if (e instanceof ServerPlayer && this.getEntity() instanceof Animal)
+            CriteriaTriggers.TAME_ANIMAL.trigger((ServerPlayer) e, (Animal) this.getEntity());
     }
 
     @Override
@@ -503,7 +501,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         IPokemob pokemob = this;
         if (this.spawnInitRule == null) return this;
         int maxXP = pokemob.getEntity().getPersistentData().getInt("spawnExp");
-        final Level world = this.getEntity().level;
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
          * will choose how much exp it spawns with based on the position that it
@@ -520,9 +517,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 return pokemob;
             }
             pokemob.getEntity().getPersistentData().remove("initSpawn");
-            final Vector3 spawnPoint = Vector3.getNewVector().set(pokemob.getEntity());
-            maxXP = SpawnHandler.getSpawnXp(world, spawnPoint, pokemob.getPokedexEntry());
-            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob.getPokedexEntry(), spawnPoint, world,
+            maxXP = SpawnHandler.getSpawnXp(new SpawnContext(pokemob));
+            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(pokemob,
                     Tools.xpToLevel(pokemob.getPokedexEntry().getEvolutionMode(), -1), SpawnHandler.DEFAULT_VARIANCE);
             PokecubeCore.POKEMOB_BUS.post(event);
             final int level = event.getLevel();
