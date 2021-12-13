@@ -33,6 +33,7 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         this.font = this.minecraft.font;
         this.tex_dm = day;
         this.tex_nm = night;
+        this.itemRenderer = watch.itemRenderer;
     }
 
     protected ResourceLocation getBackgroundTex()
