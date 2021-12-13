@@ -123,8 +123,6 @@ public class PokemobSpawns extends ResourceData
                         customRule.values.put(new QName("rate"), mob.rate + "");
                         if (mob.level > 0) customRule.values.put(new QName("level"), mob.level + "");
                         if (mob.variance != null) customRule.values.put(new QName("variance"), mob.variance);
-
-                        if (customRule.toString().contains("deserts")) System.out.println(key + " " + customRule);
                         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }
