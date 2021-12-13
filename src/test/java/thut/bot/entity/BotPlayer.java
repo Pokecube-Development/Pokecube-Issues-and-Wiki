@@ -1,9 +1,12 @@
 package thut.bot.entity;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
+
+import org.apache.commons.compress.utils.Lists;
 
 import com.mojang.authlib.GameProfile;
 
@@ -128,6 +131,14 @@ public class BotPlayer extends ServerPlayer
                     chat(s);
                 }
             }
+        }
+        else if (event.getMessage().contains("reset"))
+        {
+            if (this.maker != null) this.maker.end(talker);
+            List<String> tags = Lists.newArrayList();
+            tags.addAll(this.getPersistentData().getAllKeys());
+            tags.forEach(s -> getPersistentData().remove(s));
+            this.maker = null;
         }
     }
 
