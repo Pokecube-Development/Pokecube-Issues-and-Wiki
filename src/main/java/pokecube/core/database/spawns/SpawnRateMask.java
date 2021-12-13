@@ -11,12 +11,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.events.SpawnMaskEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
-import pokecube.core.handlers.events.SpawnHandler;
 import thut.api.maths.Vector3;
 
 public class SpawnRateMask
@@ -26,7 +26,7 @@ public class SpawnRateMask
     public static void init()
     {
         RATE_MASKS.clear();
-        if (MinecraftForge.EVENT_BUS.post(new SpawnMaskEvent())) return;
+        if (MinecraftForge.EVENT_BUS.post(new SpawnMaskEvent()) || !PokecubeCore.getConfig().applySpawnRateMask) return;
         for (PokedexEntry e : Database.getSortedFormes())
         {
             RATE_MASKS.put(e, new SpawnRateMask(e));
@@ -60,7 +60,7 @@ public class SpawnRateMask
         phase_t = Math.PI * rand.nextDouble();
         this.initFunctions();
     }
-    
+
     private static JEP initJEP(final JEP parser, final String toParse, final boolean radial)
     {
         parser.initFunTab(); // clear the contents of the function table
