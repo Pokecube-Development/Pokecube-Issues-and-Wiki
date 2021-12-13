@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
@@ -66,25 +65,27 @@ public class SpawnPresets extends ResourceData
         try
         {
             final List<MatcherList> loaded = Lists.newArrayList();
-            for (final Resource resource : PackFinder.getResources(l))
+
+            // This one we just take the first resourcelocation. If someone
+            // wants to edit an existing one, it means they are most likely
+            // trying to remove default behaviour. They can add new things by
+            // just adding another json file to the correct package.
+            InputStream res = PackFinder.getStream(l);
+            final Reader reader = new InputStreamReader(res);
+            try
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
-                try
-                {
-                    final MatcherList temp = PokedexEntryLoader.gson.fromJson(reader, MatcherList.class);
-                    if (temp.replace) loaded.clear();
-                    if (!confirmNew(temp, l)) continue;
-                    loaded.add(temp);
-                }
-                catch (final Exception e)
-                {
-                    // Might not be valid, so log and skip in that case.
-                    PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                    PokecubeCore.LOGGER.error(e);
-                }
-                reader.close();
+                final MatcherList temp = PokedexEntryLoader.gson.fromJson(reader, MatcherList.class);
+                if (temp.replace) loaded.clear();
+                if (!confirmNew(temp, l)) return;
+                loaded.add(temp);
             }
+            catch (final Exception e)
+            {
+                // Might not be valid, so log and skip in that case.
+                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeCore.LOGGER.error(e);
+            }
+            reader.close();
 
             for (final MatcherList m : loaded)
             {

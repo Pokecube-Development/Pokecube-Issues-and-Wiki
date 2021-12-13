@@ -307,6 +307,7 @@ public class JigsawAssmbler
         });
     }
 
+    @SuppressWarnings("deprecation")
     private void addPiece(final PoolElementStructurePiece villagePieceIn, final MutableObject<VoxelShape> outer_box_ref,
             final int part_index, final int current_depth, final int default_k)
     {

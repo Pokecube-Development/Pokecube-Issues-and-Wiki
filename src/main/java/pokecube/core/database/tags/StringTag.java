@@ -42,8 +42,7 @@ public class StringTag implements IResourceData
 
         void postProcess()
         {
-            this.values.replaceAll(s ->
-            {
+            this.values.replaceAll(s -> {
                 boolean tag = false;
                 if (tag = s.startsWith("#")) s = s.replace("#", "");
                 if (!s.contains(":")) s = "pokecube:" + ThutCore.trim(s);
@@ -55,8 +54,7 @@ public class StringTag implements IResourceData
         public boolean isIn(final String value)
         {
             if (this.values.contains(value)) return true;
-            for (final TagHolder incl : this._includes)
-                if (incl.isIn(value)) return true;
+            for (final TagHolder incl : this._includes) if (incl.isIn(value)) return true;
             return false;
         }
 
@@ -65,23 +63,22 @@ public class StringTag implements IResourceData
             // TODO possible speedup by adding the included tags to our list,
             // instead of referencing the included tags.
 
-            for (final String s : this.values)
-                if (s.startsWith("#"))
+            for (final String s : this.values) if (s.startsWith("#"))
+            {
+                final String tag = s.replace("#", "");
+                if (checked.contains(tag))
                 {
-                    final String tag = s.replace("#", "");
-                    if (checked.contains(tag))
-                    {
-                        PokecubeCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
-                        continue;
-                    }
-                    final TagHolder incl = parent.tagsMap.get(tag);
-                    if (incl == null)
-                    {
-                        PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", s);
-                        continue;
-                    }
-                    this._includes.add(incl);
+                    PokecubeCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
+                    continue;
                 }
+                final TagHolder incl = parent.tagsMap.get(tag);
+                if (incl == null)
+                {
+                    PokecubeCore.LOGGER.warn("Warning, Tag not found for {}", s);
+                    continue;
+                }
+                this._includes.add(incl);
+            }
         }
     }
 
@@ -110,8 +107,7 @@ public class StringTag implements IResourceData
             final String path = new ResourceLocation(this.tagPath).getPath();
             final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
             this.validLoad = !resources.isEmpty();
-            resources.forEach(l ->
-            {
+            resources.forEach(l -> {
                 if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
                 final String tag = l.toString().replace(path, "").replace(".json", "");
                 this.loadTag(l, tag, "");
@@ -167,8 +163,7 @@ public class StringTag implements IResourceData
     // This is a helper method for generating tags as needed
     void printTags()
     {
-        this.tagsMap.forEach((s, h) ->
-        {
+        this.tagsMap.forEach((s, h) -> {
             final ResourceLocation name = new ResourceLocation(s);
             final File dir = new File("./generated/data/" + name.getNamespace() + "/" + this.tagPath);
             if (!dir.exists()) dir.mkdirs();
@@ -178,8 +173,8 @@ public class StringTag implements IResourceData
             try
             {
                 json = PokedexEntryLoader.gson.toJson(h);
-                final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
-                        "UTF-8").newEncoder());
+                final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
+                        Charset.forName("UTF-8").newEncoder());
                 writer.write(json);
                 writer.close();
             }
@@ -203,11 +198,12 @@ public class StringTag implements IResourceData
                 final TagHolder temp = PokedexEntryLoader.gson.fromJson(reader, TagHolder.class);
                 temp.postProcess();
                 if (temp.replace) tagged.values.clear();
-                temp.values.forEach(s ->
-                {
+                temp.values.forEach(s -> {
                     if (!tagged.values.contains(s)) tagged.values.add(s);
                 });
                 reader.close();
+                // If we were replacing, we want to exit here.
+                if (temp.replace) break;
             }
             this.tagsMap.put(tag, tagged);
             // Now we update the reversedTagsMap accordingly

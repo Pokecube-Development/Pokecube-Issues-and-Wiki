@@ -13,7 +13,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
@@ -59,25 +58,27 @@ public class MutationHelper extends ResourceData
         try
         {
             final List<Mutations> loaded = Lists.newArrayList();
-            for (final Resource resource : PackFinder.getResources(l))
+
+            // This one we just take the first resourcelocation. If someone
+            // wants to edit an existing one, it means they are most likely
+            // trying to remove default behaviour. They can add new things by
+            // just adding another json file to the correct package.
+            InputStream res = PackFinder.getStream(l);
+            final Reader reader = new InputStreamReader(res);
+            try
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
-                try
-                {
-                    final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
-                    if (!confirmNew(temp, l)) continue;
-                    if (temp.replace) loaded.clear();
-                    loaded.add(temp);
-                }
-                catch (final Exception e)
-                {
-                    // Might not be valid, so log and skip in that case.
-                    PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                    PokecubeCore.LOGGER.error(e);
-                }
-                reader.close();
+                final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
+                if (!confirmNew(temp, l)) return;
+                if (temp.replace) loaded.clear();
+                loaded.add(temp);
             }
+            catch (final Exception e)
+            {
+                // Might not be valid, so log and skip in that case.
+                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeCore.LOGGER.error(e);
+            }
+            reader.close();
 
             for (final Mutations m : loaded)
             {
@@ -85,8 +86,8 @@ public class MutationHelper extends ResourceData
                 for (final MutationHolder mut : muts)
                 {
                     Map<String, MutationHolder> mutations = this.mutations.get(new ResourceLocation(mut.geneType));
-                    if (mutations == null) this.mutations.put(new ResourceLocation(mut.geneType), mutations = Maps
-                            .newHashMap());
+                    if (mutations == null)
+                        this.mutations.put(new ResourceLocation(mut.geneType), mutations = Maps.newHashMap());
                     final String key = mut.toString();
                     if (mutations.containsKey(key))
                     {

@@ -50,6 +50,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
     JigsawConfig lastUsed = null;
 
+    @SuppressWarnings("deprecation")
     public static BiConsumer<PieceGenerator.Context<JigsawConfig>, List<StructurePiece>> POSTPROCESS = (context,
             parts) ->
     {

@@ -188,9 +188,13 @@ public class PokedexEntry
                 this.matcher.parse();
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
+                for (SpawnBiomeMatcher m2 : this.matcher._or_children)
+                    for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
+                for (SpawnBiomeMatcher m2 : this.matcher._and_children)
+                    for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
                 for (final ResourceKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
                 {
-                    final boolean valid = this.matcher.getValidBiomes().contains(test);
+                    final boolean valid = this.matcher.checkBiome(test);
                     if (valid)
                     {
                         final String key = String.format("biome.%s.%s", test.location().getNamespace(),
