@@ -150,7 +150,7 @@ public class StatueEntity extends BlockEntity
             if (pokemob != null)
             {
                 PokedexEntry entry = pokemob.getPokedexEntry();
-                if (entry != event.getPicked())
+                if (entry != event.getPicked() && event.getPicked() != null)
                 {
                     boolean powered = level.hasNeighborSignal(getBlockPos());
                     double d = PokecubeCore.getConfig().maxSpawnRadius;
