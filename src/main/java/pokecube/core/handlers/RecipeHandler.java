@@ -20,8 +20,8 @@ import pokecube.core.recipes.MoveRecipes;
 
 public class RecipeHandler
 {
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(
-            ForgeRegistries.RECIPE_SERIALIZERS, PokecubeCore.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
+            .create(ForgeRegistries.RECIPE_SERIALIZERS, PokecubeCore.MODID);
 
     private static <T extends Recipe<?>> Supplier<SimpleRecipeSerializer<T>> special(
             final Function<ResourceLocation, T> create)
@@ -29,7 +29,7 @@ public class RecipeHandler
         return () -> new SimpleRecipeSerializer<>(create);
     }
 
-    public static final RegistryObject<SimpleRecipeSerializer<RecipeRevive>>    REVIVE    = RecipeHandler.RECIPE_SERIALIZERS
+    public static final RegistryObject<SimpleRecipeSerializer<RecipeRevive>> REVIVE = RecipeHandler.RECIPE_SERIALIZERS
             .register("revive", RecipeHandler.special(RecipeRevive::new));
     public static final RegistryObject<SimpleRecipeSerializer<RecipePokeseals>> APPLYSEAL = RecipeHandler.RECIPE_SERIALIZERS
             .register("seal_apply", RecipeHandler.special(RecipePokeseals::new));

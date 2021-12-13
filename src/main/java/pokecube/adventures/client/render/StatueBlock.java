@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import thut.api.entity.CopyCaps;
@@ -33,7 +35,19 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
         if (tag.contains("statue:over_tex")
                 && mc.getEntityRenderDispatcher().getRenderer(copied) instanceof LivingEntityRenderer<?, ?> renderer)
         {
-            ResourceLocation tex = new ResourceLocation(tag.getString("statue:over_tex"));
+            ResourceLocation inTag = new ResourceLocation(tag.getString("statue:over_tex"));
+            boolean isBlock = ForgeRegistries.BLOCKS.containsKey(inTag);
+            final ResourceLocation tex;
+            if (isBlock)
+            {
+                Block b = ForgeRegistries.BLOCKS.getValue(inTag);
+                @SuppressWarnings("deprecation")
+                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
+                        .getName();
+                tex = new ResourceLocation(tex_.getNamespace(), "textures/" + tex_.getPath() + ".png");
+            }
+            else tex = inTag;
+
             StatusTexturer newTexer = new StatusTexturer(tex);
             newTexer.alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
             newTexer.animated = false;
