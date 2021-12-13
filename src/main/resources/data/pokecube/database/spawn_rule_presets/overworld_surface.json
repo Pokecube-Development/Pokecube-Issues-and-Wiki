@@ -65,6 +65,13 @@
     },
     {
       "values": {
+        "preset": "extreme_hills",
+        "category": "extreme_hills",
+        "and_presets": "overworld"
+      }
+    },
+    {
+      "values": {
         "preset": "mushrooms",
         "category": "mushroom",
         "and_presets": "overworld"
