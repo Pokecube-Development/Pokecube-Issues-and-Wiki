@@ -60,6 +60,7 @@
       "values": {
         "preset": "mountains",
         "category": "mountain",
+        "or_presets": "extreme_hills",
         "and_presets": "overworld"
       }
     },

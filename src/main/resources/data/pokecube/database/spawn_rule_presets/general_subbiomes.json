@@ -59,6 +59,13 @@
         "preset": "industrial",
         "types": "industrial"
       }
+    },
+    {
+      "values": {
+        "preset": "all_not_caves",
+        "types": "all",
+        "typesBlacklist": "cave"
+      }
     }
   ]
 }
