@@ -157,7 +157,13 @@ public class StatueEntity extends BlockEntity
                     if (powered && event.location.distToSq(Vector3.getNewVector().set(this)) < d * d)
                     {
                         double rng = this.level.getRandom().nextDouble();
-                        PokedexEntry newEntry = rng < 0.5 ? rng < 0.1 ? entry : null : event.entry;
+
+                        double sup_chance = 0.8;
+
+                        sup_chance *= event.getPicked().isType(entry.getType1()) ? sup_chance : 1;
+                        sup_chance *= event.getPicked().isType(entry.getType2()) ? sup_chance : 1;
+
+                        PokedexEntry newEntry = rng < sup_chance ? rng < sup_chance / 5f ? entry : null : event.entry;
                         event.setPick(newEntry);
                     }
                 }
