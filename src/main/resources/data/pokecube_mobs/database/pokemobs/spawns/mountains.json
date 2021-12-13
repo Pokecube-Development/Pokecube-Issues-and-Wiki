@@ -70,7 +70,7 @@
       ]
     },
     {
-      "spawn_preset": "mountains,smowy_areas",
+      "spawn_preset": "mountains,snowy_areas",
       "entries": [
         {"key": "bergmite","min": 2,"max": 4,"rate": 0.3}
       ]

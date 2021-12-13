@@ -44,11 +44,11 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     static
     {
-        TYPE = EntityType.Builder.of(TrainerNpc::new, MobCategory.CREATURE).setCustomClientFactory((s,
-                w) -> TrainerNpc.TYPE.create(w)).build("trainer");
+        TYPE = EntityType.Builder.of(TrainerNpc::new, MobCategory.CREATURE)
+                .setCustomClientFactory((s, w) -> TrainerNpc.TYPE.create(w)).build("trainer");
     }
 
-    boolean     added       = false;
+    boolean added = false;
     public long visibleTime = 0;
 
     public TrainerNpc(final EntityType<? extends TrainerBase> type, final Level worldIn)
@@ -79,9 +79,10 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             {
                 final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getCommandSenderWorld());
                 final int stat = this.getBaseStats(mon);
-                if (stat > stat1 || mon.getLevel() > mon1.getLevel() || SpecialCaseRegister.getCaptureCondition(mon
-                        .getEvolutionEntry()) != null || SpecialCaseRegister.getSpawnCondition(mon
-                                .getEvolutionEntry()) != null) continue;
+                if (stat > stat1 || mon.getLevel() > mon1.getLevel()
+                        || SpecialCaseRegister.getCaptureCondition(mon.getEvolutionEntry()) != null
+                        || SpecialCaseRegister.getSpawnCondition(mon.getEvolutionEntry()) != null)
+                    continue;
                 final UUID trader1 = mon1.getOwnerId();
                 final boolean everstone = ItemList.is(ICanEvolve.EVERSTONE, stack);
                 mon.setOriginalOwnerUUID(this.getUUID());
@@ -116,7 +117,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     {
         if (this.isBaby() || this.getAge() > 0 || !this.aiStates.getAIState(AIState.MATES)) return null;
         if (TrainerTracker.countTrainers(this.getCommandSenderWorld(), this.location.set(this),
-                PokecubeAdv.config.trainerBox) > 5) return null;
+                PokecubeAdv.config.trainerBox) > 5)
+            return null;
         if (this.pokemobsCap.getGender() == 2)
         {
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(ageable);
@@ -124,7 +126,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             if (other != null && otherAI != null && otherAI.getAIState(AIState.MATES) && other.getGender() == 1)
             {
                 if (this.location == null) this.location = Vector3.getNewVector();
-                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this), this.getCommandSenderWorld());
+                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this),
+                        (ServerLevel) this.getCommandSenderWorld());
                 if (baby != null) baby.setAge(-24000);
                 return baby;
             }
@@ -135,8 +138,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     private int getBaseStats(final IPokemob mob)
     {
         final PokedexEntry entry = mob.getPokedexEntry();
-        return entry.getStatHP() + entry.getStatATT() + entry.getStatDEF() + entry.getStatATTSPE() + entry
-                .getStatDEFSPE() + entry.getStatVIT();
+        return entry.getStatHP() + entry.getStatATT() + entry.getStatDEF() + entry.getStatATTSPE()
+                + entry.getStatDEFSPE() + entry.getStatVIT();
     }
 
     @Override
@@ -200,13 +203,13 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public void addAdditionalSaveData(final CompoundTag compound)
     {
-        if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setItemInHand(
-                InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
+        if (this.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty())
+            this.setItemInHand(InteractionHand.OFF_HAND, this.pokemobsCap.getType().held.copy());
         if (!this.pokemobsCap.getType().bag.isEmpty())
         {
             final PlayerWearables worn = ThutWearables.getWearables(this);
-            if (worn.getWearable(EnumWearable.BACK).isEmpty()) worn.setWearable(EnumWearable.BACK, this.pokemobsCap
-                    .getType().bag.copy());
+            if (worn.getWearable(EnumWearable.BACK).isEmpty())
+                worn.setWearable(EnumWearable.BACK, this.pokemobsCap.getType().bag.copy());
         }
         this.setTypes(); // Ensure types are valid before saving.
         super.addAdditionalSaveData(compound);

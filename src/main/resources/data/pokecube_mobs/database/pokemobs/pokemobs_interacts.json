@@ -361,7 +361,7 @@
             "name": "Raichu Alola",
             "location": {
               "values": {
-                "types": "beach"
+                "preset": "beaches"
               }
             },
             "item_preset": "thunderstone",
@@ -1559,7 +1559,7 @@
             "name": "Magnezone",
             "location": {
               "values": {
-                "types": "cave"
+                "preset": "caves"
               }
             },
             "evoMoves": "triattack"
@@ -1757,7 +1757,7 @@
             "name": "Exeggutor Alola",
             "location": {
               "values": {
-                "types": "beach"
+                "preset": "beaches"
               }
             },
             "item_preset": "leafstone",
@@ -1812,7 +1812,7 @@
             "level": 35,
             "location": {
               "values": {
-                "types": "industrial"
+                "preset": "industrial"
               }
             },
             "evoMoves": "doublehit"
@@ -3736,7 +3736,7 @@
             "name": "Probopass",
             "location": {
               "values": {
-                "types": "industrial"
+                "preset": "industrial"
               }
             },
             "evoMoves": "Tri Attack"
@@ -5455,7 +5455,7 @@
             "name": "Mr. Mime Galar",
             "location": {
               "values": {
-                "types": "snow"
+                "preset": "snowy_areas"
               }
             },
             "move": "mimic"
@@ -6518,7 +6518,7 @@
             "level": 34,
             "location": {
               "values": {
-                "types": "hills"
+                "preset": "hills"
               }
             },
             "evoMoves": "shadowclaw"
@@ -7594,7 +7594,7 @@
             "location": {
               "values": {
                 "typesBlacklist": "cold",
-                "anyType": "ocean,beach"
+                "or_presets": "oceans,beaches"
               }
             },
             "evoMoves": "gust",
@@ -7646,7 +7646,7 @@
             "level": 12,
             "location": {
               "values": {
-                "biomes": "iceplainsspikes"
+                "biomes": "ice_spikes"
               }
             },
             "evoMoves": "gust",
@@ -7659,7 +7659,7 @@
             "level": 12,
             "location": {
               "values": {
-                "types": "cold"
+                "preset": "cold_areas"
               }
             },
             "evoMoves": "gust",
@@ -7672,7 +7672,7 @@
             "level": 12,
             "location": {
               "values": {
-                "anyType": "swamp,jungle"
+                "preset": "wet_areas"
               }
             },
             "evoMoves": "gust",
@@ -7685,7 +7685,7 @@
             "level": 12,
             "location": {
               "values": {
-                "types": "savanna"
+                "preset": "savannas"
               }
             },
             "evoMoves": "gust",
@@ -7698,7 +7698,7 @@
             "level": 12,
             "location": {
               "values": {
-                "types": "village"
+                "preset": "villages"
               }
             },
             "evoMoves": "gust",
@@ -7712,7 +7712,7 @@
             "location": {
               "values": {
                 "typesBlacklist": "cold,hot,mountain",
-                "anyType": "plains,forest"
+                "or_presets": "plains,forests"
               }
             },
             "evoMoves": "gust",
@@ -8579,7 +8579,7 @@
             "name": "Vikavolt",
             "location": {
               "values": {
-                "types": "industrial"
+                "preset": "industrial"
               }
             },
             "evoMoves": "thunderbolt"
@@ -8606,7 +8606,7 @@
             "name": "Crabominable",
             "location": {
               "values": {
-                "types": "cave"
+                "preset": "caves"
               }
             },
             "evoMoves": "icepunch"

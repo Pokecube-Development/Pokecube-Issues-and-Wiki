@@ -59,6 +59,7 @@ import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
@@ -75,11 +76,11 @@ public class TrainerSpawnHandler
 
     static
     {
-        SpawnEventsHandler.processors.add((mob, thing) ->
-        {
-            final Level world = mob.getCommandSenderWorld();
+        SpawnEventsHandler.processors.add((mob, thing) -> {
+            final ServerLevel world = (ServerLevel) mob.level;
             // Then apply trainer specific stuff.
-            int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(mob), Database.missingno);
+            int level = SpawnHandler
+                    .getSpawnLevel(new SpawnContext(world, Database.missingno, Vector3.getNewVector().set(mob)));
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
@@ -107,8 +108,7 @@ public class TrainerSpawnHandler
                 {
                     final ResourceLocation tag = new ResourceLocation(thing.get("trainerTag").getAsString());
                     final List<TypeTrainer> types = Lists.newArrayList();
-                    TypeTrainer.typeMap.values().forEach(t ->
-                    {
+                    TypeTrainer.typeMap.values().forEach(t -> {
                         if (t.tags.contains(tag)) types.add(t);
                     });
                     if (!types.isEmpty())
@@ -183,29 +183,29 @@ public class TrainerSpawnHandler
         return null;
     }
 
-    public static TrainerNpc getTrainer(Vector3 v, final Level w)
+    public static TrainerNpc getTrainer(Vector3 v, final ServerLevel w)
     {
         TypeTrainer ttype = null;
         final Material m = v.getBlockMaterial(w);
-        if (m == Material.AIR && v.offset(Direction.DOWN).getBlockMaterial(w) == Material.AIR) v = v.getTopBlockPos(w)
-                .offsetBy(Direction.UP);
+        if (m == Material.AIR && v.offset(Direction.DOWN).getBlockMaterial(w) == Material.AIR)
+            v = v.getTopBlockPos(w).offsetBy(Direction.UP);
         final SpawnCheck checker = new SpawnCheck(v, w);
         final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
         Collections.shuffle(types);
         types:
         for (final TypeTrainer type : types)
             for (final Entry<SpawnBiomeMatcher, Float> entry : type.matchers.entrySet())
+        {
+            final SpawnBiomeMatcher matcher = entry.getKey();
+            final Float value = entry.getValue();
+            if (w.random.nextFloat() < value && matcher.matches(checker))
             {
-                final SpawnBiomeMatcher matcher = entry.getKey();
-                final Float value = entry.getValue();
-                if (w.random.nextFloat() < value && matcher.matches(checker))
-                {
-                    ttype = type;
-                    break types;
-                }
+                ttype = type;
+                break types;
             }
+        }
         if (ttype == null) return null;
-        final int level = SpawnHandler.getSpawnLevel(w, v, Database.missingno);
+        final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
         final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
         trainer.aiStates.setAIState(AIState.TRADES_ITEMS, true);
@@ -216,8 +216,8 @@ public class TrainerSpawnHandler
     {
         final Vector3 loc = Vector3.getNewVector().set(trainer);
         // Set level based on what wild pokemobs have.
-        int level = SpawnHandler.getSpawnLevel(trainer.getCommandSenderWorld(), loc, Pokedex.getInstance()
-                .getFirstEntry());
+        int level = SpawnHandler.getSpawnLevel(
+                new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));
 
         if (trainer instanceof LeaderNpc)
         {
@@ -247,8 +247,8 @@ public class TrainerSpawnHandler
             // Init for trainers randomizes their teams
             if (mobs.getType() != null) t.setType(mobs.getType()).setLevel(level);
         }
-        else if (mobs.getType() != null) TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer
-                .getCommandSenderWorld());
+        else if (mobs.getType() != null)
+            TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer.getCommandSenderWorld());
     }
 
     public static void tick(final ServerLevel w)
@@ -292,8 +292,8 @@ public class TrainerSpawnHandler
                     || NaturalSpawner.isSpawnPositionOk(Type.IN_WATER, w, v.getPos(), t.getType())))
                 return;
 
-            if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(),
-                    (int) t.getZ()))
+            if (t.pokemobsCap.countPokemon() > 0
+                    && SpawnHandler.checkNoSpawnerInArea(w, (int) t.getX(), (int) t.getY(), (int) t.getZ()))
             {
                 w.addFreshEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
@@ -306,8 +306,8 @@ public class TrainerSpawnHandler
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
-        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel && evt.world
-                .getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
+        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel
+                && evt.world.getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
             final long time = System.nanoTime();
             TrainerSpawnHandler.tick((ServerLevel) evt.world);
@@ -336,8 +336,9 @@ public class TrainerSpawnHandler
                     : TrainerNpc.TYPE.create(event.worldActual);
             mob.setPersistenceRequired();
             mob.moveTo(event.pos, 0.0F, 0.0F);
-            mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
-                    MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
+            mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
+                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null,
+                    (CompoundTag) null);
             JsonObject thing = new JsonObject();
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
@@ -345,22 +346,21 @@ public class TrainerSpawnHandler
                 thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
                 // Check if we specify a preset instead, and if that exists, use
                 // that.
-                if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
-                        .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
-                                .getAsString());
+                if (thing.has("preset")
+                        && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset").getAsString()))
+                    thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset").getAsString());
             }
             catch (final Exception e)
             {
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
-            if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual,
-                    MobSpawnType.STRUCTURE, thing)))
+            if (!MinecraftForge.EVENT_BUS
+                    .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
             {
                 event.setResult(Result.ALLOW);
                 final JsonObject apply = thing;
-                EventsHandler.Schedule(event.worldActual, w ->
-                {
+                EventsHandler.Schedule(event.worldActual, w -> {
                     SpawnEventsHandler.applyFunction(mob, apply);
                     w.addFreshEntity(mob);
                     return true;

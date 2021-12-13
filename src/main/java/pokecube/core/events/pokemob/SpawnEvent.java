@@ -1,10 +1,14 @@
 package pokecube.core.events.pokemob;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.nfunk.jep.JEP;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.core.database.PokedexEntry;
@@ -15,6 +19,50 @@ import thut.core.common.ThutCore;
 /** These events are all fired on the PokecubeCore.POKEMOB_BUS */
 public class SpawnEvent extends Event
 {
+
+    public static record SpawnContext(@Nullable ServerPlayer player, @Nonnull ServerLevel level,
+            @Nonnull PokedexEntry entry, @Nonnull Vector3 location)
+    {
+        public SpawnContext(@Nonnull IPokemob pokemob_)
+        {
+            this(pokemob_.getOwner() instanceof ServerPlayer player ? player : null,
+                    (ServerLevel) pokemob_.getEntity().level, pokemob_.getPokedexEntry(),
+                    Vector3.getNewVector().set(pokemob_.getEntity()));
+        }
+
+        public SpawnContext(@Nonnull ServerPlayer player, PokedexEntry entry)
+        {
+            this(player, (ServerLevel) player.level, entry, Vector3.getNewVector().set(player));
+        }
+
+        public SpawnContext(SpawnContext context, PokedexEntry entry)
+        {
+            this(context.player, context.level, entry, context.location);
+        }
+
+        public SpawnContext(SpawnContext context, Vector3 location)
+        {
+            this(context.player, context.level, context.entry, location);
+        }
+
+        public SpawnContext(ServerLevel level, PokedexEntry entry, Vector3 location)
+        {
+            this(null, level, entry, location);
+        }
+
+        /**
+         * 
+         * @return either the player associated with this context, or the
+         *         nearest one to the location.
+         */
+        public ServerPlayer getPlayer()
+        {
+            return player != null ? player
+                    : (ServerPlayer) level.getNearestPlayer(TargetingConditions.DEFAULT, location.x, location.y,
+                            location.x);
+        }
+    }
+
     /**
      * Called before the pokemob is spawned into the world, during the checks
      * for a valid location. <br>
@@ -25,15 +73,14 @@ public class SpawnEvent extends Event
     public static class Check extends SpawnEvent
     {
         /**
-         * Is this even actually for spawning, or just checking if something
-         * can spawn, say in pokedex
+         * Is this even actually for spawning, or just checking if something can
+         * spawn, say in pokedex
          */
         public final boolean forSpawn;
 
-        public Check(final PokedexEntry entry, final Vector3 location, final LevelAccessor world,
-                final boolean forSpawn)
+        public Check(final SpawnContext context, final boolean forSpawn)
         {
-            super(entry, location, world);
+            super(context);
             this.forSpawn = forSpawn;
         }
     }
@@ -43,18 +90,17 @@ public class SpawnEvent extends Event
     {
         public final IPokemob pokemob;
 
-        public Despawn(final Vector3 location, final LevelAccessor world, final IPokemob pokemob_)
+        public Despawn(final IPokemob pokemob_)
         {
-            super(pokemob_.getPokedexEntry(), location, world);
+            super(new SpawnContext(pokemob_));
             this.pokemob = pokemob_;
         }
-
     }
 
     public static class Function
     {
-        public String  dim;
-        public String  func;
+        public String dim;
+        public String func;
         public boolean radial;
         public boolean central;
     }
@@ -91,18 +137,21 @@ public class SpawnEvent extends Event
      */
     public static class PickLevel extends SpawnEvent
     {
-        private int            level;
+        private int level;
         private final Variance variance;
-        private final int      original;
+        private final int original;
 
-        public PickLevel(final PokedexEntry entry_, final Vector3 location_, final LevelAccessor world,
-                final int level,
-                final Variance variance)
+        public PickLevel(final SpawnContext context, final int level, final Variance variance)
         {
-            super(entry_, location_, world);
+            super(context);
             this.level = level;
             this.original = level;
             this.variance = variance;
+        }
+
+        public PickLevel(IPokemob pokemob, final int level, final Variance variance)
+        {
+            this(new SpawnContext(pokemob), level, variance);
         }
 
         public Variance getExpectedVariance()
@@ -155,9 +204,9 @@ public class SpawnEvent extends Event
         {
             private String args = "";
 
-            public Final(final PokedexEntry entry_, final Vector3 location_, final Level worldObj_)
+            public Final(SpawnContext context)
             {
-                super(entry_, location_, worldObj_);
+                super(context);
             }
 
             public String getSpawnArgs()
@@ -179,9 +228,9 @@ public class SpawnEvent extends Event
          */
         public static class Post extends Pick
         {
-            public Post(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+            public Post(SpawnContext context)
             {
-                super(entry_, location_, world_);
+                super(context);
             }
         }
 
@@ -193,18 +242,20 @@ public class SpawnEvent extends Event
          */
         public static class Pre extends Pick
         {
-            public Pre(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+            public Pre(SpawnContext context)
             {
-                super(entry_, location_, world_);
+                super(context);
             }
         }
 
         private PokedexEntry pick;
+        private Vector3 location;
 
-        public Pick(final PokedexEntry entry_, final Vector3 location_, final Level world_)
+        public Pick(SpawnContext context)
         {
-            super(entry_, location_, world_);
-            this.pick = entry_;
+            super(context);
+            this.pick = context.entry();
+            location = context.location();
         }
 
         public Vector3 getLocation()
@@ -219,7 +270,7 @@ public class SpawnEvent extends Event
 
         public void setLocation(final Vector3 loc)
         {
-            this.location.set(loc);
+            this.location = loc.copy();
         }
 
         public void setPick(final PokedexEntry toPick)
@@ -236,11 +287,11 @@ public class SpawnEvent extends Event
     public static class Post extends SpawnEvent
     {
         public final IPokemob pokemob;
-        public final Mob      entity;
+        public final Mob entity;
 
-        public Post(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+        public Post(final IPokemob pokemob)
         {
-            super(entry, location, world);
+            super(new SpawnContext(pokemob));
             this.pokemob = pokemob;
             this.entity = pokemob.getEntity();
         }
@@ -254,9 +305,9 @@ public class SpawnEvent extends Event
     @Cancelable
     public static class Pre extends SpawnEvent
     {
-        public Pre(final PokedexEntry entry, final Vector3 location, final Level world)
+        public Pre(SpawnContext context)
         {
-            super(entry, location, world);
+            super(context);
         }
     }
 
@@ -265,9 +316,9 @@ public class SpawnEvent extends Event
     {
         public static class Post extends SendOut
         {
-            public Post(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+            public Post(final IPokemob pokemob)
             {
-                super(entry, location, world, pokemob);
+                super(pokemob);
             }
         }
 
@@ -280,9 +331,9 @@ public class SpawnEvent extends Event
         @Cancelable
         public static class Pre extends SendOut
         {
-            public Pre(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+            public Pre(final IPokemob pokemob)
             {
-                super(entry, location, world, pokemob);
+                super(pokemob);
             }
         }
 
@@ -290,9 +341,9 @@ public class SpawnEvent extends Event
 
         public final Mob entity;
 
-        protected SendOut(final PokedexEntry entry, final Vector3 location, final Level world, final IPokemob pokemob)
+        protected SendOut(final IPokemob pokemob)
         {
-            super(entry, location, world);
+            super(new SpawnContext(pokemob));
             this.pokemob = pokemob;
             this.entity = pokemob.getEntity();
         }
@@ -301,8 +352,7 @@ public class SpawnEvent extends Event
     public static class Variance
     {
         public Variance()
-        {
-        }
+        {}
 
         public int apply(final int level)
         {
@@ -310,16 +360,35 @@ public class SpawnEvent extends Event
         }
     }
 
-    public final PokedexEntry entry;
+    private final SpawnContext context;
 
-    public final Vector3 location;
-
-    public final LevelAccessor world;
-
-    public SpawnEvent(final PokedexEntry entry_, final Vector3 location_, final LevelAccessor world)
+    public SpawnEvent(final SpawnContext _context)
     {
-        this.entry = entry_;
-        this.location = location_;
-        this.world = world;
+        this.context = _context;
+    }
+
+    public ServerLevel level()
+    {
+        return context.level();
+    }
+
+    public ServerPlayer player()
+    {
+        return context.player();
+    }
+
+    public PokedexEntry entry()
+    {
+        return context.entry();
+    }
+
+    public Vector3 location()
+    {
+        return context.location();
+    }
+
+    public SpawnContext context()
+    {
+        return context;
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +28,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -184,8 +186,9 @@ public abstract class TrainerBase extends NpcMob
             if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
                 this.checkedMobs = true;
-                final int level = SpawnHandler.getSpawnLevel(this.getCommandSenderWorld(),
-                        Vector3.getNewVector().set(this), type.pokemon.get(0));
+                SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
+                        Vector3.getNewVector().set(this));
+                final int level = SpawnHandler.getSpawnLevel(context);
                 this.initTeam(level);
                 type.initTrainerItems(this);
             }

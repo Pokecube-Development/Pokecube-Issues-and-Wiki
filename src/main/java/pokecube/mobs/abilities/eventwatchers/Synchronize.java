@@ -29,7 +29,7 @@ public class Synchronize extends Ability
     public void editNature(SpawnEvent.Post event)
     {
         if (!this.pokemob.getEntity().isAlive()) this.destroy();
-        else if (event.location.distToSq(this.location) < this.range * this.range && Math.random() > 0.5) event.pokemob
+        else if (event.location().distToSq(this.location) < this.range * this.range && Math.random() > 0.5) event.pokemob
                 .setNature(this.pokemob.getNature());
     }
 

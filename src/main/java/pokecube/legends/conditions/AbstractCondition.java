@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -27,6 +26,7 @@ import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
 import pokecube.core.database.stats.KillStats;
 import pokecube.core.database.stats.SpecialCaseRegister;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -42,15 +42,13 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     protected static boolean isBlock(final Level world, final ArrayList<Vector3> blocks, final Block toTest)
     {
-        for (final Vector3 v : blocks)
-            if (v.getBlock(world) != toTest) return false;
+        for (final Vector3 v : blocks) if (v.getBlock(world) != toTest) return false;
         return true;
     }
 
     protected static boolean isBlock(final Level world, final ArrayList<Vector3> blocks, final ResourceLocation toTest)
     {
-        for (final Vector3 v : blocks)
-            if (!ItemList.is(toTest, v.getBlockState(world))) return false;
+        for (final Vector3 v : blocks) if (!ItemList.is(toTest, v.getBlockState(world))) return false;
         return true;
     }
 
@@ -58,9 +56,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
      * @param world
      * @param blocks
      * @param material
-     * @param bool
-     *            if true, looks for matches, if false looks for anything that
-     *            doesn't match.
+     * @param bool     if true, looks for matches, if false looks for anything
+     *                 that doesn't match.
      * @return
      */
     protected static boolean isMaterial(final Level world, final ArrayList<Vector3> blocks, final Material material,
@@ -69,11 +66,9 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
         final boolean ret = true;
         if (bool)
         {
-            for (final Vector3 v : blocks)
-                if (v.getBlockMaterial(world) != material) return false;
+            for (final Vector3 v : blocks) if (v.getBlockMaterial(world) != material) return false;
         }
-        else for (final Vector3 v : blocks)
-            if (v.getBlockMaterial(world) == material) return false;
+        else for (final Vector3 v : blocks) if (v.getBlockMaterial(world) == material) return false;
         return ret;
     }
 
@@ -81,8 +76,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     public boolean isRelevant(final BlockState state)
     {
-        for (final Predicate<BlockState> check : this.relevantBlocks)
-            if (check.test(state)) return true;
+        for (final Predicate<BlockState> check : this.relevantBlocks) if (check.test(state)) return true;
         return false;
     }
 
@@ -149,8 +143,7 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     }
 
     protected void onCapureFail(final IPokemob pokemob)
-    {
-    }
+    {}
 
     @Override
     public final boolean canCapture(final Entity trainer)
@@ -161,55 +154,48 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
 
     @Override
     public void onSpawn(final IPokemob mob)
-    {
-    }
+    {}
 
     @Override
-    public CanSpawn canSpawn(final Entity trainer)
+    public CanSpawn canSpawn(final SpawnContext context)
     {
-        if (trainer == null) return CanSpawn.NO;
+        if (context.player() == null) return CanSpawn.NO;
         // Already have one, cannot spawn again.
-        if (this.alreadyHas(trainer)) return CanSpawn.ALREADYHAVE;
+        if (this.alreadyHas(context.player())) return CanSpawn.ALREADYHAVE;
 
-        if (trainer instanceof ServerPlayer)
+        final String tag = "spwned:" + this.getEntry().getTrimmedName();
+        final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(context.player()).contains(tag);
+        if (!prevSpawn) return CanSpawn.YES;
+        final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(context.player()).getLong(tag);
+        final boolean prevDied = spwnDied > 0;
+        if (prevDied)
         {
-            final ServerPlayer player = (ServerPlayer) trainer;
-            final String tag = "spwned:" + this.getEntry().getTrimmedName();
-            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).contains(tag);
-            if (!prevSpawn) return CanSpawn.YES;
-            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(player).getLong(tag);
-            final boolean prevDied = spwnDied > 0;
-            if (prevDied)
+            final long now = Tracker.instance().getTick();
+            final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < now;
+            if (doneCooldown)
             {
-                final long now = Tracker.instance().getTick();
-                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < now;
-                if (doneCooldown)
-                {
-                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag);
-                    PokecubePlayerDataHandler.saveCustomData(player);
-                    return CanSpawn.YES;
-                }
+                PokecubePlayerDataHandler.getCustomDataTag(context.player()).remove(tag);
+                PokecubePlayerDataHandler.saveCustomData(context.player());
+                return CanSpawn.YES;
             }
-            return CanSpawn.ALREADYHAVE;
         }
-        return CanSpawn.YES;
+        return CanSpawn.ALREADYHAVE;
     }
 
     @Override
-    public CanSpawn canSpawn(final Entity trainer, final Vector3 location, final boolean message)
+    public CanSpawn canSpawn(SpawnContext context, final boolean message)
     {
-        final CanSpawn test = this.canSpawn(trainer);
+        final CanSpawn test = this.canSpawn(context);
         if (!test.test()) return test;
         final SpawnData data = this.getEntry().getSpawnData();
-        final boolean canSpawnHere = data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location,
-                trainer.getCommandSenderWorld(), false);
+        final boolean canSpawnHere = data == null || SpawnHandler.canSpawn(data, context, false);
         if (canSpawnHere)
         {
-            final boolean here = PokemobTracker.countPokemobs(location, trainer.getCommandSenderWorld(), 32, this
-                    .getEntry()) > 0;
+            final boolean here = PokemobTracker.countPokemobs(context.location(), context.level(), 32,
+                    this.getEntry()) > 0;
             return here ? CanSpawn.ALREADYHERE : CanSpawn.YES;
         }
-        if (message) this.sendNoHere(trainer);
+        if (message) this.sendNoHere(context.player());
         return CanSpawn.NOTHERE;
     }
 
@@ -236,16 +222,16 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendNoTrust(final Entity trainer)
     {
         final String message = "msg.notrust.info";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
-                this.getEntry().getUnlocalizedName()));
+        final TranslatableComponent component = new TranslatableComponent(message,
+                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
         return component;
     }
 
     public MutableComponent sendNoHere(final Entity trainer)
     {
         final String message = "msg.nohere.info";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
-                this.getEntry().getUnlocalizedName()));
+        final TranslatableComponent component = new TranslatableComponent(message,
+                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
         trainer.sendMessage(component, Util.NIL_UUID);
         return component;
     }
@@ -254,23 +240,20 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
-                type)));
+        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(type)));
         final TranslatableComponent component = new TranslatableComponent(message, typeMess, numA + 1, numB);
         return component;
     }
 
     // Duo Type Legend
-    public MutableComponent sendLegendDuo(final Entity trainer, final String type, final String kill,
-            final int numA, final int numB, final int killa, final int killb)
+    public MutableComponent sendLegendDuo(final Entity trainer, final String type, final String kill, final int numA,
+            final int numB, final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
-        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
-                type)));
-        final Component killMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(
-                kill)));
-        final TranslatableComponent component = new TranslatableComponent(message, typeMess, killMess, numA + 1,
-                numB, killa + 1, killb);
+        final Component typeMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(type)));
+        final Component killMess = new TranslatableComponent(PokeType.getUnlocalizedName(PokeType.getType(kill)));
+        final TranslatableComponent component = new TranslatableComponent(message, typeMess, killMess, numA + 1, numB,
+                killa + 1, killb);
         return component;
     }
 
@@ -308,8 +291,8 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     public MutableComponent sendAngered(final Entity trainer)
     {
         final String message = "msg.angeredlegend.json";
-        final TranslatableComponent component = new TranslatableComponent(message, new TranslatableComponent(
-                this.getEntry().getUnlocalizedName()));
+        final TranslatableComponent component = new TranslatableComponent(message,
+                new TranslatableComponent(this.getEntry().getUnlocalizedName()));
         return component;
     }
 }

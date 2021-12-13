@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -100,27 +102,27 @@ public class ClientSetupHandler
 
         // Register keybinds
         PokecubeCore.LOGGER.debug("Init Keybinds");
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.nextMob = new KeyMapping("key.pokemob.next",
-                GLFW.GLFW_KEY_RIGHT, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.previousMob = new KeyMapping("key.pokemob.prev",
-                GLFW.GLFW_KEY_LEFT, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.nextMob = new KeyMapping("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.previousMob = new KeyMapping("key.pokemob.prev", GLFW.GLFW_KEY_LEFT, "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.nextMove = new KeyMapping("key.pokemob.move.next",
-                GLFW.GLFW_KEY_DOWN, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.nextMove = new KeyMapping("key.pokemob.move.next", GLFW.GLFW_KEY_DOWN, "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.previousMove = new KeyMapping("key.pokemob.move.prev",
                 GLFW.GLFW_KEY_UP, "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobBack = new KeyMapping("key.pokemob.recall",
-                GLFW.GLFW_KEY_R, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobAttack = new KeyMapping("key.pokemob.attack",
-                GLFW.GLFW_KEY_G, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.mobBack = new KeyMapping("key.pokemob.recall", GLFW.GLFW_KEY_R, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.mobAttack = new KeyMapping("key.pokemob.attack", GLFW.GLFW_KEY_G, "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobStance = new KeyMapping("key.pokemob.stance",
                 GLFW.GLFW_KEY_BACKSLASH, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMegavolve = new KeyMapping("key.pokemob.megaevolve",
                 GLFW.GLFW_KEY_M, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.noEvolve = new KeyMapping("key.pokemob.b", GLFW.GLFW_KEY_B,
-                "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.noEvolve = new KeyMapping("key.pokemob.b", GLFW.GLFW_KEY_B, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove1 = new KeyMapping("key.pokemob.move.1",
                 InputConstants.UNKNOWN.getValue(), "Pokecube"));
@@ -131,8 +133,8 @@ public class ClientSetupHandler
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobMove4 = new KeyMapping("key.pokemob.move.4",
                 InputConstants.UNKNOWN.getValue(), "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.mobUp = new KeyMapping("key.pokemob.up",
-                GLFW.GLFW_KEY_SPACE, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientSetupHandler.mobUp = new KeyMapping("key.pokemob.up", GLFW.GLFW_KEY_SPACE, "Pokecube"));
         ClientRegistry.registerKeyBinding(ClientSetupHandler.mobDown = new KeyMapping("key.pokemob.down",
                 GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube"));
 
@@ -156,8 +158,7 @@ public class ClientSetupHandler
         // Register the gui side of the screens.
         PokecubeCore.LOGGER.debug("Init Screen Factories");
 
-        final MenuScreens.ScreenConstructor<ContainerPokemob, GuiPokemobBase> factory = (c, i, t) ->
-        {
+        final MenuScreens.ScreenConstructor<ContainerPokemob, GuiPokemobBase> factory = (c, i, t) -> {
             switch (c.mode)
             {
             case PacketPokemobGui.AI:
@@ -223,10 +224,7 @@ public class ClientSetupHandler
     public static void colourBlocks(final ColorHandlerEvent.Block event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        // System.out.println(pechaLeaves);
-        // System.out.println(qualotLeaves);
-        event.getBlockColors().register((state, reader, pos, tintIndex) ->
-        {
+        event.getBlockColors().register((state, reader, pos, tintIndex) -> {
             return reader != null && pos != null ? BiomeColors.getAverageFoliageColor(reader, pos)
                     : FoliageColor.getDefaultColor();
         }, qualotLeaves);
@@ -236,18 +234,25 @@ public class ClientSetupHandler
     public static void colourItems(final ColorHandlerEvent.Item event)
     {
         final Block qualotLeaves = BerryManager.berryLeaves.get(23);
-        event.getItemColors().register((stack, tintIndex) ->
-        {
+        event.getItemColors().register((stack, tintIndex) -> {
             final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, qualotLeaves);
 
-        event.getItemColors().register((stack, tintIndex) ->
-        {
+        event.getItemColors().register((stack, tintIndex) -> {
             final PokeType type = PokeType.unknown;
             final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
             if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.EGG.get());
+    }
+
+    @SubscribeEvent
+    public static void textureStitch(final TextureStitchEvent.Pre event)
+    {
+        if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
+        PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
+        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
+        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));
     }
 }

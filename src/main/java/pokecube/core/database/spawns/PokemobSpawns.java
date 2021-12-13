@@ -12,7 +12,6 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -64,6 +63,7 @@ public class PokemobSpawns extends ResourceData
 
     public PokemobSpawns(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }
@@ -80,14 +80,14 @@ public class PokemobSpawns extends ResourceData
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad)
         {
-            PokecubeCore.LOGGER.info("Loaded Pokemob spawns.");
+            PokecubeCore.LOGGER.debug("Loaded Pokemob spawns.");
             valid.set(true);
         }
     }
 
     private void apply()
     {
-        PokecubeCore.LOGGER.info("Applying Pokemob spawns.");
+        PokecubeCore.LOGGER.debug("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
             String[] presets = entry.spawn_preset.split(",");
@@ -123,8 +123,6 @@ public class PokemobSpawns extends ResourceData
                         customRule.values.put(new QName("rate"), mob.rate + "");
                         if (mob.level > 0) customRule.values.put(new QName("level"), mob.level + "");
                         if (mob.variance != null) customRule.values.put(new QName("variance"), mob.variance);
-
-                        if (customRule.toString().contains("deserts")) System.out.println(key + " " + customRule);
                         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }
@@ -135,7 +133,7 @@ public class PokemobSpawns extends ResourceData
                 });
             }
         });
-        PokecubeCore.LOGGER.info("Applied Pokemob spawns.");
+        PokecubeCore.LOGGER.debug("Applied Pokemob spawns.");
     }
 
     private void loadFile(final ResourceLocation l)
@@ -143,25 +141,28 @@ public class PokemobSpawns extends ResourceData
         try
         {
             final List<SpawnList> loaded = Lists.newArrayList();
-            for (final Resource resource : PackFinder.getResources(l))
+
+            // This one we just take the first resourcelocation. If someone
+            // wants to edit an existing one, it means they are most likely
+            // trying to remove default behaviour. They can add new things by
+            // just adding another json file to the correct package.
+            InputStream res = PackFinder.getStream(l);
+            final Reader reader = new InputStreamReader(res);
+            try
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
-                try
-                {
-                    final SpawnList temp = PokedexEntryLoader.gson.fromJson(reader, SpawnList.class);
-                    if (!confirmNew(temp, l)) continue;
-                    if (temp.replace) loaded.clear();
-                    loaded.add(temp);
-                }
-                catch (final Exception e)
-                {
-                    // Might not be valid, so log and skip in that case.
-                    PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                    PokecubeCore.LOGGER.error(e);
-                }
-                reader.close();
+                final SpawnList temp = PokedexEntryLoader.gson.fromJson(reader, SpawnList.class);
+                if (!confirmNew(temp, l)) return;
+                if (temp.replace) loaded.clear();
+                loaded.add(temp);
             }
+            catch (final Exception e)
+            {
+                // Might not be valid, so log and skip in that case.
+                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeCore.LOGGER.error(e);
+            }
+            reader.close();
+
             for (final SpawnList m : loaded)
             {
                 final List<SpawnEntry> conds = m.rules;

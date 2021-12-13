@@ -599,8 +599,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                     .getOwner()), 1.0f));
             return;
         }
-
-        // System.out.println(pokemob+":");
         if (pokemob != null) pokemob.onRecall();
         else
         {

@@ -12,7 +12,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
@@ -41,6 +40,7 @@ public class ConditionLoader extends ResourceData
 
     public ConditionLoader(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }
@@ -74,25 +74,27 @@ public class ConditionLoader extends ResourceData
         try
         {
             final List<Conditions> loaded = Lists.newArrayList();
-            for (final Resource resource : PackFinder.getResources(l))
+
+            // This one we just take the first resourcelocation. If someone
+            // wants to edit an existing one, it means they are most likely
+            // trying to remove default behaviour. They can add new things by
+            // just adding another json file to the correct package.
+            InputStream res = PackFinder.getStream(l);
+            final Reader reader = new InputStreamReader(res);
+            try
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
-                try
-                {
-                    final Conditions temp = PokedexEntryLoader.gson.fromJson(reader, Conditions.class);
-                    if (!confirmNew(temp, l)) continue;
-                    if (temp.replace) loaded.clear();
-                    loaded.add(temp);
-                }
-                catch (final Exception e)
-                {
-                    // Might not be valid, so log and skip in that case.
-                    PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                    PokecubeCore.LOGGER.error(e);
-                }
-                reader.close();
+                final Conditions temp = PokedexEntryLoader.gson.fromJson(reader, Conditions.class);
+                if (!confirmNew(temp, l)) return;
+                if (temp.replace) loaded.clear();
+                loaded.add(temp);
             }
+            catch (final Exception e)
+            {
+                // Might not be valid, so log and skip in that case.
+                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeCore.LOGGER.error(e);
+            }
+            reader.close();
 
             for (final Conditions m : loaded)
             {

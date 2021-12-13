@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import pokecube.core.PokecubeCore;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.NBTHelper;
 import pokecube.nbtedit.NBTStringHelper;
@@ -152,7 +153,7 @@ public class NBTTree
 
     private void print(Node<NamedNBT> n, int i)
     {
-        System.out.println(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
+        PokecubeCore.LOGGER.info(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
         for (final Node<NamedNBT> child : n.getChildren())
             this.print(child, i + 1);
     }

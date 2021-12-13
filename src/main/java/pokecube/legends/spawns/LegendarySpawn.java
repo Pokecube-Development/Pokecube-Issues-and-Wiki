@@ -8,8 +8,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -26,6 +26,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition.CanSpawn;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -43,29 +44,27 @@ public class LegendarySpawn
         SUCCESS, WRONGITEM, NOCAPTURE, ALREADYHAVE, NOSPAWN, FAIL;
     }
 
-    private static List<LegendarySpawn> spawns      = Lists.newArrayList();
-    public static List<LegendarySpawn>  data_spawns = Lists.newArrayList();
+    private static List<LegendarySpawn> spawns = Lists.newArrayList();
+    public static List<LegendarySpawn> data_spawns = Lists.newArrayList();
 
     private static List<LegendarySpawn> getForBlock(final BlockState state)
     {
         final List<LegendarySpawn> matches = Lists.newArrayList();
-        LegendarySpawn.spawns.forEach(s ->
-        {
+        LegendarySpawn.spawns.forEach(s -> {
             if (s.targetBlockChecker.test(state)) matches.add(s);
         });
-        LegendarySpawn.data_spawns.forEach(s ->
-        {
+        LegendarySpawn.data_spawns.forEach(s -> {
             if (s.targetBlockChecker.test(state)) matches.add(s);
         });
         return matches;
     }
 
     private static SpawnResult trySpawn(final LegendarySpawn spawn, final ItemStack stack,
-            final PlayerInteractEvent.RightClickBlock evt, final boolean message)
+            final PlayerInteractEvent.RightClickBlock evt, SpawnContext context, final boolean message)
     {
-        final Player playerIn = evt.getPlayer();
-        final ServerLevel worldIn = (ServerLevel) evt.getWorld();
-        final PokedexEntry entry = spawn.entry;
+        final ServerPlayer playerIn = context.player();
+        final ServerLevel worldIn = context.level();
+        final PokedexEntry entry = context.entry();
 
         final SpawnResult result = !spawn.heldItemChecker.test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
 
@@ -74,7 +73,7 @@ public class LegendarySpawn
         if (spawnCondition != null)
         {
             final Vector3 location = Vector3.getNewVector().set(evt.getPos());
-            final CanSpawn test = spawnCondition.canSpawn(playerIn, location, message);
+            final CanSpawn test = spawnCondition.canSpawn(context, message);
             if (test == CanSpawn.ALREADYHAVE) return SpawnResult.ALREADYHAVE;
             if (test.test())
             {
@@ -83,14 +82,14 @@ public class LegendarySpawn
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
                 {
-                    if (message && captureCondition instanceof AbstractCondition) ((AbstractCondition) captureCondition)
-                            .canCapture(playerIn, message);
+                    if (message && captureCondition instanceof AbstractCondition)
+                        ((AbstractCondition) captureCondition).canCapture(playerIn, message);
                     evt.setCanceled(true);
                     return SpawnResult.NOCAPTURE;
                 }
                 // This puts player on a cooldown for respawning the mob
-                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(), Tracker
-                        .instance().getTick());
+                PokecubePlayerDataHandler.getCustomDataTag(playerIn).putLong("spwned:" + entry.getTrimmedName(),
+                        Tracker.instance().getTick());
                 // Mob gets spawnedby to prevent others from capturing
                 entity.getPersistentData().putUUID("spwnedby", playerIn.getUUID());
                 // These prevent drops and the mob disappearing when it dies
@@ -101,10 +100,10 @@ public class LegendarySpawn
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
                 playerIn.getMainHandItem().setCount(0);
-                if (PokecubeLegends.config.singleUseLegendSpawns) worldIn.setBlockAndUpdate(evt.getPos(), Blocks.AIR
-                        .defaultBlockState());
-                if (pokemob.getExp() < 100) entity = pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50))
-                        .getEntity();
+                if (PokecubeLegends.config.singleUseLegendSpawns)
+                    worldIn.setBlockAndUpdate(evt.getPos(), Blocks.AIR.defaultBlockState());
+                if (pokemob.getExp() < 100)
+                    entity = pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50)).getEntity();
                 worldIn.addFreshEntity(entity);
                 evt.setCanceled(true);
                 return SpawnResult.SUCCESS;
@@ -123,14 +122,16 @@ public class LegendarySpawn
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (!(evt.getWorld() instanceof ServerLevel)) return;
-        final BlockState state = evt.getWorld().getBlockState(evt.getPos());
+        if (!(evt.getWorld() instanceof ServerLevel level)) return;
+        final BlockState state = level.getBlockState(evt.getPos());
         final List<LegendarySpawn> matches = LegendarySpawn.getForBlock(state);
         if (matches.isEmpty()) return;
         final long now = Tracker.instance().getTick();
         final boolean repeated = evt.getPlayer().getPersistentData().getLong("pokecube_legends:msgtick") != now;
         if (!repeated || evt.getPlayer().isCrouching()) return;
         evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", now);
+
+        final Vector3 location = Vector3.getNewVector().set(evt.getPos());
 
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.
@@ -148,8 +149,8 @@ public class LegendarySpawn
                 entry = match1.entry;
                 final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
                 if (spawnCondition == null) continue;
-                final Vector3 location = Vector3.getNewVector().set(evt.getPos());
-                if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
+                SpawnContext context = new SpawnContext((ServerPlayer) evt.getPlayer(), level, entry, location);
+                if (spawnCondition.canSpawn(context, false).test()) break;
             }
             evt.getPlayer().displayClientMessage(new TranslatableComponent("msg.noitem.info",
                     new TranslatableComponent(match.entry.getUnlocalizedName())), true);
@@ -165,7 +166,8 @@ public class LegendarySpawn
 
         for (final LegendarySpawn match : matches)
         {
-            result = LegendarySpawn.trySpawn(match, stack, evt, false);
+            SpawnContext context = new SpawnContext((ServerPlayer) evt.getPlayer(), level, match.entry, location);
+            result = LegendarySpawn.trySpawn(match, stack, evt, context, false);
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
 
@@ -177,7 +179,7 @@ public class LegendarySpawn
             {
                 // This should have given the error message itself, so lets
                 // report that, then return
-                LegendarySpawn.trySpawn(match, stack, evt, true);
+                LegendarySpawn.trySpawn(match, stack, evt, context, true);
                 return;
             }
         }
@@ -217,7 +219,7 @@ public class LegendarySpawn
 
     }
 
-    private final Predicate<ItemStack>  heldItemChecker;
+    private final Predicate<ItemStack> heldItemChecker;
     private final Predicate<BlockState> targetBlockChecker;
 
     private final PokedexEntry entry;
@@ -243,8 +245,8 @@ public class LegendarySpawn
         this.heldItemChecker = heldItemChecker;
         this.targetBlockChecker = targetBlockChecker;
         this.entry = Database.getEntry(entry);
-        if (this.entry == null) PokecubeCore.LOGGER.warn(
-                "Tried to register spawn entry for {}, which is not a valid entry!", entry);
+        if (this.entry == null)
+            PokecubeCore.LOGGER.warn("Tried to register spawn entry for {}, which is not a valid entry!", entry);
         else if (!data_based) LegendarySpawn.spawns.add(this);
     }
 }

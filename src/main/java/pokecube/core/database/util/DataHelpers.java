@@ -18,11 +18,20 @@ public class DataHelpers
 
         default void postReload()
         {};
+
+        String getKey();
     }
 
     public static abstract class ResourceData implements IResourceData
     {
         final Set<String> md5s = Sets.newHashSet();
+
+        private final String key;
+
+        public ResourceData(String key)
+        {
+            this.key = key;
+        }
 
         protected void preLoad()
         {
@@ -40,6 +49,12 @@ public class DataHelpers
             return true;
         }
 
+        @Override
+        public String getKey()
+        {
+            return key;
+        }
+
     }
 
     private static final Set<IResourceData> tagHelpers = Sets.newHashSet();
@@ -47,10 +62,20 @@ public class DataHelpers
     public static void onResourcesReloaded()
     {
         final AtomicBoolean valid = new AtomicBoolean(false);
-        DataHelpers.tagHelpers.forEach(t -> t.reload(valid));
+        DataHelpers.tagHelpers.forEach(t -> {
+            long time = System.nanoTime();
+            t.reload(valid);
+            double dt = (System.nanoTime() - time) / 1e6;
+            PokecubeCore.LOGGER.debug("Loaded: {} in {} ms", t.getKey(), dt);
+        });
         if (valid.get())
         {
-            DataHelpers.tagHelpers.forEach(t -> t.postReload());
+            DataHelpers.tagHelpers.forEach(t -> {
+                long time = System.nanoTime();
+                t.postReload();
+                double dt = (System.nanoTime() - time) / 1e6;
+                PokecubeCore.LOGGER.debug("Processed: {} in {} ms", t.getKey(), dt);
+            });
             PokecubeCore.LOGGER.debug("Reloaded Custom Tags");
         }
     }

@@ -85,9 +85,7 @@ public class Alleles<T, GENE extends Gene<T>>
         }
         catch (final Exception e)
         {
-            System.out.println(this.getExpressed() + " " + this.getExpressed().getKey());
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ThutCore.LOGGER.error(this.getExpressed() + " " + this.getExpressed().getKey(), e);
         }
         tag.put("gene1", GeneRegistry.save(this.getAllele(0)));
         tag.put("gene2", GeneRegistry.save(this.getAllele(1)));
