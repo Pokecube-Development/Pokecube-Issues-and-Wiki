@@ -6,7 +6,7 @@
    <part name="Head" tex="chinchouhead"/>
    <animation diffs="0.45,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
-  <material name="Light" light="1" transluscent="true"/>
+  <material name="Light" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="arm1">
     <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
