@@ -701,6 +701,12 @@ public class PokedexEntryLoader
         return Tools.getStack(drop.getValues());
     }
 
+    public static final QName MIN = new QName("min");
+    public static final QName MAX = new QName("max");
+    public static final QName RATE = new QName("rate");
+    public static final QName LEVEL = new QName("level");
+    public static final QName VARIANCE = new QName("variance");
+
     /**
      * This is safe to run before tags are loaded.
      * 
@@ -714,11 +720,11 @@ public class PokedexEntryLoader
         final SpawnEntry spawnEntry = new SpawnEntry();
         String val;
         SpawnRule rule = matcher.spawnRule.copy();
-        if ((val = rule.values.remove(new QName("min"))) != null) spawnEntry.min = Integer.parseInt(val);
-        if ((val = rule.values.remove(new QName("max"))) != null) spawnEntry.max = Integer.parseInt(val);
-        if ((val = rule.values.remove(new QName("rate"))) != null) spawnEntry.rate = Float.parseFloat(val);
-        if ((val = rule.values.remove(new QName("level"))) != null) spawnEntry.level = Integer.parseInt(val);
-        if ((val = rule.values.remove(new QName("variance"))) != null) spawnEntry.variance = new FunctionVariance(val);
+        if ((val = rule.values.remove(MIN)) != null) spawnEntry.min = Integer.parseInt(val);
+        if ((val = rule.values.remove(MAX)) != null) spawnEntry.max = Integer.parseInt(val);
+        if ((val = rule.values.remove(RATE)) != null) spawnEntry.rate = Float.parseFloat(val);
+        if ((val = rule.values.remove(LEVEL)) != null) spawnEntry.level = Integer.parseInt(val);
+        if ((val = rule.values.remove(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
         if (entry.getSpawnData() == null) entry.setSpawnData(new SpawnData(entry));
         matcher = new SpawnBiomeMatcher(rule);
         entry.getSpawnData().matchers.put(matcher, spawnEntry);

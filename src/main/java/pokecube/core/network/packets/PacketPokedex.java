@@ -38,6 +38,8 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
+import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
@@ -310,9 +312,13 @@ public class PacketPokedex extends NBTPacket
         case REQUESTLOC:
             PacketPokedex.selectedLoc.clear();
             data = this.getTag().getCompound("V");
+            // This is / 2 as every other key is entry vs tag
             n = data.getAllKeys().size() / 2;
-            for (int i = 0; i < n; i++) PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)),
-                    PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class));
+            for (int i = 0; i < n; i++)
+            {
+                PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)),
+                        PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class).setClient());
+            }
             if (this.getTag().contains("E"))
                 PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("E"));
             PacketPokedex.repelled = this.getTag().getBoolean("R");
@@ -322,7 +328,7 @@ public class PacketPokedex extends NBTPacket
             data = this.getTag().getCompound("V");
             num = data.getInt("n");
             for (int i = 0; i < num; i++) PacketPokedex.selectedMob
-                    .add(PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class));
+                    .add(PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class).setClient());
             return;
         case BREEDLIST:
             data = this.getTag().getCompound("V");
@@ -356,18 +362,55 @@ public class PacketPokedex extends NBTPacket
         }
     }
 
+    private void addForMatcher(List<ResourceLocation> biomes, List<String> types, SpawnBiomeMatcher matcher)
+    {
+        if (!matcher._and_children.isEmpty())
+        {
+            List<ResourceLocation> all_biomes = Lists.newArrayList(SpawnBiomeMatcher.getAllBiomeKeys());
+
+            for (SpawnBiomeMatcher b : matcher._and_children)
+            {
+                List<ResourceLocation> valid = Lists.newArrayList();
+                addForMatcher(valid, types, b);
+                List<ResourceLocation> remove = Lists.newArrayList();
+                for (ResourceLocation l : all_biomes)
+                {
+                    if (!valid.contains(l)) remove.add(l);
+                }
+                all_biomes.removeAll(remove);
+            }
+            biomes.addAll(all_biomes);
+        }
+        else if (!matcher._or_children.isEmpty())
+        {
+            for (SpawnBiomeMatcher b : matcher._or_children) addForMatcher(biomes, types, b);
+        }
+        else
+        {
+            biomes.addAll(matcher.getValidBiomes());
+            for (BiomeType b : matcher._validSubBiomes) types.add(b.name);
+        }
+    }
+
     private String serialize(final SpawnBiomeMatcher matcher)
     {
         // First ensure the client side stuff is cleared.
         matcher.clientBiomes.clear();
         matcher.clientTypes.clear();
         // Then populate it for serialisation
-        matcher.clientBiomes.addAll(matcher.getValidBiomes());
-        matcher._validSubBiomes.forEach(b -> matcher.clientTypes.add(b.name));
+        matcher.parse();
+
+        List<ResourceLocation> biomes = Lists.newArrayList();
+        List<String> types = Lists.newArrayList();
+
+        addForMatcher(biomes, types, matcher);
+
+        matcher.clientBiomes.addAll(biomes);
+        matcher.clientTypes.addAll(types);
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
         matcher.clientBiomes.clear();
-        matcher.clientBiomes.clear();
+        matcher.clientTypes.clear();
         return ret;
     }
 
@@ -411,7 +454,10 @@ public class PacketPokedex extends NBTPacket
             if (entry.getSpawnData() != null)
                 for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
+                SpawnEntry sentry = entry.getSpawnData().matchers.get(matcher);
+                matcher.spawnRule.values.put(PokedexEntryLoader.RATE, sentry.rate + "");
                 spawns.putString("" + n, this.serialize(matcher));
+                matcher.spawnRule.values.remove(PokedexEntryLoader.RATE);
                 n++;
             }
             spawns.putInt("n", n);

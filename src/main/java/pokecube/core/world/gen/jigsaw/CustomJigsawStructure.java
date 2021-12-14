@@ -189,17 +189,13 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                         // at least this stage of loading.
                         if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                         // This is the way to tell if an actual real structure
-                        // would be at this location. FIXME better loop here
-                        // around expected y
-                        for (int k = ichunk.getMinSection(); k <= ichunk.getMaxSection(); k++)
+                        // would be at this location.
+                        final StructureStart<?> structurestart = sfmanager
+                                .getStartForFeature(SectionPos.bottomOf(ichunk), s, ichunk);
+                        // This means we do conflict, so no spawn here.
+                        if (structurestart != null && structurestart.isValid())
                         {
-                            final StructureStart<?> structurestart = sfmanager
-                                    .getStartForFeature(SectionPos.of(ichunk.getPos(), k), s, ichunk);
-                            // This means we do conflict, so no spawn here.
-                            if (structurestart != null && structurestart.isValid())
-                            {
-                                assembler.addConflict(structurestart.getBoundingBox());
-                            }
+                            assembler.addConflict(structurestart.getBoundingBox());
                         }
                     }
                 }
