@@ -187,7 +187,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                         // We then only care about chunks which have already
                         // reached
                         // at least this stage of loading.
-                        if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS) || ichunk!=null) continue;
+                        if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                         // This is the way to tell if an actual real structure
                         // would be at this location. FIXME better loop here
                         // around expected y
