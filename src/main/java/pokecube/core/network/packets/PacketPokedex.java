@@ -24,13 +24,12 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
@@ -554,8 +553,8 @@ public class PacketPokedex extends NBTPacket
                         }
                         if (hasBiomes) break;
                     }
-                    if (hasBiomes) for (final ResourceKey<Biome> b : SpawnBiomeMatcher.getAllBiomeKeys())
-                        if (b != null) if (data.isValid(b)) biomes.add(b.getRegistryName().toString());
+                    if (hasBiomes) for (final ResourceLocation b : SpawnBiomeMatcher.getAllBiomeKeys())
+                        if (b != null) if (data.isValid(b)) biomes.add(b.toString());
                     for (final BiomeType b : BiomeType.values()) if (data.isValid(b)) biomes.add(b.readableName);
                     for (int i = 0; i < biomes.size(); i++) packet.getTag().putString("" + i, biomes.get(i));
                 }

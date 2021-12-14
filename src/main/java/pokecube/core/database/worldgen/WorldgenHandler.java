@@ -225,7 +225,8 @@ public class WorldgenHandler
                 for (int i = 0; i < 100; i++) this.seed = rand.nextInt();
                 if (this.seed < 0) this.seed *= -1;
             }
-            return new StructureFeatureConfiguration(this.distance, this.separation, this.seed);
+//            return new StructureFeatureConfiguration(this.distance, this.separation, this.seed);
+            return new StructureFeatureConfiguration(8, 4, this.seed);
         }
 
         public static JigSawConfig deserialize(final String structstring)
@@ -304,6 +305,10 @@ public class WorldgenHandler
 
     public static StructureFeature<?> getFeature(final ResourceLocation s)
     {
+        synchronized (FEATURELOOKUP)
+        {
+            WorldgenHandler.initSpaceMap();
+        }
         return WorldgenHandler.FEATURELOOKUP.get(s);
     }
 

@@ -150,10 +150,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     }
 
     private static int lastBiomesSize = -1;
-    private static List<ResourceKey<Biome>> allBiomeKeys = Lists.newArrayList();
+    private static List<ResourceLocation> allBiomeKeys = Lists.newArrayList();
     private static List<Biome> allBiomes = Lists.newArrayList();
 
-    public static Set<ResourceKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
+    public static Set<ResourceLocation> SOFTBLACKLIST = Sets.newHashSet();
 
     private static boolean loadedIn = false;
 
@@ -161,7 +161,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     private static final Set<TerrainType> ALL_TERRAIN = Sets.newHashSet(TerrainType.values());
 
-    public static Collection<ResourceKey<Biome>> getAllBiomeKeys()
+    public static Collection<ResourceLocation> getAllBiomeKeys()
     {
         final RegistryAccess REG = ThutCore.proxy.getRegistries();
         SpawnBiomeMatcher.loadedIn = false;
@@ -176,7 +176,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             SpawnBiomeMatcher.allBiomes = Lists.newArrayList();
             for (final Entry<ResourceKey<Biome>, Biome> b : biomes)
             {
-                SpawnBiomeMatcher.allBiomeKeys.add(b.getKey());
+                SpawnBiomeMatcher.allBiomeKeys.add(b.getKey().location());
                 SpawnBiomeMatcher.allBiomes.add(b.getValue());
             }
             SpawnBiomeMatcher.lastBiomesSize = biomes.size();
@@ -192,8 +192,8 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     }
 
     // These are private so that they can force an update based on categories
-    public Set<ResourceKey<Biome>> _validBiomes = Sets.newHashSet();
-    public Set<ResourceKey<Biome>> _blackListBiomes = Sets.newHashSet();
+    public Set<ResourceLocation> _validBiomes = Sets.newHashSet();
+    public Set<ResourceLocation> _blackListBiomes = Sets.newHashSet();
 
     public Set<BiomeCategory> _validCats = Sets.newHashSet();
     public Set<BiomeCategory> _blackListCats = Sets.newHashSet();
@@ -210,7 +210,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     // These two sets are used for syncing _validBiomes and _validTypes over to
     // clients on multiplayer.
-    public Set<ResourceKey<Biome>> clientBiomes = Sets.newHashSet();
+    public Set<ResourceLocation> clientBiomes = Sets.newHashSet();
 
     public Set<String> clientTypes = Sets.newHashSet();
 
@@ -267,7 +267,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return this._validCats.contains(cat);
     }
 
-    public Set<ResourceKey<Biome>> getInvalidBiomes()
+    public Set<ResourceLocation> getInvalidBiomes()
     {
         // Ensures we are actually loaded in, this is required to set loadedIn
         // true for the below check.
@@ -277,9 +277,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             this._checked_cats = true;
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
-                final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
+                final ResourceLocation key = b.getRegistryName();
                 if (this._blackListCats.contains(b.getBiomeCategory())) this._blackListBiomes.add(key);
-                for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(key, type))
+                ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
+                for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(bkey, type))
                 {
                     this.getInvalidBiomes().add(key);
                     break;
@@ -287,8 +288,8 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             }
             for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             {
-                final ResourceKey<Biome> key = BiomeDatabase.getKey(b);
-                if (key.location() == null) continue;
+                final ResourceLocation key = b.getRegistryName();
+                if (key == null) continue;
                 if (this._blackListBiomes.contains(key))
                 {
                     this._validBiomes.remove(key);
@@ -302,8 +303,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 boolean validType = true;
                 if (!this._validTypes.isEmpty())
                 {
+                    ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
                     for (final BiomeDictionary.Type type : this._validTypes)
-                        validType = validType && BiomeDictionary.hasType(key, type);
+                        validType = validType && BiomeDictionary.hasType(bkey, type);
                 }
                 if (!validType) continue;
                 this._validBiomes.add(key);
@@ -312,15 +314,15 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return this._blackListBiomes;
     }
 
-    public Set<ResourceKey<Biome>> getValidBiomes()
+    public Set<ResourceLocation> getValidBiomes()
     {
         this.getInvalidBiomes();
         return this._validBiomes;
     }
 
-    private ResourceKey<Biome> from(final BiomeLoadingEvent event)
+    private ResourceLocation from(final BiomeLoadingEvent event)
     {
-        return ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
+        return event.getName();
     }
 
     public boolean checkLoadEvent(final BiomeLoadingEvent event)
@@ -340,17 +342,18 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         // This checks if there is acategory at all.
         if (!this.validCategory(event.getCategory())) return false;
-        final ResourceKey<Biome> key = this.from(event);
+        final ResourceLocation key = this.from(event);
+        ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
         // Check types, etc manually here, as this can be run before biomes are
         // actually valid.
-        for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(key, type)) return false;
+        for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(bkey, type)) return false;
         if (this._blackListBiomes.contains(key)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (!this._validTypes.isEmpty())
         {
             boolean all = true;
 
-            for (final BiomeDictionary.Type type : this._validTypes) all = all && BiomeDictionary.hasType(key, type);
+            for (final BiomeDictionary.Type type : this._validTypes) all = all && BiomeDictionary.hasType(bkey, type);
             if (!all) return false;
         }
         if (!this._validBiomes.isEmpty()) return this._validBiomes.contains(key);
@@ -364,7 +367,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
      * @param biome
      * @return
      */
-    public boolean checkBiome(final ResourceKey<Biome> biome)
+    public boolean checkBiome(final ResourceLocation biome)
     {
         this.parse();
         if (!this.valid) return false;
@@ -433,7 +436,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         if (blackListed) return false;
 
-        final boolean rightBiome = this.checkBiome(checker.biome);
+        final boolean rightBiome = this.checkBiome(checker.biome.location());
 
         // If we are not allowed in this biome, return false.
         // This checks if we are blackisted for the biome, or if we need
@@ -788,8 +791,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             {
                 s = s.trim();
                 // Ensure we are a resourcelocation!
-                if (!s.contains(":")) s = "minecraft:" + s;
-                final ResourceKey<Biome> biome = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
+                final ResourceLocation biome = new ResourceLocation(s);
                 this._validBiomes.add(biome);
             }
         }
@@ -841,8 +843,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             {
                 s = s.trim();
                 // Ensure we are a resourcelocation!
-                if (!s.contains(":")) s = "minecraft:" + s;
-                final ResourceKey<Biome> biome = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(s));
+                final ResourceLocation biome = new ResourceLocation(s);
                 this._blackListBiomes.add(biome);
             }
         }

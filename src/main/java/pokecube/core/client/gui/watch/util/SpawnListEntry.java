@@ -16,8 +16,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
+import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.ListHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -50,8 +49,8 @@ public class SpawnListEntry
         value.parse();
 
         final List<Component> biomes = Lists.newArrayList();
-        for (final ResourceKey<Biome> b : value.clientBiomes) biomes.add(new TranslatableComponent(
-                String.format("biome.%s.%s", b.location().getNamespace(), b.location().getPath())));
+        for (final ResourceLocation b : value.clientBiomes) biomes.add(new TranslatableComponent(
+                String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
         if (entry != null)
         {

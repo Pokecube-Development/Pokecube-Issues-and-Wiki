@@ -85,7 +85,6 @@ import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -192,13 +191,12 @@ public class PokedexEntry
                     for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
                 for (SpawnBiomeMatcher m2 : this.matcher._and_children)
                     for (final BiomeType t : m2._validSubBiomes) biomeNames.add(I18n.get(t.readableName));
-                for (final ResourceKey<Biome> test : SpawnBiomeMatcher.getAllBiomeKeys())
+                for (final ResourceLocation test : SpawnBiomeMatcher.getAllBiomeKeys())
                 {
                     final boolean valid = this.matcher.checkBiome(test);
                     if (valid)
                     {
-                        final String key = String.format("biome.%s.%s", test.location().getNamespace(),
-                                test.location().getPath());
+                        final String key = String.format("biome.%s.%s", test.getNamespace(), test.getPath());
                         biomeNames.add(I18n.get(key));
                     }
                 }
@@ -724,18 +722,21 @@ public class PokedexEntry
             return entry == null ? 0 : entry.rate;
         }
 
-        public boolean isValid(final Biome biome)
-        {
-            for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.getValidBiomes().contains(BiomeDatabase.getKey(biome))) return true;
-            return false;
-        }
-
-        public boolean isValid(final ResourceKey<Biome> biome)
+        public boolean isValid(final ResourceLocation biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
                 if (matcher.getValidBiomes().contains(biome)) return true;
             return false;
+        }
+
+        public boolean isValid(final Biome biome)
+        {
+            return isValid(biome.getRegistryName());
+        }
+
+        public boolean isValid(final ResourceKey<Biome> biome)
+        {
+            return isValid(biome.location());
         }
 
         public boolean isValid(final BiomeType biome)

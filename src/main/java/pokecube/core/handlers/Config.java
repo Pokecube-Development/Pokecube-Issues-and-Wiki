@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -725,8 +724,7 @@ public class Config extends ConfigData
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            final ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name));
-            SpawnBiomeMatcher.SOFTBLACKLIST.add(key);
+            SpawnBiomeMatcher.SOFTBLACKLIST.add(new ResourceLocation(name));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;

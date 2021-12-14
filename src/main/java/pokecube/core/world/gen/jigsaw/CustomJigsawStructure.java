@@ -40,7 +40,6 @@ import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
-import thut.api.terrain.BiomeDatabase;
 
 public class CustomJigsawStructure extends NoiseAffectingStructureFeature<JigsawConfig>
 {
@@ -124,9 +123,9 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
             ChunkGenerator chunkGenerator = context.chunkGenerator();
 
-            final int x = context.chunkPos().getBlockX(7);
-            final int z = context.chunkPos().getBlockZ(7);
-            final int y = chunkGenerator.getFirstOccupiedHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG,
+            int x = context.chunkPos().getBlockX(7);
+            int z = context.chunkPos().getBlockZ(7);
+            int y = chunkGenerator.getFirstOccupiedHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG,
                     context.heightAccessor());
 
             if (!config.struct_config.allow_void && y < config.struct_config.minY)
@@ -147,6 +146,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                     config.struct_config.type.isEmpty() ? config.struct_config.name : config.struct_config.type);
 
             StructureFeature<?> thisFeature = WorldgenHandler.getFeature(structName);
+            final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
 
             if (thisFeature != null)
             {
@@ -157,6 +157,9 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                 final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
                 final StructureSettings settings = chunkGenerator.getSettings();
+
+                x = context.chunkPos().x;
+                z = context.chunkPos().z;
 
                 for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
                 {
@@ -184,14 +187,20 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                         // We then only care about chunks which have already
                         // reached
                         // at least this stage of loading.
-                        if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
+                        if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS) || ichunk!=null) continue;
                         // This is the way to tell if an actual real structure
-                        // would
-                        // be at this location.
-                        final StructureStart<?> structurestart = sfmanager
-                                .getStartForFeature(SectionPos.of(ichunk.getPos(), 0), s, ichunk);
-                        // This means we do conflict, so no spawn here.
-                        if (structurestart != null && structurestart.isValid()) return Optional.empty();
+                        // would be at this location. FIXME better loop here
+                        // around expected y
+                        for (int k = ichunk.getMinSection(); k <= ichunk.getMaxSection(); k++)
+                        {
+                            final StructureStart<?> structurestart = sfmanager
+                                    .getStartForFeature(SectionPos.of(ichunk.getPos(), k), s, ichunk);
+                            // This means we do conflict, so no spawn here.
+                            if (structurestart != null && structurestart.isValid())
+                            {
+                                assembler.addConflict(structurestart.getBoundingBox());
+                            }
+                        }
                     }
                 }
             }
@@ -207,9 +216,8 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
             for (Biome b : biomes)
             {
-                if (any)
-                    validContext = validContext || config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
-                else validContext = validContext && config.struct_config._matcher.checkBiome(BiomeDatabase.getKey(b));
+                if (any) validContext = validContext || config.struct_config._matcher.checkBiome(b.getRegistryName());
+                else validContext = validContext && config.struct_config._matcher.checkBiome(b.getRegistryName());
             }
             if (!validContext)
             {
@@ -217,7 +225,6 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
             }
             else
             {
-                final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
                 return assembler.build(context, POSTPROCESS);
             }
         });

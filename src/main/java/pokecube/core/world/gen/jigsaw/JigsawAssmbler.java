@@ -87,7 +87,7 @@ public class JigsawAssmbler
     private int depth;
     private ChunkGenerator chunkGenerator;
     private StructureManager templateManager;
-    private List<StructurePiece> structurePieces;
+    private List<StructurePiece> parts = Lists.newArrayList();
     private Random rand;
 
     private Predicate<StructurePoolElement> validator = p -> true;
@@ -99,6 +99,8 @@ public class JigsawAssmbler
     private final Set<String> once_added = Sets.newHashSet();
     private final Set<String> needed_once = Sets.newHashSet();
 
+    private final Set<BoundingBox> conflict_check = Sets.newHashSet();
+
     private final JigSawConfig config;
 
     private LevelHeightAccessor heightAccess;
@@ -108,15 +110,18 @@ public class JigsawAssmbler
         this.config = config;
     }
 
+    public void addConflict(BoundingBox box)
+    {
+        this.conflict_check.add(box);
+    }
+
     private void init(final int depth, final JigsawPlacement.PieceFactory pieceFactory,
-            final ChunkGenerator chunkGenerator, final StructureManager templateManagerIn,
-            final List<StructurePiece> parts, final Random rand)
+            final ChunkGenerator chunkGenerator, final StructureManager templateManagerIn, final Random rand)
     {
         this.depth = depth;
         this.pieceFactory = pieceFactory;
         this.chunkGenerator = chunkGenerator;
         this.templateManager = templateManagerIn;
-        this.structurePieces = parts;
         this.rand = rand;
         this.once_added.clear();
         this.needed_once.clear();
@@ -149,14 +154,13 @@ public class JigsawAssmbler
         JigsawPlacement.PieceFactory pieceFactory = PoolElementStructurePiece::new;
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         StructureManager templateManagerIn = context.structureManager();
-        List<StructurePiece> parts = Lists.newArrayList();
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         LevelHeightAccessor heightAccessor = context.heightAccessor();
 
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
         boolean built = build(dynamicRegistryManager, resourceLocationIn, context.config().struct_config.size,
-                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, worldgenrandom, isValid, default_k,
+                pieceFactory, chunkGenerator, templateManagerIn, pos, worldgenrandom, isValid, default_k,
                 heightAccessor);
 
         LegacyRandomSource rand = new LegacyRandomSource(0);
@@ -168,7 +172,7 @@ public class JigsawAssmbler
         {
             worldgenrandom.setLargeFeatureSeed(rand.nextLong(), context.chunkPos().x, context.chunkPos().z);
             built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
-                    templateManagerIn, pos, parts, worldgenrandom, isValid, default_k, heightAccessor);
+                    templateManagerIn, pos, worldgenrandom, isValid, default_k, heightAccessor);
         }
         if (n > 1) PokecubeMod.LOGGER.warn(n + " iterations of build for: " + context.config().struct_config.name);
 
@@ -196,24 +200,23 @@ public class JigsawAssmbler
 
     private boolean build(final RegistryAccess dynamicRegistryManager, final ResourceLocation resourceLocationIn,
             final int depth, final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
-            final StructureManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Predicate<StructurePoolElement> isValid, final int default_k,
+            final StructureManager templateManagerIn, final BlockPos pos, final Random rand,
+            final Predicate<StructurePoolElement> isValid, final int default_k,
             final LevelHeightAccessor heightAccessor)
     {
         return this.build(this.init(dynamicRegistryManager, resourceLocationIn), Rotation.getRandom(rand), depth,
-                pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, default_k, isValid, heightAccessor);
+                pieceFactory, chunkGenerator, templateManagerIn, pos, rand, default_k, isValid, heightAccessor);
     }
 
     private boolean build(final StructureTemplatePool jigsawpattern, final Rotation rotation, final int depth,
             final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
-            final StructureManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final int default_k, final Predicate<StructurePoolElement> isValid,
-            final LevelHeightAccessor heightAccessor)
+            final StructureManager templateManagerIn, final BlockPos pos, final Random rand, final int default_k,
+            final Predicate<StructurePoolElement> isValid, final LevelHeightAccessor heightAccessor)
     {
         this.validator = isValid;
         this.heightAccess = heightAccessor;
         if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Jigsaw starting build");
-        this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, parts, rand);
+        this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, rand);
 
         if (this.config.water || this.config.air)
             this.SURFACE_TYPE = this.config.water ? Types.OCEAN_FLOOR_WG : Types.WORLD_SURFACE_WG;
@@ -256,7 +259,9 @@ public class JigsawAssmbler
         }
         final int dy = -this.config.height + boundingBox.minY() + poolElement.getGroundLevelDelta();
         poolElement.move(0, k - dy, 0);
-        parts.add(poolElement);
+
+        if (!this.add(poolElement)) return false;
+
         if (depth > 0)
         {
             final int dr = 80;
@@ -281,7 +286,16 @@ public class JigsawAssmbler
             final CustomJigsawPiece piece = (CustomJigsawPiece) jig.getElement();
             if (piece.opts != null) guarenteed.remove(piece.opts.flag);
         }
-        return guarenteed.isEmpty();
+        return guarenteed.isEmpty() && !parts.isEmpty();
+    }
+
+    private boolean add(StructurePiece part)
+    {
+        for (BoundingBox b : conflict_check)
+        {
+            if (b.intersects(part.getBoundingBox())) return false;
+        }
+        return parts.add(part);
     }
 
     private void sort(final List<StructurePoolElement> list)
@@ -459,21 +473,22 @@ public class JigsawAssmbler
                                             jig_pos.getZ(), this.SURFACE_TYPE, this.heightAccess);
                                     i3 = k + l1 / 2;
                                 }
-
-                                villagePieceIn.addJunction(new JigsawJunction(jig_target.getX(), i3 - jig_min_y + j3,
-                                        jig_target.getZ(), l1, placementRule));
-                                nextPart.addJunction(new JigsawJunction(jig_pos.getX(), i3 - target_y + l2,
-                                        jig_pos.getZ(), -l1, projection));
-                                this.structurePieces.add(nextPart);
-                                if (!once.isEmpty())
+                                if (this.add(nextPart))
                                 {
-                                    this.once_added.add(once);
-                                    if (PokecubeCore.getConfig().debug)
-                                        PokecubeCore.LOGGER.debug("added core part: {}", once);
+                                    villagePieceIn.addJunction(new JigsawJunction(jig_target.getX(),
+                                            i3 - jig_min_y + j3, jig_target.getZ(), l1, placementRule));
+                                    nextPart.addJunction(new JigsawJunction(jig_pos.getX(), i3 - target_y + l2,
+                                            jig_pos.getZ(), -l1, projection));
+                                    if (!once.isEmpty())
+                                    {
+                                        this.once_added.add(once);
+                                        if (PokecubeCore.getConfig().debug)
+                                            PokecubeCore.LOGGER.debug("added core part: {}", once);
+                                    }
+                                    if (current_depth + 1 <= this.depth) this.availablePieces
+                                            .addLast(new Entry(nextPart, box_ref, l, current_depth + 1));
+                                    continue jigsaws;
                                 }
-                                if (current_depth + 1 <= this.depth)
-                                    this.availablePieces.addLast(new Entry(nextPart, box_ref, l, current_depth + 1));
-                                continue jigsaws;
                             }
                         }
                     }

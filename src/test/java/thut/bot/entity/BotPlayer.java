@@ -67,6 +67,21 @@ public class BotPlayer extends ServerPlayer
             this.setHealth(this.getMaxHealth());
             this.dead = false;
             if (this.tickCount % 20 == 0) EntityUpdate.sendEntityUpdate(this);
+
+//            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(3));
+//            for (ItemEntity i : items)
+//            {
+//                this.setItemInHand(InteractionHand.MAIN_HAND, i.getItem());
+//                i.remove(RemovalReason.DISCARDED);
+//            }
+//            if (level instanceof ServerLevel && this.getMainHandItem().getItem() instanceof MapItem)
+//            {
+//                FakePlayer fake = new FakePlayer(getLevel(), new GameProfile(UUID.randomUUID(), "IHOLDMAPS"));
+//                ICopyMob.copyPositions(fake, this);
+//                ICopyMob.copyRotations(fake, this);
+//                fake.setItemInHand(InteractionHand.MAIN_HAND, this.getMainHandItem());
+//                fake.getInventory().tick();
+//            }
         }
 
         if (cpos != this.chunkPosition())

@@ -65,6 +65,8 @@ public class VillageRouteMaker extends AbstractBot
     // Maximum number of nodes to put in the map.
     public int maxNodes = 16;
 
+    public int tpTicks = 50;
+
     public VillageRouteMaker(final BotPlayer player)
     {
         super(player);
@@ -549,7 +551,7 @@ public class VillageRouteMaker extends AbstractBot
             this.tryPath(vecHere);
             this.pathTicks++;
 
-            if (this.pathTicks > 50)
+            if (this.pathTicks > tpTicks)
             {
                 final BlockPos tpTo = new BlockPos(vecHere);
                 this.teleBot(tpTo);
@@ -606,7 +608,8 @@ public class VillageRouteMaker extends AbstractBot
         final Vec3 randNear = prev.add(dir.scale(r)).add(dx, 0, dz);
         BlockPos end = new BlockPos(randNear);
 
-        end = this.player.level.getHeightmapPos(Types.MOTION_BLOCKING_NO_LEAVES, end);
+        end = this.player.level.getHeightmapPos(Types.WORLD_SURFACE, end);
+        System.out.println(end+" "+this.player.level.getHeightmapPos(Types.WORLD_SURFACE_WG, end));
         if (end.getY() < this.player.level.getSeaLevel())
         {
             end = new BlockPos(end.getX(), this.player.level.getSeaLevel(), end.getZ());
@@ -633,16 +636,34 @@ public class VillageRouteMaker extends AbstractBot
     @Override
     public boolean init(String args)
     {
-        Matcher match = startPattern.matcher(args);
+        Pattern num_speed = Pattern.compile("(start)(\\s)(\\w+:\\w+)(\\s)(\\w+)(\\s)(\\w+)");
+        Matcher match = num_speed.matcher(args);
+
         if (match.find())
         {
             try
             {
                 maxNodes = Integer.parseInt(match.group(5));
+                tpTicks = Integer.parseInt(match.group(7));
             }
             catch (Exception e)
             {
                 player.chat(e.getLocalizedMessage());
+            }
+        }
+        else
+        {
+            match = startPattern.matcher(args);
+            if (match.find())
+            {
+                try
+                {
+                    maxNodes = Integer.parseInt(match.group(5));
+                }
+                catch (Exception e)
+                {
+                    player.chat(e.getLocalizedMessage());
+                }
             }
         }
         this.getTag().putInt("max_n", this.maxNodes);
