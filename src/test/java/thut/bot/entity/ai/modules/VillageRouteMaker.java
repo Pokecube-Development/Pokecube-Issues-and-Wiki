@@ -174,8 +174,7 @@ public class VillageRouteMaker extends AbstractBot
                 // Place a stone brick wall, and a torch on top of that.
                 if (onEdge)
                 {
-                    boolean doEdge = level.getHeight(Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(),
-                            pos.getZ()) < pos.getY() - 1;
+                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR, pos.getX(), pos.getZ()) < pos.getY() - 1;
 
                     // Handle building the edge
                     for (int y = -1; y <= 3 && doEdge; y++)
@@ -212,6 +211,7 @@ public class VillageRouteMaker extends AbstractBot
                     }
                     if (makeTorch && Math.abs(h) == 2)
                     {
+                        level.setBlock(pos.below(), Blocks.COBBLESTONE.defaultBlockState(), 2);
                         level.setBlock(pos, Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
                         level.setBlock(pos.above(1), Blocks.TORCH.defaultBlockState(), 2);
                     }
@@ -287,7 +287,7 @@ public class VillageRouteMaker extends AbstractBot
             this.map.allParts.forEach((i, p) -> {
                 if (p instanceof final Node n) nodes.add(n);
             });
-            this.map.computeEdges(0.7, 4);
+            this.map.computeEdges(0.8, 4);
             getTag().putBoolean("made_map", true);
         }
         return null;
@@ -394,7 +394,14 @@ public class VillageRouteMaker extends AbstractBot
 
     private Node getTargetNode()
     {
-        if (this.currentEdge != null) return this.targetNode;
+        if (this.currentEdge != null)
+        {
+            if (targetNode == currentEdge.node1)
+            {
+                targetNode = currentEdge.node2;
+            }
+            return this.targetNode;
+        }
         if (getTag().hasUUID("t_node"))
         {
             final Part p = this.getMap().allParts.get(getTag().getUUID("t_node"));

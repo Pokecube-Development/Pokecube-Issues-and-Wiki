@@ -3,6 +3,8 @@ package thut.bot.entity.ai.modules.map;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -167,6 +169,13 @@ public class Tree implements INBTSerializable<CompoundTag>
                 e.node2 = n1;
                 e.setEnds(n.getCenter(), n1.getCenter());
 
+                this.allParts.forEach((id, p) -> {
+                    if (p instanceof Edge e1)
+                    {
+                        if (((Edge) p).areSame(e)) throw new IllegalStateException("How are edges same???");
+                    }
+                });
+
                 e.setTree(this);
                 n.edges.add(e);
                 n1.edges.add(e);
@@ -175,13 +184,28 @@ public class Tree implements INBTSerializable<CompoundTag>
             }
 
             // always at least 1 edge, to nearest one if we skipped one.
-            if (j == 0 && skipped.size() > 0)
+            ensure_edge:
+            if (j == 0 && skipped.size() > 0 && n.edges.isEmpty())
             {
                 Node n1 = skipped.get(0);
                 Edge e = new Edge();
                 e.node1 = n;
                 e.node2 = n1;
                 e.setEnds(n.getCenter(), n1.getCenter());
+
+                AtomicBoolean duped = new AtomicBoolean(false);
+
+                this.allParts.forEach((id, p) -> {
+                    if (p instanceof Edge e1)
+                    {
+                        if (duped.get()) return;
+                        if (((Edge) p).areSame(e)) duped.set(false);
+                    }
+                });
+
+                // If we are duped edge, it means we did already have a matching
+                // edge, so we exit.
+                if (duped.get()) break ensure_edge;
 
                 e.setTree(this);
                 n.edges.add(e);
