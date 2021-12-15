@@ -134,31 +134,31 @@
 
     // Advancements
     "advancements.mirror.title": "Welcome to Distortic World!",
-    "advancements.mirror.descr": "Enter Distortic World for the first time.",
+    "advancements.mirror.descr": "Enter the Distortic World for the first time.",
 
     "advancements.headmirror.title": "I see myself?",
     "advancements.headmirror.descr": "build Giratina's Mirror",
 
-    "advancements.intotespace.descr": "Visit all Ultra Space biomes.",
     "advancements.intotespace.title": "Colliding Universes!",
+    "advancements.intotespace.descr": "Visit all Ultra Space biomes",
 
     "advancements.ultraubs.title": "A collection from another world!",
-    "advancements.ultraubs.descr": "Capture all Ultra Beasts.",
+    "advancements.ultraubs.descr": "Capture all Ultra Beasts",
 
     "advancements.ultratraje.title": "Avoiding Anomalies!",
-    "advancements.ultratraje.descr": "Crafting a Full Spectrum armor.",
+    "advancements.ultratraje.descr": "Craft a full set of Ultra armor",
 
     "advancements.ultraspace.title": "Welcome to Ultra Space!",
-    "advancements.ultraspace.descr": "Enter Ultra Space for the first time.",
+    "advancements.ultraspace.descr": "Enter Ultra Space for the first time",
 
-    "advancements.spectrum.title": "Maybe valuable?",
-    "advancements.spectrum.descr": "Get the Ultra Space ore.",
+    "advancements.spectrum.title": "Spectrum!?",
+    "advancements.spectrum.descr": "Acquire Spectrum",
 
     // Armor
-    "item.pokecube_legends.ultra_helmet": "Ultra Armor Helmet",
-    "item.pokecube_legends.ultra_chestplate": "Ultra Armor Chestplate",
-    "item.pokecube_legends.ultra_leggings": "Ultra Armor Leggings",
-    "item.pokecube_legends.ultra_boots": "Ultra Armor Boots",
+    "item.pokecube_legends.ultra_helmet": "Ultra Helmet",
+    "item.pokecube_legends.ultra_chestplate": "Ultra Chestplate",
+    "item.pokecube_legends.ultra_leggings": "Ultra Leggings",
+    "item.pokecube_legends.ultra_boots": "Ultra Boots",
 
     // Biome Names
     "biome.pokecube_legends.blinding_deltas": "Blinding Deltas",

@@ -1,10 +1,11 @@
 package pokecube.legends.handlers;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,6 +27,8 @@ public class EventsHandler
             final ServerPlayer player = (ServerPlayer) event.player;
             final Biome biome = player.getLevel().getBiome(player.getOnPos());
 
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.BLINDNESS, 240, 0);
+
             if ((biome.getRegistryName().toString().equals("pokecube_legends:blinding_deltas")
                     || biome.getRegistryName().toString().equals("pokecube_legends:dried_blinding_deltas")
                     || biome.getRegistryName().toString().equals("pokecube_legends:magmatic_blinding_deltas")
@@ -34,12 +37,12 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.BLINDNESS)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 240, 0));
+                    player.addEffect(effect);
                 }
             }
 
@@ -47,12 +50,15 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.UNLUCK, 240, 1);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.UNLUCK, 240, 1));
+                    player.addEffect(effect);
+                    player.setSecondsOnFire(10);
                 }
             }
 
@@ -64,12 +70,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.CONFUSION)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.CONFUSION, 240, 1);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 240, 1));
+                    player.addEffect(effect);
                 }
             }
 
@@ -81,12 +89,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.LEVITATION)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.LEVITATION, 240, 0);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.LEVITATION, 240, 0));
+                    player.addEffect(effect);
                 }
             }
 
@@ -94,12 +104,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HUNGER)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.HUNGER, 240, 2);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.HUNGER, 240, 2));
+                    player.addEffect(effect);
                 }
             }
 
@@ -108,12 +120,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SPEED)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 240, 2);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 240, 2));
+                    player.addEffect(effect);
                 }
             }
 
@@ -124,12 +138,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WITHER)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.WITHER, 240, 0);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.WITHER, 240, 0));
+                    player.addEffect(effect);
                 }
             }
 
@@ -141,12 +157,14 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 240, 1);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 240, 1));
+                    player.addEffect(effect);
                 }
             }
 
@@ -157,13 +175,28 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.POISON)))
             {
-                if (((Player) player).getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
-                        || ((Player) player).getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                effect = new MobEffectInstance(MobEffects.POISON, 240, 1);
+
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
                 {
-                    ((LivingEntity) player).addEffect(new MobEffectInstance(MobEffects.POISON, 240, 1));
+                    player.addEffect(effect);
                 }
+            }
+
+            effect.setCurativeItems(Lists.newArrayList(new ItemStack(ItemInit.ULTRA_HELMET.get()),
+                    new ItemStack(ItemInit.ULTRA_CHESTPLATE.get()), new ItemStack(ItemInit.ULTRA_LEGGINGS.get()),
+                    new ItemStack(ItemInit.ULTRA_BOOTS.get())));
+
+            if (player.getInventory().armor.get(3).getItem() == new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                    && player.getInventory().armor.get(2).getItem() == new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                    && player.getInventory().armor.get(1).getItem() == new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                    && player.getInventory().armor.get(0).getItem() == new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+            {
+                player.curePotionEffects(new ItemStack(ItemInit.ULTRA_HELMET.get()));
+                player.clearFire();
             }
         }
     }
