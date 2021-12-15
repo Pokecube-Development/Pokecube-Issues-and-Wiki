@@ -3405,7 +3405,6 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
-                                  "pokecube_legends:fungal_plains",
                                   "pokecube_legends:windswept_temporal_jungle",
                                   "pokecube_legends:windswept_forbidden_taiga"
                                 ]
