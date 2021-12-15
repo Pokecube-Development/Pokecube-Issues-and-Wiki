@@ -3824,7 +3824,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "pokecube_legends:corrupted_dirt"
+                          "Name": "minecraft:gravel"
                         }
                       }
                     }
@@ -4194,6 +4194,38 @@
                       "type": "minecraft:block",
                       "result_state": {
                         "Name": "minecraft:gravel"
+                      }
+                    }
+                  },
+                  {
+                    "type": "minecraft:condition",
+                    "if_true": {
+                      "type": "minecraft:biome",
+                      "biome_is": [
+                        "pokecube_legends:mirage_desert",
+                        "pokecube_legends:rocky_mirage_desert",
+                        "pokecube_legends:crystallized_beach"
+                      ]
+                    },
+                    "then_run": {
+                      "type": "minecraft:block",
+                      "result_state": {
+                        "Name": "pokecube_legends:crystallized_sand"
+                      }
+                    }
+                  },
+                  {
+                    "type": "minecraft:condition",
+                    "if_true": {
+                      "type": "minecraft:biome",
+                      "biome_is": [
+                        "pokecube_legends:burnt_beach"
+                      ]
+                    },
+                    "then_run": {
+                      "type": "minecraft:block",
+                      "result_state": {
+                        "Name": "pokecube_legends:blackened_sand"
                       }
                     }
                   }
