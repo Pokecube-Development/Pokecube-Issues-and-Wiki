@@ -19,14 +19,12 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
     private void cleanLoadedAIStates()
     {
         // First clear out any non-persistant ai states from logic states
-        for (final LogicStates state : LogicStates.values())
-            if (!state.persists()) this.setLogicState(state, false);
+        for (final LogicStates state : LogicStates.values()) if (!state.persists()) this.setLogicState(state, false);
         // Then clean up general states
         for (final GeneralStates state : GeneralStates.values())
             if (!state.persists()) this.setGeneralState(state, false);
         // Finally cleanup combat states
-        for (final CombatStates state : CombatStates.values())
-            if (!state.persists()) this.setCombatState(state, false);
+        for (final CombatStates state : CombatStates.values()) if (!state.persists()) this.setCombatState(state, false);
     }
 
     @Override
@@ -45,16 +43,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         {
             this.setPokemobTeam(ownerShipTag.getString(TagNames.TEAM));
             this.setPokemonNickname(ownerShipTag.getString(TagNames.NICKNAME));
-            try
-            {
-                if (ownerShipTag.contains(TagNames.OT)) this.setOriginalOwnerUUID(UUID.fromString(ownerShipTag
-                        .getString(TagNames.OT)));
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
-
+            if (ownerShipTag.contains(TagNames.OT))
+                this.setOriginalOwnerUUID(UUID.fromString(ownerShipTag.getString(TagNames.OT)));
         }
         // Read stats tag
         if (!statsTag.isEmpty())
@@ -68,22 +58,17 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (!movesTag.isEmpty())
         {
             this.getMoveStats().newMoves.clear();
-            if (movesTag.contains(TagNames.NEWMOVES)) try
+            if (movesTag.contains(TagNames.NEWMOVES))
             {
                 final ListTag newMoves = (ListTag) movesTag.get(TagNames.NEWMOVES);
                 for (int i = 0; i < newMoves.size(); i++)
-                    if (!this.getMoveStats().newMoves.contains(newMoves.getString(i))) this.getMoveStats().newMoves.add(
-                            newMoves.getString(i));
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error loading new moves for " + this.getEntity().getName(), e);
+                    if (!this.getMoveStats().newMoves.contains(newMoves.getString(i)))
+                        this.getMoveStats().newMoves.add(newMoves.getString(i));
             }
             this.setMoveIndex(movesTag.getInt(TagNames.MOVEINDEX));
             this.setAttackCooldown(movesTag.getInt(TagNames.COOLDOWN));
             final int[] disables = movesTag.getIntArray(TagNames.DISABLED);
-            if (disables.length == 4) for (int i = 0; i < 4; i++)
-                this.setDisableTimer(i, disables[i]);
+            if (disables.length == 4) for (int i = 0; i < 4; i++) this.setDisableTimer(i, disables[i]);
         }
         // Read Inventory tag
         if (!inventoryTag.isEmpty())
@@ -93,8 +78,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             {
                 final CompoundTag CompoundNBT1 = ListNBT.getCompound(i);
                 final int j = CompoundNBT1.getByte("Slot") & 255;
-                if (j < this.getInventory().getContainerSize()) this.getInventory().setItem(j,
-                        ItemStack.of(CompoundNBT1));
+                if (j < this.getInventory().getContainerSize())
+                    this.getInventory().setItem(j, ItemStack.of(CompoundNBT1));
                 this.setHeldItem(this.getInventory().getItem(1));
             }
         }
@@ -105,15 +90,15 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         {
             this.dataSync().set(this.params.DYECOLOUR, visualsTag.getInt(TagNames.SPECIALTAG));
             final int[] flavourAmounts = visualsTag.getIntArray(TagNames.FLAVOURSTAG);
-            if (flavourAmounts.length == 5) for (int i = 0; i < flavourAmounts.length; i++)
-                this.setFlavourAmount(i, flavourAmounts[i]);
+            if (flavourAmounts.length == 5)
+                for (int i = 0; i < flavourAmounts.length; i++) this.setFlavourAmount(i, flavourAmounts[i]);
             if (visualsTag.contains(TagNames.POKECUBE))
             {
                 final CompoundTag pokecubeTag = visualsTag.getCompound(TagNames.POKECUBE);
                 this.setPokecube(ItemStack.of(pokecubeTag));
             }
-            if (visualsTag.contains(TagNames.MODELHOLDER)) this.setCustomHolder(FormeHolder.load(visualsTag.getCompound(
-                    TagNames.MODELHOLDER)));
+            if (visualsTag.contains(TagNames.MODELHOLDER))
+                this.setCustomHolder(FormeHolder.load(visualsTag.getCompound(TagNames.MODELHOLDER)));
         }
 
         // Read AI
@@ -128,16 +113,10 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setHungerTime(aiTag.getInt(TagNames.HUNGER));
             final CompoundTag routines = aiTag.getCompound(TagNames.AIROUTINES);
             for (final String s : routines.getAllKeys())
-                // try/catch block incase addons add more routines to the enum.
-                try
-                {
-                    final AIRoutine routine = AIRoutine.valueOf(s);
-                    this.setRoutineState(routine, routines.getBoolean(s));
-                }
-                catch (final Exception e)
-                {
-
-                }
+            {
+                final AIRoutine routine = AIRoutine.valueOf(s);
+                this.setRoutineState(routine, routines.getBoolean(s));
+            }
             this.loadedTasks = aiTag.getCompound(TagNames.AITAG);
         }
         // Read Misc other
@@ -164,8 +143,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (this.getOwnerId() != null) ownerShipTag.putUUID(TagNames.OWNER, this.getOwnerId());
         ownerShipTag.putString(TagNames.NICKNAME, this.getPokemonNickname());
         ownerShipTag.putString(TagNames.TEAM, this.getPokemobTeam());
-        if (this.getOriginalOwnerUUID() != null) ownerShipTag.putString(TagNames.OT, this.getOriginalOwnerUUID()
-                .toString());
+        if (this.getOriginalOwnerUUID() != null)
+            ownerShipTag.putString(TagNames.OT, this.getOriginalOwnerUUID().toString());
 
         // Write stats tag
         final CompoundTag statsTag = new CompoundTag();
@@ -180,8 +159,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (!this.getMoveStats().newMoves.isEmpty())
         {
             final ListTag newMoves = new ListTag();
-            for (final String s : this.getMoveStats().newMoves)
-                newMoves.add(StringTag.valueOf(s));
+            for (final String s : this.getMoveStats().newMoves) newMoves.add(StringTag.valueOf(s));
             movesTag.put(TagNames.NEWMOVES, newMoves);
         }
         movesTag.putInt(TagNames.COOLDOWN, this.getAttackCooldown());
@@ -224,8 +202,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (this.forme_holder != null) visualsTag.put(TagNames.MODELHOLDER, this.forme_holder.save());
         visualsTag.putInt(TagNames.SPECIALTAG, this.dataSync().get(this.params.DYECOLOUR));
         final int[] flavourAmounts = new int[5];
-        for (int i = 0; i < flavourAmounts.length; i++)
-            flavourAmounts[i] = this.getFlavourAmount(i);
+        for (int i = 0; i < flavourAmounts.length; i++) flavourAmounts[i] = this.getFlavourAmount(i);
         visualsTag.putIntArray(TagNames.FLAVOURSTAG, flavourAmounts);
         if (!this.getPokecube().isEmpty())
         {
@@ -247,9 +224,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             if (routine.isAllowed(this)) aiRoutineTag.putBoolean(routine.toString(), this.isRoutineEnabled(routine));
         aiTag.put(TagNames.AIROUTINES, aiRoutineTag);
         final CompoundTag taskTag = new CompoundTag();
-        for (final IAIRunnable task : this.getTasks())
-            if (task instanceof INBTSerializable) taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task)
-                    .serializeNBT());
+        for (final IAIRunnable task : this.getTasks()) if (task instanceof INBTSerializable)
+            taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task).serializeNBT());
         aiTag.put(TagNames.AITAG, taskTag);
 
         // Misc other

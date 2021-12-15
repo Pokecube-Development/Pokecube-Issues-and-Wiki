@@ -56,8 +56,8 @@ public class WikiPage extends ListPage<LineEntry>
     public static final ResourceLocation TEX_NM = new ResourceLocation(PokecubeMod.ID,
             "textures/gui/pokewatchgui_wiki_nm.png");
 
-    private int                        index = 0;
-    private final Map<String, Integer> refs  = Maps.newHashMap();
+    private int index = 0;
+    private final Map<String, Integer> refs = Maps.newHashMap();
 
     public WikiPage(final GuiPokeWatch watch)
     {
@@ -82,22 +82,15 @@ public class WikiPage extends ListPage<LineEntry>
                 }
                 else
                 {
-                    int page = 0;
-                    try
-                    {
-                        page = Integer.parseInt(clickevent.getValue());
-                    }
-                    catch (final NumberFormatException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    int page = Integer.parseInt(clickevent.getValue());
+
                     for (int i = 0; i < this.list.getSize(); i++)
                     {
                         final WikiLine line = (WikiLine) this.list.getEntry(i);
                         if (line.page == page)
                         {
-                            final double scrollTo = Math.min(max, this.list.itemHeight() * i + this.list
-                                    .getScrollAmount());
+                            final double scrollTo = Math.min(max,
+                                    this.list.itemHeight() * i + this.list.getScrollAmount());
                             this.list.skipTo(scrollTo + this.list.getScrollAmount());
                             return true;
                         }
@@ -117,13 +110,11 @@ public class WikiPage extends ListPage<LineEntry>
         final int y = this.watch.height / 2 - 5;
         final Component next = new TextComponent(">");
         final Component prev = new TextComponent("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 94, y - 70, 12, 12, next, b ->
-        {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 94, y - 70, 12, 12, next, b -> {
             this.index++;
             this.setList();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 94, y - 70, 12, 12, prev, b ->
-        {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 94, y - 70, 12, 12, prev, b -> {
             this.index--;
             this.setList();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
@@ -174,8 +165,7 @@ public class WikiPage extends ListPage<LineEntry>
 
             @Override
             public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
-            {
-            }
+            {}
         };
         final boolean item_book = !book.page_file;
         final String lang = this.minecraft.getLanguageManager().getSelected().getCode().toLowerCase(Locale.ROOT);
@@ -188,14 +178,13 @@ public class WikiPage extends ListPage<LineEntry>
             Component line;
             for (int i = 0; i < bookPages.size(); i++)
             {
-                final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages
-                        .getString(i));
+                final MutableComponent page = Component.Serializer.fromJsonLenient(bookPages.getString(i));
                 final List<MutableComponent> list = ListHelper.splitText(page, 120, this.font, false);
                 for (final MutableComponent element : list)
                 {
                     line = element;
-                    final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i).setClickListner(
-                            listener);
+                    final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, line, i)
+                            .setClickListner(listener);
                     this.list.addEntry(wikiline);
                 }
             }
@@ -210,70 +199,63 @@ public class WikiPage extends ListPage<LineEntry>
             final Pattern link = Pattern.compile(link_pattern);
 
             int pagenum = 0;
-            try
-            {
-                MutableComponent entry;
-                for (final Page page : pages.pages)
-                {
-                    for (String line : page.lines)
-                    {
-                        final String refin = "\u241F";
-                        final String linkin = "\u240F";
-                        String ref_val = "";
-                        String link_val = "";
-                        Matcher match = link.matcher(line);
-                        // We have a link
-                        if (match.find())
-                        {
-                            link_val = match.group();
-                            line = line.replace(link_val, linkin);
-                            link_val = link_val.replace("{_link_:", "").replace("}", "");
-                        }
-                        match = ref.matcher(line);
-                        // We have a ref
-                        if (match.find())
-                        {
-                            ref_val = match.group();
-                            line = line.replace(ref_val, refin);
-                            ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
-                        }
 
-                        final MutableComponent comp = new TextComponent(line);
-                        final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
-                        for (final MutableComponent element : list)
-                        {
-                            entry = element;
-                            String text = entry.getString();
-                            Style style = entry.getStyle();
-                            // We have a link
-                            if (text.contains(linkin))
-                            {
-                                text = text.replace(linkin, "");
-                                entry = new TextComponent(text);
-                                style = style.withClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
-                            }
-                            // We have a ref
-                            if (text.contains(refin))
-                            {
-                                text = text.replace(refin, "");
-                                entry = new TextComponent(text);
-                                this.refs.put(ref_val, this.list.getSize());
-                            }
-                            entry.setStyle(style);
-                            final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry, pagenum)
-                                    .setClickListner(listener);
-                            this.list.addEntry(wikiline);
-                        }
-                    }
-                    final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, new TextComponent(""),
-                            pagenum);
-                    this.list.addEntry(wikiline);
-                    pagenum++;
-                }
-            }
-            catch (final Exception e)
+            MutableComponent entry;
+            for (final Page page : pages.pages)
             {
-                e.printStackTrace();
+                for (String line : page.lines)
+                {
+                    final String refin = "\u241F";
+                    final String linkin = "\u240F";
+                    String ref_val = "";
+                    String link_val = "";
+                    Matcher match = link.matcher(line);
+                    // We have a link
+                    if (match.find())
+                    {
+                        link_val = match.group();
+                        line = line.replace(link_val, linkin);
+                        link_val = link_val.replace("{_link_:", "").replace("}", "");
+                    }
+                    match = ref.matcher(line);
+                    // We have a ref
+                    if (match.find())
+                    {
+                        ref_val = match.group();
+                        line = line.replace(ref_val, refin);
+                        ref_val = ref_val.replace("{_ref_:", "").replace("}", "");
+                    }
+
+                    final MutableComponent comp = new TextComponent(line);
+                    final List<MutableComponent> list = ListHelper.splitText(comp, 120, this.font, false);
+                    for (final MutableComponent element : list)
+                    {
+                        entry = element;
+                        String text = entry.getString();
+                        Style style = entry.getStyle();
+                        // We have a link
+                        if (text.contains(linkin))
+                        {
+                            text = text.replace(linkin, "");
+                            entry = new TextComponent(text);
+                            style = style.withClickEvent(new ClickEvent(Action.CHANGE_PAGE, link_val));
+                        }
+                        // We have a ref
+                        if (text.contains(refin))
+                        {
+                            text = text.replace(refin, "");
+                            entry = new TextComponent(text);
+                            this.refs.put(ref_val, this.list.getSize());
+                        }
+                        entry.setStyle(style);
+                        final LineEntry wikiline = new WikiLine(this.list, -5, 0, this.font, entry, pagenum)
+                                .setClickListner(listener);
+                        this.list.addEntry(wikiline);
+                    }
+                }
+                final LineEntry wikiline = new WikiLine(this.list, 0, 0, this.font, new TextComponent(""), pagenum);
+                this.list.addEntry(wikiline);
+                pagenum++;
             }
 
         }

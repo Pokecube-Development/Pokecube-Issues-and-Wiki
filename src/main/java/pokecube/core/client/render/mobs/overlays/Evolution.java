@@ -29,8 +29,7 @@ public class Evolution
             {
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            }, () ->
-            {
+            }, () -> {
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
             });
@@ -38,15 +37,16 @@ public class Evolution
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
     // FIXME decide on shader
     private static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
-            Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(
-                    RenderType.POSITION_COLOR_SHADER).setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true,
-                            false)).setTransparencyState(Evolution.TRANSP).createCompositeState(false));
+            Mode.QUADS, 256, false, true,
+            RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)
+                    .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
+                    .setTransparencyState(Evolution.TRANSP).createCompositeState(false));
 
     public static void render(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource iRenderTypeBuffer,
             final float partialTick)
     {
-        if (pokemob.isEvolving()) Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, PokecubeCore
-                .getConfig().evolutionTicks, true);
+        if (pokemob.isEvolving()) Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick,
+                PokecubeCore.getConfig().evolutionTicks, true);
     }
 
     public static void renderEffect(final IPokemob pokemob, final PoseStack mat, final MultiBufferSource bufferIn,
@@ -95,22 +95,17 @@ public class Evolution
 
             final Matrix4f matrix4f = mat.last().pose();
             final int j = (int) (200 * (1.0F - f7));
-            try
-            {
-                Evolution.white_points(ivertexbuilder2, matrix4f, j, col1);
-                Evolution.transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
-                Evolution.transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col2);
-                Evolution.white_points(ivertexbuilder2, matrix4f, j, col2);
-                Evolution.transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col1);
-                Evolution.transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col1);
-                Evolution.white_points(ivertexbuilder2, matrix4f, j, col1);
-                Evolution.transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col2);
-                Evolution.transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.debug("Error drawing evo effect: {}, {}", e.toString(), i);
-            }
+
+            Evolution.white_points(ivertexbuilder2, matrix4f, j, col1);
+            Evolution.transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
+            Evolution.transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col2);
+            Evolution.white_points(ivertexbuilder2, matrix4f, j, col2);
+            Evolution.transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col1);
+            Evolution.transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col1);
+            Evolution.white_points(ivertexbuilder2, matrix4f, j, col1);
+            Evolution.transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col2);
+            Evolution.transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
+
         }
         mat.popPose();
     }
@@ -135,8 +130,8 @@ public class Evolution
             final BufferBuilder buf = (BufferBuilder) builder;
             if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.vertex(posmat, -Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col
-                .getBlue(), 0).endVertex();
+        builder.vertex(posmat, -Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz)
+                .color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
 
     private static void transp_point_b(final VertexConsumer builder, final Matrix4f posmat, final float dy,
@@ -147,8 +142,8 @@ public class Evolution
             final BufferBuilder buf = (BufferBuilder) builder;
             if (buf.getVertexFormat().getVertexSize() != 16) return;
         }
-        builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz).color(col.getRed(), col.getGreen(), col
-                .getBlue(), 0).endVertex();
+        builder.vertex(posmat, Evolution.sqrt3_2 * dxz, dy, -0.5F * dxz)
+                .color(col.getRed(), col.getGreen(), col.getBlue(), 0).endVertex();
     }
 
     private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,

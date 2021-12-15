@@ -210,15 +210,11 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.getEntity().discard();
             return;
         }
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel)) try
+        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel))
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getId());
             PokecubeCore.packets.sendToServer(packet);
             return;
-        }
-        catch (final Exception ex)
-        {
-            PokecubeCore.LOGGER.error("Error recalling mob!", ex);
         }
         else this.executeRecall();
     }
@@ -390,23 +386,14 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public void setHeldItem(final ItemStack itemStack)
     {
-        try
-        {
-            final ItemStack oldStack = this.getHeldItem();
-            this.getInventory().setItem(1, itemStack);
-            this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
-            super.setHeldItem(itemStack);
-            this.dataSync().set(this.params.HELDITEMDW, itemStack);
-            // Now check if we need to cancel any mega evolutions, etc.
-            // megaRevert handles checking if we are mega evolved, etc
-            if (!itemStack.isEmpty()) this.megaRevert();
-
-        }
-        catch (final Exception e)
-        {
-            // Should not happen anymore
-            e.printStackTrace();
-        }
+        final ItemStack oldStack = this.getHeldItem();
+        this.getInventory().setItem(1, itemStack);
+        this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
+        super.setHeldItem(itemStack);
+        this.dataSync().set(this.params.HELDITEMDW, itemStack);
+        // Now check if we need to cancel any mega evolutions, etc.
+        // megaRevert handles checking if we are mega evolved, etc
+        if (!itemStack.isEmpty()) this.megaRevert();
     }
 
     @Override

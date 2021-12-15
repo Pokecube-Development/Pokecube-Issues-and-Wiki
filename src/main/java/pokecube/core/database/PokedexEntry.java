@@ -287,14 +287,7 @@ public class PokedexEntry
 
         public void postInit()
         {
-            try
-            {
-                if (this.data != null) this.parse(this.data);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error parsing " + this, e);
-            }
+            if (this.data != null) this.parse(this.data);
         }
 
         public boolean shouldEvolve(final IPokemob mob)
@@ -1730,7 +1723,7 @@ public class PokedexEntry
     public ItemStack getRandomHeldItem(final Mob mob)
     {
         if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
-        if (this.heldTable != null) try
+        if (this.heldTable != null)
         {
             final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(this.heldTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder(
@@ -1740,10 +1733,6 @@ public class PokedexEntry
             for (final ItemStack itemstack : loottable.getRandomItems(
                     lootcontext$builder.create(loottable.getParamSet())))
                 if (!itemstack.isEmpty()) return itemstack;
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error loading table: " + this.heldTable, e);
         }
         return ItemStack.EMPTY;
     }
@@ -2109,14 +2098,10 @@ public class PokedexEntry
     {
         final List<String> moves = new ArrayList<>();
 
-        if (this.possibleMoves == null) try
+        if (this.possibleMoves == null)
         {
             this.possibleMoves = this.getBaseForme().possibleMoves;
             this.possibleMoves.isEmpty();
-        }
-        catch (final Exception e)
-        {
-            throw new RuntimeException(this.toString() + " no moves? " + this.getBaseForme());
         }
         if (this.lvlUpMoves == null) this.lvlUpMoves = this.getBaseForme().lvlUpMoves;
 

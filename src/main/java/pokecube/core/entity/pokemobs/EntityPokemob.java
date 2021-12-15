@@ -334,8 +334,7 @@ public class EntityPokemob extends PokemobRidable
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;
-            if (orig_override == -1)
-                level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
+            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
             else
             {
                 final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
@@ -373,29 +372,23 @@ public class EntityPokemob extends PokemobRidable
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeCore.LOGGER.error("Error reading synced data value", e);
                 }
             }
             this.pokemobCap.dataSync().update(data_list);
         }
         this.seatCount = data.readInt();
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
-        try
-        {
-            CompoundTag tag = buffer.readNbt();
-            final ListTag list = (ListTag) tag.get("g");
-            final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
-            genes.deserializeNBT(list);
-            this.pokemobCap.read(tag.getCompound("p"));
-            this.pokemobCap.onGenesChanged();
-            this.canUpdate(tag.getBoolean("u"));
-            tag = buffer.readNbt();
-            if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+
+        CompoundTag tag = buffer.readNbt();
+        final ListTag list = (ListTag) tag.get("g");
+        final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
+        genes.deserializeNBT(list);
+        this.pokemobCap.read(tag.getCompound("p"));
+        this.pokemobCap.onGenesChanged();
+        this.canUpdate(tag.getBoolean("u"));
+        tag = buffer.readNbt();
+        if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
     }
 
     @Override

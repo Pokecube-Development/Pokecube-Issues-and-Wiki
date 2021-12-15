@@ -192,13 +192,13 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         this.blit(mat, k, l, 0, 0, this.imageWidth, this.imageHeight);
         if (this.menu.mode == 0) this.blit(mat, k + 79, l + 17, 0, this.imageHeight, 90, 18);
         this.blit(mat, k + 7, l + 35, 0, this.imageHeight + 54, 18, 18);
-        if (this.menu.pokemob != null) GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0,
-                1);
+        if (this.menu.pokemob != null)
+            GuiPokemobBase.renderMob(mat, this.menu.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
     }
 
     /**
-     * Draw the foreground layer for the ContainerScreen (everything in front
-     * of the items)
+     * Draw the foreground layer for the ContainerScreen (everything in front of
+     * the items)
      */
     @Override
     protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)

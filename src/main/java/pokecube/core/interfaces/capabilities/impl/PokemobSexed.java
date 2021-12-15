@@ -60,8 +60,9 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
             // Check if pokedex entries state they can breed, and then if so,
             // ensure sexe is different.
             final boolean neutral = this.getSexe() == IPokemob.NOSEXE || otherMob.getSexe() == IPokemob.NOSEXE;
-            if ((thisEntry.areRelated(thatEntry) || thatEntry.areRelated(thisEntry)) && (neutral || otherMob
-                    .getSexe() != this.getSexe())) return true;
+            if ((thisEntry.areRelated(thatEntry) || thatEntry.areRelated(thisEntry))
+                    && (neutral || otherMob.getSexe() != this.getSexe()))
+                return true;
 
             // Otherwise check for transform.
             boolean transforms = false;
@@ -98,12 +99,11 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         boolean transforms = false;
         boolean otherTransforms = ((IPokemob) male).getTransformedTo() != null;
         final String[] moves = this.getMoves();
-        for (final String s : moves)
-            if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) transforms = true;
+        for (final String s : moves) if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) transforms = true;
         if (!otherTransforms) for (final String s : ((IPokemob) male).getMoves())
             if (s != null && s.equalsIgnoreCase(IMoveNames.MOVE_TRANSFORM)) otherTransforms = true;
-        if (transforms && !otherTransforms && ((IPokemob) male).getTransformedTo() != this.getEntity()) return male
-                .getChild(this);
+        if (transforms && !otherTransforms && ((IPokemob) male).getTransformedTo() != this.getEntity())
+            return male.getChild(this);
         return this.getPokedexEntry().getChild(((IPokemob) male).getPokedexEntry());
     }
 
@@ -112,42 +112,26 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         this.here.set(this.getEntity());
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this + " lay()");
         if (this.getEntity().getCommandSenderWorld().isClientSide) return;
-        final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here, PokecubeCore
-                .getConfig().maxSpawnRadius);
+        final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here,
+                PokecubeCore.getConfig().maxSpawnRadius);
         if (!(this.getOwner() instanceof Player) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
         if (num > PokecubeCore.getConfig().mobSpawnNumber * 10) return;
-        final Vector3 pos = this.here.set(this.getEntity()).addTo(0, Math.max(this.getPokedexEntry().height * this
-                .getSize() / 4, 0.5f), 0);
+        final Vector3 pos = this.here.set(this.getEntity()).addTo(0,
+                Math.max(this.getPokedexEntry().height * this.getSize() / 4, 0.5f), 0);
         if (pos.isClearOfBlocks(this.getEntity().getCommandSenderWorld()))
         {
-            Entity eggItem = null;
-            try
-            {
-                eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getCommandSenderWorld())
-                        .setToPos(this.here).setStackByParents(this.getEntity(), male);
-            }
-            catch (final Exception e1)
-            {
-                e1.printStackTrace();
-            }
+            Entity eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getCommandSenderWorld())
+                    .setToPos(this.here).setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
-            try
+            event = new EggEvent.Lay(eggItem);
+            MinecraftForge.EVENT_BUS.post(event);
+            if (!event.isCanceled())
             {
-                event = new EggEvent.Lay(eggItem);
-                MinecraftForge.EVENT_BUS.post(event);
-                if (!event.isCanceled())
-                {
-                    final ServerPlayer player = (ServerPlayer) (this
-                            .getOwner() instanceof ServerPlayer ? this.getOwner()
-                                    : male.getOwner() instanceof ServerPlayer ? male.getOwner() : null);
-                    if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
-                    this.egg = eggItem;
-                    this.getEntity().getCommandSenderWorld().addFreshEntity(this.egg);
-                }
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
+                final ServerPlayer player = (ServerPlayer) (this.getOwner() instanceof ServerPlayer ? this.getOwner()
+                        : male.getOwner() instanceof ServerPlayer ? male.getOwner() : null);
+                if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
+                this.egg = eggItem;
+                this.getEntity().getCommandSenderWorld().addFreshEntity(this.egg);
             }
             return;
         }

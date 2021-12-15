@@ -858,10 +858,7 @@ public final class SpawnHandler
             catch (final Throwable e)
             {
                 if (entity != null) entity.discard();
-
-                System.err.println("Wrong Id while spawn: " + dbe.getName());
-                e.printStackTrace();
-
+                PokecubeCore.LOGGER.error("Wrong Id while spawn: " + dbe.getName(), e);
                 return totalSpawnCount;
             }
         }

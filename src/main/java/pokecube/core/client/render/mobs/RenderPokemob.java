@@ -122,39 +122,38 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final QName male = new QName("male");
             final QName female = new QName("female");
             if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
-            if (phase.values.containsKey(female)) this.entry.textureDetails[1] = this.fromValue(phase.values.get(
-                    female));
+            if (phase.values.containsKey(female))
+                this.entry.textureDetails[1] = this.fromValue(phase.values.get(female));
         }
 
         private String[] fromValue(final String string)
         {
             final String[] ret = string.split(",");
-            for (int i = 0; i < ret.length; i++)
-                ret[i] = ThutCore.trim(ret[i]);
+            for (int i = 0; i < ret.length; i++) ret[i] = ThutCore.trim(ret[i]);
             return ret;
         }
     }
 
     public static class Holder extends ModelHolder implements IModelRenderer<Mob>
     {
-        public ModelWrapper<Mob>                wrapper;
-        final Vector3                           rotPoint   = Vector3.getNewVector();
-        HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
-        private IPartTexturer                   texturer;
-        private IAnimationChanger               animator;
-        public String                           name;
-        public HashMap<String, PartInfo>        parts      = Maps.newHashMap();
-        HashMap<String, ArrayList<Vector5>>     global;
+        public ModelWrapper<Mob> wrapper;
+        final Vector3 rotPoint = Vector3.getNewVector();
+        HashMap<String, List<Animation>> anims = Maps.newHashMap();
+        private IPartTexturer texturer;
+        private IAnimationChanger animator;
+        public String name;
+        public HashMap<String, PartInfo> parts = Maps.newHashMap();
+        HashMap<String, ArrayList<Vector5>> global;
         public HashMap<String, List<Animation>> animations = Maps.newHashMap();
-        private final List<String>              toRunNames = Lists.newArrayList();
-        private final List<Animation>           toRun      = Lists.newArrayList();
-        private Vector3                         offset     = Vector3.getNewVector();;
-        private Vector3                         scale      = Vector3.getNewVector();
-        PokedexEntry                            entry;
+        private final List<String> toRunNames = Lists.newArrayList();
+        private final List<Animation> toRun = Lists.newArrayList();
+        private Vector3 offset = Vector3.getNewVector();;
+        private Vector3 scale = Vector3.getNewVector();
+        PokedexEntry entry;
 
-        public boolean reload       = false;
+        public boolean reload = false;
         public boolean overrideAnim = false;
-        public String  anim         = "";
+        public String anim = "";
 
         private Vector5 rotations = new Vector5();
 
@@ -182,11 +181,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             if (entry.getBaseForme() != null)
             {
-                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
-                        .getTrimmedName());
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
-                newRes = entry.model().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
-                        .getTrimmedName());
+                newRes = entry.model().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
                 this.backupModels.add(new ResourceLocation(newRes));
             }
         }
@@ -234,8 +233,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
             final IAnimated anims = AnimatedCaps.getAnimated(entity);
-            for (final String s : anims.getChoices())
-                if (this.hasAnimation(s, entity)) return s;
+            for (final String s : anims.getChoices()) if (this.hasAnimation(s, entity)) return s;
             return phase;
         }
 
@@ -276,8 +274,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             this.toRun.clear();
             this.toRunNames.clear();
-            if (this.animator != null) this.animator.getAlternates(this.toRunNames, this.animations.keySet(), entity,
-                    phase);
+            if (this.animator != null)
+                this.animator.getAlternates(this.toRunNames, this.animations.keySet(), entity, phase);
             for (final String name : this.toRunNames)
             {
                 final List<Animation> anims = this.animations.get(name);
@@ -299,8 +297,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void initModel(final ModelWrapper<Mob> model)
         {
             this.wrapper = model;
-            model.imodel = ModelFactory.create(model.model, m ->
-            {
+            model.imodel = ModelFactory.create(model.model, m -> {
                 // Check if an animation file exists.
                 try
                 {
@@ -381,14 +378,13 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public static void reloadModel(final PokedexEntry entry)
     {
         if (RenderPokemob.holders.containsKey(entry)) RenderPokemob.holders.get(entry).init();
-        for (final Holder custom : RenderPokemob.customs.values())
-            if (custom.entry == entry) custom.init();
+        for (final Holder custom : RenderPokemob.customs.values()) if (custom.entry == entry) custom.init();
     }
 
     public static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
     public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
-    public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();
+    public static Map<PokedexEntry, Holder> holders = Maps.newHashMap();
 
     public static void register()
     {
@@ -415,7 +411,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     final Holder holder;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings(
+    { "unchecked", "rawtypes" })
     public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
@@ -472,20 +469,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         holder.loadTimer = 0;
 
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
-                || holder.texture == null) holder = RenderPokemob.getMissingNo();
+                || holder.texture == null)
+            holder = RenderPokemob.getMissingNo();
 
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
-        try
-        {
-            this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
-            super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        }
-        catch (final Exception e)
-        {
-            // holderMap.put(type, this.holder);
-            PokecubeCore.LOGGER.error("Error rendering " + pokemob.getPokedexEntry(), e);
-        }
+
+        this.model.setMob(entity, bufferIn, this.getTextureLocation(entity));
+        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
@@ -493,19 +484,18 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             final boolean bool_c)
     {
         // FIXME decide on shader
-        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
-                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
+                }, () -> {
                     RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
-                        new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setCullState(new RenderStateShard.CullStateShard(false))
+                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
         return RenderType.create("pokecube:pokemob", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }
