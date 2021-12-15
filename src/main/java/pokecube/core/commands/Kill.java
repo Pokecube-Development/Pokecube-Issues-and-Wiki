@@ -46,13 +46,20 @@ public class Kill
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null && !e.getEntity().isInvulnerable())
             {
-                if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
-                    continue;
-                if (!tame && e.getOwnerId() != null) continue;
-                final KillCommandEvent event = new KillCommandEvent(e.getEntity());
-                if (PokecubeCore.POKEMOB_BUS.post(event)) continue;
-                e.onRecall();
-                count1++;
+                try
+                {
+                    if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
+                        continue;
+                    if (!tame && e.getOwnerId() != null) continue;
+                    final KillCommandEvent event = new KillCommandEvent(e.getEntity());
+                    if (PokecubeCore.POKEMOB_BUS.post(event)) continue;
+                    e.onRecall();
+                    count1++;
+                }
+                catch (Exception e1)
+                {
+                    PokecubeCore.LOGGER.error("Error in kill command!", e1);
+                }
             }
         }
         source.sendSuccess(new TranslatableComponent("pokecube.command." + (cull ? "cull" : "kill"), count1), true);
@@ -70,11 +77,11 @@ public class Kill
         PermissionAPI.registerNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
-        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm)).executes((ctx) -> Kill.execute(ctx
-                .getSource(), false, false)));
-        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm)).executes((ctx) -> Kill.execute(
-                ctx.getSource(), true, false)));
-        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm)).executes((ctx) -> Kill.execute(ctx
-                .getSource(), false, true)));
+        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm))
+                .executes((ctx) -> Kill.execute(ctx.getSource(), false, false)));
+        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm))
+                .executes((ctx) -> Kill.execute(ctx.getSource(), true, false)));
+        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm))
+                .executes((ctx) -> Kill.execute(ctx.getSource(), false, true)));
     }
 }

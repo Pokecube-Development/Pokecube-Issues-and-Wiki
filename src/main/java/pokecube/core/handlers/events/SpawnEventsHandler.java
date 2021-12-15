@@ -44,7 +44,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.spawns.SpawnCheck;
-import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -111,8 +110,7 @@ public class SpawnEventsHandler
         SpawnCheck checker = new SpawnCheck(v, world);
         SpawnContext context = event.context();
         context = new SpawnContext(context, dbe);
-        float weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
-        weight *= SpawnRateMask.getMask(dbe, world, v);
+        float weight = dbe.getSpawnData().getWeight(context, checker, true);
 
         /**
          * TODO instead of completely random spawns: <br>
@@ -130,8 +128,7 @@ public class SpawnEventsHandler
             dbe = entries.get(index % entries.size());
             context = new SpawnContext(context, v);
             context = new SpawnContext(context, dbe);
-            weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
-            weight *= SpawnRateMask.getMask(dbe, world, v);
+            weight = dbe.getSpawnData().getWeight(context, checker, true);
 
             if (weight == 0) continue;
             if (!dbe.flys() && random >= weight) if (!(dbe.swims() && v.getBlockMaterial(world) == Material.WATER))
@@ -142,8 +139,7 @@ public class SpawnEventsHandler
                     v.offsetBy(Direction.UP);
                     context = new SpawnContext(context, v);
                     checker = new SpawnCheck(v, world);
-                    weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(context, checker));
-                    weight *= SpawnRateMask.getMask(dbe, world, v);
+                    weight = dbe.getSpawnData().getWeight(context, checker, true);
                 }
                 else weight = 0;
             }

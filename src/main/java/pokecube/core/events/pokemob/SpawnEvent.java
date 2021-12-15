@@ -83,6 +83,45 @@ public class SpawnEvent extends Event
             super(context);
             this.forSpawn = forSpawn;
         }
+
+        /**
+         * This event is called when checking what the spawn rate for a mob is
+         * at that location. getOriginalRate() will return the un-modified rate.
+         * getRate() is what will be used for the actual value.
+         * 
+         * There is a listener for this in SpawnRateMask set to HIGHEST
+         * priority, which will apply the mask over this if forSpawn is true.
+         *
+         */
+        public static class Rate extends Check
+        {
+            private final float rate_in;
+
+            private float rate;
+
+            public Rate(SpawnContext context, final boolean forSpawn, float rate_in)
+            {
+                super(context, forSpawn);
+                this.rate_in = rate_in;
+                this.setRate(rate_in);
+            }
+
+            public float getOriginalRate()
+            {
+                return rate_in;
+            }
+
+            public float getRate()
+            {
+                return rate;
+            }
+
+            public void setRate(float rate)
+            {
+                this.rate = rate;
+            }
+
+        }
     }
 
     @Cancelable

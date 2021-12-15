@@ -11,11 +11,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.events.SpawnMaskEvent;
+import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import thut.api.maths.Vector3;
 
@@ -31,13 +33,25 @@ public class SpawnRateMask
         {
             RATE_MASKS.put(e, new SpawnRateMask(e));
         }
+        PokecubeCore.POKEMOB_BUS.addListener(EventPriority.HIGHEST, SpawnRateMask::onRateCheck);
     }
 
-    public static double getMask(PokedexEntry entry, LevelAccessor level, Vector3 location)
+    private static float getMask(PokedexEntry entry, LevelAccessor level, Vector3 location)
     {
         if (!RATE_MASKS.containsKey(entry)) return 1;
         SpawnRateMask mask = RATE_MASKS.get(entry);
-        return mask.parse(level, location);
+        return (float) mask.parse(level, location);
+    }
+
+    private static void onRateCheck(SpawnEvent.Check.Rate event)
+    {
+        if (event.forSpawn)
+        {
+            float new_rate = event.getRate() * getMask(event.entry(), event.level(), event.location());
+            new_rate = Math.min(1, new_rate);
+            new_rate = Math.max(0, new_rate);
+            event.setRate(new_rate);
+        }
     }
 
     public String function = "{\"dim\":\"the_nether\",\"func\":\"abs((1)*(sin(x*8*10^-3 + px)^3 + sin(y*8*10^-3 + py)^3))\",\"radial\":false,\"central\":false}";

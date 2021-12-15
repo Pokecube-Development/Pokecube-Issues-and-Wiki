@@ -722,6 +722,15 @@ public class PokedexEntry
             return entry == null ? 0 : entry.rate;
         }
 
+        public float getWeight(final SpawnContext context, SpawnCheck checker, boolean forSpawn)
+        {
+            final SpawnEntry entry = this.matchers.get(getMatcher(context, checker, forSpawn));
+            float rate = entry == null ? 0 : entry.rate;
+            SpawnEvent.Check.Rate event = new SpawnEvent.Check.Rate(context, forSpawn, rate);
+            PokecubeCore.POKEMOB_BUS.post(event);
+            return event.getRate();
+        }
+
         public boolean isValid(final ResourceLocation biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())

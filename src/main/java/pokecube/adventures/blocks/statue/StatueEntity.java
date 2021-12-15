@@ -22,12 +22,13 @@ import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.PokeType;
 import thut.api.ThutCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.maths.Vector3;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IMobColourable;
+import thut.api.maths.Vector3;
 import thut.core.common.network.TileUpdate;
 
 public class StatueEntity extends BlockEntity
@@ -134,7 +135,7 @@ public class StatueEntity extends BlockEntity
     }
 
     @SubscribeEvent
-    public void onSpawnEvent(SpawnEvent.Pick.Pre event)
+    public void onSpawnEventRate(SpawnEvent.Check.Rate event)
     {
         final ICopyMob copy = CopyCaps.get(this);
 
@@ -144,29 +145,42 @@ public class StatueEntity extends BlockEntity
             return;
         }
 
-        if (copy != null && copy.getCopiedMob() != null)
+        if (!event.forSpawn) return;
+
+        if (copy.getCopiedMob() != null)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(copy.getCopiedMob());
-            if (pokemob != null)
+
+            boolean powered = level.hasNeighborSignal(getBlockPos());
+            double d = PokecubeCore.getConfig().maxSpawnRadius;
+
+            if (pokemob != null && powered && event.location().distToSq(Vector3.getNewVector().set(this)) < d * d)
             {
                 PokedexEntry entry = pokemob.getPokedexEntry();
-                if (entry != event.getPicked() && event.getPicked() != null)
+                float r0 = event.getRate();
+                float r1 = r0 > 1 ? r0 : 1;
+                r0 = r0 > 1 ? 1 : r0;
+
+                float d1 = (1 - r0);
+                float s = d1;
+
+                boolean sameType1 = entry.getType1() != PokeType.unknown && event.entry().isType(entry.getType1());
+                boolean sameType2 = entry.getType2() != PokeType.unknown && event.entry().isType(entry.getType2());
+
+                int n = 1;
+                if (sameType1) n++;
+                if (sameType2) n++;
+                if (entry == event.entry())
                 {
-                    boolean powered = level.hasNeighborSignal(getBlockPos());
-                    double d = PokecubeCore.getConfig().maxSpawnRadius;
-                    if (powered && event.getLocation().distToSq(Vector3.getNewVector().set(this)) < d * d)
-                    {
-                        double rng = this.level.getRandom().nextDouble();
-
-                        double sup_chance = 0.8;
-
-                        sup_chance *= event.getPicked().isType(entry.getType1()) ? sup_chance : 1;
-                        sup_chance *= event.getPicked().isType(entry.getType2()) ? sup_chance : 1;
-
-                        PokedexEntry newEntry = rng < sup_chance ? rng < sup_chance / 5f ? entry : null : event.getPicked();
-                        event.setPick(newEntry);
-                    }
+                    n = 5;
                 }
+
+                s = (float) Math.pow(d1, n);
+                if (n == 1)
+                {
+                    event.setRate(r1 * r0 / 2);
+                }
+                else if (s < 1) event.setRate(r1 * (1 - s));
             }
         }
     }
