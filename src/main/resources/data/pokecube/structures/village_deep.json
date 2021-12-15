@@ -1,0 +1,97 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/deep/town_centers",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/deep/town_centers/center_1;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube:village/deep/terminators",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/deep/terminators/terminator"
+      ]
+    },
+    {
+      "name": "pokecube:village/deep/streets",
+      "target": "pokecube:village/deep/terminators",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/deep/streets/straight_1;{\"weight\":2}",
+        "pokecube:village/deep/streets/straight_2;{\"weight\":4}",
+        "pokecube:village/deep/streets/straight_3;{\"weight\":4}",
+        "pokecube:village/deep/streets/corner_01;{\"weight\":4}",
+        "pokecube:village/deep/streets/corner_02;{\"weight\":4}",
+        "pokecube:village/deep/streets/crossroad_01;{\"weight\":5}"
+      ]
+    },
+    {
+      "name": "pokecube:village/deep/pokecenter/path",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube:village/deep/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/deep/houses",
+      "target": "pokecube:village/deep/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/deep/houses/house_small_1;{\"weight\":4,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_small_2;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_small_3;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_medium_1;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_medium_2;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_medium_3;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_large_1;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_large_2;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/house_large_3;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/fisher_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/farmer_house;{\"weight\"2,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/library_house;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/mason_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/shepherds_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/temple_house;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/tool_armor_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/weapon_smith_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube:village",
+      "name": "pokecube:village/deep",
+      "root": "pokecube:village/deep/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 5,
+      "priority": 10,
+      "height":-75,
+      "base_under": false,
+      "biomeType": "village",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "types":"all",
+          "categoryBlacklist":"ocean,beach,plains",
+          "biomesBlacklist":"birch_forest"
+        }
+      }
+    }
+  ]
+}
