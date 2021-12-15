@@ -134,10 +134,9 @@ public class WorldgenHandler
             {
                 result = WorldgenHandler.GSON.fromJson(structstring, Options.class);
             }
-            catch (final JsonSyntaxException e)
+            catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error loading options for string {}", structstring);
-                e.printStackTrace();
+                PokecubeCore.LOGGER.error("Error loading options for string {}", structstring, e);
             }
             return result;
         }
