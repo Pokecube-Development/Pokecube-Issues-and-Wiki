@@ -1,13 +1,10 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:aged_dirt",
-    "pokecube_legends:corrupted_dirt",
+    "#pokecube_legends:ultra_dirts",
     "pokecube_legends:cracked_distortic_stone",
     "pokecube_legends:distortic_mirror",
     "pokecube_legends:distortic_stone",
-    "pokecube_legends:jungle_dirt",
-    "pokecube_legends:mushroom_dirt",
     "pokecube_legends:ultra_darkstone",
     "pokecube_legends:ultra_stone"
   ]

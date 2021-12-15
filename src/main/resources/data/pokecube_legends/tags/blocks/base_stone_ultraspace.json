@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:ultra_stone_ore_replaceables"
+    "#pokecube_legends:ultra_stone_ore_replaceables",
+    "minecraft:blackstone",
+    "pokecube_legends:ultra_darkstone"
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:distortic_grass_block",
+    "pokecube_legends:mushroom_grass_block",
+    "pokecube_legends:jungle_grass_block",
+    "pokecube_legends:corrupted_grass_block",
+    "pokecube_legends:aged_grass_block"
+  ]
+}

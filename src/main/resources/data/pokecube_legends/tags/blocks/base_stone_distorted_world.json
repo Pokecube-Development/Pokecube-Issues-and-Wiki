@@ -3,6 +3,9 @@
   "values": [
     "#pokecube_legends:distortic_stone_ore_replaceables",
     "pokecube_legends:distortic_glowstone",
+    "pokecube_legends:cracked_distortic_stone",
+    "pokecube_legends:distortic_grass_block",
+    "pokecube_legends:distortic_stone",
     "pokecube_legends:distortic_mirror"
   ]
 }
