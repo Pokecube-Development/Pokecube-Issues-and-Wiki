@@ -28,6 +28,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -87,9 +88,9 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped
-                    .getCommandSenderWorld() instanceof ServerLevel) return this.owner = this.getOwner(
-                            (ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
+            if (this.getOwnerId() != null && this.owner == null
+                    && this.wrapped.getCommandSenderWorld() instanceof ServerLevel)
+                return this.owner = this.getOwner((ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
             return this.owner;
         }
 
@@ -177,7 +178,7 @@ public class OwnableCaps
     {
         final LazyOptional<IOwnable> holder = LazyOptional.of(() -> this);
 
-        UUID         ownerId;
+        UUID ownerId;
         LivingEntity ownerMob;
 
         boolean playerOwned = false;
@@ -257,14 +258,13 @@ public class OwnableCaps
     }
 
     public static class ImplTE extends Impl implements IOwnableTE
-    {
-    }
+    {}
 
-    public static final Set<EntityType<?>>     MOBS  = Sets.newHashSet();
+    public static final Set<EntityType<?>> MOBS = Sets.newHashSet();
     public static final Set<BlockEntityType<?>> TILES = Sets.newHashSet();
 
-    public static final ResourceLocation LOCBASE  = new ResourceLocation("thutcore:ownable_base");
-    public static final ResourceLocation LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
+    public static final ResourceLocation LOCBASE = new ResourceLocation("thutcore:ownable_base");
+    public static final ResourceLocation LOCWRAP = new ResourceLocation("thutcore:ownable_wrap");
     public static final ResourceLocation STICKTAG = new ResourceLocation("thutcore:pokeystick");
 
     public static ICapabilitySerializable<?> makeMobOwnable(final Entity mob, final boolean nonNull)
@@ -306,8 +306,8 @@ public class OwnableCaps
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
             if (p.getCapability(ThutCaps.OWNABLE_CAP).isPresent()) return;
-        if (OwnableCaps.TILES.contains(event.getObject().getType())) event.addCapability(OwnableCaps.LOCBASE,
-                new ImplTE());
+        if (OwnableCaps.TILES.contains(event.getObject().getType()))
+            event.addCapability(OwnableCaps.LOCBASE, new ImplTE());
     }
 
     @SubscribeEvent
@@ -329,9 +329,15 @@ public class OwnableCaps
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
-                    .getAllTags().getTagOrEmpty(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
-                    && ((IOwnableTE) ownable).getOwnerId() != null) event.getWorld().destroyBlock(event.getPos(), true);
+            if (ownable instanceof IOwnableTE
+                    && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags.getAllTags()
+                            .getTagOrEmpty(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
+                    && ((IOwnableTE) ownable).getOwnerId() != null)
+            {
+                event.getWorld().getBlockState(event.getPos()).onDestroyedByPlayer(event.getWorld(), event.getPos(),
+                        event.getPlayer(), true, event.getWorld().getFluidState(event.getPos()));
+                event.setUseBlock(Result.DENY);
+            }
         }
     }
 
@@ -342,8 +348,8 @@ public class OwnableCaps
         if (tile != null)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-            if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer())) event.setCanceled(
-                    true);
+            if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer()))
+                event.setCanceled(true);
         }
     }
 }

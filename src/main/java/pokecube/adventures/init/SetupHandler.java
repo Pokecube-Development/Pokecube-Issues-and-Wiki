@@ -99,6 +99,7 @@ public class SetupHandler
 
         OwnableCaps.TILES.add(PokecubeAdv.AFA_TYPE.get());
         OwnableCaps.TILES.add(PokecubeAdv.WARP_PAD_TYPE.get());
+        OwnableCaps.TILES.add(PokecubeAdv.STATUE_TYPE.get());
 
         PacketTrainer.register();
         Tasks.init();
