@@ -15,7 +15,6 @@ public class StatueItem extends BlockItem
         super(block, props);
     }
 
-
     @Override
     public void initializeClient(final Consumer<IItemRenderProperties> consumer) {
         consumer.accept(new IItemRenderProperties() {

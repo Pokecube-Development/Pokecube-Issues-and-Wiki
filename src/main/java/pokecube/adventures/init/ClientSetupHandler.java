@@ -110,6 +110,20 @@ public class ClientSetupHandler
                         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
                         evt.getToolTip().add(type.getDescription());
                     }
+                    else if (blockTag.contains("ForgeCaps"))
+                    {
+                        CompoundTag capsTag = blockTag.getCompound("ForgeCaps");
+                        if (capsTag.contains("thutcore:copymob"))
+                        {
+                            capsTag = capsTag.getCompound("thutcore:copymob");
+                            if (capsTag.contains("id"))
+                            {
+                                ResourceLocation id = new ResourceLocation(capsTag.getString("id"));
+                                final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+                                evt.getToolTip().add(type.getDescription());
+                            }
+                        }
+                    }
                 }
             }
             if (player == null || player.containerMenu == null) return;
