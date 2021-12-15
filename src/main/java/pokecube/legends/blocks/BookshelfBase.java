@@ -1,13 +1,13 @@
-package pokecube.legends.blocks.normalblocks;
+package pokecube.legends.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class GenericBookshelf extends Block
+public class BookshelfBase extends Block
 {
-    public GenericBookshelf(final Properties props)
+    public BookshelfBase(final Properties props)
     {
     	super(props);
     }

@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.init.BlockInit;
 
-public class DirtCorruptedBlock extends Block implements BonemealableBlock
+public class CorruptedDirtBlock extends Block implements BonemealableBlock
 {
-    public DirtCorruptedBlock(final Properties properties)
+    public CorruptedDirtBlock(final Properties properties)
     {
         super(properties);
     }
@@ -66,6 +66,6 @@ public class DirtCorruptedBlock extends Block implements BonemealableBlock
         }
 
         if (valid) world.setBlock(pos, BlockInit.CORRUPTED_GRASS.get().defaultBlockState().setValue(
-                GrassCorruptedBlock.SNOWY, world.getBlockState(pos.above()).is(Blocks.SNOW)), 3);
+                CorruptedGrassBlock.SNOWY, world.getBlockState(pos.above()).is(Blocks.SNOW)), 3);
     }
 }

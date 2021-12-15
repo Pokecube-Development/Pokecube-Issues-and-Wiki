@@ -36,21 +36,21 @@ import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 
-public class GrassDistorticBlock extends DirectionalBlock implements BonemealableBlock
+public class DistorticGrassBlock extends DirectionalBlock implements BonemealableBlock
 {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
-    public GrassDistorticBlock(final BlockBehaviour.Properties properties)
+    public DistorticGrassBlock(final BlockBehaviour.Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING, Direction.UP).setValue(
-                GrassDistorticBlock.SNOWY, false));
+                DistorticGrassBlock.SNOWY, false));
     }
 
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(DirectionalBlock.FACING, GrassDistorticBlock.SNOWY);
+        builder.add(DirectionalBlock.FACING, DistorticGrassBlock.SNOWY);
     }
 
     @SuppressWarnings("deprecation")
@@ -59,7 +59,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
             final LevelAccessor world, final BlockPos pos, final BlockPos pos1)
     {
         return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1)
-                : (BlockState) state.setValue(GrassDistorticBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
+                : (BlockState) state.setValue(DistorticGrassBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
                         Blocks.SNOW));
     }
 
@@ -81,8 +81,9 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
     {
         final BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
         return this.defaultBlockState().setValue(DirectionalBlock.FACING, context.getNearestLookingDirection()
-                .getOpposite()).setValue(GrassDistorticBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(
-                        Blocks.SNOW));
+                .getOpposite()).setValue(DistorticGrassBlock.SNOWY, state.is(Blocks.SNOW_BLOCK)
+                        || state.is(
+                                Blocks.SNOW));
     }
 
     @Override
@@ -112,8 +113,10 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
         final BlockState blockstate3 = world.getBlockState(blockpos3);
         final BlockState blockstate4 = world.getBlockState(blockpos4);
         final BlockState blockstate5 = world.getBlockState(blockpos5);
-        if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1) return true;
-        else if (blockstate.getFluidState().getAmount() == 8) return false;
+        if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1)
+            return true;
+        else if (blockstate.getFluidState().getAmount() == 8)
+            return false;
         else
         {
             final int up = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
@@ -128,25 +131,33 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                     Direction.EAST, blockstate4.getLightBlock(world, blockpos4));
             final int west = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate5, blockpos5,
                     Direction.WEST, blockstate5.getLightBlock(world, blockpos5));
-            if (state.getValue(DirectionalBlock.FACING) == Direction.UP) return up < world.getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.DOWN) return down < world.getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.NORTH) return north < world
-                    .getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.SOUTH) return south < world
-                    .getMaxLightLevel();
-            else if (state.getValue(DirectionalBlock.FACING) == Direction.EAST) return east < world.getMaxLightLevel();
-            else return west < world.getMaxLightLevel();
+            if (state.getValue(DirectionalBlock.FACING) == Direction.UP)
+                return up < world.getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.DOWN)
+                return down < world.getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.NORTH)
+                return north < world
+                        .getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.SOUTH)
+                return south < world
+                        .getMaxLightLevel();
+            else if (state.getValue(DirectionalBlock.FACING) == Direction.EAST)
+                return east < world.getMaxLightLevel();
+            else
+                return west < world.getMaxLightLevel();
         }
     }
 
     @Override
     public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
-        if (!GrassDistorticBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
-                .get().defaultBlockState());
+        if (!DistorticGrassBlock.canBeGrass(state, world, pos))
+            world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
+                    .get().defaultBlockState());
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings(
+    { "rawtypes", "unchecked" })
     @Override
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
@@ -161,8 +172,7 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
 //            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
         }
 
-        label48:
-        for (int i = 0; i < 128; ++i)
+        label48: for (int i = 0; i < 128; ++i)
         {
             BlockPos blockpos1 = blockpos;
 
@@ -171,12 +181,14 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                 blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2,
                         random.nextInt(3) - 1);
                 if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1)
-                        .isCollisionShapeFullBlock(world, blockpos1)) continue label48;
+                        .isCollisionShapeFullBlock(world, blockpos1))
+                    continue label48;
             }
 
             final BlockState blockstate2 = world.getBlockState(blockpos1);
-            if (blockstate2.is(blockstate1.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock) blockstate1
-                    .getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
+            if (blockstate2.is(blockstate1.getBlock()) && random.nextInt(10) == 0)
+                ((BonemealableBlock) blockstate1
+                        .getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
 
             if (blockstate2.isAir())
             {
@@ -205,32 +217,16 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
 
-        if (plantType == PlantType.PLAINS) return true;
-        else if (plantType == PlantType.WATER) return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
-        else if (plantType == PlantType.BEACH) return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        else return super.canSustainPlant(state, block, pos, direction, plantable);
-    }
-
-    @Override
-    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
-    {
-        super.stepOn(world, pos, state, entity);
-        GrassDistorticBlock.executeProcedure(entity);
-
-    }
-
-    public static void executeProcedure(final Entity entity)
-    {
-        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
-                .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
-                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
-                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
-                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
-                                                .getInventory().armor.get(0).getItem() != new ItemStack(
-                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
-            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 2));
+        if (plantType == PlantType.PLAINS)
+            return true;
+        else if (plantType == PlantType.WATER)
+            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+        else if (plantType == PlantType.BEACH)
+            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        else
+            return super.canSustainPlant(state, block, pos, direction, plantable);
     }
 }

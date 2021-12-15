@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraftforge.common.IPlantable;
 
-public class DistorticCrackedStone extends DirectionalBlock
+public class CrackedDistorticStone extends DirectionalBlock
 {
-    public DistorticCrackedStone(final BlockBehaviour.Properties properties)
+    public CrackedDistorticStone(final BlockBehaviour.Properties properties)
     {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(DirectionalBlock.FACING, Direction.UP));

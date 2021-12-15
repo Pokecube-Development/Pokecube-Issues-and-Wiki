@@ -34,14 +34,14 @@ import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
 
-public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBlock
+public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBlock
 {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
-    public GrassCorruptedBlock(final Properties properties)
+    public CorruptedGrassBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(GrassCorruptedBlock.SNOWY, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(CorruptedGrassBlock.SNOWY, false));
     }
 
     @SuppressWarnings("deprecation")
@@ -50,7 +50,7 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
             final LevelAccessor world, final BlockPos pos, final BlockPos pos1)
     {
         return direction != Direction.UP ? super.updateShape(state, direction, state1, world, pos, pos1)
-                : (BlockState) state.setValue(GrassCorruptedBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
+                : (BlockState) state.setValue(CorruptedGrassBlock.SNOWY, state1.is(Blocks.SNOW_BLOCK) || state1.is(
                         Blocks.SNOW));
     }
 
@@ -58,22 +58,24 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
-        return this.defaultBlockState().setValue(GrassCorruptedBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(
+        return this.defaultBlockState().setValue(CorruptedGrassBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(
                 Blocks.SNOW));
     }
 
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(GrassCorruptedBlock.SNOWY);
+        builder.add(CorruptedGrassBlock.SNOWY);
     }
 
     private static boolean canBeGrass(final BlockState state, final LevelReader world, final BlockPos pos)
     {
         final BlockPos blockpos = pos.above();
         final BlockState blockstate = world.getBlockState(blockpos);
-        if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1) return true;
-        else if (blockstate.getFluidState().getAmount() == 8) return false;
+        if (blockstate.is(Blocks.SNOW) && blockstate.getValue(SnowLayerBlock.LAYERS) >= 1)
+            return true;
+        else if (blockstate.getFluidState().getAmount() == 8)
+            return false;
         else
         {
             final int light = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
@@ -85,8 +87,9 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
     @Override
     public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
-        if (!GrassCorruptedBlock.canBeGrass(state, world, pos)) world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT
-                .get().defaultBlockState());
+        if (!CorruptedGrassBlock.canBeGrass(state, world, pos))
+            world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT
+                    .get().defaultBlockState());
     }
 
 //    @Override
@@ -103,22 +106,26 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
     @Override
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
     {
-       final BlockPos blockpos = pos.above();
-       final BlockState blockstate = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
+        final BlockPos blockpos = pos.above();
+        final BlockState blockstate = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
 
-       label48:
-       for(int i = 0; i < 128; ++i) {
-          BlockPos blockpos1 = blockpos;
+        label48: for (int i = 0; i < 128; ++i)
+        {
+            BlockPos blockpos1 = blockpos;
 
-          for(int j = 0; j < i / 16; ++j) {
-             blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-             if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) continue label48;
-          }
+            for (int j = 0; j < i / 16; ++j)
+            {
+                blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+                if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1))
+                    continue label48;
+            }
 
-          final BlockState blockstate2 = world.getBlockState(blockpos1);
-          if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0) ((BonemealableBlock)blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
+            final BlockState blockstate2 = world.getBlockState(blockpos1);
+            if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0)
+                ((BonemealableBlock) blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
 
-          if (blockstate2.isAir()) {
+            if (blockstate2.isAir())
+            {
 //             BlockState blockstate1;
 //             if (random.nextInt(8) == 0) {
 //                final List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
@@ -131,8 +138,8 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
 //                world.setBlock(blockpos1, blockstate1, 3);
 //                ForestVegetationFeature.place(world, random, blockpos, FeaturesInit.Configs.TAINTED_BARRENS_CONFIG, 3, 1);
 //             }
-          }
-       }
+            }
+        }
     }
 
     @Override
@@ -141,39 +148,23 @@ public class GrassCorruptedBlock extends NyliumBlock implements BonemealableBloc
         final BlockPos plantPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
         final PlantType plantType = plantable.getPlantType(block, plantPos);
 
-        if (plantType == PlantType.PLAINS) return true;
-        else if (plantType == PlantType.WATER) return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
-        else if (plantType == PlantType.BEACH) return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
-                || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
-        else return super.canSustainPlant(state, block, pos, direction, plantable);
-    }
-
-    @Override
-    public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
-    {
-        super.stepOn(world, pos, state, entity);
-
-        GrassCorruptedBlock.executeProcedure(entity);
-    }
-
-    public static void executeProcedure(final Entity entity)
-    {
-        if (entity instanceof ServerPlayer) if (((Player) entity).getInventory().armor.get(3)
-                .getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem() || ((Player) entity)
-                        .getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
-                                .getItem() || ((Player) entity).getInventory().armor.get(1).getItem() != new ItemStack(
-                                        ItemInit.ULTRA_LEGGINGS.get(), 1).getItem() || ((Player) entity)
-                                                .getInventory().armor.get(0).getItem() != new ItemStack(
-                                                        ItemInit.ULTRA_BOOTS.get(), 1).getItem())
-            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 120, 1));
+        if (plantType == PlantType.PLAINS)
+            return true;
+        else if (plantType == PlantType.WATER)
+            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+        else if (plantType == PlantType.BEACH)
+            return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
+                    || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
+        else
+            return super.canSustainPlant(state, block, pos, direction, plantable);
     }
 
 //    @SuppressWarnings("unchecked")
 //    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
 //    {
-        // FIXME grass bonemeal
+    // FIXME grass bonemeal
 //       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
 //       return feature.getRandomFlower(random, pos, config.config());
 //    }

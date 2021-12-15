@@ -66,6 +66,6 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
         }
 
         if (valid) world.setBlock(pos, BlockInit.DISTORTIC_GRASS.get().defaultBlockState().setValue(
-                GrassCorruptedBlock.SNOWY, world.getBlockState(pos.above()).is(Blocks.SNOW)), 3);
+                CorruptedGrassBlock.SNOWY, world.getBlockState(pos.above()).is(Blocks.SNOW)), 3);
     }
 }
