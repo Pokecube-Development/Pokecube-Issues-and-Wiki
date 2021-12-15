@@ -78,8 +78,9 @@ global reps_index
 reps_index = 0
 reps_map = {}
 
-
 def has_sub_map_items(item):
+    if not isinstance(item, dict):
+        return False
     for key , value in item.items():
         if isinstance(value, dict):
             for key2 , value2 in value.items():
@@ -92,11 +93,12 @@ def has_sub_map_items(item):
     return False
 
 def replace_members(json_in):
+    if not isinstance(json_in, dict):
+        return
     global reps_index
     for key,value in json_in.items():
         if isinstance(value, dict):
             has_sub_map = has_sub_map_items(value)
-            print(f'{has_sub_map} {key}')
             if not has_sub_map:
                 as_str = json.dumps(value, ensure_ascii=False)
                 rep_key = reps_start.format(reps_index)
@@ -109,7 +111,6 @@ def replace_members(json_in):
             for i in range(len(value)):
                 var = value[i]
                 has_sub_map = has_sub_map_items(var)
-                print(f'{has_sub_map} {i}')
                 if not has_sub_map:
                     as_str = json.dumps(var, ensure_ascii=False)
                     rep_key = reps_start.format(reps_index)
@@ -118,6 +119,24 @@ def replace_members(json_in):
                     value[i] = rep_key
                 else:
                     replace_members(var)
+
+def tag_fix(file, json):
+    is_tag = "\\tags\\" in file or "/tags/" in file
+    
+    if not is_tag:
+        return
+
+    if "optional" in json:
+        optionals = json["optional"]
+        if not "values" in json:
+            json["values"] = []
+        for opt in optionals:
+            var = {}
+            var["id"] = opt
+            var["required"] = False
+            json["values"].append(var)
+
+        del json["optional"]
 
 def pretty():
 
@@ -131,8 +150,9 @@ def pretty():
             json_str = json_in.read()
             json_in.close()
             json_obj = json.loads(json_str)
+            tag_fix(file, json_obj)
             replace_members(json_obj)
-            print(json_obj)
+            # print(json_obj)
 
         except Exception as e:
             print("Error with: {}".format(file))
