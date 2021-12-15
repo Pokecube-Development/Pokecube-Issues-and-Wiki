@@ -47,6 +47,10 @@ public class StatueEntity extends BlockEntity
 
     public void checkMob()
     {
+        // No checking mob if not in world! This can happen during certain types
+        // of worldgen, passed in via the block.getShape
+        if (!this.hasLevel()) return;
+
         final ICopyMob copy = CopyCaps.get(this);
         check:
         if (copy != null)

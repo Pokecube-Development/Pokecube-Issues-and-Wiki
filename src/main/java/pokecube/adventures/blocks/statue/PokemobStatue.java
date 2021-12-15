@@ -123,7 +123,7 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
         if (tile != null)
         {
             final ICopyMob mob = CopyCaps.get(tile);
-            if (mob == null) break te;
+            if (mob == null || !tile.hasLevel()) break te;
             if (tile instanceof StatueEntity) ((StatueEntity) tile).checkMob();
             if (mob.getCopiedID() != null && mob.getCopiedMob() == null)
             {
