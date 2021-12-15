@@ -85,10 +85,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "beach",
-          "typesBlacklist": "snowy,spooky,swamp,mesa",
-          "categoryBlacklist": "plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
-        }
+          "preset": "beach_ground"
+      	}
       }
     },
     {
@@ -110,10 +108,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "beach",
-          "typesBlacklist": "snowy,spooky,swamp,mesa",
-          "categoryBlacklist": "plains,desert,ocean,river,extreme_hills,mushroom,the_end,nether,savanna,mesa,taiga,icy"
-        }
+          "preset": "beach_ground"
+      	}
       }
     }
   ]

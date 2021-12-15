@@ -93,7 +93,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "swamp"
+          "preset": "swamp_ground"
         }
       }
     },
@@ -116,7 +116,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "swamp"
+          "preset": "swamp_ground"
         }
       }
     }

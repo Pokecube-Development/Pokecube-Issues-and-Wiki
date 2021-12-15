@@ -109,8 +109,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "savanna",
-          "categoryBlacklist": "mesa,ocean,river,beach,the_end,nether"
+          "preset": "savannas"
         }
       }
     },
@@ -133,8 +132,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "savanna",
-          "categoryBlacklist": "mesa,ocean,river,beach,the_end,nether"
+          "preset": "savannas"
         }
       }
     }

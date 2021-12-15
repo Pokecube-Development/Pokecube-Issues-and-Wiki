@@ -105,7 +105,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "extreme_hills"
+          "preset": "extreme_hills"
         }
       }
     },
@@ -128,7 +128,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "extreme_hills"
+          "preset": "extreme_hills"
         }
       }
     }

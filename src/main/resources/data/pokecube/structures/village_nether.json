@@ -80,7 +80,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "nether"
+          "preset": "nether"
         }
       }
     }

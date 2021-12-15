@@ -47,6 +47,12 @@
     },
     {
       "values": {
+        "preset": "not_snowy_areas",
+        "typesBlacklist": "snowy"
+      }
+    },
+    {
+      "values": {
         "preset": "snowy_areas",
         "types": "snowy"
       }

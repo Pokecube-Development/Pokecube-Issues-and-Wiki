@@ -106,8 +106,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "snowy",
-          "categoryBlacklist": "ocean,river,beach,the_end,nether"
+          "preset": "snowy_areas"
         }
       }
     },
@@ -130,8 +129,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "snowy",
-          "categoryBlacklist": "ocean,river,beach,the_end,nether"
+          "preset": "snowy_areas"
         }
       }
     }

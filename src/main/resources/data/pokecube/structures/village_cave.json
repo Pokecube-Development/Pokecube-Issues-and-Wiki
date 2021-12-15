@@ -114,7 +114,7 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:village/cave",
       "name": "pokecube:village/cave",
       "root": "pokecube:village/cave/town_centers",
       "chance": 1,
@@ -133,9 +133,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "plains",
-          "typesBlacklist": "snowy,mesa",
-          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+          "preset": "plains",
+          "and_presets": "not_snowy_areas"
         }
       }
     }
