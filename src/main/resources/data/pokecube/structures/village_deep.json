@@ -67,14 +67,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:village/deep",
       "name": "pokecube:village/deep",
       "root": "pokecube:village/deep/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
       "size": 5,
-      "priority": 10,
+      "priority": 20,
       "height":-75,
       "base_under": false,
       "biomeType": "village",

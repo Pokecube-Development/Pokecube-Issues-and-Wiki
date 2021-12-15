@@ -240,7 +240,8 @@ public class PokedexEntry
                 if (!world.isPositionEntityTicking(loc.getPos()))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
-                    PokecubeCore.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z);
+                    PokecubeCore.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z,
+                            new IllegalStateException());
                     return false;
                 }
                 final SpawnCheck check = new SpawnCheck(loc, entity.getCommandSenderWorld());

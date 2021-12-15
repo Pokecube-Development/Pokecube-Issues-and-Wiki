@@ -131,10 +131,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "forest",
-          "typesBlacklist": "snowy,jungle",
-          "biomesBlacklist": "birch_forest",
-          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+          "preset": "forests",
+          "biomesBlacklist": "birch_forest"
         }
       }
     }

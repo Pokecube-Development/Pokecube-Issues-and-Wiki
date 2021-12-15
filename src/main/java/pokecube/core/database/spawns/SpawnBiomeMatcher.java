@@ -343,35 +343,68 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         // Parse this to initialize the lists at least.
         this.parse();
 
-        // First check children
-        if (!this._and_children.isEmpty())
+        boolean match = true;
+        check:
         {
-            return _and_children.stream().allMatch(m -> m.checkLoadEvent(event));
-        }
-        if (!this._or_children.isEmpty())
-        {
-            return _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
-        }
 
-        // This checks if there is acategory at all.
-        if (!this.validCategory(event.getCategory())) return false;
-        final ResourceLocation key = this.from(event);
-        ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
-        // Check types, etc manually here, as this can be run before biomes are
-        // actually valid.
-        for (final BiomeDictionary.Type type : this._invalidTypes)
-            if (BiomeDictionary.hasType(bkey, type)) return false;
-        if (this._blackListBiomes.contains(key)) return false;
-        if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
-        if (!this._validTypes.isEmpty())
-        {
-            boolean all = true;
+            // First check children
+            if (!this._and_children.isEmpty())
+            {
+                match = _and_children.stream().allMatch(m -> m.checkLoadEvent(event));
+                break check;
+            }
+            if (!this._or_children.isEmpty())
+            {
+                match = _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
+                break check;
+            }
 
-            for (final BiomeDictionary.Type type : this._validTypes) all = all && BiomeDictionary.hasType(bkey, type);
-            if (!all) return false;
+            // This checks if there is acategory at all.
+            if (!this.validCategory(event.getCategory()))
+            {
+                match = false;
+                break check;
+            }
+            final ResourceLocation key = this.from(event);
+            ResourceKey<Biome> bkey = ResourceKey.create(Registry.BIOME_REGISTRY, key);
+            // Check types, etc manually here, as this can be run before biomes
+            // are
+            // actually valid.
+            for (final BiomeDictionary.Type type : this._invalidTypes) if (BiomeDictionary.hasType(bkey, type))
+            {
+                match = false;
+                break check;
+            }
+            if (this._blackListBiomes.contains(key))
+            {
+                match = false;
+                break check;
+            }
+            if (this._validSubBiomes.contains(BiomeType.ALL))
+            {
+                match = true;
+                break check;
+            }
+            if (!this._validTypes.isEmpty())
+            {
+                boolean all = true;
+
+                for (final BiomeDictionary.Type type : this._validTypes)
+                    all = all && BiomeDictionary.hasType(bkey, type);
+                if (!all)
+                {
+                    match = false;
+                    break check;
+                }
+            }
+            if (!this._validBiomes.isEmpty())
+            {
+                match = this._validBiomes.contains(key);
+                break check;
+            }
         }
-        if (!this._validBiomes.isEmpty()) return this._validBiomes.contains(key);
-        return true;
+        this.reset();
+        return match;
     }
 
     /**
