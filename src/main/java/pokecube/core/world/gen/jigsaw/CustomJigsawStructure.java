@@ -135,14 +135,33 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                 return Optional.empty();
             }
 
+            int dist = context.config().struct_config.needed_space;
+            boolean any = dist == -1;
+            if (any) dist = 1;
+
+            final BlockPos pos = new BlockPos(x, y, z);
+
+            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
+                    chunkGenerator.climateSampler());
+
+            if (!any) validContext = !biomes.isEmpty();
+
+            for (Biome b : biomes)
+            {
+                if (any) validContext = validContext || config.struct_config._matcher.checkBiome(b.getRegistryName());
+                else validContext = validContext && config.struct_config._matcher.checkBiome(b.getRegistryName());
+            }
+            if (!validContext)
+            {
+                return Optional.empty();
+            }
+
             WorldgenRandom rand = new WorldgenRandom(new LegacyRandomSource(0L));
             rand.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
             final StructureEvent.PickLocation event = new PickLocation(chunkGenerator, rand, context.chunkPos(),
                     config.struct_config, context.heightAccessor());
             if (MinecraftForge.EVENT_BUS.post(event)) return Optional.empty();
-
-            final BlockPos pos = new BlockPos(x, y, z);
 
             final ResourceLocation structName = new ResourceLocation(
                     config.struct_config.type.isEmpty() ? config.struct_config.name : config.struct_config.type);
@@ -202,31 +221,8 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                     }
                 }
             }
-
-            int dist = context.config().struct_config.needed_space;
-            boolean any = dist == -1;
-            if (any) dist = 1;
-
-            Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
-                    chunkGenerator.climateSampler());
-
-            if (!any) validContext = !biomes.isEmpty();
-
-            for (Biome b : biomes)
-            {
-                if (any) validContext = validContext || config.struct_config._matcher.checkBiome(b.getRegistryName());
-                else validContext = validContext && config.struct_config._matcher.checkBiome(b.getRegistryName());
-            }
-            if (!validContext)
-            {
-                return Optional.empty();
-            }
-            else
-            {
-                return assembler.build(context, POSTPROCESS);
-            }
+            return assembler.build(context, POSTPROCESS);
         }
-
     }
 
     public static BiConsumer<PieceGenerator.Context<JigsawConfig>, List<StructurePiece>> POSTPROCESS = new PostProcessor();
