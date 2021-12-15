@@ -3255,6 +3255,21 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
+                                    "Name": "minecraft:coarse_dirt"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "minecraft:surface",
+                                  "min_threshold": 0.21212121212121213,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
                                     "Name": "minecraft:mycelium",
                                     "Properties": {
                                       "snowy": "false"
