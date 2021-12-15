@@ -263,7 +263,12 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public SpawnBiomeMatcher setClient()
     {
-        __client__ = true;
+        return setClient(true);
+    }
+
+    public SpawnBiomeMatcher setClient(boolean client)
+    {
+        __client__ = client;
         return this;
     }
 
@@ -583,7 +588,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public void parse()
     {
-        if (this.parsed) return;
+        if (this.parsed || __client__) return;
 
         if (this.spawnRule.values.isEmpty())
             PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
@@ -616,7 +621,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                or_base = new SpawnBiomeMatcher(base);
+                or_base = new SpawnBiomeMatcher(base).setClient(__client__);
                 this._or_children.add(or_base);
             }
 
@@ -626,7 +631,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule);
+                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
                     this._or_children.add(child);
                 }
                 else if (!__client__)
@@ -643,7 +648,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                and_base = new SpawnBiomeMatcher(base);
+                and_base = new SpawnBiomeMatcher(base).setClient(__client__);
                 this._and_children.add(and_base);
             }
 
@@ -653,7 +658,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule);
+                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
                     this._and_children.add(child);
                 }
                 else if (!__client__)
