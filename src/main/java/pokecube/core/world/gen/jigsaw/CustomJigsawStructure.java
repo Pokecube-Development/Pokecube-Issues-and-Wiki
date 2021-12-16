@@ -173,7 +173,6 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
             {
                 // Here we check if there are any conflicting structures around.
                 final int ds0 = WorldgenHandler.getNeededSpace(structName);
-                final Decoration stage0 = StructureFeature.STEP.get(thisFeature);
 
                 final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
@@ -194,10 +193,6 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                     final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
                     // This means it doesn't spawn in this world, so we skip.
                     if (structureseparationsettings == null) continue;
-
-                    final Decoration stage1 = StructureFeature.STEP.get(s);
-                    // Only care about things that are of same stage!
-                    if (stage1 != stage0) continue;
 
                     for (int i = x - ds; i <= x + ds; ++i) for (int j = z - ds; j <= z + ds; ++j)
                     {
