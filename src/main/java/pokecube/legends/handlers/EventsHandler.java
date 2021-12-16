@@ -27,7 +27,7 @@ public class EventsHandler
             final ServerPlayer player = (ServerPlayer) event.player;
             final Biome biome = player.getLevel().getBiome(player.getOnPos());
 
-            MobEffectInstance effect = new MobEffectInstance(MobEffects.BLINDNESS, 240, 0);
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.BLINDNESS, 480, 0);
 
             if ((biome.getRegistryName().toString().equals("pokecube_legends:blinding_deltas")
                     || biome.getRegistryName().toString().equals("pokecube_legends:dried_blinding_deltas")
@@ -50,7 +50,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK)))
             {
-                effect = new MobEffectInstance(MobEffects.UNLUCK, 240, 1);
+                effect = new MobEffectInstance(MobEffects.UNLUCK, 480, 1);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -70,7 +70,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.CONFUSION)))
             {
-                effect = new MobEffectInstance(MobEffects.CONFUSION, 240, 1);
+                effect = new MobEffectInstance(MobEffects.CONFUSION, 480, 1);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -89,7 +89,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.LEVITATION)))
             {
-                effect = new MobEffectInstance(MobEffects.LEVITATION, 240, 0);
+                effect = new MobEffectInstance(MobEffects.LEVITATION, 120, 0);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -104,7 +104,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HUNGER)))
             {
-                effect = new MobEffectInstance(MobEffects.HUNGER, 240, 2);
+                effect = new MobEffectInstance(MobEffects.HUNGER, 480, 2);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -120,7 +120,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SPEED)))
             {
-                effect = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 240, 2);
+                effect = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 480, 2);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -138,7 +138,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WITHER)))
             {
-                effect = new MobEffectInstance(MobEffects.WITHER, 240, 0);
+                effect = new MobEffectInstance(MobEffects.WITHER, 480, 0);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -157,7 +157,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN)))
             {
-                effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 240, 1);
+                effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 1);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -175,7 +175,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.POISON)))
             {
-                effect = new MobEffectInstance(MobEffects.POISON, 240, 1);
+                effect = new MobEffectInstance(MobEffects.POISON, 480, 1);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
