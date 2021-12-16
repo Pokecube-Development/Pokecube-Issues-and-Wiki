@@ -26,6 +26,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import thut.bot.ThutBot;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.network.EntityUpdate;
 
@@ -50,7 +51,16 @@ public class BotPlayer extends ServerPlayer
         ChunkPos cpos = this.chunkPosition();
         ServerLevel level = this.getLevel();
 
-        if (maker != null) this.maker.tick();
+        if (maker != null)
+        {
+            this.maker.tick();
+            if (maker.isCompleted())
+            {
+                maker.end(null);
+                this.getPersistentData().remove("ai_task");
+                maker = null;
+            }
+        }
         else if (this.getPersistentData().contains("ai_task"))
         {
             String key = this.getPersistentData().getString("ai_task");
@@ -107,8 +117,15 @@ public class BotPlayer extends ServerPlayer
         if (!PermissionAPI.hasPermission(talker, PERMBOTORDER)) return;
 
         Matcher startOrder = startPattern.matcher(event.getMessage());
+        
+        boolean had = startOrder.find();
 
-        if (startOrder.find())
+        if (!had)
+        {
+            startOrder = Pattern.compile("(build)(\\s)(\\w+:\\w+)").matcher(event.getMessage());
+            had = startOrder.find();
+        }
+        if (had)
         {
             String key = startOrder.group(3);
             IBotAI.Factory<?> factory = IBotAI.REGISTRY.get(key);
@@ -119,7 +136,18 @@ public class BotPlayer extends ServerPlayer
                 if (this.maker != null) this.maker.end(talker);
                 this.maker = factory.create(this);
                 maker.setKey(key);
-                if (!maker.init(event.getMessage()))
+                boolean valid = false;
+
+                try
+                {
+                    valid = maker.init(event.getMessage());
+                }
+                catch (Exception e)
+                {
+                    ThutBot.LOGGER.error(e);
+                }
+
+                if (!valid)
                 {
                     chat("Invalid argument!");
                     this.getPersistentData().remove("ai_task");
