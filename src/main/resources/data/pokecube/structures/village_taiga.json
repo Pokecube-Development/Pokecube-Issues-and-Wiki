@@ -85,14 +85,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/taiga",
       "root": "pokecube:village/taiga/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
       "size": 6,
-      "priority": 10,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",

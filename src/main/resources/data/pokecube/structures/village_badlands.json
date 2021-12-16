@@ -132,14 +132,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/badlands",
       "root": "pokecube:village/badlands/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
       "size": 6,
-      "priority": 10,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",
