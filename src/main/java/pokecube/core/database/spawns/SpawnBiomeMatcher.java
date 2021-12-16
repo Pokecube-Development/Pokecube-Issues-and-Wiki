@@ -20,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.BiomeDictionary;
@@ -123,30 +122,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "none");
         NONEMATCHER = new SpawnBiomeMatcher(rule);
-
-        // FIXME remove this once forge does it itself.
-
-        BiomeDictionary.addTypes(Biomes.MEADOW, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.PLATEAU,
-                BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.GROVE, BiomeDictionary.Type.COLD, BiomeDictionary.Type.CONIFEROUS,
-                BiomeDictionary.Type.FOREST, BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN,
-                BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.SNOWY_SLOPES, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
-                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.JAGGED_PEAKS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
-                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.FROZEN_PEAKS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.SPARSE,
-                BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.STONY_PEAKS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.MOUNTAIN,
-                BiomeDictionary.Type.OVERWORLD);
-
-        BiomeDictionary.Type UNDERGROUND = BiomeDictionary.Type.getType("UNDERGROUND");
-
-        BiomeDictionary.addTypes(Biomes.LUSH_CAVES, UNDERGROUND, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.WET,
-                BiomeDictionary.Type.OVERWORLD);
-        BiomeDictionary.addTypes(Biomes.DRIPSTONE_CAVES, UNDERGROUND, BiomeDictionary.Type.SPARSE,
-                BiomeDictionary.Type.OVERWORLD);
-
     }
 
     private static int lastBiomesSize = -1;
