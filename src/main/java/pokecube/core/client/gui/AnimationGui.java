@@ -411,7 +411,7 @@ public class AnimationGui extends Screen
         dy = maxY - minY;
 
         boolean scaled = false;
-        if (dx <= 0 || dy <= 0) System.out.println("Error with " + AnimationGui.entry);
+        if (dx <= 0 || dy <= 0) PokecubeCore.LOGGER.error("Error with " + AnimationGui.entry);
         else
         {
             final float target = ow / 3f;

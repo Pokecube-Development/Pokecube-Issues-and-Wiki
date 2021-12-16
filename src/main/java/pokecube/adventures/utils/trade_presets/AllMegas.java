@@ -14,6 +14,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.utils.Tools;
 
+@TradePresetAn(key = "allMegas")
 public class AllMegas implements TradePreset
 {
 

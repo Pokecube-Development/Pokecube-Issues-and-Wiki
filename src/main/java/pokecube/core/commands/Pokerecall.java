@@ -78,7 +78,6 @@ public class Pokerecall
                     IPokemob poke;
                     if (sent != null && (poke = CapabilityPokemob.getPokemobFor(sent)) != null)
                     {
-                        System.out.println(poke);
                         poke.onRecall();
                         num++;
                     }

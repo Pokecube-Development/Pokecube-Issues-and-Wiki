@@ -370,6 +370,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.offers != null) this.offers.clear();
         else this.offers = new MerchantOffers();
         this.init_offers.accept(this.offers);
+
+        if (this.getNpcType().getProfession() != VillagerProfession.NITWIT)
+        {
+            super.updateTrades();
+        }
+
         MinecraftForge.EVENT_BUS.post(new NpcTradesEvent(this, offers));
     }
 

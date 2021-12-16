@@ -1,0 +1,107 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "deserts",
+      "entries": [
+        {"key": "trapinch","min": 2,"max": 4,"rate": 0.5},
+        
+        {"key": "diglett","min": 2,"max": 4,"rate": 0.3},
+        {"key": "litleo","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "sandshrew","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "hippopotas","min": 2,"max": 4,"rate": 0.2},
+        {"key": "sandile","min": 2,"max": 4,"rate": 0.2},
+        {"key": "darumaka","min": 2,"max": 4,"rate": 0.2},
+        {"key": "dwebble","min": 2,"max": 4,"rate": 0.2},
+        {"key": "sigilyph","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
+        {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
+        
+        {"key": "diglett_alola","min": 2,"max": 4,"rate": 0.1},
+        {"key": "sandygast","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "onix","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "terrakion","min": 1,"max": 1,"rate": 0.002}
+      ]
+    },
+    {
+      "spawn_preset": "deserts,night_time",
+      "entries": [
+        {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
+        {"key": "yamask","min": 2,"max": 4,"rate": 0.2},
+        {"key": "yamask_galar","min": 2,"max": 4,"rate": 0.1},
+        {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "deserts,day_time",
+      "entries": [
+        {"key": "cacnea","min": 2,"max": 4,"rate": 0.6},
+        {"key": "maractus","min": 2,"max": 4,"rate": 0.6},
+        {"key": "helioptile","min": 2,"max": 4,"rate": 0.25},
+        {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "deserts,hills",
+      "entries": [
+        {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "mesas",
+      "entries": [
+        {"key": "geodude","min": 2,"max": 4,"rate": 0.3},
+        {"key": "roggenrola","min": 2,"max": 4,"rate": 0.3},
+        {"key": "rolycoly","min": 2,"max": 4,"rate": 0.3},
+        {"key": "diglett","min": 2,"max": 4,"rate": 0.3},
+        {"key": "litleo","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "sandshrew","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "darumaka","min": 2,"max": 4,"rate": 0.2},
+        {"key": "dwebble","min": 2,"max": 4,"rate": 0.2},
+        {"key": "cufant","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
+        {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
+        
+        {"key": "diglett_alola","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "onix","min": 2,"max": 4,"rate": 0.05}
+      ]
+    },
+    {
+      "spawn_preset": "mesas,night_time",
+      "entries": [
+        {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
+        {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "mesas,day_time",
+      "entries": [
+        {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "mesas,hills",
+      "entries": [
+        {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "mesa_forests",
+      "entries": [
+        {"key": "durant","min": 2,"max": 4,"rate": 0.5},
+        
+        {"key": "heatmor","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "pawniard","min": 2,"max": 4,"rate": 0.2}
+      ]
+    }
+  ]
+}

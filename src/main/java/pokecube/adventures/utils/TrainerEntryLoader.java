@@ -135,7 +135,7 @@ public class TrainerEntryLoader
                 Float weight;
                 try
                 {
-                    weight = Float.parseFloat(rule.values.get(new QName("rate")));
+                    weight = Float.parseFloat(rule.values.remove(new QName("rate")));
                 }
                 catch (final Exception e)
                 {

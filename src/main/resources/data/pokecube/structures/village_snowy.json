@@ -87,14 +87,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/snowy",
       "root": "pokecube:village/snowy/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
       "size": 6,
-      "priority": 10,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",
@@ -106,8 +106,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "snowy",
-          "categoryBlacklist": "ocean,river,beach,the_end,nether"
+          "preset": "snowy_areas"
         }
       }
     },
@@ -130,8 +129,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "snowy",
-          "categoryBlacklist": "ocean,river,beach,the_end,nether"
+          "preset": "snowy_areas"
         }
       }
     }

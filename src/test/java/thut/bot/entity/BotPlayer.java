@@ -1,9 +1,12 @@
 package thut.bot.entity;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
+
+import org.apache.commons.compress.utils.Lists;
 
 import com.mojang.authlib.GameProfile;
 
@@ -23,6 +26,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import thut.bot.ThutBot;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.network.EntityUpdate;
 
@@ -47,7 +51,16 @@ public class BotPlayer extends ServerPlayer
         ChunkPos cpos = this.chunkPosition();
         ServerLevel level = this.getLevel();
 
-        if (maker != null) this.maker.tick();
+        if (maker != null)
+        {
+            this.maker.tick();
+            if (maker.isCompleted())
+            {
+                maker.end(null);
+                this.getPersistentData().remove("ai_task");
+                maker = null;
+            }
+        }
         else if (this.getPersistentData().contains("ai_task"))
         {
             String key = this.getPersistentData().getString("ai_task");
@@ -64,6 +77,21 @@ public class BotPlayer extends ServerPlayer
             this.setHealth(this.getMaxHealth());
             this.dead = false;
             if (this.tickCount % 20 == 0) EntityUpdate.sendEntityUpdate(this);
+
+//            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(3));
+//            for (ItemEntity i : items)
+//            {
+//                this.setItemInHand(InteractionHand.MAIN_HAND, i.getItem());
+//                i.remove(RemovalReason.DISCARDED);
+//            }
+//            if (level instanceof ServerLevel && this.getMainHandItem().getItem() instanceof MapItem)
+//            {
+//                FakePlayer fake = new FakePlayer(getLevel(), new GameProfile(UUID.randomUUID(), "IHOLDMAPS"));
+//                ICopyMob.copyPositions(fake, this);
+//                ICopyMob.copyRotations(fake, this);
+//                fake.setItemInHand(InteractionHand.MAIN_HAND, this.getMainHandItem());
+//                fake.getInventory().tick();
+//            }
         }
 
         if (cpos != this.chunkPosition())
@@ -83,15 +111,21 @@ public class BotPlayer extends ServerPlayer
         if (!isOrder) return;
 
         PermissionAPI.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        String s1 = "I Am A Bot";
+        chat(s1);
 
         if (!PermissionAPI.hasPermission(talker, PERMBOTORDER)) return;
 
         Matcher startOrder = startPattern.matcher(event.getMessage());
+        
+        boolean had = startOrder.find();
 
-        String s1 = "I Am A Bot";
-        chat(s1);
-
-        if (startOrder.find())
+        if (!had)
+        {
+            startOrder = Pattern.compile("(build)(\\s)(\\w+:\\w+)").matcher(event.getMessage());
+            had = startOrder.find();
+        }
+        if (had)
         {
             String key = startOrder.group(3);
             IBotAI.Factory<?> factory = IBotAI.REGISTRY.get(key);
@@ -102,7 +136,18 @@ public class BotPlayer extends ServerPlayer
                 if (this.maker != null) this.maker.end(talker);
                 this.maker = factory.create(this);
                 maker.setKey(key);
-                if (!maker.init(event.getMessage()))
+                boolean valid = false;
+
+                try
+                {
+                    valid = maker.init(event.getMessage());
+                }
+                catch (Exception e)
+                {
+                    ThutBot.LOGGER.error(e);
+                }
+
+                if (!valid)
                 {
                     chat("Invalid argument!");
                     this.getPersistentData().remove("ai_task");
@@ -129,6 +174,14 @@ public class BotPlayer extends ServerPlayer
                     chat(s);
                 }
             }
+        }
+        else if (event.getMessage().contains("reset"))
+        {
+            if (this.maker != null) this.maker.end(talker);
+            List<String> tags = Lists.newArrayList();
+            tags.addAll(this.getPersistentData().getAllKeys());
+            tags.forEach(s -> getPersistentData().remove(s));
+            this.maker = null;
         }
     }
 

@@ -1,12 +1,17 @@
 package pokecube.adventures.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 import javax.xml.namespace.QName;
+
+import org.objectweb.asm.Type;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,14 +22,13 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
-import pokecube.adventures.utils.trade_presets.AllMegas;
-import pokecube.adventures.utils.trade_presets.AllTMs;
-import pokecube.adventures.utils.trade_presets.AllVitamins;
-import pokecube.adventures.utils.trade_presets.BuyRandomBadge;
-import pokecube.adventures.utils.trade_presets.SellRandomBadge;
+import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -32,6 +36,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
+import thut.lib.CompatParser.ClassFinder;
 
 public class TradeEntryLoader
 {
@@ -57,7 +62,7 @@ public class TradeEntryLoader
     {
         public String custom;
         public String type = "preset";
-        public Sell   sell;
+        public Sell sell;
 
         public final List<Buy> buys = Lists.newArrayList();
 
@@ -89,17 +94,69 @@ public class TradeEntryLoader
 
     public static Map<String, TradePreset> registeredPresets = Maps.newHashMap();
 
+    static List<String> MODULEPACKAGES = Lists.newArrayList();
+
     static
     {
-        TradeEntryLoader.registeredPresets.put("allMegas", new AllMegas());
-        TradeEntryLoader.registeredPresets.put("allVitamins", new AllVitamins());
-        TradeEntryLoader.registeredPresets.put("allTMs", new AllTMs());
-        TradeEntryLoader.registeredPresets.put("buyRandomBadge", new BuyRandomBadge());
-        TradeEntryLoader.registeredPresets.put("sellRandomBadge", new SellRandomBadge());
+        MODULEPACKAGES.add(TradePresetAn.class.getPackageName());
+    }
+
+    public static void init()
+    {
+        if (!registeredPresets.isEmpty()) return;
+
+        Type ANNOTE = Type.getType(TradePresetAn.class);
+        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+            for (final AnnotationData a : file.getScanResult().getAnnotations())
+                if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE))
+            {
+                if (a.annotationData().containsKey("mod"))
+                {
+                    String modid = (String) a.annotationData().get("mod");
+                    return ModList.get().isLoaded(modid);
+                }
+                return true;
+            }
+            return false;
+        };
+
+        Collection<Class<?>> foundClasses;
+        for (String name : MODULEPACKAGES)
+        {
+            try
+            {
+                foundClasses = ClassFinder.find(name, validClass);
+                for (final Class<?> candidateClass : foundClasses)
+                {
+                    if (candidateClass.getAnnotations().length == 0) continue;
+                    final TradePresetAn preset = candidateClass.getAnnotation(TradePresetAn.class);
+                    if (preset != null)
+                    {
+                        try
+                        {
+                            TradeEntryLoader.registeredPresets.put(preset.key(),
+                                    (TradePreset) candidateClass.getConstructor().newInstance());
+                        }
+                        catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                                | InvocationTargetException | NoSuchMethodException | SecurityException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static boolean addTemplatedTrades(final Trade trade, final TrainerTrades trades)
     {
+        init();
+
         final String flag = trade.type;
         final String custom = trade.custom;
         if (custom == null) return false;
@@ -134,12 +191,12 @@ public class TradeEntryLoader
                     }
                     recipe = new TrainerTrade(buy1, buy2, stack);
                     values = trade.values;
-                    if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
-                            TradeEntryLoader.CHANCE));
-                    if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
-                            TradeEntryLoader.MIN));
-                    if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
-                            TradeEntryLoader.MAX));
+                    if (values.containsKey(TradeEntryLoader.CHANCE))
+                        recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
+                    if (values.containsKey(TradeEntryLoader.MIN))
+                        recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
+                    if (values.containsKey(TradeEntryLoader.MAX))
+                        recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
                     trades.tradesList.add(recipe);
                 }
             }
@@ -159,12 +216,12 @@ public class TradeEntryLoader
                     final ItemStack sell = Tools.getStack(values);
                     recipe = new TrainerTrade(stack, ItemStack.EMPTY, sell);
                     values = trade.values;
-                    if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
-                            TradeEntryLoader.CHANCE));
-                    if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
-                            TradeEntryLoader.MIN));
-                    if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
-                            TradeEntryLoader.MAX));
+                    if (values.containsKey(TradeEntryLoader.CHANCE))
+                        recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
+                    if (values.containsKey(TradeEntryLoader.MIN))
+                        recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
+                    if (values.containsKey(TradeEntryLoader.MAX))
+                        recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
                     trades.tradesList.add(recipe);
                 }
             }
@@ -188,8 +245,7 @@ public class TradeEntryLoader
                 if (loaded.has("trades"))
                 {
                     final XMLDatabase database = PokedexEntryLoader.gson.fromJson(loaded, XMLDatabase.class);
-                    for (final TradeEntry entry : database.trades)
-                        full.trades.add(entry);
+                    for (final TradeEntry entry : database.trades) full.trades.add(entry);
                 }
             }
             catch (final Exception e)
@@ -231,12 +287,12 @@ public class TradeEntryLoader
 
                 recipe = new TrainerTrade(buy1, buy2, sell);
                 values = trade.values;
-                if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
-                        TradeEntryLoader.CHANCE));
-                if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
-                        TradeEntryLoader.MIN));
-                if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
-                        TradeEntryLoader.MAX));
+                if (values.containsKey(TradeEntryLoader.CHANCE))
+                    recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
+                if (values.containsKey(TradeEntryLoader.MIN))
+                    recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
+                if (values.containsKey(TradeEntryLoader.MAX))
+                    recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
                 trades.tradesList.add(recipe);
             }
             TypeTrainer.tradesMap.put(entry.template, trades);

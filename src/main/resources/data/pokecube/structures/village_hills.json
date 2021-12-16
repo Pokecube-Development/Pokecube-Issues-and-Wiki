@@ -86,14 +86,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/hills",
       "root": "pokecube:village/hills/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
-      "size": 5,
-      "priority": 10,
+      "size": 6,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",
@@ -105,7 +105,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "extreme_hills"
+          "preset": "extreme_hills"
         }
       }
     },
@@ -128,7 +128,7 @@
       ],
       "spawn": {
         "values": {
-          "category": "extreme_hills"
+          "preset": "extreme_hills"
         }
       }
     }

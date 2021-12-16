@@ -466,6 +466,20 @@
           }
         },
         {
+          "custom": "sellRandomStatue",
+          "buys": [
+            {
+              "values": {
+                "id": "minecraft:emerald",
+                "n": "64"
+              }
+            }
+          ],
+          "values": {
+            "chance": "0.005"
+          }
+        },
+        {
           "type": "tag_sell",
           "custom": "pokecube:pokemob_evo",
           "buys": [

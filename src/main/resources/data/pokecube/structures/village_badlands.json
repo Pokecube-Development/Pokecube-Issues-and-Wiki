@@ -132,15 +132,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/badlands",
       "root": "pokecube:village/badlands/town_centers",
       "chance": 1,
       "distance": 48,
       "separation": 12,
       "size": 6,
-      "priority": 10,
-      "base_under": true,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",
@@ -152,9 +151,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "mesa",
-          "typesBlacklist": "snowy,spooky,swamp",
-          "categoryBlacklist": "forest,plains,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,taiga,icy"
+          "preset": "mesas"
         }
       }
     },
@@ -167,7 +164,6 @@
       "separation": 12,
       "size": 3,
       "priority": 10,
-      "base_under": true,
       "biomeType": "village",
       "needed_once": [
         "pokecenter"
@@ -178,9 +174,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "mesa",
-          "typesBlacklist": "snowy,spooky,swamp",
-          "categoryBlacklist": "forest,plains,desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,taiga,icy"
+          "preset": "mesas"
         }
       }
     }

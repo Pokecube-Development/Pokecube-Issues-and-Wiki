@@ -47,7 +47,7 @@
       "priority": 10000,
       "spawn": {
         "values": {
-          "types": "all"
+          "preset": "all_overworld"
         }
       }
     },
@@ -62,7 +62,7 @@
       "priority": 10000,
       "spawn": {
         "values": {
-          "types": "all",
+          "preset": "all_overworld",
           "categoryBlacklist": "ocean,river,mushroom"
         }
       }

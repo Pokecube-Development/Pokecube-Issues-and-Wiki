@@ -1,0 +1,153 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "forests",
+      "entries": [
+        {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
+        {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
+        {"key": "pidove","min": 2,"max": 4,"rate": 0.4},
+        {"key": "starly","min": 2,"max": 4,"rate": 0.4},
+        {"key": "fletchling","min": 2,"max": 4,"rate": 0.4},
+        {"key": "rattata","min": 3,"max": 6,"rate": 0.4},
+        {"key": "bidoof","min": 3,"max": 6,"rate": 0.4},
+        
+        {"key": "poochyena","min": 3,"max": 6,"rate": 0.4},
+        {"key": "rockruff","min": 3,"max": 6,"rate": 0.4},
+        {"key": "zigzagoon","min": 3,"max": 6,"rate": 0.4},
+        {"key": "zigzagoon_galar","min": 1,"max": 3,"rate": 0.4},
+        
+        {"key": "roselia","min": 1,"max": 3,"rate": 0.3},
+        
+        {"key": "kricketot","min": 4,"max": 8,"rate": 0.2},
+        {"key": "burmy","min": 4,"max": 8,"rate": 0.2},
+        {"key": "petilil","min": 4,"max": 8,"rate": 0.2},
+        {"key": "grubbin","min": 4,"max": 8,"rate": 0.2},
+        {"key": "blipbug","min": 4,"max": 8,"rate": 0.2},
+        
+        {"key": "pikipek","min": 3,"max": 6,"rate": 0.2},
+        {"key": "dedenne","min": 2,"max": 4,"rate": 0.2},
+        {"key": "hawlucha","min": 2,"max": 4,"rate": 0.2},
+        {"key": "buneary","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pachirisu","min": 2,"max": 4,"rate": 0.2},
+        {"key": "skitty","min": 2,"max": 4,"rate": 0.2},
+        {"key": "emolga","min": 2,"max": 4,"rate": 0.2},
+        {"key": "morpeko","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "ekans","min": 2,"max": 4,"rate": 0.15},
+        {"key": "mankey","min": 2,"max": 4,"rate": 0.15},
+        {"key": "skwovet","min": 2,"max": 4,"rate": 0.15},
+        
+        {"key": "abra","min": 1,"max": 2,"rate": 0.125},
+        
+        {"key": "spinarak","min": 2,"max": 5,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "marill","min": 2,"max": 4,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "lillipup","min": 2,"max": 4,"rate": 0.1},
+        {"key": "nincada","min": 2,"max": 4,"rate": 0.1},
+        {"key": "rattata_alola","min": 3,"max": 6,"rate": 0.1},
+        
+        {"key": "komala","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "cottonee","min": 2,"max": 4,"rate": 0.1},
+        {"key": "audino","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slakoth","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "swablu","min": 2,"max": 4,"rate": 0.05},
+        {"key": "bonsly","min": 2,"max": 4,"rate": 0.05},
+        {"key": "rufflet","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "snorlax","min": 1,"max": 2,"rate": 0.03},
+        
+        {"key": "bulbasaur","min": 1,"max": 2,"rate": 0.01},
+        {"key": "charmander","min": 1,"max": 2,"rate": 0.01},
+        {"key": "chikorita","min": 1,"max": 2,"rate": 0.01},
+        {"key": "cyndaquil","min": 1,"max": 2,"rate": 0.01},
+        {"key": "treecko","min": 1,"max": 2,"rate": 0.01},
+        {"key": "torchic","min": 1,"max": 2,"rate": 0.01},
+        {"key": "turtwig","min": 1,"max": 2,"rate": 0.01},
+        {"key": "chimchar","min": 1,"max": 2,"rate": 0.01},
+        {"key": "snivy","min": 1,"max": 2,"rate": 0.01},
+        {"key": "tepig","min": 1,"max": 2,"rate": 0.01},
+        {"key": "chespin","min": 1,"max": 2,"rate": 0.01},
+        {"key": "fennekin","min": 1,"max": 2,"rate": 0.01},
+        {"key": "rowlet","min": 1,"max": 2,"rate": 0.01},
+        {"key": "litten","min": 1,"max": 2,"rate": 0.01},
+        {"key": "grookey","min": 1,"max": 2,"rate": 0.01},
+        
+        {"key": "raikou","min": 1,"max": 1,"rate": 0.01},
+        
+        {"key": "virizion","min": 1,"max": 1,"rate": 0.002},
+        {"key": "zygarde_10","min": 1,"max": 1,"rate": 0.002}
+      ]
+    },
+    {
+      "spawn_preset": "forests,not_cold_areas,not_dry_areas",
+      "entries": [
+        
+        {"key": "cutiefly","min": 4,"max": 8,"rate": 0.3},
+        
+        {"key": "caterpie","min": 4,"max": 8,"rate": 0.2},
+        {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
+        {"key": "wurmple","min": 4,"max": 8,"rate": 0.2},
+        
+        {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "pansage","min": 2,"max": 4,"rate": 0.1},
+        {"key": "pansear","min": 2,"max": 4,"rate": 0.1},
+        {"key": "panpour","min": 2,"max": 4,"rate": 0.1},
+        {"key": "tropius","min": 1,"max": 5,"rate": 0.1},
+        {"key": "shroomish","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "heracross","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "combee","min": 4,"max": 8,"rate": 0.06}
+      ]
+    },
+    {
+      "spawn_preset": "taigas",
+      "entries": [
+        {"key": "calyrex","min": 1,"max": 1,"rate": 0.004}
+      ]
+    },
+    {
+      "spawn_preset": "forests,cold_areas",
+      "entries": [
+        {"key": "pineco","min": 2,"max": 4,"rate": 0.1},
+        {"key": "sneasel","min": 2,"max": 4,"rate": 0.1},
+        {"key": "teddiursa","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "pawniard","min": 2,"max": 4,"rate": 0.05}
+      ]
+    },
+    {
+      "spawn_preset": "forests,hills",
+      "entries": [
+        {"key": "spearow","min": 2,"max": 4,"rate": 0.5}
+      ]
+    },
+    {
+      "spawn_preset": "forests,night_time",
+      "entries": [
+        {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
+        {"key": "illumise","min": 2,"max": 4,"rate": 0.3},
+        {"key": "venonat","min": 2,"max": 4,"rate": 0.2},
+        {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
+        {"key": "hoothoot","min": 2,"max": 4,"rate": 0.2},
+        {"key": "stantler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "munna","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pancham","min": 2,"max": 4,"rate": 0.1},
+        {"key": "murkrow","min": 2,"max": 4,"rate": 0.05}
+      ]
+    },
+    {
+      "spawn_preset": "forests,day_time",
+      "entries": [
+        {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1},
+        {"key": "seedot","min": 2,"max": 5,"rate": 0.3},
+        {"key": "ledyba","min": 2,"max": 5,"rate": 0.1}
+      ]
+    }
+  ]
+}

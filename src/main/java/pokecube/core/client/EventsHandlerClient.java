@@ -221,15 +221,15 @@ public class EventsHandlerClient
 
     private static void onFogRender(final EntityViewRenderEvent.FogDensity evt)
     {
-        IPokemob mount;
-
-        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
-                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
-                        .getCamera().getEntity().isInWater() && mount.canUseDive())
-        {
-            evt.setDensity(0.005f);
-            evt.setCanceled(true);
-        }
+//        IPokemob mount;
+//
+//        if (evt.getCamera().getEntity() instanceof Player && evt.getCamera().getEntity().getVehicle() != null
+//                && (mount = CapabilityPokemob.getPokemobFor(evt.getCamera().getEntity().getVehicle())) != null) if (evt
+//                        .getCamera().getEntity().isInWater() && mount.canUseDive())
+//        {
+//            evt.setDensity(0.0f);
+//            evt.setCanceled(true);
+//        }
     }
 
     private static void onMouseInput(final RawMouseEvent evt)

@@ -1,24 +1,28 @@
 {
  "rules": [
- 
       {
         "values": {
           "preset": "desert_caves",
           "typesBlacklist": "wet",
-          "types": "sandy,dry,cave"
+          "types": "sandy,dry",
+          "or_presets": "underground,cave_subbiome"
         }
       },
-      
       {
         "values": {
           "preset": "caves",
-          "types": "cave"
+          "or_presets": "underground,cave_subbiome"
         }
       },
       {
         "values": {
-          "preset": "caves_warm_wet",
-          "typesBlacklist": "dry,cold",
+          "preset": "underground",
+          "types": "underground"
+        }
+      },
+      {
+        "values": {
+          "preset": "cave_subbiome",
           "types": "cave"
         }
       }

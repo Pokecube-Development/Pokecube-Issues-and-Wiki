@@ -1,0 +1,79 @@
+{
+  "pools": [
+    {
+      "name": "pokecube:village/high_sky/town_centers",
+      "rigid": true,
+      "options": [
+        "pokecube:village/high_sky/town_centers/center_1"
+      ]
+    },
+    {
+      "name": "pokecube:village/high_sky/terminators",
+      "rigid": false,
+      "options": [
+        "pokecube:village/high_sky/terminators/terminator_01"
+      ]
+    },
+    {
+      "name": "pokecube:village/high_sky/streets",
+      "target": "pokecube:village/desert/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/high_sky/streets/straight_1;{\"weight\":6}",
+        "pokecube:village/high_sky/streets/straight_2;{\"weight\":8}",
+        "pokecube:village/high_sky/streets/island_1;{\"weight\":2}",
+        "pokecube:village/high_sky/streets/island_2;{\"weight\":1}",
+        "pokecube:village/high_sky/streets/island_3;{\"weight\":3}",
+        "pokecube:village/high_sky/streets/island_4;{\"weight\":1}"
+      ]
+    },
+    {
+      "name": "pokecube:village/high_sky/pokecenter/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/high_sky/pokecenter/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/high_sky/houses",
+      "target": "pokecube:village/desert/terminators",
+      "rigid": true,
+      "options": [
+        "pokecube:village/high_sky/houses/house_high_1;{\"weight\":6}",
+        "pokecube:village/high_sky/houses/house_high_2;{\"weight\":5}",
+        "pokecube:village/high_sky/houses/house_factory_1;{\"weight\":3}",
+        "pokecube:village/high_sky/houses/house_factory_2;{\"weight\":3}",
+        "pokecube:village/high_sky/houses/house_factory_3;{\"weight\":3}",
+        "pokecube:village/high_sky/houses/house_factory_4;{\"weight\":3}",
+        "pokecube:village/high_sky/houses/house_factory_5;{\"weight\":2}",
+        "pokecube:village/high_sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube:village/high_sky",
+      "root": "pokecube:village/high_sky/town_centers",
+      "chance": 1,
+      "distance": 48,
+      "separation": 12,
+      "size": 6,
+      "priority": 10,
+      "height": 140,
+	  "base_under": false,
+      "biomeType": "industrial",
+      "needed_once": [
+        "pokecenter"
+      ],
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "biomes":"birch_forest"
+        }
+      }
+    }
+  ]
+}

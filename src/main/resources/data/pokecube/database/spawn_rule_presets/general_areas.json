@@ -1,0 +1,67 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "wet_areas",
+        "typesBlacklist": "cold,dry",
+        "types": "wet"
+      }
+    },
+    {
+      "values": {
+        "preset": "dry_areas",
+        "typesBlacklist": "cold,wet",
+        "types": "dry"
+      }
+    },
+    {
+      "values": {
+        "preset": "hot_areas",
+        "typesBlacklist": "cold,wet",
+        "types": "hot"
+      }
+    },
+    {
+      "values": {
+        "preset": "cold_areas",
+        "types": "cold"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_cold_areas",
+        "typesBlacklist": "cold"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_dry_areas",
+        "typesBlacklist": "dry"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_wet_areas",
+        "typesBlacklist": "wet"
+      }
+    },
+    {
+      "values": {
+        "preset": "not_snowy_areas",
+        "typesBlacklist": "snowy"
+      }
+    },
+    {
+      "values": {
+        "preset": "snowy_areas",
+        "types": "snowy"
+      }
+    },
+    {
+      "values": {
+        "preset": "spooky_areas",
+        "types": "spooky"
+      }
+    }
+  ]
+}

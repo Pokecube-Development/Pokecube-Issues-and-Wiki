@@ -42,16 +42,35 @@
       "name": "pokecube:village/sky/terminators",
       "rigid": true,
       "options": [
-        "pokecube:village/sky/terminators/terminator_01",
-        "pokecube:village/sky/terminators/crossroad"
+        "pokecube:village/sky/terminators/terminator_01"
       ]
     },
     {
       "name": "pokecube:village/sky/streets",
+      "target": "pokecube:village/sky/terminators",
       "rigid": true,
       "options": [
-        "pokecube:village/sky/streets/straight_1;{\"weight\":4}",
-        "pokecube:village/sky/streets/straight_2;{\"weight\":4}"
+        "pokecube:village/sky/streets/straight_1;{\"weight\":6}",
+        "pokecube:village/sky/streets/straight_2;{\"weight\":6}",
+        "pokecube:village/sky/streets/straight_3;{\"weight\":6}",
+        "pokecube:village/sky/streets/platform_cross_1;{\"weight\":5}",
+        "pokecube:village/sky/streets/platform_cross_2;{\"weight\":5}",
+        "pokecube:village/sky/streets/platform_house_1;{\"weight\":3}",
+        "pokecube:village/sky/streets/platform_house_2;{\"weight\":3}",
+        "pokecube:village/sky/streets/platform_balloon_1;{\"weight\":6}",
+        "pokecube:village/sky/streets/platform_balloon_2;{\"weight\":6}",
+        "pokecube:village/sky/streets/platform_ship_1_a;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_1_b;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_1_c;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_1_d;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_1_e;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_1_f;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_a;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_b;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_c;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_d;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_e;{\"weight\":4}",
+        "pokecube:village/sky/streets/platform_ship_2_f;{\"weight\":4}"
       ]
     },
     {
@@ -62,27 +81,33 @@
       ]
     },
     {
+      "name": "pokecube:village/sky/gym/path",
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/gym/path"
+      ]
+    },
+    {
+      "name": "pokecube:village/sky/balloons",
+      "target": "pokecube:village/sky/terminators",
+      "ignoreAir": false,
+      "rigid": true,
+      "options": [
+        "pokecube:village/sky/balloons/balloon_1",
+        "pokecube:village/sky/balloons/balloon_2",
+        "pokecube:village/sky/balloons/balloon_3",
+        "pokecube:village/sky/balloons/balloon_4",
+        "pokecube:village/sky/balloons/balloon_5",
+        "pokecube:village/sky/balloons/balloon_special;{\"weight\":2}"
+      ]
+    },
+    {
       "name": "pokecube:village/sky/houses",
       "ignoreAir": false,
       "rigid": true,
       "options": [
-        "empty;{\"weight\":1}",
-        "pokecube:village/sky/houses/house_1;{\"weight\":3}",
-        "pokecube:village/sky/houses/house_2;{\"weight\":3}",
-        "pokecube:village/sky/houses/house_3;{\"weight\":3}",
-        "pokecube:village/sky/houses/house_4;{\"weight\":3}",
-        "pokecube:village/sky/houses/house_5;{\"weight\":3}",
-        "pokecube:village/sky/houses/house_6;{\"weight\":3}",
-        "pokecube:village/sky/houses/balloon_1;{\"weight\":2}",
-        "pokecube:village/sky/houses/balloon_2;{\"weight\":2}",
-        "pokecube:village/sky/houses/balloon_3;{\"weight\":2}",
-        "pokecube:village/sky/houses/balloon_4;{\"weight\":2}",
-        "pokecube:village/sky/houses/balloon_5;{\"weight\":3}",
-        "pokecube:village/sky/houses/workspace_1;{\"weight\":3}",
-        "pokecube:village/sky/houses/workspace_2;{\"weight\":3}",
-        "pokecube:village/sky/houses/workspace_3;{\"weight\":3}",
-        "pokecube:village/sky/houses/workspace_4;{\"weight\":3}",
-        "pokecube:village/sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}"
+        "pokecube:village/sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/sky/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }
   ],
@@ -93,7 +118,7 @@
       "chance": 1,
       "distance": 48,
       "separation": 12,
-      "size": 7,
+      "size": 8,
       "priority": 10,
       "base_under": false,
       "biomeType": "village",
@@ -106,9 +131,8 @@
       ],
       "spawn": {
         "values": {
-          "category": "forest",
-          "typesBlacklist": "snowy,jungle",
-          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+          "preset": "forests",
+          "biomesBlacklist": "birch_forest"
         }
       }
     }

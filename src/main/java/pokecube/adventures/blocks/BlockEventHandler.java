@@ -58,8 +58,9 @@ public class BlockEventHandler
         public boolean setLinkedPos(GlobalPos pos, final Entity user)
         {
             final IOwnable own = OwnableCaps.getOwnable(this.tile);
-            if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
-                    (LivingEntity) user) || pos == null) return false;
+            if (user instanceof LivingEntity && own instanceof IOwnableTE
+                    && !((IOwnableTE) own).canEdit((LivingEntity) user) || pos == null)
+                return false;
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
@@ -69,12 +70,13 @@ public class BlockEventHandler
                 if (user instanceof Player)
                 {
                     final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), true);
-                } else
+                    player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.warp_pad.link",
+                            tile.getDest().getInfoName()), true);
+                }
+                else
                 {
-                    user.sendMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.warp_pad.link", tile.getDest().getInfoName()), Util.NIL_UUID);
+                    user.sendMessage(new TranslatableComponent("block.pokecube_adventures.warp_pad.link",
+                            tile.getDest().getInfoName()), Util.NIL_UUID);
                 }
             }
             // Centre us properly.
@@ -129,20 +131,21 @@ public class BlockEventHandler
         }
     }
 
-    protected static final ResourceLocation ENERGYSTORECAP  = new ResourceLocation(PokecubeAdv.MODID, "energystore");
+    protected static final ResourceLocation ENERGYSTORECAP = new ResourceLocation(PokecubeAdv.MODID, "energystore");
     protected static final ResourceLocation ENERGYSIPHONCAP = new ResourceLocation(PokecubeAdv.MODID, "energysiphon");
-    protected static final ResourceLocation LINKABLECAP     = new ResourceLocation(PokecubeAdv.MODID, "linkable");
+    protected static final ResourceLocation LINKABLECAP = new ResourceLocation(PokecubeAdv.MODID, "linkable");
 
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<BlockEntity> event)
     {
-        if (event.getObject() instanceof WarpPadTile && !event.getCapabilities().containsKey(
-                BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(
-                        (WarpPadTile) event.getObject()));
-        if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
-                BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
-                        (SiphonTile) event.getObject()));
-        if (event.getObject() instanceof StatueEntity) event.addCapability(CopyCaps.LOC, new CopyCaps.Impl());
+        if (event.getObject() instanceof WarpPadTile
+                && !event.getCapabilities().containsKey(BlockEventHandler.LINKABLECAP))
+            event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink((WarpPadTile) event.getObject()));
+        if (event.getObject() instanceof SiphonTile
+                && !event.getCapabilities().containsKey(BlockEventHandler.LINKABLECAP))
+            event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink((SiphonTile) event.getObject()));
+        if (event.getObject() instanceof StatueEntity && !event.getCapabilities().containsKey(CopyCaps.LOC))
+            event.addCapability(CopyCaps.LOC, new CopyCaps.Impl());
 
     }
 }

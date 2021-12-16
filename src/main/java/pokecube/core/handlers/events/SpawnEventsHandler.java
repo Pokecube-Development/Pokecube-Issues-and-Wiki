@@ -50,6 +50,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 import thut.api.entity.CopyCaps;
@@ -95,19 +96,21 @@ public class SpawnEventsHandler
      */
     private static void onSpawnCheck(final SpawnEvent.Check event)
     {
-        if (!SpawnHandler.canSpawnInWorld((Level) event.world, event.forSpawn)) event.setCanceled(true);
+        if (!SpawnHandler.canSpawnInWorld((Level) event.level(), event.forSpawn)) event.setCanceled(true);
     }
 
     private static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
-        final LevelAccessor world = event.world;
+        final LevelAccessor world = event.level();
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
         Collections.shuffle(entries);
         int index = 0;
         PokedexEntry dbe = entries.get(index);
-        final SpawnCheck checker = new SpawnCheck(v, world);
-        float weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(checker));
+        SpawnCheck checker = new SpawnCheck(v, world);
+        SpawnContext context = event.context();
+        context = new SpawnContext(context, dbe);
+        float weight = dbe.getSpawnData().getWeight(context, checker, true);
 
         /**
          * TODO instead of completely random spawns: <br>
@@ -123,7 +126,10 @@ public class SpawnEventsHandler
         while (weight <= random && index++ < max)
         {
             dbe = entries.get(index % entries.size());
-            weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(checker));
+            context = new SpawnContext(context, v);
+            context = new SpawnContext(context, dbe);
+            weight = dbe.getSpawnData().getWeight(context, checker, true);
+
             if (weight == 0) continue;
             if (!dbe.flys() && random >= weight) if (!(dbe.swims() && v.getBlockMaterial(world) == Material.WATER))
             {
@@ -131,7 +137,9 @@ public class SpawnEventsHandler
                 if (v != null)
                 {
                     v.offsetBy(Direction.UP);
-                    weight = dbe.getSpawnData().getWeight(dbe.getSpawnData().getMatcher(world, v));
+                    context = new SpawnContext(context, v);
+                    checker = new SpawnCheck(v, world);
+                    weight = dbe.getSpawnData().getWeight(context, checker, true);
                 }
                 else weight = 0;
             }
@@ -140,7 +148,7 @@ public class SpawnEventsHandler
         if (random > weight || v == null) return;
         if (dbe.isLegendary())
         {
-            final int level = SpawnHandler.getSpawnLevel((Level) world, v, dbe);
+            final int level = SpawnHandler.getSpawnLevel(context);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;
         }
         event.setLocation(v);
@@ -170,16 +178,16 @@ public class SpawnEventsHandler
             thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
             // Check if we specify a preset instead, and if that exists,
             // use that.
-            if (thing.has("preset") && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset")
-                    .getAsString())) thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset")
-                            .getAsString());
+            if (thing.has("preset")
+                    && StructureSpawnPresetLoader.presetMap.containsKey(thing.get("preset").getAsString()))
+                thing = StructureSpawnPresetLoader.presetMap.get(thing.get("preset").getAsString());
         }
         catch (final JsonSyntaxException e)
         {
             PokecubeCore.LOGGER.error("Error parsing " + function, e);
         }
-        if (!(thing.has("trainerType") || thing.has("type"))) thing.add("type", new JsonPrimitive(nurse ? "healer"
-                : trader ? "trader" : "professor"));
+        if (!(thing.has("trainerType") || thing.has("type")))
+            thing.add("type", new JsonPrimitive(nurse ? "healer" : trader ? "trader" : "professor"));
         if (nurse) mob.setMale(false);
         SpawnEventsHandler.spawnNpc(event, mob, thing);
         return true;
@@ -187,8 +195,8 @@ public class SpawnEventsHandler
 
     private static void spawnNpc(final StructureEvent.ReadTag event, final NpcMob mob, final JsonObject thing)
     {
-        if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE,
-                thing)))
+        if (!MinecraftForge.EVENT_BUS
+                .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
         {
             event.setResult(Result.ALLOW);
             SpawnEventsHandler.spawnMob(event, mob, thing);
@@ -197,8 +205,7 @@ public class SpawnEventsHandler
 
     private static void spawnMob(final StructureEvent.ReadTag event, final Mob mob, final JsonObject thing)
     {
-        EventsHandler.Schedule(event.worldActual, w ->
-        {
+        EventsHandler.Schedule(event.worldActual, w -> {
             SpawnEventsHandler.applyFunction(mob, thing);
             w.addFreshEntity(mob);
             return true;
@@ -248,8 +255,8 @@ public class SpawnEventsHandler
             {
                 PokecubeCore.LOGGER.warn("Error processing for {}", function, e);
             }
-            else if (SpawnEventsHandler.oldSpawns(event, function)) PokecubeCore.LOGGER.info("Handled spawn for {}, {}",
-                    function, event.pos);
+            else if (SpawnEventsHandler.oldSpawns(event, function))
+                PokecubeCore.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
             else PokecubeCore.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }
@@ -271,8 +278,7 @@ public class SpawnEventsHandler
             final BoundingBox box = event.getBoundingBox();
             final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box);
             final LevelAccessor world = event.getWorld();
-            poses.forEach((p) ->
-            {
+            poses.forEach((p) -> {
                 TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
             });
         }
@@ -281,19 +287,15 @@ public class SpawnEventsHandler
     private static void queueForUpdate(final Stream<BlockPos> poses, final BiomeType subbiome, final Level level)
     {
         final Map<ChunkPos, Set<BlockPos>> byChunk = Maps.newHashMap();
-        poses.forEach((p) ->
-        {
+        poses.forEach((p) -> {
             final ChunkPos pos = new ChunkPos(p);
             Set<BlockPos> set = byChunk.get(pos);
             if (set == null) byChunk.put(pos, set = Sets.newHashSet());
             set.add(p.immutable());
         });
-        byChunk.forEach((pos, s) ->
-        {
-            EventsHandler.Schedule(level, world ->
-            {
-                s.forEach((p) ->
-                {
+        byChunk.forEach((pos, s) -> {
+            EventsHandler.Schedule(level, world -> {
+                s.forEach((p) -> {
                     TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome);
                 });
                 return true;
@@ -304,7 +306,7 @@ public class SpawnEventsHandler
     public static class GuardInfo
     {
         public String time = "";
-        public int    roam = 0;
+        public int roam = 0;
     }
 
     public static interface INpcProcessor
@@ -312,8 +314,7 @@ public class SpawnEventsHandler
         void process(final Mob mob, final JsonObject thing);
     }
 
-    public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) ->
-    {
+    public static List<INpcProcessor> processors = Lists.newArrayList((mob, thing) -> {
         if (mob instanceof NpcMob)
         {
             // TODO some of these should handle from IHasPokemobs instead!

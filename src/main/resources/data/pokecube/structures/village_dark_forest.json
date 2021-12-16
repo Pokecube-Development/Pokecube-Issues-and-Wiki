@@ -85,14 +85,14 @@
   ],
   "jigsaws": [
     {
-      "type": "pokecube:village",
+      "type": "pokecube:town",
       "name": "pokecube:village/dark_forest",
       "root": "pokecube:village/dark_forest/town_centers",
       "chance": 1,
-      "distance": 64,
+      "distance": 48,
       "separation": 12,
       "size": 6,
-      "priority": 10,
+      "priority": 8,
       "biomeType": "village",
       "needed_once": [
         "pokecenter",
@@ -104,9 +104,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "spooky",
-          "typesBlacklist": "snowy,jungle",
-          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+          "preset": "spooky_areas"
         }
       }
     },
@@ -129,9 +127,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "spooky",
-          "typesBlacklist": "snowy,jungle",
-          "categoryBlacklist": "desert,ocean,river,extreme_hills,beach,mushroom,the_end,nether,savanna,mesa,taiga,icy"
+          "preset": "spooky_areas"
         }
       }
     }

@@ -63,8 +63,8 @@ public abstract class PokemobMoves extends PokemobStats
         // If the move is somehow null, report it and return early.
         if (move == null || move.move == null)
         {
-            PokecubeCore.LOGGER.error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " "
-                    + index);
+            PokecubeCore.LOGGER
+                    .error(this.getDisplayName().getString() + " Has Used Unregistered Move: " + attack + " " + index);
             return;
         }
 
@@ -92,8 +92,7 @@ public abstract class PokemobMoves extends PokemobStats
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
         {
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this
-                    .getDisplayName());
+            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this.getDisplayName());
             this.displayMessageToOwner(mess);
             if (targetMob != null)
             {
@@ -107,12 +106,12 @@ public abstract class PokemobMoves extends PokemobStats
         if ((statusChange & IMoveConstants.CHANGE_CONFUSED) != 0) if (Math.random() > 0.75)
         {
             this.removeChange(IMoveConstants.CHANGE_CONFUSED);
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green", this
-                    .getDisplayName());
+            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green",
+                    this.getDisplayName());
             if (targetMob != null)
             {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "red", this
-                        .getDisplayName());
+                mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "red",
+                        this.getDisplayName());
                 targetMob.displayMessageToOwner(mess);
             }
             this.displayMessageToOwner(mess);
@@ -120,8 +119,8 @@ public abstract class PokemobMoves extends PokemobStats
         else if (Math.random() > 0.5)
         {
             MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red", this
-                    .getDisplayName());
+            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red",
+                    this.getDisplayName());
             if (targetMob != null)
             {
                 mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green", this.getDisplayName());
@@ -131,12 +130,12 @@ public abstract class PokemobMoves extends PokemobStats
             return;
         }
 
-        if (this.getMoveStats().infatuateTarget != null) if (!this.getMoveStats().infatuateTarget.isAlive()) this
-                .getMoveStats().infatuateTarget = null;
-        else if (Math.random() > 0.5)
+        if (this.getMoveStats().infatuateTarget != null)
+            if (!this.getMoveStats().infatuateTarget.isAlive()) this.getMoveStats().infatuateTarget = null;
+            else if (Math.random() > 0.5)
         {
-            final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red", this
-                    .getDisplayName());
+            final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red",
+                    this.getDisplayName());
             this.displayMessageToOwner(mess);
             return;
         }
@@ -204,8 +203,8 @@ public abstract class PokemobMoves extends PokemobStats
         // We can do processing here to see what moves to supply.
         final String[] g_z_moves = super.getGZMoves();
         final String[] moves = this.getMoves();
-        boolean gigant = this.getCombatState(CombatStates.DYNAMAX) && this.getPokedexEntry().getTrimmedName().contains(
-                "_gigantamax");
+        boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
+                && this.getPokedexEntry().getTrimmedName().contains("_gigantamax");
         for (int i = 0; i < 4; i++)
         {
             final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);
@@ -333,8 +332,7 @@ public abstract class PokemobMoves extends PokemobStats
         if (actual == null)
         {
             final List<Status> options = Lists.newArrayList();
-            for (final Status temp : Status.values())
-                if ((temp.getMask() & status) != 0) options.add(temp);
+            for (final Status temp : Status.values()) if ((temp.getMask() & status) != 0) options.add(temp);
             if (options.isEmpty()) return false;
             if (options.size() > 1) Collections.shuffle(options);
             status = options.get(0).getMask();
@@ -342,23 +340,16 @@ public abstract class PokemobMoves extends PokemobStats
         if (status == IMoveConstants.STATUS_BRN && this.isType(PokeType.getType("fire"))) return false;
         if (status == IMoveConstants.STATUS_PAR && this.isType(PokeType.getType("electric"))) return false;
         if (status == IMoveConstants.STATUS_FRZ && this.isType(PokeType.getType("ice"))) return false;
-        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2) && (this.isType(PokeType
-                .getType("poison")) || this.isType(PokeType.getType("steel")))) return false;
+        if ((status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
+                && (this.isType(PokeType.getType("poison")) || this.isType(PokeType.getType("steel"))))
+            return false;
         this.dataSync().set(this.params.STATUSDW, status);
         if ((status == IMoveConstants.STATUS_SLP || status == IMoveConstants.STATUS_FRZ) && turns == -1) turns = 5;
         final short timer = (short) (turns == -1 ? PokecubeCore.getConfig().attackCooldown * 5
                 : turns * PokecubeCore.getConfig().attackCooldown);
         this.setStatusTimer(timer);
         PersistantStatusEffect statusEffect;
-        try
-        {
-            statusEffect = new PersistantStatusEffect(status, turns);
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.warn("Error making status effect!");
-            return false;
-        }
+        statusEffect = new PersistantStatusEffect(status, turns);
         return CapabilityAffected.addEffect(this.getEntity(), statusEffect);
     }
 
@@ -390,8 +381,8 @@ public abstract class PokemobMoves extends PokemobStats
         final LivingEntity old = this.getCopiedMob();
         this.setCopiedID(id == -1 ? null : to.getType().getRegistryName());
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
-        if (to != old && !this.getEntity().level.isClientSide()) CapabilitySync.sendUpdate(this.getEntity(),
-                PokemobMoves.TO_SYNC);
+        if (to != old && !this.getEntity().level.isClientSide())
+            CapabilitySync.sendUpdate(this.getEntity(), PokemobMoves.TO_SYNC);
     }
 
     @Override
@@ -403,9 +394,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public ITargetFinder getTargetFinder()
     {
-        if (this.targetFinder == null) return () ->
-        {
-        };
+        if (this.targetFinder == null) return () -> {};
         return this.targetFinder;
     }
 

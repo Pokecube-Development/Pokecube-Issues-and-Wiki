@@ -1,0 +1,40 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "day_time",
+        "night": "false",
+        "dawn": "false",
+        "dusk": "false",
+        "day": "true"
+      }
+    },
+    {
+      "values": {
+        "preset": "night_time",
+        "night": "true",
+        "dawn": "false",
+        "dusk": "false",
+        "day": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "dusk",
+        "night": "false",
+        "dawn": "false",
+        "dusk": "true",
+        "day": "false"
+      }
+    },
+    {
+      "values": {
+        "preset": "dawn",
+        "night": "false",
+        "dawn": "true",
+        "dusk": "false",
+        "day": "false"
+      }
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "plains",
+      "entries": [
+        {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
+        {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
+        {"key": "pidove","min": 2,"max": 4,"rate": 0.4},
+        {"key": "starly","min": 2,"max": 4,"rate": 0.4},
+        {"key": "fletchling","min": 2,"max": 4,"rate": 0.4},
+        {"key": "rattata","min": 3,"max": 6,"rate": 0.4},
+        {"key": "bidoof","min": 3,"max": 6,"rate": 0.4},
+        {"key": "patrat","min": 3,"max": 6,"rate": 0.4},
+        {"key": "yungoos","min": 3,"max": 6,"rate": 0.4},
+        
+        {"key": "plusle","min": 3,"max": 6,"rate": 0.4},
+        {"key": "minun","min": 3,"max": 6,"rate": 0.4},
+        
+        {"key": "spearow","min": 2,"max": 4,"rate": 0.3},
+        {"key": "vulpix","min": 2,"max": 4,"rate": 0.3},
+        {"key": "growlithe","min": 2,"max": 4,"rate": 0.3},
+        {"key": "zigzagoon","min": 2,"max": 4,"rate": 0.3},
+        {"key": "minccino","min": 2,"max": 4,"rate": 0.3},
+        {"key": "litleo","min": 2,"max": 4,"rate": 0.3},
+        {"key": "rockruff","min": 2,"max": 4,"rate": 0.3},
+        {"key": "hoppip","min": 2,"max": 4,"rate": 0.3},
+        {"key": "sunkern","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "spearow","min": 2,"max": 4,"rate": 0.3},
+        {"key": "mudbray","min": 2,"max": 4,"rate": 0.3},
+        {"key": "sentret","min": 2,"max": 4,"rate": 0.3},
+        {"key": "mareep","min": 2,"max": 4,"rate": 0.3},
+        {"key": "wooloo","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "nidoranf","min": 2,"max": 4,"rate": 0.25},
+        {"key": "nidoranm","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "ponyta","min": 2,"max": 4,"rate": 0.2},
+        {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
+        {"key": "electrike","min": 2,"max": 4,"rate": 0.2},
+        {"key": "glameow","min": 2,"max": 4,"rate": 0.2},
+        {"key": "stunky","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pikipek","min": 2,"max": 4,"rate": 0.2},
+        {"key": "doduo","min": 2,"max": 4,"rate": 0.2},
+        {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "miltank","min": 5,"max": 10,"rate": 0.1},
+        {"key": "tauros","min": 5,"max": 10,"rate": 0.1},
+        {"key": "phanpy","min": 2,"max": 4,"rate": 0.1},
+        {"key": "meowth","min": 2,"max": 4,"rate": 0.1},
+        {"key": "shinx","min": 2,"max": 4,"rate": 0.1},
+        {"key": "lillipup","min": 2,"max": 4,"rate": 0.1},
+        {"key": "purrloin","min": 2,"max": 4,"rate": 0.1},
+        {"key": "blitzle","min": 2,"max": 4,"rate": 0.1},
+        {"key": "bunnelby","min": 2,"max": 4,"rate": 0.1},
+        {"key": "togepi","min": 2,"max": 4,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "bouffalant","min": 5,"max": 10,"rate": 0.1},
+        
+        {"key": "gothita","min": 2,"max": 5,"rate": 0.05},
+        
+        {"key": "scyther","min": 5,"max": 10,"rate": 0.05},
+        {"key": "pinsir","min": 5,"max": 10,"rate": 0.05},
+        
+        {"key": "zangoose","min": 5,"max": 10,"rate": 0.02},
+        {"key": "seviper","min": 5,"max": 10,"rate": 0.02},
+        {"key": "kecleon","min": 5,"max": 10,"rate": 0.02},
+        
+        {"key": "scorbunny","min": 1,"max": 2,"rate": 0.01},
+        
+        {"key": "entei","min": 5,"max": 10,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "plains,not_cold_areas,not_dry_areas",
+      "entries": [
+        
+        {"key": "gossifleur","min": 3,"max": 6,"rate": 0.4},
+        
+        {"key": "cutiefly","min": 4,"max": 8,"rate": 0.3},
+        {"key": "foongus","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "bellsprout","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "exeggcute","min": 4,"max": 8,"rate": 0.08},
+        {"key": "combee","min": 4,"max": 8,"rate": 0.06},
+        
+        {"key": "oricorio_baile","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio_pau","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio_pom-pom","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio_sensu","min": 5,"max": 10,"rate": 0.05},
+        
+        {"key": "cherubi","min": 5,"max": 10,"rate": 0.02}
+        
+      ]
+    },
+    {
+      "spawn_preset": "plains,cold_areas",
+      "entries": [
+      
+      ]
+    },
+    {
+      "spawn_preset": "savannas,not_cold_areas",
+      "entries": [
+        {"key": "kangaskhan","min": 4,"max": 8,"rate": 0.08},
+        {"key": "rhyhorn","min": 4,"max": 8,"rate": 0.15},
+        {"key": "falinks","min": 4,"max": 8,"rate": 0.1},
+        {"key": "toxel","min": 4,"max": 8,"rate": 0.08}
+      ]
+    },
+    {
+      "spawn_preset": "plains,night_time",
+      "entries": [
+        {"key": "zigzagoon_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "espurr","min": 2,"max": 4,"rate": 0.1},
+        {"key": "solosis","min": 2,"max": 4,"rate": 0.05}
+      ]
+    },
+    {
+      "spawn_preset": "plains,day_time",
+      "entries": [
+        {"key": "oddish","min": 2,"max": 4,"rate": 0.25}
+      ]
+    }
+  ]
+}

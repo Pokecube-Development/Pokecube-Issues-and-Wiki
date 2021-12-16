@@ -1,0 +1,133 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "oceans",
+      "entries": [
+        {"key": "clobbopus","min": 2,"max": 4,"rate": 0.2},
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
+        {"key": "spheal","min": 2,"max": 4,"rate": 0.1},
+        {"key": "seel","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "ocean_ground",
+      "entries": [
+        {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
+        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "ocean_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
+        {"key": "tentacool","min": 2,"max": 4,"rate": 1},
+        {"key": "frillish","min": 2,"max": 4,"rate": 1},
+        
+        {"key": "carvanha","min": 2,"max": 4,"rate": 0.5},
+        
+        {"key": "skrelp","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "mareanie","min": 2,"max": 4,"rate": 0.3},
+        {"key": "alomomola","min": 2,"max": 4,"rate": 0.3},
+        {"key": "clamperl","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "lapras","min": 1,"max": 1,"rate": 0.3},
+        {"key": "chinchou","min": 2,"max": 4,"rate": 0.3},
+        {"key": "qwilfish","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "luvdisc","min": 2,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
+        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
+        {"key": "staryu","min": 2,"max": 4,"rate": 0.2},
+        {"key": "remoraid","min": 2,"max": 4,"rate": 0.2},
+        {"key": "wailmer","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "arrokuda","min": 2,"max": 4,"rate": 0.17},
+        
+        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1},
+        {"key": "dhelmise","min": 2,"max": 4,"rate": 0.1},
+        {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
+        {"key": "shellder","min": 2,"max": 4,"rate": 0.1},
+        {"key": "corsola","min": 2,"max": 4,"rate": 0.1},
+        {"key": "mantine","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "dratini","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "manaphy","min": 2,"max": 4,"rate": 0.001}
+      ]
+    },
+    {
+      "spawn_preset": "ocean_water,night_time",
+      "entries": [
+        {"key": "inkay","min": 2,"max": 4,"rate": 1}
+      ]
+    },
+    {
+      "spawn_preset": "beaches",
+      "entries": [
+        {"key": "binacle","min": 2,"max": 4,"rate": 0.5},
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "clauncher","min": 2,"max": 4,"rate": 0.25},
+        {"key": "chewtle","min": 2,"max": 4,"rate": 0.25},
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pyukumuku","min": 2,"max": 4,"rate": 0.2},
+        {"key": "psyduck","min": 2,"max": 4,"rate": 0.2},
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
+        {"key": "seel","min": 2,"max": 4,"rate": 0.1},
+        {"key": "spheal","min": 2,"max": 4,"rate": 0.1},
+        {"key": "shellder","min": 2,"max": 4,"rate": 0.1},
+        {"key": "wimpod","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "piplup","min": 1,"max": 2,"rate": 0.01},
+        {"key": "popplio","min": 1,"max": 2,"rate": 0.01},
+        {"key": "sobble","min": 1,"max": 2,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "beach_ground",
+      "entries": [
+        {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
+        {"key": "glameow","min": 2,"max": 4,"rate": 0.2},
+        {"key": "stunky","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "throh","min": 2,"max": 4,"rate": 0.1},
+        {"key": "throh","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "sandygast","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "beach_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
+        {"key": "tentacool","min": 2,"max": 4,"rate": 1},
+        {"key": "frillish","min": 2,"max": 4,"rate": 1},
+        
+        {"key": "mareanie","min": 2,"max": 4,"rate": 0.3},
+        {"key": "alomomola","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
+        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
+        {"key": "staryu","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pincurchin","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
+        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1},
+        {"key": "mantine","min": 2,"max": 4,"rate": 0.1},
+        {"key": "corsola","min": 2,"max": 4,"rate": 0.1}
+        
+      ]
+    },
+    {
+      "spawn_preset": "beach_water,night_time",
+      "entries": [
+        {"key": "inkay","min": 2,"max": 4,"rate": 1}
+      ]
+    }
+  ]
+}

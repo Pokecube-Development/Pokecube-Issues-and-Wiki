@@ -6,15 +6,65 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.blocks.statue.StatueEntity;
+import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
+import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.wrappers.ModelWrapper;
 
 public class StatueBlock implements BlockEntityRenderer<StatueEntity>
 {
     public StatueBlock(final BlockEntityRendererProvider.Context dispatcher)
+    {}
+
+    public static void renderStatue(LivingEntity copied, final float partialTicks, final PoseStack matrixStackIn,
+            final MultiBufferSource bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
+        final Minecraft mc = Minecraft.getInstance();
+        mc.getEntityRenderDispatcher().setRenderShadow(false);
+        mc.getEntityRenderDispatcher().render(copied, 0.5f, 0, 0.5f, partialTicks, 1, matrixStackIn, bufferIn,
+                combinedLightIn);
+        CompoundTag tag = copied.getPersistentData();
+        if (tag.contains("statue:over_tex")
+                && mc.getEntityRenderDispatcher().getRenderer(copied) instanceof LivingEntityRenderer<?, ?> renderer)
+        {
+            ResourceLocation inTag = new ResourceLocation(tag.getString("statue:over_tex"));
+            boolean isBlock = ForgeRegistries.BLOCKS.containsKey(inTag);
+            final ResourceLocation tex;
+            if (isBlock)
+            {
+                Block b = ForgeRegistries.BLOCKS.getValue(inTag);
+                @SuppressWarnings("deprecation")
+                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
+                        .getName();
+                tex = new ResourceLocation(tex_.getNamespace(), "textures/" + tex_.getPath() + ".png");
+            }
+            else tex = inTag;
+
+            StatusTexturer newTexer = new StatusTexturer(tex);
+            newTexer.alpha = tag.contains("statue:over_tex_a") ? tag.getInt("statue:over_tex_a") : 200;
+            newTexer.animated = false;
+            final ModelWrapper<?> wrap = (ModelWrapper<?>) renderer.getModel();
+            final IPartTexturer texer = wrap.renderer.getTexturer();
+            wrap.renderer.setTexturer(newTexer);
+            if (newTexer != null)
+            {
+                newTexer.bindObject(copied);
+                wrap.getParts().forEach((n, p) -> {
+                    p.applyTexture(bufferIn, tex, newTexer);
+                });
+            }
+            mc.getEntityRenderDispatcher().render(copied, 0.5f, 0, 0.5f, partialTicks, 1, matrixStackIn, bufferIn,
+                    combinedLightIn);
+            wrap.renderer.setTexturer(texer);
+        }
     }
 
     @Override
@@ -26,9 +76,6 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
         tile.checkMob();
         if (copy == null || copy.getCopiedMob() == null || tile.ticks++ < 10) return;
         final LivingEntity copied = copy.getCopiedMob();
-        final Minecraft mc = Minecraft.getInstance();
-        mc.getEntityRenderDispatcher().setRenderShadow(false);
-        mc.getEntityRenderDispatcher().render(copied, 0.5f, 0, 0.5f, partialTicks, 1, matrixStackIn, bufferIn,
-                combinedLightIn);
+        renderStatue(copied, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 }

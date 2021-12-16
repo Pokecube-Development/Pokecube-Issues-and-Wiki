@@ -48,9 +48,8 @@ public class SendOutManager
             final PartEntity<?>[] parts = mob.getParts();
             box = null;
             // If it has parts, use that for the bounds instead.
-            for (final PartEntity<?> part : parts)
-                if (box == null) box = part.getBoundingBox();
-                else box = box.minmax(part.getBoundingBox());
+            for (final PartEntity<?> part : parts) if (box == null) box = part.getBoundingBox();
+            else box = box.minmax(part.getBoundingBox());
             if (box == null) box = mob.getBoundingBox();
         }
         if (SendOutManager.valid(box, world)) return pos.copy();
@@ -163,8 +162,8 @@ public class SendOutManager
                 final PokedexEntry entry = pokemob.getPokedexEntry();
                 final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
                 final PlayerContext context = new PlayerContext(user);
-                final boolean denied = !handler.hasPermission(user.getGameProfile(), Permissions.SENDOUTSPECIFIC.get(
-                        entry), context);
+                final boolean denied = !handler.hasPermission(user.getGameProfile(),
+                        Permissions.SENDOUTSPECIFIC.get(entry), context);
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());
@@ -175,14 +174,15 @@ public class SendOutManager
                 }
             }
 
-            final SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getCommandSenderWorld(), pokemob);
+            final SendOut evt = new SendOut.Pre(pokemob);
             if (PokecubeCore.POKEMOB_BUS.post(evt))
             {
                 if (isPlayers)
                 {
                     Tools.giveItem(user, cube.getItem());
-                    user.displayClientMessage(new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob
-                            .getDisplayName()), true);
+                    user.displayClientMessage(
+                            new TranslatableComponent("pokecube.sendout.fail.cancelled", pokemob.getDisplayName()),
+                            true);
                     cube.discard();
                 }
                 return null;
@@ -238,7 +238,7 @@ public class SendOutManager
                         pokemob.getDisplayName());
                 pokemob.displayMessageToOwner(mess);
             }
-            final SendOut evt = new SendOut.Post(pokemob.getPokedexEntry(), v, world, pokemob);
+            final SendOut evt = new SendOut.Post(pokemob);
             PokecubeCore.POKEMOB_BUS.post(evt);
         }
     }
@@ -256,8 +256,7 @@ public class SendOutManager
             mob.getPersistentData().putUUID("old_uuid", id);
             mob.setUUID(UUID.randomUUID());
             SendOutManager.make(world, mob, vec, pokemob, summon);
-            final IRunnable task = w ->
-            {
+            final IRunnable task = w -> {
                 // Ensure the chunk is loaded here.
                 w.getChunk(vec.getPos());
                 final Entity original = world.getEntity(id);

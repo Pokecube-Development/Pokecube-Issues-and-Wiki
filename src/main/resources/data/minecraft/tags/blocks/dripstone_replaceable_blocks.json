@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:base_stone_distorted_world",
-    "#pokecube_legends:base_stone_ultraspace",
-    "pokecube_legends:aged_dirt",
-    "pokecube_legends:corrupted_dirt",
-    "pokecube_legends:jungle_dirt",
-    "pokecube_legends:mushroom_dirt"
+    {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
+    {"id": "#pokecube_legends:base_stone_ultraspace", "required": false},
+    {"id": "pokecube_legends:aged_dirt", "required": false},
+    {"id": "pokecube_legends:corrupted_dirt", "required": false},
+    {"id": "pokecube_legends:jungle_dirt", "required": false},
+    {"id": "pokecube_legends:mushroom_dirt", "required": false}
   ]
 }

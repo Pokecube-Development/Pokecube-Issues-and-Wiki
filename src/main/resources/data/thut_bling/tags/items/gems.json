@@ -1,9 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:gems"
-  ],
-  "optional": [
-    "#pokecube:megastones"
+    "#forge:gems",
+    {"id": "#pokecube:megastones", "required": false}
   ]
 }

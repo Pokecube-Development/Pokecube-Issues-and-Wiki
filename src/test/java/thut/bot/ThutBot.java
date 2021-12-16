@@ -3,20 +3,34 @@ package thut.bot;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
+import com.google.common.collect.Lists;
+import com.google.common.hash.Hashing;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.serialization.Dynamic;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
@@ -24,7 +38,6 @@ import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
-import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
@@ -33,12 +46,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.players.GameProfileCache;
 import net.minecraft.server.players.PlayerList;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
@@ -48,6 +61,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.network.NetworkConstants;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -61,12 +75,15 @@ public class ThutBot
 {
     public static final Logger LOGGER = LogManager.getLogger("thutbot");
 
+    public static final UUID BOTMODID = new UUID(Hashing.goodFastHash(64).hashUnencodedChars("thutbot").padToLong(), 0);
+
     public ThutBot()
     {
         // Register our event listeners
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerTick);
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onChat);
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerStart);
+        MinecraftForge.EVENT_BUS.addListener(ThutBot::onCommandRegister);
 
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve("thutbot.log").toFile();
         if (logfile.exists())
@@ -100,6 +117,103 @@ public class ThutBot
 
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
                 () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (ver, remote) -> true));
+
+    }
+
+    private static ArrayList<GameProfile> ALL_BOTS = Lists.newArrayList();
+
+    public static final String PERMBOT = "thutbot.perm";
+    public static final String PERMBOTSUMMON = "thutbot.perm.summon";
+    public static final String PERMBOTKILL = "thutbot.perm.kill";
+
+    private static final SimpleCommandExceptionType NO_SUMMON_2 = new SimpleCommandExceptionType(
+            new TranslatableComponent("Cannot summon a second bot of the same name!"));
+
+    private static final SimpleCommandExceptionType NO_KILL = new SimpleCommandExceptionType(
+            new TranslatableComponent("No bot by that name to kill!"));
+
+    private static void onCommandRegister(final RegisterCommandsEvent event)
+    {
+        PermissionAPI.registerNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
+        PermissionAPI.registerNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
+        PermissionAPI.registerNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
+
+        final LiteralArgumentBuilder<CommandSourceStack> command_base = Commands.literal("thutbot").requires(s -> {
+            if (!(s.getEntity() instanceof ServerPlayer player)) return true;
+            return PermissionAPI.hasPermission(player, PERMBOT);
+        });
+
+        final LiteralArgumentBuilder<CommandSourceStack> summon_bot = command_base
+                .then(Commands.literal("summon").requires(s ->
+                {
+                    if (!(s.getEntity() instanceof ServerPlayer player)) return true;
+                    return PermissionAPI.hasPermission(player, PERMBOTSUMMON);
+                }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
+                    final String name = StringArgumentType.getString(ctx, "name");
+
+                    long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
+                    final UUID id = new UUID(hash, hash);
+
+                    ServerLevel level = ctx.getSource().getLevel();
+                    MinecraftServer server = ctx.getSource().getServer();
+
+                    if (server.getPlayerList().getPlayer(id) == null)
+                    {
+                        final GameProfile profile = new GameProfile(id, name);
+                        final BotPlayer bot = new BotPlayer(level, profile);
+                        ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
+                        ALL_BOTS.add(bot.getGameProfile());
+                        saveBots();
+                    }
+                    else
+                    {
+                        throw NO_SUMMON_2.create();
+                    }
+                    return 0;
+                })));
+
+        final LiteralArgumentBuilder<CommandSourceStack> kill_bot = command_base
+                .then(Commands.literal("kill").requires(s ->
+                {
+                    if (!(s.getEntity() instanceof ServerPlayer player)) return true;
+                    return PermissionAPI.hasPermission(player, PERMBOTKILL);
+                }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
+                    final String name = StringArgumentType.getString(ctx, "name");
+                    MinecraftServer server = ctx.getSource().getServer();
+                    if (server.getPlayerList().getPlayerByName(name) instanceof BotPlayer bot)
+                    {
+                        ALL_BOTS.remove(bot.getGameProfile());
+                        server.getPlayerList().remove(bot);
+                        saveBots();
+                    }
+                    else
+                    {
+                        throw NO_KILL.create();
+                    }
+                    return 0;
+                })));
+        event.getDispatcher().register(summon_bot);
+        event.getDispatcher().register(kill_bot);
+    }
+
+    private static void saveBots()
+    {
+        final Path dir = FMLPaths.CONFIGDIR.get().resolve("thutbot");
+        dir.toFile().mkdirs();
+        File file = dir.resolve("thutbots.json").toFile();
+
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        BotList list = new BotList();
+        ALL_BOTS.forEach(g -> list.bots.add(g.getName()));
+
+        try
+        {
+            FileUtils.writeStringToFile(file, gson.toJson(list), "UTF-8");
+        }
+        catch (IOException e)
+        {
+            LOGGER.error("Error saving default bot list", e);
+        }
     }
 
     // This ensures the bot is still alive and around
@@ -108,13 +222,19 @@ public class ThutBot
         if (event.side == LogicalSide.CLIENT) return;
         if (event.phase == Phase.START) return;
         final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
-        final UUID id = new UUID(2152346, 2344673);
-        if (overworld.getPlayerByUUID(id) == null)
+        if (server.getTickCount() % 200 != 0) return;
+
+        ServerLevel level = server.overworld();
+
+        for (int i = 0; i < ALL_BOTS.size(); i++)
         {
-            final GameProfile profile = new GameProfile(id, "ThutBot");
-            final BotPlayer bot = new BotPlayer(overworld, profile);
-            ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
+            GameProfile p = ALL_BOTS.get(i);
+            if (server.getPlayerList().getPlayer(p.getId()) == null)
+            {
+                final BotPlayer bot = new BotPlayer(level, p);
+                ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
+                ALL_BOTS.set(i, bot.getGameProfile());
+            }
         }
     }
 
@@ -130,9 +250,44 @@ public class ThutBot
         }));
     }
 
+    public static class BotList
+    {
+        public List<String> bots = Lists.newArrayList();
+    }
+
     private static void onServerStart(ServerAboutToStartEvent event)
     {
         IBotAI.init();
+
+        final Path dir = FMLPaths.CONFIGDIR.get().resolve("thutbot");
+        dir.toFile().mkdirs();
+        File file = dir.resolve("thutbots.json").toFile();
+
+        if (!file.exists())
+        {
+            saveBots();
+        }
+        else
+        {
+            // We load the bots
+            try
+            {
+                final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                ALL_BOTS.clear();
+                String json = FileUtils.readFileToString(file, "UTF-8");
+                BotList loaded = gson.fromJson(json, BotList.class);
+                loaded.bots.forEach(name -> {
+                    long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
+                    final UUID id = new UUID(hash, hash);
+                    ALL_BOTS.add(new GameProfile(id, name));
+                });
+            }
+            catch (Exception e)
+            {
+                LOGGER.error("Error loading saved bot list", e);
+            }
+        }
+
     }
 
     private static void placeNewPlayer(final MinecraftServer server, final Connection connection,
@@ -178,20 +333,17 @@ public class ThutBot
         servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(),
                 player.getXRot());
         list.addPlayer(player);
-        list.broadcastAll(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, player));
 
-        for (final ServerPlayer element : list.getPlayers()) player.connection
-                .send(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, element));
+        Map<UUID, ServerPlayer> playerMap = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list,
+                "f_11197_");
+        playerMap.put(player.getUUID(), player);
+
+        list.broadcastAll(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, player));
 
         serverlevel1.addNewPlayer(player);
         serverlevel1.getChunkSource().move(player);
         server.getCustomBossEvents().onPlayerConnect(player);
         list.sendLevelInfo(player, serverlevel1);
-        if (!server.getResourcePack().isEmpty()) player.sendTexturePack(server.getResourcePack(),
-                server.getResourcePackHash(), server.isResourcePackRequired(), server.getResourcePackPrompt());
-
-        for (final MobEffectInstance mobeffectinstance : player.getActiveEffects())
-            servergamepacketlistenerimpl.send(new ClientboundUpdateMobEffectPacket(player.getId(), mobeffectinstance));
 
         if (compoundtag != null && compoundtag.contains("RootVehicle", 10))
         {

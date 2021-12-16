@@ -26,9 +26,13 @@ public class Status
     public static class StatusTexturer implements IPartTexturer
     {
         private final ResourceLocation tex;
-        public IPartTexturer           wrapped;
-        public float                   time  = 0;
-        public int                     alpha = 128;
+
+        public IPartTexturer wrapped;
+
+        public float time = 0;
+        public int alpha = 128;
+
+        public boolean animated = true;
 
         public StatusTexturer(final ResourceLocation tex)
         {
@@ -56,6 +60,7 @@ public class Status
         @Override
         public boolean shiftUVs(final String part, final double[] toFill)
         {
+            if (!animated) return false;
             toFill[0] += this.time;
             toFill[1] += this.time;
             return true;
@@ -126,8 +131,7 @@ public class Status
         if (statusTexturer != null)
         {
             statusTexturer.bindObject(mob);
-            wrap.getParts().forEach((n, p) ->
-            {
+            wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, default_, statusTexturer);
             });
         }
@@ -140,8 +144,7 @@ public class Status
         {
             final ResourceLocation orig_ = renderer.getTextureLocation(mob);
             texer.bindObject(mob);
-            wrap.getParts().forEach((n, p) ->
-            {
+            wrap.getParts().forEach((n, p) -> {
                 p.applyTexture(buf, orig_, texer);
             });
         }

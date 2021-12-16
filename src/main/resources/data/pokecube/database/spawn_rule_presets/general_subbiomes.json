@@ -1,0 +1,71 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "all",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "all_nether",
+        "and_presets": "all,nether"
+      }
+    },
+    {
+      "values": {
+        "preset": "all_overworld",
+        "and_presets": "all,overworld"
+      }
+    },
+    {
+      "values": {
+        "preset": "sky",
+        "types": "sky"
+      }
+    },
+    {
+      "values": {
+        "preset": "flowers",
+        "types": "flower"
+      }
+    },
+    {
+      "values": {
+        "preset": "hills",
+        "terrain": "hills"
+      }
+    },
+    {
+      "values": {
+        "preset": "meteors",
+        "types": "meteor"
+      }
+    },
+    {
+      "values": {
+        "preset": "villages",
+        "types": "village"
+      }
+    },
+    {
+      "values": {
+        "preset": "ruins",
+        "types": "ruin"
+      }
+    },
+    {
+      "values": {
+        "preset": "industrial",
+        "types": "industrial"
+      }
+    },
+    {
+      "values": {
+        "preset": "all_not_caves",
+        "types": "all",
+        "typesBlacklist": "cave"
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "swamp_ground",
+      "entries": [
+        {"key": "gulpin","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "caterpie","min": 4,"max": 8,"rate": 0.2},
+        {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
+        {"key": "wurmple","min": 4,"max": 8,"rate": 0.2},
+        {"key": "dewpider","min": 4,"max": 8,"rate": 0.2},
+        {"key": "grubbin","min": 4,"max": 8,"rate": 0.2},
+        {"key": "yanma","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.1},
+        {"key": "croagunk","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "dreepy","min": 2,"max": 4,"rate": 0.08},
+        {"key": "farfetchd","min": 2,"max": 4,"rate": 0.08},
+        
+        {"key": "karrablast","min": 2,"max": 4,"rate": 0.04}
+      ]
+    },
+    {
+      "spawn_preset": "swamp_water",
+      "entries": [
+        {"key": "barboach","min": 2,"max": 4,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "swamps",
+      "entries": [
+        {"key": "stunfisk","min": 2,"max": 4,"rate": 0.4},
+        {"key": "stunfisk_galar","min": 2,"max": 4,"rate": 0.4},
+        {"key": "poliwag","min": 2,"max": 4,"rate": 0.4},
+        {"key": "lotad","min": 2,"max": 4,"rate": 0.4},
+        {"key": "wooper","min": 2,"max": 4,"rate": 0.4},
+        {"key": "surskit","min": 2,"max": 4,"rate": 0.4},
+        {"key": "tympole","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "goomy","min": 2,"max": 4,"rate": 0.05},
+        {"key": "marill","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "froakie","min": 1,"max": 2,"rate": 0.01},
+        {"key": "mudkip","min": 1,"max": 2,"rate": 0.01}
+      ]
+    }
+  ]
+}

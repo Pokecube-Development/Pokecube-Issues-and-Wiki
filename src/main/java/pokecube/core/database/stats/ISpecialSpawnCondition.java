@@ -4,10 +4,9 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.world.entity.Entity;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.maths.Vector3;
 
 public interface ISpecialSpawnCondition
 {
@@ -30,7 +29,7 @@ public interface ISpecialSpawnCondition
      * @param trainer
      * @return
      */
-    public CanSpawn canSpawn(Entity trainer);
+    public CanSpawn canSpawn(SpawnContext context);
 
     /**
      * Location specfic canSpawn
@@ -39,7 +38,7 @@ public interface ISpecialSpawnCondition
      * @param location
      * @return
      */
-    public CanSpawn canSpawn(Entity trainer, Vector3 location, boolean message);
+    public CanSpawn canSpawn(SpawnContext context, boolean message);
 
     /**
      * Called right before the mob is actually spawned into the world

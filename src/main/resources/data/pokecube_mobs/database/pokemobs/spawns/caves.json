@@ -1,0 +1,211 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "caves",
+      "entries": [
+        {"key": "zubat","min": 2,"max": 5,"rate": 1.0},
+        {"key": "geodude","min": 2,"max": 5,"rate": 1.0},
+        {"key": "roggenrola","min": 2,"max": 5,"rate": 1.0},
+        
+        {"key": "rolycoly","min": 2,"max": 5,"rate": 0.5},
+        {"key": "diglett","min": 2,"max": 5,"rate": 0.5},
+        
+        {"key": "yamask_galar","min": 2,"max": 5,"rate": 0.3},
+        
+        {"key": "geodude_alola","min": 2,"max": 5,"rate": 0.25},
+        {"key": "carbink","min": 2,"max": 5,"rate": 0.25},
+        
+        {"key": "diglett_alola","min": 2,"max": 5,"rate": 0.1},
+        {"key": "abra","min": 2,"max": 5,"rate": 0.1},
+        {"key": "clefairy","min": 2,"max": 5,"rate": 0.1},
+        {"key": "jigglypuff","min": 2,"max": 5,"rate": 0.1},
+        {"key": "wobbuffet","min": 2,"max": 5,"rate": 0.1},
+        {"key": "shuckle","min": 2,"max": 5,"rate": 0.1},
+        {"key": "makuhita","min": 2,"max": 5,"rate": 0.1},
+        {"key": "nosepass","min": 2,"max": 5,"rate": 0.1},
+        {"key": "chimecho","min": 2,"max": 5,"rate": 0.1},
+        {"key": "joltik","min": 2,"max": 5,"rate": 0.1},
+        {"key": "ferroseed","min": 2,"max": 5,"rate": 0.1},
+        
+        {"key": "snorlax","min": 2,"max": 5,"rate": 0.05},
+        {"key": "onix","min": 2,"max": 5,"rate": 0.05},
+        {"key": "drowzee","min": 2,"max": 5,"rate": 0.05},
+        {"key": "whismur","min": 2,"max": 5,"rate": 0.05},
+        
+        {"key": "lunatone","min": 2,"max": 5,"rate": 0.05},
+        {"key": "solrock","min": 2,"max": 5,"rate": 0.05},
+        
+        {"key": "chansey","min": 2,"max": 5,"rate": 0.025},
+        
+        {"key": "diancie","min": 1,"max": 1,"rate": 0.002}
+      
+      ]
+    },
+    {
+      "spawn_preset": "forests,caves",
+      "entries": [
+        {"key": "burmy","min": 2,"max": 5,"rate": 0.2},
+        {"key": "druddigon","min": 2,"max": 5,"rate": 0.2}
+      ]
+    },
+    {
+      "spawn_preset": "jungles,caves",
+      "entries": [
+        {"key": "croagunk","min": 2,"max": 5,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "plains,caves",
+      "entries": [
+        {"key": "bunnelby","min": 2,"max": 4,"rate": 0.3},
+        {"key": "foongus","min": 2,"max": 4,"rate": 0.3}
+      ]
+    },
+    {
+      "spawn_preset": "mountains,caves",
+      "entries": [
+        {"key": "durant","min": 2,"max": 4,"rate": 0.5},
+        
+        {"key": "heatmor","min": 2,"max": 4,"rate": 0.4},
+        {"key": "deino","min": 2,"max": 4,"rate": 0.4},
+        
+        {"key": "machop","min": 2,"max": 4,"rate": 0.3},
+        {"key": "makuhita","min": 2,"max": 4,"rate": 0.3},
+        {"key": "numel","min": 2,"max": 4,"rate": 0.3},
+        {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
+        {"key": "spoink","min": 2,"max": 4,"rate": 0.3},
+        {"key": "spinda","min": 2,"max": 4,"rate": 0.3},
+        {"key": "dunsparce","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "skorupi","min": 2,"max": 4,"rate": 0.2},
+        {"key": "drilbur","min": 2,"max": 4,"rate": 0.2},
+        {"key": "tynamo","min": 2,"max": 4,"rate": 0.2},
+        {"key": "drampa","min": 2,"max": 4,"rate": 0.2},
+        {"key": "jangmo-o","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "nosepass","min": 2,"max": 4,"rate": 0.15},
+        {"key": "meditite","min": 2,"max": 4,"rate": 0.15},
+        {"key": "timburr","min": 2,"max": 4,"rate": 0.15},
+        {"key": "mienfoo","min": 2,"max": 4,"rate": 0.15},
+        {"key": "aron","min": 2,"max": 4,"rate": 0.15},
+        {"key": "cubone","min": 2,"max": 4,"rate": 0.15},
+        {"key": "rhyhorn","min": 2,"max": 4,"rate": 0.15},
+        {"key": "gligar","min": 2,"max": 4,"rate": 0.15},
+        
+        {"key": "larvitar","min": 2,"max": 4,"rate": 0.1},
+        {"key": "axew","min": 2,"max": 4,"rate": 0.1},
+        {"key": "riolu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "bagon","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "desert_caves",
+      "entries": [
+        {"key": "yamask","min": 2,"max": 4,"rate": 0.5},
+        {"key": "sigilyph","min": 2,"max": 4,"rate": 0.5},
+        {"key": "darumaka","min": 2,"max": 4,"rate": 0.5},
+        {"key": "dwebble","min": 2,"max": 4,"rate": 0.5},
+        {"key": "sandile","min": 2,"max": 4,"rate": 0.5},
+        {"key": "hippopotas","min": 2,"max": 4,"rate": 0.5},
+        
+        {"key": "trapinch","min": 2,"max": 4,"rate": 0.3},
+        {"key": "baltoy","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "sandshrew","min": 2,"max": 4,"rate": 0.2},
+        {"key": "gible","min": 2,"max": 4,"rate": 0.2},
+        {"key": "sableye","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "larvesta","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "caves,not_dry_areas",
+      "entries": [
+        {"key": "paras","min": 2,"max": 4,"rate": 0.2},
+        {"key": "foongus","min": 2,"max": 4,"rate": 0.2}
+      ]
+    },
+    {
+      "spawn_preset": "caves,cold_areas",
+      "entries": [
+        {"key": "jynx","min": 2,"max": 4,"rate": 0.3},
+        {"key": "sneasel","min": 2,"max": 4,"rate": 0.3},
+        {"key": "vanillite","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "caves,snowy_areas",
+      "entries": [
+        {"key": "snover","min": 2,"max": 4,"rate": 0.5},
+        {"key": "snorunt","min": 2,"max": 4,"rate": 0.5},
+        {"key": "swinub","min": 2,"max": 4,"rate": 0.3},
+        {"key": "vanillite","min": 2,"max": 4,"rate": 0.1},
+        {"key": "cubchoo","min": 2,"max": 4,"rate": 0.1},
+        {"key": "delibird","min": 2,"max": 4,"rate": 0.1},
+        {"key": "cryogonal","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "cave_water",
+      "entries": [
+        {"key": "magikarp","min": 2,"max": 4,"rate": 0.2},
+        {"key": "relicanth","min": 2,"max": 4,"rate": 0.025},
+        {"key": "feebas","min": 2,"max": 4,"rate": 0.01}
+      ]
+    },
+    {
+      "spawn_preset": "cave_lake_shore",
+      "entries": [
+        {"key": "wobbuffet","min": 2,"max": 4,"rate": 0.6},
+        
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.1}
+      ]
+    },
+    {
+      "spawn_preset": "rivers,caves",
+      "entries": [
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "shelmet","min": 2,"max": 4,"rate": 0.02}
+      ]
+    },
+    {
+      "spawn_preset": "swamps,caves",
+      "entries": [
+        {"key": "wooper","min": 2,"max": 4,"rate": 0.3},
+        {"key": "croagunk","min": 2,"max": 4,"rate": 0.3},
+        {"key": "gulpin","min": 2,"max": 4,"rate": 0.3},
+        {"key": "shelmet","min": 2,"max": 4,"rate": 0.02},
+        {"key": "karrablast","min": 2,"max": 4,"rate": 0.02}
+      ]
+    },
+    {
+      "spawn_preset": "oceans,caves",
+      "entries": [
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
+        {"key": "spheal","min": 2,"max": 4,"rate": 0.2}
+      ]
+    },
+    {
+      "spawn_preset": "beaches,caves",
+      "entries": [
+        {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "spheal","min": 2,"max": 4,"rate": 0.2},
+        {"key": "buizel","min": 2,"max": 4,"rate": 0.2}
+      ]
+    }
+  ]
+}

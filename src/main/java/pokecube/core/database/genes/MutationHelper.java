@@ -13,16 +13,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import pokecube.core.database.util.DataHelpers.ResourceData;
 
-public class MutationHelper implements IResourceData
+public class MutationHelper extends ResourceData
 {
     private final String tagPath;
 
@@ -32,6 +31,7 @@ public class MutationHelper implements IResourceData
 
     public MutationHelper(final String string)
     {
+        super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
     }
@@ -49,6 +49,7 @@ public class MutationHelper implements IResourceData
         final String path = new ResourceLocation(this.tagPath).getPath();
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
+        preLoad();
         resources.forEach(l -> this.loadFile(l));
         if (this.validLoad) valid.set(true);
     }
@@ -58,24 +59,27 @@ public class MutationHelper implements IResourceData
         try
         {
             final List<Mutations> loaded = Lists.newArrayList();
-            for (final Resource resource : PackFinder.getResources(l))
+
+            // This one we just take the first resourcelocation. If someone
+            // wants to edit an existing one, it means they are most likely
+            // trying to remove default behaviour. They can add new things by
+            // just adding another json file to the correct package.
+            InputStream res = PackFinder.getStream(l);
+            final Reader reader = new InputStreamReader(res);
+            try
             {
-                final InputStream res = resource.getInputStream();
-                final Reader reader = new InputStreamReader(res);
-                try
-                {
-                    final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
-                    if (temp.replace) loaded.clear();
-                    loaded.add(temp);
-                }
-                catch (final Exception e)
-                {
-                    // Might not be valid, so log and skip in that case.
-                    PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
-                    PokecubeCore.LOGGER.error(e);
-                }
-                reader.close();
+                final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
+                if (!confirmNew(temp, l)) return;
+                if (temp.replace) loaded.clear();
+                loaded.add(temp);
             }
+            catch (final Exception e)
+            {
+                // Might not be valid, so log and skip in that case.
+                PokecubeCore.LOGGER.error("Malformed Json for Mutations in {}", l);
+                PokecubeCore.LOGGER.error(e);
+            }
+            reader.close();
 
             for (final Mutations m : loaded)
             {
@@ -83,8 +87,8 @@ public class MutationHelper implements IResourceData
                 for (final MutationHolder mut : muts)
                 {
                     Map<String, MutationHolder> mutations = this.mutations.get(new ResourceLocation(mut.geneType));
-                    if (mutations == null) this.mutations.put(new ResourceLocation(mut.geneType), mutations = Maps
-                            .newHashMap());
+                    if (mutations == null)
+                        this.mutations.put(new ResourceLocation(mut.geneType), mutations = Maps.newHashMap());
                     final String key = mut.toString();
                     if (mutations.containsKey(key))
                     {

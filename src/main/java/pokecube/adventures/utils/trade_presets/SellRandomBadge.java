@@ -14,6 +14,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 
+@TradePresetAn(key = "sellRandomBadge")
 public class SellRandomBadge implements TradePreset
 {
 

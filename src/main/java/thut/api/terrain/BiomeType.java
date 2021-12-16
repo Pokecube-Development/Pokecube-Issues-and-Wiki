@@ -11,8 +11,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.common.ThutCore;
 
 public class BiomeType
@@ -81,18 +79,6 @@ public class BiomeType
         final BiomeType type = BiomeType.getBiome(names.toString(), true);
         if (type.subTypes.isEmpty()) type.setSubTypes(names);
         return type;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void setMap(final Map<Integer, String> mapIn)
-    {
-        BiomeType.typeMapClient.clear();
-        for (final Integer i : mapIn.keySet())
-        {
-            final String name = mapIn.get(i);
-            final BiomeType type = BiomeType.getBiome(name, true);
-            BiomeType.typeMapClient.put(i, type);
-        }
     }
 
     public static ArrayList<BiomeType> values()

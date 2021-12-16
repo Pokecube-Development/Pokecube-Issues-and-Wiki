@@ -1,0 +1,47 @@
+{
+  "rules": [
+    {
+      "spawn_preset": "villages",
+      "entries": [
+        {"key": "trubbish","min": 2,"max": 4,"rate": 0.3},
+        {"key": "ralts","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "meowth","min": 2,"max": 4,"rate": 0.25},
+        {"key": "meowth_alola","min": 2,"max": 4,"rate": 0.25},
+        {"key": "meowth_galar","min": 2,"max": 4,"rate": 0.25},
+        
+        {"key": "yamper","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pidove","min": 2,"max": 4,"rate": 0.2},
+        {"key": "applin","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "mr_mime","min": 2,"max": 4,"rate": 0.1},
+        {"key": "drifloon","min": 2,"max": 4,"rate": 0.1},
+        {"key": "stufful","min": 2,"max": 4,"rate": 0.1},
+        {"key": "milcery","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "indeedee","min": 2,"max": 4,"rate": 0.1},
+        {"key": "indeedee_female","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "snubbull","min": 2,"max": 4,"rate": 0.08},
+        {"key": "ditto","min": 2,"max": 4,"rate": 0.08},
+        {"key": "eevee","min": 2,"max": 4,"rate": 0.08},
+        {"key": "tyrogue","min": 2,"max": 4,"rate": 0.08},
+        {"key": "scraggy","min": 2,"max": 4,"rate": 0.08},
+        
+        {"key": "smeargle","min": 2,"max": 4,"rate": 0.01},
+        
+        {"key": "volcanion","min": 1,"max": 1,"rate": 0.002},
+        {"key": "magearna","min": 1,"max": 1,"rate": 0.002}
+        
+      ]
+    },
+    {
+      "spawn_preset": "villages,day_time",
+      "entries": [
+        {"key": "furfrou","min": 2,"max": 4,"rate": 0.08},
+        {"key": "spritzee","min": 2,"max": 4,"rate": 0.08},
+        {"key": "swirlix","min": 2,"max": 4,"rate": 0.08}
+      ]
+    }
+  ]
+}

@@ -8,7 +8,7 @@
    <part name="Head" tex="flygonhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
-  <material name="Glow" meshs="1" transluscent="true"/>
+  <material name="Glow" meshs="1" transluscent="false"/>
   <phase axis="1" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:point"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:point"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:point"/>

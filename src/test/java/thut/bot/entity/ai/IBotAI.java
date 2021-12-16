@@ -34,7 +34,7 @@ public interface IBotAI
     BotPlayer getBot();
 
     String getKey();
-    
+
     void setKey(String key);
 
     default CompoundTag getTag()
@@ -53,6 +53,16 @@ public interface IBotAI
     default boolean init(String args)
     {
         return true;
+    }
+
+    default boolean canComplete()
+    {
+        return false;
+    }
+
+    default boolean isCompleted()
+    {
+        return false;
     }
 
     public static interface Factory<T extends IBotAI>

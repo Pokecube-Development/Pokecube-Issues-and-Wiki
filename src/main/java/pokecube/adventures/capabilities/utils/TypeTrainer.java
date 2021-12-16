@@ -52,7 +52,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -75,8 +74,8 @@ public class TypeTrainer extends NpcType
     public static interface ITypeMapper
     {
         /**
-         * Mapping of LivingEntity to a TypeTrainer. EntityTrainers set
-         * this on spawn, so it isn't needed for them. <br>
+         * Mapping of LivingEntity to a TypeTrainer. EntityTrainers set this on
+         * spawn, so it isn't needed for them. <br>
          * <br>
          * if forSpawn, it means this is being initialized, otherwise it is
          * during the check for whether this mob should have trainers.
@@ -89,8 +88,8 @@ public class TypeTrainer extends NpcType
         List<Pair<Integer, Behavior<? super LivingEntity>>> process(Mob mob);
     }
 
-    private static final List<ITypeMapper> mappers  = Lists.newArrayList();
-    private static final List<AIAdder>     aiAdders = Lists.newArrayList();
+    private static final List<ITypeMapper> mappers = Lists.newArrayList();
+    private static final List<AIAdder> aiAdders = Lists.newArrayList();
 
     public static void registerTypeMapper(final ITypeMapper mapper)
     {
@@ -105,8 +104,7 @@ public class TypeTrainer extends NpcType
     public static void addAI(final Mob mob)
     {
         final List<Pair<Integer, Behavior<? super LivingEntity>>> tasks = Lists.newArrayList();
-        for (final AIAdder adder : TypeTrainer.aiAdders)
-            tasks.addAll(adder.process(mob));
+        for (final AIAdder adder : TypeTrainer.aiAdders) tasks.addAll(adder.process(mob));
         Tasks.addBattleTasks(mob, tasks);
     }
 
@@ -123,8 +121,7 @@ public class TypeTrainer extends NpcType
     // Register default instance.
     static
     {
-        TypeTrainer.registerTypeMapper((mob, forSpawn) ->
-        {
+        TypeTrainer.registerTypeMapper((mob, forSpawn) -> {
             if (!forSpawn)
             {
                 if (mob instanceof TrainerBase) return TypeTrainer.merchant;
@@ -148,10 +145,8 @@ public class TypeTrainer extends NpcType
             return null;
         });
 
-        TypeTrainer.registerAIAdder((npc) ->
-        {
-            final Predicate<LivingEntity> noRunIfCrowded = e ->
-            {
+        TypeTrainer.registerAIAdder((npc) -> {
+            final Predicate<LivingEntity> noRunIfCrowded = e -> {
                 // Leaders don't care if crowded.
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
@@ -160,8 +155,7 @@ public class TypeTrainer extends NpcType
                     return false;
                 return true;
             };
-            final Predicate<LivingEntity> noRunWhileRest = e ->
-            {
+            final Predicate<LivingEntity> noRunWhileRest = e -> {
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -171,8 +165,7 @@ public class TypeTrainer extends NpcType
                 }
                 return noRunIfCrowded.test(e);
             };
-            final Predicate<LivingEntity> noRunWhileMeet = e ->
-            {
+            final Predicate<LivingEntity> noRunWhileMeet = e -> {
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
@@ -182,16 +175,14 @@ public class TypeTrainer extends NpcType
                 }
                 return noRunIfCrowded.test(e);
             };
-            final Predicate<LivingEntity> onlyIfHasMobs = e ->
-            {
+            final Predicate<LivingEntity> onlyIfHasMobs = e -> {
                 final IHasPokemobs other = TrainerCaps.getHasPokemobs(e);
                 if (other == null) return noRunIfCrowded.test(e);
                 final boolean hasMob = !other.getNextPokemob().isEmpty();
                 if (hasMob) return noRunIfCrowded.test(e);
                 return other.getOutID() != null;
             };
-            final Predicate<LivingEntity> notNearHealer = e ->
-            {
+            final Predicate<LivingEntity> notNearHealer = e -> {
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
                 final ServerLevel world = (ServerLevel) npc.getCommandSenderWorld();
                 final BlockPos blockpos = e.blockPosition();
@@ -228,8 +219,8 @@ public class TypeTrainer extends NpcType
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
-                        shouldRun);
+                task = new AgroTargets(npc, 0.0015f, 1200, z -> z.getClass() == npc.getClass())
+                        .setRunCondition(shouldRun);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             }
             return list;
@@ -238,8 +229,8 @@ public class TypeTrainer extends NpcType
 
     public static class TrainerTrade extends MerchantOffer
     {
-        public int   min    = -1;
-        public int   max    = -1;
+        public int min = -1;
+        public int max = -1;
         public float chance = 1;
 
         public TrainerTrade(final ItemStack buy1, final ItemStack buy2, final ItemStack sell)
@@ -272,19 +263,18 @@ public class TypeTrainer extends NpcType
 
         public void addTrades(final List<MerchantOffer> ret, final Random rand)
         {
-            for (final TrainerTrade trade : this.tradesList)
-                if (rand.nextFloat() < trade.chance)
-                {
-                    final MerchantOffer toAdd = trade.getRecipe(rand);
-                    if (toAdd != null) ret.add(toAdd);
-                }
+            for (final TrainerTrade trade : this.tradesList) if (rand.nextFloat() < trade.chance)
+            {
+                final MerchantOffer toAdd = trade.getRecipe(rand);
+                if (toAdd != null) ret.add(toAdd);
+            }
         }
     }
 
     public static HashMap<String, TrainerTrades> tradesMap = Maps.newHashMap();
-    public static HashMap<String, TypeTrainer>   typeMap   = new HashMap<>();
+    public static HashMap<String, TypeTrainer> typeMap = new HashMap<>();
 
-    public static ArrayList<String> maleNames   = new ArrayList<>();
+    public static ArrayList<String> maleNames = new ArrayList<>();
     public static ArrayList<String> femaleNames = new ArrayList<>();
 
     public static TypeTrainer merchant = new TypeTrainer("merchant");
@@ -301,8 +291,7 @@ public class TypeTrainer extends NpcType
     public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level,
             final LevelAccessor world, final List<PokedexEntry> values)
     {
-        for (int i = 0; i < 6; i++)
-            trainer.setPokemob(i, ItemStack.EMPTY);
+        for (int i = 0; i < 6; i++) trainer.setPokemob(i, ItemStack.EMPTY);
         if (level == 0) level = 5;
         final Variance variance = SpawnHandler.DEFAULT_VARIANCE;
         int number = 1 + ThutCore.newRandom().nextInt(6);
@@ -349,8 +338,7 @@ public class TypeTrainer extends NpcType
                 final TypeTrainer t = new TypeTrainer(name);
                 return t;
             }
-            for (final TypeTrainer t : TypeTrainer.typeMap.values())
-                if (t != null) return t;
+            for (final TypeTrainer t : TypeTrainer.typeMap.values()) if (t != null) return t;
         }
         return ret;
     }
@@ -359,35 +347,25 @@ public class TypeTrainer extends NpcType
     {
         for (final TypeTrainer type : TypeTrainer.typeMap.values())
             for (final SpawnBiomeMatcher matcher : type.matchers.keySet())
-            {
-                matcher.reset();
-                matcher.parse();
-            }
+        {
+            matcher.reset();
+            matcher.parse();
+        }
     }
 
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final LevelAccessor world,
             final int level)
     {
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
+        IPokemob pokemob = CapabilityPokemob
+                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
         if (pokemob != null)
         {
             final double x = trainer.getX();
             final double y = trainer.getY();
             final double z = trainer.getZ();
             pokemob.getEntity().setPosRaw(x, y, z);
-            for (int i = 1; i < level; i++)
-                if (pokemob.getPokedexEntry().canEvolve(i)) for (final EvolutionData d : pokemob.getPokedexEntry()
-                        .getEvolutions())
-                    if (d.shouldEvolve(pokemob))
-                    {
-                        final IPokemob temp = CapabilityPokemob.getPokemobFor(d.getEvolution(world));
-                        if (temp != null)
-                        {
-                            pokemob = temp;
-                            break;
-                        }
-                    }
             pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
+            pokemob.getEntity().getPersistentData().putBoolean("__need_init_evos__", true);
             pokemob = pokemob.setPokedexEntry(entry);
             pokemob.setOwner(trainer.getUUID());
             pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
@@ -406,20 +384,19 @@ public class TypeTrainer extends NpcType
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {
             t.pokemon.clear();
-            if (t.pokelist != null && t.pokelist.length != 0) if (!t.pokelist[0].startsWith("-"))
-                for (final String s : t.pokelist)
+            if (t.pokelist != null && t.pokelist.length != 0)
+                if (!t.pokelist[0].startsWith("-")) for (final String s : t.pokelist)
             {
                 final PokedexEntry e = Database.getEntry(s);
                 if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
                 else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
             }
-            else
+                else
             {
                 final String[] types = t.pokelist[0].replace("-", "").split(":");
                 if (types[0].equalsIgnoreCase("all"))
                 {
-                    for (final PokedexEntry s : Database.spawnables)
-                        if (!s.isLegendary()) t.pokemon.add(s);
+                    for (final PokedexEntry s : Database.spawnables) if (!s.isLegendary()) t.pokemon.add(s);
                 }
                 else for (final String type2 : types)
                 {
@@ -433,8 +410,7 @@ public class TypeTrainer extends NpcType
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
         }
         if (!toRemove.isEmpty()) PokecubeCore.LOGGER.debug("Removing Trainer Types: " + toRemove);
-        for (final TypeTrainer t : toRemove)
-            TypeTrainer.typeMap.remove(t.getName());
+        for (final TypeTrainer t : toRemove) TypeTrainer.typeMap.remove(t.getName());
         TypeTrainer.initSpawns();
     }
 
@@ -442,20 +418,20 @@ public class TypeTrainer extends NpcType
     public byte genders = 1;
 
     public Map<SpawnBiomeMatcher, Float> matchers = Maps.newHashMap();
-    public boolean                       hasBag   = false;
-    public ItemStack                     bag      = ItemStack.EMPTY;
-    public boolean                       hasBelt  = false;
+    public boolean hasBag = false;
+    public ItemStack bag = ItemStack.EMPTY;
+    public boolean hasBelt = false;
 
-    public String             tradeTemplate = "default";
-    public List<PokedexEntry> pokemon       = Lists.newArrayList();
-    public TrainerTrades      trades;
-    private boolean           checkedTex    = false;
-    public int                overrideLevel = -1;
+    public String tradeTemplate = "default";
+    public List<PokedexEntry> pokemon = Lists.newArrayList();
+    public TrainerTrades trades;
+    private boolean checkedTex = false;
+    public int overrideLevel = -1;
 
-    private final ItemStack[] loot = NonNullList.<ItemStack> withSize(4, ItemStack.EMPTY).toArray(new ItemStack[4]);
+    private final ItemStack[] loot = NonNullList.<ItemStack>withSize(4, ItemStack.EMPTY).toArray(new ItemStack[4]);
 
-    public String    drops = "";
-    public ItemStack held  = ItemStack.EMPTY;
+    public String drops = "";
+    public ItemStack held = ItemStack.EMPTY;
 
     // Temporary array used to load in the allowed mobs.
     public String[] pokelist;
@@ -464,16 +440,16 @@ public class TypeTrainer extends NpcType
     {
         super(name);
         TypeTrainer.addTrainer(name, this);
-        this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "_female.png"));
-        this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "_male.png"));
+        this.setFemaleTex(
+                new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + "_female.png"));
+        this.setMaleTex(
+                new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + "_male.png"));
     }
 
     public Collection<MerchantOffer> getRecipes(final Random rand)
     {
-        if (this.trades == null && this.tradeTemplate != null) this.trades = TypeTrainer.tradesMap.get(
-                this.tradeTemplate);
+        if (this.trades == null && this.tradeTemplate != null)
+            this.trades = TypeTrainer.tradesMap.get(this.tradeTemplate);
         final List<MerchantOffer> ret = Lists.newArrayList();
         if (this.trades != null) this.trades.addTrades(ret, rand);
         return ret;
@@ -486,14 +462,14 @@ public class TypeTrainer extends NpcType
         {
             this.checkedTex = true;
             // Initial pass to find a tex
-            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
-                    PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
-            if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
-                    + Database.trim(this.getName()) + ".png"));
+            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(
+                    new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
+            if (!this.texExists(this.getMaleTex())) this.setMaleTex(
+                    new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
 
             // Second pass to override with vanilla
-            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
-                    "textures/entity/alex.png"));
+            if (!this.texExists(this.getFemaleTex()))
+                this.setFemaleTex(new ResourceLocation("textures/entity/alex.png"));
             if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation("textures/entity/steve.png"));
         }
     }
@@ -533,8 +509,7 @@ public class TypeTrainer extends NpcType
                     stack.setCount(count);
                 }
                 catch (final NumberFormatException e)
-                {
-                }
+                {}
                 this.loot[num] = stack;
                 num++;
             }

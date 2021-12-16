@@ -84,10 +84,10 @@ public class GuiPokeWatch extends Screen
         }
     }
 
-    private final static ResourceLocation WIDGETS    = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER
-            + "widgets.png");
-    private final static ResourceLocation WIDGETS_NM = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER
-            + "widgets_nm.png");
+    private final static ResourceLocation WIDGETS = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "widgets.png");
+    private final static ResourceLocation WIDGETS_NM = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "widgets_nm.png");
 
     public static ResourceLocation getWidgetTex()
     {
@@ -101,10 +101,10 @@ public class GuiPokeWatch extends Screen
 
     public WatchPage current_page = null;
 
-    public final IPokemob     pokemob;
+    public final IPokemob pokemob;
     public final LivingEntity target;
-    public final Player       player;
-    public int                index = 0;
+    public final Player player;
+    public int index = 0;
 
     public GuiPokeWatch(final Player player, final LivingEntity target)
     {
@@ -120,8 +120,8 @@ public class GuiPokeWatch extends Screen
         }
         this.player = player;
 
-        if (GuiPokeWatch.lastPage >= 0 && GuiPokeWatch.lastPage < GuiPokeWatch.PAGELIST.size()) this.current_page = this
-                .createPage(GuiPokeWatch.lastPage);
+        if (GuiPokeWatch.lastPage >= 0 && GuiPokeWatch.lastPage < GuiPokeWatch.PAGELIST.size())
+            this.current_page = this.createPage(GuiPokeWatch.lastPage);
         else if (!GuiPokeWatch.PAGELIST.isEmpty()) this.current_page = this.createPage(GuiPokeWatch.lastPage = 0);
         else this.current_page = new MissingPage(this);
         PacketPokedex.sendLocationSpawnsRequest();
@@ -151,7 +151,10 @@ public class GuiPokeWatch extends Screen
 
     public WatchPage createPage(final int index)
     {
-        return GuiPokeWatch.makePage(GuiPokeWatch.PAGELIST.get(index), this);
+        if (this.itemRenderer == null) this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+        WatchPage page = GuiPokeWatch.makePage(GuiPokeWatch.PAGELIST.get(index), this);
+        page.itemRenderer = this.itemRenderer;
+        return page;
     }
 
     private void handleError(final Exception e)
@@ -162,13 +165,7 @@ public class GuiPokeWatch extends Screen
             PokecubeCore.LOGGER.warn("Error with null page", e);
             return;
         }
-        try
-        {
-            this.current_page.onPageClosed();
-        }
-        catch (final Exception e1)
-        {
-        }
+        this.current_page.onPageClosed();
         this.current_page.init();
         this.current_page.onPageOpened();
     }
@@ -212,22 +209,19 @@ public class GuiPokeWatch extends Screen
         final Component next = new TranslatableComponent("block.pc.next");
         final Component prev = new TranslatableComponent("block.pc.previous");
         final Component home = new TranslatableComponent("pokewatch.button.home");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 14, y + 40, 17, 17, next, b ->
-        {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 14, y + 40, 17, 17, next, b -> {
             int index = this.index;
             if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;
             else index = 0;
             this.changePage(index);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 33, y + 40, 17, 17, prev, b ->
-        {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 33, y + 40, 17, 17, prev, b -> {
             int index = this.index;
             if (index > 0) index--;
             else index = GuiPokeWatch.PAGELIST.size() - 1;
             this.changePage(index);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton homeBtn = this.addRenderableWidget(new TexButton(x - 17, y + 40, 32, 17, home, b ->
-        {
+        final TexButton homeBtn = this.addRenderableWidget(new TexButton(x - 17, y + 40, 32, 17, home, b -> {
             final int index = 0;
             this.changePage(index, true);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)));

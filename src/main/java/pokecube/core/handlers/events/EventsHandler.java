@@ -38,6 +38,7 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -73,6 +74,7 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
@@ -478,17 +480,22 @@ public class EventsHandler
 
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
             {
-                SpawnBiomeMatcher m = new SpawnBiomeMatcher(entry.getValue());
+                SpawnBiomeMatcher m = new SpawnBiomeMatcher(entry.getValue().copy());
                 if (m.matches(check)) valid.add(entry.getKey());
-//                else System.out.println(entry.getKey() + " " + check);
             }
 
-//            SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("river_ground");
-//            SpawnBiomeMatcher m = new SpawnBiomeMatcher(rule);
-//            m.parse();
-//            System.out.println(check.biome.location() + " " + BiomeDictionary.getTypes(check.biome) + " " + check);
-//            System.out.println(m.getValidBiomes() + " " + m._validTypes);
-//            System.out.println(m.matches(check));
+            SpawnRule rule = SpawnBiomeMatcher.PRESETS.get("deserts").copy();
+            System.out.println(rule);
+            SpawnBiomeMatcher m = new SpawnBiomeMatcher(rule);
+            m.parse();
+            System.out.println(check.biome.location() + " " + BiomeDictionary.getTypes(check.biome) + " " + check);
+            System.out.println(m.getValidBiomes() + " " + m._validTypes);
+            System.out.println(m.matches(check));
+            
+            PokedexEntry cacnea = Database.getEntry("cacnea");
+            System.out.println(cacnea.getSpawnData().matchers.keySet().stream().findFirst().get().spawnRule);
+            System.out.println(cacnea.getSpawnData().matchers.keySet().stream().findFirst().get()._and_children);
+            System.out.println(cacnea.getSpawnData().matchers.keySet().stream().findFirst().get().matches(check));
 
             if (!valid.isEmpty())
             {

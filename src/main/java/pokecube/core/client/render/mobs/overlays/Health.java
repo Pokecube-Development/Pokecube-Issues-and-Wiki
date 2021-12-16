@@ -51,7 +51,7 @@ public class Health
 {
     static List<LivingEntity> renderedEntities = new ArrayList<>();
 
-    private static final RenderType TYPE       = RenderType.text(Resources.GUI_BATTLE);
+    private static final RenderType TYPE = RenderType.text(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
 
     public static boolean fullNameColour(final IPokemob pokemob)
@@ -80,16 +80,15 @@ public class Health
         String val = comp.getString();
         final Random rand = ThutCore.newRandom();
         final char[] chars = val.toCharArray();
-        for (int i = 0; i < val.length(); i++)
-            for (int j = 0; j < 10; j++)
+        for (int i = 0; i < val.length(); i++) for (int j = 0; j < 10; j++)
+        {
+            final int rng = rand.nextInt(256);
+            if (Character.isAlphabetic(rng))
             {
-                final int rng = rand.nextInt(256);
-                if (Character.isAlphabetic(rng))
-                {
-                    chars[i] = (char) rng;
-                    break;
-                }
+                chars[i] = (char) rng;
+                break;
             }
+        }
         val = new String(chars);
         return new TextComponent(val).setStyle(compIn.getStyle());
     }
@@ -190,8 +189,8 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
-            if (entity instanceof Mob && ((Mob) entity).hasCustomName()) nameComp = (MutableComponent) ((Mob) entity)
-                    .getCustomName();
+            if (entity instanceof Mob && ((Mob) entity).hasCustomName())
+                nameComp = (MutableComponent) ((Mob) entity).getCustomName();
 
             final float s = 0.5F;
             final String name = nameComp.getString();
@@ -228,8 +227,8 @@ public class Health
             b = 220;
 
             float exp = pokemob.getExp() - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
-            float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - Tools.levelToXp(
-                    pokemob.getExperienceMode(), pokemob.getLevel());
+            float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1)
+                    - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             if (pokemob.getLevel() == 100) maxExp = exp = 1;
             if (exp < 0 || !pokemob.getGeneralState(GeneralStates.TAMED)) exp = 0;
 
@@ -281,8 +280,8 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h,
-                    0xFFFFFFFF);
+            if (isOwner)
+                mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.last().pose();
             mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
@@ -310,13 +309,11 @@ public class Health
                 final int ironArmor = armor % 5;
                 final int diamondArmor = armor / 5;
                 stack = new ItemStack(Items.IRON_CHESTPLATE);
-                for (int i = 0; i < ironArmor; i++)
-                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
+                for (int i = 0; i < ironArmor; i++) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
 
                 stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-                for (int i = 0; i < diamondArmor; i++)
-                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
+                for (int i = 0; i < diamondArmor; i++) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
             }
             mat.popPose();
@@ -328,17 +325,11 @@ public class Health
             final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
     {
         mat.pushPose();
-        try
-        {
-            mat.translate(vertexX, vertexY + 7, 0);
-            mat.scale(20, -20, -1);
-            Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
-                    net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY, 0);
-        }
-        catch (final Exception e)
-        {
-        }
+        mat.translate(vertexX, vertexY + 7, 0);
+        mat.scale(20, -20, -1);
+        Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
+                net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf,
+                mob.getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY, 0);
         mat.popPose();
     }
 }

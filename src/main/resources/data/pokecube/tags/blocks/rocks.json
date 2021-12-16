@@ -5,9 +5,8 @@
     "#forge:ores",
     "#forge:sandstone",
     "#minecraft:base_stone_overworld",
-    "#minecraft:base_stone_nether"
-  ],
-  "optional": [
-    "pokecube_legends:meteor_block"
+    "#minecraft:base_stone_nether",
+    "#minecraft:copper_ores",
+    {"id": "pokecube_legends:meteor_block", "required": false}
   ]
 }

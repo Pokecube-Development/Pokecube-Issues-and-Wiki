@@ -21,6 +21,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.utils.Tools;
 
+@TradePresetAn(key = "allTMs")
 public class AllTMs implements TradePreset
 {
 
