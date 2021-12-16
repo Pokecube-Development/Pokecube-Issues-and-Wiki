@@ -121,7 +121,7 @@
       "distance": 32,
       "separation": 12,
       "size": 6,
-      "priority": 10,
+      "priority": 12,
       "base_under": false,
       "biomeType": "cave",
       "needed_once": [
