@@ -163,6 +163,9 @@ dependencies {
     //Computer Craft Support.
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
     
+    //Cyanide
+    implementation fg.deobf("curse.maven:cyanide-${version_cyanide}")
+    
     //Lost Cities
     //implementation "blank:lostcities-1.16-4.0.7-beta"
     
