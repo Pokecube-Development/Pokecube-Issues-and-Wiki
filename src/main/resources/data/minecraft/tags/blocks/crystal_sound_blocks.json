@@ -1,6 +1,13 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:aquamarine_block"
+    "pokecube_legends:aquamarine_block",
+    "pokecube_legends:aquamarine_bricks",
+    "pokecube_legends:aquamarine_brick_slab",
+    "pokecube_legends:aquamarine_brick_stairs",
+    "pokecube_legends:aquamarine_button",
+    "pokecube_legends:aquamarine_pressure_plate",
+    "pokecube_legends:aquamarine_slab",
+    "pokecube_legends:aquamarine_stairs"
   ]
 }
