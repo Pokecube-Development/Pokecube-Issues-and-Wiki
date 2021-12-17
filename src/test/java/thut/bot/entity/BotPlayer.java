@@ -22,6 +22,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -30,7 +32,7 @@ import thut.bot.ThutBot;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.network.EntityUpdate;
 
-public class BotPlayer extends ServerPlayer
+public class BotPlayer extends ServerPlayer implements Npc
 {
 
     public static final String PERMBOTORDER = "thutbot.perm.orderbot";
@@ -77,6 +79,13 @@ public class BotPlayer extends ServerPlayer
             this.setHealth(this.getMaxHealth());
             this.dead = false;
             if (this.tickCount % 20 == 0) EntityUpdate.sendEntityUpdate(this);
+            
+            this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
+
+            if (this.isInWater()) this.setDeltaMovement(this.getDeltaMovement().add(0, 0.05, 0));
+            else this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0));
+            
+            this.move(MoverType.SELF, this.getDeltaMovement());
 
 //            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(3));
 //            for (ItemEntity i : items)
