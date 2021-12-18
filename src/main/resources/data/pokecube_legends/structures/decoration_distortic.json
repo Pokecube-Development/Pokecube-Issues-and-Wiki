@@ -1,0 +1,101 @@
+{
+  "pools": [
+    {
+      "name": "pokecube_legends:distortic",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:islands/dist_tree;{\"weight\":10}",
+        "pokecube_legends:islands/mirror_1;{\"weight\":20}",
+        "pokecube_legends:islands/mirror_2;{\"weight\":30}",
+        "pokecube_legends:islands/mirror_3;{\"weight\":36}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:distortic_houses",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:distorted/base_1;{\"weight\":6}",
+        "pokecube_legends:distorted/base_2;{\"weight\":6}",
+        "pokecube_legends:distorted/base_3;{\"weight\":6}",
+        "pokecube_legends:distorted/base_4;{\"weight\":6}",
+        "pokecube_legends:distorted/base_5;{\"weight\":6}",
+        "pokecube_legends:distorted/base_6;{\"weight\":6}",
+        "pokecube_legends:distorted/base_7;{\"weight\":6}",
+        "pokecube_legends:distorted/top_1;{\"weight\":5}",
+        "pokecube_legends:distorted/top_2;{\"weight\":5}",
+        "pokecube_legends:distorted/top_3;{\"weight\":5}",
+        "pokecube_legends:distorted/top_4;{\"weight\":5}",
+        "pokecube_legends:distorted/top_5;{\"weight\":5}",
+        "pokecube_legends:distorted/top_6;{\"weight\":5}",
+        "pokecube_legends:distorted/top_7;{\"weight\":5}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:islands",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:islands/island_1;{\"weight\":30}",
+        "pokecube_legends:islands/island_2;{\"weight\":45}",
+        "pokecube_legends:islands/island_3;{\"weight\":50}",
+        "pokecube_legends:islands/island_4;{\"weight\":70}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube_legends:distortic",
+      "root": "pokecube_legends:distortic",
+      "biomeType": "none",
+      "distance": 10,
+      "separation": 2,
+      "base_under": true,
+      "dimWhitelist": [
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:distortic_houses",
+      "root": "pokecube_legends:distortic_houses",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 2,
+      "size": 10,
+      "base_under": true,
+      "dimWhitelist": [
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:islands",
+      "root": "pokecube_legends:islands",
+      "biomeType": "none",
+      "distance": 10,
+      "separation": 2,
+      "base_under": false,
+      "allow_void": true,
+      "air": true,
+      "height": 10,
+      "dimWhitelist": [
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
+        }
+      }
+    }
+  ]
+}
