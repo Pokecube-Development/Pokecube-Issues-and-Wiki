@@ -422,14 +422,14 @@ public class PokecubeCore
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
         ItemGenerator.flammables(event);
-        PointsOfInterest.postInit();
 
         event.enqueueWork(() -> {
+            PointsOfInterest.postInit();
 
             BiomeDictionary.addTypes(SecretBaseDimension.BIOME_KEY, BiomeDictionary.Type.VOID);
 
+            
             // FIXME remove this once forge does it itself.
-
             BiomeDictionary.addTypes(Biomes.MEADOW, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.PLATEAU,
                     BiomeDictionary.Type.OVERWORLD);
             BiomeDictionary.addTypes(Biomes.GROVE, BiomeDictionary.Type.COLD, BiomeDictionary.Type.CONIFEROUS,

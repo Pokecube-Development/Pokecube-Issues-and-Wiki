@@ -41,6 +41,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
+import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.blocks.LaboratoryGlassBlock;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaContainer;
@@ -108,8 +109,8 @@ public class PokecubeAdv
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
             final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(
-                            Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 20.0D);
+                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK)
+                    .add(Attributes.MAX_HEALTH, 20.0D);
             event.put(TrainerNpc.TYPE, attribs.build());
             event.put(LeaderNpc.TYPE, attribs.build());
         }
@@ -140,8 +141,7 @@ public class PokecubeAdv
         @SubscribeEvent
         public static void registerProfessions(final RegistryEvent.Register<VillagerProfession> event)
         {
-            // TODO figure this out again.
-            // Professions.register(event);
+            Professions.register(event);
         }
 
         @OnlyIn(Dist.CLIENT)
@@ -173,31 +173,31 @@ public class PokecubeAdv
     public static final RegistryObject<Item> LINKER;
     public static final RegistryObject<Item> BAG;
 
-    public static final RegistryObject<BlockEntityType<AfaTile>>       AFA_TYPE;
+    public static final RegistryObject<BlockEntityType<AfaTile>> AFA_TYPE;
     public static final RegistryObject<BlockEntityType<CommanderTile>> COMMANDER_TYPE;
-    public static final RegistryObject<BlockEntityType<DaycareTile>>   DAYCARE_TYPE;
-    public static final RegistryObject<BlockEntityType<ClonerTile>>    CLONER_TYPE;
+    public static final RegistryObject<BlockEntityType<DaycareTile>> DAYCARE_TYPE;
+    public static final RegistryObject<BlockEntityType<ClonerTile>> CLONER_TYPE;
     public static final RegistryObject<BlockEntityType<ExtractorTile>> EXTRACTOR_TYPE;
-    public static final RegistryObject<BlockEntityType<SplicerTile>>   SPLICER_TYPE;
-    public static final RegistryObject<BlockEntityType<SiphonTile>>    SIPHON_TYPE;
-    public static final RegistryObject<BlockEntityType<WarpPadTile>>   WARP_PAD_TYPE;
-    public static final RegistryObject<BlockEntityType<StatueEntity>>  STATUE_TYPE;
+    public static final RegistryObject<BlockEntityType<SplicerTile>> SPLICER_TYPE;
+    public static final RegistryObject<BlockEntityType<SiphonTile>> SIPHON_TYPE;
+    public static final RegistryObject<BlockEntityType<WarpPadTile>> WARP_PAD_TYPE;
+    public static final RegistryObject<BlockEntityType<StatueEntity>> STATUE_TYPE;
 
-    public static final RegistryObject<MenuType<AfaContainer>>       AFA_CONT;
-    public static final RegistryObject<MenuType<ClonerContainer>>    CLONER_CONT;
+    public static final RegistryObject<MenuType<AfaContainer>> AFA_CONT;
+    public static final RegistryObject<MenuType<ClonerContainer>> CLONER_CONT;
     public static final RegistryObject<MenuType<ExtractorContainer>> EXTRACTOR_CONT;
-    public static final RegistryObject<MenuType<SplicerContainer>>   SPLICER_CONT;
-    public static final RegistryObject<MenuType<BagContainer>>       BAG_CONT;
-    public static final RegistryObject<MenuType<ContainerTrainer>>   TRAINER_CONT;
+    public static final RegistryObject<MenuType<SplicerContainer>> SPLICER_CONT;
+    public static final RegistryObject<MenuType<BagContainer>> BAG_CONT;
+    public static final RegistryObject<MenuType<ContainerTrainer>> TRAINER_CONT;
 
     public static final DeferredRegister<Block> BLOCKS;
     public static final DeferredRegister<Block> DECORATIONS;
-    public static final DeferredRegister<Item>  ITEMS;
+    public static final DeferredRegister<Item> ITEMS;
 
     public static final DeferredRegister<BlockEntityType<?>> TILES;
-    public static final DeferredRegister<MenuType<?>>  CONTAINERS;
+    public static final DeferredRegister<MenuType<?>> CONTAINERS;
 
-    public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
+    public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
     static
@@ -209,68 +209,77 @@ public class PokecubeAdv
         TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeAdv.MODID);
 
         // Blocks
-        AFA = PokecubeAdv.BLOCKS.register("afa", () -> new AfaBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_LIGHT_GREEN).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        COMMANDER = PokecubeAdv.BLOCKS.register("commander", () -> new CommanderBlock(BlockBehaviour.Properties.of(
-                Material.METAL, MaterialColor.COLOR_RED).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        DAYCARE = PokecubeAdv.BLOCKS.register("daycare", () -> new DaycareBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_BLACK).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        CLONER = PokecubeAdv.BLOCKS.register("cloner", () -> new ClonerBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_PURPLE).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor", () -> new ExtractorBlock(BlockBehaviour.Properties.of(
-                Material.METAL, MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        SPLICER = PokecubeAdv.BLOCKS.register("splicer", () -> new SplicerBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.COLOR_CYAN).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
-        SIPHON = PokecubeAdv.BLOCKS.register("siphon", () -> new SiphonBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.TERRACOTTA_GREEN).strength(5.0F, 6.0F).sound(SoundType.METAL).dynamicShape()));
-        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad", () -> new WarpPadBlock(BlockBehaviour.Properties.of(Material.METAL,
-                MaterialColor.SNOW).strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
-        STATUE = PokecubeAdv.BLOCKS.register("statue", () -> new PokemobStatue(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(5.0F, 6.0F).sound(SoundType.STONE).dynamicShape().noOcclusion()
-                .requiresCorrectToolForDrops()));
-        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass", () -> new LaboratoryGlassBlock(
-                DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
-                .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
+        AFA = PokecubeAdv.BLOCKS.register("afa",
+                () -> new AfaBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        COMMANDER = PokecubeAdv.BLOCKS.register("commander",
+                () -> new CommanderBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_RED)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        DAYCARE = PokecubeAdv.BLOCKS.register("daycare",
+                () -> new DaycareBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_BLACK)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        CLONER = PokecubeAdv.BLOCKS.register("cloner",
+                () -> new ClonerBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_PURPLE)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        EXTRACTOR = PokecubeAdv.BLOCKS.register("extractor",
+                () -> new ExtractorBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_CYAN)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        SPLICER = PokecubeAdv.BLOCKS.register("splicer",
+                () -> new SplicerBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_CYAN)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().dynamicShape()));
+        SIPHON = PokecubeAdv.BLOCKS.register("siphon",
+                () -> new SiphonBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.TERRACOTTA_GREEN)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).dynamicShape()));
+        WARP_PAD = PokecubeAdv.BLOCKS.register("warp_pad",
+                () -> new WarpPadBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.SNOW)
+                        .strength(5.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+        STATUE = PokecubeAdv.BLOCKS
+                .register("statue",
+                        () -> new PokemobStatue(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+                                .strength(5.0F, 6.0F).sound(SoundType.STONE).dynamicShape().noOcclusion()
+                                .requiresCorrectToolForDrops()));
+        LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass",
+                () -> new LaboratoryGlassBlock(DyeColor.LIGHT_BLUE,
+                        BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
+                                .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
 
         // Items
-        EXPSHARE = PokecubeAdv.ITEMS.register("exp_share", () -> new Item(new Item.Properties().tab(
-                PokecubeItems.TAB_ITEMS)));
-        LINKER = PokecubeAdv.ITEMS.register("linker", () -> new Linker(new Item.Properties().tab(
-                PokecubeItems.TAB_ITEMS)));
-        BAG = PokecubeAdv.ITEMS.register("bag", () -> new BagItem(new Item.Properties().tab(
-                PokecubeItems.TAB_ITEMS)));
+        EXPSHARE = PokecubeAdv.ITEMS.register("exp_share",
+                () -> new Item(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+        LINKER = PokecubeAdv.ITEMS.register("linker",
+                () -> new Linker(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
+        BAG = PokecubeAdv.ITEMS.register("bag", () -> new BagItem(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         // Tile Entities
-        AFA_TYPE = PokecubeAdv.TILES.register("afa", () -> BlockEntityType.Builder.of(AfaTile::new, PokecubeAdv.AFA
-                .get()).build(null));
-        COMMANDER_TYPE = PokecubeAdv.TILES.register("commander", () -> BlockEntityType.Builder.of(CommanderTile::new,
-                PokecubeAdv.COMMANDER.get()).build(null));
-        DAYCARE_TYPE = PokecubeAdv.TILES.register("daycare", () -> BlockEntityType.Builder.of(DaycareTile::new,
-                PokecubeAdv.DAYCARE.get()).build(null));
-        CLONER_TYPE = PokecubeAdv.TILES.register("cloner", () -> BlockEntityType.Builder.of(ClonerTile::new,
-                PokecubeAdv.CLONER.get()).build(null));
-        EXTRACTOR_TYPE = PokecubeAdv.TILES.register("extractor", () -> BlockEntityType.Builder.of(ExtractorTile::new,
-                PokecubeAdv.EXTRACTOR.get()).build(null));
-        SPLICER_TYPE = PokecubeAdv.TILES.register("splicer", () -> BlockEntityType.Builder.of(SplicerTile::new,
-                PokecubeAdv.SPLICER.get()).build(null));
-        SIPHON_TYPE = PokecubeAdv.TILES.register("siphon", () -> BlockEntityType.Builder.of(SiphonTile::new,
-                PokecubeAdv.SIPHON.get()).build(null));
-        WARP_PAD_TYPE = PokecubeAdv.TILES.register("warp_pad", () -> BlockEntityType.Builder.of(WarpPadTile::new,
-                PokecubeAdv.WARP_PAD.get()).build(null));
-        STATUE_TYPE = PokecubeAdv.TILES.register("statue", () -> BlockEntityType.Builder.of(StatueEntity::new,
-                PokecubeAdv.STATUE.get()).build(null));
+        AFA_TYPE = PokecubeAdv.TILES.register("afa",
+                () -> BlockEntityType.Builder.of(AfaTile::new, PokecubeAdv.AFA.get()).build(null));
+        COMMANDER_TYPE = PokecubeAdv.TILES.register("commander",
+                () -> BlockEntityType.Builder.of(CommanderTile::new, PokecubeAdv.COMMANDER.get()).build(null));
+        DAYCARE_TYPE = PokecubeAdv.TILES.register("daycare",
+                () -> BlockEntityType.Builder.of(DaycareTile::new, PokecubeAdv.DAYCARE.get()).build(null));
+        CLONER_TYPE = PokecubeAdv.TILES.register("cloner",
+                () -> BlockEntityType.Builder.of(ClonerTile::new, PokecubeAdv.CLONER.get()).build(null));
+        EXTRACTOR_TYPE = PokecubeAdv.TILES.register("extractor",
+                () -> BlockEntityType.Builder.of(ExtractorTile::new, PokecubeAdv.EXTRACTOR.get()).build(null));
+        SPLICER_TYPE = PokecubeAdv.TILES.register("splicer",
+                () -> BlockEntityType.Builder.of(SplicerTile::new, PokecubeAdv.SPLICER.get()).build(null));
+        SIPHON_TYPE = PokecubeAdv.TILES.register("siphon",
+                () -> BlockEntityType.Builder.of(SiphonTile::new, PokecubeAdv.SIPHON.get()).build(null));
+        WARP_PAD_TYPE = PokecubeAdv.TILES.register("warp_pad",
+                () -> BlockEntityType.Builder.of(WarpPadTile::new, PokecubeAdv.WARP_PAD.get()).build(null));
+        STATUE_TYPE = PokecubeAdv.TILES.register("statue",
+                () -> BlockEntityType.Builder.of(StatueEntity::new, PokecubeAdv.STATUE.get()).build(null));
 
         // Containers
 
         CLONER_CONT = PokecubeAdv.CONTAINERS.register("cloner", () -> new MenuType<>(ClonerContainer::new));
-        EXTRACTOR_CONT = PokecubeAdv.CONTAINERS.register("extractor", () -> new MenuType<>(
-                ExtractorContainer::new));
+        EXTRACTOR_CONT = PokecubeAdv.CONTAINERS.register("extractor", () -> new MenuType<>(ExtractorContainer::new));
         SPLICER_CONT = PokecubeAdv.CONTAINERS.register("splicer", () -> new MenuType<>(SplicerContainer::new));
         AFA_CONT = PokecubeAdv.CONTAINERS.register("afa", () -> new MenuType<>(AfaContainer::new));
-        BAG_CONT = PokecubeAdv.CONTAINERS.register("bag", () -> new MenuType<>(
-                (IContainerFactory<BagContainer>) BagContainer::new));
-        TRAINER_CONT = PokecubeAdv.CONTAINERS.register("trainer", () -> new MenuType<>(
-                (IContainerFactory<ContainerTrainer>) ContainerTrainer::new));
+        BAG_CONT = PokecubeAdv.CONTAINERS.register("bag",
+                () -> new MenuType<>((IContainerFactory<BagContainer>) BagContainer::new));
+        TRAINER_CONT = PokecubeAdv.CONTAINERS.register("trainer",
+                () -> new MenuType<>((IContainerFactory<ContainerTrainer>) ContainerTrainer::new));
     }
 
     private static void init()
@@ -280,13 +289,14 @@ public class PokecubeAdv
         {
             final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_BLOCKS);
             // Statue does something a bit differently.
-            if (reg == PokecubeAdv.STATUE) PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new StatueItem(reg.get(), props));
+            if (reg == PokecubeAdv.STATUE)
+                PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new StatueItem(reg.get(), props));
             else PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), props));
         }
 
         for (final RegistryObject<Block> reg : PokecubeAdv.DECORATIONS.getEntries())
-            PokecubeAdv.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties().tab(
-                    PokecubeLegends.TAB_DECORATIONS)));
+            PokecubeAdv.ITEMS.register(reg.getId().getPath(),
+                    () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DECORATIONS)));
 
         // Initialize advancement triggers
         Triggers.init();
@@ -339,7 +349,7 @@ public class PokecubeAdv
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
-        PointsOfInterest.postInit();
+        event.enqueueWork(PointsOfInterest::postInit);
     }
 
     @SubscribeEvent
