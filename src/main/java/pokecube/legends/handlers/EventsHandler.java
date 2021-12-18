@@ -1,15 +1,27 @@
 package pokecube.legends.handlers;
 
-import com.google.common.collect.Lists;
+import java.util.Random;
 
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.ScreenEffectRenderer;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import pokecube.legends.init.ItemInit;
 
@@ -18,6 +30,7 @@ public class EventsHandler
     public static void register()
     {
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerTick);
+//        MinecraftForge.EVENT_BUS..addListener(EventsHandler::renderOverlay);
     }
 
     public static void onPlayerTick(final PlayerTickEvent event)
@@ -25,9 +38,21 @@ public class EventsHandler
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer)
         {
             final ServerPlayer player = (ServerPlayer) event.player;
-            final Biome biome = player.getLevel().getBiome(player.getOnPos());
+            final Biome biome = event.player.getLevel().getBiome(player.getOnPos());
+            MobEffectInstance effect = new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 480, 2);
 
-            MobEffectInstance effect = new MobEffectInstance(MobEffects.BLINDNESS, 480, 0);
+            if (biome.getRegistryName().toString().equals("pokecube_legends:aquamarine_caves")
+                    && !player.isCreative() && !player.isSpectator()
+                    && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.DIG_SLOWDOWN)))
+            {
+                if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
+                        || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
+                        || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
+                        || player.getInventory().armor.get(0).getItem() != new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
+                {
+                    player.addEffect(effect);
+                }
+            }
 
             if ((biome.getRegistryName().toString().equals("pokecube_legends:blinding_deltas")
                     || biome.getRegistryName().toString().equals("pokecube_legends:dried_blinding_deltas")
@@ -37,6 +62,8 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.BLINDNESS)))
             {
+                effect = new MobEffectInstance(MobEffects.BLINDNESS, 480, 0);
+
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
                         || player.getInventory().armor.get(1).getItem() != new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
@@ -63,6 +90,10 @@ public class EventsHandler
             }
 
             if ((biome.getRegistryName().toString().equals("pokecube_legends:corrupted_caves")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_frozen_polluted_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_polluted_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_polluted_river")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_polluted_ocean")
                     || biome.getRegistryName().toString().equals("pokecube_legends:polluted_ocean")
                     || biome.getRegistryName().toString().equals("pokecube_legends:polluted_river")
                     || biome.getRegistryName().toString().equals("pokecube_legends:shattered_tainted_barrens")
@@ -84,8 +115,7 @@ public class EventsHandler
             if ((biome.getRegistryName().toString().equals("pokecube_legends:crystallized_beach")
                     || biome.getRegistryName().toString().equals("pokecube_legends:mirage_desert")
                     || biome.getRegistryName().toString().equals("pokecube_legends:rocky_mirage_desert")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:fungal_sunflower_plains")
-                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_fungal_plains"))
+                    || biome.getRegistryName().toString().equals("pokecube_legends:snowy_crystallized_beach"))
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.LEVITATION)))
             {
@@ -100,7 +130,12 @@ public class EventsHandler
                 }
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:dead_ocean"))
+            if ((biome.getRegistryName().toString().equals("pokecube_legends:dead_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:dead_river")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_dead_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:deep_frozen_dead_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_dead_ocean")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:frozen_dead_river"))
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HUNGER)))
             {
@@ -131,7 +166,9 @@ public class EventsHandler
                 }
             }
 
-            if ((biome.getRegistryName().toString().equals("pokecube_legends:forbidden_taiga")
+            if ((biome.getRegistryName().toString().equals("pokecube_legends:forbidden_grove")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:forbidden_meadow")
+                    || biome.getRegistryName().toString().equals("pokecube_legends:forbidden_taiga")
                     || biome.getRegistryName().toString().equals("pokecube_legends:old_growth_forbidden_taiga")
                     || biome.getRegistryName().toString().equals("pokecube_legends:snowy_forbidden_taiga")
                     || biome.getRegistryName().toString().equals("pokecube_legends:windswept_forbidden_taiga"))
@@ -157,7 +194,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !(player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.MOVEMENT_SLOWDOWN)))
             {
-                effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 1);
+                effect = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 480, 2);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()
@@ -195,8 +232,9 @@ public class EventsHandler
                     && player.getInventory().armor.get(1).getItem() == new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1).getItem()
                     && player.getInventory().armor.get(0).getItem() == new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1).getItem())
             {
-                player.curePotionEffects(new ItemStack(ItemInit.ULTRA_HELMET.get()));
                 player.clearFire();
+                player.curePotionEffects(new ItemStack(ItemInit.ULTRA_HELMET.get()));
+                player.setIsInPowderSnow(false);
             }
         }
     }
