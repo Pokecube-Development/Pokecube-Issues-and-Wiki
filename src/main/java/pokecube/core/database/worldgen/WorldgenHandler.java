@@ -114,7 +114,7 @@ public class WorldgenHandler
         public int dy = 0;
 
         public boolean rigid = true;
-        public boolean ignoreAir = true;
+        public boolean ignoreAir = false;
         public boolean filler = false;
         public boolean water = false;
 
@@ -150,7 +150,7 @@ public class WorldgenHandler
         public String proc_list = "";
         public List<String> options = Lists.newArrayList();
         public boolean rigid = true;
-        public boolean ignoreAir = true;
+        public boolean ignoreAir = false;
         public boolean water = false;
         public boolean filler = false;
         public List<String> includes = Lists.newArrayList();
@@ -182,6 +182,8 @@ public class WorldgenHandler
         // this is -1, it will allow spawn if any biome matches, otherwise it
         // will require all biomes to match within this number of blocks.
         public int needed_space = -1;
+
+        public String proc_list = "";
 
         public String type = "";
         public String biomeType = "none";

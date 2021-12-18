@@ -208,7 +208,13 @@ public class JigsawAssmbler
                 pieceFactory, chunkGenerator, templateManagerIn, pos, rand, default_k, isValid, heightAccessor);
     }
 
-    private boolean build(final StructureTemplatePool jigsawpattern, final Rotation rotation, final int depth,
+    private StructurePoolElement getRandomTemplate(StructureTemplatePool pool, Random rand)
+    {
+        StructurePoolElement element = pool.getRandomTemplate(rand);
+        return element;
+    }
+
+    private boolean build(final StructureTemplatePool pool, final Rotation rotation, final int depth,
             final JigsawPlacement.PieceFactory pieceFactory, final ChunkGenerator chunkGenerator,
             final StructureManager templateManagerIn, final BlockPos pos, final Random rand, final int default_k,
             final Predicate<StructurePoolElement> isValid, final LevelHeightAccessor heightAccessor)
@@ -222,7 +228,7 @@ public class JigsawAssmbler
             this.SURFACE_TYPE = this.config.water ? Types.OCEAN_FLOOR_WG : Types.WORLD_SURFACE_WG;
         else if (!this.config.surface) this.SURFACE_TYPE = null;
 
-        final StructurePoolElement jigsawpiece = jigsawpattern.getRandomTemplate(rand);
+        final StructurePoolElement jigsawpiece = getRandomTemplate(pool, rand);
         final PoolElementStructurePiece poolElement = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.getGroundLevelDelta(), rotation,
                 jigsawpiece.getBoundingBox(templateManagerIn, pos, rotation));
@@ -385,7 +391,13 @@ public class JigsawAssmbler
 
                 for (final StructurePoolElement next_part : list)
                 {
-                    if (next_part == EmptyPoolElement.INSTANCE) break;
+
+                    boolean allowEmpty = rand.nextDouble() > 0.99;
+                    boolean isEmpty = next_part == EmptyPoolElement.INSTANCE;
+
+                    if (isEmpty && allowEmpty) break;
+                    else if (isEmpty) continue;
+                    
                     String once = "";
 
                     if (next_part instanceof CustomJigsawPiece

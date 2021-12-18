@@ -2,12 +2,14 @@
   "pools": [
     {
       "name": "pokecube:village/jungle/town_centers",
+      "proc_list": "pokecube:ladders_to_ground",
       "options": [
         "pokecube:village/jungle/town_centers/center_1;{\"dy\":2}"
       ]
     },
     {
       "name": "pokecube:village/jungle/small",
+      "proc_list": "pokecube:ladders_to_ground",
       "options": [
         "pokecube:village/jungle/town_centers/center_small;{\"dy\":2}"
       ]
@@ -77,6 +79,7 @@
       "size": 6,
       "priority": 8,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter",
         "gym"
@@ -101,6 +104,7 @@
       "size": 3,
       "priority": 10,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter"
       ],
