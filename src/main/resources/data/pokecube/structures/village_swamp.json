@@ -83,6 +83,7 @@
       "size": 6,
       "priority": 8,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter",
         "gym"
@@ -107,6 +108,7 @@
       "size": 3,
       "priority": 10,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter"
       ],

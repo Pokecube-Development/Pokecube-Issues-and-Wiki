@@ -86,22 +86,21 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         }
     };
 
-    final int                                            outputSlot;
-    private boolean                                      check          = true;
-    public int                                           progress       = 0;
-    public int                                           total          = 0;
-    private PoweredProcess                               currentProcess = null;
-    protected PoweredCraftingInventory                   craftMatrix;
-    private Player                                       user;
-    private final LazyOptional<? extends IItemHandler>[] wrappers       = SidedInvWrapper.create(this, Direction
-            .values());
-    int[]                                                slots;
+    final int outputSlot;
+    private boolean check = true;
+    public int progress = 0;
+    public int total = 0;
+    private PoweredProcess currentProcess = null;
+    protected PoweredCraftingInventory craftMatrix;
+    private Player user;
+    private final LazyOptional<? extends IItemHandler>[] wrappers = SidedInvWrapper.create(this, Direction.values());
+    int[] slots;
 
     public BaseGeneticsTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state,
             final int size, final int output)
     {
         super(tileEntityTypeIn, pos, state);
-        this.inventory = NonNullList.<ItemStack> withSize(size, ItemStack.EMPTY);
+        this.inventory = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
         this.outputSlot = output;
     }
 
@@ -231,8 +230,8 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return this.wrappers[facing
-                .ordinal()].cast();
+        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            return this.wrappers[facing.ordinal()].cast();
         return super.getCapability(capability, facing);
     }
 
@@ -278,8 +277,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         if (this.slots == null)
         {
             this.slots = new int[this.getContainerSize()];
-            for (int i = 0; i < this.slots.length; i++)
-                this.slots[i] = i;
+            for (int i = 0; i < this.slots.length; i++) this.slots[i] = i;
         }
         return this.slots;
     }
@@ -328,17 +326,16 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt)
+    public void saveAdditional(CompoundTag nbt)
     {
-        nbt = super.save(nbt);
+        super.saveAdditional(nbt);
 
         // saveInv check is needed for multiblock tiles!
-        if (!this.saveInv(this.getBlockState())) return nbt;
+        if (!this.saveInv(this.getBlockState())) return;
 
         InvHelper.save(this, nbt);
         if (this.getProcess() != null) nbt.put("progress", this.getProcess().save());
 
-        return nbt;
     }
 
     @Override
@@ -372,8 +369,8 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public void setProgress(final int progress)
     {
         this.progress = progress;
-        if (this.getProcess() != null && this.getProcess().recipe != null) this.total = this.getProcess().recipe
-                .getEnergyCost(this);
+        if (this.getProcess() != null && this.getProcess().recipe != null)
+            this.total = this.getProcess().recipe.getEnergyCost(this);
     }
 
     @Override

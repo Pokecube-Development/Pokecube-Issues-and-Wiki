@@ -28,9 +28,9 @@ import thut.api.block.IOwnableTE;
 
 public class BaseTile extends InteractableTile
 {
-    boolean           any       = false;
-    public GlobalPos  last_base = null;
-    public BlockState original  = Blocks.STONE.defaultBlockState();
+    boolean any = false;
+    public GlobalPos last_base = null;
+    public BlockState original = Blocks.STONE.defaultBlockState();
 
     public BaseTile(final BlockPos pos, final BlockState state)
     {
@@ -52,8 +52,8 @@ public class BaseTile extends InteractableTile
             GlobalPos exit_here;
             try
             {
-                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.getCommandSenderWorld()
-                        .dimension() == SecretBaseDimension.WORLD_KEY);
+                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server,
+                        player.getCommandSenderWorld().dimension() == SecretBaseDimension.WORLD_KEY);
             }
             catch (final Exception e)
             {
@@ -71,8 +71,7 @@ public class BaseTile extends InteractableTile
             }
         }
         final ResourceKey<Level> dim = player.getCommandSenderWorld().dimension();
-        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayer) player,
-                targetBase);
+        if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit((ServerPlayer) player, targetBase);
         else SecretBaseDimension.sendToBase((ServerPlayer) player, targetBase);
         return InteractionResult.SUCCESS;
     }
@@ -82,8 +81,8 @@ public class BaseTile extends InteractableTile
     {
         super.load(compound);
         this.any = compound.getBoolean("any_use");
-        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC.decode(NbtOps.INSTANCE, compound
-                .get("last_base")).result().get().getFirst();
+        if (compound.contains("last_base")) this.last_base = GlobalPos.CODEC
+                .decode(NbtOps.INSTANCE, compound.get("last_base")).result().get().getFirst();
         if (compound.contains("revert_to"))
         {
             final CompoundTag tag = compound.getCompound("revert_to");
@@ -92,16 +91,16 @@ public class BaseTile extends InteractableTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         compound.putBoolean("any_use", this.any);
-        if (this.last_base != null) compound.put("last_base", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE,
-                this.last_base).get().left().get());
+        if (this.last_base != null)
+            compound.put("last_base", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.last_base).get().left().get());
         if (this.original != null)
         {
             final CompoundTag tag = NbtUtils.writeBlockState(this.original);
             compound.put("revert_to", tag);
         }
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 }

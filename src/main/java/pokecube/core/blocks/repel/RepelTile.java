@@ -22,7 +22,7 @@ public class RepelTile extends InteractableTile
 {
     public static int NESTSPAWNTYPES = 1;
 
-    public int     range   = PokecubeCore.getConfig().repelRadius;
+    public int range = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
 
     public RepelTile(final BlockPos pos, final BlockState state)
@@ -55,14 +55,16 @@ public class RepelTile extends InteractableTile
             this.range = Math.max(1, berry.type.index);
             this.addForbiddenSpawningCoord();
             if (!player.isCreative() && old != this.range) stack.split(1);
-            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslatableComponent("repel.info.setrange",
-                    this.range, this.enabled), true);
+            if (!this.getLevel().isClientSide)
+                player.displayClientMessage(new TranslatableComponent("repel.info.setrange", this.range, this.enabled),
+                        true);
             return InteractionResult.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
-            if (!this.getLevel().isClientSide) player.displayClientMessage(new TranslatableComponent("repel.info.getrange",
-                    this.range, this.enabled), true);
+            if (!this.getLevel().isClientSide)
+                player.displayClientMessage(new TranslatableComponent("repel.info.getrange", this.range, this.enabled),
+                        true);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
@@ -105,11 +107,10 @@ public class RepelTile extends InteractableTile
      * @return
      */
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public void saveAdditional(final CompoundTag nbt)
     {
-        super.save(nbt);
+        super.saveAdditional(nbt);
         nbt.putInt("range", this.range);
         nbt.putBoolean("enabled", true);
-        return nbt;
     }
 }

@@ -60,8 +60,7 @@ public class CustomJigsawPiece extends SinglePoolElement
 
     public static Codec<CustomJigsawPiece> makeCodec()
     {
-        return RecordCodecBuilder.create((instance) ->
-        {
+        return RecordCodecBuilder.create((instance) -> {
             return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
                     StructurePoolElement.projectionCodec(), CustomJigsawPiece.options(), CustomJigsawPiece.config())
                     .apply(instance, CustomJigsawPiece::new);
@@ -70,16 +69,14 @@ public class CustomJigsawPiece extends SinglePoolElement
 
     protected static <E extends CustomJigsawPiece> RecordCodecBuilder<E, Options> options()
     {
-        return Options.CODEC.fieldOf("opts").forGetter((o) ->
-        {
+        return Options.CODEC.fieldOf("opts").forGetter((o) -> {
             return o.opts;
         });
     }
 
     protected static <E extends CustomJigsawPiece> RecordCodecBuilder<E, JigSawConfig> config()
     {
-        return JigSawConfig.CODEC.fieldOf("config").forGetter((o) ->
-        {
+        return JigSawConfig.CODEC.fieldOf("config").forGetter((o) -> {
             return o.config;
         });
     }
@@ -107,11 +104,11 @@ public class CustomJigsawPiece extends SinglePoolElement
 
     public Level world;
 
-    public boolean  isSpawn;
-    public String   spawnReplace;
+    public boolean isSpawn;
+    public String spawnReplace;
     public BlockPos spawnPos;
     public BlockPos profPos;
-    public boolean  placedSpawn = false;
+    public boolean placedSpawn = false;
 
     public StructurePlaceSettings toUse;
 
@@ -139,8 +136,8 @@ public class CustomJigsawPiece extends SinglePoolElement
         placementsettings.setFinalizeEntities(true);
 
         if (!notJigsaw) placementsettings.addProcessor(JigsawReplacementProcessor.INSTANCE);
-        if (this.opts.extra.containsKey("markers_to_air")) placementsettings.addProcessor(
-                MarkerToAirProcessor.PROCESSOR);
+        if (this.opts.extra.containsKey("markers_to_air"))
+            placementsettings.addProcessor(MarkerToAirProcessor.PROCESSOR);
         if (this.opts.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
 
         final boolean shouldIgnoreAire = this.opts.ignoreAir || !this.opts.rigid;
@@ -149,8 +146,8 @@ public class CustomJigsawPiece extends SinglePoolElement
         else placementsettings.addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 
         final boolean wasNull = this.overrideList == null;
-        if (wasNull && !this.opts.proc_list.isEmpty()) this.overrideList = WorldgenFeatures.getProcList(
-                this.opts.proc_list);
+        if (wasNull && !this.opts.proc_list.isEmpty())
+            this.overrideList = WorldgenFeatures.getProcList(this.opts.proc_list);
 
         if (this.overrideList == null) this.processors.get().list().forEach(placementsettings::addProcessor);
         else
@@ -158,16 +155,18 @@ public class CustomJigsawPiece extends SinglePoolElement
             this.overrideList.list().forEach(placementsettings::addProcessor);
             if (wasNull) this.overrideList = null;
         }
-
         final boolean water_terrain_match = !this.opts.rigid && this.opts.water;
         if (water_terrain_match) placementsettings.addProcessor(new GravityProcessor(Types.OCEAN_FLOOR_WG, -1));
         else this.getProjection().getProcessors().forEach(placementsettings::addProcessor);
+
+        if (!config.proc_list.isEmpty())
+            WorldgenFeatures.getProcList(config.proc_list).list().forEach(placementsettings::addProcessor);
 
         return this.toUse = placementsettings;
     }
 
     @Override
-    public boolean place(final StructureManager templates, final WorldGenLevel seedReader,
+    public boolean place(final StructureManager templates, final WorldGenLevel level,
             final StructureFeatureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
             final BlockPos pos2, final Rotation rotation, final BoundingBox box, final Random rng,
             final boolean notJigsaw)
@@ -181,7 +180,7 @@ public class CustomJigsawPiece extends SinglePoolElement
 
         try
         {
-            placed = template.placeInWorld(seedReader, pos1, pos2, placementsettings, rng, placeFlags);
+            placed = template.placeInWorld(level, pos1, pos2, placementsettings, rng, placeFlags);
         }
         catch (final Exception e)
         {
@@ -207,25 +206,25 @@ public class CustomJigsawPiece extends SinglePoolElement
             // loop later, as this operation is expensive enough anyway.
             if (this.opts.extra.containsKey("markers_to_air"))
             {
-                final List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(
-                        template.palettes, pos1).blocks();
+                final List<StructureTemplate.StructureBlockInfo> list = placementsettings
+                        .getRandomPalette(template.palettes, pos1).blocks();
                 for (final StructureBlockInfo info : list)
                 {
                     final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
                             && StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA;
                     if (isDataMarker)
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
-                                info.pos).offset(pos1);
-                        this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
+                        final BlockPos blockpos = StructureTemplate
+                                .calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                        this.handleDataMarker(level, info, blockpos, rotation, rng, box);
                     }
                     else if (info.state.hasProperty(BlockStateProperties.WATERLOGGED))
                     {
-                        final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings,
-                                info.pos).offset(pos1);
-                        final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(
-                                seedReader, blockpos, placementsettings.getRotation());
-                        seedReader.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
+                        final BlockPos blockpos = StructureTemplate
+                                .calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                        final BlockState blockstate = info.state.mirror(placementsettings.getMirror()).rotate(level,
+                                blockpos, placementsettings.getRotation());
+                        level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.WATERLOGGED, false),
                                 placeFlags);
                     }
                 }
@@ -238,7 +237,7 @@ public class CustomJigsawPiece extends SinglePoolElement
                 {
                     final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
                             .offset(pos1);
-                    this.handleDataMarker(seedReader, info, blockpos, rotation, rng, box);
+                    this.handleDataMarker(level, info, blockpos, rotation, rng, box);
                 }
             }
             return true;
@@ -263,8 +262,7 @@ public class CustomJigsawPiece extends SinglePoolElement
         if (toPlaceSpawn && info.pos.equals(this.spawnPos))
         {
             PokecubeCore.LOGGER.info("Overriding world spawn to " + pos);
-            EventsHandler.Schedule(this.world, w ->
-            {
+            EventsHandler.Schedule(this.world, w -> {
                 ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
                 return true;
             });

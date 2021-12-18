@@ -44,7 +44,7 @@ public class TraderTile extends InteractableTile
     };
 
     public final boolean[] confirmed = new boolean[2];
-    public final Set<UUID> users     = Sets.newHashSet();
+    public final Set<UUID> users = Sets.newHashSet();
 
     public TraderTile(final BlockPos pos, final BlockState state)
     {
@@ -59,8 +59,7 @@ public class TraderTile extends InteractableTile
     @Override
     public CompoundTag getUpdateTag()
     {
-        final CompoundTag tag = new CompoundTag();
-        return this.save(tag);
+        return this.saveWithoutMetadata();
     }
 
     @Override
@@ -73,9 +72,9 @@ public class TraderTile extends InteractableTile
     public InteractionResult onInteract(final BlockPos pos, final Player player, final InteractionHand hand,
             final BlockHitResult hit)
     {
-        if (this.users.size() < 2) player.openMenu(new SimpleMenuProvider((id, playerInventory,
-                playerIn) -> new TradeContainer(id, playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), player
-                        .getDisplayName()));
+        if (this.users.size() < 2)
+            player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new TradeContainer(id,
+                    playerInventory, ContainerLevelAccess.create(this.getLevel(), pos)), player.getDisplayName()));
         return InteractionResult.SUCCESS;
     }
 }

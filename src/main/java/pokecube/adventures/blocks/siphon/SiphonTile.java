@@ -38,8 +38,8 @@ public class SiphonTile extends InteractableTile implements ITickTile
     public static class EnergyStore implements IEnergyStorage, ICapabilitySerializable<CompoundTag>
     {
         private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
-        public int                                 currentOutput;
-        public int                                 theoreticalOutput;
+        public int currentOutput;
+        public int theoreticalOutput;
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -130,8 +130,8 @@ public class SiphonTile extends InteractableTile implements ITickTile
         if (hand == InteractionHand.MAIN_HAND && this.energy != null && player instanceof ServerPlayer)
         {
             Component message = null;
-            message = new TranslatableComponent("block.rfsiphon.info", this.energy.theoreticalOutput
-                    - this.energy.currentOutput, this.energy.theoreticalOutput);
+            message = new TranslatableComponent("block.rfsiphon.info",
+                    this.energy.theoreticalOutput - this.energy.currentOutput, this.energy.theoreticalOutput);
             player.displayClientMessage(message, true);
         }
         return super.onInteract(pos, player, hand, hit);
@@ -158,7 +158,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         final CompoundTag wireless = new CompoundTag();
         wireless.putInt("n", this.wirelessLinks.size());
@@ -169,7 +169,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             wireless.put("" + n++, tag);
         }
         compound.put("links", wireless);
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 
     public boolean tryLink(final ILinkStorage link, final Entity user)
@@ -183,8 +183,8 @@ public class SiphonTile extends InteractableTile implements ITickTile
                 if (user != null && user instanceof ServerPlayer)
                 {
                     final Player player = (Player) user;
-                    player.displayClientMessage(new TranslatableComponent(
-                        "block.pokecube_adventures.siphon.unlink",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+                    player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.siphon.unlink",
+                            new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
             }
@@ -192,8 +192,8 @@ public class SiphonTile extends InteractableTile implements ITickTile
             if (user != null && user instanceof ServerPlayer)
             {
                 final Player player = (Player) user;
-                player.displayClientMessage(new TranslatableComponent(
-                    "block.pokecube_adventures.siphon.link",  new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+                player.displayClientMessage(new TranslatableComponent("block.pokecube_adventures.siphon.link",
+                        new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;
         }

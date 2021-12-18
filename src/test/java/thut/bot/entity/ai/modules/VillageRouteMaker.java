@@ -358,7 +358,6 @@ public class VillageRouteMaker extends AbstractBot
         {
             if (this.player.tickCount % 200 == 0)
             {
-                player.chat("No Target, I am idle!");
                 Vec3 rand = LandRandomPos.getPos(mob, 32, 8);
                 if (rand != null) tryPath(rand);
             }
@@ -394,6 +393,10 @@ public class VillageRouteMaker extends AbstractBot
                 road_maker.done = false;
                 road_maker.end = new Vec3(end.getX(), end.getY(), end.getZ());
                 road_maker.next = new Vec3(next.getX(), next.getY(), next.getZ());
+            }
+            else
+            {
+                player.chat("No Target, I am idle!");
             }
         }
         else

@@ -398,7 +398,6 @@ public class PokecubeCore
         PointsOfInterest.REG.register(bus);
 
         new WorldgenHandler(bus);
-        // FIXME worldgen
         PokecubeStructureProcessors.init(bus);
         WorldgenFeatures.init(bus);
         SecretBaseDimension.onConstruct(bus);
