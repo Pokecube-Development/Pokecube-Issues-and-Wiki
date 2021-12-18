@@ -2,7 +2,7 @@
   "temperature": 1.5,
   "downfall": 0.2,
   "precipitation": "none",
-  "category": "desert",
+  "category": "mountain",
   "effects": {
     "sky_color": 1184274,
     "fog_color": 855309,
@@ -90,12 +90,6 @@
         "weight": 10,
         "minCount": 4,
         "maxCount": 6
-      },
-      {
-        "type": "minecraft:axolotl",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 6
       }
     ],
     "water_creature": [
@@ -134,6 +128,7 @@
     [],
     [],
     [
+      "minecraft:amethyst_geode",
       "minecraft:basalt_pillar",
       "minecraft:large_basalt_columns",
       "minecraft:small_basalt_columns"
@@ -146,6 +141,8 @@
     ],
     [],
     [],
-    []
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

@@ -229,7 +229,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forking, Giant, MegaJungle available
-                new ForkingTrunkPlacer(7, 5, 0),
+                new StraightTrunkPlacer(7, 5, 0),
 
                 // This one is similar, but for the leaves
                 BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()),
@@ -260,7 +260,7 @@ public class Trees
 
                 // This is how the tree trunk works, there are also DarkOak, Fancy,
                 // Forking, Giant, MegaJungle available
-                new ForkingTrunkPlacer(8, 6, 0),
+                new StraightTrunkPlacer(8, 6, 0),
 
                 // This one is similar, but for the leaves
                 BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()),

@@ -1,27 +1,32 @@
 {
-  "temperature": 0.3,
-  "downfall": 0.2,
+  "temperature": 0.8,
+  "downfall": 0.4,
   "precipitation": "rain",
-  "category": "swamp",
+  "category": "underground",
   "effects": {
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "grass_color": 3288639,
-    "foliage_color": 4143695,
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "sky_color": 2542847,
+    "fog_color": 10746367,
+    "water_color": 35327,
+    "water_fog_color": 35327,
+    "grass_color": 49806,
+    "foliage_color": 49806,
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
     },
+    "music": {
+      "sound": "minecraft:music.overworld.dripstone_caves",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    },
     "particle": {
       "options": {
-        "type": "minecraft:white_ash"
+        "type": "minecraft:wax_off"
       },
-      "probability": 0.012
+      "probability": 0.004
     }
   },
   "spawners": {
@@ -73,46 +78,23 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
-      },
-      {
-        "type": "minecraft:slime",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 1
       }
     ],
-    "creature": [
-      {
-        "type": "minecraft:sheep",
-        "weight": 12,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:pig",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:chicken",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:cow",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 4
-      }
-    ],
+    "creature": [],
     "ambient": [
       {
         "type": "minecraft:bat",
         "weight": 10,
         "minCount": 8,
         "maxCount": 8
+      }
+    ],
+    "axolotls": [
+      {
+        "type": "minecraft:axolotl",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
       }
     ],
     "underground_water_creature": [
@@ -123,15 +105,15 @@
         "maxCount": 6
       }
     ],
-    "water_creature": [
+    "water_creature": [],
+    "water_ambient": [
       {
-        "type": "minecraft:squid",
-        "weight": 3,
-        "minCount": 1,
-        "maxCount": 4
+        "type": "minecraft:tropical_fish",
+        "weight": 25,
+        "minCount": 8,
+        "maxCount": 8
       }
     ],
-    "water_ambient": [],
     "misc": []
   },
   "spawn_costs": {},
@@ -144,12 +126,10 @@
   },
   "features": [
     [],
+    [],
     [
-      "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
-    ],
-    [
-      "minecraft:amethyst_geode"
+      "minecraft:amethyst_geode",
+      "minecraft:large_dripstone"
     ],
     [],
     [],
@@ -157,8 +137,14 @@
     [
       "minecraft:underwater_magma"
     ],
+    [
+      "minecraft:dripstone_cluster",
+      "minecraft:pointed_dripstone"
+    ],
     [],
     [],
-    []
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

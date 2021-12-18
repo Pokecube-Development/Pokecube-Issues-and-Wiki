@@ -1,15 +1,16 @@
 {
-  "temperature": 0.3,
-  "downfall": 0.2,
+  "temperature_modifier": "frozen",
+  "temperature": 0.5,
+  "downfall": 0.5,
   "precipitation": "rain",
-  "category": "swamp",
+  "category": "ocean",
   "effects": {
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "grass_color": 3288639,
-    "foliage_color": 4143695,
+    "sky_color": 9079434,
+    "fog_color": 9079434,
+    "water_color": 13161450,
+    "water_fog_color": 13161450,
+    "grass_color": 2956038,
+    "foliage_color": 2956038,
     "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
     "mood_sound": {
       "sound": "minecraft:ambient.soul_sand_valley.mood",
@@ -21,7 +22,7 @@
       "options": {
         "type": "minecraft:white_ash"
       },
-      "probability": 0.012
+      "probability": 0.006
     }
   },
   "spawners": {
@@ -75,38 +76,13 @@
         "maxCount": 1
       },
       {
-        "type": "minecraft:slime",
-        "weight": 1,
+        "type": "minecraft:drowned",
+        "weight": 5,
         "minCount": 1,
         "maxCount": 1
       }
     ],
-    "creature": [
-      {
-        "type": "minecraft:sheep",
-        "weight": 12,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:pig",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:chicken",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:cow",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 4
-      }
-    ],
+    "creature": [],
     "ambient": [
       {
         "type": "minecraft:bat",
@@ -126,12 +102,31 @@
     "water_creature": [
       {
         "type": "minecraft:squid",
-        "weight": 3,
-        "minCount": 1,
+        "weight": 10,
+        "minCount": 4,
         "maxCount": 4
+      },
+      {
+        "type": "minecraft:dolphin",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 2
       }
     ],
-    "water_ambient": [],
+    "water_ambient": [
+      {
+        "type": "minecraft:pufferfish",
+        "weight": 15,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:tropical_fish",
+        "weight": 25,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
     "misc": []
   },
   "spawn_costs": {},
@@ -149,16 +144,23 @@
       "minecraft:lake_lava_surface"
     ],
     [
-      "minecraft:amethyst_geode"
+      "minecraft:amethyst_geode",
+      "minecraft:iceberg_packed",
+      "minecraft:iceberg_blue"
     ],
-    [],
+    [
+      "minecraft:blue_ice"
+	],
     [],
     [],
     [
-      "minecraft:underwater_magma"
+      "minecraft:underwater_magma",
+      "minecraft:disk_gravel"
     ],
     [],
     [],
-    []
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

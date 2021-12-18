@@ -134,7 +134,9 @@
   "features": [
     [],
     [],
-    [],
+    [
+      "minecraft:amethyst_geode"
+	],
     [],
     [],
     [],

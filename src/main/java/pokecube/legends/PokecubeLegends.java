@@ -56,7 +56,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.RegisterPokecubes;
-import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
@@ -79,6 +78,7 @@ import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
+import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
@@ -87,7 +87,6 @@ import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends
@@ -177,6 +176,7 @@ public class PokecubeLegends
 
     public PokecubeLegends()
     {
+
         thut.core.common.config.Config.setupConfigs(PokecubeLegends.config, PokecubeCore.MODID, Reference.ID);
         MinecraftForge.EVENT_BUS.register(this);
         PokecubeCore.POKEMOB_BUS.register(this);
@@ -229,37 +229,59 @@ public class PokecubeLegends
 
         event.enqueueWork(() -> {
             // Biome Dictionary
+            BiomeDictionary.addTypes(FeaturesInit.AQUAMARINE_CAVES, Type.RARE);
+            BiomeDictionary.addTypes(FeaturesInit.AZURE_BADLANDS, Type.DRY, Type.MESA, Type.SANDY);
             BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HOT, Type.SPOOKY, Type.WET);
             BiomeDictionary.addTypes(FeaturesInit.BURNT_BEACH, Type.BEACH, Type.HOT, Type.SPOOKY, Type.WASTELAND);
-            BiomeDictionary.addTypes(FeaturesInit.CORRUPTED_CAVES, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.CORRUPTED_CAVES, Type.RARE, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.CRYSTALLIZED_BEACH, Type.BEACH, Type.HOT);
-            BiomeDictionary.addTypes(FeaturesInit.DEAD_OCEAN, Type.OCEAN, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEAD_OCEAN, Type.DEAD, Type.OCEAN, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEEP_DEAD_OCEAN, Type.DEAD, Type.OCEAN, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEEP_FROZEN_DEAD_OCEAN, Type.COLD, Type.DEAD, Type.OCEAN, Type.SNOWY, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEEP_FROZEN_POLLUTED_OCEAN, Type.COLD, Type.OCEAN, Type.SNOWY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEEP_POLLUTED_OCEAN, Type.OCEAN, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.DEAD_RIVER, Type.DEAD, Type.RIVER, Type.SPOOKY, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.DISTORTED_LANDS, Type.MAGICAL, Type.SPOOKY);
             BiomeDictionary.addTypes(FeaturesInit.DRIED_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.SPOOKY);
+            BiomeDictionary.addTypes(FeaturesInit.DRIPSTONE_CAVES, Type.RARE);
+            BiomeDictionary.addTypes(FeaturesInit.ERODED_AZURE_BADLANDS, Type.HOT, Type.DRY, Type.MESA, Type.MOUNTAIN, Type.RARE, Type.SANDY);
+            BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_GROVE, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL, Type.MOUNTAIN, Type.SNOWY);
+            BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_MEADOW, Type.COLD, Type.PLAINS, Type.MAGICAL, Type.MOUNTAIN, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.FORBIDDEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL);
+            BiomeDictionary.addTypes(FeaturesInit.FROZEN_DEAD_OCEAN, Type.COLD, Type.DEAD, Type.OCEAN, Type.SNOWY, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.FROZEN_DEAD_RIVER, Type.COLD, Type.DEAD, Type.RIVER, Type.SNOWY, Type.SPOOKY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.FROZEN_PEAKS, Type.COLD, Type.MOUNTAIN, Type.SNOWY);
+            BiomeDictionary.addTypes(FeaturesInit.FROZEN_POLLUTED_OCEAN, Type.COLD, Type.OCEAN, Type.SNOWY, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.FROZEN_POLLUTED_RIVER, Type.COLD, Type.RIVER, Type.SNOWY, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FLOWER_FOREST, Type.FOREST, Type.HILLS, Type.MUSHROOM, Type.RARE);
             BiomeDictionary.addTypes(FeaturesInit.FUNGAL_FOREST, Type.FOREST, Type.MUSHROOM);
             BiomeDictionary.addTypes(FeaturesInit.FUNGAL_PLAINS, Type.PLAINS, Type.MUSHROOM);
             BiomeDictionary.addTypes(FeaturesInit.FUNGAL_SUNFLOWER_PLAINS, Type.PLAINS, Type.MUSHROOM, Type.RARE);
+            BiomeDictionary.addTypes(FeaturesInit.JAGGED_PEAKS, Type.COLD, Type.MOUNTAIN, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.MAGMATIC_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.SPOOKY);
+            BiomeDictionary.addTypes(FeaturesInit.METEORITE_SPIKES, Type.DRY, Type.HOT, Type.SPOOKY, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.MIRAGE_DESERT, Type.DRY, Type.HOT, Type.MAGICAL, Type.SANDY);
             BiomeDictionary.addTypes(FeaturesInit.OLD_GROWTH_FORBIDDEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.DENSE, Type.FOREST, Type.MAGICAL, Type.RARE, Type.SPARSE);
             BiomeDictionary.addTypes(FeaturesInit.POLLUTED_OCEAN, Type.OCEAN, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.POLLUTED_RIVER, Type.RIVER, Type.WASTELAND);
             BiomeDictionary.addTypes(FeaturesInit.ROCKY_MIRAGE_DESERT, Type.DRY, Type.HOT, Type.MAGICAL, Type.SANDY);
             BiomeDictionary.addTypes(FeaturesInit.SHATTERED_BLINDING_DELTAS, Type.HOT, Type.MOUNTAIN, Type.RARE, Type.SPOOKY, Type.WET);
-            BiomeDictionary.addTypes(FeaturesInit.SHATTERED_TAINTED_BARRENS, Type.DEAD, Type.HILLS, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
+            BiomeDictionary.addTypes(FeaturesInit.SHATTERED_TAINTED_BARRENS, Type.MOUNTAIN, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
             BiomeDictionary.addTypes(FeaturesInit.SMALL_DISTORTED_ISLANDS, Type.MAGICAL, Type.SPOOKY);
+            BiomeDictionary.addTypes(FeaturesInit.SNOWY_CRYSTALLIZED_BEACH, Type.BEACH, Type.COLD, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.SNOWY_FORBIDDEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.SNOWY_FUNGAL_PLAINS, Type.COLD, Type.PLAINS, Type.MUSHROOM, Type.SNOWY, Type.WASTELAND);
+            BiomeDictionary.addTypes(FeaturesInit.SNOWY_SLOPES, Type.COLD, Type.MOUNTAIN, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.SPARSE_TEMPORAL_JUNGLE, Type.DENSE, Type.HILLS, Type.HOT, Type.JUNGLE, Type.MAGICAL, Type.RARE, Type.SPARSE, Type.WET);
-            BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.DEAD, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
+            BiomeDictionary.addTypes(FeaturesInit.TAINTED_BARRENS, Type.SPARSE, Type.SPOOKY, Type.SWAMP, Type.WASTELAND, Type.WET);
             BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_BAMBOO_JUNGLE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.RARE, Type.WET);
             BiomeDictionary.addTypes(FeaturesInit.TEMPORAL_JUNGLE, Type.DENSE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.WET);
-            BiomeDictionary.addTypes(FeaturesInit.VOLCANIC_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.MOUNTAIN, Type.RARE, Type.SPOOKY);
+            BiomeDictionary.addTypes(FeaturesInit.ULTRA_STONY_PEAKS, Type.COLD, Type.MOUNTAIN);
+            BiomeDictionary.addTypes(FeaturesInit.ULTRA_STONY_SHORE, Type.BEACH, Type.HOT);
             BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_FORBIDDEN_TAIGA, Type.COLD, Type.CONIFEROUS, Type.FOREST, Type.MAGICAL, Type.MOUNTAIN, Type.RARE, Type.SNOWY);
             BiomeDictionary.addTypes(FeaturesInit.WINDSWEPT_TEMPORAL_JUNGLE, Type.HOT, Type.JUNGLE, Type.LUSH, Type.MAGICAL, Type.MOUNTAIN, Type.RARE, Type.WET);
+            BiomeDictionary.addTypes(FeaturesInit.WOODED_AZURE_BADLANDS, Type.DRY, Type.MESA, Type.PLATEAU, Type.SANDY, Type.SPARSE);
+            BiomeDictionary.addTypes(FeaturesInit.VOLCANIC_BLINDING_DELTAS, Type.DRY, Type.HOT, Type.MOUNTAIN, Type.RARE, Type.SPOOKY);
         });
     }
 

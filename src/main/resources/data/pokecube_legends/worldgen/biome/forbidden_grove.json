@@ -1,25 +1,25 @@
 {
-  "temperature": 0.3,
-  "downfall": 0.2,
-  "precipitation": "rain",
-  "category": "swamp",
+  "temperature": -0.2,
+  "downfall": 0.8,
+  "precipitation": "snow",
+  "category": "forest",
   "effects": {
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "grass_color": 3288639,
-    "foliage_color": 4143695,
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "sky_color": 16753930,
+    "fog_color": 16753930,
+    "water_color": 4182244,
+    "water_fog_color": 4182244,
+    "grass_color": 16763145,
+    "foliage_color": 16763145,
+    "ambient_sound": "minecraft:ambient.crimson_forest.loop",
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.crimson_forest.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
     },
     "particle": {
       "options": {
-        "type": "minecraft:white_ash"
+        "type": "minecraft:wax_on"
       },
       "probability": 0.012
     }
@@ -73,12 +73,6 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
-      },
-      {
-        "type": "minecraft:slime",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 1
       }
     ],
     "creature": [
@@ -105,6 +99,24 @@
         "weight": 8,
         "minCount": 4,
         "maxCount": 4
+      },
+      {
+        "type": "minecraft:wolf",
+        "weight": 8,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:rabbit",
+        "weight": 4,
+        "minCount": 2,
+        "maxCount": 3
+      },
+      {
+        "type": "minecraft:fox",
+        "weight": 8,
+        "minCount": 2,
+        "maxCount": 4
       }
     ],
     "ambient": [
@@ -123,14 +135,7 @@
         "maxCount": 6
       }
     ],
-    "water_creature": [
-      {
-        "type": "minecraft:squid",
-        "weight": 3,
-        "minCount": 1,
-        "maxCount": 4
-      }
-    ],
+    "water_creature": [],
     "water_ambient": [],
     "misc": []
   },
@@ -159,6 +164,8 @@
     ],
     [],
     [],
-    []
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

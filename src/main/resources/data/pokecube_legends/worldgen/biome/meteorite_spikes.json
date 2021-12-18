@@ -1,27 +1,19 @@
 {
-  "temperature": 0.3,
-  "downfall": 0.2,
-  "precipitation": "rain",
-  "category": "swamp",
+  "temperature": 2,
+  "downfall": 0,
+  "precipitation": "none",
+  "category": "plains",
+  "creature_spawn_probability": 0.07,
   "effects": {
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "grass_color": 3288639,
-    "foliage_color": 4143695,
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "sky_color": 8364543,
+    "fog_color": 12638463,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
-    },
-    "particle": {
-      "options": {
-        "type": "minecraft:white_ash"
-      },
-      "probability": 0.012
     }
   },
   "spawners": {
@@ -46,7 +38,7 @@
       },
       {
         "type": "minecraft:skeleton",
-        "weight": 100,
+        "weight": 20,
         "minCount": 4,
         "maxCount": 4
       },
@@ -75,36 +67,24 @@
         "maxCount": 1
       },
       {
-        "type": "minecraft:slime",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 1
+        "type": "minecraft:stray",
+        "weight": 80,
+        "minCount": 4,
+        "maxCount": 4
       }
     ],
     "creature": [
       {
-        "type": "minecraft:sheep",
-        "weight": 12,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:pig",
+        "type": "minecraft:rabbit",
         "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
+        "minCount": 2,
+        "maxCount": 3
       },
       {
-        "type": "minecraft:chicken",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:cow",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 4
+        "type": "minecraft:polar_bear",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
       }
     ],
     "ambient": [
@@ -115,6 +95,7 @@
         "maxCount": 8
       }
     ],
+    "axolotls": [],
     "underground_water_creature": [
       {
         "type": "minecraft:glow_squid",
@@ -123,23 +104,16 @@
         "maxCount": 6
       }
     ],
-    "water_creature": [
-      {
-        "type": "minecraft:squid",
-        "weight": 3,
-        "minCount": 1,
-        "maxCount": 4
-      }
-    ],
+    "water_creature": [],
     "water_ambient": [],
     "misc": []
   },
   "spawn_costs": {},
   "carvers": {
     "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
     ]
   },
   "features": [
@@ -152,13 +126,19 @@
       "minecraft:amethyst_geode"
     ],
     [],
-    [],
+    [
+      "minecraft:ice_spike",
+      "minecraft:ice_patch"
+    ],
     [],
     [
       "minecraft:underwater_magma"
     ],
     [],
     [],
-    []
+    [],
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

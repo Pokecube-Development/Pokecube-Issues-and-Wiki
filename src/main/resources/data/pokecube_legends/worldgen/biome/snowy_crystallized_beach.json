@@ -1,27 +1,21 @@
 {
-  "temperature": 0.3,
-  "downfall": 0.2,
-  "precipitation": "rain",
-  "category": "swamp",
+  "temperature": 0.05,
+  "downfall": 0.3,
+  "precipitation": "snow",
+  "category": "beach",
   "effects": {
-    "sky_color": 1704752,
-    "fog_color": 1710113,
-    "water_color": 3883333,
-    "water_fog_color": 3883333,
-    "grass_color": 3288639,
-    "foliage_color": 4143695,
-    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "sky_color": 10092031,
+    "fog_color": 16777215,
+    "water_color": 65484,
+    "water_fog_color": 65484,
+    "grass_color": 2542847,
+    "foliage_color": 35327,
+    "ambient_sound": "minecraft:ambient.warped_forest.loop",
     "mood_sound": {
-      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "sound": "minecraft:ambient.warped_forest.mood",
       "tick_delay": 6000,
       "block_search_extent": 8,
       "offset": 2
-    },
-    "particle": {
-      "options": {
-        "type": "minecraft:white_ash"
-      },
-      "probability": 0.012
     }
   },
   "spawners": {
@@ -73,38 +67,14 @@
         "weight": 5,
         "minCount": 1,
         "maxCount": 1
-      },
-      {
-        "type": "minecraft:slime",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 1
       }
     ],
     "creature": [
       {
-        "type": "minecraft:sheep",
-        "weight": 12,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:pig",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:chicken",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 4
-      },
-      {
-        "type": "minecraft:cow",
-        "weight": 8,
-        "minCount": 4,
-        "maxCount": 4
+        "type": "minecraft:turtle",
+        "weight": 5,
+        "minCount": 2,
+        "maxCount": 5
       }
     ],
     "ambient": [
@@ -123,14 +93,7 @@
         "maxCount": 6
       }
     ],
-    "water_creature": [
-      {
-        "type": "minecraft:squid",
-        "weight": 3,
-        "minCount": 1,
-        "maxCount": 4
-      }
-    ],
+    "water_creature": [],
     "water_ambient": [],
     "misc": []
   },
@@ -158,7 +121,11 @@
       "minecraft:underwater_magma"
     ],
     [],
-    [],
-    []
+    [
+      "minecraft:patch_grass_badlands"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
   ]
 }

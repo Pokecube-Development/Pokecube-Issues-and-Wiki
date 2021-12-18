@@ -103,12 +103,6 @@
         "weight": 10,
         "minCount": 4,
         "maxCount": 6
-      },
-      {
-        "type": "minecraft:axolotl",
-        "weight": 10,
-        "minCount": 4,
-        "maxCount": 6
       }
     ],
     "water_creature": [],
@@ -129,7 +123,9 @@
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
-    [],
+    [
+      "minecraft:amethyst_geode"
+    ],
     [],
     [],
     [],
