@@ -26,9 +26,9 @@ import thut.api.maths.Vector3;
 
 public class WarpPadTile extends InteractableTile implements IEnergyStorage
 {
-    public static List<ResourceKey<Level>> invalidDests   = Lists.newArrayList();
+    public static List<ResourceKey<Level>> invalidDests = Lists.newArrayList();
     public static List<ResourceKey<Level>> invalidSources = Lists.newArrayList();
-    public static JEP                      parser;
+    public static JEP parser;
 
     public static void initParser(final String function)
     {
@@ -50,16 +50,16 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     }
 
     public static double MAXRANGE = 64;
-    public static int    COOLDOWN = 20;
+    public static int COOLDOWN = 20;
 
     public static void warp(final Entity entityIn, final TeleDest dest, final boolean sound)
     {
         ThutTeleporter.transferTo(entityIn, dest, sound);
     }
 
-    private TeleDest dest         = null;
-    public int       energy       = 0;
-    boolean          noEnergyNeed = false;
+    private TeleDest dest = null;
+    public int energy = 0;
+    boolean noEnergyNeed = false;
 
     public WarpPadTile(final BlockPos pos, final BlockState state)
     {
@@ -73,8 +73,8 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
 
     public TeleDest getDest()
     {
-        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getLevel() != null ? this
-                .getLevel().dimension() : Level.OVERWORLD, this.getBlockPos().above(4)));
+        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(
+                this.getLevel() != null ? this.getLevel().dimension() : Level.OVERWORLD, this.getBlockPos().above(4)));
         return this.dest;
     }
 
@@ -82,8 +82,9 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarpPadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension()) || entityIn
-                .getCommandSenderWorld().isClientSide) return;
+        if (WarpPadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension())
+                || entityIn.getCommandSenderWorld().isClientSide)
+            return;
 
         final TeleDest dest = this.getDest();
         final BlockPos link = dest.loc.pos();
@@ -105,14 +106,14 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
             cost = WarpPadTile.parser.getValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
-                this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
-                        .getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1, 1);
+                this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
+                        this.getBlockPos().getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1, 1);
                 return;
             }
             else this.energy -= cost;
         }
-        this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ()
-                + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
+        this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
+                this.getBlockPos().getZ() + 0.5, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         this.getLevel().playSound(null, link.getX() + 0.5, link.getY() + 0.5, link.getZ() + 0.5,
                 SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1, 1);
         WarpPadTile.warp(entityIn, dest, true);
@@ -132,14 +133,14 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         final CompoundTag tag = new CompoundTag();
         this.getDest().writeToNBT(tag);
         compound.put("dest", tag);
         compound.putInt("energy", this.energy);
         compound.putBoolean("noEnergyNeed", this.noEnergyNeed);
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 
     @Override

@@ -119,23 +119,24 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
 
     public final Container inventory;
 
-    public IPokemob pokemob       = null;
-    boolean         shiny         = false;
-    public int[]    shift         = { 0, 0, 0 };
-    public int      scale         = 1000;
-    public String   animation     = "idle";
-    public Ability  ability       = null;
-    public int      distance      = 4;
-    public int      transparency  = 128;
-    public boolean  rotates       = true;
-    public float    angle         = 0;
-    public boolean  noEnergy      = false;
-    public boolean  frozen        = true;
-    public float    animationTime = 0;
+    public IPokemob pokemob = null;
+    boolean shiny = false;
+    public int[] shift =
+    { 0, 0, 0 };
+    public int scale = 1000;
+    public String animation = "idle";
+    public Ability ability = null;
+    public int distance = 4;
+    public int transparency = 128;
+    public boolean rotates = true;
+    public float angle = 0;
+    public boolean noEnergy = false;
+    public boolean frozen = true;
+    public float animationTime = 0;
 
-    public int orig   = 0;
+    public int orig = 0;
     public int energy = 0;
-    public int cost   = 0;
+    public int cost = 0;
 
     int tick = 0;
 
@@ -146,8 +147,8 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         super(PokecubeAdv.AFA_TYPE.get(), pos, state);
         this.itemstore = (IItemHandlerModifiable) this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
-        this.inventory = new AfaContainer.InvWrapper(this.itemstore, (IOwnableTE) this.getCapability(
-                ThutCaps.OWNABLE_CAP).orElse(null));
+        this.inventory = new AfaContainer.InvWrapper(this.itemstore,
+                (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null));
         ((AfaContainer.InvWrapper) this.inventory).addListener(this);
     }
 
@@ -172,8 +173,8 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         {
             this.ability = this.pokemob.getAbility();
             this.ability.destroy();
-            this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos()
-                    .getZ() + 0.5);
+            this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
+                    this.getBlockPos().getZ() + 0.5);
             this.ability.init(this.pokemob, this.distance);
             if (this.getLevel() instanceof ServerLevel && update) TileUpdate.sendUpdate(this);
         }
@@ -268,7 +269,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     }
 
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public void saveAdditional(final CompoundTag nbt)
     {
         final CompoundTag tag = new CompoundTag();
         nbt.put("dest", tag);
@@ -283,7 +284,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         nbt.putBoolean("frozen", this.frozen);
         nbt.putFloat("animTime", this.animationTime);
         nbt.putString("animation", this.animation);
-        return super.save(nbt);
+        super.saveAdditional(nbt);
     }
 
     @Override
@@ -326,8 +327,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
                     if (this.energy < needed)
                     {
                         this.energy = 0;
-                        this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
-                                SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                        this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(),
+                                this.getBlockPos().getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1.0F,
+                                1.0F, false);
                         return;
                     }
                     this.energy -= needed;
@@ -335,8 +337,9 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
                 evt.pokemob.setShiny(true);
                 this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
                         SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
-                this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(),
-                        SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(),
+                        this.getBlockPos().getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F,
+                        false);
             }
         }
     }

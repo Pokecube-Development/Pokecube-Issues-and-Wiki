@@ -32,8 +32,8 @@ import pokecube.legends.init.TileEntityInit;
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
     public NonNullList<ItemStack> itemStacks = NonNullList.withSize(9, ItemStack.EMPTY);
-    private Component             name;
-    public int                    bookCount;
+    private Component name;
+    public int bookCount;
 
     private GenericBookshelfEmptyTile(final BlockEntityType<?> tileEntityType, final BlockPos pos,
             final BlockState state)
@@ -48,13 +48,12 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     }
 
     @Override
-    public CompoundTag save(final CompoundTag saveCompoundNBT)
+    public void saveAdditional(final CompoundTag saveCompoundNBT)
     {
-        super.save(saveCompoundNBT);
+        super.saveAdditional(saveCompoundNBT);
         this.saveMetadataAndItems(saveCompoundNBT);
         if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.itemStacks);
         if (this.name != null) saveCompoundNBT.putString("CustomName", Component.Serializer.toJson(this.name));
-        return saveCompoundNBT;
     }
 
     @Override
@@ -63,8 +62,8 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
         super.load(loadCompoundNBT);
         this.itemStacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.itemStacks);
-        if (loadCompoundNBT.contains("CustomName", 8)) this.name = Component.Serializer.fromJson(loadCompoundNBT
-                .getString("CustomName"));
+        if (loadCompoundNBT.contains("CustomName", 8))
+            this.name = Component.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
     }
 
     @Override
@@ -114,8 +113,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     {
         final ItemStack playerHand = player.getItemInHand(hand);
         int number = 0;
-        for (final ItemStack stack : this.getItems())
-            if (!stack.isEmpty()) number++;
+        for (final ItemStack stack : this.getItems()) if (!stack.isEmpty()) number++;
         // remove book
         if (playerHand.isEmpty() && hand == InteractionHand.MAIN_HAND)
         {
@@ -181,8 +179,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
         if (this.hasLevel())
         {
             int number = 0;
-            for (final ItemStack stack : this.getItems())
-                if (!stack.isEmpty()) number++;
+            for (final ItemStack stack : this.getItems()) if (!stack.isEmpty()) number++;
             this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(GenericBookshelfEmpty.BOOKS, number),
                     3);
         }

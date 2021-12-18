@@ -45,16 +45,14 @@ public interface IBlockEntity
             final BlockState[][][] ret = new BlockState[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
             boolean valid = false;
             BlockPos temp;
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        temp = pos.offset(i, j, k);
-                        final BlockState state = world.getBlockState(temp);
-                        if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
-                        valid = valid || !state.isAir();
-                        ret[i - xMin][j - yMin][k - zMin] = state;
-                    }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                temp = pos.offset(i, j, k);
+                final BlockState state = world.getBlockState(temp);
+                if (IBlockEntity.BLOCKBLACKLIST.contains(state.getBlock().getRegistryName())) return null;
+                valid = valid || !state.isAir();
+                ret[i - xMin][j - yMin][k - zMin] = state;
+            }
             return valid ? ret : null;
         }
 
@@ -68,20 +66,16 @@ public interface IBlockEntity
             final int yMin = min.getY();
             final int yMax = max.getY();
             final BlockEntity[][][] ret = new BlockEntity[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        final BlockPos temp = pos.offset(i, j, k);
-                        final BlockEntity old = world.getBlockEntity(temp);
-                        if (old != null)
-                        {
-                            CompoundTag tag = new CompoundTag();
-                            tag = old.save(tag);
-                            ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp),
-                                    tag);
-                        }
-                    }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                final BlockPos temp = pos.offset(i, j, k);
+                final BlockEntity old = world.getBlockEntity(temp);
+                if (old != null)
+                {
+                    CompoundTag tag = old.saveWithFullMetadata();
+                    ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp), tag);
+                }
+            }
             return ret;
         }
 
@@ -137,37 +131,31 @@ public interface IBlockEntity
             final int yMin = min.getY();
             final int yMax = max.getY();
             final BlockPos.MutableBlockPos temp = new BlockPos.MutableBlockPos();
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        final BlockEntity tile = world.getBlockEntity(temp);
-                        ITileRemover tileHandler = null;
-                        if (tile != null)
-                        {
-                            tileHandler = IBlockEntity.getRemover(tile);
-                            tileHandler.preBlockRemoval(tile);
-                        }
-                    }
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        final BlockEntity tile = world.getBlockEntity(temp);
-                        ITileRemover tileHandler = null;
-                        if (tile != null) tileHandler = IBlockEntity.getRemover(tile);
-                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 2 + 16 + 32 + 64);
-                        if (tileHandler != null) tileHandler.postBlockRemoval(tile);
-                    }
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
-                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 3);
-                    }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                final BlockEntity tile = world.getBlockEntity(temp);
+                ITileRemover tileHandler = null;
+                if (tile != null)
+                {
+                    tileHandler = IBlockEntity.getRemover(tile);
+                    tileHandler.preBlockRemoval(tile);
+                }
+            }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                final BlockEntity tile = world.getBlockEntity(temp);
+                ITileRemover tileHandler = null;
+                if (tile != null) tileHandler = IBlockEntity.getRemover(tile);
+                world.setBlock(temp, Blocks.AIR.defaultBlockState(), 2 + 16 + 32 + 64);
+                if (tileHandler != null) tileHandler.postBlockRemoval(tile);
+            }
+            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            {
+                temp.set(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+                world.setBlock(temp, Blocks.AIR.defaultBlockState(), 3);
+            }
         }
 
         public static void RevertEntity(final IBlockEntity toRevert)
@@ -180,34 +168,31 @@ public interface IBlockEntity
             final int sizeY = toRevert.getBlocks()[0].length;
             final int sizeZ = toRevert.getBlocks()[0][0].length;
             final Entity entity = (Entity) toRevert;
-            for (int i = 0; i < sizeX; i++)
-                for (int j = 0; j < sizeY; j++)
-                    for (int k = 0; k < sizeZ; k++)
+            for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
+            {
+                // TODO Apply transformation onto this pos based on
+                // whether the entity is rotated, and then also call the
+                // block's rotate method as well before placing the
+                // BlockState.
+                final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
+                        k + zMin + entity.getZ());
+                final BlockState state = toRevert.getFakeWorld().getBlock(pos);
+                final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
+                if (state != null)
+                {
+                    if (!entity.getCommandSenderWorld().isEmptyBlock(pos))
+                        entity.getCommandSenderWorld().destroyBlock(pos, true);
+                    entity.getCommandSenderWorld().setBlockAndUpdate(pos, state);
+                    if (tile != null)
                     {
-                        // TODO Apply transformation onto this pos based on
-                        // whether the entity is rotated, and then also call the
-                        // block's rotate method as well before placing the
-                        // BlockState.
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
-                                + entity.getZ());
-                        final BlockState state = toRevert.getFakeWorld().getBlock(pos);
-                        final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
-                        if (state != null)
-                        {
-                            if (!entity.getCommandSenderWorld().isEmptyBlock(pos)) entity.getCommandSenderWorld()
-                                    .destroyBlock(pos, true);
-                            entity.getCommandSenderWorld().setBlockAndUpdate(pos, state);
-                            if (tile != null)
-                            {
-                                final BlockEntity newTile = entity.getCommandSenderWorld().getBlockEntity(pos);
-                                if (newTile != null) newTile.load(tile.save(new CompoundTag()));
-                            }
-                        }
+                        final BlockEntity newTile = entity.getCommandSenderWorld().getBlockEntity(pos);
+                        if (newTile != null) newTile.load(tile.save(new CompoundTag()));
                     }
-            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity, entity
-                    .getBoundingBox());
-            for (final Entity e : possibleInside)
-                e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
+                }
+            }
+            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity,
+                    entity.getBoundingBox());
+            for (final Entity e : possibleInside) e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }
     }
 
@@ -224,7 +209,7 @@ public interface IBlockEntity
     }
 
     static Set<ResourceLocation> BLOCKBLACKLIST = Sets.newHashSet();
-    static Set<String>           TEBLACKLIST    = Sets.newHashSet();
+    static Set<String> TEBLACKLIST = Sets.newHashSet();
 
     static BiMap<Class<?>, ITileRemover> CUSTOMREMOVERS = HashBiMap.create();
 
@@ -235,8 +220,7 @@ public interface IBlockEntity
 
         @Override
         public void postBlockRemoval(final BlockEntity tileIn)
-        {
-        }
+        {}
 
         @Override
         public void preBlockRemoval(final BlockEntity tileIn)

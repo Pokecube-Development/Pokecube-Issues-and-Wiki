@@ -21,7 +21,7 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
 
     protected T parent = null;
 
-    protected boolean isDummy       = false;
+    protected boolean isDummy = false;
     protected boolean checkedParent = false;
 
     public GeneticsTileParentable(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state,
@@ -314,10 +314,9 @@ public abstract class GeneticsTileParentable<T extends GeneticsTileParentable<?>
     }
 
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public void saveAdditional(final CompoundTag nbt)
     {
         nbt.putBoolean("isDummy", this.isDummy);
-        super.save(nbt);
-        return nbt;
+        super.saveAdditional(nbt);
     }
 }

@@ -14,7 +14,7 @@ import pokecube.core.inventory.pc.PCInventory;
 
 public class PCTile extends InteractableTile
 {
-    public UUID        boundId   = PokecubeMod.fakeUUID;
+    public UUID boundId = PokecubeMod.fakeUUID;
     public PCInventory inventory = PCInventory.getPC(this.boundId);
 
     public PCTile(final BlockPos pos, final BlockState state)
@@ -28,10 +28,10 @@ public class PCTile extends InteractableTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         if (this.isBound()) compound.putString("boundid", this.boundId.toString());
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 
     @Override

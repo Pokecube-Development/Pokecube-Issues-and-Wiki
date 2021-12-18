@@ -60,9 +60,9 @@ public class RingTile extends BlockEntity implements ITickTile
         {
             warp.remove(this.level, this.worldPosition, state);
             this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
-            this.level.playLocalSound(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5,
-                    SoundEvents.ENDERMAN_STARE, SoundSource.BLOCKS, 0.5F, this.level.getRandom().nextFloat()
-                            * 0.4F + 0.8F, false);
+            this.level.playLocalSound(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5,
+                    this.worldPosition.getZ() + 0.5, SoundEvents.ENDERMAN_STARE, SoundSource.BLOCKS, 0.5F,
+                    this.level.getRandom().nextFloat() * 0.4F + 0.8F, false);
         }
         else if (!active && this.timer-- < 0)
         {
@@ -81,11 +81,11 @@ public class RingTile extends BlockEntity implements ITickTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         compound.putInt("timer", this.timer);
         compound.putBoolean("despawns", this.despawns);
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 
 }

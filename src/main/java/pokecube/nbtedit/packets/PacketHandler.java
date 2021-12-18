@@ -23,10 +23,8 @@ public class PacketHandler
     /**
      * Sends a Entity's nbt data to the player for editing.
      *
-     * @param player
-     *            The player to send the Entity data to.
-     * @param entityId
-     *            The id of the Entity.
+     * @param player   The player to send the Entity data to.
+     * @param entityId The id of the Entity.
      */
     public static void sendCustomTag(final ServerPlayer player, final int entityId, final String customType)
     {
@@ -34,15 +32,15 @@ public class PacketHandler
         {
             final Entity entity = player.getLevel().getEntity(entityId);
 
-            if (entity != null && !(entity instanceof Player)) NBTEdit.proxy.sendMessage(player,
-                    "\"Error- Target must be a player", ChatFormatting.RED);
+            if (entity != null && !(entity instanceof Player))
+                NBTEdit.proxy.sendMessage(player, "\"Error- Target must be a player", ChatFormatting.RED);
             else if (entity != null)
             {
                 final CompoundTag tag = new CompoundTag();
                 final PlayerData data = PlayerDataHandler.getInstance().getPlayerData(entity.getStringUUID())
                         .getData(customType);
-                if (data == null) NBTEdit.proxy.sendMessage(player, "\"Error - Unknown DataType " + customType,
-                        ChatFormatting.RED);
+                if (data == null)
+                    NBTEdit.proxy.sendMessage(player, "\"Error - Unknown DataType " + customType, ChatFormatting.RED);
                 else
                 {
                     data.writeToNBT(tag);
@@ -57,10 +55,8 @@ public class PacketHandler
     /**
      * Sends a Entity's nbt data to the player for editing.
      *
-     * @param player
-     *            The player to send the Entity data to.
-     * @param entityId
-     *            The id of the Entity.
+     * @param player   The player to send the Entity data to.
+     * @param entityId The id of the Entity.
      */
     public static void sendEntity(final ServerPlayer player, final int entityId)
     {
@@ -71,8 +67,8 @@ public class PacketHandler
             {
                 NBTEdit.proxy.sendMessage(player, "Error - You may not use NBTEdit on other Players",
                         ChatFormatting.RED);
-                NBTEdit.log(Level.WARN, player.getName().getString() + " tried to use NBTEdit on another player, "
-                        + entity.getName());
+                NBTEdit.log(Level.WARN,
+                        player.getName().getString() + " tried to use NBTEdit on another player, " + entity.getName());
             }
             if (entity != null)
             {
@@ -87,10 +83,8 @@ public class PacketHandler
     /**
      * Sends a TileEntity's nbt data to the player for editing.
      *
-     * @param player
-     *            The player to send the TileEntity to.
-     * @param pos
-     *            The block containing the TileEntity.
+     * @param player The player to send the TileEntity to.
+     * @param pos    The block containing the TileEntity.
      */
     public static void sendTile(final ServerPlayer player, final BlockPos pos)
     {
@@ -99,12 +93,12 @@ public class PacketHandler
             final BlockEntity te = player.getLevel().getBlockEntity(pos);
             if (te != null)
             {
-                final CompoundTag tag = new CompoundTag();
-                te.save(tag);
+                final CompoundTag tag = te.saveWithFullMetadata();
                 TileNBTPacket.ASSEMBLER.sendTo(new TileNBTPacket(pos, tag), player);
             }
-            else NBTEdit.proxy.sendMessage(player, "Error - There is no TileEntity at " + pos.getX() + ", " + pos.getY()
-                    + ", " + pos.getZ(), ChatFormatting.RED);
+            else NBTEdit.proxy.sendMessage(player,
+                    "Error - There is no TileEntity at " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ(),
+                    ChatFormatting.RED);
         }
     }
 

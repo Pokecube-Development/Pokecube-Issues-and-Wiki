@@ -781,8 +781,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 {
                     if (this.tiles[i][k][j] != null)
                     {
-                        CompoundTag tag = new CompoundTag();
-                        tag = this.tiles[i][k][j].save(tag);
+                        CompoundTag tag = this.tiles[i][k][j].saveWithFullMetadata();
                         blocksTag.put("T" + i + "," + k + "," + j, tag);
                     }
                 }

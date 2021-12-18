@@ -163,9 +163,9 @@ public class DaycareTile extends InteractableTile implements ITickTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag compound)
+    public void saveAdditional(final CompoundTag compound)
     {
         compound.putFloat("fuel_cache", this.power);
-        return super.save(compound);
+        super.saveAdditional(compound);
     }
 }
