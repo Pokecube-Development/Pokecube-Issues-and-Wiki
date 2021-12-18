@@ -45,6 +45,8 @@ public class SetupHandler
         // Increases reputation for nearby NPCs if the player defeats wild
         // pokemobs
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingDeath);
+        // Prevents npcs flagged as not mating from mating
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcBreedCheck);
 
         // One phase of initializing trainers.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);

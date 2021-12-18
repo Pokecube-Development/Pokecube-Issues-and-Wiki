@@ -74,8 +74,9 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.BrainInitEvent;
 import pokecube.core.events.CustomInteractEvent;
-import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
+import pokecube.core.events.npc.NpcBreedEvent;
+import pokecube.core.events.npc.NpcSpawn;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.RecallEvent;
@@ -144,7 +145,6 @@ public class TrainerEventHandler
         @Override
         public void accept(final MerchantOffer t)
         {
-            // TODO decide if we want anything here
             this.mob.getNpcType();
         }
 
@@ -257,6 +257,12 @@ public class TrainerEventHandler
     public static void onEntityInteract(final CustomInteractEvent evt)
     {
         TrainerEventHandler.processInteract(evt, evt.getTarget());
+    }
+
+    public static void onNpcBreedCheck(final NpcBreedEvent.Check evt)
+    {
+        final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(evt.getEntity());
+        if (ai != null && !ai.getAIState(AIState.MATES)) evt.setCanceled(true);
     }
 
     /**

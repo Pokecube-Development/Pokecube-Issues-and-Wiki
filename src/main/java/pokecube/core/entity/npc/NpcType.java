@@ -14,6 +14,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.interfaces.PokecubeMod;
@@ -48,12 +49,12 @@ public class NpcType
     private static final NpcType PROFESSOR = new NpcType("professor");
     private static final NpcType HEALER = new NpcType("healer");
     private static final NpcType TRADER = new NpcType("trader");
+    private static final NpcType NONE = new NpcType("none");
 
     static
     {
         // Initialize a "none" type, this will be the default return unless
         // something else overrides by constructing another type by name "none"
-        new NpcType("none");
         final IInteract trade = (player, hand, mob) -> {
             if (player.isShiftKeyDown()) return false;
             final boolean validCustomer = mob.getTradingPlayer() == null;
@@ -95,6 +96,7 @@ public class NpcType
         NpcType.HEALER.setInteraction(heal);
         NpcType.TRADER.setInteraction(trade);
         NpcType.PROFESSOR.setInteraction(starter.or(trade));
+        NpcType.NONE.setProfession(VillagerProfession.NONE);
     }
 
     public static NpcType byType(String string)
@@ -109,7 +111,7 @@ public class NpcType
 
     // This is nitwit, as if it is none, the villagerentity super class
     // completely prevents trades
-    private VillagerProfession profession = VillagerProfession.NITWIT;
+    private VillagerProfession profession;
 
     public Set<ResourceLocation> tags = Sets.newHashSet();
 
@@ -124,6 +126,15 @@ public class NpcType
         // later, or by calling their setters.
         this.maleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_male.png");
         this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
+
+        if (ForgeRegistries.PROFESSIONS.containsKey(new ResourceLocation(string)))
+        {
+            profession = ForgeRegistries.PROFESSIONS.getValue(new ResourceLocation(string));
+        }
+        else
+        {
+            profession = VillagerProfession.NITWIT;
+        }
     }
 
     /**

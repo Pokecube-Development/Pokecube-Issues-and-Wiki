@@ -26,18 +26,18 @@ public class MemoryModules
 {
     // Used for combat
     public static final MemoryModuleType<LivingEntity> ATTACKTARGET = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<LivingEntity> HUNTTARGET   = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<PositionTracker>  MOVE_TARGET  = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<PositionTracker>  LEAP_TARGET  = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<LivingEntity> HUNTED_BY    = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<LivingEntity> HUNTTARGET = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<PositionTracker> MOVE_TARGET = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<PositionTracker> LEAP_TARGET = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<LivingEntity> HUNTED_BY = new MemoryModuleType<>(Optional.empty());
 
     // Used for idle tasks
     public static final MemoryModuleType<GlobalPos> NEST_POS = new MemoryModuleType<>(Optional.of(GlobalPos.CODEC));
     public static final MemoryModuleType<GlobalPos> WORK_POS = new MemoryModuleType<>(Optional.of(GlobalPos.CODEC));
 
     public static final MemoryModuleType<Integer> OUT_OF_NEST_TIMER = new MemoryModuleType<>(Optional.of(Codec.INT));
-    public static final MemoryModuleType<Integer> NO_NEST_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
-    public static final MemoryModuleType<Integer> NO_WORK_TIMER     = new MemoryModuleType<>(Optional.of(Codec.INT));
+    public static final MemoryModuleType<Integer> NO_NEST_TIMER = new MemoryModuleType<>(Optional.of(Codec.INT));
+    public static final MemoryModuleType<Integer> NO_WORK_TIMER = new MemoryModuleType<>(Optional.of(Codec.INT));
 
     public static final MemoryModuleType<Integer> JOB_TYPE = new MemoryModuleType<>(Optional.of(Codec.INT));
 
@@ -46,20 +46,20 @@ public class MemoryModules
     public static final MemoryModuleType<Boolean> GOING_HOME = new MemoryModuleType<>(Optional.of(Codec.BOOL));
 
     // Used for pathing
-    public static final MemoryModuleType<Path>       PATH           = MemoryModuleType.PATH;
-    public static final MemoryModuleType<WalkTarget> WALK_TARGET    = MemoryModuleType.WALK_TARGET;
-    public static final MemoryModuleType<Long>       NOT_FOUND_PATH = MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE;
+    public static final MemoryModuleType<Path> PATH = MemoryModuleType.PATH;
+    public static final MemoryModuleType<WalkTarget> WALK_TARGET = MemoryModuleType.WALK_TARGET;
+    public static final MemoryModuleType<Long> NOT_FOUND_PATH = MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE;
 
     // Misc
     public static final MemoryModuleType<PositionTracker> LOOK_TARGET = MemoryModuleType.LOOK_TARGET;
 
     public static final MemoryModuleType<EntityPokemobEgg> EGG = new MemoryModuleType<>(Optional.empty());
 
-    public static final MemoryModuleType<List<NearBlock>>  VISIBLE_BLOCKS = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<List<ItemEntity>> VISIBLE_ITEMS  = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<List<NearBlock>> VISIBLE_BLOCKS = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<List<ItemEntity>> VISIBLE_ITEMS = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<AgeableMob>> POSSIBLE_MATES = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<AgeableMob>       MATE_TARGET    = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<AgeableMob> MATE_TARGET = MemoryModuleType.BREED_TARGET;
 
     public static final MemoryModuleType<List<LivingEntity>> HERD_MEMBERS = new MemoryModuleType<>(Optional.empty());
 
@@ -71,12 +71,11 @@ public class MemoryModules
         event.getRegistry().register(MemoryModules.MOVE_TARGET.setRegistryName(PokecubeCore.MODID, "move_target"));
         event.getRegistry().register(MemoryModules.LEAP_TARGET.setRegistryName(PokecubeCore.MODID, "leap_target"));
 
-        event.getRegistry().register(MemoryModules.VISIBLE_BLOCKS.setRegistryName(PokecubeCore.MODID,
-                "visible_blocks"));
+        event.getRegistry()
+                .register(MemoryModules.VISIBLE_BLOCKS.setRegistryName(PokecubeCore.MODID, "visible_blocks"));
         event.getRegistry().register(MemoryModules.VISIBLE_ITEMS.setRegistryName(PokecubeCore.MODID, "visible_items"));
 
         event.getRegistry().register(MemoryModules.POSSIBLE_MATES.setRegistryName(PokecubeCore.MODID, "mate_options"));
-        event.getRegistry().register(MemoryModules.MATE_TARGET.setRegistryName(PokecubeCore.MODID, "mate_choice"));
 
         event.getRegistry().register(MemoryModules.NEST_POS.setRegistryName(PokecubeCore.MODID, "nest_pos"));
         event.getRegistry().register(MemoryModules.WORK_POS.setRegistryName(PokecubeCore.MODID, "work_pos"));
@@ -88,8 +87,8 @@ public class MemoryModules
         event.getRegistry().register(MemoryModules.NO_NEST_TIMER.setRegistryName(PokecubeCore.MODID, "no_nest_timer"));
         event.getRegistry().register(MemoryModules.NO_WORK_TIMER.setRegistryName(PokecubeCore.MODID, "no_work_timer"));
 
-        event.getRegistry().register(MemoryModules.OUT_OF_NEST_TIMER.setRegistryName(PokecubeCore.MODID,
-                "out_of_nest_timer"));
+        event.getRegistry()
+                .register(MemoryModules.OUT_OF_NEST_TIMER.setRegistryName(PokecubeCore.MODID, "out_of_nest_timer"));
 
         event.getRegistry().register(MemoryModules.EGG.setRegistryName(PokecubeCore.MODID, "egg"));
 
