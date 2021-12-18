@@ -1,7 +1,9 @@
 {
   "replace": false,
   "values": [
+    "#pokecube:ground",
     "minecraft:dripstone_block",
-    "#pokecube:ground"
+    "minecraft:packed_ice",
+    "minecraft:snow_block"
   ]
 }
