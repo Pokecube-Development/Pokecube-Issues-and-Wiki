@@ -2962,7 +2962,7 @@
                                 }
                               },
                               {
-                                "type": "minecraft:bandlands"
+                                "type": "pokecube_legends:azure_bandlands"
                               }
                             ]
                           }
@@ -3108,7 +3108,7 @@
                           }
                         },
                         {
-                          "type": "minecraft:bandlands"
+                          "type": "pokecube_legends:azure_bandlands"
                         }
                       ]
                     }

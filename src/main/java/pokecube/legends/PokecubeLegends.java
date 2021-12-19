@@ -83,6 +83,8 @@ import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
+import pokecube.legends.worldgen.UltraSpaceSurfaceRules.UltraSpaceSurfaceRule;
+import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.terrain.BiomeDatabase;
@@ -219,6 +221,8 @@ public class PokecubeLegends
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
+
+        UltraSpaceSurfaceRules.UltraSpaceRuleSource.init();
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
