@@ -2,12 +2,14 @@
   "pools": [
     {
       "name": "pokecube:village/beach/town_centers",
+      "proc_list": "pokecube:ladders_to_ground",
       "options": [
         "pokecube:village/beach/town_centers/center_1"
       ]
     },
     {
       "name": "pokecube:village/beach/small",
+      "proc_list": "pokecube:ladders_to_ground",
       "options": [
         "pokecube:village/beach/town_centers/center_small"
       ]
@@ -75,6 +77,7 @@
       "size": 6,
       "priority": 8,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter",
         "gym"
@@ -99,6 +102,7 @@
       "size": 3,
       "priority": 10,
       "biomeType": "village",
+      "proc_list": "pokecube:ladders_to_ground",
       "needed_once": [
         "pokecenter"
       ],
