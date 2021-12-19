@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    {"id": "#pokecube:cave", "required": false},
     {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
     {"id": "#pokecube_legends:base_stone_ultraspace", "required": false},
     {"id": "pokecube_legends:aged_dirt", "required": false},

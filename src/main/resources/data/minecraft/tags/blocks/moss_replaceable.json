@@ -1,11 +1,12 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:ultra_dirts",
-    "pokecube_legends:cracked_distortic_stone",
-    "pokecube_legends:distortic_mirror",
-    "pokecube_legends:distortic_stone",
-    "pokecube_legends:ultra_darkstone",
-    "pokecube_legends:ultra_stone"
+    {"id": "#pokecube:cave", "required": false},
+    {"id": "#pokecube_legends:ultra_dirts", "required": false},
+    {"id": "pokecube_legends:cracked_distortic_stone", "required": false},
+    {"id": "pokecube_legends:distortic_mirror", "required": false},
+    {"id": "pokecube_legends:distortic_stone", "required": false},
+    {"id": "pokecube_legends:ultra_darkstone", "required": false},
+    {"id": "pokecube_legends:ultra_stone", "required": false}
   ]
 }

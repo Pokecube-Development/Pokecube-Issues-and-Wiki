@@ -2,8 +2,10 @@
   "replace": false,
   "values": [
     "#pokecube:ground",
+    "minecraft:calcite",
     "minecraft:dripstone_block",
     "minecraft:packed_ice",
+    "minecraft:smooth_basalt",
     "minecraft:snow_block"
   ]
 }
