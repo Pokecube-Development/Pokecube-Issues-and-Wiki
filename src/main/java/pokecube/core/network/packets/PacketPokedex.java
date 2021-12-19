@@ -469,6 +469,7 @@ public class PacketPokedex extends NBTPacket
             n = 1;
             for (final PokedexEntry e : entry.getRelated())
             {
+                if (!e.breeds) continue;
                 breedable.putString("" + n, e.getTrimmedName());
                 n++;
             }
