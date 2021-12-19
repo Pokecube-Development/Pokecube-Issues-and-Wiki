@@ -61,7 +61,7 @@
         "pokecube:village/beach/houses/shop_house_2;{\"weight\":3}",
         "pokecube:village/beach/houses/shop_house_3;{\"weight\":3}",
         "pokecube:village/beach/houses/shop_house_4;{\"weight\":3}",
-        "pokecube:village/beach/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/beach/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/beach/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }
