@@ -15,21 +15,15 @@ import net.minecraft.world.level.levelgen.WorldGenerationContext;
 
 public class UltraSpaceSurfaceRules
 {
-//    public static final Registry<Codec<? extends UltraSpaceSurfaceRules.RuleSource>> RULE = Registry.registerSimple(Registry.RULE_REGISTRY,
-//            UltraSpaceSurfaceRules.RuleSource::bootstrap);
-
     public interface UltraSpaceRuleSource extends Function<UltraSpaceSurfaceRules.Context2, UltraSpaceSurfaceRules.UltraSpaceSurfaceRule>
     {
-//        Codec<SurfaceRules.RuleSource> CODEC = Registry.RULE.byNameCodec().dispatch(SurfaceRules.RuleSource::codec, Function.identity());
 
         public static void init()
         {
             Registry.register(Registry.RULE, "pokecube_legends:azure_bandlands", UltraSpaceSurfaceRules.Bandlands.CODEC);
-//            return Registry.RULE.iterator().next(); 
         }
 
         Codec<? extends UltraSpaceSurfaceRules.UltraSpaceRuleSource> codec();
-//        return this.bootstrap();
     }
 
     public static final class Context2
@@ -72,10 +66,6 @@ public class UltraSpaceSurfaceRules
         {
             return context.system::getBand;
         }
-
-//        public SurfaceRules.SurfaceRule apply(SurfaceRules.Context p_189482_) {
-//            return p_189482_.system::getBand;
-//         }
     }
 
     public interface UltraSpaceSurfaceRule
