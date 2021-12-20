@@ -52,7 +52,6 @@ import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
@@ -66,6 +65,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class TrainerSpawnHandler
@@ -343,7 +343,7 @@ public class TrainerSpawnHandler
             if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
                 final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
-                thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
+                thing = JsonUtil.gson.fromJson(trimmed, JsonObject.class);
                 // Check if we specify a preset instead, and if that exists, use
                 // that.
                 if (thing.has("preset")

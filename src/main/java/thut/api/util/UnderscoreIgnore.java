@@ -1,4 +1,4 @@
-package pokecube.core.database.util;
+package thut.api.util;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

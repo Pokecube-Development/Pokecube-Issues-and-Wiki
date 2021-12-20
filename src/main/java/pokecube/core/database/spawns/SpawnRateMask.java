@@ -15,11 +15,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.events.SpawnMaskEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 
 public class SpawnRateMask
 {
@@ -104,7 +104,7 @@ public class SpawnRateMask
     {
         if (_function != null) return;
 
-        _function = PokedexEntryLoader.gson.fromJson(function, Function.class);
+        _function = JsonUtil.gson.fromJson(function, Function.class);
         _parser = initJEP(new JEP(), _function.func, _function.radial);
     }
 

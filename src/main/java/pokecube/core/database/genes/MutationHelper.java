@@ -16,10 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
+import thut.api.util.JsonUtil;
 
 public class MutationHelper extends ResourceData
 {
@@ -68,7 +68,7 @@ public class MutationHelper extends ResourceData
             final Reader reader = new InputStreamReader(res);
             try
             {
-                final Mutations temp = PokedexEntryLoader.gson.fromJson(reader, Mutations.class);
+                final Mutations temp = JsonUtil.gson.fromJson(reader, Mutations.class);
                 if (!confirmNew(temp, l)) return;
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);

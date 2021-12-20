@@ -27,6 +27,7 @@ public class AllVitamins implements TradePreset
         {
             ResourceLocation key = new ResourceLocation(PokecubeMod.ID, "vitamin_" + s);
             final ItemStack sell = PokecubeItems.getStack(key);
+            if(trade.count>0) sell.setCount(trade.count);
             Map<QName, String> values;
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
@@ -38,7 +39,7 @@ public class AllVitamins implements TradePreset
                 values = trade.buys.get(1).getValues();
                 buy2 = Tools.getStack(values);
             }
-            recipe = new TrainerTrade(buy1, buy2, sell);
+            recipe = new TrainerTrade(buy1, buy2, sell, trade);
             values = trade.values;
             if (values.containsKey(TradeEntryLoader.CHANCE))
                 recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));

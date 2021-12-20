@@ -15,6 +15,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.resources.PackFinder;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class PokemobsDatabases
@@ -87,7 +88,7 @@ public class PokemobsDatabases
     {
         PokemobsJson database = null;
         final InputStreamReader reader = new InputStreamReader(stream);
-        database = PokedexEntryLoader.gson.fromJson(reader, PokemobsJson.class);
+        database = JsonUtil.gson.fromJson(reader, PokemobsJson.class);
         reader.close();
         return database;
     }

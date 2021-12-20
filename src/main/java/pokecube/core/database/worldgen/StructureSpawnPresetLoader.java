@@ -12,9 +12,9 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
+import thut.api.util.JsonUtil;
 
 public class StructureSpawnPresetLoader
 {
@@ -37,12 +37,12 @@ public class StructureSpawnPresetLoader
             try
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
-                loaded = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+                loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();
                 if (loaded.has("presets"))
                 {
                     StructureSpawnPresetLoader.validLoad = true;
-                    final SpawnPresets database = PokedexEntryLoader.gson.fromJson(loaded, SpawnPresets.class);
+                    final SpawnPresets database = JsonUtil.gson.fromJson(loaded, SpawnPresets.class);
                     for (final JsonObject preset : database.presets)
                         if (preset.has("preset_name")) StructureSpawnPresetLoader.presetMap.put(preset.get(
                                 "preset_name").getAsString(), preset);

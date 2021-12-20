@@ -33,7 +33,6 @@ import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.StructureEvent;
@@ -48,6 +47,7 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
@@ -234,11 +234,11 @@ public class PacketTrainer extends NBTPacket
                 final GuardInfo info = new GuardInfo();
                 info.time = "allday";
                 info.roam = 0;
-                thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
+                thing.add("guard", JsonUtil.gson.toJsonTree(info));
                 final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
                 if (aiStates != null) aiStates.setAIState(AIState.STATIONARY, true);
             }
-            final String var = PokedexEntryLoader.gson.toJson(thing);
+            final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
                     (ServerLevel) player.getCommandSenderWorld(), player.getRandom(), BoundingBox.infinite());

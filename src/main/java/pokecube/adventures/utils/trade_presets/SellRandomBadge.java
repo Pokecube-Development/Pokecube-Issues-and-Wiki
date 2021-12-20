@@ -38,7 +38,7 @@ public class SellRandomBadge implements TradePreset
                         values = trade.buys.get(1).getValues();
                         buy2 = Tools.getStack(values);
                     }
-                    recipe = new TrainerTrade(buy1, buy2, badge);
+                    recipe = new TrainerTrade(buy1, buy2, badge, trade);
                     values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
                             TradeEntryLoader.CHANCE));

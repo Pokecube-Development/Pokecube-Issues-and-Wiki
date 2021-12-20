@@ -38,7 +38,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -68,7 +68,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -93,6 +92,7 @@ import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -225,7 +225,7 @@ public class TrainerEventHandler
         Drop drop;
         try
         {
-            drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
+            drop = JsonUtil.gson.fromJson(arg, Drop.class);
             return Tools.getStack(drop.getValues(),
                     sender.getCommandSenderWorld() instanceof ServerLevel ? (ServerLevel) sender.getCommandSenderWorld()
                             : null);
@@ -498,7 +498,7 @@ public class TrainerEventHandler
         DBLoader.load();
     }
 
-    public static void onPostServerStart(final ServerStartedEvent event)
+    public static void onPostServerStart(final ServerAboutToStartEvent event)
     {
         TypeTrainer.postInitTrainers();
     }

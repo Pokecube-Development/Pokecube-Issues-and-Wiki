@@ -30,7 +30,7 @@ public class BuyRandomBadge implements TradePreset
                     Map<QName, String> values = trade.sell.getValues();
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(values);
-                    recipe = new TrainerTrade(badge, ItemStack.EMPTY, sell);
+                    recipe = new TrainerTrade(badge, ItemStack.EMPTY, sell, trade);
                     values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
                             TradeEntryLoader.CHANCE));

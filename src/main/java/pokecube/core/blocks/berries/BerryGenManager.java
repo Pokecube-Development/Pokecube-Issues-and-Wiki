@@ -63,7 +63,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
@@ -81,6 +80,7 @@ import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.gen.template.NotRuleProcessor;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 
 public class BerryGenManager
 {
@@ -128,7 +128,7 @@ public class BerryGenManager
         final ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "berry_trees.json");
         final InputStream res = PackFinder.getStream(json);
         final Reader reader = new InputStreamReader(res);
-        this.defaults = PokedexEntryLoader.gson.fromJson(reader, Berries.class);
+        this.defaults = JsonUtil.gson.fromJson(reader, Berries.class);
     }
 
     public void processStructures(final RegistryEvent.Register<StructureFeature<?>> event)
@@ -614,7 +614,7 @@ public class BerryGenManager
         {
             BerryGenList loaded;
             final Reader reader = new InputStreamReader(PackFinder.getStream(s));
-            loaded = PokedexEntryLoader.gson.fromJson(reader, BerryGenList.class);
+            loaded = JsonUtil.gson.fromJson(reader, BerryGenList.class);
             reader.close();
             BerryGenManager.list.locations.addAll(loaded.locations);
         }

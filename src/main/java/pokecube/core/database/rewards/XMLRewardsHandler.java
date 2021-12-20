@@ -28,7 +28,6 @@ import net.minecraft.world.item.Items;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.stats.CaptureStats;
@@ -37,6 +36,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
 import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -215,13 +215,13 @@ public class XMLRewardsHandler
                     final InputStream stream = PackFinder.getStream(langloc);
                     if (this.page_file)
                     {
-                        final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
+                        final PagesFile book = JsonUtil.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
                                 PagesFile.class);
                         this.lang_books.put(key, book);
                     }
                     else
                     {
-                        final JsonObject holder = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream,
+                        final JsonObject holder = JsonUtil.gson.fromJson(new InputStreamReader(stream,
                                 "UTF-8"), JsonObject.class);
                         final String json = holder.get(this.tagKey).getAsString();
                         final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);

@@ -67,7 +67,6 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
@@ -78,6 +77,7 @@ import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class WorldgenHandler
@@ -618,7 +618,7 @@ public class WorldgenHandler
         {
             final InputStream res = PackFinder.getStream(file);
             final Reader reader = new InputStreamReader(res);
-            final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+            final Structures extra = JsonUtil.gson.fromJson(reader, Structures.class);
 
             PokecubeCore.LOGGER.info("Found {} jigsaws and {} pools in {}", extra.jigsaws.size(), extra.pools.size(),
                     file);

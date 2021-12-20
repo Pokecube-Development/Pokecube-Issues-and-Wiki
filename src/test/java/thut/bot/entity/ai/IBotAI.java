@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
+import thut.bot.ThutBot;
 import thut.bot.entity.BotPlayer;
 import thut.lib.CompatParser.ClassFinder;
 
@@ -41,7 +42,13 @@ public interface IBotAI
     {
         CompoundTag tag = getBot().getPersistentData().getCompound(getKey());
         getBot().getPersistentData().put(getKey(), tag);
+        ThutBot.BOT_MAP.get(getBot().getUUID()).data = getBot().getPersistentData();
         return tag;
+    }
+
+    default void save()
+    {
+        ThutBot.saveBots();
     }
 
     default void start(@Nullable ServerPlayer commander)

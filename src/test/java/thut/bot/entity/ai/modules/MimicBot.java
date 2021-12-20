@@ -22,7 +22,7 @@ import thut.core.common.network.CapabilitySync;
 @BotAI(key = "thutbot:mimic")
 public class MimicBot extends AbstractBot
 {
-    public static final Pattern startPattern = Pattern.compile("(start)(\\s)(\\w+:\\w+)(\\s)(\\w+:\\w+)");
+    public static final Pattern startPattern = Pattern.compile(START + SPACE + RSRC);
 
     public MimicBot(BotPlayer player)
     {
@@ -64,7 +64,7 @@ public class MimicBot extends AbstractBot
     protected void preBotTick(ServerLevel world)
     {
         final ICopyMob copy = CopyCaps.get(player);
-        if (copy.getCopiedMob()instanceof PathfinderMob mob)
+        if (copy.getCopiedMob() instanceof PathfinderMob mob)
         {
             this.mob = mob;
             this.mob.setOldPosAndRot();
@@ -82,17 +82,16 @@ public class MimicBot extends AbstractBot
 
         // For when the mob gets saved, but doesn't load correctly.
         if (living == null) return;
-        
+
         ICopyMob.copyEntityTransforms(living, player);
         ICopyMob.copyPositions(living, player);
 
         living.setId(-(player.getId() + 100));
         living.noPhysics = false;
-        
+
         living.onAddedToWorld();
         living.tick();
         living.onRemovedFromWorld();
-        
 
         final float eye = living.getEyeHeight(player.getPose(), player.getDimensions(player.getPose()));
         if (eye != player.getEyeHeight(player.getPose(), player.getDimensions(player.getPose())))

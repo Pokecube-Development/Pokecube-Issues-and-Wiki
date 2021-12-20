@@ -19,9 +19,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
 import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -125,7 +125,7 @@ public class XMLRecipeHandler
             // Old way
             for (final JsonElement e : inputs.getAsJsonArray())
             {
-                final XMLRecipeInput value = PokedexEntryLoader.gson.fromJson(e, XMLRecipeInput.class);
+                final XMLRecipeInput value = JsonUtil.gson.fromJson(e, XMLRecipeInput.class);
                 if (value.id == null) value.id = value.getValues().get(new QName("id"));
                 // Tag
                 if (value.id.startsWith("#"))
