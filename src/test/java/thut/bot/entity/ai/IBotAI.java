@@ -42,7 +42,6 @@ public interface IBotAI
     {
         CompoundTag tag = getBot().getPersistentData().getCompound(getKey());
         getBot().getPersistentData().put(getKey(), tag);
-        ThutBot.BOT_MAP.get(getBot().getUUID()).data = getBot().getPersistentData();
         return tag;
     }
 

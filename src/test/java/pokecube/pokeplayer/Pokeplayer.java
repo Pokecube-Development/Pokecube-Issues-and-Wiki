@@ -140,7 +140,6 @@ public class Pokeplayer
             Pokeplayer.updateFlying(player, pokemob);
             Pokeplayer.updateSwimming(player, pokemob);
         }
-        event.setCanceled(true);
     }
 
     private static void setFlying(final Player player, final IPokemob pokemob)

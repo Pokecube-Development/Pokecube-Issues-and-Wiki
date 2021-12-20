@@ -162,11 +162,11 @@ public class ThutBot
 
                     if (server.getPlayerList().getPlayer(entry.getProfile().getId()) == null)
                     {
+                        ALL_BOTS.add(entry);
+                        BOT_MAP.put(entry.getProfile().getId(), entry);
                         final BotPlayer bot = new BotPlayer(level, entry.getProfile());
                         ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
                         entry._profile = bot.getGameProfile();
-                        ALL_BOTS.add(entry);
-                        BOT_MAP.put(entry.getProfile().getId(), entry);
                         saveBots();
                     }
                     else
@@ -256,8 +256,8 @@ public class ThutBot
     public static class BotEntry
     {
         public String name;
-        public CompoundTag data;
         GameProfile _profile;
+        File _file;
 
         private void initProfile()
         {
@@ -270,6 +270,17 @@ public class ThutBot
         {
             if (_profile == null) initProfile();
             return _profile;
+        }
+
+        public File getFile()
+        {
+            if (_file == null)
+            {
+                final Path dir = FMLPaths.CONFIGDIR.get().resolve("thutbot");
+                dir.toFile().mkdirs();
+                _file = dir.resolve(this.name + ".dat").toFile();
+            }
+            return _file;
         }
     }
 
