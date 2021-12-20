@@ -698,7 +698,7 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.GRASS)
                         .strength(0.6f).randomTicks()));
         AZURE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_dirt", () -> new BlockBase(Material.DIRT,
-                MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.ROOTED_DIRT, false));
+                MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.GRAVEL, false));
         AZURE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_coarse_dirt", () -> new BlockBase(Material.DIRT,
                 MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.GRAVEL, false));
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block", () -> new CorruptedGrassBlock(
