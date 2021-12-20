@@ -1,11 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:distortic_grass_block",
-    "pokecube_legends:mushroom_grass_block",
-    "pokecube_legends:jungle_grass_block",
-    "pokecube_legends:corrupted_grass_block",
+    "#pokecube_legends:ultra_sands",
     "pokecube_legends:aged_grass_block",
-    "#pokecube_legends:ultra_sands"
+    "pokecube_legends:azure_grass_block",
+    "pokecube_legends:corrupted_grass_block",
+    "pokecube_legends:distortic_grass_block",
+    "pokecube_legends:jungle_grass_block",
+    "pokecube_legends:mushroom_grass_block"
   ]
 }

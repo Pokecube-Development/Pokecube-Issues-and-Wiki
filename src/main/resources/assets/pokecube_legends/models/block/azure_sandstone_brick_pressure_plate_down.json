@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pressure_plate_down",
+  "textures": {
+    "texture": "pokecube_legends:blocks/azure_sandstone_bricks"
+  }
+}

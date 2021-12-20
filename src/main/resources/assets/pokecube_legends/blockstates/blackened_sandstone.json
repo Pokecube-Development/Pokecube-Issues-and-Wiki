@@ -1,10 +1,7 @@
 {
   "variants": {
     "": [
-      { "model": "pokecube_legends:block/blackened_sandstone" },
-      { "model": "pokecube_legends:block/blackened_sandstone", "y": 90 },
-      { "model": "pokecube_legends:block/blackened_sandstone", "y": 180 },
-      { "model": "pokecube_legends:block/blackened_sandstone", "y": 270 }
+      { "model": "pokecube_legends:block/blackened_sandstone" }
     ]
   }
 }

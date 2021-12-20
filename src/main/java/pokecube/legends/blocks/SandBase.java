@@ -25,7 +25,7 @@ public class SandBase extends SandBlock
 {
     private final int dustColor;
 
-    public SandBase(final int color, final BlockBehaviour.Properties properties, final MobEffect effects)
+    public SandBase(final int color, final BlockBehaviour.Properties properties)
     {
         super(color, properties);
         this.dustColor = color;

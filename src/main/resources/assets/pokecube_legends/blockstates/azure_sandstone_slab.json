@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=bottom": [
+      { "model": "pokecube_legends:block/azure_sandstone_slab" },
+      { "model": "pokecube_legends:block/azure_sandstone_slab", "y": 90 },
+      { "model": "pokecube_legends:block/azure_sandstone_slab", "y": 180 },
+      { "model": "pokecube_legends:block/azure_sandstone_slab", "y": 270 }
+    ],
+    "type=double": [
+      { "model": "pokecube_legends:block/azure_sandstone" },
+      { "model": "pokecube_legends:block/azure_sandstone", "y": 90 },
+      { "model": "pokecube_legends:block/azure_sandstone", "y": 180 },
+      { "model": "pokecube_legends:block/azure_sandstone", "y": 270 }
+    ],
+    "type=top": [
+      { "model": "pokecube_legends:block/azure_sandstone_slab_top" },
+      { "model": "pokecube_legends:block/azure_sandstone_slab_top", "y": 90 },
+      { "model": "pokecube_legends:block/azure_sandstone_slab_top", "y": 180 },
+      { "model": "pokecube_legends:block/azure_sandstone_slab_top", "y": 270 }
+    ]
+  }
+}

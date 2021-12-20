@@ -2738,7 +2738,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:coarse_dirt"
+                                "Name": "pokecube_legends:azure_coarse_dirt"
                               }
                             }
                           },
@@ -2753,7 +2753,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:coarse_dirt"
+                                "Name": "pokecube_legends:azure_coarse_dirt"
                               }
                             }
                           },
@@ -2768,7 +2768,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:coarse_dirt"
+                                "Name": "pokecube_legends:azure_coarse_dirt"
                               }
                             }
                           },
@@ -2786,7 +2786,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "pokecube_legends:corrupted_grass_block",
+                                    "Name": "pokecube_legends:azure_grass_block",
                                     "Properties": {
                                       "snowy": "false"
                                     }
@@ -2796,7 +2796,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "pokecube_legends:corrupted_dirt"
+                                  "Name": "pokecube_legends:azure_dirt"
                                 }
                               }
                             ]
@@ -2990,14 +2990,14 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:red_sandstone"
+                                    "Name": "pokecube_legends:azure_sandstone"
                                   }
                                 }
                               },
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "minecraft:red_sand"
+                                  "Name": "pokecube_legends:azure_sand"
                                 }
                               }
                             ]

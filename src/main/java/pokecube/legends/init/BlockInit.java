@@ -72,6 +72,7 @@ import pokecube.legends.blocks.normalblocks.CrackedDistorticStone;
 import pokecube.legends.blocks.normalblocks.DistorticStoneBlock;
 import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.AgedGrassBlock;
+import pokecube.legends.blocks.normalblocks.AzureGrassBlock;
 import pokecube.legends.blocks.normalblocks.CorruptedGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
 import pokecube.legends.blocks.normalblocks.JungleGrassBlock;
@@ -354,16 +355,20 @@ public class BlockInit
     public static final RegistryObject<Block> INFECTED_TORCH;
     public static final RegistryObject<Block> INFECTED_TORCH_WALL;
 
-    public static final RegistryObject<Block> ULTRA_MAGNETIC;
-    public static final RegistryObject<Block> MUSHROOM_GRASS;
-    public static final RegistryObject<Block> MUSHROOM_DIRT;
-    public static final RegistryObject<Block> JUNGLE_GRASS;
-    public static final RegistryObject<Block> JUNGLE_DIRT;
-    public static final RegistryObject<Block> SPECTRUM_GLASS;
-    public static final RegistryObject<Block> CORRUPTED_GRASS;
-    public static final RegistryObject<Block> CORRUPTED_DIRT;
-    public static final RegistryObject<Block> AGED_GRASS;
     public static final RegistryObject<Block> AGED_DIRT;
+    public static final RegistryObject<Block> AGED_GRASS;
+    public static final RegistryObject<Block> AZURE_COARSE_DIRT;
+    public static final RegistryObject<Block> AZURE_DIRT;
+    public static final RegistryObject<Block> AZURE_GRASS;
+    public static final RegistryObject<Block> CORRUPTED_DIRT;
+    public static final RegistryObject<Block> CORRUPTED_GRASS;
+    public static final RegistryObject<Block> JUNGLE_DIRT;
+    public static final RegistryObject<Block> JUNGLE_GRASS;
+    public static final RegistryObject<Block> MUSHROOM_DIRT;
+    public static final RegistryObject<Block> MUSHROOM_GRASS;
+
+    public static final RegistryObject<Block> ULTRA_MAGNET;
+    public static final RegistryObject<Block> SPECTRUM_GLASS;
 
     // Crystal Blocks
     public static final RegistryObject<Block> AQUAMARINE_BLOCK;
@@ -406,6 +411,20 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_DARKSTONE_STAIRS;
     public static final RegistryObject<Block> ULTRA_DARKSTONE_BUTTON;
     public static final RegistryObject<Block> ULTRA_DARKSTONE_PR_PLATE;
+
+    // Azure Badlands
+    public static final RegistryObject<Block> AZURE_SAND;
+    public static final RegistryObject<Block> AZURE_SANDSTONE;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_SLAB;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_STAIRS;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_BRICKS;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_BRICK_SLAB;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_BRICK_STAIRS;
+    public static final RegistryObject<Block> SMOOTH_AZURE_SANDSTONE;
+    public static final RegistryObject<Block> SMOOTH_AZURE_SANDSTONE_SLAB;
+    public static final RegistryObject<Block> SMOOTH_AZURE_SANDSTONE_STAIRS;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_BUTTON;
+    public static final RegistryObject<Block> AZURE_SANDSTONE_PR_PLATE;
 
     // Blackened Beach
     public static final RegistryObject<Block> BLACKENED_SAND;
@@ -670,27 +689,34 @@ public class BlockInit
                 .requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
 
         // Soils
-        MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block", () -> new MushroomGrassBlock(
-                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS).strength(
-                        1f, 2f).randomTicks()));
-        MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt", () -> new BlockBase(Material.DIRT,
-                MaterialColor.COLOR_PURPLE, 1f, 2f, SoundType.GRAVEL, false));
-        JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", () -> new JungleGrassBlock(
-                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM).sound(SoundType.GRASS)
+        AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block", () -> new AgedGrassBlock(
+                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD).sound(SoundType.GRASS)
                         .strength(1f, 2f).randomTicks()));
-        JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt", () -> new BlockBase(Material.DIRT,
-                MaterialColor.COLOR_BROWN, 1f, 2f, SoundType.GRAVEL, false));
+        AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt", () -> new BlockBase(Material.DIRT,
+                MaterialColor.TERRACOTTA_YELLOW, 1f, 2f, SoundType.WET_GRASS, false));
+        AZURE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("azure_grass_block", () -> new AzureGrassBlock(
+                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.GRASS)
+                        .strength(0.6f).randomTicks()));
+        AZURE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_dirt", () -> new BlockBase(Material.DIRT,
+                MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.ROOTED_DIRT, false));
+        AZURE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_coarse_dirt", () -> new BlockBase(Material.DIRT,
+                MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.GRAVEL, false));
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block", () -> new CorruptedGrassBlock(
                 BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE).sound(SoundType.SCAFFOLDING)
                         .strength(4f, 5f).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", () -> new CorruptedDirtBlock(
                 BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE).sound(SoundType.METAL)
                         .strength(0.9f).requiresCorrectToolForDrops()));
-        AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block", () -> new AgedGrassBlock(
-                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD).sound(SoundType.GRASS)
+        JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", () -> new JungleGrassBlock(
+                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM).sound(SoundType.GRASS)
                         .strength(1f, 2f).randomTicks()));
-        AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt", () -> new BlockBase(Material.DIRT,
-                MaterialColor.TERRACOTTA_YELLOW, 1f, 2f, SoundType.WET_GRASS, false));
+        JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt", () -> new BlockBase(Material.DIRT,
+                MaterialColor.COLOR_BROWN, 1f, 2f, SoundType.GRAVEL, false));
+        MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block", () -> new MushroomGrassBlock(
+                BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS).strength(
+                        1f, 2f).randomTicks()));
+        MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt", () -> new BlockBase(Material.DIRT,
+                MaterialColor.COLOR_PURPLE, 1f, 2f, SoundType.GRAVEL, false));
 
         // Meteor Blocks
         METEOR_COSMIC_DUST_ORE = PokecubeLegends.DIMENSIONS_TAB.register("cosmic_dust_ore",
@@ -832,13 +858,42 @@ public class BlockInit
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(
                         2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
 
+        // Azure Badlands
+        AZURE_SAND = PokecubeLegends.DIMENSIONS_TAB.register("azure_sand", () -> new SandBase(1059926,
+                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLUE).sound(SoundType.SAND).strength(0.6f)));
+        AZURE_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone", () -> new BlockBase(
+                Material.STONE, MaterialColor.COLOR_BLUE, 0.8f, 0.8f, SoundType.STONE, true));
+        AZURE_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone_stairs",
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
+                        .of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                        .requiresCorrectToolForDrops()));
+        AZURE_SANDSTONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone_slab", () -> new SlabBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0F, 3.0f).sound(
+                        SoundType.STONE).requiresCorrectToolForDrops()));
+        AZURE_SANDSTONE_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone_button",
+                () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.STONE,
+                        MaterialColor.COLOR_BLUE).sound(SoundType.STONE).noCollission().strength(0.5F)
+                        .requiresCorrectToolForDrops()));
+        AZURE_SANDSTONE_PR_PLATE = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone_pressure_plate",
+                () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING,
+                        BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).sound(SoundType.STONE)
+                                .noCollission().strength(0.7F).requiresCorrectToolForDrops()));
+
+        SMOOTH_AZURE_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("smooth_azure_sandstone", () -> new BlockBase(
+                Material.STONE, MaterialColor.COLOR_BLUE, 2.0f, 6.0f, SoundType.STONE, true));
+        SMOOTH_AZURE_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("smooth_azure_sandstone_stairs",
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
+                        .of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0f, 6.0f).sound(SoundType.STONE)
+                        .requiresCorrectToolForDrops()));
+        SMOOTH_AZURE_SANDSTONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("smooth_azure_sandstone_slab",
+                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
+
         // Blackened Beach
         BLACKENED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sand", () -> new SandBase(1447446,
-                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK).sound(SoundType.SAND)
-                        .strength(0.6f),
-                MobEffects.UNLUCK));
+                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK).sound(SoundType.SAND).strength(0.6f)));
         BLACKENED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sandstone", () -> new BlockBase(
-                Material.STONE, MaterialColor.COLOR_BLACK, 1f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.COLOR_BLACK, 0.8f, 0.8f, SoundType.STONE, true));
         BLACKENED_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sandstone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
@@ -856,22 +911,21 @@ public class BlockInit
                                 .noCollission().strength(0.7F).requiresCorrectToolForDrops()));
 
         SMOOTH_BLACKENED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("smooth_blackened_sandstone", () -> new BlockBase(
-                Material.STONE, MaterialColor.COLOR_BLACK, 1.5f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.COLOR_BLACK, 2.0f, 6.0f, SoundType.STONE, true));
         SMOOTH_BLACKENED_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("smooth_blackened_sandstone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                        .of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0f, 6.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         SMOOTH_BLACKENED_SANDSTONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("smooth_blackened_sandstone_slab",
-                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0F,
-                        3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Ultra Desert
         CRYSTALLIZED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sand", () -> new SandBase(13753318,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SNOW).sound(SoundType.SAND)
-                        .strength(0.6f),
-                MobEffects.LEVITATION));
+                        .strength(0.6f)));
         CRYSTALLIZED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone", () -> new BlockBase(
-                Material.STONE, MaterialColor.SNOW, 1f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.SNOW, 1.0f, 1.0f, SoundType.STONE, true));
         CRYS_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
@@ -889,14 +943,14 @@ public class BlockInit
                                 .noCollission().strength(0.7F).requiresCorrectToolForDrops()));
 
         SMOOTH_CRYS_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone_smooth", () -> new BlockBase(
-                Material.STONE, MaterialColor.SNOW, 1.5f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.SNOW, 2.0f, 10f, SoundType.STONE, true));
         SMOOTH_CRYS_SANDSTONE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone_smooth_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0f, 10f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         SMOOTH_CRYS_SANDSTONE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone_smooth_slab",
-                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F,
-                        3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0f, 10f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Distortic World
         DISTORTIC_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass_block", () -> new DistorticGrassBlock(
@@ -1533,7 +1587,7 @@ public class BlockInit
                         BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN).sound(
                                 SoundType.METAL).noCollission().strength(0.7F).requiresCorrectToolForDrops()));
 
-        ULTRA_MAGNETIC = PokecubeLegends.DECORATION_TAB.register("magnetic_stone", () -> new MagneticBlock(Material.STONE,
+        ULTRA_MAGNET = PokecubeLegends.DECORATION_TAB.register("magnetic_stone", () -> new MagneticBlock(Material.STONE,
                 MaterialColor.COLOR_BLUE, 4f, 3f, SoundType.METAL, true));
 
         ULTRA_STONE_BRICKS = PokecubeLegends.DECORATION_TAB.register("ultra_stone_bricks", () -> new BlockBase(Material.STONE,
@@ -1558,25 +1612,35 @@ public class BlockInit
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(
                         2.0F, 3.0f).sound(SoundType.GILDED_BLACKSTONE).requiresCorrectToolForDrops()));
 
+        AZURE_SANDSTONE_BRICKS = PokecubeLegends.DECORATION_TAB.register("azure_sandstone_bricks", () -> new BlockBase(
+                Material.STONE, MaterialColor.COLOR_BLUE, 2.0f, 6.0f, SoundType.STONE, true));
+        AZURE_SANDSTONE_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("azure_sandstone_brick_stairs",
+                () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
+                        .of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0f, 6.0f).sound(SoundType.STONE)
+                        .requiresCorrectToolForDrops()));
+        AZURE_SANDSTONE_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("azure_sandstone_brick_slab", () -> new SlabBlock(
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
+
         BLACKENED_SANDSTONE_BRICKS = PokecubeLegends.DECORATION_TAB.register("blackened_sandstone_bricks", () -> new BlockBase(
-                Material.STONE, MaterialColor.SNOW, 1.4f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.COLOR_BLACK, 2.0f, 6.0f, SoundType.STONE, true));
         BLACKENED_SANDSTONE_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("blackened_sandstone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                        .of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0f, 6.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         BLACKENED_SANDSTONE_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("blackened_sandstone_brick_slab", () -> new SlabBlock(
-                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
-                        SoundType.STONE).requiresCorrectToolForDrops()));
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         CRYS_SANDSTONE_BRICKS = PokecubeLegends.DECORATION_TAB.register("crystallized_sandstone_bricks", () -> new BlockBase(
-                Material.STONE, MaterialColor.SNOW, 1.4f, 10f, SoundType.STONE, true));
+                Material.STONE, MaterialColor.SNOW, 2.0f, 6.0f, SoundType.STONE, true));
         CRYS_SANDSTONE_BRICK_STAIRS = PokecubeLegends.DECORATION_TAB.register("crystallized_sandstone_brick_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.STONE_STAIRS.defaultBlockState(), BlockBehaviour.Properties
-                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(SoundType.STONE)
+                        .of(Material.STONE, MaterialColor.SNOW).strength(2.0f, 6.0f).sound(SoundType.STONE)
                         .requiresCorrectToolForDrops()));
         CRYS_SANDSTONE_BRICK_SLAB = PokecubeLegends.DECORATION_TAB.register("crystallized_sandstone_brick_slab", () -> new SlabBlock(
-                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0F, 3.0f).sound(
-                        SoundType.STONE).requiresCorrectToolForDrops()));
+                BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW).strength(2.0f, 6.0f)
+                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         AQUAMARINE_BRICKS = PokecubeLegends.DECORATION_TAB.register("aquamarine_bricks", () -> new BlockBase(Material.ICE_SOLID,
                 MaterialColor.COLOR_LIGHT_BLUE, 0.5F, 10, SoundType.AMETHYST, true));

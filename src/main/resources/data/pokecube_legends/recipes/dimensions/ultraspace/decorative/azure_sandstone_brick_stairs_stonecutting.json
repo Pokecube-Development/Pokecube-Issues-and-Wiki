@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:azure_sandstone_bricks"
+  },
+  "result": "pokecube_legends:azure_sandstone_brick_stairs",
+  "count": 1
+}
