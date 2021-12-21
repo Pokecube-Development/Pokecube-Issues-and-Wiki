@@ -2,11 +2,14 @@ package pokecube.core.utils;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -63,6 +66,7 @@ public class PermNodes
     {
         PermissionNode<Boolean> node = new PermissionNode<>(PokecubeCore.MODID, name, PermissionTypes.BOOLEAN,
                 (player, playerUUID, context) -> level.matches(playerUUID));
+        node.setInformation(new TextComponent(node.getNodeName()), new TextComponent(message));
         NODES.put(name, node);
         NODES.put(node.getNodeName(), node);
     }
@@ -76,7 +80,9 @@ public class PermNodes
     public static void gatherPerms(PermissionGatherEvent.Nodes event)
     {
         Permissions.register();
-
-        event.addNodes(NODES.values());
+        
+        Set<PermissionNode<?>> nodes = Sets.newHashSet();
+        nodes.addAll(NODES.values());
+        event.addNodes(nodes);
     }
 }

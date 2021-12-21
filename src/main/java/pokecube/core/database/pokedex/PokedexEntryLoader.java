@@ -587,6 +587,11 @@ public class PokedexEntryLoader
         }
     }
 
+    static
+    {
+        PokedexEntryLoader.missingno.stats = new StatsNode();
+    }
+
     public static final Gson gson = JsonUtil.gson;
 
     public static final Comparator<XMLPokedexEntry> ENTRYSORTER = (o1, o2) -> {
