@@ -706,7 +706,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
             if (!this.valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
-                PokecubeCore.LOGGER.error("Invalid Matcher: {}, presets: `{}` `{}`",
+                PokecubeCore.LOGGER.debug("Invalid Matcher: {}, presets: `{}` `{}`",
                         PacketPokedex.gson.toJson(spawnRule), or_presets, and_presets);
             }
             return;
@@ -953,7 +953,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!hasSomething && terrain == null && !hasBasicSettings) this.valid = false;
 
         if (!this.valid && SpawnBiomeMatcher.loadedIn)
-            PokecubeCore.LOGGER.error("Invalid Matcher: {} ({}), presets: `{}` `{}`",
+            PokecubeCore.LOGGER.debug("Invalid Matcher: {} ({}), presets: `{}` `{}`",
                     PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule), or_presets,
                     and_presets);
     }
