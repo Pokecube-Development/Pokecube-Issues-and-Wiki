@@ -1,17 +1,26 @@
 package pokecube.core.entity.npc;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import org.apache.commons.compress.utils.Lists;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -41,6 +50,10 @@ public class NpcType
             return (p, h, m) -> this.processInteract(p, h, m) || other.processInteract(p, h, m);
         }
     }
+
+    public static final Map<String, Int2ObjectMap<ItemListing[]>> TRADE_MAP = Maps.newHashMap();
+
+    private static final ItemListing[] EMPTY_LISTING = new ItemListing[0];
 
     public static final String DATALOC = "database/trainer";
 
@@ -105,6 +118,29 @@ public class NpcType
         return NpcType.typeMap.get("none");
     }
 
+    public static void addTrade(String type, int level, ItemListing[] trades, boolean replace)
+    {
+        ItemListing[] old = getOldTrades(type, level);
+        if (old != null && !replace) trades = NpcType.join(old, trades);
+        Int2ObjectMap<ItemListing[]> trade_map = TRADE_MAP.get(type);
+        if (trades == null) TRADE_MAP.put(type, trade_map = new Int2ObjectOpenHashMap<>());
+        trade_map.put(level, trades);
+    }
+
+    @Nullable
+    private static ItemListing[] getOldTrades(String type, int level)
+    {
+        if (!TRADE_MAP.containsKey(type)) return null;
+        return TRADE_MAP.get(type).getOrDefault(level, null);
+    }
+
+    public static ItemListing[] join(ItemListing[]... listings)
+    {
+        List<ItemListing> list = Lists.newArrayList();
+        for (ItemListing[] listing : listings) for (ItemListing l : listing) list.add(l);
+        return list.toArray(new ItemListing[list.size()]);
+    }
+
     private final String name;
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
@@ -135,6 +171,13 @@ public class NpcType
         {
             profession = VillagerProfession.NITWIT;
         }
+
+        Int2ObjectMap<ItemListing[]> trades = new Int2ObjectOpenHashMap<>();
+        for (int i = 1; i < 6; i++)
+        {
+            trades.put(i, new ItemListing[0]);
+        }
+        TRADE_MAP.put(name, trades);
     }
 
     /**
@@ -196,5 +239,26 @@ public class NpcType
     public void setProfession(final VillagerProfession profession)
     {
         this.profession = profession;
+    }
+
+    public ItemListing[] getTrades(int level)
+    {
+        if (!TRADE_MAP.containsKey(name)) return EMPTY_LISTING;
+        return TRADE_MAP.get(name).getOrDefault(level, EMPTY_LISTING);
+    }
+
+    public boolean hasTrades(int level)
+    {
+        /*
+         * We have trades in the following cases:
+         * 
+         * our TRADE_MAP tells us we have trades
+         * 
+         * The vanilla TRADES map tells us we have trades
+         * 
+         */
+        return TRADE_MAP.get(name).get(level).length > 0 || (VillagerTrades.TRADES.containsKey(this.getProfession())
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0);
     }
 }

@@ -96,6 +96,7 @@ public class TradeEntryLoader
     public static class ProfessionEntry
     {
         String profession;
+        String type = "";
 
         public final List<ProfiessionStage> stages = Lists.newArrayList();
     }
@@ -291,6 +292,7 @@ public class TradeEntryLoader
     {
         final TradeDatabase database = TradeEntryLoader.loadDatabase();
         Professions.clear();
+        NpcType.TRADE_MAP.clear();
         for (final TradeEntry entry : database.trades)
         {
             final TrainerTrades trades = new TrainerTrades();
@@ -300,19 +302,18 @@ public class TradeEntryLoader
         for (ProfessionEntry entry : database.professions)
         {
             ResourceLocation id = new ResourceLocation(entry.profession);
-            if (!ForgeRegistries.PROFESSIONS.containsKey(id))
-            {
-                PokecubeCore.LOGGER.error("Warning, no profession found for {} while trying to load trades!", id);
-                continue;
-            }
-            VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
             for (final ProfiessionStage stage : entry.stages)
             {
                 int level = stage.level;
                 final TrainerTrades trades = new TrainerTrades();
                 processTrades(trades, stage.trades);
                 ItemListing[] arr = trades.tradesList.toArray(new ItemListing[trades.tradesList.size()]);
-                Professions.updateProfession(profession, level, arr, stage.clear_old);
+                if (ForgeRegistries.PROFESSIONS.containsKey(id))
+                {
+                    VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
+                    Professions.updateProfession(profession, level, arr, stage.clear_old);
+                }
+                if (!entry.type.isEmpty()) NpcType.addTrade(entry.type, level, arr, stage.clear_old);
             }
         }
     }

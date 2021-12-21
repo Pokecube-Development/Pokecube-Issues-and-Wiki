@@ -120,15 +120,23 @@ public class TrainerEventHandler
         @Override
         public void accept(final MerchantOffers t)
         {
+            // We apply trades of last resort. If we got to here, then
+            // profession based trades have already been applied if they exist.
+            if (!t.isEmpty()) return;
+
             final Random rand = new Random(this.mob.getUUID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
+
             TrainerTrades trades = TypeTrainer.tradesMap.get(type);
+            // first prioritise customTrades
             if (!this.mob.customTrades.isEmpty())
             {
                 trades = TypeTrainer.tradesMap.get(this.mob.customTrades);
                 if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
             }
+            // Then per type.
             else if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            // Then just add the defaults.
             else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
         }
     }

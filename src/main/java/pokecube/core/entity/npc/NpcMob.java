@@ -44,6 +44,7 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -268,7 +269,11 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
         if (this.getVillagerData().getProfession() != this.getNpcType().getProfession())
         {
-            this.setVillagerData(this.getVillagerData().setLevel(2).setProfession(this.getNpcType().getProfession()));
+            // Initialise exp as 1, so we don't get reset by the reset
+            // profession task in the AI. This does get us a free 10% of the way
+            // to the next level, but at least it prevents the resetting.
+            this.setVillagerXp(1);
+            this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
         }
 
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE
@@ -399,6 +404,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.offers == null)
         {
             this.offers = new MerchantOffers();
+            // Vanilla code will cancel our trade anyway here, so return early.
             if (this.getVillagerData().getProfession() == VillagerProfession.NONE) return this.offers;
             this.onSetOffers();
             this.updateTrades();
@@ -409,18 +415,28 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     @Override
     public void updateTrades()
     {
-        if (this.offers != null) this.offers.clear();
-        else this.offers = new MerchantOffers();
+        if (this.offers == null) this.offers = new MerchantOffers();
 
+        // Vanilla code will cancel our trade anyway here, so return early.
         if (this.getVillagerData().getProfession() == VillagerProfession.NONE) return;
 
-        if (this.getNpcType().getProfession() != VillagerProfession.NITWIT && !fixedTrades && customTrades.isEmpty())
+        // If we don't have custom trades, then we try to apply by profession.
+        if (customTrades.isEmpty())
         {
-            super.updateTrades();
-            if (!this.offers.isEmpty()) return;
+            // Villager type first:
+            if (this.getNpcType().getProfession() != VillagerProfession.NITWIT) super.updateTrades();
+            // Next try custom ones
+            VillagerData villagerdata = this.getVillagerData();;
+            VillagerTrades.ItemListing[] avillagertrades$itemlisting = type.getTrades(villagerdata.getLevel());
+            if (avillagertrades$itemlisting != null)
+            {
+                MerchantOffers merchantoffers = this.getOffers();
+                this.addOffersFromItemListings(merchantoffers, avillagertrades$itemlisting, 2);
+            }
         }
-
+        // Now add the defaults
         this.init_offers.accept(this.offers);
+        // Then post the event
         MinecraftForge.EVENT_BUS.post(new NpcTradesEvent(this, offers));
     }
 
@@ -452,6 +468,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.type = type;
         if (this.getVillagerData().getProfession() != type.getProfession())
         {
+            this.setVillagerXp(1);
             this.getVillagerData().setProfession(type.getProfession());
         }
     }

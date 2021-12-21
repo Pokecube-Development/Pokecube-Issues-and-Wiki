@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.compress.utils.Lists;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 
@@ -68,7 +66,7 @@ public class Professions
     public static void updateProfession(VillagerProfession profession, int level, ItemListing[] trades, boolean replace)
     {
         ItemListing[] old = getOldTrades(profession, level);
-        if (old != null && !replace) trades = join(old, trades);
+        if (old != null && !replace) trades = NpcType.join(old, trades);
         Int2ObjectMap<ItemListing[]> trade_map = CACHE.get(profession);
         if (trade_map == null) CACHE.put(profession, trade_map = new Int2ObjectOpenHashMap<>());
         trade_map.put(level, trades);
@@ -79,12 +77,5 @@ public class Professions
     {
         if (!CACHE.containsKey(profession)) return null;
         return CACHE.get(profession).getOrDefault(level, null);
-    }
-
-    private static ItemListing[] join(ItemListing[]... listings)
-    {
-        List<ItemListing> list = Lists.newArrayList();
-        for (ItemListing[] listing : listings) for (ItemListing l : listing) list.add(l);
-        return list.toArray(new ItemListing[list.size()]);
     }
 }
