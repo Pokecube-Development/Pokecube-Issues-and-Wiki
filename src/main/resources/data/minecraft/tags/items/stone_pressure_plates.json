@@ -1,7 +1,14 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aquamarine_pressure_plate",
+    "pokecube_legends:azure_sandstone_pressure_plate",
+    "pokecube_legends:blackened_sandstone_pressure_plate",
+    "pokecube_legends:concrete_dense_pressure_plate",
     "pokecube_legends:concrete_pressure_plate",
-    "pokecube_legends:concrete_dense_pressure_plate"
+    "pokecube_legends:crystallized_sandstone_pressure_plate",
+    "pokecube_legends:ultra_darkstone_pressure_plate",
+    "pokecube_legends:ultra_metal_pressure_plate",
+    "pokecube_legends:ultra_stone_pressure_plate"
   ]
 }
