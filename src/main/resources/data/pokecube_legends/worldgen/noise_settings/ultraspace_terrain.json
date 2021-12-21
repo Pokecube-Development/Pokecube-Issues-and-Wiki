@@ -2719,7 +2719,7 @@
                       "if_true": {
                         "type": "minecraft:y_above",
                         "anchor": {
-                          "absolute": 97
+                          "absolute": 90
                         },
                         "surface_depth_multiplier": 2,
                         "add_stone_depth": false
@@ -2864,6 +2864,52 @@
             {
               "type": "minecraft:condition",
               "if_true": {
+                "type": "minecraft:stone_depth",
+                "offset": 0,
+                "surface_type": "floor",
+                "add_surface_depth": true,
+                "add_surface_secondary_depth": true
+              },
+              "then_run": {
+                "type": "minecraft:sequence",
+                "sequence": [
+                  {
+                    "type": "minecraft:condition",
+                    "if_true": {
+                      "type": "minecraft:biome",
+                      "biome_is": [
+                        "pokecube_legends:wooded_azure_badlands"
+                      ]
+                    },
+                    "then_run": {
+                      "type": "minecraft:condition",
+                      "if_true": {
+                        "type": "minecraft:y_above",
+                        "anchor": {
+                          "absolute": 88
+                        },
+                        "surface_depth_multiplier": 2,
+                        "add_stone_depth": false
+                      },
+                      "then_run": {
+                        "type": "minecraft:sequence",
+                        "sequence": [
+                          {
+							"type": "minecraft:block",
+							"result_state": {
+							  "Name": "pokecube_legends:azure_dirt"
+							}
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "minecraft:condition",
+              "if_true": {
                 "type": "minecraft:biome",
                 "biome_is": [
                   "pokecube_legends:azure_badlands",
@@ -2899,7 +2945,7 @@
                           "then_run": {
                             "type": "minecraft:block",
                             "result_state": {
-                              "Name": "minecraft:purple_terracotta"
+								"Name": "minecraft:purple_terracotta"
                             }
                           }
                         },
@@ -2968,12 +3014,29 @@
                           }
                         },
                         {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:water",
-                            "offset": -1,
-                            "surface_depth_multiplier": 0,
-                            "add_stone_depth": false
+						"type": "minecraft:condition",
+						"if_true": {
+						  "type": "minecraft:stone_depth",
+						  "offset": 0,
+						  "surface_type": "floor",
+						  "add_surface_depth": true,
+						  "add_surface_secondary_depth": false
+                          },
+                          "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "pokecube_legends:azure_sand"
+                                }
+                          }
+                        },
+                        {
+						"type": "minecraft:condition",
+						"if_true": {
+						  "type": "minecraft:stone_depth",
+						  "offset": 0,
+						  "surface_type": "floor",
+						  "add_surface_depth": true,
+						  "add_surface_secondary_depth": false
                           },
                           "then_run": {
                             "type": "minecraft:sequence",
@@ -3102,7 +3165,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:purple_terracotta"
+                                "Name": "minecraft:light_blue_terracotta"
                               }
                             }
                           }
@@ -3744,6 +3807,47 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
+								  "pokecube_legends:deep_frozen_polluted_ocean",
+								  "pokecube_legends:deep_polluted_ocean",
+								  "pokecube_legends:frozen_polluted_ocean",
+								  "pokecube_legends:frozen_polluted_river",
+								  "pokecube_legends:polluted_ocean",
+								  "pokecube_legends:polluted_river"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:sequence",
+                                "sequence": [
+                                  {
+                                    "type": "minecraft:condition",
+                                    "if_true": {
+                                      "type": "minecraft:stone_depth",
+                                      "offset": 0,
+                                      "surface_type": "ceiling",
+                                      "add_surface_depth": false,
+                                      "add_surface_secondary_depth": true
+                                    },
+                                    "then_run": {
+                                      "type": "minecraft:block",
+                                      "result_state": {
+                                        "Name": "pokecube_legends:corrupted_dirt"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                      "Name": "minecraft:corrupted_dirt"
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
 								  "pokecube_legends:dead_river",
                                   "pokecube_legends:dead_ocean",
                                   "pokecube_legends:deep_dead_ocean",
@@ -4198,6 +4302,55 @@
 								}
                             ]
                           }
+                        },
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+								"pokecube_legends:wooded_azure_badlands"
+                            ]
+                          },
+						"then_run": {
+						  "type": "minecraft:condition",
+						  "if_true": {
+							"type": "minecraft:y_above",
+							"anchor": {
+							  "absolute": 80
+							},
+							"surface_depth_multiplier": 2,
+							"add_stone_depth": false
+						  },
+                          "then_run": {
+								"type": "minecraft:sequence",
+								"sequence": [
+								{
+								  "type": "minecraft:condition",
+								  "if_true": {
+									"type": "minecraft:water",
+									"offset": -1,
+									"surface_depth_multiplier": 0,
+									"add_stone_depth": false
+								  },
+								  "then_run": {
+									"type": "minecraft:block",
+									"result_state": {
+									  "Name": "pokecube_legends:azure_grass_block",
+									  "Properties": {
+										"snowy": "false"
+									  }
+									}
+								  }
+								},
+								{
+								  "type": "minecraft:block",
+								  "result_state": {
+									"Name": "pokecube_legends:azure_dirt"
+								  }
+								}
+                            ]
+                          }
+						}
                         }
                       ]
                     }
@@ -4968,6 +5121,21 @@
                                   "Name": "pokecube_legends:corrupted_dirt"
                                 }
                               }
+                            },
+                            {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
+									"pokecube_legends:wooded_azure_badlands"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "pokecube_legends:azure_dirt"
+                                }
+                              }
                             }
                           ]
                         }
@@ -5053,7 +5221,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "pokecube_legends:ultra_stone"
+                          "Name": "minecraft:gravel"
                         }
                       }
                     }
@@ -5063,9 +5231,12 @@
                     "if_true": {
                       "type": "minecraft:biome",
                       "biome_is": [
+                        "pokecube_legends:deep_polluted_ocean",
+                        "pokecube_legends:frozen_deep_polluted_ocean",
+                        "pokecube_legends:frozen_polluted_ocean",
+                        "pokecube_legends:frozen_polluted_river",
                         "pokecube_legends:polluted_ocean",
-                        "pokecube_legends:polluted_river",
-                        "pokecube_legends:frozen_polluted_river"
+                        "pokecube_legends:polluted_river"
                       ]
                     },
                     "then_run": {
@@ -5080,7 +5251,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "pokecube_legends:ultra_stone"
+                          "Name": "pokecube_legends:corrupted_dirt"
                         }
                       }
                     }
@@ -5169,10 +5340,12 @@
                     "if_true": {
                       "type": "minecraft:biome",
                       "biome_is": [
-                        "pokecube_legends:dead_ocean",
-                        "pokecube_legends:deep_dead_ocean",
-                        "pokecube_legends:deep_frozen_dead_ocean",
-                        "pokecube_legends:frozen_dead_ocean"
+						  "pokecube_legends:dead_river",
+						  "pokecube_legends:dead_ocean",
+						  "pokecube_legends:deep_dead_ocean",
+						  "pokecube_legends:deep_frozen_dead_ocean",
+						  "pokecube_legends:frozen_dead_ocean",
+						  "pokecube_legends:frozen_dead_river"
                       ]
                     },
                     "then_run": {
@@ -5198,6 +5371,47 @@
                           "type": "minecraft:block",
                           "result_state": {
                             "Name": "minecraft:gravel"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "minecraft:condition",
+                    "if_true": {
+                      "type": "minecraft:biome",
+                      "biome_is": [
+                        "pokecube_legends:deep_polluted_ocean",
+                        "pokecube_legends:frozen_deep_polluted_ocean",
+                        "pokecube_legends:frozen_polluted_ocean",
+                        "pokecube_legends:frozen_polluted_river",
+                        "pokecube_legends:polluted_ocean",
+                        "pokecube_legends:polluted_river"
+                      ]
+                    },
+                    "then_run": {
+                      "type": "minecraft:sequence",
+                      "sequence": [
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:stone_depth",
+                            "offset": 0,
+                            "surface_type": "ceiling",
+                            "add_surface_depth": false,
+                            "add_surface_secondary_depth": false
+                          },
+                          "then_run": {
+                            "type": "minecraft:block",
+                            "result_state": {
+                              "Name": "pokecube_legends:corrupted_dirt"
+                            }
+                          }
+                        },
+                        {
+                          "type": "minecraft:block",
+                          "result_state": {
+                            "Name": "pokecube_legends:corrupted_dirt"
                           }
                         }
                       ]
@@ -5302,7 +5516,7 @@
               "type": "minecraft:condition",
               "if_true": {
                 "type": "minecraft:vertical_gradient",
-                "random_name": "minecraft:deepslate",
+                "random_name": "minecraft:calcite",
                 "true_at_and_below": {
                   "absolute": -384
                 },
@@ -5335,9 +5549,9 @@
               "type": "minecraft:condition",
               "if_true": {
                 "type": "minecraft:vertical_gradient",
-                "random_name": "minecraft:deepslate",
+                "random_name": "minecraft:smooth_basalt",
                 "true_at_and_below": {
-                  "absolute": -384
+                  "absolute": -128
                 },
                 "false_at_and_above": {
                   "absolute": 384
@@ -5347,6 +5561,39 @@
                 "type": "minecraft:block",
                 "result_state": {
                   "Name": "minecraft:smooth_basalt"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:biome",
+          "biome_is": [
+            "pokecube_legends:corrupted_caves"
+          ]
+        },
+        "then_run": {
+          "type": "minecraft:sequence",
+          "sequence": [
+            {
+              "type": "minecraft:condition",
+              "if_true": {
+                "type": "minecraft:vertical_gradient",
+                "random_name": "pokecube_legends:corrupted_dirt",
+                "true_at_and_below": {
+                  "absolute": -64
+                },
+                "false_at_and_above": {
+                  "absolute": 64
+                }
+              },
+              "then_run": {
+                "type": "minecraft:block",
+                "result_state": {
+                  "Name": "pokecube_legends:corrupted_dirt"
                 }
               }
             }
@@ -5391,7 +5638,7 @@
               "type": "minecraft:condition",
               "if_true": {
                 "type": "minecraft:vertical_gradient",
-                "random_name": "minecraft:deepslate",
+                "random_name": "pokecube_legends:corrupted_dirt",
                 "true_at_and_below": {
                   "absolute": -64
                 },

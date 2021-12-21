@@ -1,23 +1,29 @@
 package pokecube.legends.worldgen;
 
+import java.util.Map;
 import java.util.function.Function;
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.SurfaceRules;
+import net.minecraft.world.level.levelgen.SurfaceSystem;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import thut.core.common.ThutCore;
+import net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule;
 
 public class UltraSpaceSurfaceRules
 {
-    public interface UltraSpaceRuleSource extends Function<UltraSpaceSurfaceRules.Context2, UltraSpaceSurfaceRules.UltraSpaceSurfaceRule>
+    public interface UltraSpaceRuleSource extends Function<SurfaceRules.Context, SurfaceRules.SurfaceRule>
     {
-
         public static void init()
         {
             Registry.register(Registry.RULE, "pokecube_legends:azure_bandlands", UltraSpaceSurfaceRules.Bandlands.CODEC);
@@ -26,29 +32,44 @@ public class UltraSpaceSurfaceRules
         Codec<? extends UltraSpaceSurfaceRules.UltraSpaceRuleSource> codec();
     }
 
-    public static final class Context2
-    {
-        long lastUpdateXZ = -9223372036854775807L;
-        long lastUpdateY = -9223372036854775807L;
-        int blockX;
-        int blockZ;
-        int surfaceDepth;
-        public final UltraSpaceSurfaceSystem system;
+    private static Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();
 
-        public Context2(UltraSpaceSurfaceSystem system, ChunkAccess chunk, NoiseChunk noise, Function<BlockPos, Biome> posBiome,
-                Registry<Biome> biome, WorldGenerationContext genContext)
+    public static void init()
+    {
+        TERRACOTTA_MAP.put(Blocks.TERRACOTTA, Blocks.BLUE_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.BROWN_TERRACOTTA, Blocks.PINK_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.ORANGE_TERRACOTTA, Blocks.PURPLE_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.YELLOW_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.RED_TERRACOTTA, Blocks.PURPLE_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.WHITE_TERRACOTTA, Blocks.LIGHT_BLUE_TERRACOTTA);
+        TERRACOTTA_MAP.put(Blocks.LIGHT_GRAY_TERRACOTTA, Blocks.MAGENTA_TERRACOTTA);
+    }
+
+    private static BlockState replaceTerracotta(BlockState state)
+    {
+        return TERRACOTTA_MAP.containsKey(state.getBlock()) ? TERRACOTTA_MAP.get(state.getBlock()).defaultBlockState() : state;
+    }
+
+    public static class TerracottaReplaceRule implements SurfaceRule
+    {
+        SurfaceSystem system;
+
+        public TerracottaReplaceRule(SurfaceSystem system)
         {
             this.system = system;
         }
 
-        protected void updateXZ(int p_189570_, int p_189571_)
+        @Nullable
+        public BlockState tryApply(int x, int y, int z)
         {
-            ++this.lastUpdateXZ;
-            ++this.lastUpdateY;
-            this.blockX = p_189570_;
-            this.blockZ = p_189571_;
-            this.surfaceDepth = this.system.getSurfaceDepth(p_189570_, p_189571_);
+            return replaceTerracotta(system.getBand(x, y, z));
         }
+
+//        @Nullable
+//        public BlockState tryApply(int x, int y, int z)
+//        {
+//            return system.getBand(x, y, z);
+//        }
     }
 
     public static enum Bandlands implements SurfaceRules.RuleSource
@@ -64,14 +85,9 @@ public class UltraSpaceSurfaceRules
 
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context context)
         {
-            return context.system::getBand;
+            TerracottaReplaceRule rule = new TerracottaReplaceRule(context.system);
+            return rule::tryApply;
         }
-    }
-
-    public interface UltraSpaceSurfaceRule
-    {
-        @Nullable
-        BlockState tryApply(int x, int y, int z);
     }
 
 }
