@@ -3,13 +3,11 @@ package pokecube.core.handlers.events;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
@@ -27,6 +25,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 
 public class StatsHandler
@@ -67,28 +66,25 @@ public class StatsHandler
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
-            if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                    "pokecube.denied"), Util.NIL_UUID);
+            if (catcher instanceof Player)
+                ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
             CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
             return;
         }
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (catcher instanceof Player && (config.permsCapture || config.permsCaptureSpecific))
+        if (catcher instanceof ServerPlayer player && (config.permsCapture || config.permsCaptureSpecific))
         {
-            final Player player = (Player) catcher;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
             boolean denied = false;
-            if (config.permsCapture && !handler.hasPermission(player.getGameProfile(), Permissions.CATCHPOKEMOB,
-                    context)) denied = true;
-            if (config.permsCaptureSpecific && !denied && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.CATCHSPECIFIC.get(entry), context)) denied = true;
+            if (config.permsCapture && !PermNodes.getBooleanPerm(player, Permissions.CATCHPOKEMOB)) denied = true;
+            if (config.permsCaptureSpecific && !denied
+                    && !PermNodes.getBooleanPerm(player, Permissions.CATCHSPECIFIC.get(entry)))
+                denied = true;
             if (denied)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                        "pokecube.denied"), Util.NIL_UUID);
+                if (catcher instanceof Player)
+                    ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;
             }
@@ -110,8 +106,8 @@ public class StatsHandler
             if (deny)
             {
                 evt.setCanceled(true);
-                if (catcher instanceof Player) ((Player) catcher).sendMessage(new TranslatableComponent(
-                        "pokecube.denied"), Util.NIL_UUID);
+                if (catcher instanceof Player)
+                    ((Player) catcher).sendMessage(new TranslatableComponent("pokecube.denied"), Util.NIL_UUID);
                 condition.onCaptureFail(catcher, evt.getCaught());
                 CaptureManager.onCaptureDenied((EntityPokecubeBase) evt.pokecube);
                 return;

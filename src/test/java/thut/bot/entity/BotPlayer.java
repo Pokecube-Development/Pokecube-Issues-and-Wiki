@@ -29,8 +29,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.ThutBot;
 import thut.bot.ThutBot.BotEntry;
 import thut.bot.entity.ai.IBotAI;
@@ -141,11 +141,11 @@ public class BotPlayer extends ServerPlayer implements Npc
         // Decide if we want to say something back?
         if (!isOrder) return;
 
-        PermissionAPI.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
         String s1 = "I Am A Bot";
         chat(s1);
 
-        if (!PermissionAPI.hasPermission(talker, PERMBOTORDER)) return;
+        if (!PermNodes.getBooleanPerm(talker, PERMBOTORDER)) return;
 
         Matcher startOrder = startPattern.matcher(event.getMessage());
 

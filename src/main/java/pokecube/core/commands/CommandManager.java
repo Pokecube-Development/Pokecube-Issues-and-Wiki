@@ -5,8 +5,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 
 public class CommandManager
@@ -14,7 +14,7 @@ public class CommandManager
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.pokecube";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.ALL,
+        PermNodes.registerNode(perm, DefaultPermissionLevel.ALL,
                 "Is the player allowed to use the root pokecube command.");
         final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokecube").requires(Tools.hasPerm(
                 perm));

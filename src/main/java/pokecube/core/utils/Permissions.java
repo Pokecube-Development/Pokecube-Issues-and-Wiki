@@ -4,12 +4,10 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 
 /**
  * This is a list of permissions nodes, as well as information about what they
@@ -100,15 +98,14 @@ public class Permissions
 
     public static void register()
     {
-        final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-        handler.registerNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
-        handler.registerNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
-        handler.registerNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
+        PermNodes.registerNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
+        PermNodes.registerNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
+        PermNodes.registerNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
 
-        handler.registerNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
-        handler.registerNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
-        handler.registerNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
-        handler.registerNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
+        PermNodes.registerNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
+        PermNodes.registerNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
+        PermNodes.registerNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
+        PermNodes.registerNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
 
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -120,14 +117,14 @@ public class Permissions
             final String surfa = Permissions.SURFPOKEMOB + "." + entry.getTrimmedName();
             final String divea = Permissions.DIVEPOKEMOB + "." + entry.getTrimmedName();
 
-            handler.registerNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
-            handler.registerNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
-            handler.registerNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
+            PermNodes.registerNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
+            PermNodes.registerNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
+            PermNodes.registerNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
 
-            handler.registerNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
-            handler.registerNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
-            handler.registerNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
-            handler.registerNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
+            PermNodes.registerNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
+            PermNodes.registerNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
+            PermNodes.registerNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
+            PermNodes.registerNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
 
             Permissions.CATCHSPECIFIC.put(entry, catcha);
             Permissions.CATCHSPECIFIC.put(entry, hatcha);
@@ -142,7 +139,7 @@ public class Permissions
         for (final String s : MovesUtils.getKnownMoveNames())
         {
             final String move = "pokecube.move.action." + s;
-            handler.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
+            PermNodes.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
         }
     }
 

@@ -15,8 +15,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 
@@ -224,7 +224,7 @@ public class CommandConfigs
         String name = "";
         name = prefix;
         final String perm1 = "command." + name + ".check";
-        PermissionAPI.registerNode(perm1, DefaultPermissionLevel.ALL, "Is the player allowed to check configs for "
+        PermNodes.registerNode(perm1, DefaultPermissionLevel.ALL, "Is the player allowed to check configs for "
                 + data.MODID);
 
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs,
@@ -234,7 +234,7 @@ public class CommandConfigs
         commandDispatcher.register(command);
 
         final String perm2 = "command." + name + ".set";
-        PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
+        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
                 + data.MODID);
 
         command = Commands.literal(name).then(Commands.argument("option", StringArgumentType.string()).suggests(

@@ -64,10 +64,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.network.NetworkConstants;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.entity.CopyCaps;
 import thut.api.util.JsonUtil;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 
@@ -109,7 +109,7 @@ public class ThutBot
         logger.addAppender(appender);
         appender.start();
 
-        PermissionAPI.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP,
                 "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
@@ -137,20 +137,20 @@ public class ThutBot
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        PermissionAPI.registerNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
-        PermissionAPI.registerNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
-        PermissionAPI.registerNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
+        PermNodes.registerNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
+        PermNodes.registerNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
+        PermNodes.registerNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
 
         final LiteralArgumentBuilder<CommandSourceStack> command_base = Commands.literal("thutbot").requires(s -> {
             if (!(s.getEntity() instanceof ServerPlayer player)) return true;
-            return PermissionAPI.hasPermission(player, PERMBOT);
+            return PermNodes.getBooleanPerm(player, PERMBOT);
         });
 
         final LiteralArgumentBuilder<CommandSourceStack> summon_bot = command_base
                 .then(Commands.literal("summon").requires(s ->
                 {
                     if (!(s.getEntity() instanceof ServerPlayer player)) return true;
-                    return PermissionAPI.hasPermission(player, PERMBOTSUMMON);
+                    return PermNodes.getBooleanPerm(player, PERMBOTSUMMON);
                 }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
                     final String name = StringArgumentType.getString(ctx, "name");
 
@@ -180,7 +180,7 @@ public class ThutBot
                 .then(Commands.literal("kill").requires(s ->
                 {
                     if (!(s.getEntity() instanceof ServerPlayer player)) return true;
-                    return PermissionAPI.hasPermission(player, PERMBOTKILL);
+                    return PermNodes.getBooleanPerm(player, PERMBOTKILL);
                 }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
                     final String name = StringArgumentType.getString(ctx, "name");
                     MinecraftServer server = ctx.getSource().getServer();

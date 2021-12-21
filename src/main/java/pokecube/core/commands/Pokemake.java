@@ -25,8 +25,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -39,6 +37,8 @@ import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
@@ -293,7 +293,7 @@ public class Pokemake
     {
         final String perm = "command.pokemake";
         // Normal pokemake
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
 
         LiteralArgumentBuilder<CommandSourceStack> command;
         // Set a permission
@@ -330,7 +330,7 @@ public class Pokemake
         commandDispatcher.register(command);
 
         // Random pokemake
-        PermissionAPI.registerNode("command.pokemakerand", DefaultPermissionLevel.OP,
+        PermNodes.registerNode("command.pokemakerand", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokemakerand");
 
         // Set a permission

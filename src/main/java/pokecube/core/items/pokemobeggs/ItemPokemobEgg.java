@@ -16,6 +16,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -36,9 +37,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
@@ -53,6 +51,7 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -68,17 +67,17 @@ import thut.core.common.genetics.DefaultGenetics;
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
 {
-    public static double                   PLAYERDIST = 2;
-    public static double                   MOBDIST    = 4;
-    static HashMap<PokedexEntry, IPokemob> fakeMobs   = new HashMap<>();
-    public static Item                     EGG        = null;
+    public static double PLAYERDIST = 2;
+    public static double MOBDIST = 4;
+    static HashMap<PokedexEntry, IPokemob> fakeMobs = new HashMap<>();
+    public static Item EGG = null;
 
     public static byte[] getColour(final int[] fatherColours, final int[] motherColours)
     {
-        final byte[] ret = new byte[] { 127, 127, 127, 127 };
+        final byte[] ret = new byte[]
+        { 127, 127, 127, 127 };
         if (fatherColours.length < 3 && motherColours.length < 3) return ret;
-        for (int i = 0; i < 3; i++)
-            ret[i] = (byte) ((fatherColours[i] + motherColours[i]) / 2 - 128);
+        for (int i = 0; i < 3; i++) ret[i] = (byte) ((fatherColours[i] + motherColours[i]) / 2 - 128);
         return ret;
     }
 
@@ -174,8 +173,8 @@ public class ItemPokemobEgg extends Item
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
         final Vector3 location = Vector3.getNewVector().set(mob.getEntity());
-        Player player = mob.getEntity().getCommandSenderWorld().getNearestPlayer(location.x, location.y,
-                location.z, ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
+        Player player = mob.getEntity().getCommandSenderWorld().getNearestPlayer(location.x, location.y, location.z,
+                ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
         LivingEntity owner = player;
         final AABB box = location.getAABB().inflate(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
                 ItemPokemobEgg.MOBDIST);
@@ -186,27 +185,24 @@ public class ItemPokemobEgg extends Item
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
-            for (final LivingEntity t1 : list)
-                if (t1 != closestTo && EntitySelector.NO_SPECTATORS.test(t1))
-                {
-                    final double d1 = closestTo.distanceToSqr(t1);
+            for (final LivingEntity t1 : list) if (t1 != closestTo && EntitySelector.NO_SPECTATORS.test(t1))
+            {
+                final double d1 = closestTo.distanceToSqr(t1);
 
-                    if (d1 <= d0)
-                    {
-                        t = t1;
-                        d0 = d1;
-                    }
+                if (d1 <= d0)
+                {
+                    t = t1;
+                    d0 = d1;
                 }
+            }
             owner = t;
         }
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
         final IOwnable ownable = OwnableCaps.getOwnable(owner);
         if (owner == null || pokemob != null || ownable != null)
         {
-            if (pokemob != null && pokemob.getOwner() instanceof Player) player = (Player) pokemob
-                    .getOwner();
-            else if (ownable != null && ownable.getOwner() instanceof Player) player = (Player) ownable
-                    .getOwner();
+            if (pokemob != null && pokemob.getOwner() instanceof Player) player = (Player) pokemob.getOwner();
+            else if (ownable != null && ownable.getOwner() instanceof Player) player = (Player) ownable.getOwner();
             owner = player;
         }
         return owner;
@@ -217,16 +213,12 @@ public class ItemPokemobEgg extends Item
         final LivingEntity owner = ItemPokemobEgg.imprintOwner(mob);
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (owner instanceof Player && (config.permsHatch || config.permsHatchSpecific))
+        if (owner instanceof ServerPlayer player && (config.permsHatch || config.permsHatchSpecific))
         {
             final PokedexEntry entry = mob.getPokedexEntry();
-            final Player player = (Player) owner;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
-            if (config.permsHatch && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB,
-                    context)) return;
-            if (config.permsHatchSpecific && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTSPECIFIC
-                    .get(entry), context)) return;
+            if (config.permsHatch && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTPOKEMOB)) return;
+            if (config.permsHatchSpecific && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTSPECIFIC.get(entry)))
+                return;
         }
         if (owner != null)
         {
@@ -290,8 +282,8 @@ public class ItemPokemobEgg extends Item
             final LivingEntity owner = mob.getOwner();
             owner.sendMessage(new TranslatableComponent("pokemob.hatch", mob.getDisplayName().getString()),
                     Util.NIL_UUID);
-            if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(
-                    world, entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
+            if (world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) world.addFreshEntity(new ExperienceOrb(world,
+                    entity.getX(), entity.getY(), entity.getZ(), entity.getRandom().nextInt(7) + 1));
         }
         final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
         PokecubeCore.POKEMOB_BUS.post(evt);
@@ -318,12 +310,12 @@ public class ItemPokemobEgg extends Item
      */
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(final ItemStack stack, @Nullable final Level playerIn,
-            final List<Component> tooltip, final TooltipFlag advanced)
+    public void appendHoverText(final ItemStack stack, @Nullable final Level playerIn, final List<Component> tooltip,
+            final TooltipFlag advanced)
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
-        if (entry != null) tooltip.add(1, new TranslatableComponent("item.pokecube.pokemobegg.named", I18n.get(entry
-                .getUnlocalizedName())));
+        if (entry != null) tooltip.add(1,
+                new TranslatableComponent("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
     }
 
     /**
@@ -331,13 +323,10 @@ public class ItemPokemobEgg extends Item
      * Returning null here will not kill the ItemEntity and will leave it to
      * function normally. Called when the item it placed in a world.
      *
-     * @param world
-     *            The world object
-     * @param location
-     *            The ItemEntity object, useful for getting the position of the
-     *            entity
-     * @param itemstack
-     *            The current item stack
+     * @param world     The world object
+     * @param location  The ItemEntity object, useful for getting the position
+     *                  of the entity
+     * @param itemstack The current item stack
      * @return A new Entity object to spawn or null
      */
     @Override
@@ -360,8 +349,8 @@ public class ItemPokemobEgg extends Item
         final ItemStack eggItemStack = new ItemStack(ItemPokemobEgg.EGG, 1);
         if (stack.hasTag()) eggItemStack.setTag(stack.getTag());
         else eggItemStack.setTag(new CompoundTag());
-        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location).setStack(
-                eggItemStack);
+        final EntityPokemobEgg entity = new EntityPokemobEgg(EntityPokemobEgg.TYPE, world).setToPos(location)
+                .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
         MinecraftForge.EVENT_BUS.post(event);
         world.addFreshEntity(entity);
@@ -374,8 +363,7 @@ public class ItemPokemobEgg extends Item
      * Item#createCustomEntity returns non null, the ItemEntity will be
      * destroyed and the new Entity will be added to the world.
      *
-     * @param stack
-     *            The current item stack
+     * @param stack The current item stack
      * @return True of the item has a custom entity, If true,
      *         Item#createCustomEntity will be called
      */

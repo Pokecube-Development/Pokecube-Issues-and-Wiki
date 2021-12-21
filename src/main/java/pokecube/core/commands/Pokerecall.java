@@ -18,8 +18,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -29,6 +27,8 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.PokemobTracker;
 import thut.core.common.commands.CommandTools;
 
@@ -119,9 +119,9 @@ public class Pokerecall
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermissionAPI.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
+        PermNodes.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
-        PermissionAPI.registerNode("command.pokerecall.other", DefaultPermissionLevel.OP,
+        PermNodes.registerNode("command.pokerecall.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokerecall to recall other people's mobs");
 
         final Predicate<CommandSourceStack> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");

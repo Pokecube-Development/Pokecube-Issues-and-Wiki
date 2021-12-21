@@ -28,10 +28,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
@@ -119,11 +119,11 @@ public class SecretBase
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermissionAPI.registerNode("command.pokebase.other", DefaultPermissionLevel.OP,
+        PermNodes.registerNode("command.pokebase.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokebase to teleport to an arbitrary base");
-        PermissionAPI.registerNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
+        PermNodes.registerNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokebase to exit a secret base");
-        PermissionAPI.registerNode("command.pokebase.create", DefaultPermissionLevel.ALL,
+        PermNodes.registerNode("command.pokebase.create", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use secret power to make a secret base");
         LiteralArgumentBuilder<CommandSourceStack> command;
 
@@ -145,7 +145,7 @@ public class SecretBase
                                         "owner")))));
         commandDispatcher.register(command);
 
-        PermissionAPI.registerNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
+        PermNodes.registerNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
                 "Temporary cleanup command for removing barrier blocks in secret bases!");
 
         command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word()).requires(

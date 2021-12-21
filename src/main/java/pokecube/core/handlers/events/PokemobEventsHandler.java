@@ -66,9 +66,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -103,6 +100,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
@@ -753,16 +751,11 @@ public class PokemobEventsHandler
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
         if (pokemob.getInventory().getItem(0).isEmpty()) return false;
 
-        if (rider instanceof ServerPlayer && rider == pokemob.getOwner())
+        if (rider instanceof ServerPlayer player && rider == pokemob.getOwner())
         {
-            final Player player = (Player) rider;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
             final Config config = PokecubeCore.getConfig();
-            if (config.permsRide && !handler.hasPermission(player.getGameProfile(), Permissions.RIDEPOKEMOB, context))
-                return false;
-            if (config.permsRideSpecific
-                    && !handler.hasPermission(player.getGameProfile(), Permissions.RIDESPECIFIC.get(entry), context))
+            if (config.permsRide && !PermNodes.getBooleanPerm(player, Permissions.RIDEPOKEMOB)) return false;
+            if (config.permsRideSpecific && !PermNodes.getBooleanPerm(player, Permissions.RIDESPECIFIC.get(entry)))
                 return false;
         }
         final float scale = pokemob.getSize();

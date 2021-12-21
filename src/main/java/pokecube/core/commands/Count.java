@@ -21,13 +21,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.RootTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 
 public class Count
@@ -68,7 +68,7 @@ public class Count
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.count";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
         command.then(Commands.literal("count").requires(Tools.hasPerm(perm)).executes((ctx) -> Count.execute(ctx
                 .getSource())));
