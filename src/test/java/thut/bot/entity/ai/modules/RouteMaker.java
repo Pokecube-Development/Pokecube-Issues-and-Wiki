@@ -115,7 +115,7 @@ public class RouteMaker extends AbstractBot
         {
             if (this.player.tickCount % 20 == 0)
             {
-                this.player.chat("Looking for a village...");
+                this.player.chat(String.format("Looking for a {}...", this.target));
                 this.findNearestVillageNode(this.player.getOnPos(), this.map.nodeCount != 0);
             }
         }
@@ -225,8 +225,8 @@ public class RouteMaker extends AbstractBot
             }
         }
         if (village == null) return null;
-        ThutBot.LOGGER.info("Adding node for a village at: " + village);
-        player.chat("Found a village at " + village);
+        ThutBot.LOGGER.info("Adding node for a structure at: " + village);
+        player.chat(String.format("Found a {} at {}", target, village));
         final Node newNode = this.addNode(village);
         return newNode;
     }

@@ -268,10 +268,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
         if (this.getVillagerData().getProfession() != this.getNpcType().getProfession())
         {
-            System.out.println("resetting profession! " + this.getVillagerData().getProfession() + " "
-                    + this.getNpcType().getProfession());
-            this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
-            this.setVillagerData(this.getVillagerData().setLevel(2));
+            this.setVillagerData(this.getVillagerData().setLevel(2).setProfession(this.getNpcType().getProfession()));
         }
 
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE
@@ -417,7 +414,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
         if (this.getVillagerData().getProfession() == VillagerProfession.NONE) return;
 
-        if (this.getNpcType().getProfession() != VillagerProfession.NITWIT)
+        if (this.getNpcType().getProfession() != VillagerProfession.NITWIT && !fixedTrades && customTrades.isEmpty())
         {
             super.updateTrades();
             if (!this.offers.isEmpty()) return;

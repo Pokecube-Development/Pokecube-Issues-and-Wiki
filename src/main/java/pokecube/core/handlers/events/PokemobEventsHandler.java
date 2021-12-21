@@ -537,9 +537,10 @@ public class PokemobEventsHandler
     {
         final LivingEntity living = evt.getEntityLiving();
 
+        // This prevents double ticking when a mob is both a copy and ticking
+        // elsewhere, say in a custom pokeplayer like implementation
         long tick = living.getPersistentData().getLong("__i__");
         if (tick == Tracker.instance().getTick()) return;
-        living.getPersistentData().putLong("__ii_", tick);
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
@@ -580,9 +581,10 @@ public class PokemobEventsHandler
     {
         final LivingEntity living = evt.getEntityLiving();
 
+        // This prevents double ticking when a mob is both a copy and ticking
+        // elsewhere, say in a custom pokeplayer like implementation
         long tick = living.getPersistentData().getLong("__i__");
         if (tick == Tracker.instance().getTick()) return;
-        living.getPersistentData().putLong("__ii_", tick);
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
         final Level dim = living.getLevel();
