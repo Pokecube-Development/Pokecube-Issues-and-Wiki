@@ -202,7 +202,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         final MerchantOffers trades = this.offers;
         super.setVillagerData(data);
-        this.offers = trades;
+        if (this.customTrades == null) this.customTrades = "";
+        if (this.fixedTrades || !this.customTrades.isEmpty()) this.offers = trades;
     }
 
     @Override
@@ -443,8 +444,6 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     public void setInitOffers(final Consumer<MerchantOffers> in)
     {
         this.init_offers = in;
-        // Clear offers so that it can be reset.
-        this.offers = null;
     }
 
     public void setUseOffers(final Consumer<MerchantOffer> in)
@@ -468,7 +467,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.type = type;
         if (this.getVillagerData().getProfession() != type.getProfession())
         {
-            this.setVillagerXp(1);
+            if (this.getVillagerXp() < 1) this.setVillagerXp(1);
             this.getVillagerData().setProfession(type.getProfession());
         }
     }

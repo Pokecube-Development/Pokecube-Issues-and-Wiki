@@ -137,7 +137,8 @@ public abstract class TrainerBase extends NpcMob
                 // This adds in pokemobs to trade.
                 if (this.aiStates.getAIState(AIState.TRADES_MOBS) && !fixedTrades) this.addMobTrades(player, stack);
 
-                if (!this.getOffers().isEmpty()) this.openTradingScreen(player, this.getDisplayName(), 0);
+                if (!this.getOffers().isEmpty())
+                    this.openTradingScreen(player, this.getDisplayName(), this.getVillagerData().getLevel());
                 else this.setTradingPlayer(null);
             }
             return InteractionResult.sidedSuccess(this.level.isClientSide);

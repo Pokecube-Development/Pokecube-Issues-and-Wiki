@@ -77,7 +77,7 @@ public class NpcType
                 if (!player.level.isClientSide())
                 {
                     mob.setTradingPlayer(player);
-                    mob.openTradingScreen(player, mob.getDisplayName(), 10);
+                    mob.openTradingScreen(player, mob.getDisplayName(), mob.getVillagerData().getLevel());
                 }
                 return true;
             }
