@@ -75,7 +75,7 @@
         "empty;{\"weight\":1}",
         "pokecube:village/taiga/houses/trainer_medium_house;{\"weight\":3}",
         "pokecube:village/taiga/houses/trainer_small_house;{\"weight\":3}",
-        "pokecube:village/taiga/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/taiga/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/taiga/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes": [

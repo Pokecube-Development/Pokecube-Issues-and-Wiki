@@ -62,6 +62,12 @@
         "preset": "spooky_areas",
         "types": "spooky"
       }
+    },
+    {
+      "values": {
+        "preset": "underground",
+        "types": "underground"
+      }
     }
   ]
 }

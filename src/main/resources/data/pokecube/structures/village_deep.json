@@ -54,7 +54,7 @@
         "pokecube:village/deep/houses/house_large_2;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/deep/houses/house_large_3;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/deep/houses/fisher_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube:village/deep/houses/farmer_house;{\"weight\"2,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube:village/deep/houses/farmer_house;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/deep/houses/library_house;{\"weight\":2,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/deep/houses/mason_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/deep/houses/shepherds_house;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",

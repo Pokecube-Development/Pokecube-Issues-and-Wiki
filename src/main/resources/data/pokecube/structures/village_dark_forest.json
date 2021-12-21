@@ -78,7 +78,7 @@
         "pokecube:village/dark_forest/houses/temple_house;{\"weight\":2}",
         "pokecube:village/dark_forest/houses/tool_smith_house;{\"weight\":3}",
         "pokecube:village/dark_forest/houses/weapinsmith_house;{\"weight\":3}",
-        "pokecube:village/dark_forest/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/dark_forest/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/dark_forest/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }

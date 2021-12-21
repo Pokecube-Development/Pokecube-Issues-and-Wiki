@@ -22,6 +22,13 @@ import thut.bot.entity.ai.helper.PathMob;
 
 public abstract class AbstractBot implements IBotAI
 {
+    public static final String INT = "([+-]?[0-9]+)";
+    public static final String SPACE = "(\\s)";
+    public static final String WORD = "(\\w+)";
+    public static final String RSRC = "(\\w+:\\w+)";
+
+    public static final String START = "(start)" + SPACE + RSRC;
+
     // The bot that goes with this routemaker
     protected final BotPlayer player;
 

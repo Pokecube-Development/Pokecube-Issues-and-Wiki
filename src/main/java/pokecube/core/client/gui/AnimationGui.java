@@ -46,7 +46,6 @@ import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -58,6 +57,7 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
@@ -136,7 +136,7 @@ public class AnimationGui extends Screen
             final List<String> entries = Lists.newArrayList(sizeMap.keySet());
             Collections.sort(entries);
             entries.forEach(e -> main.add(e, new JsonPrimitive(sizeMap.get(e))));
-            final String json = PokedexEntryLoader.gson.toJson(main);
+            final String json = JsonUtil.gson.toJson(main);
             final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("sizes.json").toFile();
             final FileWriter out = new FileWriter(dir);
             out.write(json);

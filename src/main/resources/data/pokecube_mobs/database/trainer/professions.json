@@ -1,0 +1,559 @@
+{
+  "professions": [
+    {
+      "profession": "pokecube_adventures:healer",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 2,
+              "sell": {
+                "values": {
+                  "id": "pokecube:revive",
+                  "n": "8"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {
+                "values": {
+                  "id": "pokecube:berryjuice",
+                  "n": "16"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allVitamins",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "12"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "3"
+                  }
+                }
+              ]
+            },
+            {
+              "custom": "allBerryBuy",
+              "exp": 1,
+              "count": 8,
+              "sell": {
+                "values": {
+                  "id": "minecraft:emerald",
+                  "n": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {
+                "values": {
+                  "id": "minecraft:glistering_melon_slice",
+                  "n": "3"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "3"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {
+                "values": {
+                  "id": "minecraft:golden_carrot",
+                  "n": "3"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "3"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {
+                "values": {
+                  "id": "minecraft:golden_apple",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profession": "pokecube_adventures:professor",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 10,
+              "maxUses": 1,
+              "sell": {
+                "values": {
+                  "id": "pokecube:pokedex",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 10,
+              "maxUses": 1,
+              "sell": {
+                "values": {
+                  "id": "pokecube:pokewatch",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "20"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {
+                "values": {
+                  "id": "pokecube_adventures:exp_share",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {
+                "values": {
+                  "id": "pokecube_adventures:bag",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 20,
+              "sell": {
+                "values": {
+                  "id": "pokecube_adventures:siphon",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "64"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 2,
+              "sell": {
+                "values": {
+                  "id": "pokecube:pokecube",
+                  "n": "16"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 4,
+              "sell": {
+                "values": {
+                  "id": "pokecube:greatcube",
+                  "n": "8"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 6,
+              "sell": {
+                "values": {
+                  "id": "pokecube:ultracube",
+                  "n": "4"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 20,
+              "sell": {
+                "values": {
+                  "id": "pokecube_adventures:cloner",
+                  "n": "16"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "1"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 20,
+              "sell": {
+                "values": {
+                  "id": "pokecube_adventures:extractor",
+                  "n": "1"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "64"
+                  }
+                },
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "32"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profession": "pokecube_adventures:trader",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "custom": "allBerryBuy",
+              "exp": 1,
+              "count": 8,
+              "sell": {
+                "values": {
+                  "id": "minecraft:emerald",
+                  "n": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 2,
+              "sell": {
+                "values": {
+                  "id": "pokecube:pokecube",
+                  "n": "16"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 4,
+              "sell": {
+                "values": {
+                  "id": "pokecube:greatcube",
+                  "n": "8"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 6,
+              "sell": {
+                "values": {
+                  "id": "pokecube:ultracube",
+                  "n": "4"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "3"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "type": "tag_sell",
+              "custom": "pokecube_adventures:mega_sales",
+              "exp": 5,
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "tag_sell",
+              "custom": "pokecube:pokemob_evo",
+              "exp": 5,
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 250,
+              "sell": {
+                "values": {
+                  "id": "pokecube:shiny_charm"
+                }
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald_block",
+                    "n": "64"
+                  }
+                },
+                {
+                  "values": {
+                    "id": "minecraft:emerald_block",
+                    "n": "64"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 5,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_16",
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "16"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 10,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_32",
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "32"
+                  }
+                }
+              ]
+            },
+            {
+              "exp": 15,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_64",
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "64"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

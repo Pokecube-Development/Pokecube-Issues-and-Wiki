@@ -1,0 +1,133 @@
+{
+  "pools": [
+    {
+      "name": "pokecube_legends:regigigas_temple",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/regigigas_temple;{\"dy\":5,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:regice_temple",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/regice_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:regieleki_temple",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/regieleki_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:regidrago_temple",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:temples/surface/regidrago_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:regirock_temple",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/regirock_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:registeel_temple",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/registeel_temple;{\"dy\":2,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube_legends:regigigas_temple",
+      "root": "pokecube_legends:regigigas_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "category": "icy"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:regice_temple",
+      "root": "pokecube_legends:regice_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "category": "icy"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:regirock_temple",
+      "root": "pokecube_legends:regirock_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "types": "sandy",
+          "typesBlacklist": "mesa"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:registeel_temple",
+      "root": "pokecube_legends:registeel_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "category": "extreme_hills"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:regidrago_temple",
+      "root": "pokecube_legends:regidrago_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "types": "mesa"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:regieleki_temple",
+      "root": "pokecube_legends:regieleki_temple",
+      "biomeType": "ruin",
+      "distance": 84,
+      "separation": 32,
+      "base_under": false,
+      "spawn": {
+        "values": {
+          "types": "savanna"
+        }
+      }
+    }
+  ]
+}

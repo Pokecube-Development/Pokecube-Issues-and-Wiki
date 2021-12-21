@@ -20,6 +20,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
+import thut.api.util.JsonUtil;
 
 public class PokemobSpawns extends ResourceData
 {
@@ -150,7 +151,7 @@ public class PokemobSpawns extends ResourceData
             final Reader reader = new InputStreamReader(res);
             try
             {
-                final SpawnList temp = PokedexEntryLoader.gson.fromJson(reader, SpawnList.class);
+                final SpawnList temp = JsonUtil.gson.fromJson(reader, SpawnList.class);
                 if (!confirmNew(temp, l)) return;
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);

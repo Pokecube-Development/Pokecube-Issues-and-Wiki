@@ -34,11 +34,11 @@ import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import thut.api.util.JsonUtil;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 {
@@ -55,7 +55,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         {
             res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
             final InputStream in = res.getInputStream();
-            final JsonObject json = PokedexEntryLoader.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            final JsonObject json = JsonUtil.gson.fromJson(new InputStreamReader(in), JsonObject.class);
             for (final Entry<String, JsonElement> entry : json.entrySet())
             {
                 final String key = entry.getKey();

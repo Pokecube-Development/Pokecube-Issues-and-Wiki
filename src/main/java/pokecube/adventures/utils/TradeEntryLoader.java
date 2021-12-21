@@ -20,22 +20,26 @@ import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
+import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 import thut.lib.CompatParser.ClassFinder;
 
 public class TradeEntryLoader
@@ -63,10 +67,15 @@ public class TradeEntryLoader
         public String custom;
         public String type = "preset";
         public Sell sell;
+        public int maxUses = Integer.MAX_VALUE;
+        public int exp = -1;
+        public int demand = 0;
+        public float multiplier = 0.05f;
+        public int count = -1;
 
         public final List<Buy> buys = Lists.newArrayList();
 
-        public Map<QName, String> values;
+        public Map<QName, String> values = Maps.newHashMap();
     }
 
     public static class TradeEntry
@@ -76,9 +85,26 @@ public class TradeEntryLoader
         private final List<Trade> trades = Lists.newArrayList();
     }
 
-    public static class XMLDatabase
+    public static class ProfiessionStage
+    {
+        int level;
+        boolean clear_old = false;
+
+        public final List<Trade> trades = Lists.newArrayList();
+    }
+
+    public static class ProfessionEntry
+    {
+        String profession;
+        String type = "";
+
+        public final List<ProfiessionStage> stages = Lists.newArrayList();
+    }
+
+    public static class TradeDatabase
     {
         private final List<TradeEntry> trades = Lists.newArrayList();
+        private final List<ProfessionEntry> professions = Lists.newArrayList();
     }
 
     public static interface TradePreset
@@ -189,7 +215,7 @@ public class TradeEntryLoader
                         values = trade.buys.get(1).getValues();
                         buy2 = Tools.getStack(values);
                     }
-                    recipe = new TrainerTrade(buy1, buy2, stack);
+                    recipe = new TrainerTrade(buy1, buy2, stack, trade);
                     values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
                         recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
@@ -214,7 +240,7 @@ public class TradeEntryLoader
                     Map<QName, String> values = trade.sell.getValues();
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(values);
-                    recipe = new TrainerTrade(stack, ItemStack.EMPTY, sell);
+                    recipe = new TrainerTrade(stack, ItemStack.EMPTY, sell, trade);
                     values = trade.values;
                     if (values.containsKey(TradeEntryLoader.CHANCE))
                         recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
@@ -230,9 +256,9 @@ public class TradeEntryLoader
         return false;
     }
 
-    public static XMLDatabase loadDatabase()
+    public static TradeDatabase loadDatabase()
     {
-        final XMLDatabase full = new XMLDatabase();
+        final TradeDatabase full = new TradeDatabase();
         final Collection<ResourceLocation> resources = PackFinder.getJsonResources(NpcType.DATALOC);
         for (final ResourceLocation file : resources)
         {
@@ -240,12 +266,18 @@ public class TradeEntryLoader
             try
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
-                loaded = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+                loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
+                TradeDatabase database = null;
                 reader.close();
                 if (loaded.has("trades"))
                 {
-                    final XMLDatabase database = PokedexEntryLoader.gson.fromJson(loaded, XMLDatabase.class);
+                    database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
                     for (final TradeEntry entry : database.trades) full.trades.add(entry);
+                }
+                if (loaded.has("professions"))
+                {
+                    if (database == null) database = JsonUtil.gson.fromJson(loaded, TradeDatabase.class);
+                    for (final ProfessionEntry entry : database.professions) full.professions.add(entry);
                 }
             }
             catch (final Exception e)
@@ -258,18 +290,46 @@ public class TradeEntryLoader
 
     public static void makeEntries()
     {
-        final XMLDatabase database = TradeEntryLoader.loadDatabase();
+        final TradeDatabase database = TradeEntryLoader.loadDatabase();
+        Professions.clear();
+        NpcType.TRADE_MAP.clear();
         for (final TradeEntry entry : database.trades)
         {
             final TrainerTrades trades = new TrainerTrades();
-            inner:
-            for (final Trade trade : entry.trades)
+            processTrades(trades, entry.trades);
+            TypeTrainer.tradesMap.put(entry.template, trades);
+        }
+        for (ProfessionEntry entry : database.professions)
+        {
+            ResourceLocation id = new ResourceLocation(entry.profession);
+            for (final ProfiessionStage stage : entry.stages)
             {
-                if (TradeEntryLoader.addTemplatedTrades(trade, trades)) continue inner;
+                int level = stage.level;
+                final TrainerTrades trades = new TrainerTrades();
+                processTrades(trades, stage.trades);
+                ItemListing[] arr = trades.tradesList.toArray(new ItemListing[trades.tradesList.size()]);
+                if (ForgeRegistries.PROFESSIONS.containsKey(id))
+                {
+                    VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
+                    Professions.updateProfession(profession, level, arr, stage.clear_old);
+                }
+                if (!entry.type.isEmpty()) NpcType.addTrade(entry.type, level, arr, stage.clear_old);
+            }
+        }
+    }
+
+    private static void processTrades(TrainerTrades trades, List<Trade> list)
+    {
+        for (final Trade trade : list)
+        {
+            try
+            {
+                if (TradeEntryLoader.addTemplatedTrades(trade, trades)) continue;
                 TrainerTrade recipe;
                 ItemStack sell = ItemStack.EMPTY;
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
+
                 Map<QName, String> values = trade.sell.getValues();
                 sell = Tools.getStack(values);
                 values = trade.buys.get(0).getValues();
@@ -285,7 +345,7 @@ public class TradeEntryLoader
                     continue;
                 }
 
-                recipe = new TrainerTrade(buy1, buy2, sell);
+                recipe = new TrainerTrade(buy1, buy2, sell, trade);
                 values = trade.values;
                 if (values.containsKey(TradeEntryLoader.CHANCE))
                     recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
@@ -295,8 +355,11 @@ public class TradeEntryLoader
                     recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
                 trades.tradesList.add(recipe);
             }
-            TypeTrainer.tradesMap.put(entry.template, trades);
+            catch (Throwable t)
+            {
+                PokecubeCore.LOGGER.error("Error with trade: {}", JsonUtil.gson.toJson(trade), t);
+            }
+
         }
     }
-
 }

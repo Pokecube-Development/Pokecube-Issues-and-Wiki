@@ -76,7 +76,7 @@
         "empty;{\"weight\":1}",
         "pokecube:village/desert/houses/trainer_medium_house;{\"weight\":3}",
         "pokecube:village/desert/houses/trainer_small_house;{\"weight\":3}",
-        "pokecube:village/desert/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/desert/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/desert/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes": [

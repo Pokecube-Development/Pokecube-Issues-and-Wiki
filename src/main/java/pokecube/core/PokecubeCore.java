@@ -88,6 +88,7 @@ import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.interfaces.IEntityProvider;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
+import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
@@ -211,6 +212,7 @@ public class PokecubeCore
             event.getRegistry().register(PCContainer.TYPE.setRegistryName(PokecubeCore.MODID, "pc"));
             event.getRegistry().register(TMContainer.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
             event.getRegistry().register(TradeContainer.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
+            event.getRegistry().register(NpcContainer.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
         }
 
         @SubscribeEvent
@@ -420,14 +422,14 @@ public class PokecubeCore
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
         ItemGenerator.flammables(event);
-        PointsOfInterest.postInit();
 
         event.enqueueWork(() -> {
+            PointsOfInterest.postInit();
 
             BiomeDictionary.addTypes(SecretBaseDimension.BIOME_KEY, BiomeDictionary.Type.VOID);
 
+            
             // FIXME remove this once forge does it itself.
-
             BiomeDictionary.addTypes(Biomes.MEADOW, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.PLATEAU,
                     BiomeDictionary.Type.OVERWORLD);
             BiomeDictionary.addTypes(Biomes.GROVE, BiomeDictionary.Type.COLD, BiomeDictionary.Type.CONIFEROUS,

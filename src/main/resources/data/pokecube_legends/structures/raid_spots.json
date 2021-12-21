@@ -1,0 +1,73 @@
+{
+  "pools": [
+    {
+      "name": "pokecube_legends:raid_end",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/raid_end"
+      ]
+    },
+    {
+      "name": "pokecube_legends:raid_spot",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/raid_spot"
+      ]
+    },
+    {
+      "name": "pokecube_legends:raid_desert",
+      "rigid": true,
+      "ignoreAir": false,
+      "options": [
+        "pokecube_legends:temples/surface/raid_desert"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube_legends:raid_end",
+      "root": "pokecube_legends:raid_end",
+      "biomeType": "none",
+      "distance": 32,
+      "separation": 5,
+      "spawn": {
+        "values": {
+          "category": "the_end",
+          "strict_type_cat": true
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:raid_desert",
+      "root": "pokecube_legends:raid_desert",
+      "biomeType": "none",
+      "distance": 15,
+      "separation": 5,
+      "spawn": {
+        "values": {
+          "types": "sandy"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:raid_spot",
+      "root": "pokecube_legends:raid_spot",
+      "biomeType": "none",
+      "distance": 25,
+      "separation": 5,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "types": "all",
+          "typesBlacklist": "sandy",
+          "categoryBlacklist": "ocean,desert,the_end"
+        }
+      }
+    }
+  ]
+}

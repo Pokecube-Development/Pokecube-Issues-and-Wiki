@@ -36,6 +36,14 @@ import thut.api.maths.Vector3;
 
 public class BrainUtils
 {
+    public static boolean targetIsValid(Brain<?> brain, MemoryModuleType<? extends LivingEntity> module,
+            Predicate<LivingEntity> validator)
+    {
+        return brain.getMemory(module).filter(validator).filter(LivingEntity::isAlive).filter((mob) -> {
+            return BehaviorUtils.entityIsVisible(brain, mob);
+        }).isPresent();
+    }
+
     public static boolean canSee(final LivingEntity mobIn, final LivingEntity target)
     {
         final boolean brainMemory = mobIn.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
@@ -65,22 +73,22 @@ public class BrainUtils
     public static void setAttackTarget(final LivingEntity mobIn, final LivingEntity target)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryStatus.REGISTERED)) brain.setMemory(
-                MemoryModules.ATTACKTARGET, target);
+        if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryStatus.REGISTERED))
+            brain.setMemory(MemoryModules.ATTACKTARGET, target);
         if (mobIn instanceof Mob) ((Mob) mobIn).setTarget(target);
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)
     {
         Brain<?> brain = mobIn.getBrain();
-        if (brain.checkMemory(MemoryModules.HUNTTARGET, MemoryStatus.REGISTERED)) brain.setMemory(
-                MemoryModules.HUNTTARGET, target);
+        if (brain.checkMemory(MemoryModules.HUNTTARGET, MemoryStatus.REGISTERED))
+            brain.setMemory(MemoryModules.HUNTTARGET, target);
         BrainUtils.setAttackTarget(mobIn, target);
         if (target != null)
         {
             brain = target.getBrain();
-            if (brain.checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED)) brain.setMemory(
-                    MemoryModules.HUNTED_BY, mobIn);
+            if (brain.checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
+                brain.setMemory(MemoryModules.HUNTED_BY, mobIn);
         }
     }
 
@@ -112,8 +120,8 @@ public class BrainUtils
     public static void setMateTarget(final AgeableMob mobIn, final AgeableMob target)
     {
         final Brain<?> brain = mobIn.getBrain();
-        if (brain.checkMemory(MemoryModules.MATE_TARGET, MemoryStatus.REGISTERED)) brain.setMemory(
-                MemoryModules.MATE_TARGET, target);
+        if (brain.checkMemory(MemoryModules.MATE_TARGET, MemoryStatus.REGISTERED))
+            brain.setMemory(MemoryModules.MATE_TARGET, target);
     }
 
     public static void lookAt(final LivingEntity entityIn, final double x, final double y, final double z)
@@ -202,31 +210,27 @@ public class BrainUtils
 
     public static void removeSensors(final Brain<?> brain, final List<SensorType<?>> SENSOR_TYPES)
     {
-        for (final SensorType<?> type : SENSOR_TYPES)
-            brain.sensors.remove(type);
+        for (final SensorType<?> type : SENSOR_TYPES) brain.sensors.remove(type);
     }
 
     public static void addToBrain(final Brain<?> brain, final List<MemoryModuleType<?>> MEMORY_TYPES,
             final List<SensorType<?>> SENSOR_TYPES)
     {
-        MEMORY_TYPES.forEach((module) ->
-        {
+        MEMORY_TYPES.forEach((module) -> {
             // Only add the memory module if it wasn't already added!
             if (!brain.memories.containsKey(module)) brain.memories.put(module, Optional.empty());
         });
-        SENSOR_TYPES.forEach((type) ->
-        {
+        SENSOR_TYPES.forEach((type) -> {
             @SuppressWarnings("unchecked")
             final SensorType<? extends Sensor<? super LivingEntity>> stype = (SensorType<? extends Sensor<? super LivingEntity>>) type;
             @SuppressWarnings("unchecked")
             final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.create();
             brain.sensors.put(stype, sense);
         });
-        brain.sensors.values().forEach((sensor) ->
-        {
+        brain.sensors.values().forEach((sensor) -> {
             for (final MemoryModuleType<?> memorymoduletype : sensor.requires())
-                if (!brain.memories.containsKey(memorymoduletype)) brain.memories.put(memorymoduletype, Optional
-                        .empty());
+                if (!brain.memories.containsKey(memorymoduletype))
+                    brain.memories.put(memorymoduletype, Optional.empty());
         });
 
     }
@@ -239,15 +243,12 @@ public class BrainUtils
     public static void addToActivity(final Brain<?> brain, final Activity act,
             final Collection<Pair<Integer, ? extends Behavior<? super LivingEntity>>> tasks)
     {
-        tasks.forEach((pair) ->
-        {
+        tasks.forEach((pair) -> {
             final Integer prior = pair.getFirst();
             final Behavior<? super LivingEntity> task = pair.getSecond();
-            brain.availableBehaviorsByPriority.computeIfAbsent(prior, (val) ->
-            {
+            brain.availableBehaviorsByPriority.computeIfAbsent(prior, (val) -> {
                 return Maps.newHashMap();
-            }).computeIfAbsent(act, (tmp) ->
-            {
+            }).computeIfAbsent(act, (tmp) -> {
                 return Sets.newLinkedHashSet();
             }).add(task);
         });

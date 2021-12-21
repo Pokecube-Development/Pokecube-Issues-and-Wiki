@@ -5,23 +5,11 @@
       "pokemon": "-normal"
     },
     {
-      "type": "farmer",
-      "pokemon": "-normal"
+      "type": "armorer",
+      "pokemon": "-steel"
     },
     {
-      "type": "fisherman",
-      "pokemon": "-water"
-    },
-    {
-      "type": "shepherd",
-      "pokemon": "-normal"
-    },
-    {
-      "type": "fletcher",
-      "pokemon": "-flying"
-    },
-    {
-      "type": "librarian",
+      "type": "butcher",
       "pokemon": "-normal"
     },
     {
@@ -33,28 +21,44 @@
       "pokemon": "-psychic"
     },
     {
-      "type": "armor",
-      "pokemon": "-steel"
-    },
-    {
-      "type": "weapon",
-      "pokemon": "-steel"
-    },
-    {
-      "type": "tool",
-      "pokemon": "-steel"
-    },
-    {
-      "type": "butcher",
+      "type": "farmer",
       "pokemon": "-normal"
     },
     {
-      "type": "leather",
+      "type": "fisherman",
+      "pokemon": "-water"
+    },
+    {
+      "type": "fletcher",
+      "pokemon": "-flying"
+    },
+    {
+      "type": "leatherworker",
       "pokemon": "-normal"
+    },
+    {
+      "type": "librarian",
+      "pokemon": "-normal"
+    },
+    {
+      "type": "mason",
+      "pokemon": "-rock"
     },
     {
       "type": "nitwit",
       "pokemon": "-fairy"
+    },
+    {
+      "type": "shepherd",
+      "pokemon": "-normal"
+    },
+    {
+      "type": "toolsmith",
+      "pokemon": "-steel"
+    },
+    {
+      "type": "weaponsmith",
+      "pokemon": "-steel"
     }
   ]
 }

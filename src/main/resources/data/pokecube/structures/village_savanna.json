@@ -80,7 +80,7 @@
         "empty;{\"weight\":1}",
         "pokecube:village/savanna/houses/trainer_medium_house;{\"weight\":3}",
         "pokecube:village/savanna/houses/trainer_small_house;{\"weight\":3}",
-        "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/savanna/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/savanna/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes": [

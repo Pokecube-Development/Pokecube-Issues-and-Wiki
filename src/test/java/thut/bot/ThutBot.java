@@ -18,9 +18,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -56,6 +55,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -67,6 +67,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.entity.CopyCaps;
+import thut.api.util.JsonUtil;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 
@@ -83,6 +84,7 @@ public class ThutBot
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerTick);
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onChat);
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerStart);
+        MinecraftForge.EVENT_BUS.addListener(ThutBot::onServerStop);
         MinecraftForge.EVENT_BUS.addListener(ThutBot::onCommandRegister);
 
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve("thutbot.log").toFile();
@@ -120,7 +122,8 @@ public class ThutBot
 
     }
 
-    private static ArrayList<GameProfile> ALL_BOTS = Lists.newArrayList();
+    private static ArrayList<BotEntry> ALL_BOTS = Lists.newArrayList();
+    public static Map<UUID, BotEntry> BOT_MAP = Maps.newHashMap();
 
     public static final String PERMBOT = "thutbot.perm";
     public static final String PERMBOTSUMMON = "thutbot.perm.summon";
@@ -151,18 +154,19 @@ public class ThutBot
                 }).then(Commands.argument("name", StringArgumentType.string()).executes(ctx -> {
                     final String name = StringArgumentType.getString(ctx, "name");
 
-                    long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
-                    final UUID id = new UUID(hash, hash);
-
                     ServerLevel level = ctx.getSource().getLevel();
                     MinecraftServer server = ctx.getSource().getServer();
 
-                    if (server.getPlayerList().getPlayer(id) == null)
+                    BotEntry entry = new BotEntry();
+                    entry.name = name;
+
+                    if (server.getPlayerList().getPlayer(entry.getProfile().getId()) == null)
                     {
-                        final GameProfile profile = new GameProfile(id, name);
-                        final BotPlayer bot = new BotPlayer(level, profile);
+                        ALL_BOTS.add(entry);
+                        BOT_MAP.put(entry.getProfile().getId(), entry);
+                        final BotPlayer bot = new BotPlayer(level, entry.getProfile());
                         ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
-                        ALL_BOTS.add(bot.getGameProfile());
+                        entry._profile = bot.getGameProfile();
                         saveBots();
                     }
                     else
@@ -182,7 +186,8 @@ public class ThutBot
                     MinecraftServer server = ctx.getSource().getServer();
                     if (server.getPlayerList().getPlayerByName(name) instanceof BotPlayer bot)
                     {
-                        ALL_BOTS.remove(bot.getGameProfile());
+                        ALL_BOTS.removeIf(e -> e.name.equals(name));
+                        BOT_MAP.remove(bot.getUUID());
                         server.getPlayerList().remove(bot);
                         saveBots();
                     }
@@ -196,19 +201,18 @@ public class ThutBot
         event.getDispatcher().register(kill_bot);
     }
 
-    private static void saveBots()
+    public static void saveBots()
     {
         final Path dir = FMLPaths.CONFIGDIR.get().resolve("thutbot");
         dir.toFile().mkdirs();
         File file = dir.resolve("thutbots.json").toFile();
 
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         BotList list = new BotList();
-        ALL_BOTS.forEach(g -> list.bots.add(g.getName()));
+        ALL_BOTS.forEach(g -> list.bots.add(g));
 
         try
         {
-            FileUtils.writeStringToFile(file, gson.toJson(list), "UTF-8");
+            FileUtils.writeStringToFile(file, JsonUtil.gson.toJson(list), "UTF-8");
         }
         catch (IOException e)
         {
@@ -228,12 +232,11 @@ public class ThutBot
 
         for (int i = 0; i < ALL_BOTS.size(); i++)
         {
-            GameProfile p = ALL_BOTS.get(i);
-            if (server.getPlayerList().getPlayer(p.getId()) == null)
+            BotEntry p = ALL_BOTS.get(i);
+            if (server.getPlayerList().getPlayer(p.getProfile().getId()) == null)
             {
-                final BotPlayer bot = new BotPlayer(level, p);
+                final BotPlayer bot = new BotPlayer(level, p.getProfile());
                 ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
-                ALL_BOTS.set(i, bot.getGameProfile());
             }
         }
     }
@@ -250,9 +253,40 @@ public class ThutBot
         }));
     }
 
+    public static class BotEntry
+    {
+        public String name;
+        GameProfile _profile;
+        File _file;
+
+        private void initProfile()
+        {
+            long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
+            final UUID id = new UUID(hash, hash);
+            this._profile = new GameProfile(id, name);
+        }
+
+        public GameProfile getProfile()
+        {
+            if (_profile == null) initProfile();
+            return _profile;
+        }
+
+        public File getFile()
+        {
+            if (_file == null)
+            {
+                final Path dir = FMLPaths.CONFIGDIR.get().resolve("thutbot");
+                dir.toFile().mkdirs();
+                _file = dir.resolve(this.name + ".dat").toFile();
+            }
+            return _file;
+        }
+    }
+
     public static class BotList
     {
-        public List<String> bots = Lists.newArrayList();
+        public List<BotEntry> bots = Lists.newArrayList();
     }
 
     private static void onServerStart(ServerAboutToStartEvent event)
@@ -272,14 +306,12 @@ public class ThutBot
             // We load the bots
             try
             {
-                final Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 ALL_BOTS.clear();
                 String json = FileUtils.readFileToString(file, "UTF-8");
-                BotList loaded = gson.fromJson(json, BotList.class);
-                loaded.bots.forEach(name -> {
-                    long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
-                    final UUID id = new UUID(hash, hash);
-                    ALL_BOTS.add(new GameProfile(id, name));
+                BotList loaded = JsonUtil.gson.fromJson(json, BotList.class);
+                loaded.bots.forEach(entry -> {
+                    ALL_BOTS.add(entry);
+                    BOT_MAP.put(entry.getProfile().getId(), entry);
                 });
             }
             catch (Exception e)
@@ -287,7 +319,11 @@ public class ThutBot
                 LOGGER.error("Error loading saved bot list", e);
             }
         }
+    }
 
+    private static void onServerStop(ServerStoppedEvent event)
+    {
+        saveBots();
     }
 
     private static void placeNewPlayer(final MinecraftServer server, final Connection connection,

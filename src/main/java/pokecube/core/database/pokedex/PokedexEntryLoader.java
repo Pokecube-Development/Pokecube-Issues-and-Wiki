@@ -29,7 +29,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -49,14 +48,13 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.util.QNameAdaptor;
-import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -589,7 +587,7 @@ public class PokedexEntryLoader
         }
     }
 
-    public static final Gson gson;
+    public static final Gson gson = JsonUtil.gson;
 
     public static final Comparator<XMLPokedexEntry> ENTRYSORTER = (o1, o2) -> {
         int diff = o1.number - o2.number;
@@ -599,13 +597,6 @@ public class PokedexEntryLoader
     };
 
     public static XMLPokedexEntry missingno = new XMLPokedexEntry();
-
-    static
-    {
-        gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE).setPrettyPrinting()
-                .disableHtmlEscaping().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
-        PokedexEntryLoader.missingno.stats = new StatsNode();
-    }
 
     public static List<ResourceLocation> hotloadable = Lists.newArrayList();
 
@@ -1399,7 +1390,7 @@ public class PokedexEntryLoader
             });
             final Map<String, XMLPokedexEntry> back = database.__map__;
             database.__map__ = null;
-            final String json = PokedexEntryLoader.gson.toJson(database);
+            final String json = JsonUtil.gson.toJson(database);
             database.__map__ = back;
             final FileWriter writer = new FileWriter(new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
             writer.append(json);

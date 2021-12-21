@@ -66,6 +66,12 @@
         "types": "all",
         "typesBlacklist": "cave"
       }
+    },
+    {
+      "values": {
+        "preset": "cave_subbiome",
+        "types": "cave"
+      }
     }
   ]
 }

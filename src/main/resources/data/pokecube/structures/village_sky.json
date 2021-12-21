@@ -106,7 +106,7 @@
       "ignoreAir": false,
       "rigid": true,
       "options": [
-        "pokecube:village/sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/sky/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/sky/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }

@@ -25,7 +25,7 @@
       "ignoreAir": false,
       "rigid": true,
       "options": [
-        "pokecube:village/badlands_small/pokecenter/center_small;{\"flag\":\"pokecenter\"}"
+        "pokecube:village/badlands_small/pokecenter/center_small;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
@@ -125,7 +125,7 @@
         "pokecube:village/badlands/houses/medium_house_3;{\"weight\":5}",
         "pokecube:village/badlands/houses/medium_house_4;{\"weight\":5}",
         "pokecube:village/badlands/houses/empty_1;{\"weight\":2}",
-        "pokecube:village/badlands/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/badlands/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/badlands/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }

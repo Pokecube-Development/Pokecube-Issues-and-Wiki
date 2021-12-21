@@ -24,10 +24,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.IResourceData;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class StringTag implements IResourceData
@@ -172,7 +172,7 @@ public class StringTag implements IResourceData
             String json = "";
             try
             {
-                json = PokedexEntryLoader.gson.toJson(h);
+                json = JsonUtil.gson.toJson(h);
                 final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),
                         Charset.forName("UTF-8").newEncoder());
                 writer.write(json);
@@ -195,7 +195,7 @@ public class StringTag implements IResourceData
             {
                 final InputStream res = resource.getInputStream();
                 final Reader reader = new InputStreamReader(res);
-                final TagHolder temp = PokedexEntryLoader.gson.fromJson(reader, TagHolder.class);
+                final TagHolder temp = JsonUtil.gson.fromJson(reader, TagHolder.class);
                 temp.postProcess();
                 if (temp.replace) tagged.values.clear();
                 temp.values.forEach(s -> {

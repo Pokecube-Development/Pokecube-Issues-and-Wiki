@@ -76,7 +76,7 @@
       "chance": 1,
       "distance": 48,
       "separation": 12,
-      "size": 6,
+      "size": 5,
       "priority": 8,
       "biomeType": "village",
       "proc_list": "pokecube:ladders_to_ground",

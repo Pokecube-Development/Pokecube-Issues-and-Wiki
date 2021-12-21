@@ -79,7 +79,7 @@
         "pokecube:village/hills/houses/temple_house;{\"weight\":3}",
         "pokecube:village/hills/houses/tool_smith_house;{\"weight\":3}",
         "pokecube:village/hills/houses/weaponsmith_house;{\"weight\":3}",
-        "pokecube:village/hills/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/hills/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/hills/gym/gym_01;{\"flag\":\"gym\"}"
       ]
     }

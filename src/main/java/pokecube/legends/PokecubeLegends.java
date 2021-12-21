@@ -1,6 +1,7 @@
 package pokecube.legends;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +48,9 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -330,6 +334,17 @@ public class PokecubeLegends
     {
         final PokecubeDim helper = new PokecubeDim();
 
+        // Here we do some stuff to supress the annoying forge warnings
+        // about "dangerous alternative prefixes.
+        String namespace = Reference.ID;
+        String prefix = ModLoadingContext.get().getActiveNamespace();
+        ModContainer old = ModLoadingContext.get().getActiveContainer();
+        if (!prefix.equals(namespace))
+        {
+            Optional<? extends ModContainer> swap = ModList.get().getModContainerById(namespace);
+            if (swap.isPresent()) ModLoadingContext.get().setActiveContainer(swap.get());
+        }
+
         event.behaviors.add(new DefaultPokecubeBehavior()
         {
             @Override
@@ -386,6 +401,12 @@ public class PokecubeLegends
                 return helper.teamR(mob);
             }
         }.setRegistryName(Reference.ID, "rocket"));
+
+        // Undo the suppression for the prefixes.
+        if (old != ModLoadingContext.get().getActiveContainer())
+        {
+            ModLoadingContext.get().setActiveContainer(old);
+        }
     }
 
     @SubscribeEvent

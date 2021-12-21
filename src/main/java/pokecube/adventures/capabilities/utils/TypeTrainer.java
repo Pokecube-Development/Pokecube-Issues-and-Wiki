@@ -19,6 +19,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
@@ -47,6 +49,7 @@ import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TrainerTracker;
+import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
@@ -227,15 +230,39 @@ public class TypeTrainer extends NpcType
         });
     }
 
-    public static class TrainerTrade extends MerchantOffer
+    public static class TrainerTrade extends MerchantOffer implements ItemListing
     {
+        private final ItemStack _input_a;
+        private final ItemStack _input_b;
+        private final ItemStack _output;
+        private int _uses;
+        private final int _maxUses;
+        private int _demand;
+        private float _multiplier;
+        private int _exp = 1;
+
         public int min = -1;
         public int max = -1;
         public float chance = 1;
 
-        public TrainerTrade(final ItemStack buy1, final ItemStack buy2, final ItemStack sell)
+        public TrainerTrade(ItemStack input_a, ItemStack input_b, ItemStack output, int uses, int maxUses, int exp,
+                float multiplier, int demand)
         {
-            super(buy1, buy2, sell, Integer.MAX_VALUE, -1, 1);
+            super(input_a, input_b, output, uses, maxUses, exp, multiplier, demand);
+
+            this._input_a = input_a;
+            this._input_b = input_b;
+            this._output = output;
+            this._uses = uses;
+            this._maxUses = maxUses;
+            this._exp = exp;
+            this._multiplier = multiplier;
+            this._demand = demand;
+        }
+
+        public TrainerTrade(final ItemStack buy1, final ItemStack buy2, final ItemStack sell, final Trade trade)
+        {
+            this(buy1, buy2, sell, 0, trade.maxUses, trade.exp, trade.multiplier, trade.demand);
         }
 
         public MerchantOffer getRecipe(final Random rand)
@@ -254,6 +281,12 @@ public class TypeTrainer extends NpcType
             }
             final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, Integer.MAX_VALUE, 10, 1);
             return ret;
+        }
+
+        @Override
+        public MerchantOffer getOffer(Entity user, Random random)
+        {
+            return new TrainerTrade(_input_a, _input_b, _output, _uses, _maxUses, _exp, _multiplier, _demand);
         }
     }
 

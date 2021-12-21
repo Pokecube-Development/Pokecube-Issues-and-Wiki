@@ -28,34 +28,28 @@ public class ContainerTrainer extends BaseContainer
         this.pokemobs = TrainerCaps.getHasPokemobs(mob);
         int index = 0;
         for (int i = 0; i < 3; ++i)
-            for (int j = 0; j < 2; ++j)
-                this.addSlot(new Slot(this.pokemobs, index++, 26 + j * 18, 18 + i * 18)
+            for (int j = 0; j < 2; ++j) this.addSlot(new Slot(this.pokemobs, index++, 26 + j * 18, 18 + i * 18)
+            {
+                @Override
+                public boolean mayPlace(final ItemStack stack)
                 {
-                    @Override
-                    public boolean mayPlace(final ItemStack stack)
-                    {
-                        return PokecubeManager.isFilled(stack);
-                    }
-                    @Override
-                    public void onTake(final Player thePlayer, final ItemStack stack)
-                    {
-                        final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getCommandSenderWorld());
-                        if (pokemob != null)
-                        {
-                            pokemob.setOwner(thePlayer);
-                            final ItemStack edited = PokecubeManager.pokemobToItem(pokemob);
-                            stack.setTag(edited.getTag());
-                        }
-                        super.onTake(thePlayer, stack);
-                    }
-                });
-        this.bindPlayerInventory(ivplay, -19);
-    }
+                    return PokecubeManager.isFilled(stack);
+                }
 
-    @Override
-    public boolean stillValid(final Player playerIn)
-    {
-        return this.pokemobs.stillValid(playerIn);
+                @Override
+                public void onTake(final Player thePlayer, final ItemStack stack)
+                {
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getCommandSenderWorld());
+                    if (pokemob != null)
+                    {
+                        pokemob.setOwner(thePlayer);
+                        final ItemStack edited = PokecubeManager.pokemobToItem(pokemob);
+                        stack.setTag(edited.getTag());
+                    }
+                    super.onTake(thePlayer, stack);
+                }
+            });
+        this.bindPlayerInventory(ivplay, -19);
     }
 
     @Override

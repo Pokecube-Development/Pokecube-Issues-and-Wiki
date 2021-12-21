@@ -55,7 +55,7 @@ public class AllTMs implements TradePreset
                 values = trade.buys.get(1).getValues();
                 buy2 = Tools.getStack(values);
             }
-            recipe = new TrainerTrade(buy1, buy2, sell);
+            recipe = new TrainerTrade(buy1, buy2, sell, trade);
             values = trade.values;
             if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
                     TradeEntryLoader.CHANCE));

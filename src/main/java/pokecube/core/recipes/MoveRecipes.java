@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.MoveMatcher;
 import pokecube.core.database.recipes.PokemobMoveRecipeParser.RecipeMove;
@@ -36,6 +35,7 @@ import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 
 public class MoveRecipes
 {
@@ -235,7 +235,7 @@ public class MoveRecipes
         {
             final ShapelessRecipe wrap = RecipeSerializer.SHAPELESS_RECIPE.fromJson(id, json);
             final int cost = GsonHelper.getAsInt(json, "hungerCost", 50);
-            final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(GsonHelper.getAsJsonObject(json, "move"),
+            final MoveMatcher matcher = JsonUtil.gson.fromJson(GsonHelper.getAsJsonObject(json, "move"),
                     MoveMatcher.class);
             final boolean isCustom = GsonHelper.getAsBoolean(json, "loading_from_other", false);
             final MoveRecipe recipe = new MoveRecipe(wrap, cost, matcher, isCustom);
@@ -255,7 +255,7 @@ public class MoveRecipes
             final ShapelessRecipe wrap = RecipeSerializer.SHAPELESS_RECIPE.fromNetwork(id, buffer);
             final int cost = buffer.readInt();
             final boolean isCustom = buffer.readBoolean();
-            final MoveMatcher matcher = PokedexEntryLoader.gson.fromJson(buffer.readUtf(), MoveMatcher.class);
+            final MoveMatcher matcher = JsonUtil.gson.fromJson(buffer.readUtf(), MoveMatcher.class);
             final MoveRecipe recipe = new MoveRecipe(wrap, cost, matcher, isCustom);
             if (!isCustom)
             {
@@ -273,7 +273,7 @@ public class MoveRecipes
             RecipeSerializer.SHAPELESS_RECIPE.toNetwork(buffer, recipe.wrapped);
             buffer.writeInt(recipe.hungerCost);
             buffer.writeBoolean(recipe.isCustom);
-            buffer.writeUtf(PokedexEntryLoader.gson.toJson(recipe.match));
+            buffer.writeUtf(JsonUtil.gson.toJson(recipe.match));
         }
 
     }

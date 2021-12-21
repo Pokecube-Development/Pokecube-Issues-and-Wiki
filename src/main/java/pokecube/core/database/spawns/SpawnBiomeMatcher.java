@@ -700,13 +700,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             boolean and_valid = this._and_children.size() > 0;
 
             for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child.valid;
-            for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid && child.valid;
+            for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child.valid;
 
             this.valid = or_valid || and_valid;
 
             if (!this.valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
-                PokecubeCore.LOGGER.error("Invalid Matcher: {}, presets: `{}` `{}`",
+                PokecubeCore.LOGGER.debug("Invalid Matcher: {}, presets: `{}` `{}`",
                         PacketPokedex.gson.toJson(spawnRule), or_presets, and_presets);
             }
             return;
@@ -953,7 +953,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!hasSomething && terrain == null && !hasBasicSettings) this.valid = false;
 
         if (!this.valid && SpawnBiomeMatcher.loadedIn)
-            PokecubeCore.LOGGER.error("Invalid Matcher: {} ({}), presets: `{}` `{}`",
+            PokecubeCore.LOGGER.debug("Invalid Matcher: {} ({}), presets: `{}` `{}`",
                     PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule), or_presets,
                     and_presets);
     }

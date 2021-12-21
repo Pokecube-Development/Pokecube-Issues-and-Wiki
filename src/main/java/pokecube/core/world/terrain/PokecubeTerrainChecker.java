@@ -15,7 +15,6 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -23,6 +22,7 @@ import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 import thut.api.terrain.TerrainSegment;
 import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
+import thut.api.util.JsonUtil;
 
 public class PokecubeTerrainChecker implements ISubBiomeChecker
 {
@@ -56,7 +56,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         PokecubeTerrainChecker.structureSubbiomeMap.clear();
         for (final String s : PokecubeCore.getConfig().structure_subbiomes)
         {
-            final StructInfo info = PokedexEntryLoader.gson.fromJson(s, StructInfo.class);
+            final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
             PokecubeTerrainChecker.structureSubbiomeMap.put(info.struct, info.subbiome);
         }
         PokecubeTerrainChecker.structureSubbiomeMap.putAll(PokecubeTerrainChecker.manualStructureSubbiomes);

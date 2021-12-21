@@ -13,7 +13,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -21,6 +20,7 @@ import pokecube.legends.conditions.data.Conditions.EntriedCondition;
 import pokecube.legends.conditions.data.Conditions.PresetCondition;
 import pokecube.legends.conditions.data.Conditions.TypedCondition;
 import pokecube.legends.spawns.LegendarySpawn;
+import thut.api.util.JsonUtil;
 
 public class ConditionLoader extends ResourceData
 {
@@ -83,7 +83,7 @@ public class ConditionLoader extends ResourceData
             final Reader reader = new InputStreamReader(res);
             try
             {
-                final Conditions temp = PokedexEntryLoader.gson.fromJson(reader, Conditions.class);
+                final Conditions temp = JsonUtil.gson.fromJson(reader, Conditions.class);
                 if (!confirmNew(temp, l)) return;
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);

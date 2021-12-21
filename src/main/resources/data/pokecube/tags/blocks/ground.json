@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:end_stone",
     "#forge:dirt",
     "#forge:gravel",
     "#forge:sand",

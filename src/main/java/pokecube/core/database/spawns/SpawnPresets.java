@@ -12,11 +12,11 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
+import thut.api.util.JsonUtil;
 
 public class SpawnPresets extends ResourceData
 {
@@ -75,7 +75,7 @@ public class SpawnPresets extends ResourceData
             final Reader reader = new InputStreamReader(res);
             try
             {
-                final MatcherList temp = PokedexEntryLoader.gson.fromJson(reader, MatcherList.class);
+                final MatcherList temp = JsonUtil.gson.fromJson(reader, MatcherList.class);
                 if (temp.replace) loaded.clear();
                 if (!confirmNew(temp, l)) return;
                 loaded.add(temp);

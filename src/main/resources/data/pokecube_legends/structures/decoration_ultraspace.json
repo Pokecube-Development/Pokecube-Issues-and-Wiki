@@ -1,0 +1,434 @@
+{
+  "pools": [
+    {
+      "name": "pokecube_legends:giant_mushrooms",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/orange_pitcher_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_red_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_white_mushroom;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_brown_mushroom;{\"weight\":50}",
+        "pokecube_legends:ultraspace/giant_tree_stump;{\"weight\":150}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:fungal_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:temporal_jungle_misc",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":15}",
+        "pokecube_legends:ultraspace/giant_jungle_tree;{\"weight\":30}",
+        "pokecube_legends:ultraspace/giant_chimney;{\"weight\":30}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:jungle_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":15}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:berry_tree_island",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/giant_berry_tree_island;{\"weight\":45}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:mirage_desert_misc",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/aquamarine_statue;{\"weight\":25}",
+        "pokecube_legends:ultraspace/palm_berry_tree;{\"weight\":40}",
+        "pokecube_legends:ultraspace/giant_aquamarine_statue;{\"weight\":130}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:desert_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:mirage_pyramid",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/mirage_pyramid"
+      ]
+    },
+    {
+      "name": "pokecube_legends:mirage_hut",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/mirage_house1",
+        "pokecube_legends:ultraspace/mirage_house2"
+      ]
+    },
+    {
+      "name": "pokecube_legends:ruined_buildings",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ruined_building;{\"weight\":55}",
+        "pokecube_legends:ultraspace/tower;{\"weight\":100}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:delta_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:delta_roads/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ruined_bridge1;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ruined_bridge2;{\"weight\":30}",
+        "pokecube_legends:ultraspace/ruined_road;{\"weight\":30}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:tainted_barrens_misc",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/giant_crystal_flower;{\"weight\":30}",
+        "pokecube_legends:ultraspace/aquamarine_tendril;{\"weight\":30}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:barrens_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:forbidden_taiga_misc",
+      "rigid": true,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
+        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":40}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:taiga_rocks/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:taiga_plane/loose",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:ultraspace/red_plane;{\"weight\":40}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "type": "pokecube_legends:giant_mushrooms",
+      "name": "pokecube_legends:giant_mushrooms",
+      "root": "pokecube_legends:giant_mushrooms",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:giant_mushrooms",
+      "name": "pokecube_legends:fungal_rocks/loose",
+      "root": "pokecube_legends:fungal_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:temporal_jungle_misc",
+      "name": "pokecube_legends:temporal_jungle_misc",
+      "root": "pokecube_legends:temporal_jungle_misc",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:temporal_jungle_misc",
+      "name": "pokecube_legends:jungle_rocks/loose",
+      "root": "pokecube_legends:jungle_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:mirage_desert_misc",
+      "name": "pokecube_legends:mirage_desert_misc",
+      "root": "pokecube_legends:mirage_desert_misc",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:mirage_desert_misc",
+      "name": "pokecube_legends:desert_rocks/loose",
+      "root": "pokecube_legends:desert_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:mirage_pyramid",
+      "root": "pokecube_legends:mirage_pyramid",
+      "biomeType": "none",
+      "distance": 20,
+      "separation": 10,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:mirage_hut",
+      "root": "pokecube_legends:mirage_hut",
+      "biomeType": "none",
+      "distance": 10,
+      "separation": 5,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:ruined_buildings",
+      "name": "pokecube_legends:ruined_buildings",
+      "root": "pokecube_legends:ruined_buildings",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:ruined_buildings",
+      "name": "pokecube_legends:delta_rocks/loose",
+      "root": "pokecube_legends:delta_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:ruined_buildings",
+      "name": "pokecube_legends:delta_roads/loose",
+      "root": "pokecube_legends:delta_roads/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:tainted_barrens_misc",
+      "name": "pokecube_legends:tainted_barrens_misc",
+      "root": "pokecube_legends:tainted_barrens_misc",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:tainted_barrens_misc",
+      "name": "pokecube_legends:barrens_rocks/loose",
+      "root": "pokecube_legends:barrens_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:forbidden_taiga_misc",
+      "name": "pokecube_legends:forbidden_taiga_misc",
+      "root": "pokecube_legends:forbidden_taiga_misc",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:forbidden_taiga_misc",
+      "name": "pokecube_legends:taiga_rocks/loose",
+      "root": "pokecube_legends:taiga_rocks/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+        }
+      }
+    },
+    {
+      "type": "pokecube_legends:forbidden_taiga_misc",
+      "name": "pokecube_legends:taiga_plane/loose",
+      "root": "pokecube_legends:taiga_plane/loose",
+      "biomeType": "none",
+      "distance": 5,
+      "separation": 1,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:berry_tree_island",
+      "root": "pokecube_legends:berry_tree_island",
+      "biomeType": "none",
+      "distance": 3,
+      "separation": 2,
+      "height": 8,
+      "air": true,
+      "base_under": false,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle"
+        }
+      }
+    }
+  ]
+}

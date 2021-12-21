@@ -1,4 +1,4 @@
-package pokecube.core.database.util;
+package thut.api.util;
 
 import java.io.IOException;
 

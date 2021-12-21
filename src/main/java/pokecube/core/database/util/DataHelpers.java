@@ -8,7 +8,7 @@ import com.google.common.hash.Hashing;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
+import thut.api.util.JsonUtil;
 
 public class DataHelpers
 {
@@ -40,7 +40,7 @@ public class DataHelpers
 
         protected boolean confirmNew(Object obj, ResourceLocation l)
         {
-            String ret = PokedexEntryLoader.gson.toJson(obj);
+            String ret = JsonUtil.gson.toJson(obj);
             if (!md5s.add(Hashing.goodFastHash(64).hashUnencodedChars(ret).padToLong() + ""))
             {
                 PokecubeCore.LOGGER.warn("Warning, tried loading identical file for {}, skipping the copy.", l);
@@ -54,7 +54,6 @@ public class DataHelpers
         {
             return key;
         }
-
     }
 
     private static final Set<IResourceData> tagHelpers = Sets.newHashSet();

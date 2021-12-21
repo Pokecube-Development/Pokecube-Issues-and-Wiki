@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -60,10 +61,12 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
@@ -74,6 +77,7 @@ import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
 import pokecube.core.world.gen.jigsaw.CustomJigsawStructure;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class WorldgenHandler
@@ -614,7 +618,7 @@ public class WorldgenHandler
         {
             final InputStream res = PackFinder.getStream(file);
             final Reader reader = new InputStreamReader(res);
-            final Structures extra = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+            final Structures extra = JsonUtil.gson.fromJson(reader, Structures.class);
 
             PokecubeCore.LOGGER.info("Found {} jigsaws and {} pools in {}", extra.jigsaws.size(), extra.pools.size(),
                     file);
@@ -661,12 +665,31 @@ public class WorldgenHandler
         {
             PokecubeCore.LOGGER.info("Registering Structure: {} for mod {}", structName, this.MODID);
             structure = new CustomJigsawStructure(JigsawConfig.CODEC);
-            structure.setRegistryName(new ResourceLocation(structName));
+            ResourceLocation id = new ResourceLocation(structName);
             structure.priority = struct.priority;
             structure.spacing = struct.spacing;
             WorldgenHandler.structs.put(structName, structure);
             // Use this instead of event, as it will also populated proper maps.
+
+            // Here we do some stuff to supress the annoying forge warnings
+            // about "dangerous alternative prefixes.
+            String namespace = id.getNamespace();
+            String prefix = ModLoadingContext.get().getActiveNamespace();
+            ModContainer old = ModLoadingContext.get().getActiveContainer();
+            if (!prefix.equals(namespace))
+            {
+                Optional<? extends ModContainer> swap = ModList.get().getModContainerById(namespace);
+                if (swap.isPresent()) ModLoadingContext.get().setActiveContainer(swap.get());
+            }
+
+            structure.setRegistryName(id);
             event.getRegistry().register(structure);
+
+            // Undo the suppression for the prefixes.
+            if (old != ModLoadingContext.get().getActiveContainer())
+            {
+                ModLoadingContext.get().setActiveContainer(old);
+            }
 
             for (final String s : PokecubeCore.getConfig().worldgenWorldSettings)
             {

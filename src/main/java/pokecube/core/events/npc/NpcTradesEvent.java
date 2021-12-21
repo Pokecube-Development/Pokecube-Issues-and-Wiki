@@ -1,4 +1,4 @@
-package pokecube.core.events;
+package pokecube.core.events.npc;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.trading.MerchantOffers;

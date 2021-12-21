@@ -297,6 +297,8 @@ public abstract class PokemobAI extends PokemobEvolves
                 .getPokedexEntry());
         if (this.genes == null) PokecubeCore.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this
                 .getPokedexEntry());
+        
+        this.getTickLogic().clear();
 
         // // Controller is done separately for ease of locating it for
         // // controls.

@@ -101,6 +101,11 @@
     "entity.pokecube_adventures.trainer": "Trainer",
     "entity.pokecube_adventures.leader": "Leader",
     "entity.pokecube_adventures.trainer.nitwit": "Trainer",
+    
+    
+    "entity.minecraft.villager.pokecube_adventures.trader": "Merchant",
+    "entity.minecraft.villager.pokecube_adventures.healer": "Healer",
+    "entity.minecraft.villager.pokecube_adventures.professor": "Professor",
 
     "gui.pokemobbag.title": "%s's Bag",
 
