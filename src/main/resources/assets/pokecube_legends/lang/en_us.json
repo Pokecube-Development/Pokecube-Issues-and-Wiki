@@ -216,6 +216,7 @@
     "biome.pokecube_legends.volcanic_blinding_deltas": "Volcanic Blinding Deltas",
 
     // Plants
+    "block.pokecube_legends.azure_coleus": "Azure Coleus",
     "block.pokecube_legends.compreced_mushroom": "Compreced Mushroom",
     "block.pokecube_legends.corrupted_grass": "Corrupted Grass",
     "block.pokecube_legends.crystallized_bush": "Crystallized Bush",
@@ -250,6 +251,7 @@
 
     // Potted Plants
     "block.pokecube_legends.potted_aged_sapling": "Potted Aged Sapling",
+    "block.pokecube_legends.potted_azure_coleus": "Potted Azure Coleus",
     "block.pokecube_legends.potted_compreced_mushroom": "Potted Compreced Mushroom",
     "block.pokecube_legends.potted_corrupted_grass": "Potted Corrupted Grass",
     "block.pokecube_legends.potted_corrupted_sapling": "Potted Corrupted Sapling",

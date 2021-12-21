@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/flower_pot_cross",
 	"textures": {
 		"dirt": "pokecube_legends:blocks/ultra_jungle_dirt",

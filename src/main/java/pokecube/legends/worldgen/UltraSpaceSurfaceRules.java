@@ -64,12 +64,6 @@ public class UltraSpaceSurfaceRules
         {
             return replaceTerracotta(system.getBand(x, y, z));
         }
-
-//        @Nullable
-//        public BlockState tryApply(int x, int y, int z)
-//        {
-//            return system.getBand(x, y, z);
-//        }
     }
 
     public static enum Bandlands implements SurfaceRules.RuleSource

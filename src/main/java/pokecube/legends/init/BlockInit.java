@@ -651,6 +651,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_MIRAGE_SAPLING;
     public static final RegistryObject<Block> POTTED_TEMPORAL_SAPLING;
 
+    public static final RegistryObject<Block> POTTED_AZURE_COLEUS;
     public static final RegistryObject<Block> POTTED_COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_CORRUPTED_GRASS;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
@@ -2007,6 +2008,9 @@ public class BlockInit
         // No Tab
         POTTED_AGED_SAPLING = PokecubeLegends.NO_TAB.register("potted_aged_sapling",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.AGED_SAPLING.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_AZURE_COLEUS = PokecubeLegends.NO_TAB.register("potted_azure_coleus",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.AZURE_COLEUS.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_CORRUPTED_SAPLING = PokecubeLegends.NO_TAB.register("potted_corrupted_sapling",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.CORRUPTED_SAPLING.get(),

@@ -12,6 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.FlowerBase;
 import pokecube.legends.blocks.MushroomBase;
+import pokecube.legends.blocks.plants.AzureColeusBlock;
 import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.DistortedVinesBlock;
 import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
@@ -30,6 +31,7 @@ import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 public class PlantsInit
 {
     // Plants
+    public static final RegistryObject<Block> AZURE_COLEUS;
     public static final RegistryObject<Block> COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
@@ -54,13 +56,16 @@ public class PlantsInit
 
     static
     {
+        AZURE_COLEUS = PokecubeLegends.DIMENSIONS_TAB.register("azure_coleus", () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE).randomTicks().noCollission().sound(SoundType.AZALEA)));
+
         COMPRECED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("compreced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> {return 1;}), () -> {return TreeFeatures.HUGE_RED_MUSHROOM;}).bonemealTarget(false));
+                .lightLevel((i) -> { return 1; }), () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
 
         DISTORCED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("distorced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> {return 1;}), () -> {return TreeFeatures.HUGE_RED_MUSHROOM;}).bonemealTarget(false));
+                .lightLevel((i) -> { return 1; }), () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
 
         GOLDEN_FERN = PokecubeLegends.DIMENSIONS_TAB.register("golden_fern", () -> new TallGoldenGrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -122,13 +127,14 @@ public class PlantsInit
 
         DISTORTIC_VINES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines", () -> new DistortedVinesTopBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission()
-                        .instabreak().sound(SoundType.WEEPING_VINES)));
-        DISTORTIC_VINES_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines_plant",
-                () -> new DistortedVinesBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA)
-                        .noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
+                .instabreak().sound(SoundType.WEEPING_VINES)));
+        DISTORTIC_VINES_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines_plant", () -> new DistortedVinesBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA)
+                .noCollission().instabreak().sound(SoundType.WEEPING_VINES)));
     }
 
-    public static void registry() {
+    public static void registry()
+    {
 
     }
 }

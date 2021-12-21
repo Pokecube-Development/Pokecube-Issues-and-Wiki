@@ -8,8 +8,8 @@
     "fog_color": 7538160,
     "water_color": 5121759,
     "water_fog_color": 5121759,
-    "grass_color": 4799066,
-    "foliage_color": 7756183,
+    "grass_color": 2795485,
+    "foliage_color": 2795485,
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
@@ -114,8 +114,17 @@
       "minecraft:underwater_magma"
     ],
     [],
-    [],
-    [],
+    [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:patch_grass_badlands",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane_badlands",
+      "pokecube_legends:glow_lichen"
+    ],
     [
       "minecraft:freeze_top_layer"
     ]
