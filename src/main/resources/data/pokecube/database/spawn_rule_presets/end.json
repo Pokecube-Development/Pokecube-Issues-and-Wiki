@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "end",
+        "types": "end"
+      }
+    }
+  ]
+}
