@@ -132,12 +132,12 @@ public class TrainerEventHandler
             if (!this.mob.customTrades.isEmpty())
             {
                 trades = TypeTrainer.tradesMap.get(this.mob.customTrades);
-                if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+                if (trades != null) trades.addTrades(this.mob, this.mob.getOffers(), rand);
             }
             // Then per type.
-            else if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            else if (trades != null) trades.addTrades(this.mob, this.mob.getOffers(), rand);
             // Then just add the defaults.
-            else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
+            else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(this.mob, rand));
         }
     }
 

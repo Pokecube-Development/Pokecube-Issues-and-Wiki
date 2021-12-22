@@ -7,7 +7,7 @@
           "level": 1,
           "trades": [
             {
-              "exp": 2,
+              "exp": 1,
               "sell": {
                 "values": {
                   "id": "pokecube:revive",
@@ -54,6 +54,36 @@
                   "values": {
                     "id": "minecraft:emerald",
                     "n": "12"
+                  }
+                }
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 5,
+              "values": {
+                "id": "pokecube:town"
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 5,
+              "values": {
+                "id": "pokecube:village"
+              },
+              "buys": [
+                {
+                  "values": {
+                    "id": "minecraft:emerald",
+                    "n": "4"
                   }
                 }
               ]
