@@ -69,8 +69,17 @@ public class PermNodes
         PermissionNode<Boolean> node = new PermissionNode<>(PokecubeCore.MODID, name, PermissionTypes.BOOLEAN,
                 (player, playerUUID, context) -> level.matches(playerUUID));
         node.setInformation(new TextComponent(node.getNodeName()), new TextComponent(message));
-        NODES.put(name, node);
-        NODES.put(node.getNodeName(), node);
+
+        if (NODES.containsKey(name) || NODES.containsKey(node.getNodeName()))
+        {
+            // We just skip here, this happens as forge re-loads things 4 times
+            // during the game's startup...
+        }
+        else
+        {
+            NODES.put(name, node);
+            NODES.put(node.getNodeName(), node);
+        }
     }
 
     public static void registerNode(PermissionNode<?> node)
@@ -78,13 +87,22 @@ public class PermNodes
         NODES.put(node.getNodeName(), node);
     }
 
+    public static long test = 0;
+
     @SubscribeEvent
     public static void gatherPerms(PermissionGatherEvent.Nodes event)
     {
         Permissions.register();
-        
         Set<PermissionNode<?>> nodes = Sets.newHashSet();
         nodes.addAll(NODES.values());
-        event.addNodes(nodes);
+        
+        // FIXME do this with the single call when it stops crashing.
+        // event.addNodes(nodes);
+        
+        // We add them 1 at a time. For some reason, in the development
+        // environment, this evnt is called 4 times in a row.
+        nodes.forEach(node -> {
+            if (!event.getNodes().contains(node)) event.addNodes(node);
+        });
     }
 }

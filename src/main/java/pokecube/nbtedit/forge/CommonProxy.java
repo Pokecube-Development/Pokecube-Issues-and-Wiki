@@ -22,7 +22,10 @@ import thut.core.common.Proxy;
 
 public class CommonProxy implements Proxy
 {
-    boolean reg = false;
+    static
+    {
+        PermNodes.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP, "Allowed to use nbt edit commands.");
+    }
 
     public boolean checkPermission(final CommandSourceStack cs)
     {
@@ -40,9 +43,6 @@ public class CommonProxy implements Proxy
 
     public boolean checkPermission(final ServerPlayer player)
     {
-        if (!this.reg)
-            PermNodes.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP, "Allowed to use nbt edit commands.");
-        this.reg = true;
         if (NBTEdit.opOnly ? PermNodes.getBooleanPerm(player, NBTEdit.MODID) : player.getAbilities().instabuild)
             return true;
         return false;

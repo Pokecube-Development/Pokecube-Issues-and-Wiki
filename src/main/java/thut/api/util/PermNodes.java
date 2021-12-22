@@ -97,6 +97,14 @@ public class PermNodes
     {
         Set<PermissionNode<?>> nodes = Sets.newHashSet();
         nodes.addAll(NODES.values());
-        event.addNodes(nodes);
+        
+        // FIXME do this with the single call when it stops crashing.
+        // event.addNodes(nodes);
+        
+        // We add them 1 at a time. For some reason, in the development
+        // environment, this evnt is called 4 times in a row.
+        nodes.forEach(node -> {
+            if (!event.getNodes().contains(node)) event.addNodes(node);
+        });
     }
 }

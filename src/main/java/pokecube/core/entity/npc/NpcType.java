@@ -249,6 +249,7 @@ public class NpcType
 
     public boolean hasTrades(int level)
     {
+        if (TRADE_MAP.get(name) == null) return false;
         /*
          * We have trades in the following cases:
          * 

@@ -603,7 +603,15 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         SpawnRule spawnRule = this.spawnRule.copy();
         if (spawnRule.values.containsKey(PRESET))
-            spawnRule = PRESETS.getOrDefault(spawnRule.values.get(PRESET), spawnRule).copy();
+        {
+            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            if (preset != null)
+            {
+                preset = preset.copy();
+                preset.values.putAll(spawnRule.values);
+                spawnRule = preset;
+            }
+        }
 
         String or_presets = spawnRule.values.get(SpawnBiomeMatcher.ORPRESET);
         String and_presets = spawnRule.values.get(SpawnBiomeMatcher.ANDPRESET);
