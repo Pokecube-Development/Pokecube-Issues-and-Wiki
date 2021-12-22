@@ -167,9 +167,16 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         EntityType<?> other = level.getRandom().nextBoolean() ? this.getType() : mob.getType();
         NpcMob villager = (NpcMob) other.create(level);
 
-        villager.setNpcType(NpcType.byType("none"));
+        NpcType newType = NpcType.byType("none");
+
+        if (level.getRandom().nextDouble() > 0.5)
+        {
+            newType = level.getRandom().nextBoolean() ? this.getNpcType() : npc.getNpcType();
+        }
 
         villager.setMale(mob.getRandom().nextBoolean());
+
+        villager.setNpcType(newType);
 
         villager.finalizeSpawn(level, level.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.BREEDING,
                 (SpawnGroupData) null, (CompoundTag) null);
@@ -302,12 +309,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.customTrades = nbt.getString("customTrades");
         try
         {
-            if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
-            else this.setNpcType(NpcType.byType("professor"));
+            if (nbt.contains("type")) this.type = (NpcType.byType(nbt.getString("type")));
+            else this.type = (NpcType.byType("professor"));
         }
         catch (final Exception e)
         {
-            this.setNpcType(NpcType.byType("professor"));
+            this.type = (NpcType.byType("professor"));
             e.printStackTrace();
         }
     }
@@ -345,12 +352,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.customTex = nbt.getString("customTex");
         try
         {
-            if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
-            else this.setNpcType(NpcType.byType("professor"));
+            if (nbt.contains("type")) this.type = (NpcType.byType(nbt.getString("type")));
+            else this.type = (NpcType.byType("professor"));
         }
         catch (final Exception e)
         {
-            this.setNpcType(NpcType.byType("professor"));
+            this.type = (NpcType.byType("professor"));
             e.printStackTrace();
         }
     }
@@ -467,7 +474,9 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.type = type;
         if (this.getVillagerData().getProfession() != type.getProfession())
         {
-            if (this.getVillagerXp() < 1) this.setVillagerXp(1);
+            // Force exp of 1, otherwise the profession gets reset by the code
+            // for cleaning up professions of un-used npcs.
+            if (this.getVillagerXp() < 1 && type.getProfession() != VillagerProfession.NITWIT) this.setVillagerXp(1);
             this.getVillagerData().setProfession(type.getProfession());
         }
     }

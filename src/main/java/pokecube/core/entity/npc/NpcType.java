@@ -123,7 +123,7 @@ public class NpcType
         ItemListing[] old = getOldTrades(type, level);
         if (old != null && !replace) trades = NpcType.join(old, trades);
         Int2ObjectMap<ItemListing[]> trade_map = TRADE_MAP.get(type);
-        if (trades == null) TRADE_MAP.put(type, trade_map = new Int2ObjectOpenHashMap<>());
+        if (trade_map == null) TRADE_MAP.put(type, trade_map = new Int2ObjectOpenHashMap<>());
         trade_map.put(level, trades);
     }
 

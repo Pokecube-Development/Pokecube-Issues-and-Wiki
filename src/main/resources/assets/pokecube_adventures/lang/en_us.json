@@ -457,6 +457,6 @@
 
     "_comment": "Adventure Maps",
 
-    "filled_map.pokecube:village": "Nearby Village",
-    "filled_map.pokecube:town": "Nearby Town"
+    "filled_map.pokecube:village": "Exploration Map: Village",
+    "filled_map.pokecube:town": "Exploration Map: Town"
 }
