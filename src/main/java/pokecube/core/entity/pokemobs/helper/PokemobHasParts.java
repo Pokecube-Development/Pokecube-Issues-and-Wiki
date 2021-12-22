@@ -40,13 +40,13 @@ public abstract class PokemobHasParts extends PokemobCombat
 
     public List<PokemobPart> allParts = Lists.newArrayList();
 
-    float colWidth  = 0;
+    float colWidth = 0;
     float colHeight = 0;
 
     float last_size = 0;
 
     final Matrix3f rot = new Matrix3f();
-    final Vector3f r   = new Vector3f();
+    final Vector3f r = new Vector3f();
 
     int update_tick = 0;
 
@@ -75,8 +75,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         final float dh = sy;
         String name = part.name;
         int n = 0;
-        while (names.contains(name))
-            name = part.name + n++;
+        while (names.contains(name)) name = part.name + n++;
         return new PokemobPart(this, dw, dh, dx, dy, dz, name);
     }
 
@@ -135,15 +134,13 @@ public abstract class PokemobHasParts extends PokemobCombat
             final float dh = dy;
             int i = 0;
 
-            for (int y = 0; y < ny; y++)
-                for (int x = 0; x < nx; x++)
-                    for (int z = 0; z < nz; z++)
-                    {
-                        this.parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy, z * dz - nz * dz
-                                / 2f, "part_" + i);
-                        this.allParts.add(this.parts[i]);
-                        i++;
-                    }
+            for (int y = 0; y < ny; y++) for (int x = 0; x < nx; x++) for (int z = 0; z < nz; z++)
+            {
+                this.parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy, z * dz - nz * dz / 2f,
+                        "part_" + i);
+                this.allParts.add(this.parts[i]);
+                i++;
+            }
 
             this.colWidth = Math.min(1, maxW);
             this.colHeight = Math.min(1, maxH);
@@ -163,17 +160,16 @@ public abstract class PokemobHasParts extends PokemobCombat
         float maxY = 0;
         float maxZ = 0;
         int n = 0;
-        for (final PokemobPart[] parts : this.partMap.values())
-            for (final PokemobPart part : parts)
-            {
-                n++;
-                minX = Math.min(minX, part.r0.x - part.width);
-                minZ = Math.min(minZ, part.r0.z - part.width);
-                minY = Math.min(minY, part.r0.y);
-                maxX = Math.max(maxX, part.r0.x + part.width);
-                maxZ = Math.max(maxZ, part.r0.z + part.width);
-                maxY = Math.max(maxY, part.r0.y + part.height);
-            }
+        for (final PokemobPart[] parts : this.partMap.values()) for (final PokemobPart part : parts)
+        {
+            n++;
+            minX = Math.min(minX, part.r0.x - part.width);
+            minZ = Math.min(minZ, part.r0.z - part.width);
+            minY = Math.min(minY, part.r0.y);
+            maxX = Math.max(maxX, part.r0.x + part.width);
+            maxZ = Math.max(maxZ, part.r0.z + part.width);
+            maxY = Math.max(maxY, part.r0.y + part.height);
+        }
 
         if (n != 0)
         {
@@ -194,6 +190,19 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
+    public boolean shouldRenderAtSqrDistance(double dr2)
+    {
+        double d0 = this.pokemobCap.getMobSizes().magSq();
+        if (Double.isNaN(d0))
+        {
+            d0 = 1.0D;
+        }
+        d0 = Math.min(d0,  9);
+        d0 *= 4096.0D * viewScale * viewScale;
+        return dr2 < d0;
+    }
+
+    @Override
     public void refreshDimensions()
     {
         if (!this.isMultipartEntity())
@@ -209,8 +218,8 @@ public abstract class PokemobHasParts extends PokemobCombat
         this.dimensions = entitysize1;
         this.eyeHeight = sizeEvent.getNewEyeHeight();
         final double d0 = entitysize1.width / 2.0D;
-        this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0, this
-                .getY() + entitysize1.height, this.getZ() + d0));
+        this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
+                this.getY() + entitysize1.height, this.getZ() + d0));
     }
 
     @Override
@@ -308,12 +317,11 @@ public abstract class PokemobHasParts extends PokemobCombat
         {
             final List<String> anims = holder.getChoices();
             this.effective_pose = "idle";
-            for (final String s : anims)
-                if (this.partMap.containsKey(s))
-                {
-                    this.effective_pose = s;
-                    break;
-                }
+            for (final String s : anims) if (this.partMap.containsKey(s))
+            {
+                this.effective_pose = s;
+                break;
+            }
             // Update the partmap if we know about this pose.
             if (this.partMap.containsKey(this.effective_pose)) this.parts = this.partMap.get(this.effective_pose);
         }
@@ -325,10 +333,8 @@ public abstract class PokemobHasParts extends PokemobCombat
         final Vec3 dr = new Vec3(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z - this.zOld);
         this.rot.rotY((float) Math.toRadians(180 - this.yBodyRot));
 
-        if (this.isAddedToWorld()) for (final PokemobPart p : this.parts)
-            p.update(this.rot, this.r, dr);
-        else for (final PokemobPart p : this.allParts)
-            p.update(this.rot, this.r, dr);
+        if (this.isAddedToWorld()) for (final PokemobPart p : this.parts) p.update(this.rot, this.r, dr);
+        else for (final PokemobPart p : this.allParts) p.update(this.rot, this.r, dr);
     }
 
     @Override
@@ -349,8 +355,8 @@ public abstract class PokemobHasParts extends PokemobCombat
         super.move(typeIn, pos);
 
         final BlockPos down = this.getBlockPosBelowThatAffectsMyMovement();
-        final VoxelShape s = this.level.getBlockState(down).getCollisionShape(this.level, down).move(down.getX(), down
-                .getY(), down.getZ());
+        final VoxelShape s = this.level.getBlockState(down).getCollisionShape(this.level, down).move(down.getX(),
+                down.getY(), down.getZ());
         final double tol = -1e-3;
         final double d = s.collide(Axis.Y, this.getBoundingBox(), tol);
         if (d != tol) this.setOnGround(true);
