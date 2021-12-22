@@ -1,11 +1,11 @@
 {
 	"parent": "pokecube_legends:block/bulu_totem/bulu_core",
 	"textures": {
-		"1": "pokecube_legends:blocks/bulu_totem/tapu_bulu_back_yellow",
-		"2": "pokecube_legends:blocks/bulu_totem/tapu_bulu_front_yellow",
-		"3": "pokecube_legends:blocks/bulu_totem/tapu_bulu_side_yellow",
-		"4": "pokecube_legends:blocks/bulu_totem/tapu_bulu_top_yellow",
-		"5": "pokecube_legends:blocks/bulu_totem/tapu_bulu_bottom_yellow",
-		"particle": "pokecube_legends:blocks/bulu_totem/tapu_bulu_front_yellow"
+		"1": "pokecube_legends:block/bulu_totem/tapu_bulu_back_yellow",
+		"2": "pokecube_legends:block/bulu_totem/tapu_bulu_front_yellow",
+		"3": "pokecube_legends:block/bulu_totem/tapu_bulu_side_yellow",
+		"4": "pokecube_legends:block/bulu_totem/tapu_bulu_top_yellow",
+		"5": "pokecube_legends:block/bulu_totem/tapu_bulu_bottom_yellow",
+		"particle": "pokecube_legends:block/bulu_totem/tapu_bulu_front_yellow"
 	}
 }

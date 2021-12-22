@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_column",
     "textures": {
-        "end": "pokecube_legends:blocks/chiseled_distortic_stone_bricks",
-        "side": "pokecube_legends:blocks/chiseled_distortic_stone_bricks_r"
+        "end": "pokecube_legends:block/chiseled_distortic_stone_bricks",
+        "side": "pokecube_legends:block/chiseled_distortic_stone_bricks_r"
     }
 }

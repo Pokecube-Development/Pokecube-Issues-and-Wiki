@@ -1,10 +1,10 @@
 {
 	"parent": "pokecube_legends:block/koko_totem/koko_core",
 	"textures": {
-		"1": "pokecube_legends:blocks/koko_totem/tapu_koko_side_pink",
-		"2": "pokecube_legends:blocks/koko_totem/tapu_koko_front_pink",
-		"3": "pokecube_legends:blocks/koko_totem/tapu_koko_top_pink",
-		"4": "pokecube_legends:blocks/koko_totem/tapu_koko_back_pink",
-		"particle": "pokecube_legends:blocks/koko_totem/tapu_koko_front_pink"
+		"1": "pokecube_legends:block/koko_totem/tapu_koko_side_pink",
+		"2": "pokecube_legends:block/koko_totem/tapu_koko_front_pink",
+		"3": "pokecube_legends:block/koko_totem/tapu_koko_top_pink",
+		"4": "pokecube_legends:block/koko_totem/tapu_koko_back_pink",
+		"particle": "pokecube_legends:block/koko_totem/tapu_koko_front_pink"
 	}
 }

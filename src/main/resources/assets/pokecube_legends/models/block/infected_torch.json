@@ -1,6 +1,6 @@
 {
     "parent": "block/template_torch",
     "textures": {
-        "torch": "pokecube_legends:blocks/infected_torch"
+        "torch": "pokecube_legends:block/infected_torch"
     }
 }

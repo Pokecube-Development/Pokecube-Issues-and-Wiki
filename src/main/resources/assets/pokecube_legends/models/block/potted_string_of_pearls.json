@@ -4,8 +4,13 @@
   "textures": {
     "particle": "block/flower_pot",
     "flowerpot": "block/flower_pot",
+<<<<<<< HEAD
     "dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
     "plant": "pokecube_legends:blocks/potted_string_of_pearls"
+=======
+    "dirt": "pokecube_legends:block/jungle_dirt",
+    "plant": "pokecube_legends:block/potted_string_of_pearls"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   },
   "elements": [
     {

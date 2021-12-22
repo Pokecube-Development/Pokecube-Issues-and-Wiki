@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/xerneas_tree_side",
-		"2": "pokecube_legends:blocks/xerneas_tree_side_butterfly",
-		"particle": "pokecube_legends:blocks/xerneas_tree_side_butterfly"
+		"1": "pokecube_legends:block/xerneas_tree_side",
+		"2": "pokecube_legends:block/xerneas_tree_side_butterfly",
+		"particle": "pokecube_legends:block/xerneas_tree_side_butterfly"
 	},
 	"elements": [
 		{

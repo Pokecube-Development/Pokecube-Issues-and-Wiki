@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "pokecube_legends:blocks/time_and_space_portal",
-		"particle": "pokecube_legends:blocks/time_and_space_portal"
+		"2": "pokecube_legends:block/time_and_space_portal",
+		"particle": "pokecube_legends:block/time_and_space_portal"
 	},
 	"elements": [
 		{

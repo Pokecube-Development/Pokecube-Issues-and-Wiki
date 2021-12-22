@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:blocks/ultra_redstone_ore"
+	"all": "pokecube_legends:block/ultra_redstone_ore"
    }
 }

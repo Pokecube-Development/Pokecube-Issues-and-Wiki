@@ -4,9 +4,15 @@
 	"textures": {
 		"particle": "block/flower_pot",
 		"flowerpot": "block/flower_pot",
+<<<<<<< HEAD
 		"dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
 		"bamboo": "pokecube_legends:blocks/temporal_bamboo_stalk",
 		"leaf": "pokecube_legends:blocks/temporal_bamboo_few_leaves"
+=======
+		"dirt": "pokecube_legends:block/jungle_dirt",
+		"bamboo": "pokecube_legends:block/temporal_bamboo_stalk",
+		"leaf": "pokecube_legends:block/temporal_bamboo_few_leaves"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
 	},
 	"elements": [
 		{

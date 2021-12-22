@@ -1,6 +1,7 @@
 {
    "parent": "block/cube",
    "textures": {
+<<<<<<< HEAD
     "down": "pokecube_legends:blocks/distortic_terracotta",
     "up": "pokecube_legends:blocks/distortic_terracotta",
     "north": "pokecube_legends:blocks/distortic_terracotta",
@@ -8,5 +9,8 @@
     "south": "pokecube_legends:blocks/distortic_terracotta",
     "west": "pokecube_legends:blocks/distortic_terracotta",
     "particle": "pokecube_legends:blocks/distortic_terracotta"
+=======
+    "all": "pokecube_legends:block/distortic_terracotta"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }
