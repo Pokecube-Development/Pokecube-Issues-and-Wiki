@@ -370,9 +370,9 @@ public class ItemGenerator
     public static class GenericStairs extends StairBlock
     {
         @SuppressWarnings("deprecation")
-        public GenericStairs(final BlockState state, final Properties properties)
+        public GenericStairs(final BlockState blockForStairs, final Properties properties)
         {
-            super(state, properties);
+            super(blockForStairs, properties);
         }
     }
 

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "pokecube_legends:blocks/cobbled_dusk_dolerite",
+    "top": "pokecube_legends:blocks/cobbled_dusk_dolerite",
+    "side": "pokecube_legends:blocks/cobbled_dusk_dolerite"
+  }
+}

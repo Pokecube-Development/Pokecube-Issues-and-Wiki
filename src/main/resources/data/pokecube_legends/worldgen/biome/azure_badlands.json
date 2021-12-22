@@ -17,6 +17,46 @@
       "offset": 2
     }
   },
+  "carvers": {
+    "air": [
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:lake_lava_underground",
+      "pokecube_legends:lake_lava_surface"
+    ],
+    [
+      "minecraft:amethyst_geode"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma"
+    ],
+    [],
+    [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:patch_grass_badlands",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane_badlands",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_azure_coleus",
+      "pokecube_legends:patch_inverted_orchid"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
   "spawners": {
     "monster": [
       {
@@ -90,45 +130,5 @@
     "water_ambient": [],
     "misc": []
   },
-  "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "pokecube_legends:canyon",
-      "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground"
-    ]
-  },
-  "features": [
-    [],
-    [
-      "pokecube_legends:lake_lava_underground",
-      "pokecube_legends:lake_lava_surface"
-    ],
-    [
-      "minecraft:amethyst_geode"
-    ],
-    [],
-    [],
-    [],
-    [
-      "minecraft:underwater_magma"
-    ],
-    [],
-    [
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
-    ],
-    [
-      "minecraft:patch_grass_badlands",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "minecraft:patch_sugar_cane_badlands",
-      "pokecube_legends:glow_lichen",
-      "pokecube_legends:patch_azure_coleus",
-      "pokecube_legends:patch_inverted_orchid"
-    ],
-    [
-      "minecraft:freeze_top_layer"
-    ]
-  ]
+  "spawn_costs": {}
 }

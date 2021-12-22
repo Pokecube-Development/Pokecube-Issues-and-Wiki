@@ -5754,7 +5754,7 @@
         "type": "minecraft:condition",
         "if_true": {
           "type": "minecraft:vertical_gradient",
-          "random_name": "minecraft:deepslate",
+          "random_name": "pokecube_legends:dusk_dolerite",
           "true_at_and_below": {
             "absolute": 0
           },
@@ -5765,7 +5765,7 @@
         "then_run": {
           "type": "minecraft:block",
           "result_state": {
-            "Name": "minecraft:deepslate",
+            "Name": "pokecube_legends:dusk_dolerite",
             "Properties": {
               "axis": "y"
             }
