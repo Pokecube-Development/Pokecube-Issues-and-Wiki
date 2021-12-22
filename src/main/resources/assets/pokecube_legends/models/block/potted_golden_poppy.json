@@ -1,7 +1,7 @@
 {
   "parent": "pokecube_legends:block/flower_pot_cross_shadeless",
   "textures": {
-    "dirt": "pokecube_legends:blocks/ultra_aged_dirt",
+    "dirt": "pokecube_legends:blocks/aged_dirt",
     "plant": "pokecube_legends:blocks/golden_poppy"
   }
 }

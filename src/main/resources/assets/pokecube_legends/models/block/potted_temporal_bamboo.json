@@ -4,7 +4,7 @@
 	"textures": {
 		"particle": "block/flower_pot",
 		"flowerpot": "block/flower_pot",
-		"dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
+		"dirt": "pokecube_legends:blocks/jungle_dirt",
 		"bamboo": "pokecube_legends:blocks/temporal_bamboo_stalk",
 		"leaf": "pokecube_legends:blocks/temporal_bamboo_few_leaves"
 	},
