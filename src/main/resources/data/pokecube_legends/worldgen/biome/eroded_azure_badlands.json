@@ -123,7 +123,9 @@
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane_badlands",
-      "pokecube_legends:glow_lichen"
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_azure_coleus",
+      "pokecube_legends:patch_inverted_orchid"
     ],
     [
       "minecraft:freeze_top_layer"

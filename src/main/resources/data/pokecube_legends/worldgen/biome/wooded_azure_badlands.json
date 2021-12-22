@@ -125,7 +125,8 @@
       "minecraft:patch_sugar_cane_badlands",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:trees_azure_badlands",
-      "pokecube_legends:patch_azure_coleus"
+      "pokecube_legends:patch_azure_coleus",
+      "pokecube_legends:patch_inverted_orchid"
     ],
     [
       "minecraft:freeze_top_layer"

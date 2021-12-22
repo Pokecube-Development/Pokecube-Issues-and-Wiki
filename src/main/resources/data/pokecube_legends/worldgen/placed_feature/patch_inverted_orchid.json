@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:patch_azure_coleus",
+  "feature": "pokecube_legends:patch_inverted_orchid",
   "placement": [
     {
-      "count": 10,
+      "count": 5,
       "type": "minecraft:count"
     },
     {

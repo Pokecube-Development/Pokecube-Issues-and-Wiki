@@ -17,6 +17,7 @@ import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.DistortedVinesBlock;
 import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
 import pokecube.legends.blocks.plants.GoldenSweetBerryBushBlock;
+import pokecube.legends.blocks.plants.InvertedOrchidBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
 import pokecube.legends.blocks.plants.TaintedKelpBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
@@ -85,7 +86,7 @@ public class PlantsInit
         GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("golden_sweet_berry_bush", () -> new GoldenSweetBerryBushBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)));
 
-        INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new FlowerBase(MobEffects.HEAL, 10,
+        INVERTED_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("inverted_orchid", () -> new InvertedOrchidBlock(MobEffects.HEAL, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
 
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass", () -> new TallCorruptedGrassBlock(
