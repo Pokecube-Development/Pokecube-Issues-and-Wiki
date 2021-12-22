@@ -183,9 +183,8 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
                 for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
                 {
-                    // Check if we have reached this structure, if so, it is
-                    // valid and we break.
-                    if (s.getRegistryName().equals(structName)) break;
+                    // We shouldn't be conflicting with ourself
+                    if (s.getRegistryName().equals(structName)) continue;
 
                     final int ds1 = WorldgenHandler.getNeededSpace(s.getRegistryName());
                     final int ds = Math.max(ds0, ds1);
