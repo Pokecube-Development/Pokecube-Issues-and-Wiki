@@ -49,11 +49,11 @@ import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
-import thut.essentials.util.ItemList;
 
 public class Pokecube extends Item implements IPokecube
 {
