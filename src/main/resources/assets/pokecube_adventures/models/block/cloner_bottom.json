@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_adventures:blocks/cloner_bottom",
-		"2": "pokecube_adventures:blocks/cloner_lower",
-		"4": "pokecube_adventures:blocks/cloner_metal",
-		"5": "pokecube_adventures:blocks/cloner_details",
-		"particle": "pokecube_adventures:blocks/cloner_lower"
+		"1": "pokecube_adventures:block/cloner_bottom",
+		"2": "pokecube_adventures:block/cloner_lower",
+		"4": "pokecube_adventures:block/cloner_metal",
+		"5": "pokecube_adventures:block/cloner_details",
+		"particle": "pokecube_adventures:block/cloner_lower"
 	},
 	"elements": [
 		{

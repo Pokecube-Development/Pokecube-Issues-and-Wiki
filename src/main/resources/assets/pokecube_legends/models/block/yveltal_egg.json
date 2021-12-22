@@ -1,14 +1,14 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/yveltal_egg_bottom_front",
-		"2": "pokecube_legends:blocks/yveltal_egg_top_front",
-		"3": "pokecube_legends:blocks/yveltal_egg_bottom_side",
-		"4": "pokecube_legends:blocks/yveltal_egg_top_side",
-		"5": "pokecube_legends:blocks/yveltal_egg_top",
-		"6": "pokecube_legends:blocks/yveltal_egg_bottom",
-		"7": "pokecube_legends:blocks/yveltal_egg_spike",
-		"particle": "pokecube_legends:blocks/yveltal_egg_bottom_front"
+		"1": "pokecube_legends:block/yveltal_egg_bottom_front",
+		"2": "pokecube_legends:block/yveltal_egg_top_front",
+		"3": "pokecube_legends:block/yveltal_egg_bottom_side",
+		"4": "pokecube_legends:block/yveltal_egg_top_side",
+		"5": "pokecube_legends:block/yveltal_egg_top",
+		"6": "pokecube_legends:block/yveltal_egg_bottom",
+		"7": "pokecube_legends:block/yveltal_egg_spike",
+		"particle": "pokecube_legends:block/yveltal_egg_bottom_front"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:blocks/large_golden_fern_top"
+    "layer0": "pokecube_legends:block/large_golden_fern_top"
   }
 }

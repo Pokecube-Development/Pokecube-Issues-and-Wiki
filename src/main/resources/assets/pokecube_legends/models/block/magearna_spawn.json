@@ -1,12 +1,12 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:blocks/magearna_back",
-		"1": "pokecube_legends:blocks/magearna_down",
-		"2": "pokecube_legends:blocks/magearna_front",
-		"3": "pokecube_legends:blocks/magearna_side",
-		"4": "pokecube_legends:blocks/magearna_top",
-		"particle": "pokecube_legends:blocks/magearna_front"
+		"0": "pokecube_legends:block/magearna_back",
+		"1": "pokecube_legends:block/magearna_down",
+		"2": "pokecube_legends:block/magearna_front",
+		"3": "pokecube_legends:block/magearna_side",
+		"4": "pokecube_legends:block/magearna_top",
+		"particle": "pokecube_legends:block/magearna_front"
 	},
 	"elements": [
 		{

@@ -1,10 +1,10 @@
 {
 	"parent": "pokecube_legends:block/lele_totem/lele_core",
 	"textures": {
-		"1": "pokecube_legends:blocks/lele_totem/tapu_lele_front_red",
-		"2": "pokecube_legends:blocks/lele_totem/tapu_lele_side_red",
-		"3": "pokecube_legends:blocks/lele_totem/tapu_lele_back_red",
-		"4": "pokecube_legends:blocks/lele_totem/tapu_lele_top_red",
-		"particle": "pokecube_legends:blocks/lele_totem/tapu_lele_front_red"
+		"1": "pokecube_legends:block/lele_totem/tapu_lele_front_red",
+		"2": "pokecube_legends:block/lele_totem/tapu_lele_side_red",
+		"3": "pokecube_legends:block/lele_totem/tapu_lele_back_red",
+		"4": "pokecube_legends:block/lele_totem/tapu_lele_top_red",
+		"particle": "pokecube_legends:block/lele_totem/tapu_lele_front_red"
 	}
 }

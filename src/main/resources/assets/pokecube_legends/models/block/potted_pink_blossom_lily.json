@@ -4,9 +4,9 @@
 	"textures": {
 		"particle": "block/flower_pot",
 		"flowerpot": "block/flower_pot",
-		"dirt": "pokecube_legends:blocks/corrupted_dirt",
-		"petals": "pokecube_legends:blocks/pink_blossom_lily",
-		"pollen": "pokecube_legends:blocks/pink_blossom_lily_pollen"
+		"dirt": "pokecube_legends:block/corrupted_dirt",
+		"petals": "pokecube_legends:block/pink_blossom_lily",
+		"pollen": "pokecube_legends:block/pink_blossom_lily_pollen"
 	},
 	"elements": [
 		{

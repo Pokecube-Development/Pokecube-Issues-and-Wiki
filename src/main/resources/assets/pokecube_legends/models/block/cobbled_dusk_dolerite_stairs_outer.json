@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "pokecube_legends:blocks/cobbled_dusk_dolerite",
-    "top": "pokecube_legends:blocks/cobbled_dusk_dolerite",
-    "side": "pokecube_legends:blocks/cobbled_dusk_dolerite"
+    "bottom": "pokecube_legends:block/cobbled_dusk_dolerite",
+    "top": "pokecube_legends:block/cobbled_dusk_dolerite",
+    "side": "pokecube_legends:block/cobbled_dusk_dolerite"
   }
 }

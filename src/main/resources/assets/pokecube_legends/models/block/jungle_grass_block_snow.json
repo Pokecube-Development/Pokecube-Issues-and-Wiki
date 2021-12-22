@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "pokecube_legends:blocks/jungle_dirt",
+    "bottom": "pokecube_legends:block/jungle_dirt",
     "top": "minecraft:block/snow",
-    "side": "pokecube_legends:blocks/jungle_grass_block_snow",
-    "particle": "pokecube_legends:blocks/jungle_grass_block_snow"
+    "side": "pokecube_legends:block/jungle_grass_block_snow",
+    "particle": "pokecube_legends:block/jungle_grass_block_snow"
   }
 }

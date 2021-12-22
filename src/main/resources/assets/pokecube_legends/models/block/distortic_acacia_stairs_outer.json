@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "pokecube_legends:blocks/distortic_acacia_planks",
-    "top": "pokecube_legends:blocks/distortic_acacia_planks",
-    "side": "pokecube_legends:blocks/distortic_acacia_planks"
+    "bottom": "pokecube_legends:block/distortic_acacia_planks",
+    "top": "pokecube_legends:block/distortic_acacia_planks",
+    "side": "pokecube_legends:block/distortic_acacia_planks"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "pokecube_legends:blocks/inverted_orchid",
-    "particle": "pokecube_legends:blocks/inverted_orchid"
+    "cross": "pokecube_legends:block/inverted_orchid",
+    "particle": "pokecube_legends:block/inverted_orchid"
   }
 }

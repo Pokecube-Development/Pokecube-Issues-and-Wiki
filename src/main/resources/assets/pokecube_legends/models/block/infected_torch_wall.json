@@ -1,7 +1,7 @@
 {
     "ambientocclusion": false,
     "textures": {
-    	"torch": "pokecube_legends:blocks/infected_torch",
+    	"torch": "pokecube_legends:block/infected_torch",
         "particle": "#torch"
     },
     "elements": [

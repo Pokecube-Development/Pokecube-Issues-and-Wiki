@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/cramomatic_front",
-		"2": "pokecube_legends:blocks/cramomatic_side",
-		"3": "pokecube_legends:blocks/cramomatic_top",
-		"4": "pokecube_legends:blocks/cramomatic_accessories",
-		"particle": "pokecube_legends:blocks/cramomatic_front"
+		"1": "pokecube_legends:block/cramomatic_front",
+		"2": "pokecube_legends:block/cramomatic_side",
+		"3": "pokecube_legends:block/cramomatic_top",
+		"4": "pokecube_legends:block/cramomatic_accessories",
+		"particle": "pokecube_legends:block/cramomatic_front"
 	},
 	"elements": [
 		{
