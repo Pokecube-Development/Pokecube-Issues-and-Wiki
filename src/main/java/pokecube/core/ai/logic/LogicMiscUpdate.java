@@ -56,21 +56,21 @@ import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 /**
- * Mostly does visuals updates, such as particle effects, checking that
- * shearing status is reset properly. It also resets stat modifiers when the mob
- * is out of combat.
+ * Mostly does visuals updates, such as particle effects, checking that shearing
+ * status is reset properly. It also resets stat modifiers when the mob is out
+ * of combat.
  */
 public class LogicMiscUpdate extends LogicBase
 {
-    public static final int[] FLAVCOLOURS = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
+    public static final int[] FLAVCOLOURS = new int[]
+    { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
 
     public static int EXITCUBEDURATION = 40;
 
-    public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar
-            .getInstance().get(Calendar.MONTH) == 11;
+    public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
+            && Calendar.getInstance().get(Calendar.MONTH) == 11;
 
-    public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack,
-            final Map<Stats, Float> vals)
+    public static void getStatModifiers(final EquipmentSlot slot, final ItemStack stack, final Map<Stats, Float> vals)
     {
         if (stack.isEmpty()) return;
         switch (slot)
@@ -96,12 +96,12 @@ public class LogicMiscUpdate extends LogicBase
 
     private PokedexEntry entry;
 
-    private String  particle    = null;
-    private boolean initHome    = false;
+    private String particle = null;
+    private boolean initHome = false;
     private boolean checkedEvol = false;
-    private int     pathTimer   = 0;
-    private long    dynatime    = -1;
-    private boolean de_dyna     = false;
+    private int pathTimer = 0;
+    private long dynatime = -1;
+    private boolean de_dyna = false;
 
     private int floatTimer = 0;
 
@@ -135,18 +135,18 @@ public class LogicMiscUpdate extends LogicBase
         if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
         {
             final long time = Tracker.instance().getTick();
-            if (this.dynatime == -1) this.dynatime = this.pokemob.getEntity().getPersistentData().getLong(
-                    "pokecube:dynatime");
+            if (this.dynatime == -1)
+                this.dynatime = this.pokemob.getEntity().getPersistentData().getLong("pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
             {
-                Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert", this.pokemob
-                        .getDisplayName());
+                Component mess = new TranslatableComponent("pokemob.dynamax.timeout.revert",
+                        this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
                 this.pokemob.setCombatState(CombatStates.MEGAFORME, false);
                 mess = new TranslatableComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
                 final PokedexEntry newEntry = this.pokemob.getMegaBase();
-                if (newEntry != this.pokemob.getPokedexEntry()) ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry,
-                        mess, true);
+                if (newEntry != this.pokemob.getPokedexEntry())
+                    ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
                 this.de_dyna = true;
             }
         }
@@ -156,8 +156,8 @@ public class LogicMiscUpdate extends LogicBase
             this.de_dyna = false;
         }
 
-        if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget(
-                (AgeableMob) this.entity)) this.pokemob.setGeneralState(GeneralStates.MATING, false);
+        if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget((AgeableMob) this.entity))
+            this.pokemob.setGeneralState(GeneralStates.MATING, false);
 
         // Check if we are sheared every second or so
         if (this.entity.tickCount % 20 == 0) this.pokemob.isSheared();
@@ -173,8 +173,8 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.getModifiers().outOfCombatReset();
                 this.pokemob.getMoveStats().reset();
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
-                if (this.pokemob.getOwner() instanceof ServerPlayer) PacketSyncModifier.sendUpdate(
-                        StatModifiers.DEFAULT, this.pokemob);
+                if (this.pokemob.getOwner() instanceof ServerPlayer)
+                    PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, this.pokemob);
             }
             this.combatTimer--;
 
@@ -203,16 +203,17 @@ public class LogicMiscUpdate extends LogicBase
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
         // Reset tamed state for things with no owner.
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getOwnerId() == null) this.pokemob
-                .setGeneralState(GeneralStates.TAMED, false);
+        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getOwnerId() == null)
+            this.pokemob.setGeneralState(GeneralStates.TAMED, false);
 
         // Check exit cube state.
-        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION && this.pokemob.getGeneralState(
-                GeneralStates.EXITINGCUBE)) this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION
+                && this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
+            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
 
         // Ensure sitting things don't have a path.
-        if (this.pokemob.getLogicState(LogicStates.SITTING) && !this.entity.getNavigation().isDone()) this.entity
-                .getNavigation().stop();
+        if (this.pokemob.getLogicState(LogicStates.SITTING) && !this.entity.getNavigation().isDone())
+            this.entity.getNavigation().stop();
 
         // Check pathing states.
         if (this.pokemob.getLogicState(LogicStates.PATHING) && this.entity.getNavigation().isDone()
@@ -223,8 +224,8 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         // Check if we shouldn't just randomly go to sleep.
-        final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
-                .getGeneralState(GeneralStates.STAYING);
+        final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         if (ownedSleepCheck) this.pokemob.setLogicState(LogicStates.SLEEPING, false);
 
         // Ensure sitting status is synced for TameableEntities
@@ -277,8 +278,8 @@ public class LogicMiscUpdate extends LogicBase
         for (int i = 0; i < this.pokemob.getInventory().getContainerSize(); i++)
         {
             ItemStack stack;
-            if (!(stack = this.pokemob.getInventory().getItem(i)).isEmpty()) stack.getItem().inventoryTick(stack, world,
-                    this.entity, i, false);
+            if (!(stack = this.pokemob.getInventory().getItem(i)).isEmpty())
+                stack.getItem().inventoryTick(stack, world, this.entity, i, false);
         }
     }
 
@@ -286,6 +287,7 @@ public class LogicMiscUpdate extends LogicBase
     public void tick(final Level world)
     {
         super.tick(world);
+
         this.entry = this.pokemob.getPokedexEntry();
         Random rand = new Random(this.pokemob.getRNGValue());
         final int timer = 100;
@@ -336,12 +338,10 @@ public class LogicMiscUpdate extends LogicBase
             this.checkEvolution();
             // Check and tick inventory
             this.checkInventory(world);
-            // Ensure our pose matches what we are doing
-            this.checkPose();
 
             // // Ensure the cache position is kept updated
-            if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
-                    .getOwnerId() != null)
+            if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned()
+                    && this.pokemob.getOwnerId() != null)
             {
                 final BlockPos here = this.entity.blockPosition();
                 if (here.distSqr(this.lastCache) > 64 * 64)
@@ -352,8 +352,8 @@ public class LogicMiscUpdate extends LogicBase
             }
 
             // Randomly increase happiness for being outside of pokecube.
-            if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED)) HappinessType
-                    .applyHappiness(this.pokemob, HappinessType.TIME);
+            if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED))
+                HappinessType.applyHappiness(this.pokemob, HappinessType.TIME);
 
             final ItemStack pokecube = this.pokemob.getPokecube();
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
@@ -361,8 +361,7 @@ public class LogicMiscUpdate extends LogicBase
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
 
-        for (int i = 0; i < 5; i++)
-            this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
+        for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
         for (int i = 0; i < this.flavourAmounts.length; i++)
             if (this.flavourAmounts[i] > 0) this.pokemob.setFlavourAmount(i, this.flavourAmounts[i] - 1);
 
@@ -381,6 +380,8 @@ public class LogicMiscUpdate extends LogicBase
         }
         final int id = this.pokemob.getTargetID();
 
+        // Ensure our pose matches what we are doing
+        this.checkPose();
         // This is used server side as well, for hitbox positions.
         this.checkAnimationStates();
 
@@ -398,8 +399,8 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null) this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider().getEntity(
-                world, id, false));
+        if (id >= 0 && targ == null)
+            this.entity.setTarget((LivingEntity) PokecubeCore.getEntityProvider().getEntity(world, id, false));
         if (id < 0 && targ != null) this.entity.setTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 
@@ -468,10 +469,11 @@ public class LogicMiscUpdate extends LogicBase
             final Vector3 heart = Vector3.getNewVector();
             for (int i = 0; i < 3; ++i)
             {
-                heart.set(this.entity.getX() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity
-                        .getBbWidth(), this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(),
-                        this.entity.getZ() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity
-                                .getBbWidth());
+                heart.set(
+                        this.entity.getX() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
+                                - this.entity.getBbWidth(),
+                        this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
+                                + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
                 this.entity.getCommandSenderWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
                         0);
             }
@@ -482,15 +484,15 @@ public class LogicMiscUpdate extends LogicBase
             if (!pokedex)
             {
                 final float scale = this.entity.getBbWidth() * 2;
-                final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(), rand
-                        .nextDouble() - 0.5);
+                final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                        rand.nextDouble() - 0.5);
                 offset.scalarMultBy(scale);
                 particleLoc.addTo(offset);
             }
             if (randomV)
             {
-                particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2, rand
-                        .nextDouble() - 0.5);
+                particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2,
+                        rand.nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
             PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo,
@@ -505,18 +507,19 @@ public class LogicMiscUpdate extends LogicBase
                 if (!pokedex)
                 {
                     final float scale = this.entity.getBbWidth() * 2;
-                    final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(), rand
-                            .nextDouble() - 0.5);
+                    final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                            rand.nextDouble() - 0.5);
                     offset.scalarMultBy(scale);
                     particleLoc.addTo(offset);
                 }
                 if (randomV)
                 {
-                    particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2, rand
-                            .nextDouble() - 0.5);
+                    particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2,
+                            rand.nextDouble() - 0.5);
                     particleVelo.scalarMultBy(0.25);
                 }
-                args = new int[] { LogicMiscUpdate.FLAVCOLOURS[i] };
+                args = new int[]
+                { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
                 PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc,
                         particleVelo, args);
@@ -528,8 +531,8 @@ public class LogicMiscUpdate extends LogicBase
     private void checkPose()
     {
         final Pose old = this.entity.getPose();
-        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP || this.pokemob.getLogicState(
-                LogicStates.SLEEPING);
+        final boolean sleeping = this.pokemob.getStatus() == IMoveConstants.STATUS_SLP
+                || this.pokemob.getLogicState(LogicStates.SLEEPING);
         Pose next = old;
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;

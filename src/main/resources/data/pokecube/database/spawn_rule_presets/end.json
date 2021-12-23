@@ -1,0 +1,28 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "end_surface",
+        "types": "end"
+      }
+    },
+    {
+      "values": {
+        "preset": "end_caves",
+        "or_presets": "end_cave_a,end_cave_b"
+      }
+    },
+    {
+      "values": {
+        "preset": "end_cave_a",
+        "types": "end,cave"
+      }
+    },
+    {
+      "values": {
+        "preset": "end_cave_b",
+        "types": "end,underground"
+      }
+    }
+  ]
+}

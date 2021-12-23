@@ -46,7 +46,7 @@
         "pokecube:village/high_sky/houses/house_factory_3;{\"weight\":3}",
         "pokecube:village/high_sky/houses/house_factory_4;{\"weight\":3}",
         "pokecube:village/high_sky/houses/house_factory_5;{\"weight\":2}",
-        "pokecube:village/high_sky/pokecenter/center_01;{\"flag\":\"pokecenter\"}"
+        "pokecube:village/high_sky/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}"
       ]
     }
   ],

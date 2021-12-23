@@ -85,7 +85,7 @@
         "pokecube:village/plains/houses/house_big_1;{\"weight\":3}",
         "pokecube:village/plains/houses/house_medium_1;{\"weight\":3}",
         "pokecube:village/plains/houses/house_medium_2;{\"weight\":3}",
-        "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/plains/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes": [

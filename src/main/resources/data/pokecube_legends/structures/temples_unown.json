@@ -1,0 +1,105 @@
+{
+  "pools": [
+    {
+      "name":"pokecube_legends:unown_temple",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/unown_temple/start"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface/unown_temple/rooms",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_a;{\"weight\":10,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_b;{\"weight\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_c;{\"weight\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_d;{\"weight\":10,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_a;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_b;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_c;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_chest_d;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_fake_a;{\"weight\":7,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_fake_b;{\"weight\":7,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_a;{\"weight\":7,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_b;{\"weight\":7,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_c;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/corridor_large_d;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_center_a;{\"weight\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_center_b;{\"weight\":9,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_center_c;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_center_d;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_center_e;{\"weight\":8,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_library_a;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_library_b;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/spiral_stairs_a;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/spiral_stairs_b;{\"weight\":6,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/stairs_a;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/stairs_b;{\"weight\":5,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_treasure_a;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/unown_temple/rooms/room_treasure_a;{\"weight\":3,\"extra\":{\"markers_to_air\":true}}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube_legends:unown_temple_overworld",
+      "root": "pokecube_legends:unown_temple",
+      "biomeType": "none",
+      "distance": 60,
+      "separation": 35,
+      "size": 6,
+      "height": -50,
+      "base_under": false,
+      "dimBlacklist": [
+        "the_nether",
+        "the_end"
+      ],
+      "spawn": {
+        "values": {
+          "preset": "all_overworld",
+          "categoryBlacklist": "ocean,beach"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:unown_temple_distortic",
+      "root": "pokecube_legends:unown_temple",
+      "biomeType": "none",
+      "distance": 45,
+      "separation": 26,
+      "size": 12,
+      "height": -8,
+      "base_under": true,
+      "allow_void": true,
+      "dimWhitelist": [
+        "pokecube_legends:distorted_world"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands"
+        }
+      }
+    },
+    {
+      "name": "pokecube_legends:unown_temple_ultraspace",
+      "root": "pokecube_legends:unown_temple",
+      "biomeType": "none",
+      "distance": 50,
+      "separation": 32,
+      "size": 12,
+      "height": -40,
+      "base_under": false,
+      "dimWhitelist": [
+        "pokecube_legends:ultraspace"
+      ],
+      "spawn": {
+        "values": {
+          "biomes": "pokecube_legends:blinding_deltas, pokecube_legends:crystallized_beach, pokecube_legends:dried_blinding_deltas, pokecube_legends:forbidden_taiga, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:mirage_desert, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:rocky_mirage_desert, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:sparse_temporal_jungle, pokecube_legends:tainted_barrens, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle"
+        }
+      }
+    }
+  ]
+}

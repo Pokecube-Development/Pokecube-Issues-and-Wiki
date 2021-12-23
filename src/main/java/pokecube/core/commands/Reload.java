@@ -6,9 +6,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.database.Database;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 
 public class Reload
@@ -17,7 +17,7 @@ public class Reload
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.reload";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to reload pokecube datapacks");
         command.then(Commands.literal("reload").requires(Tools.hasPerm(perm)).executes((ctx) -> Reload.execute(ctx
                 .getSource())));

@@ -44,8 +44,6 @@ import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
-import pokecube.core.database.util.QNameAdaptor;
-import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
@@ -62,6 +60,8 @@ import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
+import thut.api.util.QNameAdaptor;
+import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
@@ -469,6 +469,7 @@ public class PacketPokedex extends NBTPacket
             n = 1;
             for (final PokedexEntry e : entry.getRelated())
             {
+                if (!e.breeds) continue;
                 breedable.putString("" + n, e.getTrimmedName());
                 n++;
             }

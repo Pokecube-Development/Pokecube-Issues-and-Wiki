@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +29,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.gui.NpcScreen;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
@@ -50,6 +51,7 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
+import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
@@ -176,6 +178,7 @@ public class ClientSetupHandler
         MenuScreens.register(PCContainer.TYPE, PC<PCContainer>::new);
         MenuScreens.register(TradeContainer.TYPE, Trade<TradeContainer>::new);
         MenuScreens.register(TMContainer.TYPE, TMs<TMContainer>::new);
+        MenuScreens.register(NpcContainer.TYPE, NpcScreen::new);
 
         // Register mob rendering
         PokecubeCore.LOGGER.debug("Init Mob Renderers");

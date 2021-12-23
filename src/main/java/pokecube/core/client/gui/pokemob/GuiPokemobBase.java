@@ -30,15 +30,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import thut.api.util.JsonUtil;
 
 public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 {
@@ -55,7 +54,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         {
             res = Minecraft.getInstance().getResourceManager().getResource(GuiPokemobBase.SIZEMAP);
             final InputStream in = res.getInputStream();
-            final JsonObject json = PokedexEntryLoader.gson.fromJson(new InputStreamReader(in), JsonObject.class);
+            final JsonObject json = JsonUtil.gson.fromJson(new InputStreamReader(in), JsonObject.class);
             for (final Entry<String, JsonElement> entry : json.entrySet())
             {
                 final String key = entry.getKey();
@@ -94,12 +93,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         scale *= 30;
         if (pokemob != null)
         {
-            if (entity.isAddedToWorld()) pokemob = AnimationGui.getRenderMob(pokemob);
-
-            pokemob.setSize(1);
-            renderMob = pokemob.getEntity();
+            if (!entity.isAddedToWorld()) pokemob.setSize(1);
             float mobScale = 1;
-
             if (GuiPokemobBase.autoScale)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
@@ -123,6 +118,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
             else scale /= mobScale;
+
+            scale /= pokemob.getSize();
         }
         mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);

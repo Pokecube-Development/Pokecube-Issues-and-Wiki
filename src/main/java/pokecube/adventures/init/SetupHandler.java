@@ -45,6 +45,8 @@ public class SetupHandler
         // Increases reputation for nearby NPCs if the player defeats wild
         // pokemobs
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onLivingDeath);
+        // Prevents npcs flagged as not mating from mating
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcBreedCheck);
 
         // One phase of initializing trainers.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);
@@ -58,7 +60,7 @@ public class SetupHandler
         // Loads the trainer databases for types.
         PokecubeCore.POKEMOB_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostDatabaseLoad);
         // Loads the trades for the trainers.
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onPostServerStart);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
         // Prevent trainer's pokemobs going to the PC
         PokecubeCore.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to

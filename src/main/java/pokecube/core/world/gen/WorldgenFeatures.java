@@ -35,38 +35,43 @@ import pokecube.core.database.worldgen.WorldgenHandler.Options;
 import pokecube.core.world.gen.carver.CanyonCarver;
 import pokecube.core.world.gen.carver.CaveCarver;
 import pokecube.core.world.gen.jigsaw.CustomJigsawPiece;
+import pokecube.core.world.gen.template.LadderToGround;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 
 public class WorldgenFeatures
 {
-    public static final DeferredRegister<WorldCarver<?>> CARVERS = DeferredRegister.create(
-            ForgeRegistries.WORLD_CARVERS, PokecubeCore.MODID);
+    public static final DeferredRegister<WorldCarver<?>> CARVERS = DeferredRegister
+            .create(ForgeRegistries.WORLD_CARVERS, PokecubeCore.MODID);
 
-    public static final RegistryObject<WorldCarver<?>> CAVE   = WorldgenFeatures.CARVERS.register("cave",
+    public static final RegistryObject<WorldCarver<?>> CAVE = WorldgenFeatures.CARVERS.register("cave",
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
     public static final RegistryObject<WorldCarver<?>> CANYON = WorldgenFeatures.CARVERS.register("canyon",
             () -> new CanyonCarver(CanyonCarverConfiguration.CODEC));
-    public static final RegistryObject<WorldCarver<?>> OCEAN_CAVE   = WorldgenFeatures.CARVERS.register("ocean_cave",
+    public static final RegistryObject<WorldCarver<?>> OCEAN_CAVE = WorldgenFeatures.CARVERS.register("ocean_cave",
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
 //    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CAVE   = WorldgenFeatures.CARVERS.register("underwater_cave",
 //            () -> new UnderwaterCaveCarver(CaveCarverConfiguration.CODEC));
 //    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CANYON = WorldgenFeatures.CARVERS.register("underwater_canyon",
 //            () -> new UnderwaterCanyonCarver(CanyonCarverConfiguration.CODEC));
 
-    public static final List<StructureProcessor> BERRYRULES   = ImmutableList.of(BerryGenManager.NOREPLACE);
+    public static final List<StructureProcessor> BERRYRULES = ImmutableList.of(BerryGenManager.NOREPLACE);
     public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
+    public static final List<StructureProcessor> LADDERRULES = Lists.newArrayList();
 
     public static final StructureProcessorList BERRYLIST;
     public static final StructureProcessorList GENERICLIST;
+    public static final StructureProcessorList LADDERFIX;
 
     private static final Map<ResourceLocation, StructureProcessorList> procLists = Maps.newHashMap();
 
     static
     {
         WorldgenFeatures.GENERICRULES.add(0, PokecubeStructureProcessor.PROCESSOR);
+        LADDERRULES.add(LadderToGround.PROCESSOR);
         // TODO find out why it hates the "berry_gen" list...
         BERRYLIST = new StructureProcessorList(WorldgenFeatures.BERRYRULES);
         GENERICLIST = WorldgenFeatures.register("generic", WorldgenFeatures.GENERICRULES);
+        LADDERFIX = WorldgenFeatures.register("ladders_to_ground", WorldgenFeatures.LADDERRULES);
 
         WorldgenFeatures.procLists.put(new ResourceLocation("pokecube", "berry_gen"), WorldgenFeatures.BERRYLIST);
     }
@@ -80,8 +85,8 @@ public class WorldgenFeatures
     {
         StructureProcessorList listToUse = null;
         final ResourceLocation key = new ResourceLocation(value);
-        if (BuiltinRegistries.PROCESSOR_LIST.keySet().contains(key)) listToUse = BuiltinRegistries.PROCESSOR_LIST.get(
-                key);
+        if (BuiltinRegistries.PROCESSOR_LIST.keySet().contains(key))
+            listToUse = BuiltinRegistries.PROCESSOR_LIST.get(key);
         else listToUse = WorldgenFeatures.procLists.getOrDefault(key, null);
         return listToUse;
     }
@@ -111,8 +116,8 @@ public class WorldgenFeatures
                 opts.water = pool.water;
                 opts.proc_list = pool.proc_list;
             }
-            final Pair<Function<Projection, ? extends StructurePoolElement>, Integer> pair = Pair.of(WorldgenFeatures
-                    .makePiece(args[0], listToUse, opts), second);
+            final Pair<Function<Projection, ? extends StructurePoolElement>, Integer> pair = Pair
+                    .of(WorldgenFeatures.makePiece(args[0], listToUse, opts), second);
             size += second;
             pairs.add(pair);
         }
@@ -128,10 +133,9 @@ public class WorldgenFeatures
             }
             final StructureTemplatePool toInclude = BuiltinRegistries.TEMPLATE_POOL.get(incl);
             PokecubeCore.LOGGER.debug("Adding parts from {} to {}", s, pool.name);
-            toInclude.rawTemplates.forEach(p ->
-            {
-                final Pair<Function<Projection, ? extends StructurePoolElement>, Integer> pair = Pair.of(t -> p
-                        .getFirst(), p.getSecond());
+            toInclude.rawTemplates.forEach(p -> {
+                final Pair<Function<Projection, ? extends StructurePoolElement>, Integer> pair = Pair
+                        .of(t -> p.getFirst(), p.getSecond());
                 pairs.add(pair);
             });
         }
@@ -154,14 +158,11 @@ public class WorldgenFeatures
             final StructureProcessorList list, final Options opts)
     {
         final ResourceLocation resource = new ResourceLocation(name);
-        if (resource.getPath().equals("empty")) return (placement) ->
-        {
+        if (resource.getPath().equals("empty")) return (placement) -> {
             return EmptyPoolElement.INSTANCE;
         };
-        return (placement) ->
-        {
-            return new CustomJigsawPiece(Either.left(resource), () ->
-            {
+        return (placement) -> {
+            return new CustomJigsawPiece(Either.left(resource), () -> {
                 return list;
             }, placement, opts, new JigSawConfig());
         };

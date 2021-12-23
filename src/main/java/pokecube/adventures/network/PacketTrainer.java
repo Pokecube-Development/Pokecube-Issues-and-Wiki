@@ -20,8 +20,6 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
@@ -33,7 +31,6 @@ import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.abilities.AbilityManager;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.StructureEvent;
@@ -44,10 +41,13 @@ import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
@@ -57,11 +57,11 @@ public class PacketTrainer extends NBTPacket
     public static final PacketAssembly<PacketTrainer> ASSEMBLER = PacketAssembly.registerAssembler(PacketTrainer.class,
             PacketTrainer::new, PokecubeAdv.packets);
 
-    public static final String EDITSELF = "pokecube_adventures.traineredit.self";
-    public static final String EDITOTHER = "pokecube_adventures.traineredit.other";
-    public static final String EDITMOB = "pokecube_adventures.traineredit.mob";
-    public static final String EDITTRAINER = "pokecube_adventures.traineredit.trainer";
-    public static final String SPAWNTRAINER = "pokecube_adventures.traineredit.spawn";
+    public static final String EDITSELF = "traineredit.self";
+    public static final String EDITOTHER = "traineredit.other";
+    public static final String EDITMOB = "traineredit.mob";
+    public static final String EDITTRAINER = "traineredit.trainer";
+    public static final String SPAWNTRAINER = "traineredit.spawn";
 
     public static final byte REQUESTEDIT = -1;
 
@@ -73,15 +73,15 @@ public class PacketTrainer extends NBTPacket
 
     public static void register()
     {
-        PermissionAPI.registerNode(PacketTrainer.EDITSELF, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(PacketTrainer.EDITSELF, DefaultPermissionLevel.OP,
                 "Allowed to edit self with trainer editor");
-        PermissionAPI.registerNode(PacketTrainer.EDITOTHER, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(PacketTrainer.EDITOTHER, DefaultPermissionLevel.OP,
                 "Allowed to edit other player with trainer editor");
-        PermissionAPI.registerNode(PacketTrainer.EDITMOB, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(PacketTrainer.EDITMOB, DefaultPermissionLevel.OP,
                 "Allowed to edit pokemobs with trainer editor");
-        PermissionAPI.registerNode(PacketTrainer.EDITTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(PacketTrainer.EDITTRAINER, DefaultPermissionLevel.OP,
                 "Allowed to edit trainer with trainer editor");
-        PermissionAPI.registerNode(PacketTrainer.SPAWNTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(PacketTrainer.SPAWNTRAINER, DefaultPermissionLevel.OP,
                 "Allowed to spawn trainer with trainer editor");
     }
 
@@ -99,7 +99,7 @@ public class PacketTrainer extends NBTPacket
                 : target instanceof ServerPlayer ? PacketTrainer.EDITOTHER
                         : TrainerCaps.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
                                 : PacketTrainer.EDITMOB;
-        final boolean canEdit = !editor.getServer().isDedicatedServer() || PermissionAPI.hasPermission(editor, node);
+        final boolean canEdit = !editor.getServer().isDedicatedServer() || PermNodes.getBooleanPerm(editor, node);
 
         if (!canEdit)
         {
@@ -203,7 +203,7 @@ public class PacketTrainer extends NBTPacket
             PacketTrainer.sendEditOpenPacket(mob, player);
             break;
         case SPAWN:
-            if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
+            if (!PermNodes.getBooleanPerm(player, PacketTrainer.SPAWNTRAINER))
             {
                 player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
@@ -234,18 +234,18 @@ public class PacketTrainer extends NBTPacket
                 final GuardInfo info = new GuardInfo();
                 info.time = "allday";
                 info.roam = 0;
-                thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
+                thing.add("guard", JsonUtil.gson.toJsonTree(info));
                 final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(mob);
                 if (aiStates != null) aiStates.setAIState(AIState.STATIONARY, true);
             }
-            final String var = PokedexEntryLoader.gson.toJson(thing);
+            final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
                     (ServerLevel) player.getCommandSenderWorld(), player.getRandom(), BoundingBox.infinite());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
-            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
+            if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
                 player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
@@ -333,7 +333,7 @@ public class PacketTrainer extends NBTPacket
             }
             break;
         case KILLTRAINER:
-            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITTRAINER))
+            if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITTRAINER))
             {
                 player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);
@@ -343,7 +343,7 @@ public class PacketTrainer extends NBTPacket
             if (mob != null) mob.discard();
             break;
         case UPDATEMOB:
-            if (!PermissionAPI.hasPermission(player, PacketTrainer.EDITMOB))
+            if (!PermNodes.getBooleanPerm(player, PacketTrainer.EDITMOB))
             {
                 player.sendMessage(new TextComponent(ChatFormatting.RED + "You are not allowed to do that."),
                         Util.NIL_UUID);

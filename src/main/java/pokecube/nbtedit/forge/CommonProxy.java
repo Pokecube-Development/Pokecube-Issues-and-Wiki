@@ -15,14 +15,17 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.nbtedit.NBTEdit;
 import thut.core.common.Proxy;
 
 public class CommonProxy implements Proxy
 {
-    boolean reg = false;
+    static
+    {
+        PermNodes.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP, "Allowed to use nbt edit commands.");
+    }
 
     public boolean checkPermission(final CommandSourceStack cs)
     {
@@ -40,11 +43,7 @@ public class CommonProxy implements Proxy
 
     public boolean checkPermission(final ServerPlayer player)
     {
-        if (!this.reg) PermissionAPI.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP,
-                "Allowed to use nbt edit commands.");
-        this.reg = true;
-        if (NBTEdit.opOnly ? PermissionAPI.hasPermission(player, NBTEdit.MODID)
-                : player.getAbilities().instabuild)
+        if (NBTEdit.opOnly ? PermNodes.getBooleanPerm(player, NBTEdit.MODID) : player.getAbilities().instabuild)
             return true;
         return false;
     }

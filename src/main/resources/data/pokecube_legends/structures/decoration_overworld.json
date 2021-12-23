@@ -1,0 +1,32 @@
+{
+  "pools": [
+    {
+      "name": "pokecube_legends:meteor_overworld",
+      "rigid": false,
+      "ignoreAir": true,
+      "options": [
+        "pokecube_legends:meteorites/meteor_small;{\"weight\":30}",
+        "pokecube_legends:meteorites/meteor_small_1;{\"weight\":60}",
+        "pokecube_legends:meteorites/meteor_medium;{\"weight\":80}",
+        "pokecube_legends:meteorites/meteor_medium_1;{\"weight\":100}",
+        "pokecube_legends:meteorites/meteor_large;{\"weight\":120}",
+        "pokecube_legends:meteorites/meteor_large_1;{\"weight\":140}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name": "pokecube_legends:meteor_overworld",
+      "root": "pokecube_legends:meteor_overworld",
+      "biomeType": "meteor",
+      "distance": 10,
+      "separation": 3,
+      "spawn": {
+        "values": {
+          "category": "extreme_hills",
+          "strict_type_cat": true
+        }
+      }
+    }
+  ]
+}

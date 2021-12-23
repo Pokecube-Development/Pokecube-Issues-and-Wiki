@@ -115,7 +115,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public Villager getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
-        if (this.isBaby() || this.getAge() > 0 || !this.aiStates.getAIState(AIState.MATES)) return null;
+        if (this.isBaby() || this.getAge() > 0) return null;
         if (TrainerTracker.countTrainers(this.getCommandSenderWorld(), this.location.set(this),
                 PokecubeAdv.config.trainerBox) > 5)
             return null;
@@ -123,7 +123,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         {
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(ageable);
             final IHasNPCAIStates otherAI = TrainerCaps.getNPCAIStates(ageable);
-            if (other != null && otherAI != null && otherAI.getAIState(AIState.MATES) && other.getGender() == 1)
+            if (other != null && otherAI != null && other.getGender() == 1)
             {
                 if (this.location == null) this.location = Vector3.getNewVector();
                 final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this),

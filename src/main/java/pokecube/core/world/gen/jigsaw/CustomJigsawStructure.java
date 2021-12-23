@@ -8,27 +8,18 @@ import java.util.function.BiConsumer;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.StructureMode;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
-import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.NoiseAffectingStructureFeature;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator.Context;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
@@ -38,7 +29,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
@@ -163,64 +153,7 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
                     config.struct_config, context.heightAccessor());
             if (MinecraftForge.EVENT_BUS.post(event)) return Optional.empty();
 
-            final ResourceLocation structName = new ResourceLocation(
-                    config.struct_config.type.isEmpty() ? config.struct_config.name : config.struct_config.type);
-
-            StructureFeature<?> thisFeature = WorldgenHandler.getFeature(structName);
-            final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
-
-            if (thisFeature != null)
-            {
-                // Here we check if there are any conflicting structures around.
-                final int ds0 = WorldgenHandler.getNeededSpace(structName);
-                final Decoration stage0 = StructureFeature.STEP.get(thisFeature);
-
-                final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
-                final StructureFeatureManager sfmanager = world.structureFeatureManager();
-                final StructureSettings settings = chunkGenerator.getSettings();
-
-                x = context.chunkPos().x;
-                z = context.chunkPos().z;
-
-                for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
-                {
-                    // Check if we have reached this structure, if so, it is
-                    // valid and we break.
-                    if (s.getRegistryName().equals(structName)) break;
-
-                    final int ds1 = WorldgenHandler.getNeededSpace(s.getRegistryName());
-                    final int ds = Math.max(ds0, ds1);
-
-                    final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
-                    // This means it doesn't spawn in this world, so we skip.
-                    if (structureseparationsettings == null) continue;
-
-                    final Decoration stage1 = StructureFeature.STEP.get(s);
-                    // Only care about things that are of same stage!
-                    if (stage1 != stage0) continue;
-
-                    for (int i = x - ds; i <= x + ds; ++i) for (int j = z - ds; j <= z + ds; ++j)
-                    {
-                        // We ask for EMPTY chunk, and allow it to be null, so
-                        // that
-                        // we don't cause issues if the chunk doesn't exist yet.
-                        final ChunkAccess ichunk = world.getChunk(i, j, ChunkStatus.EMPTY, false);
-                        // We then only care about chunks which have already
-                        // reached
-                        // at least this stage of loading.
-                        if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
-                        // This is the way to tell if an actual real structure
-                        // would be at this location.
-                        final StructureStart<?> structurestart = sfmanager
-                                .getStartForFeature(SectionPos.bottomOf(ichunk), s, ichunk);
-                        // This means we do conflict, so no spawn here.
-                        if (structurestart != null && structurestart.isValid())
-                        {
-                            assembler.addConflict(structurestart.getBoundingBox());
-                        }
-                    }
-                }
-            }
+            final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config).checkConflicts();
             return assembler.build(context, POSTPROCESS);
         }
     }

@@ -186,17 +186,17 @@ public class RoadBuilder extends AbstractBot
         }
     }
 
-    Pattern build_route = Pattern.compile("(build)(\\s)(\\w+:\\w+)(\\s)"
+    static Pattern build_route = Pattern.compile("(build)" + SPACE + RSRC + SPACE
 
-            + "([+-]?[0-9]+)(\\s)" + "([+-]?[0-9]+)(\\s)"
+            + INT + SPACE + INT + SPACE
 
-            + "([+-]?[0-9]+)(\\s)" + "([+-]?[0-9]+)");
+            + INT + SPACE + INT);
 
-    Pattern build_route_speed = Pattern.compile("(build)(\\s)(\\w+:\\w+)(\\s)"
+    static Pattern build_route_speed = Pattern.compile("(build)" + SPACE + RSRC + SPACE
 
-            + "([+-]?[0-9]+)(\\s)" + "([+-]?[0-9]+)(\\s)"
+            + INT + SPACE + INT + SPACE
 
-            + "([+-]?[0-9]+)(\\s)" + "([+-]?[0-9]+)(\\s)" + "([+-]?[0-9]+)");
+            + INT + SPACE + INT + SPACE + INT);
 
     @Override
     public boolean init(String args)

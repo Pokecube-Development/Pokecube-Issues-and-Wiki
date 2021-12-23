@@ -22,6 +22,7 @@
       "mob": "pokecube:npc",
       "type": "professor",
       "gender": "male",
+      "customTrades": "professor",
       "guard": {
         "time": "day",
         "roam": 0
@@ -35,6 +36,7 @@
       "mob": "pokecube:npc",
       "type": "professor",
       "gender": "female",
+      "customTrades": "professor",
       "guard": {
         "time": "day",
         "roam": 0
@@ -53,6 +55,7 @@
       "preset_name": "pokemart_merchant",
       "mob": "pokecube:npc",
       "type": "trader",
+      "customTrades": "merchant",
       "guard": {
         "time": "day",
         "roam": 0

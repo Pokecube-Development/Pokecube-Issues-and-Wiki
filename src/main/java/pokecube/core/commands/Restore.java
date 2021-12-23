@@ -25,14 +25,14 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
@@ -44,7 +44,7 @@ public class Restore
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.restore";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed use the restore feature to recover mobs");
 
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("restore").requires(Tools.hasPerm(perm));

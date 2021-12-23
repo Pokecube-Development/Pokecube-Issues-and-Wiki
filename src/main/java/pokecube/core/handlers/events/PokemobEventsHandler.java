@@ -60,15 +60,12 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -103,11 +100,13 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
@@ -194,7 +193,7 @@ public class PokemobEventsHandler
 
         final Mob mob = (Mob) event.getEntity();
 
-        if (mob.getCommandSenderWorld().isClientSide()) return;
+        if (mob.getLevel().isClientSide()) return;
 
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
@@ -294,7 +293,7 @@ public class PokemobEventsHandler
     private static void onLivingHurt(final LivingHurtEvent evt)
     {
         // Only process these server side
-        if (!(evt.getEntity().getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(evt.getEntity().getLevel() instanceof ServerLevel)) return;
         /*
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
@@ -329,7 +328,7 @@ public class PokemobEventsHandler
             if (toPush != null)
             {
                 evt.setCanceled(true);
-                final ServerLevel world = (ServerLevel) evt.getEntity().getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) evt.getEntity().getLevel();
                 final AABB oldBox = evt.getEntity().getBoundingBox();
                 final AABB newBox = toPush.getBoundingBox();
 
@@ -425,9 +424,8 @@ public class PokemobEventsHandler
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
-        if (damageSource instanceof PokemobDamageSource
-                && evt.getEntity().getCommandSenderWorld() instanceof ServerLevel)
-            damageSource.getDirectEntity().killed((ServerLevel) evt.getEntity().getCommandSenderWorld(),
+        if (damageSource instanceof PokemobDamageSource && evt.getEntity().getLevel() instanceof ServerLevel)
+            damageSource.getDirectEntity().killed((ServerLevel) evt.getEntity().getLevel(),
                     (LivingEntity) evt.getEntity());
 
         // Handle exp gain for the mob.
@@ -536,6 +534,13 @@ public class PokemobEventsHandler
     private static void onCopyTick(final CopyUpdateEvent evt)
     {
         final LivingEntity living = evt.getEntityLiving();
+
+        // This prevents double ticking when a mob is both a copy and ticking
+        // elsewhere, say in a custom pokeplayer like implementation
+        long tick = living.getPersistentData().getLong("__i__");
+        if (tick == Tracker.instance().getTick()) return;
+        living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
+
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
         if (pokemob != null)
         {
@@ -546,7 +551,7 @@ public class PokemobEventsHandler
             if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
 
             // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getCommandSenderWorld());
+            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
         }
     }
 
@@ -573,7 +578,14 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingUpdateEvent evt)
     {
         final LivingEntity living = evt.getEntityLiving();
-        final Level dim = living.getCommandSenderWorld();
+
+        // This prevents double ticking when a mob is both a copy and ticking
+        // elsewhere, say in a custom pokeplayer like implementation
+        long tick = living.getPersistentData().getLong("__i__");
+        if (tick == Tracker.instance().getTick()) return;
+        living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
+
+        final Level dim = living.getLevel();
         // Prevent moving if it is liable to take us out of a loaded area
         double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x
                 + living.getDeltaMovement().z * living.getDeltaMovement().z);
@@ -594,7 +606,7 @@ public class PokemobEventsHandler
                 return;
             }
             if (pokemobCap.getOwnerId() != null) mob.setPersistenceRequired();
-            final Player near = mob.getCommandSenderWorld().getNearestPlayer(mob, -1);
+            final Player near = mob.getLevel().getNearestPlayer(mob, -1);
             if (near != null && pokemob.getOwnerId() == null)
             {
                 dist = near.distanceTo(mob);
@@ -639,7 +651,7 @@ public class PokemobEventsHandler
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getCommandSenderWorld());
+            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
         }
     }
 
@@ -739,16 +751,11 @@ public class PokemobEventsHandler
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
         if (pokemob.getInventory().getItem(0).isEmpty()) return false;
 
-        if (rider instanceof ServerPlayer && rider == pokemob.getOwner())
+        if (rider instanceof ServerPlayer player && rider == pokemob.getOwner())
         {
-            final Player player = (Player) rider;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
             final Config config = PokecubeCore.getConfig();
-            if (config.permsRide && !handler.hasPermission(player.getGameProfile(), Permissions.RIDEPOKEMOB, context))
-                return false;
-            if (config.permsRideSpecific
-                    && !handler.hasPermission(player.getGameProfile(), Permissions.RIDESPECIFIC.get(entry), context))
+            if (config.permsRide && !PermNodes.getBooleanPerm(player, Permissions.RIDEPOKEMOB)) return false;
+            if (config.permsRideSpecific && !PermNodes.getBooleanPerm(player, Permissions.RIDESPECIFIC.get(entry)))
                 return false;
         }
         final float scale = pokemob.getSize();
@@ -907,7 +914,7 @@ public class PokemobEventsHandler
                 }
                 pokemob.setReadyToMate(player);
                 BrainUtils.clearAttackTarget(entity);
-                entity.getCommandSenderWorld().broadcastEntityEvent(entity, (byte) 18);
+                entity.getLevel().broadcastEntityEvent(entity, (byte) 18);
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
                 return;

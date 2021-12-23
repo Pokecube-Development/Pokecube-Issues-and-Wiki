@@ -77,7 +77,7 @@
         "empty;{\"weight\":1}",
         "pokecube:village/snowy/houses/trainer_medium_house;{\"weight\":3}",
         "pokecube:village/snowy/houses/trainer_large_house;{\"weight\":3}",
-        "pokecube:village/snowy/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
+        "pokecube:village/snowy/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/snowy/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes": [

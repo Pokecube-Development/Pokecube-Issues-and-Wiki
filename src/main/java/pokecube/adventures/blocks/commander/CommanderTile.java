@@ -30,13 +30,13 @@ import thut.core.common.commands.CommandTools;
 
 public class CommanderTile extends InteractableTile
 {
-    protected boolean         addedToNetwork = false;
-    public UUID               pokeID         = null;
-    public Command            command        = null;
-    public IMobCommandHandler handler        = null;
-    public String             args           = "";
-    private String            prev_args      = "";
-    protected int             power          = 0;
+    protected boolean addedToNetwork = false;
+    public UUID pokeID = null;
+    public Command command = null;
+    public IMobCommandHandler handler = null;
+    public String args = "";
+    private String prev_args = "";
+    protected int power = 0;
 
     public CommanderTile(final BlockPos pos, final BlockState state)
     {
@@ -58,8 +58,7 @@ public class CommanderTile extends InteractableTile
     @Override
     public CompoundTag getUpdateTag()
     {
-        final CompoundTag tag = new CompoundTag();
-        return this.save(tag);
+        return this.saveWithoutMetadata();
     }
 
     @Override
@@ -78,13 +77,12 @@ public class CommanderTile extends InteractableTile
     }
 
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public void saveAdditional(final CompoundTag nbt)
     {
-        super.save(nbt);
+        super.saveAdditional(nbt);
         if (this.getPokeID() != null) nbt.putUUID("pokeID", this.getPokeID());
         nbt.putString("args", this.args);
         if (this.command != null) nbt.putString("cmd", this.command.name());
-        return nbt;
     }
 
     public UUID getPokeID()
@@ -111,8 +109,7 @@ public class CommanderTile extends InteractableTile
     {
         final Map<Command, Class<? extends IMobCommandHandler>> handlers = IHasCommands.COMMANDHANDLERS;
         final Class<? extends IMobCommandHandler> clazz = handlers.get(this.command);
-        for (final Constructor<?> c : clazz.getConstructors())
-            if (c.getParameterCount() != 0) return this.getArgs(c);
+        for (final Constructor<?> c : clazz.getConstructors()) if (c.getParameterCount() != 0) return this.getArgs(c);
         // for constructorless ones
         return this.getArgs(clazz.getConstructor());
     }
@@ -129,8 +126,8 @@ public class CommanderTile extends InteractableTile
             if (type == Vector3.class)
             {
                 final Vector3 arg = Vector3.getNewVector();
-                arg.set(Double.parseDouble(args[index]), Double.parseDouble(args[index + 1]), Double.parseDouble(
-                        args[index + 2]));
+                arg.set(Double.parseDouble(args[index]), Double.parseDouble(args[index + 1]),
+                        Double.parseDouble(args[index + 2]));
                 index += 3;
                 ret[i] = arg;
             }
@@ -179,8 +176,7 @@ public class CommanderTile extends InteractableTile
             return;
         }
         final Class<?>[] argTypes = new Class<?>[args.length];
-        for (int i = 0; i < args.length; i++)
-            argTypes[i] = args[i].getClass();
+        for (int i = 0; i < args.length; i++) argTypes[i] = args[i].getClass();
         final Constructor<? extends IMobCommandHandler> constructor = clazz.getConstructor(argTypes);
         this.handler = constructor.newInstance(args);
         this.prev_args = this.args;
@@ -218,8 +214,8 @@ public class CommanderTile extends InteractableTile
             if (!player.getCommandSenderWorld().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return InteractionResult.SUCCESS;
         }
-        else if (!player.isCrouching() && player instanceof ServerPlayer) PacketCommander.sendOpenPacket(pos,
-                (ServerPlayer) player);
+        else if (!player.isCrouching() && player instanceof ServerPlayer)
+            PacketCommander.sendOpenPacket(pos, (ServerPlayer) player);
         return !player.isCrouching() ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 }

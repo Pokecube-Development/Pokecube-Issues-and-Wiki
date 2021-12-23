@@ -38,7 +38,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -68,14 +68,14 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.BrainInitEvent;
 import pokecube.core.events.CustomInteractEvent;
-import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
+import pokecube.core.events.npc.NpcBreedEvent;
+import pokecube.core.events.npc.NpcSpawn;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.RecallEvent;
@@ -92,6 +92,7 @@ import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -119,16 +120,24 @@ public class TrainerEventHandler
         @Override
         public void accept(final MerchantOffers t)
         {
+            // We apply trades of last resort. If we got to here, then
+            // profession based trades have already been applied if they exist.
+            if (!t.isEmpty()) return;
+
             final Random rand = new Random(this.mob.getUUID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
+
             TrainerTrades trades = TypeTrainer.tradesMap.get(type);
+            // first prioritise customTrades
             if (!this.mob.customTrades.isEmpty())
             {
                 trades = TypeTrainer.tradesMap.get(this.mob.customTrades);
-                if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+                if (trades != null) trades.addTrades(this.mob, this.mob.getOffers(), rand);
             }
-            else if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
-            else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
+            // Then per type.
+            else if (trades != null) trades.addTrades(this.mob, this.mob.getOffers(), rand);
+            // Then just add the defaults.
+            else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(this.mob, rand));
         }
     }
 
@@ -144,7 +153,6 @@ public class TrainerEventHandler
         @Override
         public void accept(final MerchantOffer t)
         {
-            // TODO decide if we want anything here
             this.mob.getNpcType();
         }
 
@@ -225,7 +233,7 @@ public class TrainerEventHandler
         Drop drop;
         try
         {
-            drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
+            drop = JsonUtil.gson.fromJson(arg, Drop.class);
             return Tools.getStack(drop.getValues(),
                     sender.getCommandSenderWorld() instanceof ServerLevel ? (ServerLevel) sender.getCommandSenderWorld()
                             : null);
@@ -257,6 +265,12 @@ public class TrainerEventHandler
     public static void onEntityInteract(final CustomInteractEvent evt)
     {
         TrainerEventHandler.processInteract(evt, evt.getTarget());
+    }
+
+    public static void onNpcBreedCheck(final NpcBreedEvent.Check evt)
+    {
+        final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(evt.getEntity());
+        if (ai != null && !ai.getAIState(AIState.MATES)) evt.setCanceled(true);
     }
 
     /**
@@ -492,7 +506,7 @@ public class TrainerEventHandler
         DBLoader.load();
     }
 
-    public static void onPostServerStart(final ServerStartedEvent event)
+    public static void onPostServerStart(final ServerAboutToStartEvent event)
     {
         TypeTrainer.postInitTrainers();
     }

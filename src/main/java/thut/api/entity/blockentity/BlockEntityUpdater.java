@@ -6,7 +6,6 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +27,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import thut.api.TickHandler;
 
 public class BlockEntityUpdater
 {
@@ -41,10 +39,10 @@ public class BlockEntityUpdater
     }
 
     final IBlockEntity blockEntity;
-    final Entity       theEntity;
-    List<AABB>         blockBoxes = Lists.newArrayList();
-    Set<BlockEntity>   erroredSet = Sets.newHashSet();
-    VoxelShape         totalShape = Shapes.empty();
+    final Entity theEntity;
+    List<AABB> blockBoxes = Lists.newArrayList();
+    Set<BlockEntity> erroredSet = Sets.newHashSet();
+    VoxelShape totalShape = Shapes.empty();
 
     Vec3 lastShapePos = Vec3.ZERO;
 
@@ -56,7 +54,7 @@ public class BlockEntityUpdater
         final Vec3 here = this.theEntity.position();
         this.theEntity.setBoundingBox(this.getBoundingBox());
         this.theEntity.setPos(here.x, here.y, here.z);
-        final Vec3 shifted = this.theEntity.position();
+//        final Vec3 shifted = this.theEntity.position();
     }
 
     public VoxelShape buildShape()
@@ -81,20 +79,17 @@ public class BlockEntityUpdater
         final double dx = xMin;
         final double dz = zMin;
 
-        for (int i = 0; i < sizeX; i++)
-            for (int j = 0; j < sizeY; j++)
-                for (int k = 0; k < sizeZ; k++)
-                {
-                    pos.set(i, j, k);
-                    final BlockState state = this.blockEntity.getBlocks()[i][j][k];
-                    pos.set(i + min.getX() + origin.getX(), j + min.getY() + origin.getY(), k + min.getZ() + origin
-                            .getZ());
-                    VoxelShape shape;
-                    if (state == null || (shape = state.getShape(world, pos)) == null) continue;
-                    if (shape.isEmpty()) continue;
-                    shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
-                    this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
-                }
+        for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
+        {
+            pos.set(i, j, k);
+            final BlockState state = this.blockEntity.getBlocks()[i][j][k];
+            pos.set(i + min.getX() + origin.getX(), j + min.getY() + origin.getY(), k + min.getZ() + origin.getZ());
+            VoxelShape shape;
+            if (state == null || (shape = state.getShape(world, pos)) == null) continue;
+            if (shape.isEmpty()) continue;
+            shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
+            this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
+        }
         return this.totalShape;
     }
 
@@ -164,8 +159,7 @@ public class BlockEntityUpdater
     {
         boxes.clear();
         // Used to select which boxes to consider for collision
-        from.forAllBoxes((x0, y0, z0, x1, y1, z1) ->
-        {
+        from.forAllBoxes((x0, y0, z0, x1, y1, z1) -> {
             final AABB box = new AABB(x0, y0, z0, x1, y1, z1);
             if (BlockEntityUpdater.intersectsOrAdjacent(box, textBox)) boxes.add(box);
         });
@@ -325,62 +319,62 @@ public class BlockEntityUpdater
 
     public void applyEntityCollision(final Entity entity)
     {
-        // TODO instead of this, apply appropriate transformation to the
-        // entity's box, and then collide off that, then apply appropriate
-        // inverse transformation before actually applying collision to entity.
-        if ((this.theEntity.yRot + 360) % 90 > 5 || this.theEntity.hasPassenger(entity)) return;
-
-        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
-        final boolean isPlayer = entity instanceof Player;
-        if (isPlayer) serverSide = entity instanceof ServerPlayer;
-
-        double dx = 0, dz = 0, dy = 0;
-        final Vec3 motion_a = this.theEntity.getDeltaMovement();
-        Vec3 motion_b = entity.getDeltaMovement();
-        final AABB boundingBox = entity.getBoundingBox();
-        if (isPlayer && serverSide)
-        {
-            final ServerPlayer player = (ServerPlayer) entity;
-            dx = player.xCloak - player.xCloakO;
-            dy = player.yCloak - player.yCloakO;
-            dz = player.zCloak - player.zCloakO;
-            motion_b = new Vec3(dx, dy, dz).scale(0.5);
-        }
-        final Vec3 diffV = motion_a.subtract(motion_b);
-        /** Expanded box by velocities to test for collision with. */
-        final AABB testBox = boundingBox.expandTowards(diffV.x, diffV.y, diffV.z);// .grow(0.1);
-
-        // Used to select which boxes to consider for collision
-        final AABB hitTest = testBox.inflate(0.1 + diffV.length());
-        BlockEntityUpdater.fill(this.blockBoxes, hitTest, this.buildShape());
-        final boolean collided = BlockEntityUpdater.applyEntityCollision(entity, entity.getBoundingBox(),
-                this.blockBoxes, motion_a);
-
-        // Extra stuff to do with players, apply these regardless of collision.
-        // This is done to prevent "flying on server" kicks when the craft is
-        // moving down
-        if (isPlayer && (collided || motion_a.y < 0))
-        {
-            final Player player = (Player) entity;
-
-            if (serverSide)
-            {
-                final ServerPlayer serverplayer = (ServerPlayer) player;
-                // Meed to set floatingTickCount to prevent being kicked
-                serverplayer.connection.aboveGroundVehicleTickCount = 0;
-                serverplayer.connection.aboveGroundTickCount = 0;
-            }
-
-            if (!serverSide && (Minecraft.getInstance().options.bobView || TickHandler.playerTickTracker.containsKey(
-                    player.getUUID())))
-            { // This fixes jitter, need a better way to handle this.
-                TickHandler.playerTickTracker.put(player.getUUID(), (int) (System.currentTimeMillis() % 2000));
-                Minecraft.getInstance().options.bobView = false;
-            }
-            /** This is for clearing jump values on client. */
-            if (!serverSide) player.getPersistentData().putInt("lastStandTick", player.tickCount);
-
-        }
+//        // TODO instead of this, apply appropriate transformation to the
+//        // entity's box, and then collide off that, then apply appropriate
+//        // inverse transformation before actually applying collision to entity.
+//        if ((this.theEntity.yRot + 360) % 90 > 5 || this.theEntity.hasPassenger(entity)) return;
+//
+//        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
+//        final boolean isPlayer = entity instanceof Player;
+//        if (isPlayer) serverSide = entity instanceof ServerPlayer;
+//
+//        double dx = 0, dz = 0, dy = 0;
+//        final Vec3 motion_a = this.theEntity.getDeltaMovement();
+//        Vec3 motion_b = entity.getDeltaMovement();
+//        final AABB boundingBox = entity.getBoundingBox();
+//        if (isPlayer && serverSide)
+//        {
+//            final ServerPlayer player = (ServerPlayer) entity;
+//            dx = player.xCloak - player.xCloakO;
+//            dy = player.yCloak - player.yCloakO;
+//            dz = player.zCloak - player.zCloakO;
+//            motion_b = new Vec3(dx, dy, dz).scale(0.5);
+//        }
+//        final Vec3 diffV = motion_a.subtract(motion_b);
+//        /** Expanded box by velocities to test for collision with. */
+//        final AABB testBox = boundingBox.expandTowards(diffV.x, diffV.y, diffV.z);// .grow(0.1);
+//
+//        // Used to select which boxes to consider for collision
+//        final AABB hitTest = testBox.inflate(0.1 + diffV.length());
+//        BlockEntityUpdater.fill(this.blockBoxes, hitTest, this.buildShape());
+//        final boolean collided = BlockEntityUpdater.applyEntityCollision(entity, entity.getBoundingBox(),
+//                this.blockBoxes, motion_a);
+//
+//        // Extra stuff to do with players, apply these regardless of collision.
+//        // This is done to prevent "flying on server" kicks when the craft is
+//        // moving down
+//        if (isPlayer && (collided || motion_a.y < 0))
+//        {
+//            final Player player = (Player) entity;
+//
+//            if (serverSide)
+//            {
+//                final ServerPlayer serverplayer = (ServerPlayer) player;
+//                // Meed to set floatingTickCount to prevent being kicked
+//                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+//                serverplayer.connection.aboveGroundTickCount = 0;
+//            }
+//
+//            if (!serverSide && (Minecraft.getInstance().options.bobView
+//                    || TickHandler.playerTickTracker.containsKey(player.getUUID())))
+//            { // This fixes jitter, need a better way to handle this.
+//                TickHandler.playerTickTracker.put(player.getUUID(), (int) (System.currentTimeMillis() % 2000));
+//                Minecraft.getInstance().options.bobView = false;
+//            }
+//            /** This is for clearing jump values on client. */
+//            if (!serverSide) player.getPersistentData().putInt("lastStandTick", player.tickCount);
+//
+//        }
     }
 
     public AABB getBoundingBox()
@@ -400,6 +394,8 @@ public class BlockEntityUpdater
         yMax = y0 + size.getY() + 1;
         zMax = z0 + size.getZ() + 1;
 
+        if (size.getY() <= 1) yMax += 1;
+
         return new AABB(xMin, yMin, zMin, xMax, yMax, zMax).inflate(0.0);
     }
 
@@ -416,8 +412,9 @@ public class BlockEntityUpdater
             this.blockEntity.setSize(size);
         }
         double y;
-        if (this.theEntity.getDeltaMovement().y == 0 && this.theEntity.getY() != (y = Math.round(this.theEntity
-                .getY()))) this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
+        if (this.theEntity.getDeltaMovement().y == 0
+                && this.theEntity.getY() != (y = Math.round(this.theEntity.getY())))
+            this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
         final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         final int sizeX = dims.getX();
@@ -427,31 +424,29 @@ public class BlockEntityUpdater
         final Level world = this.blockEntity.getFakeWorld() instanceof Level ? (Level) this.blockEntity.getFakeWorld()
                 : this.theEntity.getCommandSenderWorld();
 
-        for (int i = 0; i < sizeX; i++)
-            for (int j = 0; j < sizeY; j++)
-                for (int k = 0; k < sizeZ; k++)
-                {
-                    pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity.getZ());
+        for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
+        {
+            pos.set(i + this.theEntity.getX(), j + this.theEntity.getY(), k + this.theEntity.getZ());
 
-                    // TODO rotate here by entity rotation.
-                    final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
-                    if (tile != null) tile.setLevel(world);
-                    if (tile instanceof TickingBlockEntity)
-                    {
-                        if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
-                        try
-                        {
-                            ((TickingBlockEntity) tile).tick();
-                        }
-                        catch (final Throwable e)
-                        {
-                            e.printStackTrace();
-                            System.err.println("Error with Tile Entity " + tile);
-                            this.erroredSet.add(tile);
-                            if (BlockEntityUpdater.autoBlacklist && BlockEntityType.getKey(tile.getType()) != null)
-                                IBlockEntity.TEBLACKLIST.add(BlockEntityType.getKey(tile.getType()).toString());
-                        }
-                    }
+            // TODO rotate here by entity rotation.
+            final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
+            if (tile != null) tile.setLevel(world);
+            if (tile instanceof TickingBlockEntity)
+            {
+                if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
+                try
+                {
+                    ((TickingBlockEntity) tile).tick();
                 }
+                catch (final Throwable e)
+                {
+                    e.printStackTrace();
+                    System.err.println("Error with Tile Entity " + tile);
+                    this.erroredSet.add(tile);
+                    if (BlockEntityUpdater.autoBlacklist && BlockEntityType.getKey(tile.getType()) != null)
+                        IBlockEntity.TEBLACKLIST.add(BlockEntityType.getKey(tile.getType()).toString());
+                }
+            }
+        }
     }
 }

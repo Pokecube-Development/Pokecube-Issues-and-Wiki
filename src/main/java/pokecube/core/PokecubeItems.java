@@ -64,7 +64,6 @@ import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -79,6 +78,7 @@ import pokecube.core.items.revive.ItemRevive;
 import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
+import thut.api.util.JsonUtil;
 
 public class PokecubeItems extends ItemList
 {
@@ -492,7 +492,7 @@ public class PokecubeItems extends ItemList
         try
         {
             writer = new FileWriter(file);
-            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.write(JsonUtil.gson.toJson(json));
             writer.close();
         }
         catch (final IOException e)
@@ -514,7 +514,7 @@ public class PokecubeItems extends ItemList
         try
         {
             writer = new FileWriter(file);
-            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.write(JsonUtil.gson.toJson(json));
             writer.close();
         }
         catch (final IOException e)
@@ -533,7 +533,7 @@ public class PokecubeItems extends ItemList
         try
         {
             writer = new FileWriter(file);
-            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.write(JsonUtil.gson.toJson(json));
             writer.close();
         }
         catch (final IOException e)
@@ -552,7 +552,7 @@ public class PokecubeItems extends ItemList
         try
         {
             writer = new FileWriter(file);
-            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.write(JsonUtil.gson.toJson(json));
             writer.close();
         }
         catch (final IOException e)
@@ -571,7 +571,7 @@ public class PokecubeItems extends ItemList
             for (final Item item : items)
                 array.add(item.getRegistryName().toString());
             json.add("values", array);
-            final String fileConts = PokedexEntryLoader.gson.toJson(json);
+            final String fileConts = JsonUtil.gson.toJson(json);
             file = new File(folder, name.getPath() + ".json");
             try
             {

@@ -212,11 +212,10 @@ public class NestTile extends InteractableTile implements ITickTile
      * @return
      */
     @Override
-    public CompoundTag save(final CompoundTag nbt)
+    public void saveAdditional(final CompoundTag nbt)
     {
-        super.save(nbt);
+        super.saveAdditional(nbt);
         nbt.putInt("time", this.time);
         nbt.put("_data_", this.tag);
-        return nbt;
     }
 }

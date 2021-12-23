@@ -12,6 +12,9 @@ import com.mojang.authlib.GameProfile;
 
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
@@ -22,15 +25,18 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.ThutBot;
+import thut.bot.ThutBot.BotEntry;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.network.EntityUpdate;
 
-public class BotPlayer extends ServerPlayer
+public class BotPlayer extends ServerPlayer implements Npc
 {
 
     public static final String PERMBOTORDER = "thutbot.perm.orderbot";
@@ -39,10 +45,28 @@ public class BotPlayer extends ServerPlayer
 
     private IBotAI maker;
 
+    private final BotEntry entry;
+
     public BotPlayer(final ServerLevel world, final GameProfile profile)
     {
         super(world.getServer(), world, profile);
         this.connection = new BotPlayerNetHandler(world.getServer(), this);
+        entry = ThutBot.BOT_MAP.get(profile.getId());
+        try
+        {
+            if (entry.getFile().exists()) this.getPersistentData().merge(NbtIo.read(entry.getFile()));
+        }
+        catch (Exception e)
+        {
+            ThutBot.LOGGER.error("Error loading saved tag for {}", entry.name);
+            ThutBot.LOGGER.error(e);
+        }
+
+        if (this.getPersistentData().contains("_last_pos_"))
+        {
+            BlockPos pos = NbtUtils.readBlockPos(this.getPersistentData().getCompound("_last_pos_"));
+            this.setPos(pos.getX(), pos.getY(), pos.getZ());
+        }
     }
 
     @Override
@@ -78,25 +102,32 @@ public class BotPlayer extends ServerPlayer
             this.dead = false;
             if (this.tickCount % 20 == 0) EntityUpdate.sendEntityUpdate(this);
 
-//            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(3));
-//            for (ItemEntity i : items)
-//            {
-//                this.setItemInHand(InteractionHand.MAIN_HAND, i.getItem());
-//                i.remove(RemovalReason.DISCARDED);
-//            }
-//            if (level instanceof ServerLevel && this.getMainHandItem().getItem() instanceof MapItem)
-//            {
-//                FakePlayer fake = new FakePlayer(getLevel(), new GameProfile(UUID.randomUUID(), "IHOLDMAPS"));
-//                ICopyMob.copyPositions(fake, this);
-//                ICopyMob.copyRotations(fake, this);
-//                fake.setItemInHand(InteractionHand.MAIN_HAND, this.getMainHandItem());
-//                fake.getInventory().tick();
-//            }
+            this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
+
+            if (this.isInWater()) this.setDeltaMovement(this.getDeltaMovement().add(0, 0.05, 0));
+            else this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0));
+
+            this.move(MoverType.SELF, this.getDeltaMovement());
         }
 
         if (cpos != this.chunkPosition())
         {
             level.getChunkSource().move(this);
+            this.getPersistentData().put("_last_pos_", NbtUtils.writeBlockPos(getOnPos()));
+        }
+
+        if (this.tickCount % 60 == 0)
+        {
+            try
+            {
+                NbtIo.write(getPersistentData(), entry.getFile());
+            }
+            catch (Exception e)
+            {
+                ThutBot.LOGGER.error("Error saving tag for {}", entry.name);
+                ThutBot.LOGGER.error(e);
+            }
+            ThutBot.saveBots();
         }
     }
 
@@ -110,14 +141,14 @@ public class BotPlayer extends ServerPlayer
         // Decide if we want to say something back?
         if (!isOrder) return;
 
-        PermissionAPI.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
         String s1 = "I Am A Bot";
         chat(s1);
 
-        if (!PermissionAPI.hasPermission(talker, PERMBOTORDER)) return;
+        if (!PermNodes.getBooleanPerm(talker, PERMBOTORDER)) return;
 
         Matcher startOrder = startPattern.matcher(event.getMessage());
-        
+
         boolean had = startOrder.find();
 
         if (!had)

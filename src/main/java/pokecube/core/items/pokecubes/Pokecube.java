@@ -32,9 +32,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -48,14 +45,15 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
-import thut.essentials.util.ItemList;
 
 public class Pokecube extends Item implements IPokecube
 {
@@ -387,17 +385,12 @@ public class Pokecube extends Item implements IPokecube
         final boolean hasMob = PokecubeManager.isFilled(stack);
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (hasMob && (config.permsSendOut || config.permsSendOutSpecific) && thrower instanceof Player)
+        if (hasMob && (config.permsSendOut || config.permsSendOutSpecific) && thrower instanceof ServerPlayer player)
         {
             final PokedexEntry entry = PokecubeManager.getPokedexEntry(stack);
-            final Player player = (Player) thrower;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
-            if (config.permsSendOut
-                    && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB, context))
-                return null;
+            if (config.permsSendOut && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTPOKEMOB)) return null;
             if (config.permsSendOutSpecific
-                    && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTSPECIFIC.get(entry), context))
+                    && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTSPECIFIC.get(entry)))
                 return null;
         }
         stack.setCount(1);

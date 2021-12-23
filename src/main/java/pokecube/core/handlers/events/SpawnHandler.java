@@ -55,7 +55,6 @@ import pokecube.core.commands.Pokemake;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.events.MeteorEvent;
@@ -78,6 +77,7 @@ import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 /** @author Manchou Heavily modified by Thutmose */
@@ -480,7 +480,7 @@ public final class SpawnHandler
 
     public static void loadFunctionFromString(final String args)
     {
-        final Function func = PokedexEntryLoader.gson.fromJson(args, Function.class);
+        final Function func = JsonUtil.gson.fromJson(args, Function.class);
         final ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(func.dim));
         SpawnHandler.functions.put(dim, func);
         SpawnHandler.parsers.put(dim, SpawnHandler.initJEP(new JEP(), func.func, func.radial));
@@ -664,7 +664,7 @@ public final class SpawnHandler
 
     public SpawnHandler()
     {
-        if (PokecubeCore.getConfig().pokemonSpawn) MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void doMeteor(final ServerLevel world)
@@ -881,6 +881,7 @@ public final class SpawnHandler
     public void tick(final ServerLevel world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (!PokecubeCore.getConfig().pokemonSpawn) return;
         try
         {
             final int rate = PokecubeCore.getConfig().spawnRate;

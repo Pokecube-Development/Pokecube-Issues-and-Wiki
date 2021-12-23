@@ -76,6 +76,7 @@ import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -649,7 +650,7 @@ public class Database
         for (final ResourceLocation file : resources) try
         {
             final Reader reader = new InputStreamReader(PackFinder.getStream(file));
-            final JsonObject database = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+            final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
             reader.close();
 
             // Handle lists of recipes in the json
@@ -678,7 +679,7 @@ public class Database
 
     private static void loadRewards(final Reader reader)
     {
-        final XMLRewards database = PokedexEntryLoader.gson.fromJson(reader, XMLRewards.class);
+        final XMLRewards database = JsonUtil.gson.fromJson(reader, XMLRewards.class);
         for (final XMLReward drop : database.recipes) XMLRewardsHandler.addReward(drop);
     }
 
@@ -714,7 +715,7 @@ public class Database
             for (final ResourceLocation file : resources)
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
-                final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
+                final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
                 reader.close();
                 valid = true;
                 for (final Drop drop : database.drops)
@@ -847,8 +848,6 @@ public class Database
 
         // Reload the database incase things are adjusted
         PokedexEntryLoader.onReloaded();
-        // Also register bulk defined spawns
-        PokemobSpawns.registerSpawns();
         // And the spawn masks
         SpawnRateMask.init();
 

@@ -29,8 +29,8 @@ import pokecube.legends.init.TileEntityInit;
 public class GenericBarrelTile extends RandomizableContainerBlockEntity
 {
     private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
-    private Component              name;
-    private int                    openCount;
+    private Component name;
+    private int openCount;
 
     private GenericBarrelTile(final BlockEntityType<?> tileEntityType, final BlockPos pos, final BlockState state)
     {
@@ -73,12 +73,11 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
     }
 
     @Override
-    public CompoundTag save(final CompoundTag saveCompoundNBT)
+    public void saveAdditional(final CompoundTag saveCompoundNBT)
     {
-        super.save(saveCompoundNBT);
+        super.saveAdditional(saveCompoundNBT);
         if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.items);
         if (this.name != null) saveCompoundNBT.putString("CustomName", Component.Serializer.toJson(this.name));
-        return saveCompoundNBT;
     }
 
     @Override
@@ -87,8 +86,8 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
         super.load(loadCompoundNBT);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         if (!this.tryLoadLootTable(loadCompoundNBT)) ContainerHelper.loadAllItems(loadCompoundNBT, this.items);
-        if (loadCompoundNBT.contains("CustomName", 8)) this.name = Component.Serializer.fromJson(loadCompoundNBT
-                .getString("CustomName"));
+        if (loadCompoundNBT.contains("CustomName", 8))
+            this.name = Component.Serializer.fromJson(loadCompoundNBT.getString("CustomName"));
     }
 
     @Override
@@ -158,15 +157,15 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
         final double d0 = this.worldPosition.getX() + 0.5D + vector3i.getX() / 2.0D;
         final double d1 = this.worldPosition.getY() + 0.5D + vector3i.getY() / 2.0D;
         final double d2 = this.worldPosition.getZ() + 0.5D + vector3i.getZ() / 2.0D;
-        this.level.playSound((Player) null, d0, d1, d2, sound, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat()
-                * 0.1F + 0.9F);
+        this.level.playSound((Player) null, d0, d1, d2, sound, SoundSource.BLOCKS, 0.5F,
+                this.level.random.nextFloat() * 0.1F + 0.9F);
     }
 
     public static int getOpenCount(final Level world, final BaseContainerBlockEntity lockableTileEntity, final int i,
             final int j, final int k, final int l, int r)
     {
-        if (!world.isClientSide && r != 0 && (i + j + k + l) % 200 == 0) r = GenericBarrelTile.getOpenCount(world,
-                lockableTileEntity, j, k, l);
+        if (!world.isClientSide && r != 0 && (i + j + k + l) % 200 == 0)
+            r = GenericBarrelTile.getOpenCount(world, lockableTileEntity, j, k, l);
 
         return r;
     }
@@ -175,14 +174,15 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
             final int k, final int l)
     {
         int i = 0;
-        for (final Player player : world.getEntitiesOfClass(Player.class, new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1
-                + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
+        for (final Player player : world.getEntitiesOfClass(Player.class,
+                new AABB(j - 5.0F, k - 5.0F, l - 5.0F, j + 1 + 5.0F, k + 1 + 5.0F, l + 1 + 5.0F)))
             if (player.containerMenu instanceof CustomBarrelContainer)
-            {
-                final Container iinventory = ((CustomBarrelContainer) player.containerMenu).getContainer();
-                if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer
-                        && ((CompoundContainer) iinventory).contains(lockableTileEntity)) ++i;
-            }
+        {
+            final Container iinventory = ((CustomBarrelContainer) player.containerMenu).getContainer();
+            if (iinventory == lockableTileEntity || iinventory instanceof CompoundContainer
+                    && ((CompoundContainer) iinventory).contains(lockableTileEntity))
+                ++i;
+        }
         return i;
     }
 }

@@ -16,13 +16,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.utils.Tools;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class TrainerEntryLoader
@@ -86,11 +86,11 @@ public class TrainerEntryLoader
             try
             {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(PackFinder.getStream(file)));
-                loaded = PokedexEntryLoader.gson.fromJson(reader, JsonObject.class);
+                loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();
                 if (loaded.has("trainers"))
                 {
-                    final XMLDatabase database = PokedexEntryLoader.gson.fromJson(loaded, XMLDatabase.class);
+                    final XMLDatabase database = JsonUtil.gson.fromJson(loaded, XMLDatabase.class);
                     for (final TrainerEntry entry : database.trainers)
                     {
                         if (entry.type != null) entry.type = ThutCore.trim(entry.type);

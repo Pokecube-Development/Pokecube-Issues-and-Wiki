@@ -9,9 +9,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
@@ -49,7 +49,7 @@ public class Meteor
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.meteor";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
         commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).then(
                 Commands.argument("power", IntegerArgumentType.integer()).executes((ctx) -> Meteor.execute(ctx
                         .getSource(), IntegerArgumentType.getInteger(ctx, "power")))));

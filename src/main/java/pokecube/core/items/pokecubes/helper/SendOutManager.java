@@ -16,9 +16,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.database.PokedexEntry;
@@ -30,6 +27,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
@@ -107,9 +105,7 @@ public class SendOutManager
         // Check permissions
         if (checkPerms)
         {
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(user);
-            hasPerms = handler.hasPermission(user.getGameProfile(), Permissions.SENDOUTPOKEMOB, context);
+            hasPerms = PermNodes.getBooleanPerm(user, Permissions.SENDOUTPOKEMOB);
         }
 
         // No mob or no perms?, then just refund the item and exit
@@ -160,10 +156,7 @@ public class SendOutManager
             if (config.permsSendOutSpecific && isPlayers)
             {
                 final PokedexEntry entry = pokemob.getPokedexEntry();
-                final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-                final PlayerContext context = new PlayerContext(user);
-                final boolean denied = !handler.hasPermission(user.getGameProfile(),
-                        Permissions.SENDOUTSPECIFIC.get(entry), context);
+                final boolean denied = !PermNodes.getBooleanPerm(user, Permissions.SENDOUTSPECIFIC.get(entry));
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());

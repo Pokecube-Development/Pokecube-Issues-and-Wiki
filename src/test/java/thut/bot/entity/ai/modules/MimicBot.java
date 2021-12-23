@@ -3,6 +3,7 @@ package thut.bot.entity.ai.modules;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.CopyCaps;
@@ -22,7 +24,7 @@ import thut.core.common.network.CapabilitySync;
 @BotAI(key = "thutbot:mimic")
 public class MimicBot extends AbstractBot
 {
-    public static final Pattern startPattern = Pattern.compile("(start)(\\s)(\\w+:\\w+)(\\s)(\\w+:\\w+)");
+    public static final Pattern startPattern = Pattern.compile(START + SPACE + RSRC);
 
     public MimicBot(BotPlayer player)
     {
@@ -43,6 +45,7 @@ public class MimicBot extends AbstractBot
                 final ICopyMob copy = CopyCaps.get(player);
                 copy.setCopiedID(loc);
                 CapabilitySync.sendUpdate(player);
+                this.getTag().putString("id", loc.toString());
                 return true;
             }
             catch (Exception e)
@@ -58,13 +61,14 @@ public class MimicBot extends AbstractBot
     {
         final ICopyMob copy = CopyCaps.get(player);
         copy.setCopiedID(null);
+        getTag().remove("id");
     }
 
     @Override
     protected void preBotTick(ServerLevel world)
     {
         final ICopyMob copy = CopyCaps.get(player);
-        if (copy.getCopiedMob()instanceof PathfinderMob mob)
+        if (copy.getCopiedMob() instanceof PathfinderMob mob)
         {
             this.mob = mob;
             this.mob.setOldPosAndRot();
@@ -74,25 +78,64 @@ public class MimicBot extends AbstractBot
     }
 
     @Override
+    public void tick()
+    {
+        final ICopyMob copy = CopyCaps.get(player);
+        ResourceLocation id = copy.getCopiedID();
+        LivingEntity mob = copy.getCopiedMob();
+        CompoundTag nbt = copy.getCopiedNBT();
+        copy.setCopiedID(null);
+        copy.setCopiedMob(null);
+        copy.setCopiedNBT(new CompoundTag());
+
+        if (ForgeHooks.onLivingUpdate(this.player)) return;
+
+        copy.setCopiedID(id);
+        copy.setCopiedMob(mob);
+        copy.setCopiedNBT(nbt);
+
+        if (!(this.player.level instanceof final ServerLevel world)) return;
+
+        preBotTick(world);
+        botTick(world);
+        postBotTick(world);
+    }
+
+    @Override
     public void botTick(ServerLevel world)
     {
         final ICopyMob copy = CopyCaps.get(player);
         copy.baseInit(world, player);
-        final LivingEntity living = copy.getCopiedMob();
+        LivingEntity living = copy.getCopiedMob();
 
         // For when the mob gets saved, but doesn't load correctly.
-        if (living == null) return;
-        
+        null_living:
+        if (living == null)
+        {
+            if (getTag().contains("id"))
+            {
+                ResourceLocation loc = new ResourceLocation(getTag().getString("id"));
+                copy.setCopiedID(loc);
+                copy.baseInit(world, player);
+                living = copy.getCopiedMob();
+                if (living != null)
+                {
+                    living.deserializeNBT(getTag().getCompound("mimic"));
+                    break null_living;
+                }
+            }
+            return;
+        }
+
         ICopyMob.copyEntityTransforms(living, player);
         ICopyMob.copyPositions(living, player);
 
         living.setId(-(player.getId() + 100));
         living.noPhysics = false;
-        
+
         living.onAddedToWorld();
         living.tick();
         living.onRemovedFromWorld();
-        
 
         final float eye = living.getEyeHeight(player.getPose(), player.getDimensions(player.getPose()));
         if (eye != player.getEyeHeight(player.getPose(), player.getDimensions(player.getPose())))
@@ -108,12 +151,17 @@ public class MimicBot extends AbstractBot
             living.setHealth(player.getHealth());
             living.setAirSupply(player.getAirSupply());
         }
+
+        // TODO move this somewhere like on removed from world, etc
+        if (player.tickCount % 100 == 0) this.getTag().put("mimic", living.serializeNBT());
     }
 
     @Override
     protected void postBotTick(ServerLevel world)
     {
-        super.postBotTick(world);
+        ICopyMob.copyEntityTransforms(this.player, this.mob);
+        ICopyMob.copyPositions(this.player, this.mob);
+        ICopyMob.copyRotations(this.player, this.mob);
     }
 
 }

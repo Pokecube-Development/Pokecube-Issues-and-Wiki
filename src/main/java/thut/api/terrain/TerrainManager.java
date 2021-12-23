@@ -16,10 +16,10 @@ import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.network.TerrainUpdate;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -28,17 +28,16 @@ public class TerrainManager
     public static final String EDIT_SUBBIOMES_PERM = "thutcore.subbiome.can_edit";
 
     public static final ResourceLocation TERRAINCAP = new ResourceLocation("thutcore", "terrain");
-    private static TerrainManager        terrain;
+    private static TerrainManager terrain;
 
     public static void init()
     {
-        PermissionAPI.registerNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
                 "Is the player allowed to edit subbiomes");
     }
 
     public static void clear()
-    {
-    }
+    {}
 
     public static TerrainManager getInstance()
     {
@@ -65,12 +64,11 @@ public class TerrainManager
         final int r = (int) distance >> 4;
         final int x = blockPos.getX() >> 4;
         final int z = blockPos.getZ() >> 4;
-        for (int i = -r; i <= r; i++)
-            for (int j = -r; j <= r; j++)
-            {
-                final ChunkPos pos = new ChunkPos(x + i, z + j);
-                if (!TerrainManager.chunkIsReal(dim, pos)) return false;
-            }
+        for (int i = -r; i <= r; i++) for (int j = -r; j <= r; j++)
+        {
+            final ChunkPos pos = new ChunkPos(x + i, z + j);
+            if (!TerrainManager.chunkIsReal(dim, pos)) return false;
+        }
         return true;
     }
 
@@ -96,8 +94,8 @@ public class TerrainManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide()) dim = ((Level) evt.getWorld())
-                .dimension();
+        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide())
+            dim = ((Level) evt.getWorld()).dimension();
         // This is null when this is loaded off-thread, IE before the chunk is
         // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
@@ -107,8 +105,8 @@ public class TerrainManager
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
         ResourceKey<Level> dim = null;
-        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide()) dim = ((Level) evt.getWorld())
-                .dimension();
+        if (evt.getWorld() instanceof Level && !evt.getWorld().isClientSide())
+            dim = ((Level) evt.getWorld()).dimension();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
     }
 

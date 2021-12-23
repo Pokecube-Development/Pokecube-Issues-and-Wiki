@@ -17,15 +17,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 
 /**
@@ -37,16 +35,17 @@ public class LogicMountedControl extends LogicBase
 {
     public static Set<ResourceKey<Level>> BLACKLISTED = Sets.newHashSet();
 
-    public boolean leftInputDown    = false;
-    public boolean rightInputDown   = false;
+    public boolean leftInputDown = false;
+    public boolean rightInputDown = false;
     public boolean forwardInputDown = false;
-    public boolean backInputDown    = false;
-    public boolean upInputDown      = false;
-    public boolean downInputDown    = false;
-    public boolean followOwnerLook  = false;
-    public double  throttle         = 0.5;
+    public boolean backInputDown = false;
+    public boolean upInputDown = false;
+    public boolean downInputDown = false;
+    public boolean followOwnerLook = false;
+    public boolean canPathWhileRidden = false;
+    public double throttle = 0.5;
 
-    private boolean input     = false;
+    private boolean input = false;
     private boolean wasRiding = false;
 
     public boolean canFly;
@@ -58,8 +57,15 @@ public class LogicMountedControl extends LogicBase
     public LogicMountedControl(final IPokemob pokemob_)
     {
         super(pokemob_);
-        if (this.entity.getPersistentData().contains("pokecube:mob_throttle")) this.throttle = this.entity
-                .getPersistentData().getDouble("pokecube:mob_throttle");
+        if (this.entity.getPersistentData().contains("pokecube:mob_throttle"))
+            this.throttle = this.entity.getPersistentData().getDouble("pokecube:mob_throttle");
+    }
+
+    public boolean blocksPathing()
+    {
+        final Entity rider = this.entity.getControllingPassenger();
+        if (rider == null) return false;
+        return !this.canPathWhileRidden;
     }
 
     public void refreshInput()
@@ -69,8 +75,6 @@ public class LogicMountedControl extends LogicBase
 
         final Entity rider = this.entity.getControllingPassenger();
 
-        ServerPlayer player = null;
-
         this.inFluid = this.entity.isInWater() || this.entity.isInLava();
 
         this.canFly = this.pokemob.canUseFly();
@@ -79,27 +83,27 @@ public class LogicMountedControl extends LogicBase
 
         final Config config = PokecubeCore.getConfig();
 
-        if (rider instanceof ServerPlayer)
+        if (rider instanceof ServerPlayer player)
         {
-            player = (ServerPlayer) rider;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
             final PokedexEntry entry = this.pokemob.getPokedexEntry();
-            if (config.permsFly && this.canFly && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.FLYPOKEMOB, context)) this.canFly = false;
-            if (config.permsFlySpecific && this.canFly && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.FLYSPECIFIC.get(entry), context)) this.canFly = false;
-            if (config.permsSurf && this.canSurf && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.SURFPOKEMOB, context)) this.canSurf = false;
-            if (config.permsSurfSpecific && this.canSurf && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.SURFSPECIFIC.get(entry), context)) this.canSurf = false;
-            if (config.permsDive && this.canDive && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.DIVEPOKEMOB, context)) this.canDive = false;
-            if (config.permsDiveSpecific && this.canDive && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.DIVESPECIFIC.get(entry), context)) this.canDive = false;
+            if (config.permsFly && this.canFly && !PermNodes.getBooleanPerm(player, Permissions.FLYPOKEMOB))
+                this.canFly = false;
+            if (config.permsFlySpecific && this.canFly
+                    && !PermNodes.getBooleanPerm(player, Permissions.FLYSPECIFIC.get(entry)))
+                this.canFly = false;
+            if (config.permsSurf && this.canSurf && !PermNodes.getBooleanPerm(player, Permissions.SURFPOKEMOB))
+                this.canSurf = false;
+            if (config.permsSurfSpecific && this.canSurf
+                    && !PermNodes.getBooleanPerm(player, Permissions.SURFSPECIFIC.get(entry)))
+                this.canSurf = false;
+            if (config.permsDive && this.canDive && !PermNodes.getBooleanPerm(player, Permissions.DIVEPOKEMOB))
+                this.canDive = false;
+            if (config.permsDiveSpecific && this.canDive
+                    && !PermNodes.getBooleanPerm(player, Permissions.DIVESPECIFIC.get(entry)))
+                this.canDive = false;
         }
-        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getCommandSenderWorld()
-                .dimension());
+        if (this.canFly)
+            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getCommandSenderWorld().dimension());
     }
 
     public boolean hasInput()
@@ -110,6 +114,7 @@ public class LogicMountedControl extends LogicBase
     @Override
     public void tick(final Level world)
     {
+        super.tick(world);
         final Entity rider = this.entity.getControllingPassenger();
         this.entity.maxUpStep = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
@@ -173,15 +178,25 @@ public class LogicMountedControl extends LogicBase
 
         if (!shouldControl) return;
 
-        for (final Entity e : this.entity.getIndirectPassengers())
-            if (e instanceof LivingEntity)
-            {
-                final boolean doBuffs = !buffs.isEmpty();
-                if (doBuffs) for (final MobEffectInstance buff : buffs)
-                    ((LivingEntity) e).addEffect(buff);
-                else((LivingEntity) e).curePotionEffects(stack);
-            }
-        if (!this.hasInput()) return;
+        for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity)
+        {
+            final boolean doBuffs = !buffs.isEmpty();
+            if (doBuffs) for (final MobEffectInstance buff : buffs) ((LivingEntity) e).addEffect(buff);
+            else((LivingEntity) e).curePotionEffects(stack);
+        }
+
+        double vx = this.entity.getDeltaMovement().x;
+        double vy = this.entity.getDeltaMovement().y;
+        double vz = this.entity.getDeltaMovement().z;
+
+        if (!this.hasInput())
+        {
+            vx *= 0.5;
+            vz *= 0.5;
+            if (verticalControl) vy *= 0.5;
+            this.entity.setDeltaMovement(vx, vy, vz);
+            return;
+        }
 
         final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
         final float baseSpd = (float) (0.25f * this.throttle * speedFactor);
@@ -212,9 +227,6 @@ public class LogicMountedControl extends LogicBase
         final boolean goUp = this.upInputDown || moveUp > 0;
         final boolean goDown = this.downInputDown || moveUp < 0;
 
-        double vx = this.entity.getDeltaMovement().x;
-        double vy = this.entity.getDeltaMovement().y;
-        double vz = this.entity.getDeltaMovement().z;
         if (this.forwardInputDown || this.backInputDown)
         {
             move = true;

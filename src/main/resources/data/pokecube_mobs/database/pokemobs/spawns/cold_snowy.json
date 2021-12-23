@@ -27,7 +27,7 @@
       ]
     },
     {
-      "spawn_preset": "cold_areas",
+      "spawn_preset": "cold_areas,overworld",
       "entries": [
         {"key": "nickit","min": 2,"max": 4,"rate": 0.3},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.2},

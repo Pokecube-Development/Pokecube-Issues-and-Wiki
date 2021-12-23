@@ -1,0 +1,1112 @@
+{
+  "professions": [
+    {
+      "profession": "pokecube_adventures:healer",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:revive", "n": "8"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:berryjuice", "n": "16"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allVitamins",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "12"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 5,
+              "values": {"id": "pokecube:town"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 5,
+              "values": {"id": "pokecube:village"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            },
+            {
+              "custom": "allBerryBuy",
+              "exp": 1,
+              "count": 8,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {"values": {"id": "minecraft:glistering_melon_slice", "n": "3"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {"values": {"id": "minecraft:golden_carrot", "n": "3"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 5,
+              "maxUses": 1,
+              "sell": {"values": {"id": "minecraft:golden_apple", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "2"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profession": "pokecube_adventures:professor",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 10,
+              "maxUses": 1,
+              "sell": {"values": {"id": "pokecube:pokedex", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "exp": 10,
+              "maxUses": 1,
+              "sell": {"values": {"id": "pokecube:pokewatch", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "20"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "pokecube_adventures:exp_share", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "pokecube_adventures:bag", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "exp": 20,
+              "sell": {"values": {"id": "pokecube_adventures:siphon", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "64"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 2,
+              "sell": {"values": {"id": "pokecube:pokecube", "n": "16"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 4,
+              "sell": {"values": {"id": "pokecube:greatcube", "n": "8"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 6,
+              "sell": {"values": {"id": "pokecube:ultracube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 20,
+              "sell": {"values": {"id": "pokecube_adventures:cloner", "n": "16"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            },
+            {
+              "exp": 20,
+              "sell": {"values": {"id": "pokecube_adventures:extractor", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "64"}},
+                {"values": {"id": "minecraft:emerald", "n": "32"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:elite_four"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profession": "pokecube_adventures:trader",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "custom": "allBerryBuy",
+              "exp": 1,
+              "count": 8,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 2,
+              "sell": {"values": {"id": "pokecube:pokecube", "n": "16"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 4,
+              "sell": {"values": {"id": "pokecube:greatcube", "n": "8"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 6,
+              "sell": {"values": {"id": "pokecube:ultracube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "type": "tag_sell",
+              "custom": "pokecube_adventures:mega_sales",
+              "exp": 5,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "type": "tag_sell",
+              "custom": "pokecube:pokemob_evo",
+              "exp": 5,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "exp": 250,
+              "sell": {"values": {"id": "pokecube:shiny_charm"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald_block", "n": "64"}},
+                {"values": {"id": "minecraft:emerald_block", "n": "64"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_16",
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "exp": 10,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_32",
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "32"}}
+              ]
+            },
+            {
+              "exp": 15,
+              "type": "tag_sell",
+              "custom": "pokecube_legends:sells_for_64",
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "64"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sailor",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:village/ocean"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:lugia_tower"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kyogre_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:tapus_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:sky_pillar"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kubfu_water"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "fisherman_trainer",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:lurecube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "2"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:netcube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "2"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:fishing_rod", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:cod", "n": "8"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:salmon", "n": "8"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:nature_place"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:zacian_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:zamazenta_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "hiker",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "thutbling:bling_bag", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:compass", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "2"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:bread", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:cookie", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:keldeo_place"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kubfu_dark"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "scientist",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:pokemobegg", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:writable_book", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "8"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:clock", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "8"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:tm0", "n": "2"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:castle_n"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:team_rocket"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:team_magma"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:team_aqua"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "bug_catcher",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:netcube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:nestcube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:string", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:spider_eye", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:bread", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:celebi_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:xerneas_place"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "camper",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "thutbling:bling_bag", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:compass", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 5,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "2"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:bread", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:cookie", "n": "4"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [            
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:legendy_tree"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:hooh_tower"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:yveltal_place"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "engineer",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+          ]
+        }
+      ]
+    },
+    {
+      "type": "black_belt",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "thutbling:bling_belt", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "5"}}
+              ]
+            },
+            {
+              "exp": 3,
+              "sell": {"values": {"id": "thutbling:bling_wrist", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allBerryBuy",
+              "exp": 1,
+              "count": 4,
+              "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "pokecube:mega_belt", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "5"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kubfu_dojo"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kubfu_dark"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:kubfu_water"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "poke_maniac",
+      "stages": [
+        {
+          "level": 1,
+          "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:repeatcube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            },
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:timercube", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "trades": [
+            {
+              "custom": "allBerrySell",
+              "exp": 2,
+              "count": 4,
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "3"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:unown_temple_overworld"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:unown_temple_distortic"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:unown_temple_ultraspace"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:regice_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:regirock_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:registeel_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:regidrago_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:regieleki_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_legends:regigigas_temple"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

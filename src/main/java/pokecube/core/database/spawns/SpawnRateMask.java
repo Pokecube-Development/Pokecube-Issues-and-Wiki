@@ -15,11 +15,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.events.SpawnMaskEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 
 public class SpawnRateMask
 {
@@ -104,7 +104,7 @@ public class SpawnRateMask
     {
         if (_function != null) return;
 
-        _function = PokedexEntryLoader.gson.fromJson(function, Function.class);
+        _function = JsonUtil.gson.fromJson(function, Function.class);
         _parser = initJEP(new JEP(), _function.func, _function.radial);
     }
 
@@ -132,6 +132,15 @@ public class SpawnRateMask
         // BlockPos p = world.
         final Vector3 spawn = Vector3.getNewVector().set(level.getSharedSpawnPos());
         final boolean r = _function.radial;
+        double old_t = this.phase_t;
+        double old_x = this.phase_x;
+        double old_y = this.phase_y;
+
+        Random rand = new Random(level.getSeed());
+        old_t = this.phase_t + Math.PI * rand.nextDouble();
+        old_x = this.phase_x + Math.PI * rand.nextDouble();
+        old_y = this.phase_y + Math.PI * rand.nextDouble();
+
         // Central functions are centred on 0,0, not the world spawn
         if (_function.central) spawn.clear();
         if (!r) parseExpression(location.x - spawn.x, location.z - spawn.z, r);
@@ -146,7 +155,11 @@ public class SpawnRateMask
             final double t = Mth.atan2(location.x, location.z);
             parseExpression(d, t, r);
         }
-        if (Double.isNaN(_parser.getValue())) return 0;
-        return Math.abs(_parser.getValue());
+        double value = _parser.getValue();
+        this.phase_t = old_t;
+        this.phase_x = old_x;
+        this.phase_y = old_y;
+        if (Double.isNaN(value)) return 0;
+        return Math.abs(value);
     }
 }
