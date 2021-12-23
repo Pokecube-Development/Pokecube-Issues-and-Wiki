@@ -848,8 +848,6 @@ public class Database
 
         // Reload the database incase things are adjusted
         PokedexEntryLoader.onReloaded();
-        // Also register bulk defined spawns
-        PokemobSpawns.registerSpawns();
         // And the spawn masks
         SpawnRateMask.init();
 

@@ -47,6 +47,7 @@ import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
@@ -921,7 +922,16 @@ public class PokedexEntryLoader
     {
         PokemobsDatabases.load();
         for (final XMLPokedexEntry xmlEntry : PokemobsDatabases.compound.pokemon)
+        {
+            final String name = xmlEntry.name;
+            final PokedexEntry entry = Database.getEntry(name);
+            // Reset the spawn data, we will reload the bulk manual spawns right
+            // after this as well
+            entry.setSpawnData(new SpawnData(entry));
             PokedexEntryLoader.updateEntry(xmlEntry, false);
+        }
+        // now register bulk defined spawns
+        PokemobSpawns.registerSpawns();
     }
 
     public static void makeEntries(final boolean create)
@@ -1099,18 +1109,15 @@ public class PokedexEntryLoader
     {
         if (xmlStats.spawnRules.isEmpty()) return;
         final boolean overwrite = xmlStats.overwrite == null ? false : xmlStats.overwrite;
-        SpawnData spawnData = entry.getSpawnData();
-        if (spawnData == null || overwrite) spawnData = new SpawnData(entry);
+        if (overwrite) entry.setSpawnData(new SpawnData(entry));
         for (final SpawnRule rule : xmlStats.spawnRules)
         {
             final FormeHolder holder = rule.getForme(entry);
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for " + entry);
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for {}", entry);
         }
-        entry.setSpawnData(spawnData);
-
     }
 
     /**

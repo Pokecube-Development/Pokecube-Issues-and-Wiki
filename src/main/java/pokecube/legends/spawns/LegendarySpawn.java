@@ -74,10 +74,19 @@ public class LegendarySpawn
         {
             final Vector3 location = Vector3.getNewVector().set(evt.getPos());
             final CanSpawn test = spawnCondition.canSpawn(context, message);
+
+            // Priority of errors:
+            //
+            // Wrong location
+            // Wrong item
+            // Already have
+
+            if (test == CanSpawn.NOTHERE) return SpawnResult.NOSPAWN;
+            if (result == SpawnResult.WRONGITEM) return result;
             if (test == CanSpawn.ALREADYHAVE) return SpawnResult.ALREADYHAVE;
+
             if (test.test())
             {
-                if (result == SpawnResult.WRONGITEM) return result;
                 Mob entity = PokecubeCore.createPokemob(entry, worldIn);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
@@ -171,7 +180,17 @@ public class LegendarySpawn
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
 
-            if (result == SpawnResult.WRONGITEM) wrong_items.add(match.entry);
+            item:
+            if (result == SpawnResult.WRONGITEM)
+            {
+                final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(match.entry);
+                if (spawnCondition != null)
+                {
+                    final CanSpawn test = spawnCondition.canSpawn(context, false);
+                    if (test == CanSpawn.ALREADYHAVE) break item;
+                }
+                wrong_items.add(match.entry);
+            }
             if (result == SpawnResult.NOSPAWN) wrong_biomes.add(match.entry);
             if (result == SpawnResult.ALREADYHAVE) already_spawned.add(match.entry);
             // Try again but with message, as this probably has a custom one.
@@ -193,7 +212,6 @@ public class LegendarySpawn
             evt.setUseBlock(Result.DENY);
             return;
         }
-
         if (already_spawned.size() > 0)
         {
             Collections.shuffle(already_spawned);
@@ -201,7 +219,6 @@ public class LegendarySpawn
                     new TranslatableComponent(already_spawned.get(0).getUnlocalizedName())), true);
             return;
         }
-
         if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
