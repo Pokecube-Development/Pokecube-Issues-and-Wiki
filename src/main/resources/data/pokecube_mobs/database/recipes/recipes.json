@@ -3,6 +3,24 @@
     {
       "type": "pokecube:move_recipe",
       "result": {
+        "item": "pokecube_legends:turquoise_gravel"
+      },
+      "ingredients": [
+        {
+          "item": "pokecube_legends:ultra_cobblestone"
+        }
+      ],
+      "move": {
+        "moves": [
+          "rocksmash",
+          "brickbreak"
+        ]
+      },
+      "hungerCost": 50
+    },
+    {
+      "type": "pokecube:move_recipe",
+      "result": {
         "item": "minecraft:gravel"
       },
       "ingredients": [

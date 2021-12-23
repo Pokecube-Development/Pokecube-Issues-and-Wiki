@@ -3127,7 +3127,7 @@
                             {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:gravel"
+                                "Name": "pokecube_legends:turquoise_gravel"
                               }
                             }
                           ]
@@ -3681,7 +3681,7 @@
                                         {
                                           "type": "minecraft:block",
                                           "result_state": {
-                                            "Name": "minecraft:gravel"
+                                            "Name": "pokecube_legends:turquoise_gravel"
                                           }
                                         }
                                       ]
@@ -4772,7 +4772,7 @@
                                         {
                                           "type": "minecraft:block",
                                           "result_state": {
-                                            "Name": "minecraft:gravel"
+                                            "Name": "pokecube_legends:turquoise_gravel"
                                           }
                                         }
                                       ]
@@ -5589,7 +5589,7 @@
                       {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "minecraft:gravel"
+                          "Name": "pokecube_legends:turquoise_gravel"
                         }
                       }
                     ]

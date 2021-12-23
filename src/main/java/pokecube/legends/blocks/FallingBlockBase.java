@@ -21,11 +21,11 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.ItemInit;
 
-public class SandBase extends SandBlock
+public class FallingBlockBase extends SandBlock
 {
     private final int dustColor;
 
-    public SandBase(final int color, final BlockBehaviour.Properties properties)
+    public FallingBlockBase(final int color, final BlockBehaviour.Properties properties)
     {
         super(color, properties);
         this.dustColor = color;

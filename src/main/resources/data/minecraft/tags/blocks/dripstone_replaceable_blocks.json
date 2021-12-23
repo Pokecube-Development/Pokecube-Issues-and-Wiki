@@ -8,6 +8,7 @@
     {"id": "pokecube_legends:azure_dirt", "required": false},
     {"id": "pokecube_legends:corrupted_dirt", "required": false},
     {"id": "pokecube_legends:jungle_dirt", "required": false},
-    {"id": "pokecube_legends:mushroom_dirt", "required": false}
+    {"id": "pokecube_legends:mushroom_dirt", "required": false},
+    {"id": "pokecube_legends:turquoise_gravel", "required": false}
   ]
 }
