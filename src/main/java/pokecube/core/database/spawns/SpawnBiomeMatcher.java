@@ -407,8 +407,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this.getInvalidBiomes().contains(biome)) return false;
         if (this.getValidBiomes().contains(biome)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
-        // The check for all subbiomes overrides the check for biomes.
-        if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         // Otherwise, only return true if we have no valid biomes otherwise!
         return this.getValidBiomes().isEmpty();
     }
