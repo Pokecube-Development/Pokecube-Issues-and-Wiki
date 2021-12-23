@@ -144,12 +144,10 @@ public abstract class PokemobHasParts extends PokemobCombat
 
             this.colWidth = Math.min(1, maxW);
             this.colHeight = Math.min(1, maxH);
-            this.noCulling = true;
         }
         else
         {
             this.parts = new PokemobPart[0];
-            this.noCulling = false;
         }
         if (!this.partMap.containsKey("idle")) this.partMap.put("idle", this.parts);
 
