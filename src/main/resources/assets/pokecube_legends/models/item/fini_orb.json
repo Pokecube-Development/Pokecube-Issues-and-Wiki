@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/fini_orb"
+      "layer0":"pokecube_legends:item/fini_orb"
    }
 }

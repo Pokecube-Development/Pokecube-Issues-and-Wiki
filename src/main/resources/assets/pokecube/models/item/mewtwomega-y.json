@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:items/mewtwonite_y"
+    "layer0": "pokecube:item/mewtwonite_y"
   }
 }
