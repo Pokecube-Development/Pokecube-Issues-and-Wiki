@@ -149,10 +149,10 @@ public class PokecubeAdv
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
             if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_dna"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_egg"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_bottle"));
-            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_selector"));
+            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_dna"));
+            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_egg"));
+            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_bottle"));
+            event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "gui/slot_selector"));
         }
     }
 
