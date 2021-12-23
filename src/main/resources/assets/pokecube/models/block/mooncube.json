@@ -1,11 +1,11 @@
 {
   "parent": "pokecube:block/pokecubes_nonsymmetric",
   "textures": {
-    "top": "pokecube:items/mooncubetop",
-    "bottom": "pokecube:items/mooncubebottom",
-    "front": "pokecube:items/mooncubefront",
-    "back": "pokecube:items/mooncubeback",
-	"side0": "pokecube:items/mooncubeside0",
-    "side1": "pokecube:items/mooncubeside1"
+    "top": "pokecube:item/mooncubetop",
+    "bottom": "pokecube:item/mooncubebottom",
+    "front": "pokecube:item/mooncubefront",
+    "back": "pokecube:item/mooncubeback",
+	"side0": "pokecube:item/mooncubeside0",
+    "side1": "pokecube:item/mooncubeside1"
   }
 }

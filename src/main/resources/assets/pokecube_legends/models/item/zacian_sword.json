@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:items/sword_botton",
-		"1": "pokecube_legends:items/sword_center",
-		"2": "pokecube_legends:items/sword_top",
-		"particle": "pokecube_legends:items/sword_botton"
+		"0": "pokecube_legends:item/sword_botton",
+		"1": "pokecube_legends:item/sword_center",
+		"2": "pokecube_legends:item/sword_top",
+		"particle": "pokecube_legends:item/sword_botton"
 	},
 	"elements": [
 		{

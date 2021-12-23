@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:items/golden_sweet_berries"
+    "layer0": "pokecube_legends:item/golden_sweet_berries"
   }
 }

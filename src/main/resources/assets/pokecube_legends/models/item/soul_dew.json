@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/soul_dew"
+      "layer0":"pokecube_legends:item/soul_dew"
    }
 }

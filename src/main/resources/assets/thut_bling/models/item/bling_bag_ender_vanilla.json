@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "thut_bling:items/bag_ender_vanilla"
+		"layer0": "thut_bling:item/bag_ender_vanilla"
 	}
 }

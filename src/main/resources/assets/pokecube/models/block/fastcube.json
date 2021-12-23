@@ -1,11 +1,11 @@
 {
   "parent": "pokecube:block/pokecubes_nonsymmetric",
   "textures": {
-    "top": "pokecube:items/fastcubetop",
-    "bottom": "pokecube:items/fastcubebottom",
-    "front": "pokecube:items/fastcubefront",
-    "back": "pokecube:items/fastcubeback",
-    "side0": "pokecube:items/fastcubeside0",
-	"side1": "pokecube:items/fastcubeside1"
+    "top": "pokecube:item/fastcubetop",
+    "bottom": "pokecube:item/fastcubebottom",
+    "front": "pokecube:item/fastcubefront",
+    "back": "pokecube:item/fastcubeback",
+    "side0": "pokecube:item/fastcubeside0",
+	"side1": "pokecube:item/fastcubeside1"
   }
 }
