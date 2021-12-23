@@ -106,6 +106,7 @@ public class LogicMountedControl extends LogicBase
     @Override
     public void tick(final Level world)
     {
+        super.tick(world);
         final Entity rider = this.entity.getControllingPassenger();
         this.entity.maxUpStep = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
@@ -175,7 +176,19 @@ public class LogicMountedControl extends LogicBase
             if (doBuffs) for (final MobEffectInstance buff : buffs) ((LivingEntity) e).addEffect(buff);
             else((LivingEntity) e).curePotionEffects(stack);
         }
-        if (!this.hasInput()) return;
+
+        double vx = this.entity.getDeltaMovement().x;
+        double vy = this.entity.getDeltaMovement().y;
+        double vz = this.entity.getDeltaMovement().z;
+
+        if (!this.hasInput())
+        {
+            vx *= 0.5;
+            vz *= 0.5;
+            if (verticalControl) vy *= 0.5;
+            this.entity.setDeltaMovement(vx, vy, vz);
+            return;
+        }
 
         final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
         final float baseSpd = (float) (0.25f * this.throttle * speedFactor);
@@ -206,9 +219,6 @@ public class LogicMountedControl extends LogicBase
         final boolean goUp = this.upInputDown || moveUp > 0;
         final boolean goDown = this.downInputDown || moveUp < 0;
 
-        double vx = this.entity.getDeltaMovement().x;
-        double vy = this.entity.getDeltaMovement().y;
-        double vz = this.entity.getDeltaMovement().z;
         if (this.forwardInputDown || this.backInputDown)
         {
             move = true;

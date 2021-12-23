@@ -30,7 +30,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
