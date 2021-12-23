@@ -1,10 +1,10 @@
 {
   "parent": "pokecube:block/pokecubes",
   "textures": {
-    "top": "pokecube:items/lovecubetop",
-    "bottom": "pokecube:items/lovecubebottom",
-    "front": "pokecube:items/lovecubefront",
-    "side": "pokecube:items/lovecubeside",
-    "back": "pokecube:items/lovecubeback"
+    "top": "pokecube:item/lovecubetop",
+    "bottom": "pokecube:item/lovecubebottom",
+    "front": "pokecube:item/lovecubefront",
+    "side": "pokecube:item/lovecubeside",
+    "back": "pokecube:item/lovecubeback"
   }
 }

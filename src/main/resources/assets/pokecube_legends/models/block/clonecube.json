@@ -1,10 +1,10 @@
 {
   "parent": "pokecube:block/pokecubes",
   "textures": {
-    "top": "pokecube_legends:items/clonecubetop",
-    "bottom": "pokecube_legends:items/clonecubebottom",
-    "front": "pokecube_legends:items/clonecubefront",
-    "back": "pokecube_legends:items/clonecubeback",
-    "side": "pokecube_legends:items/clonecubeside"
+    "top": "pokecube_legends:item/clonecubetop",
+    "bottom": "pokecube_legends:item/clonecubebottom",
+    "front": "pokecube_legends:item/clonecubefront",
+    "back": "pokecube_legends:item/clonecubeback",
+    "side": "pokecube_legends:item/clonecubeside"
   }
 }

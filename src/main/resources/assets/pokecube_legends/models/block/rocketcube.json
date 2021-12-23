@@ -1,10 +1,10 @@
 {
   "parent": "pokecube:block/pokecubes",
   "textures": {
-    "top": "pokecube_legends:items/rocketcubetop",
-    "bottom": "pokecube_legends:items/rocketcubebottom",
-    "front": "pokecube_legends:items/rocketcubefront",
-    "back": "pokecube_legends:items/rocketcubeback",
-    "side": "pokecube_legends:items/rocketcubeside"
+    "top": "pokecube_legends:item/rocketcubetop",
+    "bottom": "pokecube_legends:item/rocketcubebottom",
+    "front": "pokecube_legends:item/rocketcubefront",
+    "back": "pokecube_legends:item/rocketcubeback",
+    "side": "pokecube_legends:item/rocketcubeside"
   }
 }

@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/silver_wing"
+      "layer0":"pokecube_legends:item/silver_wing"
    }
 }

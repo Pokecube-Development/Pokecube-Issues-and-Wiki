@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube:items/pecha_door"
+    "layer0": "pokecube:item/pecha_door"
   }
 }

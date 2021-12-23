@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:items/charizardite_x"
+    "layer0": "pokecube:item/charizardite_x"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:items/concrete_door"
+    "layer0": "pokecube_legends:item/concrete_door"
   }
 }

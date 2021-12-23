@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:items/firestone"
+    "layer0": "pokecube:item/firestone"
   }
 }
