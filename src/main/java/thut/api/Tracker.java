@@ -13,10 +13,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import thut.core.common.ThutCore;
 
 public class Tracker
@@ -31,6 +33,7 @@ public class Tracker
     public static void init()
     {
         MinecraftForge.EVENT_BUS.addListener(Tracker::onServerTick);
+        MinecraftForge.EVENT_BUS.addListener(Tracker::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(Tracker::onServerStart);
         MinecraftForge.EVENT_BUS.addListener(Tracker::onWorldSave);
     }
@@ -51,6 +54,14 @@ public class Tracker
     private static void onServerTick(final ServerTickEvent event)
     {
         if (event.phase == Phase.END) Tracker.instance().time++;
+    }
+
+    private static void onClientTick(final ClientTickEvent event)
+    {
+        // Force this to also increment client side while on a dedicated server.
+        // This allows using the ticker for ensuring animations, etc keep
+        // running as well.
+        if (ServerLifecycleHooks.getCurrentServer() == null && event.phase == Phase.END) Tracker.instance().time++;
     }
 
     // Load the time and set it.

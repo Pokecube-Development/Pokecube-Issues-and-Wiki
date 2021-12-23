@@ -94,12 +94,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
         scale *= 30;
         if (pokemob != null)
         {
-            if (entity.isAddedToWorld()) pokemob = AnimationGui.getRenderMob(pokemob);
-
-            pokemob.setSize(1);
-            renderMob = pokemob.getEntity();
+            if (!entity.isAddedToWorld()) pokemob.setSize(1);
             float mobScale = 1;
-
             if (GuiPokemobBase.autoScale)
             {
                 final Float value = GuiPokemobBase.sizeMap.get(pokemob.getPokedexEntry());
@@ -123,6 +119,8 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
 
             if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
             else scale /= mobScale;
+
+            scale /= pokemob.getSize();
         }
         mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);
