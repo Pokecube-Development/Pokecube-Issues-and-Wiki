@@ -42,6 +42,7 @@ public class LogicMountedControl extends LogicBase
     public boolean upInputDown = false;
     public boolean downInputDown = false;
     public boolean followOwnerLook = false;
+    public boolean canPathWhileRidden = false;
     public double throttle = 0.5;
 
     private boolean input = false;
@@ -58,6 +59,13 @@ public class LogicMountedControl extends LogicBase
         super(pokemob_);
         if (this.entity.getPersistentData().contains("pokecube:mob_throttle"))
             this.throttle = this.entity.getPersistentData().getDouble("pokecube:mob_throttle");
+    }
+
+    public boolean blocksPathing()
+    {
+        final Entity rider = this.entity.getControllingPassenger();
+        if (rider == null) return false;
+        return !this.canPathWhileRidden;
     }
 
     public void refreshInput()
