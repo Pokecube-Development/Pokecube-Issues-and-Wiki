@@ -1,0 +1,27 @@
+{
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "tag": "pokecube_legends:meteorite_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:cosmic_dust_ore"
+        }
+      },
+      {
+        "target": {
+          "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:ultra_cosmic_dust_ore"
+        }
+      }
+    ],
+    "size": 8,
+    "discard_chance_on_air_exposure": 1.0
+  },
+  "type": "minecraft:ore"
+}

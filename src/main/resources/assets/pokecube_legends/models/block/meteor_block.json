@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:block/meteorblock",
-    "up": "pokecube_legends:block/meteorblock",
-    "north": "pokecube_legends:block/meteorblock",
-    "east": "pokecube_legends:block/meteorblock",
-    "south": "pokecube_legends:block/meteorblock",
-    "west": "pokecube_legends:block/meteorblock",
-    "particle": "pokecube_legends:block/meteorblock"
+	"all": "pokecube_legends:block/meteorite_block"
    }
 }
