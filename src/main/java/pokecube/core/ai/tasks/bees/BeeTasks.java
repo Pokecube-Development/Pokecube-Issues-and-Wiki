@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks.bees;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
@@ -41,16 +43,16 @@ import thut.api.entity.ai.IAIRunnable;
 
 public class BeeTasks
 {
-    public static final MemoryModuleType<GlobalPos> HIVE_POS   = MemoryModules.NEST_POS;
+    public static final MemoryModuleType<GlobalPos> HIVE_POS = MemoryModules.NEST_POS;
     public static final MemoryModuleType<GlobalPos> FLOWER_POS = MemoryModules.WORK_POS;
 
     public static final MemoryModuleType<Integer> OUT_OF_HIVE_TIMER = MemoryModules.OUT_OF_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_HIVE_TIMER     = MemoryModules.NO_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_FLOWER_TIME    = MemoryModules.NO_WORK_TIMER;
+    public static final MemoryModuleType<Integer> NO_HIVE_TIMER = MemoryModules.NO_NEST_TIMER;
+    public static final MemoryModuleType<Integer> NO_FLOWER_TIME = MemoryModules.NO_WORK_TIMER;
 
     public static final MemoryModuleType<Boolean> HAS_NECTAR = new MemoryModuleType<>(Optional.of(Codec.BOOL));
 
-    public static final SensorType<HiveSensor>   HIVE_SENSOR   = new SensorType<>(HiveSensor::new);
+    public static final SensorType<HiveSensor> HIVE_SENSOR = new SensorType<>(HiveSensor::new);
     public static final SensorType<FlowerSensor> FLOWER_SENSOR = new SensorType<>(FlowerSensor::new);
 
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(BeeTasks.HIVE_POS,
@@ -144,6 +146,13 @@ public class BeeTasks
 
     public static class BeeHabitat implements IInhabitable
     {
+        // This list is copied from BeehiveBlockEntity,
+        // TODO automatically sync that list to here.
+        public static List<String> IGNORED_BEE_TAGS = Arrays.asList("Air", "ArmorDropChances", "ArmorItems", "Brain",
+                "CanPickUpLoot", "DeathTime", "FallDistance", "FallFlying", "Fire", "HandDropChances", "HandItems",
+                "HurtByTimestamp", "HurtTime", "LeftHanded", "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos",
+                "Rotation", "CannotEnterHiveTicks", "TicksSincePollination", "CropsGrownSincePollination", "HivePos",
+                "Passengers", "Leash", "UUID");
 
         final BeehiveBlockEntity hive;
 
@@ -170,8 +179,8 @@ public class BeeTasks
                     {
                         int j = world.random.nextInt(100) == 0 ? 2 : 1;
                         if (i + j > 5) --j;
-                        world.setBlockAndUpdate(this.hive.getBlockPos(), state.setValue(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i
-                                + j)));
+                        world.setBlockAndUpdate(this.hive.getBlockPos(),
+                                state.setValue(BeehiveBlock.HONEY_LEVEL, Integer.valueOf(i + j)));
                     }
                 }
             }
@@ -184,6 +193,18 @@ public class BeeTasks
             final Brain<?> brain = mob.getBrain();
             final Optional<Boolean> hasNectar = brain.getMemory(BeeTasks.HAS_NECTAR);
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
+
+            // Fix the silly vanilla thing that deletes tags...
+
+            CompoundTag tag = new CompoundTag();
+            CompoundTag old = mob.saveWithoutId(new CompoundTag());
+
+            for (String s : IGNORED_BEE_TAGS)
+            {
+                if (old.contains(s)) tag.put(s, old.get(s));
+            }
+            mob.getPersistentData().put("__bee_fix__", tag);
+
             // Try to enter the hive
             this.hive.addOccupant(mob, nectar);
             // If this changed, then we added correctly.
