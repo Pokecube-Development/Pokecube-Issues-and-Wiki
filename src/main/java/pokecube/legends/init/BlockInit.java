@@ -631,6 +631,7 @@ public class BlockInit
     public static final RegistryObject<Block> SAPPHIRE_ORE;
     public static final RegistryObject<Block> SPECTRUM_ORE;
     public static final RegistryObject<Block> DUSK_COAL_ORE;
+    public static final RegistryObject<Block> DUSK_IRON_ORE;
     public static final RegistryObject<Block> ULTRA_COAL_ORE;
     public static final RegistryObject<Block> ULTRA_COPPER_ORE;
     public static final RegistryObject<Block> ULTRA_COSMIC_DUST_ORE;
@@ -700,6 +701,10 @@ public class BlockInit
         ULTRA_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_iron_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops()));
+        DUSK_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_iron_ore",
+                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
+                        .strength(4.50F, 3.0f).requiresCorrectToolForDrops()));
+        
         ULTRA_COPPER_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_copper_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops()));
