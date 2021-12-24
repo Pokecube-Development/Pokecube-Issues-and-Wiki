@@ -2349,6 +2349,7 @@ public class BlockInit
 
         // Plants
         BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
+        BlockInit.flammableBlocks(PlantsInit.AZURE_COLEUS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
