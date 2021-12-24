@@ -327,10 +327,15 @@
 
     "block.pokecube_legends.cosmic_dust_ore": "Meteorite Cosmic Ore",
     "block.pokecube_legends.fractal_ore": "Distortic Stone Fractal Ore",
+    
     "block.pokecube_legends.ruby_ore": "Ruby Ore",
     "block.pokecube_legends.sapphire_ore": "Sapphire Ore",
+    
     "block.pokecube_legends.deepslate_ruby_ore": "Deepslate Ruby Ore",
     "block.pokecube_legends.deepslate_sapphire_ore": "Deepslate Sapphire Ore",
+    
+    "block.pokecube_legends.dusk_dolerite_coal_ore": "Dusk Dolerite Coal Ore",
+    
     "block.pokecube_legends.spectrum_ore": "Ultra Stone Spectrum Ore",
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_copper_ore": "Ultra Stone Copper Ore",

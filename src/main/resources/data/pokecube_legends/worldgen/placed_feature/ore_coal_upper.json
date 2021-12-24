@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:ore_azure_dirt",
+  "feature": "pokecube_legends:ore_coal",
   "placement": [
     {
-      "count": 2,
+      "count": 30,
       "type": "minecraft:count"
     },
     {
@@ -11,10 +11,10 @@
     {
       "height": {
         "min_inclusive": {
-          "absolute": -16
+          "absolute": 136
         },
         "max_inclusive": {
-          "absolute": 63
+          "below_top": 0
         },
         "type": "minecraft:uniform"
       },
