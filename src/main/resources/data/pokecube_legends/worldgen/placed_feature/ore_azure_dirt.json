@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:ore_azure_dirt",
   "placement": [
     {
-      "count": 7,
+      "count": 5,
       "type": "minecraft:count"
     },
     {
@@ -14,7 +14,7 @@
           "absolute": -16
         },
         "max_inclusive": {
-          "absolute": 160
+          "absolute": 63
         },
         "type": "minecraft:uniform"
       },
