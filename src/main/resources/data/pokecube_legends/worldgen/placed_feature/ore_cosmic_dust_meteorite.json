@@ -1,0 +1,27 @@
+{
+  "feature": "pokecube_legends:ore_cosmic_dust_meteorite",
+  "placement": [
+    {
+      "chance": 16,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "height": {
+        "min_inclusive": {
+          "above_bottom": -80
+        },
+        "max_inclusive": {
+          "above_bottom": 0
+        },
+        "type": "minecraft:trapezoid"
+      },
+      "type": "minecraft:height_range"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
