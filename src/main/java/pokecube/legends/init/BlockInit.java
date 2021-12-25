@@ -642,6 +642,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_LAPIS_ORE;
     
     public static final RegistryObject<Block> ULTRA_REDSTONE_ORE;
+    public static final RegistryObject<Block> DUSK_REDSTONE_ORE;
     
     public static final RegistryObject<Block> RUBY_ORE;
     public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE;
@@ -736,6 +737,11 @@ public class BlockInit
                 () -> new RedStoneOreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN)
                         .sound(SoundType.STONE).strength(3.0F, 3.0f).requiresCorrectToolForDrops().randomTicks()
                         .lightLevel(BlockInit.litBlockEmission(9))));
+        DUSK_REDSTONE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_redstone_ore",
+                () -> new RedStoneOreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE)
+                        .sound(SoundType.DEEPSLATE).strength(4.5F, 3.0f).requiresCorrectToolForDrops().randomTicks()
+                        .lightLevel(BlockInit.litBlockEmission(9))));
+        
         ULTRA_LAPIS_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_lazuli_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
@@ -863,14 +869,14 @@ public class BlockInit
         // Meteor Blocks
         METEOR_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("meteor_block",
                 () -> new MeteorBlock(6842513, BlockBehaviour.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE)
-                        .strength(2.5f).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+                        .strength(2.5f).sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
         METEOR_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("meteor_stairs",
                 () -> new ItemGenerator.GenericStairs(METEOR_BLOCK.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f)
-                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                        .sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
         METEOR_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("meteor_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f)
-                        .sound(SoundType.STONE).requiresCorrectToolForDrops()));
+                        .sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
 
         // Soils
         AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",

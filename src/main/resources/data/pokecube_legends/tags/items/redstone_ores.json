@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:dusk_dolerite_redstone_ore",
     "pokecube_legends:ultra_redstone_ore"
   ]
 }
