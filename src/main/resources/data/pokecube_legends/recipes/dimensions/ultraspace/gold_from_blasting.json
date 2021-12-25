@@ -4,7 +4,7 @@
   "experience": 1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:ultra_gold_ore"
+    "tag": "pokecube_legends:gold_ores"
   },
   "result": {
     "item": "minecraft:gold_ingot"
