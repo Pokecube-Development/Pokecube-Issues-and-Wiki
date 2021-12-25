@@ -4,7 +4,7 @@
   "experience": 0.7,
   "cookingtime": 100,
   "ingredient": {
-    "tag": "minecraft:copper_ores"
+    "tag": "pokecube_legends:copper_ores"
   },
   "result": {
     "item": "minecraft:copper_ingot"
