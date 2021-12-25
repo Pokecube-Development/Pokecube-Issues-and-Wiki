@@ -4,7 +4,7 @@
   "experience": 0.2,
   "cookingtime": 200,
   "ingredient": {
-    "item": "pokecube_legends:ultra_lazuli_ore"
+    "item": "pokecube_legends:ultra_lapis_ore"
   },
   "result": {
     "item": "minecraft:lapis_lazuli"

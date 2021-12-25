@@ -742,7 +742,7 @@ public class BlockInit
                         .sound(SoundType.DEEPSLATE).strength(4.5F, 3.0f).requiresCorrectToolForDrops().randomTicks()
                         .lightLevel(BlockInit.litBlockEmission(9))));
         
-        ULTRA_LAPIS_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_lazuli_ore",
+        ULTRA_LAPIS_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_lapis_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
         ULTRA_EMERALD_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_emerald_ore",
