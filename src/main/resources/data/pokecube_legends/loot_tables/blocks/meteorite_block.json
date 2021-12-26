@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:meteor_stairs"
+          "name": "pokecube_legends:meteorite_block"
         }
       ],
       "conditions": [

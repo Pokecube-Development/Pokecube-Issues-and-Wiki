@@ -7,7 +7,7 @@
           "predicate_type": "minecraft:tag_match"
         },
         "state": {
-          "Name": "pokecube_legends:meteor_block"
+          "Name": "pokecube_legends:meteorite_block"
         }
       }
     ],

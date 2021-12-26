@@ -7,6 +7,6 @@
     "#minecraft:base_stone_overworld",
     "#minecraft:base_stone_nether",
     "#minecraft:copper_ores",
-    {"id": "pokecube_legends:meteor_block", "required": false}
+    {"id": "pokecube_legends:meteorite_block", "required": false}
   ]
 }

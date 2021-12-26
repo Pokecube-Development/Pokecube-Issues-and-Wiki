@@ -429,9 +429,9 @@
     "block.pokecube_legends.magnetic_stone": "Magnetic Stone",
 
     "block.pokecube_legends.cosmic_dust_block": "Sack of Cosmic Dust",
-    "block.pokecube_legends.meteor_block": "Meteorite Block",
-    "block.pokecube_legends.meteor_slab": "Meteorite Block Slab",
-    "block.pokecube_legends.meteor_stairs": "Meteorite Block Stairs",
+    "block.pokecube_legends.meteorite_block": "Meteorite Block",
+    "block.pokecube_legends.meteorite_slab": "Meteorite Block Slab",
+    "block.pokecube_legends.meteorite_stairs": "Meteorite Block Stairs",
 
     "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
     "block.pokecube_legends.spectrum_block": "Block of Spectrum",
@@ -727,7 +727,7 @@
     "item.pokecube_legends.water_gem": "Water Gem",
     "item.pokecube_legends.thunder_gem": "Thunder Gem",
 
-    "item.pokecube_legends.meteor_shard": "Meteor Shard",
+    "item.pokecube_legends.meteorite_shard": "Meteor Shard",
     "item.pokecube_legends.star_core": "Star Core",
     "item.pokecube_legends.lighting_crystal": "Lighting Crystal",
 
@@ -1044,7 +1044,7 @@
     "legends.flame_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Entei",
     "legends.water_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Suicune",
     "legends.thunder_gem.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Raikou",
-    "legends.meteor_shard.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Deoxys",
+    "legends.meteorite_shard.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Deoxys",
     "legends.star_core.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Jirachi",
     "legends.cosmic_orb.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Time and Space Spawner- to spawn Cosmog",
     "legends.lighting_crystal.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Necrozma",

@@ -111,9 +111,9 @@ import pokecube.legends.blocks.plants.TemporalTree;
 public class BlockInit
 {
     // Decorative_Blocks
-    public static final RegistryObject<Block> METEOR_BLOCK;
-    public static final RegistryObject<Block> METEOR_SLAB;
-    public static final RegistryObject<Block> METEOR_STAIRS;
+    public static final RegistryObject<Block> METEORITE_BLOCK;
+    public static final RegistryObject<Block> METEORITE_SLAB;
+    public static final RegistryObject<Block> METEORITE_STAIRS;
 
     public static final RegistryObject<Block> OCEAN_BRICKS;
     public static final RegistryObject<Block> OCEAN_BRICK_SLAB;
@@ -886,14 +886,14 @@ public class BlockInit
                 () -> new SlabBlock(BlockBehaviour.Properties.copy(COBBLED_DUSK_DOLERITE.get())));
 
         // Meteor Blocks
-        METEOR_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("meteor_block",
+        METEORITE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_block",
                 () -> new MeteorBlock(6842513, BlockBehaviour.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE)
                         .strength(2.5f).sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
-        METEOR_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("meteor_stairs",
-                () -> new ItemGenerator.GenericStairs(METEOR_BLOCK.get().defaultBlockState(),
+        METEORITE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_stairs",
+                () -> new ItemGenerator.GenericStairs(METEORITE_BLOCK.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f)
                         .sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
-        METEOR_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("meteor_slab",
+        METEORITE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE).strength(2.0F, 3.0f)
                         .sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
 

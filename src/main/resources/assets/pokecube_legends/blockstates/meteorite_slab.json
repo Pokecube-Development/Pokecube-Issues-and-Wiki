@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokecube_legends:block/meteorite_slab"
+    },
+    "type=double": {
+      "model": "pokecube_legends:block/meteorite_block"
+    },
+    "type=top": {
+      "model": "pokecube_legends:block/meteorite_slab_top"
+    }
+  }
+}

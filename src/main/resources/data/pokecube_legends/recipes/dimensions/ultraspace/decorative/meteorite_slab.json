@@ -6,11 +6,11 @@
   ],
   "key": {
     "0": {
-      "item": "pokecube_legends:meteor_block"
+      "item": "pokecube_legends:meteorite_block"
     }
   },
   "result": {
-    "item": "pokecube_legends:meteor_slab",
+    "item": "pokecube_legends:meteorite_slab",
     "count": 6
   }
 }

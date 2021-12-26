@@ -8,11 +8,11 @@
   ],
   "key": {
     "#": {
-      "item": "pokecube_legends:meteor_block"
+      "item": "pokecube_legends:meteorite_block"
     }
   },
   "result": {
-    "item": "pokecube_legends:meteor_stairs",
+    "item": "pokecube_legends:meteorite_stairs",
     "count": 4
   }
 }
