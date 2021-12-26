@@ -638,6 +638,7 @@ public class BlockInit
     public static final RegistryObject<Block> ULTRA_DIAMOND_ORE;
     
     public static final RegistryObject<Block> ULTRA_EMERALD_ORE;
+    public static final RegistryObject<Block> DUSK_EMERALD_ORE;
     
     public static final RegistryObject<Block> ULTRA_LAPIS_ORE;
     public static final RegistryObject<Block> DUSK_LAPIS_ORE;
@@ -753,9 +754,14 @@ public class BlockInit
         ULTRA_EMERALD_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_emerald_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        DUSK_EMERALD_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_emerald_ore",
+                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        
         ULTRA_DIAMOND_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_diamond_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        
         ULTRA_COSMIC_DUST_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_cosmic_dust_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
