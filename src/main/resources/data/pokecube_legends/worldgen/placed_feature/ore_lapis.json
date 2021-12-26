@@ -1,9 +1,9 @@
 {
-  "feature": "pokecube_legends:ore_cosmic_dust_meteorite",
+  "feature": "pokecube_legends:ore_lapis",
   "placement": [
     {
-      "chance": 64,
-      "type": "minecraft:rarity_filter"
+      "count": 2,
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
@@ -11,10 +11,10 @@
     {
       "height": {
         "min_inclusive": {
-          "above_bottom": -80
+          "absolute": -32
         },
         "max_inclusive": {
-          "above_bottom": 16
+          "absolute": 32
         },
         "type": "minecraft:trapezoid"
       },

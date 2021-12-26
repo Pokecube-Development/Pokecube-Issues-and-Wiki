@@ -1,10 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:infiniburn_overworld",
-    "pokecube_legends:blackened_sand",
-    "pokecube_legends:blackened_sandstone",
-    "pokecube_legends:smooth_blackened_sandstone",
-    "pokecube_legends:ultra_darkstone"
+    "#minecraft:infiniburn_overworld"
   ]
 }
