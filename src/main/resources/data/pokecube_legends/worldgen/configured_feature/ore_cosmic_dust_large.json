@@ -3,11 +3,20 @@
     "targets": [
       {
         "target": {
+          "tag": "pokecube_legends:dusk_dolerite_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:dusk_dolerite_cosmic_ore"
+        }
+      },
+      {
+        "target": {
           "tag": "pokecube_legends:meteorite_ore_replaceables",
           "predicate_type": "minecraft:tag_match"
         },
         "state": {
-          "Name": "pokecube_legends:cosmic_dust_ore"
+          "Name": "pokecube_legends:meteorite_cosmic_ore"
         }
       },
       {
@@ -16,7 +25,7 @@
           "predicate_type": "minecraft:tag_match"
         },
         "state": {
-          "Name": "pokecube_legends:ultra_cosmic_dust_ore"
+          "Name": "pokecube_legends:ultra_cosmic_ore"
         }
       }
     ],

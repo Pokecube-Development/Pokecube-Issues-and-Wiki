@@ -158,7 +158,7 @@ public class ForgeEventHandlers
         {
             final BlockState block = worldIn.getRandom().nextDouble() > PokecubeLegends.config.meteorChanceForDust
                     ? BlockInit.METEOR_BLOCK.get().defaultBlockState()
-                    : BlockInit.METEOR_COSMIC_DUST_ORE.get().defaultBlockState();
+                    : BlockInit.METEORITE_COSMIC_ORE.get().defaultBlockState();
             final FallingBlockEntity entity = new FallingBlockEntity(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ()
                     + 0.5D, block);
             entity.time = 1;

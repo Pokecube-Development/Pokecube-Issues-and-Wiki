@@ -325,7 +325,7 @@
     "block.pokecube_legends.temporal_bookshelf": "Temporal Bookshelf",
     "block.pokecube_legends.temporal_bookshelf_empty": "Temporal Bookshelf",
 
-    "block.pokecube_legends.cosmic_dust_ore": "Meteorite Cosmic Ore",
+    "block.pokecube_legends.meteorite_cosmic_ore": "Meteorite Cosmic Ore",
     "block.pokecube_legends.fractal_ore": "Distortic Stone Fractal Ore",
     
     "block.pokecube_legends.ruby_ore": "Ruby Ore",
@@ -336,6 +336,7 @@
     
     "block.pokecube_legends.dusk_dolerite_coal_ore": "Dusk Dolerite Coal Ore",
     "block.pokecube_legends.dusk_dolerite_copper_ore": "Dusk Dolerite Copper Ore",
+    "block.pokecube_legends.dusk_dolerite_cosmic_ore": "Dusk Dolerite Cosmic Ore",
     "block.pokecube_legends.dusk_dolerite_diamond_ore": "Dusk Dolerite Diamond Ore",
     "block.pokecube_legends.dusk_dolerite_emerald_ore": "Dusk Dolerite Emerald Ore",
     "block.pokecube_legends.dusk_dolerite_gold_ore": "Dusk Dolerite Gold Ore",
@@ -346,7 +347,7 @@
     "block.pokecube_legends.spectrum_ore": "Ultra Stone Spectrum Ore",
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_copper_ore": "Ultra Stone Copper Ore",
-    "block.pokecube_legends.ultra_cosmic_dust_ore": "Ultra Stone Cosmic Ore",
+    "block.pokecube_legends.ultra_cosmic_ore": "Ultra Stone Cosmic Ore",
     "block.pokecube_legends.ultra_diamond_ore": "Ultra Stone Diamond Ore",
     "block.pokecube_legends.ultra_emerald_ore": "Ultra Stone Emerald Ore",
     "block.pokecube_legends.ultra_gold_ore": "Ultra Stone Gold Ore",
