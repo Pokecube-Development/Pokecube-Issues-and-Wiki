@@ -654,6 +654,7 @@ public class BlockInit
     
     public static final RegistryObject<Block> SAPPHIRE_ORE;
     public static final RegistryObject<Block> DEEPSLATE_SAPPHIRE_ORE;
+    public static final RegistryObject<Block> DUSK_SAPPHIRE_ORE;
     public static final RegistryObject<Block> ULTRA_SAPPHIRE_ORE;
     
     public static final RegistryObject<Block> DUSK_COSMIC_ORE;
@@ -767,7 +768,10 @@ public class BlockInit
         DUSK_DIAMOND_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_diamond_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
                         .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
-        
+
+        METEORITE_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_cosmic_ore",
+                () -> new MeteorCosmicOreBlock(6842513, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)
+                        .sound(SoundType.STONE).strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
         ULTRA_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_cosmic_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
@@ -777,35 +781,34 @@ public class BlockInit
         
         RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ruby_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)
-                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         DEEPSLATE_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("deepslate_ruby_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE)
-                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         ULTRA_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_ruby_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
-                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         DUSK_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_ruby_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
-                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         
         SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("sapphire_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)
-                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         DEEPSLATE_SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("deepslate_sapphire_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).sound(SoundType.DEEPSLATE)
-                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         ULTRA_SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_sapphire_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
-                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+                        .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
+        DUSK_SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_sapphire_ore",
+                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 6)));
         
         SPECTRUM_ORE = PokecubeLegends.DIMENSIONS_TAB.register("spectrum_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
 
-        METEORITE_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_cosmic_ore",
-                () -> new MeteorCosmicOreBlock(6842513, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)
-                        .sound(SoundType.STONE).strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
-        
         // Ultra Stone Blocks
         ULTRA_STONE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_stone",
                 () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_CYAN, 1.5f, 6.0f, SoundType.STONE, true));

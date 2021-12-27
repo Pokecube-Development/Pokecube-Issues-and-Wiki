@@ -167,13 +167,13 @@ public class PokecubeLegends
 
             final PlacedFeature ORE_SAPPHIRE_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore",
                     ORE_SAPPHIRE_SMALL_FEATURE.placed(List.of(CountPlacement.of(7), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(90)), BiomeFilter.biome())));
             final PlacedFeature ORE_SAPPHIRE_BURIED_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore_buried",
                     ORE_SAPPHIRE_BURIED_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(90)), BiomeFilter.biome())));
             final PlacedFeature ORE_SAPPHIRE_LARGE_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore_large",
                     ORE_SAPPHIRE_LARGE_FEATURE.placed(List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(90)), BiomeFilter.biome())));
 
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_SAPPHIRE_PLACEMENT);
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_SAPPHIRE_BURIED_PLACEMENT);
