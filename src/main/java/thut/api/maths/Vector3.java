@@ -14,7 +14,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.QuartPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
+import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -36,7 +39,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.phys.AABB;
@@ -1459,20 +1465,42 @@ public class Vector3
 
     public void setBiome(final Biome biome, final Level world)
     {
-        ThutCore.LOGGER.error("Not supported yet!");
-        // final int x = this.intX();
-        // final int z = this.intZ();
-        // final ChunkAccess chunk = world.getChunk(new BlockPos(x, 0, z));
-        // final ChunkBiomeContainer biomes = chunk.getBiomes();
-        // final int i = x & ChunkBiomeContainer.HORIZONTAL_MASK;
-        // final int j = (int) Mth.clamp(this.y, 0,
-        // ChunkBiomeContainer.VERTICAL_MASK);
-        // final int k = z & ChunkBiomeContainer.HORIZONTAL_MASK;
-        // final int index = j << ChunkBiomeContainer.WIDTH_BITS +
-        // ChunkBiomeContainer.WIDTH_BITS
-        // | k << ChunkBiomeContainer.WIDTH_BITS | i;
-        // Arrays.fill(biomes.biomes, biome);
-        // biomes.biomes[index] = biome;
+        if (!(world instanceof ServerLevel level))
+        {
+            ThutCore.LOGGER.error("Called on wrong side, this is server only!");
+            return;
+        }
+
+        final int x = this.intX();
+        final int y = this.intY();
+        final int z = this.intZ();
+
+        int qx = QuartPos.fromBlock(x);
+        int qy = QuartPos.fromBlock(y);
+        int qz = QuartPos.fromBlock(z);
+
+        final ChunkAccess chunk = level.getChunk(this.getPos());
+
+        int i = QuartPos.fromBlock(chunk.getMinBuildHeight());
+        int k = i + QuartPos.fromBlock(chunk.getHeight()) - 1;
+        int l = Mth.clamp(qy, i, k);
+        int j = chunk.getSectionIndex(QuartPos.toBlock(l));
+
+        LevelChunkSection section = chunk.getSections()[j];
+        PalettedContainer<Biome> biomes = section.getBiomes();
+        biomes.set(qx & 3, l & 3, qz & 3, biome);
+
+        if (chunk instanceof LevelChunk lchunk)
+        {
+            ChunkMap map = level.getChunkSource().chunkMap;
+            LevelLightEngine lights = level.getLightEngine();
+            ClientboundLevelChunkWithLightPacket packet = new ClientboundLevelChunkWithLightPacket(lchunk, lights, null,
+                    null, true);
+
+            // Send the packet to tracking things, this is taken from
+            // PacketDistributor.TRACKING_CHUNK
+            map.getPlayers(chunk.getPos(), false).forEach(e -> e.connection.send(packet));
+        }
     }
 
     public void setBlock(final Level world, final BlockState defaultState)
