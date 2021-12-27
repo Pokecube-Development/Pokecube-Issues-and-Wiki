@@ -30,7 +30,7 @@ public class DistortedMirror extends ItemBase
 
     public DistortedMirror(final String name, final CreativeModeTab tab, final int maxStackSize)
     {
-        super(tab, maxStackSize);
+        super(name, tab, maxStackSize);
     }
 
     @Override
@@ -55,27 +55,27 @@ public class DistortedMirror extends ItemBase
 
         if (dim == Level.OVERWORLD)
         {
-            if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToDistorted(
-                    (ServerPlayer) entity);
+            if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToDistorted((ServerPlayer) entity);
 
             if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                    "block.end_gateway.spawn")), SoundSource.NEUTRAL, 1, 1, false);
+            world.playLocalSound(x, y, z,
+                    ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("block.end_gateway.spawn")),
+                    SoundSource.NEUTRAL, 1, 1, false);
 
             return ar;
         }
         else if (dim == FeaturesInit.DISTORTEDWORLD_KEY)
         {
-            if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld(
-                    (ServerPlayer) entity);
+            if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld((ServerPlayer) entity);
 
             if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-            world.playLocalSound(x, y, z, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-                    "block.end_gateway.spawn")), SoundSource.NEUTRAL, 1, 1, false);
+            world.playLocalSound(x, y, z,
+                    ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("block.end_gateway.spawn")),
+                    SoundSource.NEUTRAL, 1, 1, false);
 
             return ar;
         }

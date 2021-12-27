@@ -180,6 +180,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
         {
             int number = 0;
             for (final ItemStack stack : this.getItems()) if (!stack.isEmpty()) number++;
+            if (this.lootTable != null) number = 9;
             this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(GenericBookshelfEmpty.BOOKS, number),
                     3);
         }

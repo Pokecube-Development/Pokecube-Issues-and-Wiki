@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
@@ -24,7 +22,7 @@ public class SellRandomStatue implements TradePreset
 {
     private void addTrade(final ItemStack statue, final Trade trade, final TrainerTrades trades)
     {
-        Map<QName, String> values;
+        Map<String, String> values;
         TrainerTrade recipe;
         final ItemStack sell = statue;
         ItemStack buy1 = ItemStack.EMPTY;

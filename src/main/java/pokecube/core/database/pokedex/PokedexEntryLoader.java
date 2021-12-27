@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.ClassUtils;
 
@@ -77,7 +76,7 @@ public class PokedexEntryLoader
 
     public static class Action
     {
-        public Map<QName, String> values = Maps.newHashMap();
+        public Map<String, String> values = Maps.newHashMap();
         public String tag;
         public String lootTable;
         public List<Drop> drops = Lists.newArrayList();
@@ -126,17 +125,17 @@ public class PokedexEntryLoader
     public static class Drop
     {
         @XmlAnyAttribute
-        public Map<QName, String> values = Maps.newHashMap();
+        public Map<String, String> values = Maps.newHashMap();
         @XmlElement(name = "tag")
         public String tag;
         @XmlElement(name = "id")
         public String id;
 
-        public Map<QName, String> getValues()
+        public Map<String, String> getValues()
         {
             if (this.values == null) this.values = Maps.newHashMap();
-            final QName tagName = new QName("tag");
-            final QName idName = new QName("id");
+            final String tagName = new String("tag");
+            final String idName = new String("id");
             if (this.tag != null && !this.values.containsKey(tagName)) this.values.put(tagName, this.tag);
             if (this.id != null && !this.values.containsKey(idName)) this.values.put(idName, this.id);
             return this.values;
@@ -400,11 +399,9 @@ public class PokedexEntryLoader
         public Misc misc;
     }
 
-    @XmlRootElement(name = "Spawn")
     public static class SpawnRule
     {
-        @XmlAnyAttribute
-        public Map<QName, String> values = Maps.newHashMap();
+        public Map<String, String> values = Maps.newHashMap();
 
         @Override
         public String toString()
@@ -418,9 +415,9 @@ public class PokedexEntryLoader
             if (!(obj instanceof SpawnRule)) return false;
             final SpawnRule other = (SpawnRule) obj;
             if (other.values.size() != this.values.size()) return false;
-            for (final Entry<QName, String> var : this.values.entrySet())
+            for (final Entry<String, String> var : this.values.entrySet())
             {
-                final QName key = var.getKey();
+                final String key = var.getKey();
                 final String val = var.getValue();
                 if (!val.equals(other.values.get(key))) return false;
             }
@@ -448,7 +445,7 @@ public class PokedexEntryLoader
     {
         public static class Stats
         {
-            public Map<QName, String> values = Maps.newHashMap();
+            public Map<String, String> values = Maps.newHashMap();
         }
 
         // Evolution stuff
@@ -698,11 +695,11 @@ public class PokedexEntryLoader
         return Tools.getStack(drop.getValues());
     }
 
-    public static final QName MIN = new QName("min");
-    public static final QName MAX = new QName("max");
-    public static final QName RATE = new QName("rate");
-    public static final QName LEVEL = new QName("level");
-    public static final QName VARIANCE = new QName("variance");
+    public static final String MIN = new String("min");
+    public static final String MAX = new String("max");
+    public static final String RATE = new String("rate");
+    public static final String LEVEL = new String("level");
+    public static final String VARIANCE = new String("variance");
 
     /**
      * This is safe to run before tags are loaded.
@@ -800,8 +797,8 @@ public class PokedexEntryLoader
         boolean stat = false, ev = false;
         if (xmlStats.stats != null)
         {
-            final Map<QName, String> values = xmlStats.stats.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.stats.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
@@ -816,8 +813,8 @@ public class PokedexEntryLoader
         }
         if (xmlStats.evs != null)
         {
-            final Map<QName, String> values = xmlStats.evs.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.evs.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
@@ -834,8 +831,8 @@ public class PokedexEntryLoader
         if (ev) entry.evs = evs;
         if (xmlStats.types != null)
         {
-            final Map<QName, String> values = xmlStats.types.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.types.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
@@ -845,8 +842,8 @@ public class PokedexEntryLoader
         }
         if (xmlStats.sizes != null)
         {
-            final Map<QName, String> values = xmlStats.sizes.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.sizes.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
@@ -859,8 +856,8 @@ public class PokedexEntryLoader
         }
         if (xmlStats.abilities != null)
         {
-            final Map<QName, String> values = xmlStats.abilities.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.abilities.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);
@@ -1139,8 +1136,8 @@ public class PokedexEntryLoader
         // Logics
         if (xmlStats.logics != null)
         {
-            final Map<QName, String> values = xmlStats.logics.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = xmlStats.logics.values;
+            for (final String key : values.keySet())
             {
                 final String keyString = key.toString();
                 final String value = values.get(key);

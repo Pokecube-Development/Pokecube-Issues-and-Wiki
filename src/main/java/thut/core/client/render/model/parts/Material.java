@@ -87,7 +87,6 @@ public class Material
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
         RenderType type = null;
-
         if (this.render_name.contains("water_mask_"))
         {
             type = WATER_MASK;
@@ -105,8 +104,6 @@ public class Material
             builder.setTransparencyState(Material.DEFAULTTRANSP);
 
             builder.setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
-
-            // builder.setAlphaState(RenderStateShard.DEFAULT_ALPHA);
 
             // These are needed in general for world lighting
             builder.setLightmapState(RenderStateShard.LIGHTMAP);
@@ -126,7 +123,6 @@ public class Material
             type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false,
                     rendertype$state);
         }
-        // else type = RenderTypes.brightSolid(tex);
 
         this.types.put(tex, type);
         return type;
@@ -136,7 +132,7 @@ public class Material
     {
         if (this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex);
-        return Material.lastImpl.getBuffer(type);
-        // return Material.getOrAdd(this, type, Material.lastImpl);
+        VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
+        return newBuffer;
     }
 }

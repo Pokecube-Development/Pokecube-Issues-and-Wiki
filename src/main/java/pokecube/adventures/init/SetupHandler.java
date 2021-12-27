@@ -99,9 +99,11 @@ public class SetupHandler
         PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
         PokecubeAdv.packets.registerMessage(PacketAFA.class, PacketAFA::new);
 
-        OwnableCaps.TILES.add(PokecubeAdv.AFA_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeAdv.WARP_PAD_TYPE.get());
-        OwnableCaps.TILES.add(PokecubeAdv.STATUE_TYPE.get());
+        event.enqueueWork(() -> {
+            OwnableCaps.TILES.add(PokecubeAdv.AFA_TYPE.get());
+            OwnableCaps.TILES.add(PokecubeAdv.WARP_PAD_TYPE.get());
+            OwnableCaps.TILES.add(PokecubeAdv.STATUE_TYPE.get());
+        });
 
         PacketTrainer.register();
         Tasks.init();

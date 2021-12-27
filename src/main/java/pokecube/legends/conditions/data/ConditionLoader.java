@@ -84,7 +84,11 @@ public class ConditionLoader extends ResourceData
             try
             {
                 final Conditions temp = JsonUtil.gson.fromJson(reader, Conditions.class);
-                if (!confirmNew(temp, l)) return;
+                if (!confirmNew(temp, l))
+                {
+                    reader.close();
+                    return;
+                }
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);
             }

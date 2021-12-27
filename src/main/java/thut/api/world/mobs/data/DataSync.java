@@ -49,4 +49,32 @@ public interface DataSync
      * @param values
      */
     void update(List<Data<?>> values);
+
+    /**
+     * This returns the last tick it was synced, this is used to prevent
+     * over-sending of the update packets
+     * 
+     * @return
+     */
+    long getTick();
+
+    /**
+     * Sets the last tick that this was synced.
+     * 
+     * @param tick
+     */
+    void setTick(long tick);
+
+    /**
+     * @return How often this gets synced.
+     */
+    default int tickRate()
+    {
+        return 2;
+    }
+
+    /**
+     * @return A random offset to apply with use with tickRate()
+     */
+    int tickOffset();
 }

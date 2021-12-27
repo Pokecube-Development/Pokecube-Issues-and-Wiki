@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -202,6 +203,20 @@ public class PokemobEventsHandler
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
 
+        // Vanilla breaks things here, by deleting the memory tag in the brain,
+        // we need that, so restore it.
+        if (mob.getPersistentData().contains("__bee_fix__"))
+        {
+            CompoundTag tag = mob.getPersistentData().getCompound("__bee_fix__");
+            mob.getPersistentData().remove("__bee_fix__");
+            CompoundTag old = mob.saveWithoutId(new CompoundTag());
+            for (String s : tag.getAllKeys())
+            {
+                old.put(s, tag.get(s));
+            }
+            mob.load(old);
+        }
+
         // No Home spot, so definitely not leaving home
         if (inhabitor.getHome() == null) return;
 
@@ -230,15 +245,15 @@ public class PokemobEventsHandler
             if (fromHive || n++ > 100) break;
         }
         // was not from the hive, so exit
-        if (!fromHive) return;
-        final Class<?> clss = c;
+//        if (!fromHive) return;
+//        final Class<?> clss = c;
         // not loaded, definitely not a bee leaving hive
         if (!world.isPositionEntityTicking(pos.pos())) return;
         final BlockEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
         // Not the same class, so return as well.
-        if (tile.getClass() != clss) return;
+//        if (tile.getClass() != clss) return;
         final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;

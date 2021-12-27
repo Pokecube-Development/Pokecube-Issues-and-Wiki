@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -60,7 +58,6 @@ import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
-import thut.api.util.QNameAdaptor;
 import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.NBTPacket;
@@ -86,8 +83,7 @@ public class PacketPokedex extends NBTPacket
     public static final byte REMOVE = -2;
     public static final byte RENAME = -1;
 
-    public static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
-            .setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
+    public static final Gson gson = new GsonBuilder().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
     public static List<String> values = Lists.newArrayList();
     public static List<SpawnBiomeMatcher> selectedMob = Lists.newArrayList();
@@ -506,7 +502,7 @@ public class PacketPokedex extends NBTPacket
             for (final PokedexEntry e : names)
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);
-                matcher.spawnRule.values.put(new QName("Local_Rate"), rates.get(e) + "");
+                matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
                 spawns.putString("e" + n, e.getName());
                 spawns.putString("" + n, this.serialize(matcher));
                 n++;

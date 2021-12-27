@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -117,7 +115,9 @@ public class JsonHelper
 
         public static String[][] makeRequirements(final PokedexEntry entry)
         {
-            return new String[][] { { entry.getTrimmedName() } };
+            return new String[][]
+            {
+                    { entry.getTrimmedName() } };
         }
     }
 
@@ -129,11 +129,14 @@ public class JsonHelper
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
         FileWriter write;
-        try {
+        try
+        {
             write = new FileWriter(file);
             write.write(json);
             write.close();
-        } catch (final IOException e) {
+        }
+        catch (final IOException e)
+        {
             e.printStackTrace();
         }
     }
@@ -141,25 +144,29 @@ public class JsonHelper
     protected static void makeLootTable(final PokedexEntry entry, final String id, final String path)
     {
         final ResourceLocation key = new ResourceLocation(entry.getModId(), entry.getTrimmedName());
-        String loot_table = "{\"type\": \"minecraft:entity\",\"pools\": [{\"name\": \"main\",\"rolls\": 1.0,\"entries\": [" +
-            "{\"type\": \"minecraft:item\",\"functions\": [{\"function\": \"minecraft:set_count\",\"count\": " +
-            "{\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0},\"add\": false},{\"function\": " +
-            "\"minecraft:looting_enchant\",\"count\": {\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0}}]," +
-            "\"name\": \"trofers:small_plate\"}],\"conditions\": [{\"condition\": \"trofers:random_trophy_chance\"}]," +
-            "\"functions\": [{\"function\": \"minecraft:set_nbt\",\"tag\":\"{BlockEntityTag:{Trophy:" +
-            "\\\"pokecube:" + entry.getTrimmedName() + "\\\"}}\"}]},{\"name\": \"pool\",\"rolls\": 1,\"entries\": [{" +
-            "\"type\": \"loot_table\",\"name\": \"" + entry.lootTable + "\",\"weight\": 1}]}]}";
+        String loot_table = "{\"type\": \"minecraft:entity\",\"pools\": [{\"name\": \"main\",\"rolls\": 1.0,\"entries\": ["
+                + "{\"type\": \"minecraft:item\",\"functions\": [{\"function\": \"minecraft:set_count\",\"count\": "
+                + "{\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0},\"add\": false},{\"function\": "
+                + "\"minecraft:looting_enchant\",\"count\": {\"type\": \"minecraft:uniform\",\"min\": 0.0,\"max\": 1.0}}],"
+                + "\"name\": \"trofers:small_plate\"}],\"conditions\": [{\"condition\": \"trofers:random_trophy_chance\"}],"
+                + "\"functions\": [{\"function\": \"minecraft:set_nbt\",\"tag\":\"{BlockEntityTag:{Trophy:"
+                + "\\\"pokecube:" + entry.getTrimmedName()
+                + "\\\"}}\"}]},{\"name\": \"pool\",\"rolls\": 1,\"entries\": [{"
+                + "\"type\": \"loot_table\",\"name\": \"" + entry.lootTable + "\",\"weight\": 1}]}]}";
         final JsonObject obj = JsonHelper.TrofersGenerator.GSON.fromJson(loot_table, JsonObject.class);
         loot_table = JsonHelper.TrofersGenerator.GSON.toJson(obj);
         final File dir = new File("./mods/" + path + "/");
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
         FileWriter write;
-        try {
+        try
+        {
             write = new FileWriter(file);
             write.write(loot_table);
             write.close();
-        } catch (final IOException e) {
+        }
+        catch (final IOException e)
+        {
             e.printStackTrace();
         }
     }
@@ -172,14 +179,18 @@ public class JsonHelper
         if (!dir.exists()) dir.mkdirs();
         final File file = new File(dir, key.getPath() + ".json");
         FileWriter write;
-        try {
+        try
+        {
             write = new FileWriter(file);
             write.write(json);
             write.close();
-        } catch (final IOException e) {
+        }
+        catch (final IOException e)
+        {
             e.printStackTrace();
         }
     }
+
     /**
      * Merge "source" into "target". If fields have equal name, merge them
      * recursively.
@@ -256,14 +267,13 @@ public class JsonHelper
         boolean remove = default_ instanceof String && default_.equals(value.getAsString());
         try
         {
-            if (!remove && (boolean.class.isInstance(default_) || Boolean.class.isInstance(default_))) remove = value
-                    .getAsBoolean() == (boolean) default_;
-            if (!remove && (float.class.isInstance(default_) || Float.class.isInstance(default_))) remove = value
-                    .getAsFloat() == (float) default_;
+            if (!remove && (boolean.class.isInstance(default_) || Boolean.class.isInstance(default_)))
+                remove = value.getAsBoolean() == (boolean) default_;
+            if (!remove && (float.class.isInstance(default_) || Float.class.isInstance(default_)))
+                remove = value.getAsFloat() == (float) default_;
         }
         catch (final Exception e)
-        {
-        }
+        {}
         if (remove) object.remove(propery);
     }
 
@@ -279,8 +289,7 @@ public class JsonHelper
                 else
                 {
                     final Iterator<JsonElement> iter = value.getAsJsonArray().iterator();
-                    iter.forEachRemaining(e ->
-                    {
+                    iter.forEachRemaining(e -> {
                         if (e.isJsonObject()) JsonHelper.cleanEmptyLists(e.getAsJsonObject());
                     });
                 }
@@ -326,8 +335,11 @@ public class JsonHelper
 
         final Map<String, String[][]> tags = Maps.newHashMap();
 
-        tags.put("pokemobs_spawns", new String[][] { { "stats", "spawnRules" } });
-        tags.put("pokemobs_formes", new String[][] {
+        tags.put("pokemobs_spawns", new String[][]
+        {
+                { "stats", "spawnRules" } });
+        tags.put("pokemobs_formes", new String[][]
+        {
             // @formatter:off
             { "models" },
             { "male_model" },
@@ -338,10 +350,16 @@ public class JsonHelper
             { "baseForm" }
             // @formatter:on
         });
-        tags.put("pokemobs_drops", new String[][] { { "stats", "lootTable" }, { "stats", "heldTable" } });
-        tags.put("pokemobs_moves", new String[][] { { "moves" } });
+        tags.put("pokemobs_drops", new String[][]
+        {
+                { "stats", "lootTable" },
+                { "stats", "heldTable" } });
+        tags.put("pokemobs_moves", new String[][]
+        {
+                { "moves" } });
 
-        tags.put("pokemobs_interacts", new String[][] {
+        tags.put("pokemobs_interacts", new String[][]
+        {
             // @formatter:off
             { "dye" },
             { "stats", "evolutions" },
@@ -354,10 +372,11 @@ public class JsonHelper
             { "stats", "interactions" }
             // @formatter:on
         });
-        tags.put("pokemobs_offsets", new String[][] { { "ridden_offsets" } });
-
-        PokemobsDatabases.compound.pokemon.forEach(e ->
+        tags.put("pokemobs_offsets", new String[][]
         {
+                { "ridden_offsets" } });
+
+        PokemobsDatabases.compound.pokemon.forEach(e -> {
             final PokedexEntry entry = Database.getEntry(e.name);
             entry.setGMax(entry.isGMax() || e.name.contains("_gigantamax"));
 
@@ -376,8 +395,7 @@ public class JsonHelper
 
             final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
 
-            iter.forEachRemaining(e ->
-            {
+            iter.forEachRemaining(e -> {
                 final JsonObject o = e.getAsJsonObject();
 
                 // Cleanup some values if present
@@ -387,8 +405,8 @@ public class JsonHelper
 
             final String json = PokedexEntryLoader.gson.toJson(obj);
             final File dir = path.resolve("pokemobs_all" + ".json").toFile();
-            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
-                    .newEncoder());
+            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                    Charset.forName("UTF-8").newEncoder());
             out.write(json);
             out.close();
         }
@@ -404,8 +422,7 @@ public class JsonHelper
         {
             final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
 
-            iter.forEachRemaining(e ->
-            {
+            iter.forEachRemaining(e -> {
                 final JsonObject o = e.getAsJsonObject();
 
                 // Cleanup some values if present
@@ -418,14 +435,13 @@ public class JsonHelper
         {
             if (val.stats == null) continue;
 
-            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r ->
-            {
+            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r -> {
                 double rate = 0;
                 // 0 spawn rate rules are done by legends, so lets remove them
                 // from here.
-                if (r.values.containsKey(new QName("rate")))
+                if (r.values.containsKey("rate"))
                 {
-                    final String val2 = r.values.get(new QName("rate"));
+                    final String val2 = r.values.get("rate");
                     rate = Float.parseFloat(val2);
                 }
                 return rate <= 0;
@@ -436,8 +452,7 @@ public class JsonHelper
 
         final JsonArray mobs = new JsonArray();
         final List<PokedexEntry> formes = Database.getSortedFormes();
-        formes.forEach(e ->
-        {
+        formes.forEach(e -> {
             mobs.add(e.getTrimmedName());
             final PokedexEntry male = e.getForGender(IPokemob.MALE);
             final PokedexEntry female = e.getForGender(IPokemob.FEMALE);
@@ -451,8 +466,8 @@ public class JsonHelper
             final File dir = path.resolve("pokemobs_names.py").toFile();
             try
             {
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
-                        "UTF-8").newEncoder());
+                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                        Charset.forName("UTF-8").newEncoder());
                 out.write("pokemobs = ");
                 out.write(json);
                 out.close();
@@ -470,8 +485,7 @@ public class JsonHelper
         }
 
         final JsonArray moves = new JsonArray();
-        MovesUtils.getKnownMoves().forEach(e ->
-        {
+        MovesUtils.getKnownMoves().forEach(e -> {
             moves.add(e.name);
         });
         if (moves.size() > 0)
@@ -480,8 +494,8 @@ public class JsonHelper
             final File dir = path.resolve("moves_names.py").toFile();
             try
             {
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
-                        "UTF-8").newEncoder());
+                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                        Charset.forName("UTF-8").newEncoder());
                 out.write("moves = ");
                 out.write(json);
                 out.close();
@@ -517,8 +531,8 @@ public class JsonHelper
         {
             File dir = path.resolve("starters.json").toFile();
             // String json = PokedexEntryLoader.gson.toJson(starters);
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
-                    .newEncoder());
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                    Charset.forName("UTF-8").newEncoder());
             // out.write(json);
             out.close();
 
@@ -549,8 +563,7 @@ public class JsonHelper
             newDatabase.add("pokemon", new JsonArray());
             try
             {
-                iter.forEachRemaining(e ->
-                {
+                iter.forEachRemaining(e -> {
                     final JsonObject o = e.getAsJsonObject();
 
                     // Cleanup some values if present
@@ -559,14 +572,13 @@ public class JsonHelper
                     final JsonObject o1 = new JsonObject();
                     if (!JsonHelper.mergeIn(o, o1, "name")) return;
                     boolean did = false;
-                    for (final String[] var : toMerge)
-                        did = JsonHelper.mergeIn(o, o1, var) || did;
+                    for (final String[] var : toMerge) did = JsonHelper.mergeIn(o, o1, var) || did;
                     if (did) newDatabase.getAsJsonArray("pokemon").add(o1);
                 });
                 final String json = PokedexEntryLoader.gson.toJson(newDatabase);
                 final File dir = path.resolve(filename + ".json").toFile();
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName(
-                        "UTF-8").newEncoder());
+                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                        Charset.forName("UTF-8").newEncoder());
                 out.write(json);
                 out.close();
             }
@@ -581,8 +593,8 @@ public class JsonHelper
         {
             final String json = PokedexEntryLoader.gson.toJson(obj);
             final File dir = path.resolve("pokemobs_pokedex" + ".json").toFile();
-            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8")
-                    .newEncoder());
+            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+                    Charset.forName("UTF-8").newEncoder());
             out.write(json);
             out.close();
         }

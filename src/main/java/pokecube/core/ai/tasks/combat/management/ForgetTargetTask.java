@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -65,7 +66,7 @@ public class ForgetTargetTask extends CombatTask
 
     public static int maxWildBattleDur = 600;
     /** The target being attacked. */
-    LivingEntity      entityTarget;
+    LivingEntity entityTarget;
 
     /** IPokemob version of entityTarget. */
     IPokemob pokemobTarget;
@@ -85,8 +86,7 @@ public class ForgetTargetTask extends CombatTask
 
     @Override
     public void reset()
-    {
-    }
+    {}
 
     @Override
     public void run()
@@ -127,6 +127,11 @@ public class ForgetTargetTask extends CombatTask
         int giveUpTimer = Battle.BATTLE_END_TIMER;
         if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
 
+        if (mobB == null && entityTarget.getRemovalReason() == RemovalReason.DISCARDED)
+        {
+            deAgro = true;
+        }
+
         agroCheck:
         if (mobB != null && !deAgro)
         {
@@ -134,6 +139,9 @@ public class ForgetTargetTask extends CombatTask
             {
                 giveUpTimer /= 2;
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Target Fainted.");
+
+                if (mobB.getOwnerId() == null) deAgro = true;
+
                 break agroCheck;
             }
 
@@ -165,12 +173,12 @@ public class ForgetTargetTask extends CombatTask
                     mobA.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
 
-                    if (weHealth < 0.5) if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
-                            MemoryStatus.REGISTERED)) mobA.getEntity().getBrain().setMemory(
-                                    MemoryModules.HUNTED_BY, mobB.getEntity());
-                    if (theyHealth < 0.5) if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY,
-                            MemoryStatus.REGISTERED)) mobB.getEntity().getBrain().setMemory(
-                                    MemoryModules.HUNTED_BY, mobA.getEntity());
+                    if (weHealth < 0.5)
+                        if (mobA.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
+                            mobA.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobB.getEntity());
+                    if (theyHealth < 0.5)
+                        if (mobB.getEntity().getBrain().checkMemory(MemoryModules.HUNTED_BY, MemoryStatus.REGISTERED))
+                            mobB.getEntity().getBrain().setMemory(MemoryModules.HUNTED_BY, mobA.getEntity());
 
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("No want to fight, too weak!");
                     deAgro = true;
@@ -231,10 +239,10 @@ public class ForgetTargetTask extends CombatTask
             if (tame)
             {
                 final Entity owner = this.pokemob.getOwner();
-                final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob
-                        .getGeneralState(GeneralStates.STAYING);
-                if (owner != null && !stayOrGuard && owner.distanceTo(this.entity) > PokecubeCore
-                        .getConfig().chaseDistance)
+                final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING)
+                        || this.pokemob.getGeneralState(GeneralStates.STAYING);
+                if (owner != null && !stayOrGuard
+                        && owner.distanceTo(this.entity) > PokecubeCore.getConfig().chaseDistance)
                 {
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Cannot target mob that far while guarding.");
                     deAgro = true;
@@ -243,8 +251,9 @@ public class ForgetTargetTask extends CombatTask
 
                 // If the target is a pokemob, on same team, we shouldn't target
                 // it either, unless it is fighting over a mate
-                if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(this.entityTarget,
-                        this.entity) && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
+                if (!PokecubeCore.getConfig().teamsBattleEachOther
+                        && TeamManager.sameTeam(this.entityTarget, this.entity)
+                        && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Cannot target team mates.");
                     deAgro = true;
@@ -261,8 +270,8 @@ public class ForgetTargetTask extends CombatTask
             if (this.ticksSinceSeen++ > giveUpTimer)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getString());
+                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                        this.pokemob.getDisplayName().getString());
                 try
                 {
                     this.entityTarget.sendMessage(message, Util.NIL_UUID);
@@ -280,8 +289,8 @@ public class ForgetTargetTask extends CombatTask
             if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
-                final Component message = new TranslatableComponent("pokemob.deagress.timeout", this.pokemob
-                        .getDisplayName().getString());
+                final Component message = new TranslatableComponent("pokemob.deagress.timeout",
+                        this.pokemob.getDisplayName().getString());
                 try
                 {
                     this.entityTarget.sendMessage(message, Util.NIL_UUID);
@@ -312,14 +321,12 @@ public class ForgetTargetTask extends CombatTask
         {
             this.battleTime = 0;
             this.ticksSinceSeen = 0;
+            this.entityTarget = target;
+            this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
         }
-
-        this.entityTarget = target;
 
         if (this.entityTarget == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
             this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
-
-        this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
 
         // Only run if we have a combat target
         return this.entityTarget != null;

@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
@@ -119,11 +117,11 @@ public class PokemobSpawns extends ResourceData
                     {
                         SpawnRule customRule = frule.copy();
 
-                        customRule.values.put(new QName("min"), mob.min + "");
-                        customRule.values.put(new QName("max"), mob.max + "");
-                        customRule.values.put(new QName("rate"), mob.rate + "");
-                        if (mob.level > 0) customRule.values.put(new QName("level"), mob.level + "");
-                        if (mob.variance != null) customRule.values.put(new QName("variance"), mob.variance);
+                        customRule.values.put("min", mob.min + "");
+                        customRule.values.put("max", mob.max + "");
+                        customRule.values.put("rate", mob.rate + "");
+                        if (mob.level > 0) customRule.values.put("level", mob.level + "");
+                        if (mob.variance != null) customRule.values.put("variance", mob.variance);
                         final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }
@@ -152,7 +150,11 @@ public class PokemobSpawns extends ResourceData
             try
             {
                 final SpawnList temp = JsonUtil.gson.fromJson(reader, SpawnList.class);
-                if (!confirmNew(temp, l)) return;
+                if (!confirmNew(temp, l))
+                {
+                    reader.close();
+                    return;
+                }
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);
             }

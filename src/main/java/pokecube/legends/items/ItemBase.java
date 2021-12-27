@@ -19,11 +19,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemBase extends Item
 {
-    String  tooltipname;
+    String tooltipname;
     boolean hasTooltip = false;
     boolean hasShiny = false;
 
-    //Info
+    // Info
     public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
@@ -31,13 +31,14 @@ public class ItemBase extends Item
         this.tooltipname = name;
     }
 
-    //No Info
+    // No Info
     public ItemBase(final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
     }
 
-    public ItemBase(final String name, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food, final int maxStackSize)
+    public ItemBase(final String name, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+            final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
         this.tooltipname = name;
@@ -49,9 +50,10 @@ public class ItemBase extends Item
         super(new Properties().tab(tab).stacksTo(maxStackSize).food(food));
     }
 
-    public ItemBase setShiny() {
-    	this.hasShiny = true;
-    	return this;
+    public ItemBase setShiny()
+    {
+        this.hasShiny = true;
+        return this;
     }
 
     @Override
@@ -61,7 +63,8 @@ public class ItemBase extends Item
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD, ChatFormatting.BOLD, ChatFormatting.RESET);
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD,
+                ChatFormatting.BOLD, ChatFormatting.RESET);
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslatableComponent(message));
     }
