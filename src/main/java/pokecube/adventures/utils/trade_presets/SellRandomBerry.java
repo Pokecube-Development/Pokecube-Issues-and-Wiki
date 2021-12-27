@@ -2,8 +2,6 @@ package pokecube.adventures.utils.trade_presets;
 
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -27,7 +25,7 @@ public class SellRandomBerry implements TradePreset
             if (!badge.isEmpty())
             {
                 if(trade.count>0) badge.setCount(trade.count);
-                Map<QName, String> values;
+                Map<String, String> values;
                 TrainerTrade recipe;
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;

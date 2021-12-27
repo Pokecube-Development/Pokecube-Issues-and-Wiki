@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.world.item.ItemStack;
@@ -44,7 +42,7 @@ public class AllTMs implements TradePreset
             if (GZMoveManager.isGZDMove(move.move.baseEntry)) continue;
 
             final ItemStack sell = ItemTM.getTM(name);
-            Map<QName, String> values;
+            Map<String, String> values;
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
             ItemStack buy2 = ItemStack.EMPTY;

@@ -3,8 +3,6 @@ package pokecube.core.database.recipes;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -22,28 +20,18 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
-import thut.core.xml.bind.annotation.XmlAnyAttribute;
-import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class XMLRecipeHandler
 {
-    @XmlRootElement(name = "Recipe")
     public static class XMLRecipe
     {
-        @XmlAttribute
-        public boolean              shapeless = false;
-        @XmlAttribute
-        String                      handler   = "default";
-        @XmlAttribute
-        public String               map       = "";
-        @XmlElement(name = "Output")
-        public XMLRecipeOutput      output;
-        @XmlElement(name = "Input")
-        public List<XMLRecipeInput> inputs    = Lists.newArrayList();
-        @XmlAnyAttribute
-        public Map<QName, String>   values    = Maps.newHashMap();
+        public boolean shapeless = false;
+        String handler = "default";
+        public String map = "";
+        public XMLRecipeOutput output;
+        public List<XMLRecipeInput> inputs = Lists.newArrayList();
+        public Map<String, String> values = Maps.newHashMap();
 
         @Override
         public String toString()
@@ -53,10 +41,8 @@ public class XMLRecipeHandler
         }
     }
 
-    @XmlRootElement(name = "Input")
     public static class XMLRecipeInput extends Drop
     {
-        @XmlAttribute
         public String key = "";
 
         @Override
@@ -66,7 +52,6 @@ public class XMLRecipeHandler
         }
     }
 
-    @XmlRootElement(name = "Output")
     public static class XMLRecipeOutput extends Drop
     {
         @Override
@@ -76,7 +61,6 @@ public class XMLRecipeHandler
         }
     }
 
-    @XmlRootElement(name = "Recipes")
     public static class XMLRecipes
     {
         @XmlElement(name = "Recipe")
@@ -96,8 +80,8 @@ public class XMLRecipeHandler
         for (final JsonElement e : array)
         {
             Ingredient ingredient = null;
-            if (e.isJsonObject() && e.getAsJsonObject().has("nbt")) ingredient = Ingredient.of(CraftingHelper
-                    .getItemStack(e.getAsJsonObject(), true));
+            if (e.isJsonObject() && e.getAsJsonObject().has("nbt"))
+                ingredient = Ingredient.of(CraftingHelper.getItemStack(e.getAsJsonObject(), true));
             else ingredient = Ingredient.fromJson(e);
             if (!ingredient.isEmpty()) nonnulllist.add(ingredient);
         }
@@ -117,8 +101,7 @@ public class XMLRecipeHandler
                 if (!nonnulllist.isEmpty()) return nonnulllist;
             }
             catch (final Exception e1)
-            {
-            }
+            {}
 
             PokecubeCore.LOGGER.warn("Warning, Recipe {} using old inputs way!", json);
 
@@ -126,7 +109,7 @@ public class XMLRecipeHandler
             for (final JsonElement e : inputs.getAsJsonArray())
             {
                 final XMLRecipeInput value = JsonUtil.gson.fromJson(e, XMLRecipeInput.class);
-                if (value.id == null) value.id = value.getValues().get(new QName("id"));
+                if (value.id == null) value.id = value.getValues().get("id");
                 // Tag
                 if (value.id.startsWith("#"))
                 {

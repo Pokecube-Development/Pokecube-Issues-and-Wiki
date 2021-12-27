@@ -15,8 +15,6 @@ import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -568,7 +566,7 @@ public class BerryGenManager
 
     private static BerryGenList list;
 
-    private static final QName prior = new QName("priority");
+    private static final String prior = "priority";
 
     private static final Comparator<SpawnBiomeMatcher> COMPARE = (o1, o2) ->
     {

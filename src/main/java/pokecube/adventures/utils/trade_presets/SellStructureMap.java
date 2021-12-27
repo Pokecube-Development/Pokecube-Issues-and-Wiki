@@ -3,8 +3,6 @@ package pokecube.adventures.utils.trade_presets;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -27,13 +25,13 @@ import pokecube.core.utils.Tools;
 @TradePresetAn(key = "sellExplorationMap")
 public class SellStructureMap implements TradePreset
 {
-    public static final QName ID = new QName("id");
-    public static final QName NEW_ONLY = new QName("new_only");
+    public static final String ID = new String("id");
+    public static final String NEW_ONLY = new String("new_only");
 
     @Override
     public void apply(final Trade trade, final TrainerTrades trades)
     {
-        Map<QName, String> values;
+        Map<String, String> values;
         TrainerTrade recipe;
         final ItemStack sell = new ItemStack(Items.MAP);
         ItemStack buy1 = ItemStack.EMPTY;

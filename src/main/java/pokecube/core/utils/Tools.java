@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
-import javax.xml.namespace.QName;
-
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
@@ -322,12 +320,12 @@ public class Tools
         return IPokemob.FEMALE;
     }
 
-    public static ItemStack getStack(final Map<QName, String> values)
+    public static ItemStack getStack(final Map<String, String> values)
     {
         return Tools.getStack(values, null);
     }
 
-    public static ItemStack getStack(final Map<QName, String> values, final ServerLevel world)
+    public static ItemStack getStack(final Map<String, String> values, final ServerLevel world)
     {
         String id = "";
         int size = 1;
@@ -336,7 +334,7 @@ public class Tools
         boolean isTable = false;
         String table = "";
 
-        for (final QName key : values.keySet())
+        for (final String key : values.keySet())
             if (key.toString().equals("id")) id = values.get(key);
             else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
             else if (key.toString().equals("tag")) tag = values.get(key).trim();
@@ -360,8 +358,8 @@ public class Tools
                 if (!itemstack.isEmpty())
                 {
                     final ItemStack stack = itemstack.copy();
-                    if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
-                        PokecubeItems.makeStackValid(stack);
+                if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
+                    PokecubeItems.makeStackValid(stack);
                     return stack;
                 }
         }
