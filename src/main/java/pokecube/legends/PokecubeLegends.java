@@ -132,8 +132,7 @@ public class PokecubeLegends
             PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
 
             // Register the ruby and sapphire ores
-            final Predicate<ResourceKey<Biome>> check = k -> PokecubeLegends.config.generateOres && (BiomeDatabase.contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS")
-                    || BiomeDatabase.contains(k, "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN") || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY"));
+            final Predicate<ResourceKey<Biome>> check = k -> PokecubeLegends.config.generateOres;
 
             final List<OreConfiguration.TargetBlockState> ORE_RUBY_TARGET_LIST = List.of(
                     OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get().defaultBlockState()),
@@ -145,13 +144,13 @@ public class PokecubeLegends
 
             final PlacedFeature ORE_RUBY_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore",
                     ORE_RUBY_SMALL_FEATURE.placed(List.of(CountPlacement.of(7), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
             final PlacedFeature ORE_RUBY_BURIED_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore_buried",
                     ORE_RUBY_BURIED_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
             final PlacedFeature ORE_RUBY_LARGE_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore_large",
                     ORE_RUBY_LARGE_FEATURE.placed(List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
-                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
 
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_RUBY_PLACEMENT);
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_RUBY_BURIED_PLACEMENT);

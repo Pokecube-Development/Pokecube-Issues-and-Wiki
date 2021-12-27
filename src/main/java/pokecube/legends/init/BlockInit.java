@@ -649,6 +649,7 @@ public class BlockInit
     
     public static final RegistryObject<Block> RUBY_ORE;
     public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE;
+    public static final RegistryObject<Block> DUSK_RUBY_ORE;
     public static final RegistryObject<Block> ULTRA_RUBY_ORE;
     
     public static final RegistryObject<Block> SAPPHIRE_ORE;
@@ -783,6 +784,9 @@ public class BlockInit
         ULTRA_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_ruby_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
+        DUSK_RUBY_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_ruby_ore",
+                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
+                        .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
         
         SAPPHIRE_ORE = PokecubeLegends.DIMENSIONS_TAB.register("sapphire_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE).sound(SoundType.STONE)
