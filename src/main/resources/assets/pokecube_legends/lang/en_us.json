@@ -346,8 +346,9 @@
     "block.pokecube_legends.dusk_dolerite_redstone_ore": "Dusk Dolerite Redstone Ore",
     "block.pokecube_legends.dusk_dolerite_ruby_ore": "Dusk Dolerite Ruby Ore",
     "block.pokecube_legends.dusk_dolerite_sapphire_ore": "Dusk Dolerite Sapphire Ore",
+    "block.pokecube_legends.dusk_dolerite_spectrum_ore": "Dusk Dolerite Spectrum Ore",
     
-    "block.pokecube_legends.spectrum_ore": "Ultra Stone Spectrum Ore",
+    "block.pokecube_legends.spectrum_ore": "Spectrum Ore",
     "block.pokecube_legends.ultra_coal_ore": "Ultra Stone Coal Ore",
     "block.pokecube_legends.ultra_copper_ore": "Ultra Stone Copper Ore",
     "block.pokecube_legends.ultra_cosmic_ore": "Ultra Stone Cosmic Ore",
@@ -436,7 +437,7 @@
     "block.pokecube_legends.meteorite_slab": "Meteorite Block Slab",
     "block.pokecube_legends.meteorite_stairs": "Meteorite Block Stairs",
 
-    "item.pokecube_legends.spectrum_shard": "Spectrum Shard",
+    "item.pokecube_legends.spectrum_shard": "Spectrum Shards",
     "block.pokecube_legends.spectrum_block": "Block of Spectrum",
     "block.pokecube_legends.spectrum_glass": "Spectrum Glass",
     "block.pokecube_legends.spectrum_slab": "Block of Spectrum Slab",

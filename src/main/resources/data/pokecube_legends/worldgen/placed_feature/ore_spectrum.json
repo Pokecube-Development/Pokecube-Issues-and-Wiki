@@ -1,0 +1,27 @@
+{
+  "feature": "pokecube_legends:ore_spectrum_small",
+  "placement": [
+    {
+      "count": 7,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "height": {
+        "min_inclusive": {
+          "above_bottom": -70
+        },
+        "max_inclusive": {
+          "above_bottom": 70
+        },
+        "type": "minecraft:trapezoid"
+      },
+      "type": "minecraft:height_range"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
