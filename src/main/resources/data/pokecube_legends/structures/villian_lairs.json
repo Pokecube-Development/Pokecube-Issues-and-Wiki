@@ -4,6 +4,7 @@
       "name": "pokecube_legends:team_rocket",
       "rigid": true,
       "ignoreAir": false,
+      "base_override": true,
       "options": [
         "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
         "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
@@ -13,6 +14,7 @@
       "name": "pokecube_legends:team_magma",
       "rigid": true,
       "ignoreAir": false,
+      "base_override": true,
       "options": [
         "pokecube_legends:temples/surface/magma_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
@@ -21,6 +23,7 @@
       "name": "pokecube_legends:team_aqua",
       "rigid": true,
       "ignoreAir": false,
+      "base_override": true,
       "options": [
         "pokecube_legends:temples/surface/aqua_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
       ]
@@ -57,7 +60,9 @@
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,
+      "needed_space": 32,
       "base_under": false,
+      "base_override": true,
       "spawn": {
         "values": {
           "category": "plains",
@@ -71,7 +76,9 @@
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,
+      "needed_space": 32,
       "base_under": false,
+      "base_override": true,
       "spawn": {
         "values": {
           "category": "plains",
@@ -85,7 +92,9 @@
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,
+      "needed_space": 32,
       "base_under": false,
+      "base_override": true,
       "spawn": {
         "values": {
           "category": "plains",

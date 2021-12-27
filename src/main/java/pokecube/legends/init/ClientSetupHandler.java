@@ -38,132 +38,138 @@ import pokecube.legends.tileentity.RaidSpawn;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID, value = Dist.CLIENT)
 public class ClientSetupHandler
 {
-    static final Predicate<Material> notSolid = m -> m == Material.ICE || m == Material.ICE_SOLID ||
-            m == Material.HEAVY_METAL || m == Material.LEAVES || m == Material.REPLACEABLE_PLANT;
+    static final Predicate<Material> notSolid = m -> m == Material.ICE || m == Material.ICE_SOLID
+            || m == Material.HEAVY_METAL || m == Material.LEAVES || m == Material.REPLACEABLE_PLANT;
 
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
-        {
-            final Block b = reg.get();
-            if (b instanceof ItemGenerator.GenericPottedPlant || b instanceof InfectedFireBlock ||
-                    b instanceof TaintedKelpPlantBlock) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-        }
-        for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
-        {
-            final Block b = reg.get();
-            if (b instanceof FlowerBase || b instanceof MushroomBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-            boolean fullCube = true;
-            for (final BlockState state : b.getStateDefinition().getPossibleStates())
+        event.enqueueWork(() -> {
+            for (final RegistryObject<Block> reg : PokecubeLegends.NO_TAB.getEntries())
             {
-                final Material m = state.getMaterial();
-                if (ClientSetupHandler.notSolid.test(m))
+                final Block b = reg.get();
+                if (b instanceof ItemGenerator.GenericPottedPlant || b instanceof InfectedFireBlock
+                        || b instanceof TaintedKelpPlantBlock)
+                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            }
+            for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
+            {
+                final Block b = reg.get();
+                if (b instanceof FlowerBase || b instanceof MushroomBase)
+                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+                boolean fullCube = true;
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
-                    fullCube = false;
-                    break;
-                }
-                try
-                {
-                    final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                    if (s != Shapes.block())
+                    final Material m = state.getMaterial();
+                    if (ClientSetupHandler.notSolid.test(m))
+                    {
+                        fullCube = false;
+                        break;
+                    }
+                    try
+                    {
+                        final VoxelShape s = state.getShape(null, BlockPos.ZERO);
+                        if (s != Shapes.block())
+                        {
+                            fullCube = false;
+                            break;
+                        }
+                    }
+                    catch (final Exception e)
                     {
                         fullCube = false;
                         break;
                     }
                 }
-                catch (final Exception e)
-                {
-                    fullCube = false;
-                    break;
-                }
+                if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
+                if (b instanceof GenericBookshelfEmpty)
+                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
             }
-            if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
 
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
-            if (b instanceof GenericBookshelfEmpty) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
-        }
-
-        for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
-        {
-            final Block b = reg.get();
-            if (b instanceof FlowerBase || b instanceof MushroomBase) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-            boolean fullCube = true;
-            for (final BlockState state : b.getStateDefinition().getPossibleStates())
+            for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
             {
-                final Material m = state.getMaterial();
-                if (ClientSetupHandler.notSolid.test(m))
+                final Block b = reg.get();
+                if (b instanceof FlowerBase || b instanceof MushroomBase)
+                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+                boolean fullCube = true;
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
-                    fullCube = false;
-                    break;
-                }
-                try
-                {
-                    final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                    if (s != Shapes.block())
+                    final Material m = state.getMaterial();
+                    if (ClientSetupHandler.notSolid.test(m))
                     {
                         fullCube = false;
                         break;
                     }
-                    if (m == Material.GLASS) ItemBlockRenderTypes.setRenderLayer(b, RenderType.translucent());
-                }
-                catch (final Exception e)
-                {
-                    fullCube = false;
-                    break;
-                }
-            }
-            if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
-        }
-
-        for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
-        {
-            final Block b = reg.get();
-            boolean fullCube = true;
-            for (final BlockState state : b.getStateDefinition().getPossibleStates())
-            {
-                final Material m = state.getMaterial();
-                if (ClientSetupHandler.notSolid.test(m))
-                {
-                    fullCube = false;
-                    break;
-                }
-                try
-                {
-                    final VoxelShape s = state.getShape(null, BlockPos.ZERO);
-                    if (s != Shapes.block())
+                    try
+                    {
+                        final VoxelShape s = state.getShape(null, BlockPos.ZERO);
+                        if (s != Shapes.block())
+                        {
+                            fullCube = false;
+                            break;
+                        }
+                        if (m == Material.GLASS) ItemBlockRenderTypes.setRenderLayer(b, RenderType.translucent());
+                    }
+                    catch (final Exception e)
                     {
                         fullCube = false;
                         break;
                     }
                 }
-                catch (final Exception e)
-                {
-                    fullCube = false;
-                    break;
-                }
+                if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
+                ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
             }
-            if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-        }
 
-        // Register config gui
-        // FIXME config gui
-        // ModList.get().getModContainerById(Reference.ID).ifPresent(c ->
-        // c.registerExtensionPoint(
-        // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
-        // ConfigGui(PokecubeLegends.config, parent)));
+            for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
+            {
+                final Block b = reg.get();
+                boolean fullCube = true;
+                for (final BlockState state : b.getStateDefinition().getPossibleStates())
+                {
+                    final Material m = state.getMaterial();
+                    if (ClientSetupHandler.notSolid.test(m))
+                    {
+                        fullCube = false;
+                        break;
+                    }
+                    try
+                    {
+                        final VoxelShape s = state.getShape(null, BlockPos.ZERO);
+                        if (s != Shapes.block())
+                        {
+                            fullCube = false;
+                            break;
+                        }
+                    }
+                    catch (final Exception e)
+                    {
+                        fullCube = false;
+                        break;
+                    }
+                }
+                if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+            }
 
-        // Shields
-        ItemInit.addItemModelProperties();
+            // Register config gui
+            // FIXME config gui
+            // ModList.get().getModContainerById(Reference.ID).ifPresent(c ->
+            // c.registerExtensionPoint(
+            // ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new
+            // ConfigGui(PokecubeLegends.config, parent)));
+
+            // Shields
+            ItemInit.addItemModelProperties();
+        });
     }
 
     @SubscribeEvent
@@ -178,10 +184,13 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerParticleFactories(final ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
+    public static void registerParticleFactories(final ParticleFactoryRegisterEvent event)
+    {
+        Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(),
+                FlameParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
-        Minecraft.getInstance().particleEngine.register(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.MUSHROOM.get(),
+                SuspendedTownParticle.Provider::new);
     }
 }

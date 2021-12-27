@@ -106,6 +106,8 @@ public class WorldgenHandler
 
         public boolean override = false;
 
+        public boolean base_override = false;
+
         public Map<String, JsonElement> extra = Maps.newHashMap();
 
         public String serialize()
@@ -139,6 +141,7 @@ public class WorldgenHandler
         public boolean ignoreAir = false;
         public boolean water = false;
         public boolean filler = false;
+        public boolean base_override = false;
         public List<String> includes = Lists.newArrayList();
     }
 
@@ -176,6 +179,7 @@ public class WorldgenHandler
         public SpawnRule spawn;
         public boolean surface = true;
         public boolean base_under = true;
+        public boolean base_override = false;
         public boolean water = false;
         public boolean air = false;
         public boolean allow_void = false;
@@ -250,6 +254,9 @@ public class WorldgenHandler
     private static Map<ResourceLocation, Integer> SPACENEEDS = Maps.newConcurrentMap();
 
     private static Map<ResourceLocation, StructureFeature<?>> FEATURELOOKUP = Maps.newConcurrentMap();
+
+    public static List<JigSawPool> BASE_OVERRIDES = Lists.newArrayList();
+    public static Set<StructureFeature<?>> HAS_BASE_OVERRIDES = Sets.newHashSet();
 
     public static Set<ResourceKey<Level>> SOFTBLACKLIST = Sets.newHashSet();
 
@@ -693,6 +700,9 @@ public class WorldgenHandler
         Set<JigSawConfig> types = this.variants.get(structure);
         if (types == null) this.variants.put(structure, types = Sets.newHashSet());
         types.add(struct);
+
+        if (struct.base_override) HAS_BASE_OVERRIDES.add(structure);
+
         return structure;
     }
 

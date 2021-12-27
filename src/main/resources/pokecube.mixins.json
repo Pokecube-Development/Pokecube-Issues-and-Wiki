@@ -8,7 +8,8 @@
     "MixinBaseFireBlock",
     "MixinLakesFeature",
     "MixinMobEntity",
-    "MixinStructure"
+    "MixinStructure",
+    "MixinBeardifier"
   ],
   "client": [
   ],
