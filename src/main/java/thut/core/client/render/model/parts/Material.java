@@ -56,7 +56,6 @@ public class Material
     static MultiBufferSource.BufferSource lastImpl = null;
 
     private final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
-    private boolean wasSame = false;
 
     public Material(final String name)
     {
@@ -79,7 +78,6 @@ public class Material
 
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer)
     {
-        if (wasSame) return;
         this.makeRenderType(texture);
         if (buffer instanceof BufferSource) Material.lastImpl = (BufferSource) buffer;
     }
@@ -107,8 +105,6 @@ public class Material
 
             builder.setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
 
-            // builder.setAlphaState(RenderStateShard.DEFAULT_ALPHA);
-
             // These are needed in general for world lighting
             builder.setLightmapState(RenderStateShard.LIGHTMAP);
             builder.setOverlayState(RenderStateShard.OVERLAY);
@@ -127,7 +123,6 @@ public class Material
             type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false,
                     rendertype$state);
         }
-        // else type = RenderTypes.brightSolid(tex);
 
         this.types.put(tex, type);
         return type;
@@ -135,10 +130,9 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer)
     {
-        if (wasSame || this.tex == null || Material.lastImpl == null) return buffer;
+        if (this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex);
         VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
-        if (types.size() == 1 && newBuffer == buffer) wasSame = true;
         return newBuffer;
     }
 }
