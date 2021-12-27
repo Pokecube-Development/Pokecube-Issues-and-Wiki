@@ -174,7 +174,8 @@ public class PokecubeCore
 
             // Register the fossil stone spawning.
             final Predicate<ResourceKey<Biome>> check = k -> PokecubeCore.config.generateFossils
-                    && (BiomeDatabase.contains(k, "ocean") || BiomeDatabase.contains(k, "sandy") || BiomeDatabase.contains(k, "river"));
+                    && (BiomeDatabase.contains(k, "mesa") || BiomeDatabase.contains(k, "ocean")
+                            || BiomeDatabase.contains(k, "river") || BiomeDatabase.contains(k, "sandy"));
 
             final List<OreConfiguration.TargetBlockState> ORE_FOSSIL_TARGET_LIST = List.of(
                     OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, PokecubeItems.FOSSIL_ORE.get().defaultBlockState()),
