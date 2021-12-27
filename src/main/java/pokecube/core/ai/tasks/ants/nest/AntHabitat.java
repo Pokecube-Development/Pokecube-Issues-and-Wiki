@@ -136,7 +136,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 else
                 {
                     PokecubeCore.LOGGER.debug("Reviving Nest!");
-                    this.world.setBlockAndUpdate(this.here, PokecubeItems.NESTBLOCK.get().defaultBlockState());
+                    this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
                     tile = this.world.getBlockEntity(this.here);
                     if (!(tile instanceof NestTile)) return;
                     final NestTile nest = (NestTile) tile;

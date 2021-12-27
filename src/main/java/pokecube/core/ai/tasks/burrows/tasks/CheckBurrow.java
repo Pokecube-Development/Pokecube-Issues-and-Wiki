@@ -126,7 +126,7 @@ public class CheckBurrow extends BaseIdleTask
         if (hab == null) return false;
         pos = hab.burrow.getCenter();
         final Brain<?> brain = this.entity.getBrain();
-        this.world.setBlockAndUpdate(pos, PokecubeItems.NESTBLOCK.get().defaultBlockState());
+        this.world.setBlockAndUpdate(pos, PokecubeItems.NEST.get().defaultBlockState());
         final BlockEntity tile = this.world.getBlockEntity(pos);
         if (!(tile instanceof NestTile)) return false;
         final NestTile nest = (NestTile) tile;
