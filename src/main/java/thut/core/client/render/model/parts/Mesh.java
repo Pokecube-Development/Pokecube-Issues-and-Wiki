@@ -16,17 +16,18 @@ import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
-    protected final boolean    hasTextures;
-    public Vertex[]            vertices;
-    public Vertex[]            normals;
+    protected final boolean hasTextures;
+    public Vertex[] vertices;
+    public Vertex[] normals;
     public TextureCoordinate[] textureCoordinates;
-    public Integer[]           order;
-    public int[]               rgbabro;
-    Material                   material;
-    public String              name;
-    private final double[]     uvShift = { 0, 0 };
-    final int                  GL_FORMAT;
-    final Vertex[]             normalList;
+    public Integer[] order;
+    public int[] rgbabro;
+    Material material;
+    public String name;
+    private final double[] uvShift =
+    { 0, 0 };
+    final int GL_FORMAT;
+    final Vertex[] normalList;
 
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
             final int GL_FORMAT)
@@ -77,7 +78,7 @@ public abstract class Mesh
     }
 
     private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
-    private final Vector4f                                dummy4 = new Vector4f();
+    private final Vector4f dummy4 = new Vector4f();
 
     protected void doRender(final PoseStack mat, final VertexConsumer buffer, final IPartTexturer texturer)
     {
@@ -105,12 +106,15 @@ public abstract class Mesh
             return;
         }
 
+//        long start = System.nanoTime();
+
         for (final Integer i : this.order)
         {
             if (this.hasTextures) textureCoordinate = this.textureCoordinates[i];
             vertex = this.vertices[i];
-            normal = this.normals[i];
+            
             if (flat) normal = this.normalList[n];
+            else normal = this.normals[i];
 
             final float x = vertex.x;
             final float y = vertex.y;
@@ -140,6 +144,10 @@ public abstract class Mesh
             //@formatter:on
             n++;
         }
+
+//        long end = System.nanoTime();
+//        double dt = (end - start) / 1000d;
+//        if (dt > 1000) System.out.println(dt + " " + this.name + " " + this.material.name + " " + this.order.length);
     }
 
     public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)

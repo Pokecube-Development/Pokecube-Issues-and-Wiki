@@ -1,6 +1,7 @@
 package thut.bot.entity;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,9 +42,9 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     public static final String PERMBOTORDER = "thutbot.perm.orderbot";
 
-    public static final Pattern startPattern = Pattern.compile("(start)(\\s)(\\w+:\\w+)");
+    public static final Pattern STARTORDER = Pattern.compile("(start)(\\s)(\\w+:\\w+)");
 
-    private IBotAI maker;
+    private IBotAI routine;
 
     private final BotEntry entry;
 
@@ -75,14 +76,14 @@ public class BotPlayer extends ServerPlayer implements Npc
         ChunkPos cpos = this.chunkPosition();
         ServerLevel level = this.getLevel();
 
-        if (maker != null)
+        if (routine != null)
         {
-            this.maker.tick();
-            if (maker.isCompleted())
+            this.routine.tick();
+            if (routine.isCompleted())
             {
-                maker.end(null);
+                routine.end(null);
                 this.getPersistentData().remove("ai_task");
-                maker = null;
+                routine = null;
             }
         }
         else if (this.getPersistentData().contains("ai_task"))
@@ -91,9 +92,9 @@ public class BotPlayer extends ServerPlayer implements Npc
             IBotAI.Factory<?> factory = IBotAI.REGISTRY.get(key);
             if (factory != null)
             {
-                this.maker = factory.create(this);
-                this.maker.setKey(key);
-                this.maker.start(null);
+                this.routine = factory.create(this);
+                this.routine.setKey(key);
+                this.routine.start(null);
             }
         }
         else
@@ -120,14 +121,15 @@ public class BotPlayer extends ServerPlayer implements Npc
         {
             try
             {
+                entry.updateDimension(level.dimension());
                 NbtIo.write(getPersistentData(), entry.getFile());
+                ThutBot.saveBots();
             }
             catch (Exception e)
             {
                 ThutBot.LOGGER.error("Error saving tag for {}", entry.name);
                 ThutBot.LOGGER.error(e);
             }
-            ThutBot.saveBots();
         }
     }
 
@@ -136,7 +138,9 @@ public class BotPlayer extends ServerPlayer implements Npc
         ServerPlayer talker = event.getPlayer();
         if (talker instanceof BotPlayer) return;
 
-        boolean isOrder = event.getMessage().contains(this.getName().getString());
+        String cmd = event.getMessage();
+
+        boolean isOrder = cmd.contains(this.getName().getString());
 
         // Decide if we want to say something back?
         if (!isOrder) return;
@@ -147,13 +151,26 @@ public class BotPlayer extends ServerPlayer implements Npc
 
         if (!PermNodes.getBooleanPerm(talker, PERMBOTORDER)) return;
 
-        Matcher startOrder = startPattern.matcher(event.getMessage());
+        if (cmd.toLowerCase(Locale.ROOT).contains("where are you?"))
+        {
+            chat("I am at " + this.getOnPos());
+            return;
+        }
+
+        if (cmd.toLowerCase(Locale.ROOT).contains("what are you doing?"))
+        {
+            if (routine == null) chat("I am idle");
+            else chat("I am doing: " + routine.getKey());
+            return;
+        }
+
+        Matcher startOrder = STARTORDER.matcher(cmd);
 
         boolean had = startOrder.find();
 
         if (!had)
         {
-            startOrder = Pattern.compile("(build)(\\s)(\\w+:\\w+)").matcher(event.getMessage());
+            startOrder = Pattern.compile("(build)(\\s)(\\w+:\\w+)").matcher(cmd);
             had = startOrder.find();
         }
         if (had)
@@ -164,14 +181,14 @@ public class BotPlayer extends ServerPlayer implements Npc
             {
                 s1 = "Starting " + key;
                 this.getPersistentData().putString("ai_task", key);
-                if (this.maker != null) this.maker.end(talker);
-                this.maker = factory.create(this);
-                maker.setKey(key);
+                if (this.routine != null) this.routine.end(talker);
+                this.routine = factory.create(this);
+                routine.setKey(key);
                 boolean valid = false;
 
                 try
                 {
-                    valid = maker.init(event.getMessage());
+                    valid = routine.init(cmd);
                 }
                 catch (Exception e)
                 {
@@ -182,20 +199,20 @@ public class BotPlayer extends ServerPlayer implements Npc
                 {
                     chat("Invalid argument!");
                     this.getPersistentData().remove("ai_task");
-                    this.maker = null;
+                    this.routine = null;
                     return;
                 }
-                this.maker.start(talker);
+                this.routine.start(talker);
                 chat(s1);
             }
             else
             {
                 s1 = "I don't know how to do that!";
-                if (this.maker != null)
+                if (this.routine != null)
                 {
-                    this.maker.end(talker);
+                    this.routine.end(talker);
                     this.getPersistentData().remove("ai_task");
-                    this.maker = null;
+                    this.routine = null;
                 }
                 chat(s1);
                 s1 = "What I know how to do:";
@@ -206,13 +223,13 @@ public class BotPlayer extends ServerPlayer implements Npc
                 }
             }
         }
-        else if (event.getMessage().contains("reset"))
+        else if (cmd.contains("reset"))
         {
-            if (this.maker != null) this.maker.end(talker);
+            if (this.routine != null) this.routine.end(talker);
             List<String> tags = Lists.newArrayList();
             tags.addAll(this.getPersistentData().getAllKeys());
             tags.forEach(s -> getPersistentData().remove(s));
-            this.maker = null;
+            this.routine = null;
         }
     }
 

@@ -26,26 +26,26 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
     private final HashMap<String, IExtendedModelPart> parts = new HashMap<>();
 
-    private final List<String> order  = Lists.newArrayList();
-    private final List<Mesh>   shapes = Lists.newArrayList();
+    private final List<String> order = Lists.newArrayList();
+    private final List<Mesh> shapes = Lists.newArrayList();
 
     private final String name;
 
     private IExtendedModelPart parent = null;
 
-    IPartTexturer     texturer;
+    IPartTexturer texturer;
     IAnimationChanger changer;
-    IAnimationHolder  currentHolder = null;
+    IAnimationHolder currentHolder = null;
 
-    public Vector4 preRot    = new Vector4();
-    public Vector4 postRot   = new Vector4();
-    public Vector3 preTrans  = Vector3.getNewVector();
+    public Vector4 preRot = new Vector4();
+    public Vector4 postRot = new Vector4();
+    public Vector3 preTrans = Vector3.getNewVector();
     public Vector3 postTrans = Vector3.getNewVector();
-    public Vertex  preScale  = new Vertex(1, 1, 1);
+    public Vertex preScale = new Vertex(1, 1, 1);
 
-    public Vector3 offset    = Vector3.getNewVector();
+    public Vector3 offset = Vector3.getNewVector();
     public Vector4 rotations = new Vector4();
-    public Vertex  scale     = new Vertex(1, 1, 1);
+    public Vertex scale = new Vertex(1, 1, 1);
 
     Vector3 min = Vector3.getNewVector();
     Vector3 max = Vector3.getNewVector();
@@ -53,14 +53,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public int red = 255, green = 255, blue = 255, alpha = 255;
 
     public int brightness = 15728640;
-    public int overlay    = 655360;
+    public int overlay = 655360;
 
     private final int[] rgbabro = new int[6];
 
     private boolean hidden = false;
 
     private final List<Material> materials = Lists.newArrayList();
-    private final Set<Material>  matcache  = Sets.newHashSet();
+    private final Set<Material> matcache = Sets.newHashSet();
 
     public Part(final String name)
     {
@@ -70,18 +70,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private void initBounds()
     {
         if (!(this.max.isEmpty() && this.min.isEmpty())) return;
-        for (final Mesh shape : this.shapes)
-            for (final Vertex v : shape.vertices)
-            {
+        for (final Mesh shape : this.shapes) for (final Vertex v : shape.vertices)
+        {
 
-                this.min.x = Math.min(this.min.x, v.x);
-                this.min.y = Math.min(this.min.y, v.y);
-                this.min.z = Math.min(this.min.z, v.z);
+            this.min.x = Math.min(this.min.x, v.x);
+            this.min.y = Math.min(this.min.y, v.y);
+            this.min.z = Math.min(this.min.z, v.z);
 
-                this.max.x = Math.max(this.max.x, v.x);
-                this.max.y = Math.max(this.max.y, v.y);
-                this.max.z = Math.max(this.max.z, v.z);
-            }
+            this.max.x = Math.max(this.max.x, v.x);
+            this.max.y = Math.max(this.max.y, v.y);
+            this.max.z = Math.max(this.max.z, v.z);
+        }
     }
 
     @Override
@@ -194,6 +193,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         // Pop ours first.
         mat.popPose();
+
         // Then pop all the parent's
         if (this.parent != null) this.parent.unRotateForChild(mat);
     }
@@ -201,20 +201,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private void preRender(final PoseStack mat)
     {
         mat.pushPose();
+
         mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // Translate of offset for rotation.
-        mat.translate(this.offset.x, this.offset.y, this.offset.z);
         mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
-        // // Apply initial part rotation
-        this.rotations.glRotate(mat);
         // // Apply PreOffset-Rotations.
         this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-
         // Apply postRotation
         this.postRot.glRotate(mat);
-
         // Scale
         mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
@@ -241,8 +237,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer, final String... excludedGroupNames)
     {
         boolean skip = this.hidden;
-        for (final String s1 : excludedGroupNames)
-            if (skip = s1.equalsIgnoreCase(this.name)) break;
+        for (final String s1 : excludedGroupNames) if (skip = s1.equalsIgnoreCase(this.name)) break;
         if (!skip)
         {
             this.preRender(mat);
@@ -260,14 +255,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void renderOnly(final PoseStack mat, final VertexConsumer buffer, final String... groupNames)
     {
         boolean rendered = false;
-        for (final String s1 : groupNames)
-            if (rendered = s1.equalsIgnoreCase(this.name))
-            {
-                this.preRender(mat);
-                this.render(mat, buffer);
-                this.postRender(mat);
-                break;
-            }
+        for (final String s1 : groupNames) if (rendered = s1.equalsIgnoreCase(this.name))
+        {
+            this.preRender(mat);
+            this.render(mat, buffer);
+            this.postRender(mat);
+            break;
+        }
         if (!rendered)
         {
             this.preRender(mat);
@@ -290,10 +284,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void resetToInit()
     {
         // PreRot is normal animations
-        this.preRot.set(0, 0, 0, 1);
+        this.preRot.set(rotations.x, rotations.y, rotations.z, rotations.w);
         // Post rot is head direction
         this.postRot.set(0, 0, 0, 1);
-        this.preTrans.clear();
+        this.preTrans.set(offset);
         this.postTrans.clear();
         this.hidden = false;
     }
@@ -343,9 +337,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setPreRotations(final Vector4 angles)
+    public void setPreRotations(Vector4 angles)
     {
-        this.preRot = angles;
+        this.preRot.mul(rotations, angles);
     }
 
     @Override
@@ -359,7 +353,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setPreTranslations(final Vector3 point)
     {
-        this.preTrans.set(point);
+        this.preTrans.set(offset).addTo(point);
     }
 
     @Override
@@ -385,19 +379,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void updateMaterial(final Mat mat, final Material material)
     {
         final String[] parts = mat.name.split(":");
-        for (final String s : parts)
-            for (final Mesh mesh : this.shapes)
-            {
-                if (mesh.name == null) mesh.name = this.getName();
-                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name)) mesh.setMaterial(material);
-            }
-        for (final Material m : this.materials)
-            if (m.name.equals(mat.name))
-            {
-                this.matcache.remove(m);
-                this.materials.remove(m);
-                break;
-            }
+        for (final String s : parts) for (final Mesh mesh : this.shapes)
+        {
+            if (mesh.name == null) mesh.name = this.getName();
+            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name)) mesh.setMaterial(material);
+        }
+        for (final Material m : this.materials) if (m.name.equals(mat.name))
+        {
+            this.matcache.remove(m);
+            this.materials.remove(m);
+            break;
+        }
         this.matcache.add(material);
         this.materials.add(material);
     }

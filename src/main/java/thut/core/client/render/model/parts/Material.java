@@ -56,6 +56,7 @@ public class Material
     static MultiBufferSource.BufferSource lastImpl = null;
 
     private final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
+    private boolean wasSame = false;
 
     public Material(final String name)
     {
@@ -78,6 +79,7 @@ public class Material
 
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer)
     {
+        if (wasSame) return;
         this.makeRenderType(texture);
         if (buffer instanceof BufferSource) Material.lastImpl = (BufferSource) buffer;
     }
@@ -87,7 +89,6 @@ public class Material
         this.tex = tex;
         if (this.types.containsKey(tex)) return this.types.get(tex);
         RenderType type = null;
-
         if (this.render_name.contains("water_mask_"))
         {
             type = WATER_MASK;
@@ -134,9 +135,10 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer)
     {
-        if (this.tex == null || Material.lastImpl == null) return buffer;
+        if (wasSame || this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex);
-        return Material.lastImpl.getBuffer(type);
-        // return Material.getOrAdd(this, type, Material.lastImpl);
+        VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
+        if (types.size() == 1 && newBuffer == buffer) wasSame = true;
+        return newBuffer;
     }
 }

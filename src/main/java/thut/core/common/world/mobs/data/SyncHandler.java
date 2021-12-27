@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.world.mobs.data.DataSync;
 
 public class SyncHandler
@@ -16,6 +17,10 @@ public class SyncHandler
         if (event.getEntity().getCommandSenderWorld().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getEntity());
         if (data == null) return;
+        long tick = Tracker.instance().getTick();
+        if (tick == data.getTick()) return;
+        data.setTick(tick);
+        if (tick % data.tickRate() != data.tickOffset() % data.tickRate()) return;
         PacketDataSync.sync(event.getEntity(), data, event.getEntity().getId(), false);
     }
 
