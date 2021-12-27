@@ -16,8 +16,6 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
@@ -29,9 +27,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
@@ -86,20 +81,7 @@ public class WorldgenHandler
 
     static
     {
-        GSON = new GsonBuilder().registerTypeAdapter(QName.class, new TypeAdapter<QName>()
-        {
-            @Override
-            public QName read(final JsonReader in) throws IOException
-            {
-                return new QName(in.nextString());
-            }
-
-            @Override
-            public void write(final JsonWriter out, final QName value) throws IOException
-            {
-                out.value(value.toString());
-            }
-        }).create();
+        GSON = new GsonBuilder().create();
     }
 
     public static class Options

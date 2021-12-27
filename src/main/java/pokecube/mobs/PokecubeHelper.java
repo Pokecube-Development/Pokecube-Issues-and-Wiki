@@ -2,8 +2,6 @@ package pokecube.mobs;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -33,8 +31,8 @@ public class PokecubeHelper
     static
     {
         final SpawnRule rule = new SpawnRule();
-        rule.values.put(new QName("rate"), "1");
-        rule.values.put(new QName("types"), "moon");
+        rule.values.put("rate", "1");
+        rule.values.put("types", "moon");
         PokecubeHelper.moonMatcher = new SpawnBiomeMatcher(rule);
     }
 
@@ -42,8 +40,9 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.getCommandSenderWorld().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER && mob.isType(
-                PokeType.getType("water"))) x = 3.5;
+        if (entity.getCommandSenderWorld().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER
+                && mob.isType(PokeType.getType("water")))
+            x = 3.5;
         return x;
     }
 
@@ -101,10 +100,8 @@ public class PokecubeHelper
         {// grow in 1.12
             final AABB bb = Vector3.getNewVector().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
                     .inflate(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(
-                    FishingHook.class, bb);
-            if (!hooks.isEmpty()) for (final FishingHook hook : hooks)
-                if (hook.getHookedIn() == entity) return 5;
+            final List<FishingHook> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(FishingHook.class, bb);
+            if (!hooks.isEmpty()) for (final FishingHook hook : hooks) if (hook.getHookedIn() == entity) return 5;
         }
         return 1;
     }
@@ -122,8 +119,9 @@ public class PokecubeHelper
     public double moon(final IPokemob mob)
     {
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
-        if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob
-                .getEntity().getCommandSenderWorld()))) return 4;
+        if (PokecubeHelper.moonMatcher.matches(
+                new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob.getEntity().getCommandSenderWorld())))
+            return 4;
         return 1;
     }
 

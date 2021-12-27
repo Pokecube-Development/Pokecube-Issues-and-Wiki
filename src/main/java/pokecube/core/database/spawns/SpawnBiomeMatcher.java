@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -74,42 +72,42 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         }
     }
 
-    public static final QName TYPES = new QName("types");
-    public static final QName TYPESBLACKLIST = new QName("typesBlacklist");
+    public static final String TYPES = "types";
+    public static final String TYPESBLACKLIST = "typesBlacklist";
 
-    public static final QName STRUCTURES = new QName("structures");
-    public static final QName STRUCTURESBLACK = new QName("noStructures");
+    public static final String STRUCTURES = "structures";
+    public static final String STRUCTURESBLACK = "noStructures";
 
-    public static final QName TERRAIN = new QName("terrain");
+    public static final String TERRAIN = "terrain";
 
-    public static final QName NIGHT = new QName("night");
-    public static final QName DAY = new QName("day");
-    public static final QName DUSK = new QName("dusk");
-    public static final QName DAWN = new QName("dawn");
+    public static final String NIGHT = "night";
+    public static final String DAY = "day";
+    public static final String DUSK = "dusk";
+    public static final String DAWN = "dawn";
 
-    public static final QName AIR = new QName("air");
-    public static final QName WATER = new QName("water");
-    public static final QName MINLIGHT = new QName("minLight");
+    public static final String AIR = "air";
+    public static final String WATER = "water";
+    public static final String MINLIGHT = "minLight";
 
-    public static final QName WEATHER = new QName("weather");
-    public static final QName WEATHERNOT = new QName("noWeather");
+    public static final String WEATHER = "weather";
+    public static final String WEATHERNOT = "noWeather";
 
-    public static final QName BIOMECAT = new QName("category");
-    public static final QName NOBIOMECAT = new QName("categoryBlacklist");
+    public static final String BIOMECAT = "category";
+    public static final String NOBIOMECAT = "categoryBlacklist";
 
-    public static final QName STRICTTYPECAT = new QName("strict_type_cat");
+    public static final String STRICTTYPECAT = "strict_type_cat";
 
-    public static final QName BIOMES = new QName("biomes");
-    public static final QName BIOMESBLACKLIST = new QName("biomesBlacklist");
+    public static final String BIOMES = "biomes";
+    public static final String BIOMESBLACKLIST = "biomesBlacklist";
 
-    public static final QName MAXLIGHT = new QName("maxLight");
+    public static final String MAXLIGHT = "maxLight";
 
-    public static final QName SPAWNCOMMAND = new QName("command");
+    public static final String SPAWNCOMMAND = "command";
 
-    public static final QName PRESET = new QName("preset");
+    public static final String PRESET = "preset";
 
-    public static final QName ANDPRESET = new QName("and_presets");
-    public static final QName ORPRESET = new QName("or_presets");
+    public static final String ANDPRESET = "and_presets";
+    public static final String ORPRESET = "or_presets";
 
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;

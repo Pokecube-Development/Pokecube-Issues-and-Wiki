@@ -1,0 +1,15 @@
+{
+    "priority": 200,
+    "biome": "minecraft:plains",
+    "required": ["minecraft:grass"],
+    "columns": [
+      {
+        "ids": ["minecraft:grass", "pokecube:plants_edible"],
+        "weights": [1, 0.2]
+      },
+      {
+        "ids": ["minecraft:grass", "pokecube:plants_cutable"],
+        "weights": [1, 0.2]
+      }
+    ]
+}

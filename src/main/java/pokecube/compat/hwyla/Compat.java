@@ -41,7 +41,7 @@ public class Compat implements IWailaPlugin
             if (pokemob != null && Health.obfuscateName(pokemob))
             {
                 final Component name = Health.obfuscate(mob.getName());
-                // TODO remove old name properly...
+                tooltip.clear();
                 tooltip.add(0, name);
             }
         }

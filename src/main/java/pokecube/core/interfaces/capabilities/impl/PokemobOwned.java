@@ -2,8 +2,6 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.UUID;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -53,10 +51,6 @@ import pokecube.core.utils.Tools;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
 {
-    public static final QName KEY = new QName("forme_key");
-    public static final QName TEX = new QName("tex");
-    public static final QName MODEL = new QName("model");
-    public static final QName ANIM = new QName("anim");
 
     @Override
     public void displayMessageToOwner(final Component message)

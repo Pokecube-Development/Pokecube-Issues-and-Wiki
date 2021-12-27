@@ -272,7 +272,7 @@ public class Vector4
     public Quaternion toMCQ()
     {
         if (this.quat != null) return this.quat;
-        return new Quaternion(this.x, this.y, this.z, this.w);
+        return this.quat = new Quaternion(this.x, this.y, this.z, this.w);
     }
 
     @OnlyIn(value = Dist.CLIENT)

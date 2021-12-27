@@ -2,8 +2,6 @@ package pokecube.adventures.utils.trade_presets;
 
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -27,7 +25,7 @@ public class BuyRandomBadge implements TradePreset
                 final ItemStack badge = PokecubeItems.getStack("pokecube_adventures:badge_" + type);
                 if (!badge.isEmpty())
                 {
-                    Map<QName, String> values = trade.sell.getValues();
+                    Map<String, String> values = trade.sell.getValues();
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(values);
                     recipe = new TrainerTrade(badge, ItemStack.EMPTY, sell, trade);

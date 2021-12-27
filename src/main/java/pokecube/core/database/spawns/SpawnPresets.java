@@ -77,7 +77,11 @@ public class SpawnPresets extends ResourceData
             {
                 final MatcherList temp = JsonUtil.gson.fromJson(reader, MatcherList.class);
                 if (temp.replace) loaded.clear();
-                if (!confirmNew(temp, l)) return;
+                if (!confirmNew(temp, l))
+                {
+                    reader.close();
+                    return;
+                }
                 loaded.add(temp);
             }
             catch (final Exception e)

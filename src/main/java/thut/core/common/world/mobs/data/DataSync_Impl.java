@@ -16,6 +16,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import thut.api.ThutCaps;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.ThutCore;
 import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
 import thut.core.common.world.mobs.data.types.Data_Int;
@@ -48,10 +49,10 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         if (data.getUID() != -1) return data.getUID();
         for (final Entry<Integer, Class<? extends Data<?>>> entry : DataSync_Impl.REGISTRY.entrySet())
             if (entry.getValue() == data.getClass())
-            {
-                data.setUID(entry.getKey());
-                return data.getUID();
-            }
+        {
+            data.setUID(entry.getKey());
+            return data.getUID();
+        }
         throw new NullPointerException("Datatype not found for " + data);
     }
 
@@ -65,13 +66,17 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         return (T) data;
     }
 
-    public Int2ObjectArrayMap<Data<?>>   data   = new Int2ObjectArrayMap<>();
+    public Int2ObjectArrayMap<Data<?>> data = new Int2ObjectArrayMap<>();
     private final LazyOptional<DataSync> holder = LazyOptional.of(() -> this);
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private final Lock r = this.lock.readLock();
     private final Lock w = this.lock.writeLock();
+
+    private long tick;
+
+    private int offset = ThutCore.newRandom().nextInt();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -113,12 +118,11 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     {
         List<Data<?>> list = null;
         this.r.lock();
-        for (final Data<?> value : this.data.values())
-            if (value.dirty())
-            {
-                if (list == null) list = Lists.newArrayList();
-                list.add(value);
-            }
+        for (final Data<?> value : this.data.values()) if (value.dirty())
+        {
+            if (list == null) list = Lists.newArrayList();
+            list.add(value);
+        }
         this.r.unlock();
         return list;
     }
@@ -163,6 +167,24 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
             this.data.put(value.getID(), value);
         }
         this.w.unlock();
+    }
+
+    @Override
+    public long getTick()
+    {
+        return tick;
+    }
+
+    @Override
+    public void setTick(long tick)
+    {
+        this.tick = tick;
+    }
+
+    @Override
+    public int tickOffset()
+    {
+        return offset;
     }
 
 }

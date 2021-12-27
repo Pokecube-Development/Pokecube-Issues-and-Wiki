@@ -2,8 +2,6 @@ package pokecube.adventures.utils.trade_presets;
 
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -28,7 +26,7 @@ public class AllVitamins implements TradePreset
             ResourceLocation key = new ResourceLocation(PokecubeMod.ID, "vitamin_" + s);
             final ItemStack sell = PokecubeItems.getStack(key);
             if(trade.count>0) sell.setCount(trade.count);
-            Map<QName, String> values;
+            Map<String, String> values;
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
             ItemStack buy2 = ItemStack.EMPTY;

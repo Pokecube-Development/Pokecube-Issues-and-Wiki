@@ -3,8 +3,6 @@ package pokecube.adventures.blocks.genetics.helper.recipe;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
@@ -49,32 +47,32 @@ import thut.api.entity.genetics.IMobGenetics;
 
 public class RecipeHandlers
 {
-    private static final QName ENERGY           = new QName("cost");
-    private static final QName PRIORITY         = new QName("priority");
-    private static final QName POKEMOB          = new QName("pokemon");
-    private static final QName TAME             = new QName("tame");
-    private static final QName LEVEL            = new QName("lvl");
-    private static final QName REMAIN           = new QName("remain");
-    private static final QName CHANCE           = new QName("chance");
-    private static final QName POKEMOBA         = new QName("pokemonA");
-    private static final QName POKEMOBB         = new QName("pokemonB");
-    private static final QName POKEMOBE         = new QName("pokemonE");
-    private static final QName DNADESTRUCT      = new QName("dna");
-    private static final QName SELECTORDESTRUCT = new QName("selector");
+    private static final String ENERGY = "cost";
+    private static final String PRIORITY = "priority";
+    private static final String POKEMOB = "pokemon";
+    private static final String TAME = "tame";
+    private static final String LEVEL = "lvl";
+    private static final String REMAIN = "remain";
+    private static final String CHANCE = "chance";
+    private static final String POKEMOBA = "pokemonA";
+    private static final String POKEMOBB = "pokemonB";
+    private static final String POKEMOBE = "pokemonE";
+    private static final String DNADESTRUCT = "dna";
+    private static final String SELECTORDESTRUCT = "selector";
 
     public static class ClonerRecipeParser implements IRecipeParser
     {
         public static class RecipeMatcher implements ReviveMatcher
         {
-            final PokedexEntry     entry;
-            final List<Ingredient> stacks  = Lists.newArrayList();
-            final List<Integer>    remains = Lists.newArrayList();
+            final PokedexEntry entry;
+            final List<Ingredient> stacks = Lists.newArrayList();
+            final List<Integer> remains = Lists.newArrayList();
 
             boolean tame = false;
 
-            int level    = AnyMatcher.level;
+            int level = AnyMatcher.level;
             int priority = 100;
-            int energy   = RecipeClone.ENERGYCOST;
+            int energy = RecipeClone.ENERGYCOST;
 
             public RecipeMatcher(final PokedexEntry entry)
             {
@@ -146,22 +144,21 @@ public class RecipeHandlers
                     {
                         final ItemStack stack = inventory.getItem(i);
                         if (stack.isEmpty()) continue;
-                        for (final Ingredient ing : temp)
-                            if (ing.test(stack))
+                        for (final Ingredient ing : temp) if (ing.test(stack))
+                        {
+                            boolean hasTag = false;
+                            ItemStack test = ItemStack.EMPTY;
+                            for (final ItemStack s : ing.getItems())
                             {
-                                boolean hasTag = false;
-                                ItemStack test = ItemStack.EMPTY;
-                                for (final ItemStack s : ing.getItems())
-                                {
-                                    hasTag = s.hasTag();
-                                    test = s;
-                                    if (hasTag) break;
-                                }
-                                if (hasTag && !stack.hasTag()) continue;
-                                if (hasTag && !ItemStack.tagMatches(stack, test)) continue;
-                                temp.remove(ing);
-                                continue outer;
+                                hasTag = s.hasTag();
+                                test = s;
+                                if (hasTag) break;
                             }
+                            if (hasTag && !stack.hasTag()) continue;
+                            if (hasTag && !ItemStack.tagMatches(stack, test)) continue;
+                            temp.remove(ing);
+                            continue outer;
+                        }
                         // Invalid, lets just return here.
                         return Database.missingno;
                     }
@@ -202,16 +199,16 @@ public class RecipeHandlers
             final NonNullList<Ingredient> recipeItemsIn = XMLRecipeHandler.getInputItems(json);
 
             final PokedexEntry entry = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOB));
-            if (entry == null) throw new NullPointerException("No Entry for " + recipe.values.get(
-                    RecipeHandlers.POKEMOB));
+            if (entry == null)
+                throw new NullPointerException("No Entry for " + recipe.values.get(RecipeHandlers.POKEMOB));
             final int energy = Integer.parseInt(recipe.values.get(RecipeHandlers.ENERGY));
             final int level = Integer.parseInt(recipe.values.get(RecipeHandlers.LEVEL));
             int priority = 0;
             boolean tame = false;
-            if (recipe.values.containsKey(RecipeHandlers.PRIORITY)) priority = Integer.parseInt(recipe.values.get(
-                    RecipeHandlers.PRIORITY));
-            if (recipe.values.containsKey(RecipeHandlers.TAME)) tame = Boolean.parseBoolean(recipe.values.get(
-                    RecipeHandlers.TAME));
+            if (recipe.values.containsKey(RecipeHandlers.PRIORITY))
+                priority = Integer.parseInt(recipe.values.get(RecipeHandlers.PRIORITY));
+            if (recipe.values.containsKey(RecipeHandlers.TAME))
+                tame = Boolean.parseBoolean(recipe.values.get(RecipeHandlers.TAME));
 
             final RecipeMatcher matcher = new RecipeMatcher(entry);
             matcher.stacks.addAll(recipeItemsIn);
@@ -222,8 +219,7 @@ public class RecipeHandlers
             if (recipe.values.containsKey(RecipeHandlers.REMAIN))
             {
                 final String[] remain = recipe.values.get(RecipeHandlers.REMAIN).split(",");
-                for (final String s : remain)
-                    matcher.remains.add(Integer.parseInt(s));
+                for (final String s : remain) matcher.remains.add(Integer.parseInt(s));
             }
             RecipeClone.MATCHERS.add(matcher);
             RecipeClone.MATCHERS.sort((o1, o2) -> o1.priority() - o2.priority());
@@ -275,8 +271,8 @@ public class RecipeHandlers
             PokedexEntry entryB = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOBB));
             final PokedexEntry entryE = Database.getEntry(recipe.values.get(RecipeHandlers.POKEMOBE));
 
-            if (entry == null && entryA == null && entryB == null && entryE == null) throw new NullPointerException(
-                    "No Entry for " + recipe.values.get(RecipeHandlers.POKEMOB));
+            if (entry == null && entryA == null && entryB == null && entryE == null)
+                throw new NullPointerException("No Entry for " + recipe.values.get(RecipeHandlers.POKEMOB));
 
             if (entry == null) entry = entryA == null ? entryB == null ? entryE : entryB : entryA;
             if (entryA == null) entryA = entry;
@@ -296,8 +292,8 @@ public class RecipeHandlers
                 info.entry = entryE;
             }
             float chance = 1;
-            if (recipe.values.containsKey(RecipeHandlers.CHANCE)) chance = Float.parseFloat(recipe.values.get(
-                    RecipeHandlers.CHANCE));
+            if (recipe.values.containsKey(RecipeHandlers.CHANCE))
+                chance = Float.parseFloat(recipe.values.get(RecipeHandlers.CHANCE));
             final String key = stack.toJson().toString();
             final DNAPack pack = new DNAPack(key, alleles, chance);
             ClonerHelper.registerDNA(pack, stack);
@@ -308,8 +304,8 @@ public class RecipeHandlers
         {
             ClonerHelper.DNAITEMS.clear();
 
-            if (PokecubeAdv.config.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils
-                    .entrySet())
+            if (PokecubeAdv.config.autoAddFossilDNA)
+                for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
             {
                 final String name = fossil.getKey();
                 final Ingredient stack = Ingredient.of(fossil.getValue());

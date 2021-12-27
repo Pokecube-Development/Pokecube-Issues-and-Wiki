@@ -59,6 +59,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
     public static class PokemobTexHelper extends TextureHelper
     {
+        static final QName male = new QName("male");
+        static final QName female = new QName("female");
+
         final PokedexEntry entry;
 
         public PokemobTexHelper(final PokedexEntry entry)
@@ -119,8 +122,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public void applyTexturePhase(final Phase phase)
         {
-            final QName male = new QName("male");
-            final QName female = new QName("female");
             if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
             if (phase.values.containsKey(female))
                 this.entry.textureDetails[1] = this.fromValue(phase.values.get(female));

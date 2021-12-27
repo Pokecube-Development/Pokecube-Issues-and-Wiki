@@ -18,8 +18,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -116,13 +114,10 @@ public class Database
         private final List<XMLHeldEntry> pokemon = Lists.newArrayList();
     }
 
-    @XmlRootElement(name = "Spawn")
     public static class XMLSpawnEntry extends SpawnRule
     {
-        static final QName STARTER = new QName("starter");
-        @XmlAttribute
+        static final String STARTER = "starter";
         boolean overwrite = false;
-        @XmlAttribute
         String name;
 
         public Boolean isStarter()

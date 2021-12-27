@@ -69,7 +69,11 @@ public class MutationHelper extends ResourceData
             try
             {
                 final Mutations temp = JsonUtil.gson.fromJson(reader, Mutations.class);
-                if (!confirmNew(temp, l)) return;
+                if (!confirmNew(temp, l))
+                {
+                    reader.close();
+                    return;
+                }
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);
             }

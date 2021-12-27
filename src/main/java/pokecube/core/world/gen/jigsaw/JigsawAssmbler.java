@@ -340,6 +340,16 @@ public class JigsawAssmbler
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
                 final StructureSettings settings = chunkGenerator.getSettings();
 
+                // We ask for EMPTY chunk, and allow it to be null, so
+                // that
+                // we don't cause issues if the chunk doesn't exist yet.
+                final ChunkAccess ichunk = world.getChunk(x, z, ChunkStatus.EMPTY, false);
+                // We then only care about chunks which have already
+                // reached
+                // at least this stage of loading.
+                if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
+                if (!ichunk.hasAnyStructureReferences()) continue;
+
                 for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
                 {
                     // We shouldn't be conflicting with ourself
@@ -348,15 +358,6 @@ public class JigsawAssmbler
                     final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
                     // This means it doesn't spawn in this world, so we skip.
                     if (structureseparationsettings == null) continue;
-
-                    // We ask for EMPTY chunk, and allow it to be null, so
-                    // that
-                    // we don't cause issues if the chunk doesn't exist yet.
-                    final ChunkAccess ichunk = world.getChunk(x, z, ChunkStatus.EMPTY, false);
-                    // We then only care about chunks which have already
-                    // reached
-                    // at least this stage of loading.
-                    if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                     // This is the way to tell if an actual real structure
                     // would be at this location.
                     final StructureStart<?> structurestart = sfmanager.getStartForFeature(SectionPos.bottomOf(ichunk),

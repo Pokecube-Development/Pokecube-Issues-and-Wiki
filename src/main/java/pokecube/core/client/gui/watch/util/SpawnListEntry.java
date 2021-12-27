@@ -2,8 +2,6 @@ package pokecube.core.client.gui.watch.util;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.ChatFormatting;
@@ -49,8 +47,8 @@ public class SpawnListEntry
         value.parse();
 
         final List<Component> biomes = Lists.newArrayList();
-        for (final ResourceLocation b : value.clientBiomes) biomes.add(new TranslatableComponent(
-                String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+        for (final ResourceLocation b : value.clientBiomes)
+            biomes.add(new TranslatableComponent(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
         if (entry != null)
         {
@@ -114,12 +112,12 @@ public class SpawnListEntry
                 fontRender, false))
             this.output.add(new TextComponent(ind + line.getString()));
         String rate = "";
-        if (value.spawnRule.values.containsKey(new QName("Local_Rate")))
+        if (value.spawnRule.values.containsKey("Local_Rate"))
         {
             float val = 0;
             try
             {
-                val = Float.parseFloat(value.spawnRule.values.get(new QName("Local_Rate")));
+                val = Float.parseFloat(value.spawnRule.values.get("Local_Rate"));
             }
             catch (final Exception e)
             {
@@ -146,7 +144,7 @@ public class SpawnListEntry
             float val = 0;
             try
             {
-                val = Float.parseFloat(value.spawnRule.values.get(new QName("rate")));
+                val = Float.parseFloat(value.spawnRule.values.get("rate"));
             }
             catch (final Exception e)
             {

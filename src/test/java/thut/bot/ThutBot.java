@@ -30,6 +30,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
@@ -38,6 +39,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -109,8 +111,7 @@ public class ThutBot
         logger.addAppender(appender);
         appender.start();
 
-        PermNodes.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP,
-                "Allowed to give orders to thutbots");
+        PermNodes.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
 
@@ -165,7 +166,10 @@ public class ThutBot
                         ALL_BOTS.add(entry);
                         BOT_MAP.put(entry.getProfile().getId(), entry);
                         final BotPlayer bot = new BotPlayer(level, entry.getProfile());
-                        ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
+
+                        if (!entry.hidden) ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
+                        else server.overworld().addFreshEntity(bot);
+
                         entry._profile = bot.getGameProfile();
                         saveBots();
                     }
@@ -226,16 +230,24 @@ public class ThutBot
         if (event.side == LogicalSide.CLIENT) return;
         if (event.phase == Phase.START) return;
         final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server.getTickCount() % 200 != 0) return;
+        if (server.getTickCount() % 200 != 0 || server.getTickCount() > 0) return;
 
         ServerLevel level = server.overworld();
 
         for (int i = 0; i < ALL_BOTS.size(); i++)
         {
             BotEntry p = ALL_BOTS.get(i);
-            if (server.getPlayerList().getPlayer(p.getProfile().getId()) == null)
+            final BotPlayer bot = new BotPlayer(level, p.getProfile());
+            if (p.hidden)
             {
-                final BotPlayer bot = new BotPlayer(level, p.getProfile());
+                ServerLevel world = server.getLevel(p.getDimension());
+                if (world != null && world.getPlayerByUUID(p.getProfile().getId()) == null)
+                {
+                    world.addFreshEntity(bot);
+                }
+            }
+            else if (server.getPlayerList().getPlayer(p.getProfile().getId()) == null)
+            {
                 ThutBot.placeNewPlayer(server, bot.connection.connection, bot);
             }
         }
@@ -255,15 +267,36 @@ public class ThutBot
 
     public static class BotEntry
     {
+        public boolean hidden = false;
+        public String dimension = "minecraft:overworld";
         public String name;
         GameProfile _profile;
         File _file;
+        ResourceKey<Level> _dimension;
 
         private void initProfile()
         {
             long hash = Hashing.goodFastHash(64).hashUnencodedChars(name).padToLong();
             final UUID id = new UUID(hash, hash);
             this._profile = new GameProfile(id, name);
+        }
+
+        public ResourceKey<Level> getDimension()
+        {
+            if (_dimension == null || !_dimension.location().toString().equals(dimension))
+            {
+                _dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dimension));
+            }
+            return _dimension;
+        }
+
+        public void updateDimension(ResourceKey<Level> level)
+        {
+            if (level != _dimension)
+            {
+                _dimension = level;
+                dimension = level.location().toString();
+            }
         }
 
         public GameProfile getProfile()

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-import javax.xml.namespace.QName;
-
 import org.objectweb.asm.Type;
 
 import com.google.common.collect.Lists;
@@ -75,7 +73,7 @@ public class TradeEntryLoader
 
         public final List<Buy> buys = Lists.newArrayList();
 
-        public Map<QName, String> values = Maps.newHashMap();
+        public Map<String, String> values = Maps.newHashMap();
     }
 
     public static class TradeEntry
@@ -112,11 +110,11 @@ public class TradeEntryLoader
         void apply(Trade trade, TrainerTrades trades);
     }
 
-    public static final QName MIN = new QName("min");
+    public static final String MIN = "min";
 
-    public static final QName MAX = new QName("max");
+    public static final String MAX = "max";
 
-    public static final QName CHANCE = new QName("chance");
+    public static final String CHANCE = "chance";
 
     public static Map<String, TradePreset> registeredPresets = Maps.newHashMap();
 
@@ -204,7 +202,7 @@ public class TradeEntryLoader
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
                 {
-                    Map<QName, String> values;
+                    Map<String, String> values;
                     TrainerTrade recipe;
                     ItemStack buy1 = ItemStack.EMPTY;
                     ItemStack buy2 = ItemStack.EMPTY;
@@ -237,7 +235,7 @@ public class TradeEntryLoader
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
                 {
-                    Map<QName, String> values = trade.sell.getValues();
+                    Map<String, String> values = trade.sell.getValues();
                     TrainerTrade recipe;
                     final ItemStack sell = Tools.getStack(values);
                     recipe = new TrainerTrade(stack, ItemStack.EMPTY, sell, trade);
@@ -333,7 +331,7 @@ public class TradeEntryLoader
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
 
-                Map<QName, String> values = trade.sell.getValues();
+                Map<String, String> values = trade.sell.getValues();
                 sell = Tools.getStack(values);
                 values = trade.buys.get(0).getValues();
                 buy1 = Tools.getStack(values);

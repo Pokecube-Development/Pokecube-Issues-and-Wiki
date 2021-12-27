@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
-import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -411,19 +410,19 @@ public class PokedexEntry
             final Interact fire = new Interact();
             fire.key = new Drop();
             fire.action = new Action();
-            fire.key.values.put(new QName("id"), "minecraft:stick");
-            fire.action.values.put(new QName("type"), "item");
+            fire.key.values.put("id", "minecraft:stick");
+            fire.action.values.put("type", "item");
             final Drop firedrop = new Drop();
-            firedrop.values.put(new QName("id"), "minecraft:torch");
+            firedrop.values.put("id", "minecraft:torch");
             fire.action.drops.add(firedrop);
 
             final Interact water = new Interact();
             water.key = new Drop();
             water.action = new Action();
-            water.key.values.put(new QName("id"), "minecraft:bucket");
-            water.action.values.put(new QName("type"), "item");
+            water.key.values.put("id", "minecraft:bucket");
+            water.action.values.put("type", "item");
             final Drop waterdrop = new Drop();
-            waterdrop.values.put(new QName("id"), "minecraft:water_bucket");
+            waterdrop.values.put("id", "minecraft:water_bucket");
             water.action.drops.add(waterdrop);
 
             if (PokecubeCore.getConfig().defaultInteractions)
@@ -454,8 +453,8 @@ public class PokedexEntry
                 InteractionLogic.cleanInteract(interact);
                 final Drop key = interact.key;
                 final Action action = interact.action;
-                final boolean isForme = action.values.get(new QName("type")).equals("forme");
-                Map<QName, String> values = key.getValues();
+                final boolean isForme = action.values.get("type").equals("forme");
+                Map<String, String> values = key.getValues();
 
                 final Interaction interaction = new Interaction();
                 if (interact.isTag)
@@ -481,7 +480,7 @@ public class PokedexEntry
 
                 if (isForme)
                 {
-                    final PokedexEntry forme = Database.getEntry(action.values.get(new QName("forme")));
+                    final PokedexEntry forme = Database.getEntry(action.values.get("forme"));
                     if (forme != null) interaction.forme = forme;
                 }
                 else
@@ -1227,12 +1226,11 @@ public class PokedexEntry
 
         if (this._forme_items != null)
         {
-            final Map<QName, String> values = this._forme_items.values;
-            for (final QName key : values.keySet())
+            final Map<String, String> values = this._forme_items.values;
+            for (final String key : values.keySet())
             {
-                final String keyString = key.toString();
                 final String value = values.get(key);
-                if (keyString.equals("forme"))
+                if (key.equals("forme"))
                 {
                     final String[] args = value.split(",");
                     for (final String s : args)

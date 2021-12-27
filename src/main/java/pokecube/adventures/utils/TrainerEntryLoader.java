@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
@@ -28,27 +26,25 @@ import thut.core.common.ThutCore;
 public class TrainerEntryLoader
 {
     public static class Bag extends Drop
-    {
-    }
+    {}
 
     public static class Held extends Drop
-    {
-    }
+    {}
 
     public static class TrainerEntry
     {
-        String  tradeTemplate = "default";
-        String  type;
-        String  pokemon;
-        String  gender;
-        Bag     bag;
-        boolean belt          = true;
-        Held    held;
-        Held    reward;
+        String tradeTemplate = "default";
+        String type;
+        String pokemon;
+        String gender;
+        Bag bag;
+        boolean belt = true;
+        Held held;
+        Held reward;
         Boolean replace;
 
         List<SpawnRule> spawns = Lists.newArrayList();
-        List<String>    tags   = Lists.newArrayList();
+        List<String> tags = Lists.newArrayList();
 
         @Override
         public String toString()
@@ -59,8 +55,8 @@ public class TrainerEntryLoader
 
     public static class XMLDatabase
     {
-        private final List<TrainerEntry> trainers     = Lists.newArrayList();
-        Map<String, TrainerEntry>        _trainer_map = Maps.newHashMap();
+        private final List<TrainerEntry> trainers = Lists.newArrayList();
+        Map<String, TrainerEntry> _trainer_map = Maps.newHashMap();
 
         public void addEntry(final TrainerEntry entry)
         {
@@ -130,17 +126,16 @@ public class TrainerEntryLoader
                 final ItemStack bag = Tools.getStack(entry.bag.getValues());
                 type.bag = bag;
             }
-            if (entry.spawns != null) entry.spawns.forEach(rule ->
-            {
+            if (entry.spawns != null) entry.spawns.forEach(rule -> {
                 Float weight;
                 try
                 {
-                    weight = Float.parseFloat(rule.values.remove(new QName("rate")));
+                    weight = Float.parseFloat(rule.values.remove("rate"));
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.warn("Error with weight for " + type.getName() + " " + rule.values + " "
-                            + entry.spawns, e);
+                    PokecubeCore.LOGGER.warn(
+                            "Error with weight for " + type.getName() + " " + rule.values + " " + entry.spawns, e);
                     return;
                 }
                 final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);

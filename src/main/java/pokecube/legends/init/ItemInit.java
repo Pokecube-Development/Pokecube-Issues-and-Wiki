@@ -276,8 +276,8 @@ public class ItemInit
         ICE_DARK_WING = PokecubeLegends.ITEMS.register("ice_dark_wing", () -> new ItemBase("ice_dark_wing", PokecubeLegends.TAB_LEGENDS, 1) );
         ICE_WING = PokecubeLegends.ITEMS.register("ice_wing", () -> new ItemBase("ice_wing", PokecubeLegends.TAB_LEGENDS, 1) );
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing", () -> new ItemBase("lunar_wing", PokecubeLegends.TAB_LEGENDS, 1));
-        RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase("rainbow_wing", PokecubeLegends.TAB_LEGENDS, 1).setShiny());
-        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase("silver_wing", PokecubeLegends.TAB_LEGENDS, 1));
+        RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1).setShiny());
+        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1));
         STATIC_WING = PokecubeLegends.ITEMS.register("static_wing", () -> new ItemBase("static_wing", PokecubeLegends.TAB_LEGENDS, 1) );
 
         ICE_CARROT   = PokecubeLegends.ITEMS.register("ice_carrot", () -> new ItemBase("ice_carrot", PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 1));
