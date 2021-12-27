@@ -135,28 +135,50 @@ public class PokecubeLegends
             final Predicate<ResourceKey<Biome>> check = k -> PokecubeLegends.config.generateOres && (BiomeDatabase.contains(k, "FOREST") || BiomeDatabase.contains(k, "OCEAN") || BiomeDatabase.contains(k, "HILLS")
                     || BiomeDatabase.contains(k, "PLAINS") || BiomeDatabase.contains(k, "SWAMP") || BiomeDatabase.contains(k, "MOUNTAIN") || BiomeDatabase.contains(k, "SNOWY") || BiomeDatabase.contains(k, "SPOOKY"));
 
-            final List<OreConfiguration.TargetBlockState> ORE_RUBY_TARGET_LIST = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get().defaultBlockState()),
+            final List<OreConfiguration.TargetBlockState> ORE_RUBY_TARGET_LIST = List.of(
+                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, BlockInit.RUBY_ORE.get().defaultBlockState()),
                     OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, BlockInit.DEEPSLATE_RUBY_ORE.get().defaultBlockState()));
 
-            final ConfiguredFeature<?, ?> ORE_RUBY_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_RUBY_TARGET_LIST, 9));
+            final ConfiguredFeature<?, ?> ORE_RUBY_BURIED_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_RUBY_TARGET_LIST, 8, 1.0f));
+            final ConfiguredFeature<?, ?> ORE_RUBY_LARGE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_RUBY_TARGET_LIST, 12, 0.7f));
+            final ConfiguredFeature<?, ?> ORE_RUBY_SMALL_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_RUBY_TARGET_LIST, 4, 0.5f));
 
-            // Currently this uses same settings as gold ore.
             final PlacedFeature ORE_RUBY_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore",
-                    ORE_RUBY_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(32)), BiomeFilter.biome())));
+                    ORE_RUBY_SMALL_FEATURE.placed(List.of(CountPlacement.of(7), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
+            final PlacedFeature ORE_RUBY_BURIED_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore_buried",
+                    ORE_RUBY_BURIED_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
+            final PlacedFeature ORE_RUBY_LARGE_PLACEMENT = PlacementUtils.register("pokecube_legends:ruby_ore_large",
+                    ORE_RUBY_LARGE_FEATURE.placed(List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(128)), BiomeFilter.biome())));
 
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_RUBY_PLACEMENT);
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_RUBY_BURIED_PLACEMENT);
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_RUBY_LARGE_PLACEMENT);
 
+            
+            
             final List<OreConfiguration.TargetBlockState> ORE_SAPPHIRE_TARGET_LIST = List.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, BlockInit.SAPPHIRE_ORE.get().defaultBlockState()),
                     OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, BlockInit.DEEPSLATE_SAPPHIRE_ORE.get().defaultBlockState()));
 
-            final ConfiguredFeature<?, ?> ORE_SAPPHIRE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_SAPPHIRE_TARGET_LIST, 9));
+            final ConfiguredFeature<?, ?> ORE_SAPPHIRE_BURIED_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_SAPPHIRE_TARGET_LIST, 8, 1.0f));
+            final ConfiguredFeature<?, ?> ORE_SAPPHIRE_LARGE_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_SAPPHIRE_TARGET_LIST, 12, 0.7f));
+            final ConfiguredFeature<?, ?> ORE_SAPPHIRE_SMALL_FEATURE = Feature.ORE.configured(new OreConfiguration(ORE_SAPPHIRE_TARGET_LIST, 4, 0.5f));
 
-            // Currently this uses same settings as gold ore.
             final PlacedFeature ORE_SAPPHIRE_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore",
-                    ORE_SAPPHIRE_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(32)), BiomeFilter.biome())));
+                    ORE_SAPPHIRE_SMALL_FEATURE.placed(List.of(CountPlacement.of(7), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-64), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
+            final PlacedFeature ORE_SAPPHIRE_BURIED_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore_buried",
+                    ORE_SAPPHIRE_BURIED_FEATURE.placed(List.of(CountPlacement.of(4), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
+            final PlacedFeature ORE_SAPPHIRE_LARGE_PLACEMENT = PlacementUtils.register("pokecube_legends:sapphire_ore_large",
+                    ORE_SAPPHIRE_LARGE_FEATURE.placed(List.of(CountPlacement.of(9), InSquarePlacement.spread(), HeightRangePlacement
+                            .triangle(VerticalAnchor.aboveBottom(-80), VerticalAnchor.aboveBottom(100)), BiomeFilter.biome())));
 
-            // Currently this uses same settings as gold ore.
             WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_SAPPHIRE_PLACEMENT);
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_SAPPHIRE_BURIED_PLACEMENT);
+            WorldgenHandler.INSTANCE.register(check, GenerationStep.Decoration.UNDERGROUND_ORES, ORE_SAPPHIRE_LARGE_PLACEMENT);
         }
 
         @SubscribeEvent
