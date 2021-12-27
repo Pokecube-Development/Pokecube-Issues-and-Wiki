@@ -120,9 +120,10 @@ public class ItemInit
     public static final RegistryObject<Item> GRAY_SCARF;
     public static final RegistryObject<Item> WOODEN_CROWN;
 
-    // Gens_ores
-    public static final RegistryObject<Item> SAPPHIRE;
+    // Gems
+    public static final RegistryObject<Item> AQUAMARINE;
     public static final RegistryObject<Item> RUBY;
+    public static final RegistryObject<Item> SAPPHIRE;
 
     // Forms
     public static final RegistryObject<Item> SILVER_WING;
@@ -321,8 +322,9 @@ public class ItemInit
                 new Item.Properties().durability(200).tab(PokecubeLegends.TAB_LEGENDS).fireResistant()));
 
         // Items Creative Tab - Sorting depends on the order the items are listed in
-        // Ores
+        // Gems
         COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 16));
+        AQUAMARINE = PokecubeLegends.ITEMS.register("aquamarine", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         AQUAMARINE_SHARD = PokecubeLegends.ITEMS.register("aquamarine_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         FRACTAL_SHARD 	= PokecubeLegends.ITEMS.register("fractal_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
