@@ -20,14 +20,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -101,7 +101,7 @@ public class Pokeegg
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.pokeegg";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokeegg");
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokeegg");
 
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokeegg")
                 .requires(cs -> CommandTools.hasPerm(cs, perm));
@@ -139,7 +139,7 @@ public class Pokeegg
 
         // Random Pokeegg
         final String perm2 = "command.pokeeggrand";
-        PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to use pokeeggrand");
+        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to use pokeeggrand");
 
         // Set a permission
         command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, perm2));

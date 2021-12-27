@@ -4,12 +4,10 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 
 /**
  * This is a list of permissions nodes, as well as information about what they
@@ -19,96 +17,92 @@ import pokecube.core.moves.MovesUtils;
 public class Permissions
 {
     /** Can the player ride a pokemob. Default to ALL */
-    public static final String RIDEPOKEMOB = "pokecube.ride";
+    public static final String RIDEPOKEMOB = "ride";
 
     /**
      * Can the player ride a specific pokemob, checked after checking
-     * RIDEPOKEMOB, only if it is allowed, has format "pokecube.ride.<trimmed
-     * entry name>" Default to ALL
+     * RIDEPOKEMOB, only if it is allowed, has format "ride.<trimmed entry
+     * name>" Default to ALL
      */
     public static final Map<PokedexEntry, String> RIDESPECIFIC = Maps.newHashMap();
     /** Can the player surf a pokemob. Default to ALL */
-    public static final String                    SURFPOKEMOB  = "pokecube.surf";
+    public static final String SURFPOKEMOB = "surf";
 
     /**
      * Can the player surf a specific pokemob, checked after checking
-     * SURFPOKEMOB, only if it is allowed, has format "pokecube.surf.<trimmed
-     * entry name>" Default to ALL
+     * SURFPOKEMOB, only if it is allowed, has format "surf.<trimmed entry
+     * name>" Default to ALL
      */
     public static final Map<PokedexEntry, String> SURFSPECIFIC = Maps.newHashMap();
     /** Can the player surf a pokemob. Default to ALL */
-    public static final String                    DIVEPOKEMOB  = "pokecube.dive";
+    public static final String DIVEPOKEMOB = "dive";
 
     /**
      * Can the player surf a specific pokemob, checked after checking
-     * DIVEPOKEMOB, only if it is allowed, has format "pokecube.dive.<trimmed
-     * entry name>" Default to ALL
+     * DIVEPOKEMOB, only if it is allowed, has format "dive.<trimmed entry
+     * name>" Default to ALL
      */
     public static final Map<PokedexEntry, String> DIVESPECIFIC = Maps.newHashMap();
     /** Can the player fly a pokemob. Default to ALL */
-    public static final String                    FLYPOKEMOB   = "pokecube.fly";
+    public static final String FLYPOKEMOB = "fly";
 
     /**
-     * Can the player fly a specific pokemob, checked after checking
-     * FLYPOKEMOB, only if it is allowed, has format "pokecube.fly.<trimmed
-     * entry name>" Default to ALL
+     * Can the player fly a specific pokemob, checked after checking FLYPOKEMOB,
+     * only if it is allowed, has format "fly.<trimmed entry name>" Default to
+     * ALL
      */
-    public static final Map<PokedexEntry, String> FLYSPECIFIC     = Maps.newHashMap();
+    public static final Map<PokedexEntry, String> FLYSPECIFIC = Maps.newHashMap();
     /**
      * can the player use the specified world action, format is
-     * "pokecube.move.action.<move name>, Default to ALL
+     * "move.action.<move name>, Default to ALL
      */
-    public static final Map<String, String>       MOVEWORLDACTION = Maps.newHashMap();
+    public static final Map<String, String> MOVEWORLDACTION = Maps.newHashMap();
 
     /**
      * Can the player catch a pokemob. If not, the pokecube will bounce off,
      * similar to legendary conditions. Default to ALL
      */
-    public static final String CATCHPOKEMOB = "pokecube.catch";
+    public static final String CATCHPOKEMOB = "catch";
 
     /**
      * Can the player catch a specific pokemob, checked after checking
-     * CATCHPOKEMOB, has format "pokecube.catch.<trimmed entry name>" Default to
-     * ALL
+     * CATCHPOKEMOB, has format "catch.<trimmed entry name>" Default to ALL
      */
-    public static final Map<PokedexEntry, String> CATCHSPECIFIC  = Maps.newHashMap();
+    public static final Map<PokedexEntry, String> CATCHSPECIFIC = Maps.newHashMap();
     /**
      * Can the player send out pokemobs, if false, it returns the cube to their
      * inventory (or sends to pc). Default to ALL
      */
-    public static final String                    SENDOUTPOKEMOB = "pokecube.sendout";
+    public static final String SENDOUTPOKEMOB = "sendout";
 
     /**
      * Can the player send out specific pokemob, if false, it returns the cube
      * to their inventory (or sends to pc), checked after checking
-     * SENDOUTPOKEMOB, has format "pokecube.sendout.<trimmed entry name>"
-     * Default to ALL
+     * SENDOUTPOKEMOB, has format "sendout.<trimmed entry name>" Default to ALL
      */
     public static final Map<PokedexEntry, String> SENDOUTSPECIFIC = Maps.newHashMap();
     /**
      * Can the player hatch a egg, if not, the egg will hatch as a wild pokemob
      * instead. Default to ALL
      */
-    public static final String                    HATCHPOKEMOB    = "pokecube.hatch";
+    public static final String HATCHPOKEMOB = "hatch";
 
     /**
      * Can the player hatch a specific pokemob, checked after checking
-     * HATCHPOKEMOB, has format "pokecube.hatch.<trimmed entry name>" Default to
-     * ALL
+     * HATCHPOKEMOB, has format "hatch.<trimmed entry name>" Default to ALL
      */
     public static final Map<PokedexEntry, String> HATCHSPECIFIC = Maps.newHashMap();
 
     public static void register()
     {
-        final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-        handler.registerNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
-        handler.registerNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
-        handler.registerNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
+        PermNodes.registerNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
+        PermNodes.registerNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
+        PermNodes.registerNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
 
-        handler.registerNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
-        handler.registerNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
-        handler.registerNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
-        handler.registerNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
+        PermNodes.registerNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
+        PermNodes.registerNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
+        PermNodes.registerNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
+        PermNodes.registerNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
 
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -120,14 +114,14 @@ public class Permissions
             final String surfa = Permissions.SURFPOKEMOB + "." + entry.getTrimmedName();
             final String divea = Permissions.DIVEPOKEMOB + "." + entry.getTrimmedName();
 
-            handler.registerNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
-            handler.registerNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
-            handler.registerNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
+            PermNodes.registerNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
+            PermNodes.registerNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
+            PermNodes.registerNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
 
-            handler.registerNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
-            handler.registerNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
-            handler.registerNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
-            handler.registerNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
+            PermNodes.registerNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
+            PermNodes.registerNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
+            PermNodes.registerNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
+            PermNodes.registerNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
 
             Permissions.CATCHSPECIFIC.put(entry, catcha);
             Permissions.CATCHSPECIFIC.put(entry, hatcha);
@@ -141,8 +135,8 @@ public class Permissions
 
         for (final String s : MovesUtils.getKnownMoveNames())
         {
-            final String move = "pokecube.move.action." + s;
-            handler.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
+            final String move = "move.action." + s;
+            PermNodes.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
         }
     }
 

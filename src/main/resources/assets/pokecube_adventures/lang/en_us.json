@@ -453,5 +453,10 @@
     "_comment": "Misc",
     "pokecube.config.tmRecipe.tooltip": "Can TMs be crafted",
 
-    "pokedex.inspect.geneticsguide": "§aYou recieved a Genetics Guide from the Pokédex."
+    "pokedex.inspect.geneticsguide": "§aYou recieved a Genetics Guide from the Pokédex.",
+
+    "_comment": "Adventure Maps",
+
+    "filled_map.pokecube:village": "Exploration Map: Village",
+    "filled_map.pokecube:town": "Exploration Map: Town"
 }

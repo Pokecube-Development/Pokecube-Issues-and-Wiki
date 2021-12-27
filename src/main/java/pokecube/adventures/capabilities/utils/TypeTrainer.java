@@ -48,8 +48,8 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.TradeEntryLoader;
-import pokecube.adventures.utils.TrainerTracker;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
@@ -232,18 +232,25 @@ public class TypeTrainer extends NpcType
 
     public static class TrainerTrade extends MerchantOffer implements ItemListing
     {
-        private final ItemStack _input_a;
-        private final ItemStack _input_b;
-        private final ItemStack _output;
-        private int _uses;
-        private final int _maxUses;
-        private int _demand;
-        private float _multiplier;
-        private int _exp = 1;
+        public static interface ResultModifier
+        {
+            ItemStack apply(Entity user, Random random);
+        }
+
+        public final ItemStack _input_a;
+        public final ItemStack _input_b;
+        public final ItemStack _output;
+        public int _uses;
+        public final int _maxUses;
+        public int _demand;
+        public float _multiplier;
+        public int _exp = 1;
 
         public int min = -1;
         public int max = -1;
         public float chance = 1;
+
+        public ResultModifier outputModifier;
 
         public TrainerTrade(ItemStack input_a, ItemStack input_b, ItemStack output, int uses, int maxUses, int exp,
                 float multiplier, int demand)
@@ -258,6 +265,7 @@ public class TypeTrainer extends NpcType
             this._exp = exp;
             this._multiplier = multiplier;
             this._demand = demand;
+            outputModifier = (u, r) -> this._output;
         }
 
         public TrainerTrade(final ItemStack buy1, final ItemStack buy2, final ItemStack sell, final Trade trade)
@@ -265,7 +273,7 @@ public class TypeTrainer extends NpcType
             this(buy1, buy2, sell, 0, trade.maxUses, trade.exp, trade.multiplier, trade.demand);
         }
 
-        public MerchantOffer getRecipe(final Random rand)
+        public MerchantOffer randomise(Random rand)
         {
             ItemStack buy1 = this.getBaseCostA();
             ItemStack buy2 = this.getCostB();
@@ -286,7 +294,10 @@ public class TypeTrainer extends NpcType
         @Override
         public MerchantOffer getOffer(Entity user, Random random)
         {
-            return new TrainerTrade(_input_a, _input_b, _output, _uses, _maxUses, _exp, _multiplier, _demand);
+            TrainerTrade newTrade = new TrainerTrade(this._input_a, this._input_b, outputModifier.apply(user, random),
+                    this._uses, this._maxUses, this._exp, this._multiplier, this._demand);
+            if (newTrade._output.isEmpty() || (newTrade._input_a.isEmpty() && newTrade._input_b.isEmpty())) return null;
+            return newTrade.randomise(random);
         }
     }
 
@@ -294,11 +305,11 @@ public class TypeTrainer extends NpcType
     {
         public List<TrainerTrade> tradesList = Lists.newArrayList();
 
-        public void addTrades(final List<MerchantOffer> ret, final Random rand)
+        public void addTrades(final Entity trader, final List<MerchantOffer> ret, final Random rand)
         {
             for (final TrainerTrade trade : this.tradesList) if (rand.nextFloat() < trade.chance)
             {
-                final MerchantOffer toAdd = trade.getRecipe(rand);
+                final MerchantOffer toAdd = trade.getOffer(trader, rand);
                 if (toAdd != null) ret.add(toAdd);
             }
         }
@@ -479,12 +490,12 @@ public class TypeTrainer extends NpcType
                 new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + "_male.png"));
     }
 
-    public Collection<MerchantOffer> getRecipes(final Random rand)
+    public Collection<MerchantOffer> getRecipes(final Entity trader, final Random rand)
     {
         if (this.trades == null && this.tradeTemplate != null)
             this.trades = TypeTrainer.tradesMap.get(this.tradeTemplate);
         final List<MerchantOffer> ret = Lists.newArrayList();
-        if (this.trades != null) this.trades.addTrades(ret, rand);
+        if (this.trades != null) this.trades.addTrades(trader, ret, rand);
         return ret;
     }
 

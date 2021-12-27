@@ -19,14 +19,14 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import thut.api.TickHandler;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.TerrainManager;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.Proxy;
 import thut.core.common.ThutCore;
 import thut.core.common.ThutCore.MobEvents;
@@ -53,14 +53,14 @@ public class CommonProxy implements Proxy
 
             TerrainManager.init();
 
-            PermissionAPI.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
+            PermNodes.registerNode(CommonProxy.SET_SUBBIOME, DefaultPermissionLevel.OP,
                     "Able to set subbiomes via items");
         }
     }
 
     static BiomeType getSubbiome(final ServerPlayer player, final ItemStack held)
     {
-        if (!PermissionAPI.hasPermission(player, CommonProxy.SET_SUBBIOME)) return null;
+        if (!PermNodes.getBooleanPerm(player, CommonProxy.SET_SUBBIOME)) return null;
         if (held.getHoverName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
         {
             final String[] args = held.getHoverName().getString().split("->");

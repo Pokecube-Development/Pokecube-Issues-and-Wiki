@@ -664,7 +664,7 @@ public final class SpawnHandler
 
     public SpawnHandler()
     {
-        if (PokecubeCore.getConfig().pokemonSpawn) MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void doMeteor(final ServerLevel world)
@@ -881,6 +881,7 @@ public final class SpawnHandler
     public void tick(final ServerLevel world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
+        if (!PokecubeCore.getConfig().pokemonSpawn) return;
         try
         {
             final int rate = PokecubeCore.getConfig().spawnRate;

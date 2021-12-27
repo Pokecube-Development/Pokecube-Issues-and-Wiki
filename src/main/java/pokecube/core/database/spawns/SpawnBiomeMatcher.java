@@ -407,8 +407,6 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this.getInvalidBiomes().contains(biome)) return false;
         if (this.getValidBiomes().contains(biome)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.contains(biome)) return false;
-        // The check for all subbiomes overrides the check for biomes.
-        if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         // Otherwise, only return true if we have no valid biomes otherwise!
         return this.getValidBiomes().isEmpty();
     }
@@ -603,7 +601,15 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         SpawnRule spawnRule = this.spawnRule.copy();
         if (spawnRule.values.containsKey(PRESET))
-            spawnRule = PRESETS.getOrDefault(spawnRule.values.get(PRESET), spawnRule).copy();
+        {
+            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            if (preset != null)
+            {
+                preset = preset.copy();
+                preset.values.putAll(spawnRule.values);
+                spawnRule = preset;
+            }
+        }
 
         String or_presets = spawnRule.values.get(SpawnBiomeMatcher.ORPRESET);
         String and_presets = spawnRule.values.get(SpawnBiomeMatcher.ANDPRESET);

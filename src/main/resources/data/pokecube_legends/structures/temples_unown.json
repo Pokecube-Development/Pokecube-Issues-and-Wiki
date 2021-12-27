@@ -51,7 +51,7 @@
       "distance": 60,
       "separation": 35,
       "size": 6,
-      "height": -30,
+      "height": -50,
       "base_under": false,
       "dimBlacklist": [
         "the_nether",
@@ -59,7 +59,7 @@
       ],
       "spawn": {
         "values": {
-          "types": "all",
+          "preset": "all_overworld",
           "categoryBlacklist": "ocean,beach"
         }
       }
@@ -90,7 +90,7 @@
       "distance": 50,
       "separation": 32,
       "size": 12,
-      "height": -20,
+      "height": -40,
       "base_under": false,
       "dimWhitelist": [
         "pokecube_legends:ultraspace"

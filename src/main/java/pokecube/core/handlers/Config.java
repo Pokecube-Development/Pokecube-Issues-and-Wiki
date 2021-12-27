@@ -523,6 +523,8 @@ public class Config extends ConfigData
     public boolean autoRecallPokemobs = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will turn in the direction the rider is facing. [Default: true]")
     public boolean riddenMobsTurnWithLook = true;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")
+    public boolean riddenMobsTryPathing = false;
     @Configure(category = Config.client, type = Type.CLIENT)
     public boolean extraberries = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Moves the battle log from the pokemob message gui to the chat. [Default: false]")

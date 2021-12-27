@@ -17,12 +17,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.LinkStorage;
@@ -52,9 +52,9 @@ public class Linker extends Item
         @Override
         public GlobalPos getLinkedPos(final Entity user)
         {
-            if (this.linker.getOrCreateTag().contains("thutcore:pos")) return GlobalPos.CODEC.decode(
-                    NbtOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")).result().get()
-                    .getFirst();
+            if (this.linker.getOrCreateTag().contains("thutcore:pos"))
+                return GlobalPos.CODEC.decode(NbtOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos"))
+                        .result().get().getFirst();
             else return null;
         }
 
@@ -69,44 +69,48 @@ public class Linker extends Item
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent(
-                            "item.pokecube_adventures.linker.unset"), true);
-                    } else
+                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.unset"),
+                                true);
+                    }
+                    else
                     {
-                        user.sendMessage(new TranslatableComponent(
-                            "item.pokecube_adventures.linker.unset"), Util.NIL_UUID);
+                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.unset"),
+                                Util.NIL_UUID);
                     }
                 }
             }
             else
             {
-                this.linker.getOrCreateTag().put("thutcore:pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE,
-                        pos).get().left().get());
+                this.linker.getOrCreateTag().put("thutcore:pos",
+                        GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).get().left().get());
                 if (!user.getCommandSenderWorld().isClientSide)
                 {
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent(
-                            "item.pokecube_adventures.linker.set"), true);
-                    } else {
-                        user.sendMessage(new TranslatableComponent(
-                            "item.pokecube_adventures.linker.set"), Util.NIL_UUID);
+                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                                true);
+                    }
+                    else
+                    {
+                        user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                                Util.NIL_UUID);
                     }
                 }
                 if (user.getCommandSenderWorld().isClientSide) try
                 {
-                    final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos()
-                            .getZ());
+                    final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ());
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
                     if (user instanceof Player)
                     {
                         final Player player = (Player) user;
-                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"), true);
-                    } else
+                        player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
+                                true);
+                    }
+                    else
                     {
                         user.sendMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
-                            Util.NIL_UUID);
+                                Util.NIL_UUID);
                     }
                 }
                 catch (final Exception e)
@@ -123,8 +127,8 @@ public class Linker extends Item
     public static void attachCaps(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (event.getCapabilities().containsKey(Linker.LINKSTOREKEY)) return;
-        if (event.getObject().getItem() instanceof Linker) event.addCapability(Linker.LINKSTOREKEY, new LinkStore(event
-                .getObject()));
+        if (event.getObject().getItem() instanceof Linker)
+            event.addCapability(Linker.LINKSTOREKEY, new LinkStore(event.getObject()));
     }
 
     public static boolean interact(final ServerPlayer playerIn, final Entity target, final ItemStack stack)
@@ -138,16 +142,16 @@ public class Linker extends Item
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;
-            if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUUID().equals(ownable
-                    .getOwnerId()) && PermissionAPI.hasPermission(playerIn, Linker.PERMLINKPET);
-            else if (TrainerCaps.getHasPokemobs(target) != null) valid = PermissionAPI.hasPermission(playerIn,
-                    Linker.PERMLINKTRAINER);
+            if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUUID().equals(ownable.getOwnerId())
+                    && PermNodes.getBooleanPerm(playerIn, Linker.PERMLINKPET);
+            else if (TrainerCaps.getHasPokemobs(target) != null)
+                valid = PermNodes.getBooleanPerm(playerIn, Linker.PERMLINKTRAINER);
             if (valid)
             {
                 final BlockPos bpos = pos.pos().above();
                 ai.getPrimaryTask().setPos(pos.pos().above());
-                playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob", target
-                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
+                playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob",
+                        target.getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
                 return true;
             }
             else playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob.fail"),
@@ -156,15 +160,15 @@ public class Linker extends Item
         return false;
     }
 
-    public static String PERMLINKTRAINER = "pokecube_adventures.linker.link_npc";
-    public static String PERMLINKPET     = "pokecube_adventures.linker.link_pet";
+    public static String PERMLINKTRAINER = "linker.link_npc";
+    public static String PERMLINKPET = "linker.link_pet";
 
     public Linker(final Properties properties)
     {
         super(properties);
-        PermissionAPI.registerNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
                 "Is the player allowed to use the linker item to set a trainer's stationary location");
-        PermissionAPI.registerNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
+        PermNodes.registerNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
                 "Is the player allowed to use the linker item to set their pokemob's stationary location");
     }
 

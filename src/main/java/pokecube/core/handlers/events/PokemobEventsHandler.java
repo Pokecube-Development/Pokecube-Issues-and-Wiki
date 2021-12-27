@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -66,9 +67,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
@@ -103,6 +101,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
@@ -204,6 +203,20 @@ public class PokemobEventsHandler
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
 
+        // Vanilla breaks things here, by deleting the memory tag in the brain,
+        // we need that, so restore it.
+        if (mob.getPersistentData().contains("__bee_fix__"))
+        {
+            CompoundTag tag = mob.getPersistentData().getCompound("__bee_fix__");
+            mob.getPersistentData().remove("__bee_fix__");
+            CompoundTag old = mob.saveWithoutId(new CompoundTag());
+            for (String s : tag.getAllKeys())
+            {
+                old.put(s, tag.get(s));
+            }
+            mob.load(old);
+        }
+
         // No Home spot, so definitely not leaving home
         if (inhabitor.getHome() == null) return;
 
@@ -232,15 +245,15 @@ public class PokemobEventsHandler
             if (fromHive || n++ > 100) break;
         }
         // was not from the hive, so exit
-        if (!fromHive) return;
-        final Class<?> clss = c;
+//        if (!fromHive) return;
+//        final Class<?> clss = c;
         // not loaded, definitely not a bee leaving hive
         if (!world.isPositionEntityTicking(pos.pos())) return;
         final BlockEntity tile = world.getBlockEntity(pos.pos());
         // No tile entity here? also not a bee leaving hive!
         if (tile == null) return;
         // Not the same class, so return as well.
-        if (tile.getClass() != clss) return;
+//        if (tile.getClass() != clss) return;
         final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;
@@ -753,16 +766,11 @@ public class PokemobEventsHandler
         if (pokemob.getLogicState(LogicStates.SITTING)) return false;
         if (pokemob.getInventory().getItem(0).isEmpty()) return false;
 
-        if (rider instanceof ServerPlayer && rider == pokemob.getOwner())
+        if (rider instanceof ServerPlayer player && rider == pokemob.getOwner())
         {
-            final Player player = (Player) rider;
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
             final Config config = PokecubeCore.getConfig();
-            if (config.permsRide && !handler.hasPermission(player.getGameProfile(), Permissions.RIDEPOKEMOB, context))
-                return false;
-            if (config.permsRideSpecific
-                    && !handler.hasPermission(player.getGameProfile(), Permissions.RIDESPECIFIC.get(entry), context))
+            if (config.permsRide && !PermNodes.getBooleanPerm(player, Permissions.RIDEPOKEMOB)) return false;
+            if (config.permsRideSpecific && !PermNodes.getBooleanPerm(player, Permissions.RIDESPECIFIC.get(entry)))
                 return false;
         }
         final float scale = pokemob.getSize();

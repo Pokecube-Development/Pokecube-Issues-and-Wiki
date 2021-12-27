@@ -19,22 +19,29 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.SectionPos;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.structures.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.feature.structures.JigsawJunction;
 import net.minecraft.world.level.levelgen.feature.structures.JigsawPlacement;
@@ -43,6 +50,7 @@ import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePo
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier.Context;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
@@ -52,6 +60,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.interfaces.PokecubeMod;
 import thut.core.common.ThutCore;
@@ -100,19 +109,28 @@ public class JigsawAssmbler
     private final Set<String> needed_once = Sets.newHashSet();
 
     private final Set<BoundingBox> conflict_check = Sets.newHashSet();
+    private final Set<ChunkPos> checked_chunks = Sets.newHashSet();
 
     private final JigSawConfig config;
 
     private LevelHeightAccessor heightAccess;
 
+    private boolean checkConflicts = false;
+
+    final ResourceLocation structName;
+    StructureFeature<?> thisFeature;
+
     public JigsawAssmbler(final JigSawConfig config)
     {
         this.config = config;
+        structName = new ResourceLocation(config.type.isEmpty() ? config.name : config.type);
+        thisFeature = WorldgenHandler.getFeature(structName);
     }
 
-    public void addConflict(BoundingBox box)
+    public JigsawAssmbler checkConflicts()
     {
-        this.conflict_check.add(box);
+        this.checkConflicts = true;
+        return this;
     }
 
     private void init(final int depth, final JigsawPlacement.PieceFactory pieceFactory,
@@ -297,9 +315,63 @@ public class JigsawAssmbler
 
     private boolean add(StructurePiece part)
     {
-        for (BoundingBox b : conflict_check)
+        if (checkConflicts && thisFeature != null)
         {
-            if (b.intersects(part.getBoundingBox())) return false;
+            BoundingBox box = part.getBoundingBox();
+            int dx = Math.min(16, box.getXSpan() / 4);
+            int dz = Math.min(16, box.getZSpan() / 4);
+
+            dx = Math.max(dx, 1);
+            dz = Math.max(dz, 1);
+
+            for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minX; j < box.maxX; j += dz)
+            {
+                int x = SectionPos.blockToSectionCoord(i);
+                int z = SectionPos.blockToSectionCoord(j);
+
+                ChunkPos pos = new ChunkPos(x, z);
+                if (checked_chunks.contains(pos)) continue;
+                checked_chunks.add(pos);
+
+                // Here we check if there are any conflicting structures around.
+
+                final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
+                world.getChunkSource();
+                final StructureFeatureManager sfmanager = world.structureFeatureManager();
+                final StructureSettings settings = chunkGenerator.getSettings();
+
+                for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
+                {
+                    // We shouldn't be conflicting with ourself
+                    if (s.getRegistryName().equals(structName)) continue;
+
+                    final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
+                    // This means it doesn't spawn in this world, so we skip.
+                    if (structureseparationsettings == null) continue;
+
+                    // We ask for EMPTY chunk, and allow it to be null, so
+                    // that
+                    // we don't cause issues if the chunk doesn't exist yet.
+                    final ChunkAccess ichunk = world.getChunk(x, z, ChunkStatus.EMPTY, false);
+                    // We then only care about chunks which have already
+                    // reached
+                    // at least this stage of loading.
+                    if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
+                    // This is the way to tell if an actual real structure
+                    // would be at this location.
+                    final StructureStart<?> structurestart = sfmanager.getStartForFeature(SectionPos.bottomOf(ichunk),
+                            s, ichunk);
+                    // This means we do conflict, so no spawn here.
+                    if (structurestart != null && structurestart.isValid())
+                    {
+                        conflict_check.add(structurestart.getBoundingBox());
+                    }
+                }
+            }
+            for (BoundingBox b : conflict_check)
+            {
+                if (b.intersects(box)) return false;
+            }
         }
         return parts.add(part);
     }
@@ -397,7 +469,7 @@ public class JigsawAssmbler
 
                     if (isEmpty && allowEmpty) break;
                     else if (isEmpty) continue;
-                    
+
                     String once = "";
 
                     if (next_part instanceof CustomJigsawPiece

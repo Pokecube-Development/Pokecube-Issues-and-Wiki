@@ -15,10 +15,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.PermNodes;
+import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 
 public class TM
@@ -62,7 +62,7 @@ public class TM
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.poketm";
-        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
+        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
 
         // Setup with name and permission
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("poketm").requires(cs -> CommandTools.hasPerm(

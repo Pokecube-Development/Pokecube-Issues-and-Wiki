@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -39,9 +40,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.server.permission.IPermissionHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
@@ -65,6 +63,7 @@ import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
@@ -716,12 +715,9 @@ public class MoveEventsHandler
             MoveEventsHandler.register(action = new DefaultAction(move));
             action.init();
         }
-        if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof Player)
+        if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)
         {
-            final Player player = (Player) attacker.getOwner();
-            final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
-            if (!handler.hasPermission(player.getGameProfile(), Permissions.MOVEWORLDACTION.get(move.name), context))
+            if (!PermNodes.getBooleanPerm(player, Permissions.MOVEWORLDACTION.get(move.name)))
             {
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Denied use of " + move.name + " for " + player);
                 return;

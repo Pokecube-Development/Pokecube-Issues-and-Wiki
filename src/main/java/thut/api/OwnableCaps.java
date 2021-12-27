@@ -1,5 +1,6 @@
 package thut.api;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,8 +20,11 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -326,7 +330,7 @@ public class OwnableCaps
     public static void onBlockHit(final PlayerInteractEvent.LeftClickBlock event)
     {
         final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
-        if (tile != null)
+        if (tile != null && tile.getLevel() instanceof ServerLevel level)
         {
             final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE
@@ -334,8 +338,12 @@ public class OwnableCaps
                             .getTagOrEmpty(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())
                     && ((IOwnableTE) ownable).getOwnerId() != null)
             {
-                event.getWorld().getBlockState(event.getPos()).onDestroyedByPlayer(event.getWorld(), event.getPos(),
-                        event.getPlayer(), true, event.getWorld().getFluidState(event.getPos()));
+                BlockState state = level.getBlockState(event.getPos());
+                List<ItemStack> drops = Block.getDrops(state, level, event.getPos(), tile, event.getPlayer(),
+                        event.getItemStack());
+                if (drops.isEmpty()) state.onDestroyedByPlayer(level, event.getPos(), event.getPlayer(), true,
+                        level.getFluidState(event.getPos()));
+                else event.getWorld().destroyBlock(event.getPos(), true);
                 event.setUseBlock(Result.DENY);
             }
         }

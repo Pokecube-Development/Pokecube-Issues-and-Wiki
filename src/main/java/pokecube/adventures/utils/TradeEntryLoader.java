@@ -68,7 +68,7 @@ public class TradeEntryLoader
         public String type = "preset";
         public Sell sell;
         public int maxUses = Integer.MAX_VALUE;
-        public int exp = -1;
+        public int exp = 1;
         public int demand = 0;
         public float multiplier = 0.05f;
         public int count = -1;
@@ -301,17 +301,20 @@ public class TradeEntryLoader
         }
         for (ProfessionEntry entry : database.professions)
         {
-            ResourceLocation id = new ResourceLocation(entry.profession);
             for (final ProfiessionStage stage : entry.stages)
             {
                 int level = stage.level;
                 final TrainerTrades trades = new TrainerTrades();
                 processTrades(trades, stage.trades);
                 ItemListing[] arr = trades.tradesList.toArray(new ItemListing[trades.tradesList.size()]);
-                if (ForgeRegistries.PROFESSIONS.containsKey(id))
+                if (entry.profession != null)
                 {
-                    VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
-                    Professions.updateProfession(profession, level, arr, stage.clear_old);
+                    ResourceLocation id = new ResourceLocation(entry.profession);
+                    if (ForgeRegistries.PROFESSIONS.containsKey(id))
+                    {
+                        VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
+                        Professions.updateProfession(profession, level, arr, stage.clear_old);
+                    }
                 }
                 if (!entry.type.isEmpty()) NpcType.addTrade(entry.type, level, arr, stage.clear_old);
             }
@@ -341,7 +344,7 @@ public class TradeEntryLoader
                 }
                 if (sell.isEmpty())
                 {
-                    System.err.println("No Sell:" + trade.sell + " " + trade.buys);
+                    PokecubeCore.LOGGER.error("No Sell:" + trade.sell + " " + trade.buys);
                     continue;
                 }
 

@@ -30,9 +30,12 @@ public class LogicFloatFlySwim extends LogicBase
     private static class WalkController extends MoveControl
     {
 
+        final IPokemob pokemob;
+
         public WalkController(final IPokemob mob)
         {
             super(mob.getEntity());
+            this.pokemob = mob;
         }
 
         @Override
@@ -44,6 +47,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
+            if (pokemob.getController().blocksPathing()) return;
             super.tick();
         }
 
@@ -69,6 +73,8 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             this.mob.setNoGravity(this.mob.isInWater());
+            
+            if (pokemob.getController().blocksPathing()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
             {
@@ -143,6 +149,8 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
+            if (pokemob.getController().blocksPathing()) return;
+            
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {
                 this.operation = MoveControl.Operation.WAIT;
@@ -213,9 +221,9 @@ public class LogicFloatFlySwim extends LogicBase
     // Navigators
     private final FlyingPathNavigation flyPather;
 
-    private final WalkPathNavi  walkPather;
+    private final WalkPathNavi walkPather;
     private final ClimbPathNavi climbPather;
-    private final SwimPathNavi  swimPather;
+    private final SwimPathNavi swimPather;
 
     // Movement controllers
     private final MoveControl flyController;
@@ -223,8 +231,8 @@ public class LogicFloatFlySwim extends LogicBase
     private final MoveControl swimController;
 
     // Path validators
-    Vector3 lastPos     = Vector3.getNewVector();
-    int     time_at_pos = 0;
+    Vector3 lastPos = Vector3.getNewVector();
+    int time_at_pos = 0;
 
     public LogicFloatFlySwim(final IPokemob entity)
     {
@@ -285,8 +293,8 @@ public class LogicFloatFlySwim extends LogicBase
                 this.lastPos.set(this.entity);
                 this.time_at_pos = 0;
             }
-            if (nextVec.distToSq(hereVec) < 1 && path.getNextNodeIndex() + 1 < path.getNodeCount()) path
-                    .setNextNodeIndex(path.getNextNodeIndex() + 1);
+            if (nextVec.distToSq(hereVec) < 1 && path.getNextNodeIndex() + 1 < path.getNodeCount())
+                path.setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
 
         final boolean air = this.pokemob.floats() || this.pokemob.flys();
