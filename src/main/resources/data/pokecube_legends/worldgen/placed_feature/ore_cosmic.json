@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:ore_cosmic_dust_buried",
+  "feature": "pokecube_legends:ore_cosmic_buried",
   "placement": [
     {
-      "count": 4,
+      "count": 7,
       "type": "minecraft:count"
     },
     {
@@ -14,7 +14,7 @@
           "above_bottom": -80
         },
         "max_inclusive": {
-          "above_bottom": 32
+          "above_bottom": 80
         },
         "type": "minecraft:trapezoid"
       },

@@ -1,5 +1,5 @@
 {
-  "feature": "pokecube_legends:ore_cosmic_dust_meteorite",
+  "feature": "pokecube_legends:ore_cosmic_meteorite",
   "placement": [
     {
       "chance": 64,
@@ -14,7 +14,7 @@
           "above_bottom": -80
         },
         "max_inclusive": {
-          "above_bottom": 16
+          "above_bottom": 80
         },
         "type": "minecraft:trapezoid"
       },

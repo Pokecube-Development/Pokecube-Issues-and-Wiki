@@ -1,5 +1,5 @@
 {
-  "feature": "pokecube_legends:ore_cosmic_dust_large",
+  "feature": "pokecube_legends:ore_cosmic_large",
   "placement": [
     {
       "chance": 9,
@@ -14,7 +14,7 @@
           "above_bottom": -80
         },
         "max_inclusive": {
-          "above_bottom": 32
+          "above_bottom": 80
         },
         "type": "minecraft:trapezoid"
       },
