@@ -1,0 +1,19 @@
+{
+    "priority": 100,
+    "biome": "minecraft:forest",
+    "required": ["pokecube:wood"],
+    "columns": [
+      {
+        "ids": ["minecraft:grass", "pokecube:plants_edible"],
+        "weights": [1, 0.2]
+      },
+      {
+        "ids": ["minecraft:grass", "pokecube:plants_cutable"],
+        "weights": [1, 0.2]
+      },
+      {
+        "ids": ["minecraft:grass", "pokecube:wood"],
+        "weights": [1, 0.2]
+      }
+    ]
+}

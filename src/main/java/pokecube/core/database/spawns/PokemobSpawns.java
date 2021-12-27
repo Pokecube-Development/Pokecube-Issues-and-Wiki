@@ -152,7 +152,11 @@ public class PokemobSpawns extends ResourceData
             try
             {
                 final SpawnList temp = JsonUtil.gson.fromJson(reader, SpawnList.class);
-                if (!confirmNew(temp, l)) return;
+                if (!confirmNew(temp, l))
+                {
+                    reader.close();
+                    return;
+                }
                 if (temp.replace) loaded.clear();
                 loaded.add(temp);
             }
