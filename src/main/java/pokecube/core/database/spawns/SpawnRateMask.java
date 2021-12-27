@@ -137,9 +137,13 @@ public class SpawnRateMask
         double old_y = this.phase_y;
 
         Random rand = new Random(level.getSeed());
-        old_t = this.phase_t + Math.PI * rand.nextDouble();
-        old_x = this.phase_x + Math.PI * rand.nextDouble();
-        old_y = this.phase_y + Math.PI * rand.nextDouble();
+        old_t = this.phase_t;
+        old_x = this.phase_x;
+        old_y = this.phase_y;
+
+        this.phase_t = this.phase_t + Math.PI * rand.nextDouble();
+        this.phase_x = this.phase_x + Math.PI * rand.nextDouble();
+        this.phase_y = this.phase_y + Math.PI * rand.nextDouble();
 
         // Central functions are centred on 0,0, not the world spawn
         if (_function.central) spawn.clear();
