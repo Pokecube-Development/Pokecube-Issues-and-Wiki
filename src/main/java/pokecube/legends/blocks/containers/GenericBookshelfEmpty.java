@@ -45,10 +45,10 @@ import pokecube.legends.tileentity.GenericBookshelfEmptyTile;
 
 public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWaterloggedBlock
 {
-    public static final IntegerProperty             BOOKS       = IntegerProperty.create("books", 0, 9);
-    private static final Map<Direction, VoxelShape> EMPTY       = new HashMap<>();
-    private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
-    private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final IntegerProperty BOOKS = IntegerProperty.create("books", 0, 9);
+    private static final Map<Direction, VoxelShape> EMPTY = new HashMap<>();
+    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box @formatter:off
     static
@@ -109,10 +109,15 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection()
-                .getOpposite()).setValue(GenericBookshelfEmpty.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
-                        && ifluidstate.getAmount() == 8).setValue(GenericBookshelfEmpty.BOOKS, context.getItemInHand()
-                                .getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size());
+
+        int number = context.getItemInHand().getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size();
+        if (context.getItemInHand().getOrCreateTagElement("BlockEntityTag").contains("LootTable")) number = 9;
+
+        return this.defaultBlockState()
+                .setValue(GenericBookshelfEmpty.FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(GenericBookshelfEmpty.WATERLOGGED,
+                        ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8)
+                .setValue(GenericBookshelfEmpty.BOOKS, number);
     }
 
     @Override
@@ -120,8 +125,8 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
             final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
-        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED)) world.scheduleTick(currentPos,
-                Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED))
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
@@ -190,11 +195,12 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     }
 
     @Override
-    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos,
-            final Player entity, final InteractionHand hand, final BlockHitResult hit)
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player entity,
+            final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile) return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
+        if (tile instanceof GenericBookshelfEmptyTile)
+            return ((GenericBookshelfEmptyTile) tile).interact(entity, hand, world);
         return InteractionResult.PASS;
     }
 
