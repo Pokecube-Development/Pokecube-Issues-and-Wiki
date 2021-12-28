@@ -173,7 +173,7 @@ public class BlockEntityUpdater
         double dx = 0, dz = 0, dy = 0;
         Vec3 motion_b = entity.getDeltaMovement();
 
-        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
+        boolean serverSide = entity.getLevel().isClientSide;
         final boolean isPlayer = entity instanceof Player;
         if (isPlayer) serverSide = entity instanceof ServerPlayer;
 
@@ -324,7 +324,7 @@ public class BlockEntityUpdater
 //        // inverse transformation before actually applying collision to entity.
 //        if ((this.theEntity.yRot + 360) % 90 > 5 || this.theEntity.hasPassenger(entity)) return;
 //
-//        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
+//        boolean serverSide = entity.getLevel().isClientSide;
 //        final boolean isPlayer = entity instanceof Player;
 //        if (isPlayer) serverSide = entity instanceof ServerPlayer;
 //
@@ -404,17 +404,13 @@ public class BlockEntityUpdater
         if (this.blockEntity.getBlocks() == null) return;
         final BlockPos dims = this.blockEntity.getSize();
         final double uMax = Math.max(dims.getX(), Math.max(dims.getY(), dims.getZ()));
-        this.theEntity.getCommandSenderWorld().increaseMaxEntityRadius(uMax);
+        this.theEntity.getLevel().increaseMaxEntityRadius(uMax);
         EntityDimensions size = this.theEntity.getDimensions(this.theEntity.getPose());
         if (size.width != dims.getX() + 1)
         {
             size = EntityDimensions.fixed(1 + dims.getX(), this.blockEntity.getMax().getY());
             this.blockEntity.setSize(size);
         }
-        double y;
-        if (this.theEntity.getDeltaMovement().y == 0
-                && this.theEntity.getY() != (y = Math.round(this.theEntity.getY())))
-            this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
         final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         final int sizeX = dims.getX();
@@ -422,7 +418,7 @@ public class BlockEntityUpdater
         final int sizeZ = dims.getZ();
 
         final Level world = this.blockEntity.getFakeWorld() instanceof Level ? (Level) this.blockEntity.getFakeWorld()
-                : this.theEntity.getCommandSenderWorld();
+                : this.theEntity.getLevel();
 
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
         {

@@ -1,4 +1,4 @@
-package pokecube.core.network.pokemobs;
+package thut.core.common.network;
 
 import java.util.Optional;
 
@@ -16,8 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import pokecube.core.entity.pokemobs.helper.PokemobPart;
-import thut.core.common.network.Packet;
+import thut.api.entity.GenericPartEntity;
 
 /**
  * This is a custom implementation of CUseEntityPacket, to support pokemob parts
@@ -25,11 +24,11 @@ import thut.core.common.network.Packet;
  */
 public class PacketPartInteract extends Packet
 {
-    int                                          entityId;
-    boolean                                      sneaking;
-    private Vec3                                 hitVec;
+    int entityId;
+    boolean sneaking;
+    private Vec3 hitVec;
     private ServerboundInteractPacket.ActionType action;
-    private InteractionHand                      hand;
+    private InteractionHand hand;
 
     private String id;
 
@@ -71,11 +70,11 @@ public class PacketPartInteract extends Packet
     {
         this.entityId = buf.readVarInt();
         this.action = buf.readEnum(ServerboundInteractPacket.ActionType.class);
-        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hitVec = new Vec3(buf.readFloat(), buf
-                .readFloat(), buf.readFloat());
+        if (this.action == ServerboundInteractPacket.ActionType.INTERACT_AT)
+            this.hitVec = new Vec3(buf.readFloat(), buf.readFloat(), buf.readFloat());
         if (this.action == ServerboundInteractPacket.ActionType.INTERACT
-                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) this.hand = buf.readEnum(
-                        InteractionHand.class);
+                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT)
+            this.hand = buf.readEnum(InteractionHand.class);
         this.sneaking = buf.readBoolean();
         this.id = buf.readUtf(32767);
     }
@@ -92,7 +91,8 @@ public class PacketPartInteract extends Packet
             buf.writeFloat((float) this.hitVec.z);
         }
         if (this.action == ServerboundInteractPacket.ActionType.INTERACT
-                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT) buf.writeEnum(this.hand);
+                || this.action == ServerboundInteractPacket.ActionType.INTERACT_AT)
+            buf.writeEnum(this.hand);
         buf.writeBoolean(this.sneaking);
         buf.writeUtf(this.id);
     }
@@ -139,11 +139,11 @@ public class PacketPartInteract extends Packet
         {
             // Convert to the relevant part if found.
             if (entity.isMultipartEntity()) for (final PartEntity<?> p : entity.getParts())
-                if (p instanceof PokemobPart && ((PokemobPart) p).id.equals(this.id))
-                {
-                    entity = p;
-                    break;
-                }
+                if (p instanceof GenericPartEntity<?> p2 && p2.id.equals(this.id))
+            {
+                entity = p;
+                break;
+            }
             // Do this before checking distance stuff, as the mobs can be
             // sufficiently large that the distance check fails otherwise.
 
@@ -154,12 +154,13 @@ public class PacketPartInteract extends Packet
                 final ItemStack itemstack = hand != null ? player.getItemInHand(hand).copy() : ItemStack.EMPTY;
                 Optional<InteractionResult> optional = Optional.empty();
 
-                if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT) optional = Optional.of(player
-                        .interactOn(entity, hand));
+                if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT)
+                    optional = Optional.of(player.interactOn(entity, hand));
                 else if (this.getAction() == ServerboundInteractPacket.ActionType.INTERACT_AT)
                 {
                     if (net.minecraftforge.common.ForgeHooks.onInteractEntityAt(player, entity, this.getHitVec(),
-                            hand) != null) return;
+                            hand) != null)
+                        return;
                     optional = Optional.of(entity.interactAt(player, this.getHitVec(), hand));
                 }
                 else if (this.getAction() == ServerboundInteractPacket.ActionType.ATTACK) player.attack(entity);

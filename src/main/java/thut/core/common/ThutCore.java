@@ -24,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
-// The value here should match an entry in the META-INF/mods.toml file
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,6 +58,7 @@ import thut.core.common.network.CapabilitySync;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.GeneralUpdate;
 import thut.core.common.network.PacketHandler;
+import thut.core.common.network.PacketPartInteract;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
@@ -188,7 +188,7 @@ public class ThutCore
     public static final Logger LOGGER = LogManager.getLogger(ThutCore.MODID);
     public static final String MODID  = "thutcore";
 
-    private static final String NETVERSION = "1.0.0";
+    private static final String NETVERSION = "1.1.0";
 
     public static final PacketHandler packets = new PacketHandler(new ResourceLocation(ThutCore.MODID, "comms"),
             ThutCore.NETVERSION);
@@ -287,6 +287,7 @@ public class ThutCore
         ThutCore.packets.registerMessage(PacketDataSync.class, PacketDataSync::new);
         ThutCore.packets.registerMessage(GeneralUpdate.class, GeneralUpdate::new);
         ThutCore.packets.registerMessage(CapabilitySync.class, CapabilitySync::new);
+        ThutCore.packets.registerMessage(PacketPartInteract.class, PacketPartInteract::new);
 
         GeneralUpdate.init();
         CapabilitySync.init();

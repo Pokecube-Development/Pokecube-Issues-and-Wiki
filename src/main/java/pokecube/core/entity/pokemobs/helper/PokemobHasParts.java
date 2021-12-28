@@ -263,12 +263,6 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
-    public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
-    {
-        return super.hurt(source, amount);
-    }
-
-    @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
         if (this.isMultipartEntity()) return false;
@@ -293,7 +287,7 @@ public abstract class PokemobHasParts extends PokemobCombat
     @Override
     public boolean is(final Entity entityIn)
     {
-        return this == entityIn || entityIn instanceof PokemobPart && ((PokemobPart) entityIn).base == this;
+        return this == entityIn || entityIn instanceof PokemobPart part && part.getParent() == this;
     }
 
     @Override

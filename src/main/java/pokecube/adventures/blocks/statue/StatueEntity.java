@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -143,13 +144,13 @@ public class StatueEntity extends BlockEntity
     {
         final ICopyMob copy = CopyCaps.get(this);
 
-        if (copy == null)
+        if (copy == null || !(this.level instanceof ServerLevel slevel))
         {
             PokecubeCore.POKEMOB_BUS.unregister(this);
             return;
         }
 
-        if (!event.forSpawn) return;
+        if (!event.forSpawn || !slevel.isPositionEntityTicking(getBlockPos())) return;
 
         if (copy.getCopiedMob() != null)
         {

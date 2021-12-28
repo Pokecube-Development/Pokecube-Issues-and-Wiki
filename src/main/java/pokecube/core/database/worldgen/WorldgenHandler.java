@@ -105,6 +105,7 @@ public class WorldgenHandler
         public boolean water = false;
 
         public boolean override = false;
+        public boolean needs_children = false;
 
         public boolean base_override = false;
 

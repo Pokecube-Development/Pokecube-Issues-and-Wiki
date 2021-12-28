@@ -260,7 +260,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (v > 1e-5)
         {
             final List<Entity> mobs = this.level.getEntities(this, this.getBoundingBox().inflate(Math.sqrt(v) + 0.5));
-//            if (!this.isServerWorld()) System.out.println(mobs + " " + this.tickCount);
             mobs.forEach(m -> this.onEntityCollision(m));
 
             if (this.getPersistentData().contains("__lift_cache__"))
@@ -290,6 +289,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public void onEntityCollision(final Entity entityIn)
     {
+        boolean isPassenger = this.passengers.contains(entityIn);
+        if (isPassenger) return;
+
         final VoxelShape shapeHere = this.collider.buildShape();
         if (shapeHere.isEmpty()) return;
 
@@ -384,7 +386,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public final void doMotion()
     {
         final Vec3 v = this.getDeltaMovement();
-        this.move(MoverType.SELF, v);
+        if (v.lengthSqr() > 0)
+        {
+            this.move(MoverType.SELF, v);
+        }
+        else this.setPos(this.position());
     }
 
     @Override
@@ -442,7 +448,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public Vec3 getDeltaMovement()
     {
         return super.getDeltaMovement();
-//        return this.getEntityData().get(BlockEntityBase.velocity);
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, double speedPos,
@@ -590,8 +595,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void defineSynchedData()
     {
-        this.getEntityData().define(BlockEntityBase.velocity, Vec3.ZERO);
-        this.getEntityData().define(BlockEntityBase.position, Vec3.ZERO);
+
     }
 
     /** Will get destroyed next tick. */
@@ -631,28 +635,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void setDeltaMovement(final Vec3 vec)
     {
         super.setDeltaMovement(vec);
-        this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
 
     @Override
     public void setPosRaw(final double x, final double y, final double z)
     {
-        final Vec3 pos = new Vec3(x, y, z);
-        Vec3 vec = pos;
-        if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
-        final double ds2 = vec.distanceToSqr(pos);
         super.setPosRaw(x, y, z);
-
-        if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0)
-            this.getEntityData().set(BlockEntityBase.position, pos);
-
-        // This is null during init, when setPosition is first called.
-        if (this.getEntityData() == null) return;
-        if (!this.isServerWorld())
-        {
-            vec = this.getEntityData().get(BlockEntityBase.position);
-            if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
-        }
     }
 
     @Override
@@ -670,32 +658,22 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void tick()
     {
+        super.tick();
         if (this.getBlocks() == null) return;
 
         if (!this.isAddedToWorld()) this.onAddedToWorld();
 
-        this.xo = this.getX();
-        this.yo = this.getY();
-        this.zo = this.getZ();
-
         if (this.collider == null) this.collider = new BlockEntityUpdater(this);
         this.setBoundingBox(this.collider.getBoundingBox());
-
-        if (this.isServerWorld())
-        {
-            final Vec3 orig = this.getDeltaMovement();
-            final Vec3 motion = new Vec3(orig.x, orig.y, orig.z);
-            this.setDeltaMovement(motion);
-        }
 
         this.yRot = 0;
         this.xRot = 0;
         this.preColliderTick();
         this.collider.onUpdate();
-        this.accelerate();
 
-        if (this.toMoveY || this.toMoveX || this.toMoveZ) this.doMotion();
-//        if (!this.isServerWorld())
+        this.accelerate();
+        this.doMotion();
+
         this.checkCollision();
     }
 
