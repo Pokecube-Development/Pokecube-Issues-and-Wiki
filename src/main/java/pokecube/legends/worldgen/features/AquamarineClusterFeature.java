@@ -185,7 +185,7 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
    public boolean canPlacePool(WorldGenLevel world, BlockPos pos)
    {
       BlockState state = world.getBlockState(pos);
-      if (!state.is(Blocks.WATER) && !state.is(BlockInit.UNREFINED_AQUAMARINE.get()) && !state.is(Blocks.POINTED_DRIPSTONE))
+      if (!state.is(Blocks.WATER) && !state.is(BlockInit.UNREFINED_AQUAMARINE.get()) && !state.is(BlockInit.AQUAMARINE_CRYSTAL.get()))
       {
          for(Direction direction : Direction.Plane.HORIZONTAL)
          {

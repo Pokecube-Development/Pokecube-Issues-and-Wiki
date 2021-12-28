@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pointed_dripstone",
+  "textures": {
+    "cross": "pokecube_legends:block/aquamarine_crystal_down_base"
+  }
+}

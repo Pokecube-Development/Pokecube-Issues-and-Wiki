@@ -103,7 +103,7 @@ public class AquamarineUtils
            BlockPos.MutableBlockPos mutablePos = pos.mutable();
            buildBaseToTipColumn(direction, x, b, (block) ->
            {
-              if (block.is(Blocks.POINTED_DRIPSTONE))
+              if (block.is(BlockInit.AQUAMARINE_CRYSTAL.get()))
               {
                  block = block.setValue(PointedDripstoneBlock.WATERLOGGED, Boolean.valueOf(world.isWaterAt(mutablePos)));
               }
@@ -128,7 +128,7 @@ public class AquamarineUtils
 
      public static BlockState createAquamarineCrystal(Direction direction, DripstoneThickness thickness)
      {
-        return Blocks.POINTED_DRIPSTONE.defaultBlockState().setValue(PointedDripstoneBlock.TIP_DIRECTION, direction)
+        return BlockInit.AQUAMARINE_CRYSTAL.get().defaultBlockState().setValue(PointedDripstoneBlock.TIP_DIRECTION, direction)
                 .setValue(PointedDripstoneBlock.THICKNESS, thickness);
      }
 

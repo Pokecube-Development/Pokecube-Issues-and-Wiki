@@ -71,6 +71,7 @@ import pokecube.legends.blocks.normalblocks.CrackedDistorticStone;
 import pokecube.legends.blocks.normalblocks.DistorticStoneBlock;
 import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.AgedGrassBlock;
+import pokecube.legends.blocks.normalblocks.AquamarineCrystalBlock;
 import pokecube.legends.blocks.normalblocks.AzureGrassBlock;
 import pokecube.legends.blocks.normalblocks.CorruptedGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
@@ -374,6 +375,7 @@ public class BlockInit
     public static final RegistryObject<Block> AQUAMARINE_BLOCK;
     public static final RegistryObject<Block> AQUAMARINE_BUTTON;
     public static final RegistryObject<Block> AQUAMARINE_BRICKS;
+    public static final RegistryObject<Block> AQUAMARINE_CRYSTAL;
     public static final RegistryObject<Block> AQUAMARINE_STAIRS;
     public static final RegistryObject<Block> AQUAMARINE_SLAB;
     public static final RegistryObject<Block> AQUAMARINE_PR_PLATE;
@@ -1039,6 +1041,9 @@ public class BlockInit
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Aquamarine
+        AQUAMARINE_CRYSTAL = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_crystal",
+                () -> new AquamarineCrystalBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F, 3.0F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape()));
         UNREFINED_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine",
                 () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
                         .strength(3.0f, 3.0f).sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
