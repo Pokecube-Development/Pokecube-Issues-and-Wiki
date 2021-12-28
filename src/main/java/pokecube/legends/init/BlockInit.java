@@ -92,6 +92,7 @@ import pokecube.legends.blocks.normalblocks.OneWayMirageGlass;
 import pokecube.legends.blocks.normalblocks.OneWaySpectrumGlass;
 import pokecube.legends.blocks.normalblocks.OneWayStainedGlass;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
+import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
 import pokecube.legends.blocks.plants.AgedTree;
 import pokecube.legends.blocks.plants.CorruptedTree;
@@ -1045,7 +1046,7 @@ public class BlockInit
                 () -> new AquamarineCrystalBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
                         .strength(1.5F, 3.0F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape()));
         UNREFINED_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine",
-                () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                () -> new UnrefinedAquamarineBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
                         .strength(3.0f, 3.0f).sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_block",
                 () -> new BlockBase(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE, 1.5f, 3.0f, SoundType.AMETHYST, true));
