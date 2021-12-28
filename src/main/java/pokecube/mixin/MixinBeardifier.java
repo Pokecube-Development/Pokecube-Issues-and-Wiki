@@ -19,6 +19,7 @@ import net.minecraft.world.level.levelgen.Beardifier;
 import net.minecraft.world.level.levelgen.feature.NoiseEffect;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.structures.JigsawJunction;
+import net.minecraft.world.level.levelgen.feature.structures.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -30,7 +31,7 @@ public class MixinBeardifier
 {
     private static final int KERNEL_RADIUS = 12;
     private static final int KERNEL_SIZE = 24;
-    private static final float[] KERNEL = Util.make(new float[13824], (p_158082_) -> {
+    private static final float[] KERNEL = Util.make(new float[KERNEL_SIZE * KERNEL_SIZE * KERNEL_SIZE], (p_158082_) -> {
         for (int i = 0; i < KERNEL_SIZE; ++i)
         {
             for (int j = 0; j < KERNEL_SIZE; ++j)
@@ -74,6 +75,50 @@ public class MixinBeardifier
                         }
                     });
         }
+
+        int i = chunkpos.getMinBlockX();
+        int j = chunkpos.getMinBlockZ();
+
+        for (StructureFeature<?> structurefeature : WorldgenHandler.HAS_BASES)
+        {
+            structureManager.startsForFeature(SectionPos.bottomOf(chunkAccess), structurefeature)
+                    .forEach((p_158080_) ->
+                    {
+                        for (StructurePiece structurepiece : p_158080_.getPieces())
+                        {
+                            if (structurepiece.isCloseToChunk(chunkpos, KERNEL_RADIUS))
+                            {
+                                if (structurepiece instanceof PoolElementStructurePiece)
+                                {
+                                    PoolElementStructurePiece poolelementstructurepiece = (PoolElementStructurePiece) structurepiece;
+                                    StructureTemplatePool.Projection structuretemplatepool$projection = poolelementstructurepiece
+                                            .getElement().getProjection();
+                                    if (structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID)
+                                    {
+                                        this.rigids2.add(poolelementstructurepiece);
+                                    }
+
+                                    for (JigsawJunction jigsawjunction : poolelementstructurepiece.getJunctions())
+                                    {
+                                        int k = jigsawjunction.getSourceX();
+                                        int l = jigsawjunction.getSourceZ();
+                                        if (k > i - KERNEL_RADIUS && l > j - KERNEL_RADIUS && k < i + 15 + KERNEL_RADIUS
+                                                && l < j + 15 + KERNEL_RADIUS)
+                                        {
+                                            this.junctions2.add(jigsawjunction);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    this.rigids2.add(structurepiece);
+                                }
+                            }
+                        }
+
+                    });
+        }
+
         this.pieceIterator2 = this.rigids2.iterator();
         this.junctionIterator2 = this.junctions2.iterator();
     }
@@ -102,6 +147,18 @@ public class MixinBeardifier
             }
         }
         this.pieceIterator2.back(this.rigids2.size());
+
+        while (this.junctionIterator2.hasNext())
+        {
+            JigsawJunction jigsawjunction = this.junctionIterator2.next();
+            int l = p_188452_ - jigsawjunction.getSourceX();
+            int i1 = p_188453_ - jigsawjunction.getSourceGroundY();
+            int j1 = p_188454_ - jigsawjunction.getSourceZ();
+            d0 += _getBeardContribution(l, i1, j1) * 0.4D;
+        }
+
+        this.junctionIterator2.back(this.junctions2.size());
+
         ci.setReturnValue(d0);
     }
 

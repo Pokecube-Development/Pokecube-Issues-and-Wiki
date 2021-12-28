@@ -1,62 +1,94 @@
 {
   "pools": [
     {
-      "name": "pokecube_legends:team_rocket",
+      "name": "pokecube_legends:rocket_base",
       "rigid": true,
       "ignoreAir": false,
       "base_override": true,
       "options": [
-        "pokecube_legends:temples/surface/rocket_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}",
-        "pokecube_legends:temples/surface/rocket_top_4;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/rocket_top_1;{\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_2;{\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_3;{\"extra\":{\"markers_to_air\":true}}",
+        "pokecube_legends:temples/surface/rocket_top_4;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
-      "name": "pokecube_legends:team_magma",
+      "name": "pokecube_legends:magma_base",
       "rigid": true,
       "ignoreAir": false,
       "base_override": true,
       "options": [
-        "pokecube_legends:temples/surface/magma_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/magma_top_1;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
-      "name": "pokecube_legends:team_aqua",
+      "name": "pokecube_legends:aqua_base",
       "rigid": true,
       "ignoreAir": false,
       "base_override": true,
       "options": [
-        "pokecube_legends:temples/surface/aqua_top_1;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/aqua_top_1;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
       "name": "pokecube_legends:temples/surface/rocket_top",
       "rigid": true,
       "ignoreAir": false,
+      "biomeType": "industrial",
       "options": [
-        "pokecube_legends:temples/surface/team_rocket;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/team_rocket;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
       "name": "pokecube_legends:temples/surface/magma_top",
       "rigid": true,
       "ignoreAir": false,
+      "biomeType": "industrial",
       "options": [
-        "pokecube_legends:temples/surface/team_magma;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/team_magma;{\"extra\":{\"markers_to_air\":true}}"
       ]
     },
     {
       "name": "pokecube_legends:temples/surface/aqua_top",
       "rigid": true,
       "ignoreAir": false,
+      "biomeType": "industrial",
       "options": [
-        "pokecube_legends:temples/surface/team_aqua;{\"dy\":9,\"extra\":{\"markers_to_air\":true}}"
+        "pokecube_legends:temples/surface/team_aqua;{\"extra\":{\"markers_to_air\":true}}"
+      ]
+    },
+    {
+      "name": "pokecube_legends:temples/surface/rocket_shaft",
+      "rigid": true,
+      "ignoreAir": false,
+      "biomeType": "industrial",
+      "options": [
+        "pokecube_legends:temples/surface/rocket_shaft"
+      ]
+    },
+    {
+      "name": "pokecube_legends:temples/surface/magma_shaft",
+      "rigid": true,
+      "ignoreAir": false,
+      "biomeType": "industrial",
+      "options": [
+        "pokecube_legends:temples/surface/magma_shaft"
+      ]
+    },
+    {
+      "name": "pokecube_legends:temples/surface/aqua_shaft",
+      "rigid": true,
+      "ignoreAir": false,
+      "biomeType": "industrial",
+      "options": [
+        "pokecube_legends:temples/surface/aqua_shaft"
       ]
     }
   ],
   "jigsaws": [
     {
       "name": "pokecube_legends:team_rocket",
-      "root": "pokecube_legends:team_rocket",
+      "root": "pokecube_legends:rocket_base",
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,
@@ -72,7 +104,7 @@
     },
     {
       "name": "pokecube_legends:team_magma",
-      "root": "pokecube_legends:team_magma",
+      "root": "pokecube_legends:magma_base",
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,
@@ -88,7 +120,7 @@
     },
     {
       "name": "pokecube_legends:team_aqua",
-      "root": "pokecube_legends:team_aqua",
+      "root": "pokecube_legends:aqua_base",
       "biomeType": "industrial",
       "distance": 70,
       "separation": 30,

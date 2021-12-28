@@ -258,6 +258,8 @@ public class WorldgenHandler
     public static List<JigSawPool> BASE_OVERRIDES = Lists.newArrayList();
     public static Set<StructureFeature<?>> HAS_BASE_OVERRIDES = Sets.newHashSet();
 
+    public static Set<StructureFeature<?>> HAS_BASES = Sets.newHashSet();
+
     public static Set<ResourceKey<Level>> SOFTBLACKLIST = Sets.newHashSet();
 
     private static void initSpaceMap()
@@ -708,8 +710,6 @@ public class WorldgenHandler
 
     private static void forceVillageFeature(final StructureFeature<?> feature)
     {
-        final List<StructureFeature<?>> list = Lists.newArrayList(StructureFeature.NOISE_AFFECTING_FEATURES);
-        if (!list.contains(feature)) list.add(feature);
-        StructureFeature.NOISE_AFFECTING_FEATURES = list;
+        if (!WorldgenHandler.HAS_BASES.contains(feature)) WorldgenHandler.HAS_BASES.add(feature);
     }
 }
