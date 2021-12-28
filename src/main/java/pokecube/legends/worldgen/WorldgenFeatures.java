@@ -2,17 +2,23 @@ package pokecube.legends.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
+import pokecube.legends.worldgen.features.AquamarineClusterFeature;
+import pokecube.legends.worldgen.features.AquamarineCrystalFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
+import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
 
 public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
 {
@@ -30,6 +36,10 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //    public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens_builder",
 //            () -> new TaintedBarrensSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
+    public static final RegistryObject<Feature<?>> AQUAMARINE_CLUSTER = WorldgenFeatures.FEATURES.register("aquamarine_cluster_feature",
+            () -> new AquamarineClusterFeature(DripstoneClusterConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> AQUAMARINE_CRYSTAL = WorldgenFeatures.FEATURES.register("aquamarine_crystal_feature",
+            () -> new AquamarineCrystalFeature(PointedDripstoneConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
 //            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
@@ -58,6 +68,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new ForestVegetationFeature(BlockPileConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> LAKE = WorldgenFeatures.FEATURES.register("lake_feature",
 //            () -> new LakeFeature(BlockStateConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> LARGE_UNREFINED_AQUAMARINE = WorldgenFeatures.FEATURES.register("large_unrefined_aquamarine_feature",
+            () -> new LargeUnrefinedAquamarine(LargeDripstoneConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",
 //            () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TAINTED_KELP= WorldgenFeatures.FEATURES.register("tainted_kelp_feature",

@@ -637,6 +637,7 @@
     "block.pokecube_legends.dusk_dolerite_brick_slab": "Dusk Dolerite Brick Slab",
     "block.pokecube_legends.dusk_dolerite_brick_stairs": "Dusk Dolerite Brick Stairs",
 
+    "block.pokecube_legends.unrefined_aquamarine": "Unrefined Aquamarine",
     "block.pokecube_legends.aquamarine_block": "Aquamarine Block",
     "block.pokecube_legends.aquamarine_slab":  "Aquamarine Slab",
     "block.pokecube_legends.aquamarine_stairs": "Aquamarine Stairs",
@@ -750,6 +751,7 @@
     "item.pokecube_legends.ruby": "Ruby",
     "item.pokecube_legends.silver_wing": "Silver Wing",
     "item.pokecube_legends.rainbow_wing": "Rainbow Wing",
+    "item.pokecube_legends.aquamarine": "Aquamarine",
     "item.pokecube_legends.aquamarine_shard": "Aquamarine Shard",
     "item.pokecube_legends.emblem": "Emblem",
     "item.pokecube_legends.zygardecube": "Zygarde Cube",
