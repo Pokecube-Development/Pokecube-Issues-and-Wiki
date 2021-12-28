@@ -81,7 +81,6 @@
       "ignoreAir": false,
       "options": [
         "empty;{\"weight\":2}",
-        "pokecube_legends:temples/surface/rocket_top_1;{\"weight\":1}",
         "pokecube:village/plains/houses/house_small_1;{\"weight\":6}",
         "pokecube:village/plains/houses/house_big_1;{\"weight\":6}",
         "pokecube:village/plains/houses/house_medium_1;{\"weight\":6}",
