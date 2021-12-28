@@ -19,6 +19,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -65,11 +66,17 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
 
     public void onProjectileHit(Level world, BlockState state, BlockHitResult block, Projectile projectile)
     {
+       BlockPos blockpos = block.getBlockPos();
        if (!world.isClientSide)
        {
           BlockPos pos = block.getBlockPos();
           world.playSound((Player)null, pos, SoundEvents.AMETHYST_BLOCK_HIT, SoundSource.BLOCKS, 1.0F, 0.5F + world.random.nextFloat() * 1.2F);
           world.playSound((Player)null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 0.5F + world.random.nextFloat() * 1.2F);
+       }
+       
+       if (!world.isClientSide && projectile.mayInteract(world, blockpos) && projectile instanceof ThrownTrident 
+               && projectile.getDeltaMovement().length() > 0.6D) {
+           world.destroyBlock(blockpos, true);
        }
     }
 
