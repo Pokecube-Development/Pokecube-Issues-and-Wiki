@@ -543,6 +543,8 @@
     "block.pokecube_legends.mirage_leaves": "Mirage Leaves",
     "block.pokecube_legends.mirage_glass":	"Mirage Glass",
 
+    "block.pokecube_legends.ash": "Ash",
+    "block.pokecube_legends.ash_block": "Ash Block",
     "block.pokecube_legends.aged_dirt": "Aged Dirt",
     "block.pokecube_legends.aged_grass_block": "Aged Grass Block",
     "block.pokecube_legends.azure_coarse_dirt": "Azure Coarse Dirt",
@@ -798,6 +800,7 @@
     "item.pokecube_legends.kubfu_spawn": "Gray Scarf",
     "item.pokecube_legends.zamazenta_shield": "Zamazenta Shield",
     "item.pokecube_legends.zacian_sword": "Zacian Sword",
+    "item.pokecube_legends.pile_of_ash": "Pile of Ash",
 
     // Mint Nature
     "item.pokecube_legends.mint_adamant": "Mint Adamant",

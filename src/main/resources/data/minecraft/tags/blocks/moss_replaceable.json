@@ -3,6 +3,7 @@
   "values": [
     {"id": "#pokecube:cave", "required": false},
     {"id": "#pokecube_legends:ultra_dirts", "required": false},
+    {"id": "pokecube_legends:ash_block", "required": false},
     {"id": "pokecube_legends:cracked_distortic_stone", "required": false},
     {"id": "pokecube_legends:distortic_mirror", "required": false},
     {"id": "pokecube_legends:distortic_stone", "required": false},

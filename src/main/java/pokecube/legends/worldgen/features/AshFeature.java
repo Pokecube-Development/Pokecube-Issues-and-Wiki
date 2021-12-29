@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import pokecube.legends.blocks.normalblocks.AshLayerBlock;
 import pokecube.legends.init.BlockInit;
 
 public class AshFeature extends Feature<NoneFeatureConfiguration>
@@ -37,9 +38,8 @@ public class AshFeature extends Feature<NoneFeatureConfiguration>
              int i1 = world.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
              mutablePos.set(k, i1, l);
              mutablePos1.set(mutablePos).move(Direction.DOWN, 1);
-             Biome biome = world.getBiome(mutablePos);
 
-             world.setBlock(mutablePos, BlockInit.ULTRA_DARKSTONE_SLAB.get().defaultBlockState(), 2);
+             world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
           }
        }
        return true;

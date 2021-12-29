@@ -166,6 +166,7 @@ public class ItemInit
     public static final RegistryObject<Item> ZACIAN_SWORD;
 
     // Dimensions
+    public static final RegistryObject<Item> PILE_OF_ASH;
     public static final RegistryObject<Item> SPECTRUM_SHARD;
     public static final RegistryObject<Item> ULTRAKEY;
     public static final RegistryObject<Item> COSMIC_DUST;
@@ -330,6 +331,8 @@ public class ItemInit
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
+        
+        PILE_OF_ASH = PokecubeLegends.ITEMS.register("pile_of_ash", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
 
         HEAD_MIRROR = PokecubeLegends.ITEMS.register("head_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));

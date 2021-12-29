@@ -3534,7 +3534,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "pokecube_legends:ultra_darkstone"
+                                  "Name": "pokecube_legends:ash_block"
                                 }
                               }
                             ]
@@ -4687,7 +4687,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "pokecube_legends:ultra_darkstone"
+                                  "Name": "pokecube_legends:ash_block"
                                 }
                               }
                             ]

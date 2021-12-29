@@ -47,7 +47,10 @@
       "minecraft:underwater_magma"
     ],
     [],
-    [],
+    [
+      "pokecube_legends:pile_ash",
+      "pokecube_legends:pile_ash_block"
+    ],
     [
       "minecraft:freeze_top_layer",
       "pokecube_legends:ash_layer"

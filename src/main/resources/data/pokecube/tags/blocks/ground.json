@@ -13,6 +13,8 @@
     "#minecraft:terracotta",
     "#minecraft:lush_ground_replaceable",
     "#pokecube_legends:base_stone_distorted_world",
-    "#pokecube_legends:base_stone_ultraspace"
+    "#pokecube_legends:base_stone_ultraspace",
+    "pokecube_legends:ash",
+    "pokecube_legends:ash_block"
   ]
 }

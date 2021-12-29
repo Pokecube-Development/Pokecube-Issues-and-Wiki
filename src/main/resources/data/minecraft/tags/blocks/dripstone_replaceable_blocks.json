@@ -5,6 +5,7 @@
     {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
     {"id": "#pokecube_legends:base_stone_ultraspace", "required": false},
     {"id": "pokecube_legends:aged_dirt", "required": false},
+    {"id": "pokecube_legends:ash_block", "required": false},
     {"id": "pokecube_legends:azure_dirt", "required": false},
     {"id": "pokecube_legends:corrupted_dirt", "required": false},
     {"id": "pokecube_legends:jungle_dirt", "required": false},
