@@ -51,6 +51,7 @@ public class Material
     public float shininess;
     public float alpha = 1;
     public boolean transluscent = false;
+    public boolean cull = true;
     public boolean flat = true;
 
     static MultiBufferSource.BufferSource lastImpl = null;
@@ -90,7 +91,7 @@ public class Material
         if (this.render_name.contains("water_mask_"))
         {
             type = WATER_MASK;
-            this.transluscent = true;
+            this.cull = false;
             this.types.put(tex, type);
             return type;
         }

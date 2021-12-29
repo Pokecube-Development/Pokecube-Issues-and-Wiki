@@ -27,11 +27,15 @@ public abstract class Mesh
     { 0, 0 };
     final int GL_FORMAT;
     final Vertex[] normalList;
+    Vector4f centre = new Vector4f();
 
     final int iter;
 
     static double sum;
     static long n;
+    static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
+    
+    public static double CULLTHRESHOLD = 4 * 4;
 
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
             final int GL_FORMAT)
@@ -56,6 +60,11 @@ public abstract class Mesh
             v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
             vertex = this.vertices[this.order[i + 2]];
             v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
+
+            centre.add(v1.x, v1.y, v1.z, 0);
+            centre.add(v2.x, v2.y, v2.z, 0);
+            centre.add(v3.x, v3.y, v3.z, 0);
+
             final Vector3f a = new Vector3f(v2);
             a.sub(v1);
             final Vector3f b = new Vector3f(v3);
@@ -75,6 +84,8 @@ public abstract class Mesh
             this.normalList[i + 2] = normal;
             if (iter == 4) this.normalList[i + 3] = normal;
         }
+
+        centre.mul(1.0f / order.length);
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
@@ -107,9 +118,21 @@ public abstract class Mesh
 
         com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
 
-        boolean cull = !material.transluscent && alpha >= 1;
+        boolean cull = material.cull && alpha >= 1;
+//        cull = false;
 
 //        long start = System.nanoTime();
+
+        if (cull)
+        {
+            dp.set(centre.x(), centre.y(), centre.z(), 1);
+            dp.transform(pos);
+            double dr2 = Math.abs(dp.dot(METRIC));
+            if (dr2 < CULLTHRESHOLD)
+            {
+                cull = false;
+            }
+        }
 
         // Loop over this rather than the array directly, so that we can skip by
         // more than 1 if culling.
@@ -139,13 +162,14 @@ public abstract class Mesh
             dn.set(nx, ny, nz);
             dn.transform(norms);
 
-            if (cull && dn.dot(camera_view) < 0)
+            if (cull && dn.dot(camera_view) < 0.0)// && metric.dot(dp) > 0)
             {
                 if (flat)
                 {
                     // These gets incremented also by the loop
                     i0 += iter - 1;
                     n += iter - 1;
+//                    System.out.println(this.name+" "+dp);
                 }
                 continue;
             }
