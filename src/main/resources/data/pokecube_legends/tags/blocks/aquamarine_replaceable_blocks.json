@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:dripstone_replaceable_blocks"
+    "#minecraft:dripstone_replaceable_blocks",
+    "pokecube_legends:unrefined_aquamarine"
   ]
 }
