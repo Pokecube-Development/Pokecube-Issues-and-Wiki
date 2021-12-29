@@ -899,7 +899,7 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thut_bling:bling_belt", "n": "1"}},
+              "sell": {"values": {"id": "thut_bling:bling_waist", "n": "1"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "5"}}
               ]
