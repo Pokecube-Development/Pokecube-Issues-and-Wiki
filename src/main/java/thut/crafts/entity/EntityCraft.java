@@ -180,9 +180,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         seats:
         if (seat != null)
         {
-            final Vector3 rel = Vector3.getNewVector().set(this).addTo(seat.seat.x, seat.seat.y, seat.seat.z);
+            final Vector3 rel = Vector3.getNewVector().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
-            final BlockState block = this.getFakeWorld().getBlock(pos);
+            BlockState block = this.getFakeWorld().getBlockRelative(pos);
             if (block == null || !block.hasProperty(StairBlock.FACING)) break seats;
             Vector3 dest = Vector3.getNewVector().set(destX, destY, destZ);
             switch (block.getValue(StairBlock.FACING))
@@ -402,8 +402,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
     @Override
     protected void onGridAlign()
-    {
-    }
+    {}
 
     @Override
     protected void preColliderTick()

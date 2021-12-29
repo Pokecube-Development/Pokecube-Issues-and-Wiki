@@ -14,6 +14,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -43,11 +45,14 @@ import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.network.EntityUpdate;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -244,10 +249,21 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void checkCollision()
     {
         BlockPos.betweenClosedStream(this.getBoundingBox()).forEach(p -> {
-            final Level world = this.getCommandSenderWorld();
+            final Level world = this.getLevel();
             final BlockState block = world.getBlockState(p);
-            if (world.isEmptyBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK)
-                world.setBlockAndUpdate(p, BlockEntityBase.FAKEBLOCK.defaultBlockState());
+
+            ResourceLocation replaceable = new ResourceLocation("thutcore:craft_replace");
+            boolean air = block.isAir();
+
+            boolean isReplaceable = air || ItemList.is(replaceable, block);
+
+            if (isReplaceable && block.getBlock() != BlockEntityBase.FAKEBLOCK)
+            {
+                final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
+                if (!air) world.destroyBlock(p, true);
+                world.setBlockAndUpdate(p,
+                        BlockEntityBase.FAKEBLOCK.defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
+            }
             final BlockEntity te = world.getBlockEntity(p);
             if (te instanceof TempTile)
             {
@@ -276,8 +292,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
                     if (mob.position().distanceTo(r1) > 0)
                     {
-                        System.out.println(tickCount + " Missed it? " + (tickCount - tick));
-
                         mob.setPos(r1);
                         mob.setDeltaMovement(v0);
                     }
@@ -302,7 +316,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         Vec3 r0 = this.position();
         Vec3 r1 = entityIn.position();
 
-        boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
+        boolean serverSide = entityIn.getLevel().isClientSide;
         final boolean isPlayer = entityIn instanceof Player && !(entityIn instanceof Npc);
         if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
 
@@ -390,7 +404,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         {
             this.move(MoverType.SELF, v);
         }
-        else this.setPos(this.position());
+        if (this.tickCount % 60 == 0 && this.isServerWorld())
+        {
+            EntityUpdate.sendEntityUpdate(this);
+        }
     }
 
     @Override
@@ -602,7 +619,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void remove(final RemovalReason reason)
     {
-        if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert)
+        if (!this.getLevel().isClientSide && this.isAlive() && this.shouldRevert)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove(reason);
     }

@@ -38,7 +38,8 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         passed = passed
                 || this.processInitialInteract(player, player.getItemInHand(hand), hand) == InteractionResult.SUCCESS;
         if (passed) return InteractionResult.SUCCESS;
-        vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
+        vec = vec.subtract(craft.position());
+
         if (this.interactInternal(player, new BlockPos(vec), stack, hand) == InteractionResult.SUCCESS)
             return InteractionResult.SUCCESS;
         else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
@@ -58,7 +59,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     public InteractionResult interactInternal(final Player player, BlockPos pos, final ItemStack stack,
             final InteractionHand hand)
     {
-        final BlockState state = this.craft.getFakeWorld().getBlock(pos);
+        final BlockState state = this.craft.getFakeWorld().getBlockRelative(pos);
         if (state != null && state.getBlock() instanceof StairBlock)
         {
             if (this.craft.getSeatCount() == 0)
@@ -78,8 +79,6 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     }
                 }
             }
-            final BlockPos pos2 = new BlockPos(this.craft.position());
-            pos = pos.subtract(pos2);
 
             for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
