@@ -1,7 +1,7 @@
 {
   "config": {
-    "min_gen_offset": -16,
-    "max_gen_offset": 16,
+    "min_gen_offset": -48,
+    "max_gen_offset": 48,
     "noise_multiplier": 0.05,
     "invalid_blocks_threshold": 1,
     "outer_wall_distance": {
@@ -102,7 +102,7 @@
       "outer_layer": 4.2
     },
     "crack": {
-      "generate_crack_chance": 0.95,
+      "generate_crack_chance": 0.85,
       "base_crack_size": 2.0,
       "crack_point_offset": 2
     }
