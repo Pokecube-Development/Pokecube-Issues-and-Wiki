@@ -24,6 +24,33 @@
       "probability": 0.005
     }
   },
+  "carvers": {
+    "air": [
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground",
+      "pokecube_legends:canyon"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:amethyst_geode",
+      "minecraft:small_basalt_columns"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma"
+    ],
+    [],
+    [],
+    [
+      "minecraft:freeze_top_layer",
+      "pokecube_legends:ash_layer"
+    ]
+  ],
   "spawners": {
     "monster": [
       {
@@ -116,31 +143,5 @@
     ],
     "misc": []
   },
-  "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
-    ]
-  },
-  "features": [
-    [],
-    [],
-    [
-      "minecraft:amethyst_geode",
-      "minecraft:small_basalt_columns"
-    ],
-    [],
-    [],
-    [],
-    [
-      "minecraft:underwater_magma"
-    ],
-    [],
-    [],
-    [
-      "minecraft:freeze_top_layer"
-    ]
-  ]
+  "spawn_costs": {}
 }

@@ -15,6 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.features.AquamarineClusterFeature;
 import pokecube.legends.worldgen.features.AquamarineCrystalFeature;
+import pokecube.legends.worldgen.features.AshFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
@@ -40,6 +41,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new AquamarineClusterFeature(DripstoneClusterConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> AQUAMARINE_CRYSTAL = WorldgenFeatures.FEATURES.register("aquamarine_crystal_feature",
             () -> new AquamarineCrystalFeature(PointedDripstoneConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> ASH = WorldgenFeatures.FEATURES.register("ash_layer_feature",
+            () -> new AshFeature(NoneFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
 //            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
