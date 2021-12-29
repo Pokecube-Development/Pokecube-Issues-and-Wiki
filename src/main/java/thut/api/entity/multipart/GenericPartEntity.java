@@ -1,4 +1,8 @@
-package thut.api.entity;
+package thut.api.entity.multipart;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +26,51 @@ import thut.core.common.network.PacketPartInteract;
 
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
+    public static class BodyNode
+    {
+        public List<BodyPart> parts = Lists.newArrayList();
+
+        public void onLoad()
+        {
+            this.parts.forEach(p -> p.onLoad());
+        }
+    }
+
+    public static class BodyPart
+    {
+        public String name;
+        public String offset;
+        public String size;
+
+        public String ride;
+
+        public Vec3 __pos__;
+        public Vec3 __size__;
+        public Vec3 __ride__;
+
+        public void onLoad()
+        {
+            String[] args = this.offset.split(",");
+            this.__pos__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
+                    Double.parseDouble(args[2]));
+            args = this.size.split(",");
+            this.__size__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
+                    Double.parseDouble(args[2]));
+            if (this.ride != null)
+            {
+                args = this.ride.split(",");
+                this.__ride__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
+                        Double.parseDouble(args[2]));
+            }
+        }
+    }
+
+    public static interface Factory<T extends GenericPartEntity<E>, E extends Entity>
+    {
+        T create(E parent, final float width, final float height, final float x, final float y, final float z,
+                final String id);
+    }
+
     public Vector3f r0;
 
     public float width;

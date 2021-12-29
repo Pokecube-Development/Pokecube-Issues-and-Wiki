@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import thut.api.entity.GenericPartEntity;
+import thut.api.entity.multipart.GenericPartEntity;
 
 /**
  * This is a custom implementation of CUseEntityPacket, to support pokemob parts

@@ -1,30 +1,13 @@
 package thut.api.entity.blockentity;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.entity.PartEntity;
+import thut.api.entity.multipart.GenericPartEntity;
 
-public class BlockEntityBasePart extends PartEntity<BlockEntityBase>
+public class BlockEntityBasePart extends GenericPartEntity<BlockEntityBase>
 {
 
-    public BlockEntityBasePart(BlockEntityBase parent, final String id)
+    public BlockEntityBasePart(BlockEntityBase parent, float width, float height, float x, float y, float z, String id)
     {
-        super(parent);
+        super(parent, width, height, x, y, z, id);
     }
     
-
-    @Override
-    protected void defineSynchedData()
-    {
-    }
-
-    @Override
-    protected void readAdditionalSaveData(CompoundTag p_20052_)
-    {
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag p_20139_)
-    {
-    }
-
 }
