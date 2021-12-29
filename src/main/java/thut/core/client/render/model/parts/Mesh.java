@@ -12,7 +12,6 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
-import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
@@ -29,6 +28,11 @@ public abstract class Mesh
     final int GL_FORMAT;
     final Vertex[] normalList;
 
+    final int iter;
+
+    static double sum;
+    static long n;
+
     public Mesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex,
             final int GL_FORMAT)
     {
@@ -39,10 +43,9 @@ public abstract class Mesh
         this.hasTextures = tex != null;
         this.GL_FORMAT = GL_FORMAT;
         this.normalList = new Vertex[this.order.length];
-
         Vertex vertex;
         Vertex normal;
-        final int iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
+        this.iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
         // Calculate the normals for each triangle.
         for (int i = 0; i < this.order.length; i += iter)
         {
@@ -100,38 +103,52 @@ public abstract class Mesh
         final Vector4f dp = this.dummy4;
         final com.mojang.math.Vector3f dn = this.dummy3;
 
-        if (this.order.length % 3 != 0)
-        {
-            ThutCore.LOGGER.error("Mesh with illegal size! " + this.name);
-            return;
-        }
+        float x, y, z, nx, ny, nz, u, v;
+
+        com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
+
+        boolean cull = !material.transluscent && alpha >= 1;
 
 //        long start = System.nanoTime();
 
-        for (final Integer i : this.order)
+        // Loop over this rather than the array directly, so that we can skip by
+        // more than 1 if culling.
+        for (int i0 = 0; i0 < this.order.length; i0++, n++)
         {
+            Integer i = this.order[i0];
+
             if (this.hasTextures) textureCoordinate = this.textureCoordinates[i];
             vertex = this.vertices[i];
-            
+
             if (flat) normal = this.normalList[n];
             else normal = this.normals[i];
 
-            final float x = vertex.x;
-            final float y = vertex.y;
-            final float z = vertex.z;
+            x = vertex.x;
+            y = vertex.y;
+            z = vertex.z;
 
-            final float nx = normal.x;
-            final float ny = normal.y;
-            final float nz = normal.z;
+            nx = normal.x;
+            ny = normal.y;
+            nz = normal.z;
 
-            final float u = textureCoordinate.u + (float) this.uvShift[0];
-            final float v = textureCoordinate.v + (float) this.uvShift[1];
+            u = textureCoordinate.u + (float) this.uvShift[0];
+            v = textureCoordinate.v + (float) this.uvShift[1];
 
             dp.set(x, y, z, 1);
             dp.transform(pos);
             dn.set(nx, ny, nz);
             dn.transform(norms);
 
+            if (cull && dn.dot(camera_view) < 0)
+            {
+                if (flat)
+                {
+                    // These gets incremented also by the loop
+                    i0 += iter - 1;
+                    n += iter - 1;
+                }
+                continue;
+            }
             // We use the default Item format, since that is what mobs use.
             // This means we need these in this order!
             buffer.vertex(
@@ -142,12 +159,19 @@ public abstract class Mesh
                 overlayUV, lightmapUV,
                 dn.x(), dn.y(), dn.z());
             //@formatter:on
-            n++;
         }
-
 //        long end = System.nanoTime();
 //        double dt = (end - start) / 1000d;
-//        if (dt > 1000) System.out.println(dt + " " + this.name + " " + this.material.name + " " + this.order.length);
+//
+//        Mesh.n++;
+//        Mesh.sum += dt;
+//
+//        if (Mesh.n % 100000 == 0)
+//        {
+//            System.out.println("Average time for 100000 samples: " + (Mesh.sum / Mesh.n));
+//            Mesh.n = 0;
+//            Mesh.sum = 0;
+//        }
     }
 
     public void renderShape(final PoseStack mat, VertexConsumer buffer, final IPartTexturer texturer)

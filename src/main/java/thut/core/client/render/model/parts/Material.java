@@ -90,6 +90,7 @@ public class Material
         if (this.render_name.contains("water_mask_"))
         {
             type = WATER_MASK;
+            this.transluscent = true;
             this.types.put(tex, type);
             return type;
         }
