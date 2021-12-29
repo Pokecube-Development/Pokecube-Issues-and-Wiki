@@ -8,6 +8,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -73,6 +74,7 @@ import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.AgedGrassBlock;
 import pokecube.legends.blocks.normalblocks.AquamarineCrystalBlock;
 import pokecube.legends.blocks.normalblocks.AzureGrassBlock;
+import pokecube.legends.blocks.normalblocks.BuddingAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.CorruptedGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
 import pokecube.legends.blocks.normalblocks.JungleGrassBlock;
@@ -372,16 +374,21 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_GLASS;
 
     // Aquamarine Blocks
-    public static final RegistryObject<Block> UNREFINED_AQUAMARINE;
     public static final RegistryObject<Block> AQUAMARINE_BLOCK;
     public static final RegistryObject<Block> AQUAMARINE_BUTTON;
-    public static final RegistryObject<Block> AQUAMARINE_BRICKS;
-    public static final RegistryObject<Block> AQUAMARINE_CRYSTAL;
-    public static final RegistryObject<Block> AQUAMARINE_STAIRS;
-    public static final RegistryObject<Block> AQUAMARINE_SLAB;
-    public static final RegistryObject<Block> AQUAMARINE_PR_PLATE;
     public static final RegistryObject<Block> AQUAMARINE_BRICK_SLAB;
     public static final RegistryObject<Block> AQUAMARINE_BRICK_STAIRS;
+    public static final RegistryObject<Block> AQUAMARINE_BRICKS;
+    public static final RegistryObject<Block> AQUAMARINE_CLUSTER;
+    public static final RegistryObject<Block> AQUAMARINE_CRYSTAL;
+    public static final RegistryObject<Block> AQUAMARINE_PR_PLATE;
+    public static final RegistryObject<Block> AQUAMARINE_SLAB;
+    public static final RegistryObject<Block> AQUAMARINE_STAIRS;
+    public static final RegistryObject<Block> BUDDING_AQUAMARINE;
+    public static final RegistryObject<Block> LARGE_AQUAMARINE_BUD;
+    public static final RegistryObject<Block> MEDIUM_AQUAMARINE_BUD;
+    public static final RegistryObject<Block> SMALL_AQUAMARINE_BUD;
+    public static final RegistryObject<Block> UNREFINED_AQUAMARINE;
 
     // Ultra Stone
     public static final RegistryObject<Block> ULTRA_STONE;
@@ -1042,20 +1049,35 @@ public class BlockInit
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Aquamarine
+        SMALL_AQUAMARINE_BUD = PokecubeLegends.DIMENSIONS_TAB.register("small_aquamarine_bud",
+                () -> new AmethystClusterBlock(7, 4, BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 1)));
+        MEDIUM_AQUAMARINE_BUD = PokecubeLegends.DIMENSIONS_TAB.register("medium_aquamarine_bud",
+                () -> new AmethystClusterBlock(11, 4, BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 2)));
+        LARGE_AQUAMARINE_BUD = PokecubeLegends.DIMENSIONS_TAB.register("large_aquamarine_bud",
+                () -> new AmethystClusterBlock(12, 2, BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 4)));
+        AQUAMARINE_CLUSTER = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_cluster",
+                () -> new AmethystClusterBlock(14, 1, BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 5)));
         AQUAMARINE_CRYSTAL = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_crystal",
                 () -> new AquamarineCrystalBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.5F, 3.0F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape()));
         UNREFINED_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine",
                 () -> new UnrefinedAquamarineBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(3.0f, 3.0f).sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+        BUDDING_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("budding_aquamarine",
+                () -> new BuddingAquamarineBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops()));
         AQUAMARINE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_block",
-                () -> new BlockBase(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE, 1.5f, 3.0f, SoundType.AMETHYST, true));
+                () -> new BlockBase(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE, 1.5F, 0.0F, SoundType.AMETHYST, true));
         AQUAMARINE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_stairs",
                 () -> new ItemGenerator.GenericStairs(AQUAMARINE_BLOCK.get().defaultBlockState(),
-                        BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f)
+                        BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
                         .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
         AQUAMARINE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_slab",
-                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).strength(2.0F, 3.0f)
+                () -> new SlabBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
                         .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
         AQUAMARINE_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)

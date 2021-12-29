@@ -44,6 +44,7 @@
     ],
     [
       "minecraft:amethyst_geode",
+      "pokecube_legends:aquamarine_geode",
       "pokecube_legends:large_unrefined_aquamarine"
     ],
     [],
@@ -95,7 +96,8 @@
     [
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
-      "pokecube_legends:glow_lichen"
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_aquamarine_cluster"
     ],
     [
       "minecraft:freeze_top_layer"
