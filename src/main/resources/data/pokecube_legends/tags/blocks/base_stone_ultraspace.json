@@ -5,6 +5,8 @@
     "#pokecube_legends:meteorite_ore_replaceables",
     "#pokecube_legends:ultra_stone_ore_replaceables",
     "minecraft:blackstone",
+    "minecraft:calcite",
+    "minecraft:smooth_basalt",
     "pokecube_legends:ultra_darkstone"
   ]
 }
