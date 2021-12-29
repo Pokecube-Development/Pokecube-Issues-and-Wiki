@@ -438,7 +438,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             VillagerTrades.ItemListing[] avillagertrades$itemlisting = type.getTrades(villagerdata.getLevel());
             if (avillagertrades$itemlisting != null)
             {
-                MerchantOffers merchantoffers = this.getOffers();
+                MerchantOffers merchantoffers = this.offers;
                 this.addOffersFromItemListings(merchantoffers, avillagertrades$itemlisting, 2);
             }
         }
