@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.statue;
 
+import java.util.Iterator;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -151,6 +153,16 @@ public class StatueEntity extends BlockEntity
         }
 
         if (!event.forSpawn || !slevel.isPositionEntityTicking(getBlockPos())) return;
+
+        // We need to ensure that everything nearby is loaded, otherwise we can
+        // have a freeze from hasNeighborSignal below.
+        Iterator<Direction> iter = Direction.Plane.HORIZONTAL.iterator();
+        while (iter.hasNext())
+        {
+            Direction d = iter.next();
+            ChunkPos pos = new ChunkPos(this.getBlockPos().relative(d));
+            if (slevel.getChunkSource().getChunkNow(pos.x, pos.z) == null) return;
+        }
 
         if (copy.getCopiedMob() != null)
         {
