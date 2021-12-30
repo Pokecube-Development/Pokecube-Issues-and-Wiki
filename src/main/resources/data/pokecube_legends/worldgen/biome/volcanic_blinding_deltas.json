@@ -38,7 +38,8 @@
       "minecraft:amethyst_geode",
       "minecraft:basalt_pillar",
       "minecraft:large_basalt_columns",
-      "minecraft:small_basalt_columns"
+      "minecraft:small_basalt_columns",
+      "pokecube_legends:aquamarine_geode"
     ],
     [],
     [],
@@ -53,7 +54,7 @@
     ],
     [
       "minecraft:freeze_top_layer",
-      "pokecube_legends:ash_layer"
+      "pokecube_legends:ash_layer3"
     ]
   ],
   "spawners": {

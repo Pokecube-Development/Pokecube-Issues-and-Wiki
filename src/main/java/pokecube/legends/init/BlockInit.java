@@ -41,8 +41,10 @@ import pokecube.core.handlers.ItemGenerator.GenericStairs;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.BookshelfBase;
-import pokecube.legends.blocks.FallingBlockBase;
+import pokecube.legends.blocks.FallingSandBlockBase;
 import pokecube.legends.blocks.FaceBlockBase;
+import pokecube.legends.blocks.FallingBlockBase;
+import pokecube.legends.blocks.FallingDirtBlockBase;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
@@ -967,13 +969,13 @@ public class BlockInit
         TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6f)));
         
-        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
+        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new FallingDirtBlockBase(3816264, BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
                 .sound(SoundType.SNOW).strength(0.2f).requiresCorrectToolForDrops()));
-        ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK)
+        ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK)
                 .strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW).isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 8; })));
 
         // Azure Badlands
-        AZURE_SAND = PokecubeLegends.DIMENSIONS_TAB.register("azure_sand", () -> new FallingBlockBase(1059926,
+        AZURE_SAND = PokecubeLegends.DIMENSIONS_TAB.register("azure_sand", () -> new FallingSandBlockBase(1059926,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLUE).sound(SoundType.SAND).strength(0.6f)));
         AZURE_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("azure_sandstone",
                 () -> new BlockBase(Material.STONE, MaterialColor.COLOR_BLUE, 0.8f, 0.8f, SoundType.STONE, true));
@@ -1002,7 +1004,7 @@ public class BlockInit
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Blackened Beach
-        BLACKENED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sand", () -> new FallingBlockBase(1447446,
+        BLACKENED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sand", () -> new FallingSandBlockBase(1447446,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK).sound(SoundType.SAND).strength(0.6f)));
         BLACKENED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("blackened_sandstone",
                 () -> new BlockBase(Material.STONE, MaterialColor.COLOR_BLACK, 0.8f, 0.8f, SoundType.STONE, true));
@@ -1032,7 +1034,7 @@ public class BlockInit
                         .sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
         // Ultra Desert
-        CRYSTALLIZED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sand", () -> new FallingBlockBase(13753318,
+        CRYSTALLIZED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sand", () -> new FallingSandBlockBase(13753318,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.SNOW).sound(SoundType.SAND).strength(0.6f)));
         CRYSTALLIZED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone",
                 () -> new BlockBase(Material.STONE, MaterialColor.SNOW, 1.0f, 1.0f, SoundType.STONE, true));

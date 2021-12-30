@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biome.BiomeCategory;
+import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -14,9 +16,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import pokecube.legends.blocks.normalblocks.AshLayerBlock;
 import pokecube.legends.init.BlockInit;
 
-public class AshFeature extends Feature<NoneFeatureConfiguration>
+public class AshLayer3Feature extends Feature<NoneFeatureConfiguration>
 {
-   public AshFeature(Codec<NoneFeatureConfiguration> config)
+   public AshLayer3Feature(Codec<NoneFeatureConfiguration> config)
    {
       super(config);
    }
@@ -38,8 +40,17 @@ public class AshFeature extends Feature<NoneFeatureConfiguration>
              int i1 = world.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
              mutablePos.set(k, i1, l);
              mutablePos1.set(mutablePos).move(Direction.DOWN, 1);
+             Biome biome = world.getBiome(mutablePos);
 
-             world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
+             if (biome.getBiomeCategory() == BiomeCategory.MOUNTAIN)
+             {
+                 world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 3), 3);
+                 BlockState state = world.getBlockState(mutablePos1);
+                 if (state.hasProperty(SnowyDirtBlock.SNOWY))
+                 {
+                     world.setBlock(mutablePos1, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(false)), 2);
+                 }
+             }
           }
        }
        return true;

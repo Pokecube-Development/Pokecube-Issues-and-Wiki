@@ -1,0 +1,8 @@
+{
+  "feature": "pokecube_legends:ash_layer3",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

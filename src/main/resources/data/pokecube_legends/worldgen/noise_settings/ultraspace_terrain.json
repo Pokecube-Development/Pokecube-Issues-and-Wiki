@@ -3476,10 +3476,8 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
-                              "pokecube_legends:blinding_deltas",
                               "pokecube_legends:dried_blinding_deltas",
                               "pokecube_legends:magmatic_blinding_deltas",
-                              "pokecube_legends:shattered_blinding_deltas",
                               "pokecube_legends:volcanic_blinding_deltas"
                             ]
                           },
@@ -3535,6 +3533,66 @@
                                 "type": "minecraft:block",
                                 "result_state": {
                                   "Name": "pokecube_legends:ash_block"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+                              "pokecube_legends:blinding_deltas",
+                              "pokecube_legends:shattered_blinding_deltas"
+                            ]
+                          },
+                          "then_run": {
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:steep"
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:ultra_darkstone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "pokecube_legends:ultra_darkstone",
+                                  "min_threshold": -0.0125,
+                                  "max_threshold": 0.0125
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:ultra_darkstone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "pokecube_legends:ultra_darkstone",
+                                  "min_threshold": -0.015,
+                                  "max_threshold": 0.015
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:basalt",
+                                    "Properties": {
+                                      "axis": "y"
+                                    }
+                                  }
                                 }
                               }
                             ]
@@ -4629,10 +4687,8 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
-                              "pokecube_legends:blinding_deltas",
                               "pokecube_legends:dried_blinding_deltas",
                               "pokecube_legends:magmatic_blinding_deltas",
-                              "pokecube_legends:shattered_blinding_deltas",
                               "pokecube_legends:volcanic_blinding_deltas"
                             ]
                           },
@@ -4688,6 +4744,66 @@
                                 "type": "minecraft:block",
                                 "result_state": {
                                   "Name": "pokecube_legends:ash_block"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+                              "pokecube_legends:blinding_deltas",
+                              "pokecube_legends:shattered_blinding_deltas"
+                            ]
+                          },
+                          "then_run": {
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:steep"
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:ultra_darkstone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "pokecube_legends:ultra_darkstone",
+                                  "min_threshold": -0.0125,
+                                  "max_threshold": 0.0125
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:ultra_darkstone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "pokecube_legends:ultra_darkstone",
+                                  "min_threshold": -0.015,
+                                  "max_threshold": 0.015
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:basalt",
+                                    "Properties": {
+                                      "axis": "y"
+                                    }
+                                  }
                                 }
                               }
                             ]
