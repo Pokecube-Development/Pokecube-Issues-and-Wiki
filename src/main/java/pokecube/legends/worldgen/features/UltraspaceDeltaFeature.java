@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import pokecube.legends.init.BlockInit;
 
-public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
+public class UltraspaceDeltaFeature extends Feature<DeltaFeatureConfiguration>
 {
     public static ImmutableList<Block> CANNOT_REPLACE   = ImmutableList.of(BlockInit.AGED_LEAVES.get(),
             BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(), BlockInit.DYNA_LEAVES_PASTEL_PINK.get(),
@@ -28,7 +28,7 @@ public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
     private static final Direction[]   DIRECTIONS       = Direction.values();
     private static final double        RIM_SPAWN_CHANCE = 0.9D;
 
-    public DeltaFeature(final Codec<DeltaFeatureConfiguration> config)
+    public UltraspaceDeltaFeature(final Codec<DeltaFeatureConfiguration> config)
     {
         super(config);
     }
@@ -41,7 +41,7 @@ public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
         final WorldGenLevel world = context.level();
         final DeltaFeatureConfiguration deltaConfig = context.config();
         final BlockPos pos = context.origin();
-        final boolean flag1 = random.nextDouble() < DeltaFeature.RIM_SPAWN_CHANCE;
+        final boolean flag1 = random.nextDouble() < UltraspaceDeltaFeature.RIM_SPAWN_CHANCE;
         final int i = flag1 ? deltaConfig.rimSize().sample(random) : 0;
         final int j = flag1 ? deltaConfig.rimSize().sample(random) : 0;
         final boolean flag2 = flag1 && i != 0 && j != 0;
@@ -53,7 +53,7 @@ public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
         {
             if (pos1.distManhattan(pos) > i1) break;
 
-            if (DeltaFeature.isClear(world, pos1, deltaConfig))
+            if (UltraspaceDeltaFeature.isClear(world, pos1, deltaConfig))
             {
                 if (flag2)
                 {
@@ -62,7 +62,7 @@ public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
                 }
 
                 final BlockPos pos2 = pos1.offset(i, 0, j);
-                if (DeltaFeature.isClear(world, pos2, deltaConfig))
+                if (UltraspaceDeltaFeature.isClear(world, pos2, deltaConfig))
                 {
                     flag = true;
                     this.setBlock(world, pos2, deltaConfig.contents());
@@ -76,10 +76,10 @@ public class DeltaFeature extends Feature<DeltaFeatureConfiguration>
     {
         final BlockState state = world.getBlockState(pos);
         if (state.is(config.contents().getBlock())) return false;
-        else if (DeltaFeature.CANNOT_REPLACE.contains(state.getBlock())) return false;
+        else if (UltraspaceDeltaFeature.CANNOT_REPLACE.contains(state.getBlock())) return false;
         else
         {
-            for (final Direction direction : DeltaFeature.DIRECTIONS)
+            for (final Direction direction : UltraspaceDeltaFeature.DIRECTIONS)
             {
                 final boolean flag = world.getBlockState(pos.relative(direction)).isAir();
                 if (flag && direction != Direction.UP || !flag && direction == Direction.UP) return false;

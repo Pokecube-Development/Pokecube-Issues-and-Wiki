@@ -1,7 +1,7 @@
 {
   "config": {
     "rock_count": 5,
-    "hole_count": 1,
+    "hole_count": 0,
     "valid_blocks": [
       "minecraft:basalt",
       "minecraft:blackstone",
@@ -28,7 +28,7 @@
       },
       "Name": "minecraft:lava"
     },
-    "requires_block_below": true
+    "requires_block_below": false
   },
   "type": "minecraft:spring_feature"
 }

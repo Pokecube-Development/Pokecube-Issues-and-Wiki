@@ -1,15 +1,15 @@
 {
-  "feature": "pokecube_legends:pile_ash",
+  "feature": "pokecube_legends:disk_blackened_sand",
   "placement": [
     {
-      "chance": 250,
-      "type": "minecraft:rarity_filter"
+      "count": 3,
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "heightmap": "MOTION_BLOCKING",
+      "heightmap": "OCEAN_FLOOR_WG",
       "type": "minecraft:heightmap"
     },
     {

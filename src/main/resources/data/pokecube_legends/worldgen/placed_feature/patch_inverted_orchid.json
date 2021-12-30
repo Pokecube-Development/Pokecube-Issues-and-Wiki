@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:patch_inverted_orchid",
   "placement": [
     {
-      "count": 5,
+      "count": 15,
       "type": "minecraft:count"
     },
     {

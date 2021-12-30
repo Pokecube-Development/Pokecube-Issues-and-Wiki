@@ -1,15 +1,15 @@
 {
-  "feature": "pokecube_legends:pile_ash",
+  "feature": "pokecube_legends:lake_water",
   "placement": [
     {
-      "chance": 250,
+      "chance": 150,
       "type": "minecraft:rarity_filter"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "heightmap": "MOTION_BLOCKING",
+      "heightmap": "WORLD_SURFACE_WG",
       "type": "minecraft:heightmap"
     },
     {

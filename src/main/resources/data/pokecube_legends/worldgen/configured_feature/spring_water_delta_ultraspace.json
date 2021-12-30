@@ -1,6 +1,6 @@
 {
   "config": {
-    "rock_count": 5,
+    "rock_count": 3,
     "hole_count": 1,
     "valid_blocks": [
       "minecraft:basalt",
@@ -26,7 +26,7 @@
       "Properties": {
         "falling": "true"
       },
-      "Name": "minecraft:lava"
+      "Name": "minecraft:water"
     },
     "requires_block_below": true
   },

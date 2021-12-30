@@ -974,7 +974,7 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f)
                 .requiresCorrectToolForDrops()));
         ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, 
-                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F)
+                BlockBehaviour.Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F)
                 .requiresCorrectToolForDrops().isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));
 
         // Azure Badlands

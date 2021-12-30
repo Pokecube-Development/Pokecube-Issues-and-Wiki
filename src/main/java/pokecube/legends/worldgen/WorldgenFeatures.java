@@ -2,6 +2,7 @@ package pokecube.legends.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
@@ -22,6 +23,7 @@ import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
+import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
 
 public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
 {
@@ -59,8 +61,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new DeadCoralMushroomFeature(NoneFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DEAD_CORAL_TREE = WorldgenFeatures.FEATURES.register("dead_coral_tree_feature",
 //            () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
-//            () -> new DeltaFeature(DeltaFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
+            () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DESERT_ROCK = WorldgenFeatures.FEATURES.register("desert_rock_feature",
 //            () -> new DesertRockFeature(BlockStateConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",

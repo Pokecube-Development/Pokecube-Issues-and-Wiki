@@ -26,9 +26,9 @@
   },
   "carvers": {
     "air": [
+      "pokecube_legends:canyon",
       "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
+      "pokecube_legends:cave_extra_underground"
     ]
   },
   "features": [
@@ -37,16 +37,66 @@
     [
       "minecraft:amethyst_geode",
       "minecraft:small_basalt_columns",
-      "pokecube_legends:aquamarine_geode"
+      "pokecube_legends:aquamarine_geode",
+      "pokecube_legends:delta_magmatic"
     ],
     [],
     [],
     [],
     [
-      "minecraft:underwater_magma"
+      "minecraft:underwater_magma",
+      "pokecube_legends:basalt_blobs",
+      "pokecube_legends:blackstone_blobs",
+      "pokecube_legends:disk_ash_block",
+      "pokecube_legends:disk_blackened_sand",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_turquoise_gravel",
+      "pokecube_legends:ore_meteorite",
+      "pokecube_legends:ore_ash_block",
+      "pokecube_legends:ore_coal_lower",
+      "pokecube_legends:ore_coal_upper",
+	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_cosmic_buried",
+      "pokecube_legends:ore_cosmic_large",
+      "pokecube_legends:ore_cosmic_meteorite",
+      "pokecube_legends:ore_diamond",
+      "pokecube_legends:ore_diamond_buried",
+      "pokecube_legends:ore_diamond_large",
+      "pokecube_legends:ore_gold",
+      "pokecube_legends:ore_gold_lower",
+      "pokecube_legends:ore_iron_middle",
+      "pokecube_legends:ore_iron_small",
+      "pokecube_legends:ore_iron_upper",
+      "pokecube_legends:ore_lapis",
+      "pokecube_legends:ore_lapis_buried",
+      "pokecube_legends:ore_redstone",
+      "pokecube_legends:ore_redstone_lower",
+      "pokecube_legends:ore_ruby",
+      "pokecube_legends:ore_ruby_buried",
+      "pokecube_legends:ore_ruby_large",
+      "pokecube_legends:ore_sapphire",
+      "pokecube_legends:ore_sapphire_buried",
+      "pokecube_legends:ore_sapphire_large",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_spectrum_buried",
+      "pokecube_legends:ore_spectrum_large",
+      "pokecube_legends:ore_turquoise_gravel",
+      "pokecube_legends:ore_ultra_darkstone",
+      "pokecube_legends:ultra_darkstone_blobs"
     ],
     [],
     [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_lava_closed_double",
+      "pokecube_legends:spring_lava_delta",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_sugar_cane_badlands",
+      "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_ash_layer4",
       "pokecube_legends:pile_ash",
       "pokecube_legends:pile_ash_block"
