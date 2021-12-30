@@ -56,7 +56,15 @@ public class ClientSetupHandler
             {
                 final Block b = reg.get();
                 if (b instanceof FlowerBase || b instanceof MushroomBase)
+                {
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+                    continue;
+                }
+                if (b instanceof GenericBookshelfEmpty)
+                {
+                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
+                    continue;
+                }
                 boolean fullCube = true;
                 for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
@@ -82,24 +90,24 @@ public class ClientSetupHandler
                     }
                 }
                 if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
-                if (b instanceof GenericBookshelfEmpty)
-                    ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped());
             }
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
 
             for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
             {
                 final Block b = reg.get();
                 if (b instanceof FlowerBase || b instanceof MushroomBase)
+                {
                     ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
+                    continue;
+                }
                 boolean fullCube = true;
                 for (final BlockState state : b.getStateDefinition().getPossibleStates())
                 {
@@ -126,9 +134,9 @@ public class ClientSetupHandler
                     }
                 }
                 if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
-                ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
             }
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.ONE_WAY_GLASS.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.FRAMED_DISTORTIC_MIRROR.get(), RenderType.translucent());
 
             for (final RegistryObject<Block> reg : PokecubeLegends.POKECUBE_BLOCKS_TAB.getEntries())
             {
