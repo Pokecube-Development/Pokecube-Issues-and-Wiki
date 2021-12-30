@@ -33,7 +33,10 @@
   },
   "features": [
     [],
-    [],
+    [
+      "pokecube_legends:lake_lava_surface_ultra_darkstone",
+      "pokecube_legends:lake_lava_underground_ultra_darkstone"
+    ],
     [
       "minecraft:amethyst_geode",
       "minecraft:small_basalt_columns",

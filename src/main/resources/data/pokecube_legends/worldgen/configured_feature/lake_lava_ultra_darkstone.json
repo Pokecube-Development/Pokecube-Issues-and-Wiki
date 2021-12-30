@@ -1,0 +1,20 @@
+{
+  "config": {
+    "fluid": {
+      "state": {
+        "Properties": {
+          "level": "0"
+        },
+        "Name": "minecraft:lava"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "barrier": {
+      "state": {
+        "Name": "pokecube_legends:ultra_darkstone"
+      },
+      "type": "minecraft:simple_state_provider"
+    }
+  },
+  "type": "minecraft:lake"
+}
