@@ -20,7 +20,7 @@
               {
                 "data": {
 			      "Properties": {
-			        "layers": "3"
+			        "layers": "4"
 			      },
                   "Name": "pokecube_legends:ash"
                 },
@@ -41,20 +41,6 @@
                   "minecraft:air"
                 ],
                 "type": "minecraft:matching_blocks"
-              },
-              {
-                "predicate": {
-                  "offset": [
-                    0,
-                    -1,
-                    0
-                  ],
-                  "blocks": [
-                    "minecraft:podzol"
-                  ],
-                  "type": "minecraft:matching_blocks"
-                },
-                "type": "minecraft:not"
               }
             ],
             "type": "minecraft:all_of"

@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -969,10 +970,12 @@ public class BlockInit
         TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6f)));
         
-        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new FallingDirtBlockBase(3816264, BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
-                .sound(SoundType.SNOW).strength(0.2f).requiresCorrectToolForDrops()));
-        ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK)
-                .strength(0.1F).requiresCorrectToolForDrops().sound(SoundType.SNOW).isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 8; })));
+        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new FallingDirtBlockBase(3816264, 
+                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f)
+                .requiresCorrectToolForDrops()));
+        ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, 
+                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F)
+                .requiresCorrectToolForDrops().isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));
 
         // Azure Badlands
         AZURE_SAND = PokecubeLegends.DIMENSIONS_TAB.register("azure_sand", () -> new FallingSandBlockBase(1059926,

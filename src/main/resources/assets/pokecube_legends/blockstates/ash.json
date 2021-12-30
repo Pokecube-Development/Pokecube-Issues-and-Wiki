@@ -1,27 +1,51 @@
 {
   "variants": {
     "layers=1": {
-      "model": "pokecube_legends:block/ash_height2"
+      "model": "pokecube_legends:block/ash_height1"
     },
     "layers=2": {
-      "model": "pokecube_legends:block/ash_height4"
+      "model": "pokecube_legends:block/ash_height2"
     },
     "layers=3": {
-      "model": "pokecube_legends:block/ash_height6"
+      "model": "pokecube_legends:block/ash_height3"
     },
     "layers=4": {
-      "model": "pokecube_legends:block/ash_height8"
+      "model": "pokecube_legends:block/ash_height4"
     },
     "layers=5": {
-      "model": "pokecube_legends:block/ash_height10"
+      "model": "pokecube_legends:block/ash_height5"
     },
     "layers=6": {
-      "model": "pokecube_legends:block/ash_height12"
+      "model": "pokecube_legends:block/ash_height6"
     },
     "layers=7": {
-      "model": "pokecube_legends:block/ash_height14"
+      "model": "pokecube_legends:block/ash_height7"
     },
     "layers=8": {
+      "model": "pokecube_legends:block/ash_height8"
+    },
+    "layers=9": {
+      "model": "pokecube_legends:block/ash_height9"
+    },
+    "layers=10": {
+      "model": "pokecube_legends:block/ash_height10"
+    },
+    "layers=11": {
+      "model": "pokecube_legends:block/ash_height11"
+    },
+    "layers=12": {
+      "model": "pokecube_legends:block/ash_height12"
+    },
+    "layers=13": {
+      "model": "pokecube_legends:block/ash_height13"
+    },
+    "layers=14": {
+      "model": "pokecube_legends:block/ash_height14"
+    },
+    "layers=15": {
+      "model": "pokecube_legends:block/ash_height15"
+    },
+    "layers=16": {
       "model": "pokecube_legends:block/ash_block"
     }
   }

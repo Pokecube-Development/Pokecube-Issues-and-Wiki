@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:patch_ash_layer2",
   "placement": [
     {
-      "count": 50,
+      "count": 30,
       "type": "minecraft:count"
     },
     {

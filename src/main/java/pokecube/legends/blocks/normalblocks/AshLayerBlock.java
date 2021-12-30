@@ -23,10 +23,18 @@ import pokecube.legends.blocks.FallingBlockBase;
 
 public class AshLayerBlock extends FallingBlockBase implements Fallable
 {
-    public static final int MAX_HEIGHT = 8;
-    public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
-    public static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
-    public static final int HEIGHT_IMPASSABLE = 5;
+    public static final int MAX_HEIGHT = 16;
+    public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 16);
+    public static final VoxelShape[] SHAPE_BY_LAYER = new VoxelShape[]{Shapes.empty(), 
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    public static final int HEIGHT_IMPASSABLE = 10;
     
     public AshLayerBlock(final int color, final Properties properties)
     {
@@ -40,7 +48,7 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
        switch(path)
        {
        case LAND:
-          return state.getValue(LAYERS) < 5;
+          return state.getValue(LAYERS) < 10;
        case WATER:
           return false;
        case AIR:
@@ -89,7 +97,7 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
           if (!state1.is(Blocks.HONEY_BLOCK))
           {
              return Block.isFaceFull(state1.getCollisionShape(world, pos.below()), Direction.UP)
-                     || state1.is(this) && state1.getValue(LAYERS) == 8;
+                     || state1.is(this) && state1.getValue(LAYERS) == 16;
           } else
           {
              return true;
@@ -110,7 +118,7 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context)
     {
         int i = state.getValue(LAYERS);
-        if (context.getItemInHand().is(this.asItem()) && i < 8)
+        if (context.getItemInHand().is(this.asItem()) && i < 16)
         {
            if (context.replacingClickedOnBlock())
            {
@@ -121,7 +129,7 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
            }
         } else
         {
-           return i < 5;
+           return i < 10;
         }
     }
 
@@ -133,7 +141,7 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
        if (state.is(this))
        {
           int i = state.getValue(LAYERS);
-          return state.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
+          return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
        } else
        {
           return super.getStateForPlacement(context);

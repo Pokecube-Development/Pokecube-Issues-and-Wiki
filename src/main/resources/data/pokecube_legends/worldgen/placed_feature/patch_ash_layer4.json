@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:patch_ash_layer3",
+  "feature": "pokecube_legends:patch_ash_layer4",
   "placement": [
     {
-      "count": 50,
+      "count": 40,
       "type": "minecraft:count"
     },
     {
