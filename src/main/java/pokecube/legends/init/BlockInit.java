@@ -2369,6 +2369,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.5f, BlockInit.STRING_OF_PEARLS);
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
 
+        BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
