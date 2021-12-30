@@ -249,10 +249,10 @@ public class PokecubeLegends
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
         BlockInit.strippableBlocks(event);
-        BlockInit.compostables();
-        BlockInit.flammables();
 
         event.enqueueWork(() -> {
+            BlockInit.compostables();
+            BlockInit.flammables();
             // Biome Dictionary
             BiomeDictionary.addTypes(FeaturesInit.BLINDING_DELTAS, Type.HOT, Type.SPOOKY, Type.WET);
             BiomeDictionary.addTypes(FeaturesInit.BURNT_BEACH, Type.BEACH, Type.HOT, Type.SPOOKY, Type.WASTELAND);
