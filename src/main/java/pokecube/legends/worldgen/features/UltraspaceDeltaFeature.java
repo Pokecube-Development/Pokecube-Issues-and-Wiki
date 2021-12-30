@@ -19,7 +19,7 @@ import pokecube.legends.init.BlockInit;
 
 public class UltraspaceDeltaFeature extends Feature<DeltaFeatureConfiguration>
 {
-    public static ImmutableList<Block> CANNOT_REPLACE   = ImmutableList.of(BlockInit.AGED_LEAVES.get(),
+    public static ImmutableList<Block> CANNOT_REPLACE   = ImmutableList.of(BlockInit.AGED_LEAVES.get(), BlockInit.ASH.get(),
             BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(), BlockInit.DYNA_LEAVES_PASTEL_PINK.get(),
             BlockInit.DYNA_LEAVES_PINK.get(), BlockInit.DYNA_LEAVES_RED.get(), BlockInit.INVERTED_LEAVES.get(),
             BlockInit.MIRAGE_LEAVES.get(), BlockInit.TEMPORAL_LEAVES.get(), Blocks.BEDROCK, Blocks.CHEST, Blocks.LAVA,
