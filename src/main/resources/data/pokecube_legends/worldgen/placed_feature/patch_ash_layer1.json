@@ -1,0 +1,19 @@
+{
+  "feature": "pokecube_legends:patch_ash_layer1",
+  "placement": [
+    {
+      "count": 50,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "WORLD_SURFACE_WG",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

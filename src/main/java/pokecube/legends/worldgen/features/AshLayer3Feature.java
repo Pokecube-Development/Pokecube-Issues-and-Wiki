@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -42,14 +41,11 @@ public class AshLayer3Feature extends Feature<NoneFeatureConfiguration>
              mutablePos1.set(mutablePos).move(Direction.DOWN, 1);
              Biome biome = world.getBiome(mutablePos);
 
-             if (biome.getBiomeCategory() == BiomeCategory.MOUNTAIN)
+             world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 3), 3);
+             BlockState state = world.getBlockState(mutablePos1);
+             if (state.hasProperty(SnowyDirtBlock.SNOWY))
              {
-                 world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 3), 3);
-                 BlockState state = world.getBlockState(mutablePos1);
-                 if (state.hasProperty(SnowyDirtBlock.SNOWY))
-                 {
-                     world.setBlock(mutablePos1, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(false)), 2);
-                 }
+                 world.setBlock(mutablePos1, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(false)), 2);
              }
           }
        }

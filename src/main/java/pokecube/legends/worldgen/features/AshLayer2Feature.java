@@ -40,16 +40,12 @@ public class AshLayer2Feature extends Feature<NoneFeatureConfiguration>
              int i1 = world.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
              mutablePos.set(k, i1, l);
              mutablePos1.set(mutablePos).move(Direction.DOWN, 1);
-             Biome biome = world.getBiome(mutablePos);
-
-             if (biome.getBiomeCategory() == BiomeCategory.MOUNTAIN)
+             
+             world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
+             BlockState state = world.getBlockState(mutablePos1);
+             if (state.hasProperty(SnowyDirtBlock.SNOWY))
              {
-                 world.setBlock(mutablePos, BlockInit.ASH.get().defaultBlockState().setValue(AshLayerBlock.LAYERS, 2), 2);
-                 BlockState state = world.getBlockState(mutablePos1);
-                 if (state.hasProperty(SnowyDirtBlock.SNOWY))
-                 {
-                     world.setBlock(mutablePos1, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(false)), 2);
-                 }
+                 world.setBlock(mutablePos1, state.setValue(SnowyDirtBlock.SNOWY, Boolean.valueOf(false)), 2);
              }
           }
        }

@@ -49,12 +49,12 @@
     ],
     [],
     [
+      "pokecube_legends:patch_ash_layer3",
       "pokecube_legends:pile_ash",
       "pokecube_legends:pile_ash_block"
     ],
     [
-      "minecraft:freeze_top_layer",
-      "pokecube_legends:ash_layer3"
+      "minecraft:freeze_top_layer"
     ]
   ],
   "spawners": {

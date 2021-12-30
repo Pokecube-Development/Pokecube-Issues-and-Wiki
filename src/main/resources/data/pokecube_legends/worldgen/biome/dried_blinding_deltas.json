@@ -47,10 +47,10 @@
     ],
     [],
     [
+      "pokecube_legends:patch_ash_layer1"
     ],
     [
-      "minecraft:freeze_top_layer",
-      "pokecube_legends:ash_layer1"
+      "minecraft:freeze_top_layer"
     ]
   ],
   "spawners": {
