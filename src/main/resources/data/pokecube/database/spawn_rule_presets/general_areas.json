@@ -53,6 +53,12 @@
     },
     {
       "values": {
+        "preset": "not_oceans",
+        "typesBlacklist": "ocean"
+      }
+    },
+    {
+      "values": {
         "preset": "snowy_areas",
         "types": "snowy"
       }

@@ -129,7 +129,8 @@
       ],
       "spawn": {
         "values": {
-          "preset": "snowy_areas"
+          "preset": "snowy_areas",
+          "and_presets": "not_oceans"
         }
       }
     }
