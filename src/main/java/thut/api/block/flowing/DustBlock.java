@@ -77,8 +77,8 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
     }
 
     protected int slope = 4;
-    protected int tickRateFall = 50;
-    protected int tickRateFlow = 5;
+    protected int tickRateFall = 150;
+    protected int tickRateFlow = 10;
     protected boolean flows = true;
     private Supplier<Block> convert;
 
@@ -163,6 +163,7 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
         boolean replacelable = canReplace(mergeInto, posTo, level);
         if (replacelable) return mergeFrom;
         if (mergeFrom.getBlock() == mergeInto.getBlock()) return mergeFrom;
+
         return mergeInto;
     }
 
@@ -177,7 +178,8 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
             if (chunk == null) continue;
 
             BlockState block = level.getBlockState(pos);
-            level.scheduleTick(pos, block.getBlock(), tickRate);
+            if (!level.getBlockTicks().hasScheduledTick(pos, block.getBlock()))
+                level.scheduleTick(pos, block.getBlock(), tickRate);
         }
     }
 
@@ -262,7 +264,7 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
                 {
                     BlockState b2 = convert.get().defaultBlockState();
                     newBelow = getMergeResult(b2, b, belowPos, level);
-                    if (newBelow != b)
+                    if (b != b2)
                     {
                         level.setBlock(belowPos, newBelow, 2);
                         level.setBlock(pos, setAmount(state, dust - diff), 2);

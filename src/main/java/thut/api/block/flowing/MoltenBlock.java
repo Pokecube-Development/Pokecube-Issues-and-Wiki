@@ -67,6 +67,8 @@ public class MoltenBlock extends DustBlock
         super(properties);
         this.slope = 7;
         hardenRate = 0.5f;
+        tickRateFall = 20;
+        tickRateFlow = 5;
     }
 
     public MoltenBlock solidBlock(Supplier<Block> supplier)

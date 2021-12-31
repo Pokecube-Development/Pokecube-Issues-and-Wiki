@@ -1,8 +1,8 @@
 package thut.concrete.fluid;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.mojang.datafixers.util.Pair;
 
@@ -31,7 +31,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import thut.concrete.Concrete;
 
 public class FluidBase extends ForgeFlowingFluid
 {
