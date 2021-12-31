@@ -19,6 +19,9 @@
         }
       },
       {
+        "Name": "minecraft:gravel"
+      },
+      {
         "Name": "pokecube_legends:aged_dirt"
       },
       {
@@ -62,6 +65,9 @@
         "Properties": {
           "snowy": "false"
         }
+      },
+      {
+        "Name": "pokecube_legends:turquoise_gravel"
       },
       {
         "Name": "pokecube_legends:ultra_darkstone"

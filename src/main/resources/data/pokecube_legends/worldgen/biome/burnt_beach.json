@@ -1,7 +1,7 @@
 {
   "temperature": 1.5,
   "downfall": 0.2,
-  "precipitation": "rain",
+  "precipitation": "none",
   "category": "beach",
   "effects": {
     "sky_color": 5127218,
@@ -90,6 +90,8 @@
     [
       "minecraft:brown_mushroom_normal",
       "minecraft:flower_default",
+      "minecraft:patch_ash_scattered",
+      "minecraft:patch_fire",
       "minecraft:patch_grass_badlands",
       "minecraft:patch_sugar_cane",
       "minecraft:red_mushroom_normal",
