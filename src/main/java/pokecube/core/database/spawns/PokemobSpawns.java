@@ -98,6 +98,7 @@ public class PokemobSpawns extends ResourceData
                 String[] presets = entry.and_preset.split(",");
                 String preset = presets[0];
                 rule = SpawnPresets.PRESETS.get(preset);
+                if (rule != null) rule = rule.copy();
 
                 if (presets.length > 1)
                 {
@@ -115,6 +116,8 @@ public class PokemobSpawns extends ResourceData
                     String[] presets = entry.or_preset.split(",");
                     String preset = presets[0];
                     rule = SpawnPresets.PRESETS.get(preset);
+                    if (rule != null) rule = rule.copy();
+
                     if (presets.length > 1)
                     {
                         // In this case, we merge all of the other rules in via
@@ -134,6 +137,7 @@ public class PokemobSpawns extends ResourceData
 
                 if (entry.not_preset != null)
                 {
+                    // Finally add in the NOTPRESET
                     rule.values.put(SpawnBiomeMatcher.NOTPRESET, entry.not_preset);
                 }
 

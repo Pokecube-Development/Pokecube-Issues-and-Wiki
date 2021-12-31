@@ -6,6 +6,7 @@
         {"key": "snorunt","min": 2,"max": 4,"rate": 0.5},
         
         {"key": "swinub","min": 2,"max": 4,"rate": 0.3},
+        {"key": "bergmite","min": 2,"max": 4,"rate": 0.3},
         {"key": "snover","min": 2,"max": 4,"rate": 0.3},
         {"key": "darumaka_galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "snom","min": 2,"max": 4,"rate": 0.3},
