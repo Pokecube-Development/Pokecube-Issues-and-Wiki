@@ -15,13 +15,13 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;
+import thut.api.entity.ai.RootTask;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 

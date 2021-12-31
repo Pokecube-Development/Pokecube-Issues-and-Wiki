@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.core.ai.brain.RootTask;
+import thut.api.entity.ai.RootTask;
 
 public class BlankTask extends RootTask<LivingEntity>
 {

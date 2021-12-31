@@ -56,7 +56,6 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Tasks;
 import pokecube.core.ai.routes.GuardAI;
@@ -67,6 +66,7 @@ import pokecube.core.events.npc.NpcEvent;
 import pokecube.core.events.npc.NpcTradesEvent;
 import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.utils.CapHolders;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
@@ -148,7 +148,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
                     .newArrayList(Pair.of(0, new GuardTask<>(this, guardai)));
 
             Set<Activity> acts = brain.activityRequirements.keySet();
-            for (Activity act : acts) BrainUtils.addToActivity(brain, act, args);
+            for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
             brain.addActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));

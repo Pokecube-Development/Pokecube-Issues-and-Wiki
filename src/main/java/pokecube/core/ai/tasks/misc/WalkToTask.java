@@ -21,11 +21,11 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.ai.brain.RootTask;
-import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.entity.ai.PosWrapWrap;
+import thut.api.entity.ai.RootTask;
 import thut.api.world.IPathHelper;
 import thut.api.world.WorldTickManager;
 

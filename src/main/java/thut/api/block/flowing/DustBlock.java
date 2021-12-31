@@ -66,6 +66,7 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 16);
     public static final BooleanProperty FALLING = BlockStateProperties.FALLING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final IntegerProperty VISCOSITY = IntegerProperty.create("viscosity", 0, 15);
 
     public static final VoxelShape[] SHAPES = new VoxelShape[16];
     static
@@ -169,9 +170,10 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
 
     private void updateNearby(BlockPos centre, ServerLevel level, int tickRate)
     {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         for (Direction d : Direction.values())
         {
-            BlockPos pos = centre.relative(d);
+            pos.set(centre).move(d);
 
             ChunkPos c = new ChunkPos(pos);
             LevelChunk chunk = level.getChunkSource().getChunkNow(c.x, c.z);
@@ -288,6 +290,8 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
     protected boolean trySpread(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         int dust = getExistingAmount(state, pos, level);
+        int slope = state.hasProperty(VISCOSITY) ? state.getValue(VISCOSITY) : this.slope;
+
         if (dust >= slope)
         {
             Vector3 v = Vector3.getNewVector().set(pos);
@@ -337,6 +341,9 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
+//        System.out.println(level.getBlockTicks().count());
+        int MAXTICKS = 10000;
+        if(level.getBlockTicks().count()>MAXTICKS)return;
         // Try down first;
         if (tryFall(state, level, pos, random)) return;
         // Next try spreading sideways

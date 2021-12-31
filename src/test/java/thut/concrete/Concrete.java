@@ -4,15 +4,23 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -23,14 +31,21 @@ import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.DustBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
+import thut.concrete.block.ConcreteFluidBlock;
+import thut.concrete.block.RebarBlock;
 import thut.concrete.block.VolcanoBlock;
 import thut.concrete.block.entity.VolcanoEntity;
+import thut.concrete.fluid.ConcreteFluid;
 import thut.core.common.ThutCore;
 
 @Mod(value = Concrete.MODID)
 public class Concrete
 {
     public static final String MODID = "concrete";
+
+    public static final ResourceLocation FLUID_STILL = new ResourceLocation("minecraft:block/brown_mushroom_block");
+    public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("minecraft:block/mushroom_stem");
+    public static final ResourceLocation FLUID_OVERLAY = new ResourceLocation("minecraft:block/obsidian");
 
     public static final DeferredRegister<Fluid> FLUIDS;
     public static final DeferredRegister<Block> BLOCKS;
@@ -50,38 +65,20 @@ public class Concrete
     public static final RegistryObject<DustBlock> SOLID;
     public static final RegistryObject<DustBlock> SOLID_BLOCK;
 
-//    public static final RegistryObject<LiquidBlock> WETCONCRETEB;
-//    public static final RegistryObject<LiquidBlock> DRYCONCRETEB;
-//
-//    public static final RegistryObject<FlowingFluid> WETCONCRETEF;
-//    public static final RegistryObject<FlowingFluid> DRYCONCRETEF;
-//
-//    public static final RegistryObject<FlowingFluid> WETCONCRETES;
-//    public static final RegistryObject<FlowingFluid> DRYCONCRETES;
-//
-//    private static ForgeFlowingFluid.Properties makeDryProperties()
-//    {
-//        return new ForgeFlowingFluid.Properties(DRYCONCRETES, DRYCONCRETEF, FluidAttributes
-//                .builder(new ResourceLocation(MODID, "dry_s"), new ResourceLocation(MODID, "dry_f")).color(0x3F1080FF))
-//                        .block(DRYCONCRETEB).levelDecreasePerBlock(1);
-//    }
-//
-//    private static ForgeFlowingFluid.Properties makeWetProperties()
-//    {
-//        return new ForgeFlowingFluid.Properties(WETCONCRETES, WETCONCRETEF, FluidAttributes
-//                .builder(new ResourceLocation(MODID, "wet_s"), new ResourceLocation(MODID, "wet_f")).color(0x3F1080FF))
-//                        .block(WETCONCRETEB).levelDecreasePerBlock(1);
-//    }
-//  WETCONCRETEF = FLUIDS.register("concete_wet_flow", () -> new FluidBase(makeWetProperties()));
-//  DRYCONCRETEF = FLUIDS.register("concete_dry_flow", () -> new FluidBase(makeDryProperties()));
-//
-//  WETCONCRETES = FLUIDS.register("concete_wet_still", () -> new FluidBase(makeWetProperties()));
-//  DRYCONCRETES = FLUIDS.register("concete_dry_still", () -> new FluidBase(makeDryProperties()));
-//
-//  WETCONCRETEB = BLOCKS.register("concete_wet",
-//          () -> new LiquidBase(BlockBehaviour.Properties.of(Material.CLAY), WETCONCRETES));
-//  DRYCONCRETEB = BLOCKS.register("concete_dry",
-//          () -> new LiquidBase(BlockBehaviour.Properties.of(Material.STONE), DRYCONCRETES));
+    public static final RegistryObject<FlowingFluid> CONCRETE_FLUID;
+
+    public static final RegistryObject<LiquidBlock> CONCRETE_FLUID_BLOCK;
+
+    public static final RegistryObject<RebarBlock> REBAR_BLOCK;
+
+    public static RegistryObject<Item> CONCRETE_BUCKET;
+
+    private static ForgeFlowingFluid.Properties makeProperties()
+    {
+        return new ForgeFlowingFluid.Properties(CONCRETE_FLUID, CONCRETE_FLUID,
+                FluidAttributes.builder(FLUID_STILL, FLUID_FLOWING).overlay(FLUID_OVERLAY).color(0x3F1080FF))
+                        .bucket(CONCRETE_BUCKET).block(CONCRETE_FLUID_BLOCK);
+    }
 
     static
     {
@@ -102,18 +99,19 @@ public class Concrete
         DUST = regs[0];
         DUST_BLOCK = regs[1];
 
-        layer_props = BlockBehaviour.Properties.of(Material.STONE).noOcclusion().requiresCorrectToolForDrops();
-        block_props = BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops();
+        layer_props = BlockBehaviour.Properties.of(Material.STONE).strength(30.0F).noOcclusion()
+                .requiresCorrectToolForDrops();
+        block_props = BlockBehaviour.Properties.of(Material.STONE).strength(30.0F).requiresCorrectToolForDrops();
 
         regs = SolidBlock.makeSolid(BLOCKS, MODID, "solid_layer", "solid_block", layer_props, block_props);
 
         SOLID = regs[0];
         SOLID_BLOCK = regs[1];
 
-        layer_props = BlockBehaviour.Properties.of(Material.LAVA).noOcclusion().randomTicks()
+        layer_props = BlockBehaviour.Properties.of(Material.LAVA).strength(100.0F).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops().lightLevel(s -> s.getValue(DustBlock.LAYERS) - 1);
-        block_props = BlockBehaviour.Properties.of(Material.LAVA).randomTicks().requiresCorrectToolForDrops()
-                .lightLevel(s -> 15);
+        block_props = BlockBehaviour.Properties.of(Material.LAVA).strength(100.0F).randomTicks()
+                .requiresCorrectToolForDrops().lightLevel(s -> 15);
 
         ResourceLocation solid_layer = new ResourceLocation(MODID, "solid_layer");
         ResourceLocation solid_block = new ResourceLocation(MODID, "solid_block");
@@ -129,6 +127,18 @@ public class Concrete
 
         VOLCANO_TYPE = TILES.register("volcano",
                 () -> BlockEntityType.Builder.of(VolcanoEntity::new, VOLCANO.get()).build(null));
+
+        CONCRETE_FLUID = FLUIDS.register("concrete_fluid", () -> new ConcreteFluid(makeProperties()));
+
+        CONCRETE_FLUID_BLOCK = BLOCKS.register("concrete_fluid_block",
+                () -> new ConcreteFluidBlock(Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops(),
+                        CONCRETE_FLUID));
+
+        CONCRETE_BUCKET = ITEMS.register("concrete_bucket", () -> new BucketItem(CONCRETE_FLUID,
+                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
+
+        REBAR_BLOCK = BLOCKS.register("rebar",
+                () -> new RebarBlock(Properties.of(Material.METAL).noCollission().strength(100.0F).noDrops()));
 
         // Register the item blocks.
         for (final RegistryObject<Block> reg : BLOCKS.getEntries())

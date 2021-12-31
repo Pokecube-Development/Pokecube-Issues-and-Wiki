@@ -1,7 +1,7 @@
 {
   "variants": {
     "falling=true": {
-      "model": "concrete:block/solid_air"
+      "model": "concrete:block/solid_block"
     },
     "layers=1,falling=false": {
       "model": "concrete:block/solid_1"

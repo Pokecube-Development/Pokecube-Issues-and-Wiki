@@ -1,4 +1,4 @@
-package pokecube.core.ai.pathing;
+package thut.api.entity.ai;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;

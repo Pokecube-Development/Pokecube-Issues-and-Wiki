@@ -71,7 +71,6 @@ public class MoltenBlock extends DustBlock
     public MoltenBlock(Properties properties)
     {
         super(properties);
-        this.slope = 4;
         hardenRate = 0.1f;
         tickRateFall = 20;
         tickRateFlow = 5;
@@ -82,7 +81,7 @@ public class MoltenBlock extends DustBlock
     {
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(16))
                 .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FALLING, Boolean.valueOf(false))
-                .setValue(HEATED, Boolean.valueOf(false)));
+                .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
     }
 
     @Override
@@ -90,11 +89,14 @@ public class MoltenBlock extends DustBlock
     {
         super.createBlockStateDefinition(builder);
         builder.add(HEATED);
+        builder.add(VISCOSITY);
     }
 
     @Override
     public RenderShape getRenderShape(BlockState state)
     {
+        if (state.hasProperty(FALLING) && state.getValue(FALLING) || !state.hasProperty(LAYERS))
+            return RenderShape.MODEL;
         return RenderShape.INVISIBLE;
     }
 
@@ -139,7 +141,6 @@ public class MoltenBlock extends DustBlock
     @Override
     protected BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
-        this.slope = 4;
         checkSolid();
         if (solid_full.isAir()) return mergeInto;
 
@@ -266,12 +267,13 @@ public class MoltenBlock extends DustBlock
         {
             builder.add(WATERLOGGED);
             builder.add(HEATED);
+            builder.add(VISCOSITY);
         }
 
         protected void initStateDefinition()
         {
             this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(HEATED, Boolean.valueOf(false)));
+                    .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
         }
 
         @Override

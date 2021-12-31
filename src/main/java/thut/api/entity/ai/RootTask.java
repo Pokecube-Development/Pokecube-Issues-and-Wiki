@@ -1,4 +1,4 @@
-package pokecube.core.ai.brain;
+package thut.api.entity.ai;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.ai.pathing.PosWrapWrap;
+import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Behavior<E>

@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.Tasks;
@@ -41,6 +40,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
 public class AntTasks
@@ -113,7 +113,7 @@ public class AntTasks
         list.add(new Dig(pokemob).setPriority(3));
         list.add(new Idle(pokemob).setPriority(4));
 
-        BrainUtils.addToBrain(pokemob.getEntity().getBrain(), AntTasks.MEMORY_TYPES, AntTasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), AntTasks.MEMORY_TYPES, AntTasks.SENSOR_TYPES);
     }
 
     public static boolean isValid(final Entity entity)

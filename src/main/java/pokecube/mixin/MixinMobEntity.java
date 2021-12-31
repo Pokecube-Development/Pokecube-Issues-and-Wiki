@@ -32,9 +32,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.events.BrainInitEvent;
+import thut.api.entity.ai.BrainUtil;
+import thut.api.entity.ai.RootTask;
 
 @Mixin(Mob.class)
 public abstract class MixinMobEntity extends LivingEntity
@@ -75,12 +75,12 @@ public abstract class MixinMobEntity extends LivingEntity
         if (!this.checked_for_ai)
         {
             final Brain<?> brain = this.getBrain();
-            BrainUtils.addToBrain(brain, Lists.newArrayList(MemoryTypes.DUMMY), Lists.newArrayList());
+            BrainUtil.addToBrain(brain, Lists.newArrayList(MemoryTypes.DUMMY), Lists.newArrayList());
             MinecraftForge.EVENT_BUS.post(new BrainInitEvent(this));
             final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> dummyTasks = Lists.newArrayList();
             dummyTasks.add(Pair.of(0, new DummySetTask()));
             for (final Activity a : brain.activeActivities)
-                BrainUtils.addToActivity(brain, a, dummyTasks);
+                BrainUtil.addToActivity(brain, a, dummyTasks);
             brain.setMemory(MemoryTypes.DUMMY, false);
         }
     }

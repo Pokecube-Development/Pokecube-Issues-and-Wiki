@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.block.ITickTile;
+import thut.api.block.flowing.DustBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.concrete.Concrete;
 
@@ -21,6 +22,9 @@ public class VolcanoEntity extends BlockEntity implements ITickTile
     {
         if (this.level.isClientSide) return;
 
+        int v = (int) ((this.getBlockPos().asLong() * 2) & 15);
+//        System.out.println(v);
+
         for (int i = 1; i < 10; i++)
         {
             BlockPos pos = this.getBlockPos().above(i);
@@ -31,8 +35,8 @@ public class VolcanoEntity extends BlockEntity implements ITickTile
                 BlockState state = this.level.getBlockState(pos);
                 if (!state.hasProperty(MoltenBlock.HEATED) || !state.getValue(MoltenBlock.HEATED))
                 {
-                    level.setBlock(pos,
-                            Concrete.MOLTEN_BLOCK.get().defaultBlockState().setValue(MoltenBlock.HEATED, true), 3);
+                    level.setBlock(pos, Concrete.MOLTEN_BLOCK.get().defaultBlockState()
+                            .setValue(MoltenBlock.HEATED, true).setValue(DustBlock.VISCOSITY, v), 3);
                     break;
                 }
             }
@@ -45,8 +49,8 @@ public class VolcanoEntity extends BlockEntity implements ITickTile
             for (int x = -r; x <= r; x++) for (int y = -2; y <= 2; y++) for (int z = -r; z <= r; z++)
             {
                 BlockPos pos = this.getBlockPos().above(38 + y).north(x).east(z);
-                level.setBlock(pos, Concrete.MOLTEN_BLOCK.get().defaultBlockState().setValue(MoltenBlock.HEATED, true),
-                        3);
+                level.setBlock(pos, Concrete.MOLTEN_BLOCK.get().defaultBlockState().setValue(MoltenBlock.HEATED, true)
+                        .setValue(DustBlock.VISCOSITY, v), 3);
             }
         }
         return;
