@@ -29,30 +29,6 @@
     },
     {
       "values": {
-        "preset": "not_cold_areas",
-        "typesBlacklist": "cold"
-      }
-    },
-    {
-      "values": {
-        "preset": "not_dry_areas",
-        "typesBlacklist": "dry"
-      }
-    },
-    {
-      "values": {
-        "preset": "not_wet_areas",
-        "typesBlacklist": "wet"
-      }
-    },
-    {
-      "values": {
-        "preset": "not_snowy_areas",
-        "typesBlacklist": "snowy"
-      }
-    },
-    {
-      "values": {
         "preset": "snowy_areas",
         "types": "snowy"
       }

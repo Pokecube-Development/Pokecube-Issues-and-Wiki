@@ -34,7 +34,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -54,6 +53,7 @@ import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
+import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
@@ -80,45 +80,6 @@ public class PokedexEntryLoader
         public String tag;
         public String lootTable;
         public List<Drop> drops = Lists.newArrayList();
-    }
-
-    public static class BodyNode
-    {
-        public List<BodyPart> parts = Lists.newArrayList();
-
-        public void onLoad()
-        {
-            this.parts.forEach(p -> p.onLoad());
-        }
-    }
-
-    public static class BodyPart
-    {
-        public String name;
-        public String offset;
-        public String size;
-
-        public String ride;
-
-        public Vec3 __pos__;
-        public Vec3 __size__;
-        public Vec3 __ride__;
-
-        public void onLoad()
-        {
-            String[] args = this.offset.split(",");
-            this.__pos__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                    Double.parseDouble(args[2]));
-            args = this.size.split(",");
-            this.__size__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                    Double.parseDouble(args[2]));
-            if (this.ride != null)
-            {
-                args = this.ride.split(",");
-                this.__ride__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                        Double.parseDouble(args[2]));
-            }
-        }
     }
 
     @XmlRootElement(name = "Drop")

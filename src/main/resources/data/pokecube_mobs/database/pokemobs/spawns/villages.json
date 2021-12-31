@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "villages",
+      "and_preset": "villages",
       "entries": [
         {"key": "trubbish","min": 2,"max": 4,"rate": 0.3},
         {"key": "ralts","min": 2,"max": 4,"rate": 0.3},
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "spawn_preset": "villages,day_time",
+      "and_preset": "villages,day_time",
       "entries": [
         {"key": "furfrou","min": 2,"max": 4,"rate": 0.08},
         {"key": "spritzee","min": 2,"max": 4,"rate": 0.08},

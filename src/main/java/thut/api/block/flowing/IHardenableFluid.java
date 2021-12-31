@@ -1,4 +1,4 @@
-package thut.api.block;
+package thut.api.block.flowing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

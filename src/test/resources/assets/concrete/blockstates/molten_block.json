@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "concrete:block/molten_block"
+    }
+  }
+}

@@ -80,11 +80,11 @@
       "target": "pokecube:village/plains/terminators",
       "ignoreAir": false,
       "options": [
-        "empty;{\"weight\":1}",
-        "pokecube:village/plains/houses/house_small_1;{\"weight\":3}",
-        "pokecube:village/plains/houses/house_big_1;{\"weight\":3}",
-        "pokecube:village/plains/houses/house_medium_1;{\"weight\":3}",
-        "pokecube:village/plains/houses/house_medium_2;{\"weight\":3}",
+        "empty;{\"weight\":2}",
+        "pokecube:village/plains/houses/house_small_1;{\"weight\":6}",
+        "pokecube:village/plains/houses/house_big_1;{\"weight\":6}",
+        "pokecube:village/plains/houses/house_medium_1;{\"weight\":6}",
+        "pokecube:village/plains/houses/house_medium_2;{\"weight\":6}",
         "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\",\"extra\":{\"markers_to_air\":true}}",
         "pokecube:village/plains/gym/gym_01;{\"flag\":\"gym\"}"
       ],
@@ -115,7 +115,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "and_presets": "not_snowy_areas"
+          "not_presets": "snowy_areas"
         }
       }
     },
@@ -139,7 +139,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "and_presets": "not_snowy_areas"
+          "not_presets": "snowy_areas"
         }
       }
     }

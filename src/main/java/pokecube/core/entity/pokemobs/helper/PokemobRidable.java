@@ -24,13 +24,13 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
-import pokecube.core.database.pokedex.PokedexEntryLoader.BodyPart;
 import thut.api.entity.IMultiplePassengerEntity;
+import thut.api.entity.multipart.GenericPartEntity.BodyNode;
+import thut.api.entity.multipart.GenericPartEntity.BodyPart;
 import thut.api.maths.vecmath.Vector3f;
 
-public abstract class PokemobRidable extends PokemobHasParts implements IMultiplePassengerEntity, PlayerRideableJumping,
-        Saddleable
+public abstract class PokemobRidable extends PokemobHasParts
+        implements IMultiplePassengerEntity, PlayerRideableJumping, Saddleable
 {
 
     public PokemobRidable(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
@@ -50,8 +50,8 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId()) ? this.getPassengers()
-                .get(0) : null;
+        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId()) ? this.getPassengers().get(0)
+                : null;
     }
 
     @Override
@@ -107,8 +107,7 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     public void equipSaddle(@Nullable final SoundSource sound)
     {
         this.pokemobCap.getInventory().setItem(0, new ItemStack(Items.SADDLE));
-        if (sound != null) this.level.playSound((Player) null, this, SoundEvents.HORSE_SADDLE, sound,
-                0.5F, 1.0F);
+        if (sound != null) this.level.playSound((Player) null, this, SoundEvents.HORSE_SADDLE, sound, 0.5F, 1.0F);
     }
 
     @Override
@@ -121,23 +120,21 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     @SuppressWarnings("unchecked")
     static final EntityDataAccessor<Seat>[] SEAT = new EntityDataAccessor[10];
 
-    private boolean init      = false;
-    private String  lastPose  = "";
-    protected int   seatCount = 0;
+    private boolean init = false;
+    private String lastPose = "";
+    protected int seatCount = 0;
 
     static
     {
-        for (int i = 0; i < PokemobRidable.SEAT.length; i++)
-            PokemobRidable.SEAT[i] = SynchedEntityData.<Seat> defineId(PokemobRidable.class,
-                    IMultiplePassengerEntity.SEATSERIALIZER);
+        for (int i = 0; i < PokemobRidable.SEAT.length; i++) PokemobRidable.SEAT[i] = SynchedEntityData
+                .<Seat>defineId(PokemobRidable.class, IMultiplePassengerEntity.SEATSERIALIZER);
     }
 
     @Override
     protected void defineSynchedData()
     {
         super.defineSynchedData();
-        for (int i = 0; i < 10; i++)
-            this.entityData.define(PokemobRidable.SEAT[i], new Seat(new Vector3f(), null));
+        for (int i = 0; i < 10; i++) this.entityData.define(PokemobRidable.SEAT[i], new Seat(new Vector3f(), null));
     }
 
     @Override
@@ -150,8 +147,7 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
             Seat seat;
             if ((seat = this.getSeat(i)).seat.equals(seatl)) id = seat.getEntityId();
         }
-        if (id != null) for (final Entity e : this.getPassengers())
-            if (e.getUUID().equals(id)) return e;
+        if (id != null) for (final Entity e : this.getPassengers()) if (e.getUUID().equals(id)) return e;
         return null;
     }
 
@@ -196,15 +192,15 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     @Override
     protected void initSizes(final float size)
     {
-        if (size == this.last_size) return;
-        this.last_size = size;
+        if (size == getHolder().holder().last_size) return;
+        getHolder().holder().last_size = size;
         this.init = false;
         this.initSeats();
         super.initSizes(size);
     }
 
     @Override
-    protected void updatePartsPos()
+    public void updatePartsPos()
     {
         super.updatePartsPos();
         this.initSeats();
@@ -213,15 +209,14 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     protected void initSeats()
     {
         if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
-        if (this.init && this.lastPose.equals(this.effective_pose)) return;
+        if (this.init && this.lastPose.equals(getHolder().holder().effective_pose)) return;
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
-        this.lastPose = this.effective_pose;
+        this.lastPose = getHolder().holder().effective_pose;
         this.init = true;
         final List<BodyPart> bodySeats = Lists.newArrayList();
         BodyNode body;
         if (entry.poseShapes != null && (body = entry.poseShapes.get(this.lastPose)) != null)
-            for (final BodyPart part : body.parts)
-            if (part.__ride__ != null) bodySeats.add(part);
+            for (final BodyPart part : body.parts) if (part.__ride__ != null) bodySeats.add(part);
         final float size = this.pokemobCap.getSize();
         if (!bodySeats.isEmpty())
         {
@@ -293,8 +288,8 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     @Override
     public void positionRider(final Entity passenger)
     {
-        if (this.hasPassenger(passenger)) IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger,
-                this);
+        if (this.hasPassenger(passenger))
+            IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
     }
 
     @Override
@@ -302,12 +297,12 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
     {
         super.addPassenger(passenger);
         this.initSeats();
-        if (!this.level.isClientSide) for (int i = 0; i < this.seatCount; i++)
-            if (this.getSeat(i).getEntityId() == Seat.BLANK)
-            {
-                this.updateSeat(i, passenger.getUUID());
-                break;
-            }
+        if (!this.level.isClientSide)
+            for (int i = 0; i < this.seatCount; i++) if (this.getSeat(i).getEntityId() == Seat.BLANK)
+        {
+            this.updateSeat(i, passenger.getUUID());
+            break;
+        }
     }
 
     @Override
@@ -319,12 +314,12 @@ public abstract class PokemobRidable extends PokemobHasParts implements IMultipl
         final double z = this.getZ();
         passenger.setPos(x, y, z);
         this.initSeats();
-        if (!this.level.isClientSide) for (int i = 0; i < this.seatCount; i++)
-            if (this.getSeat(i).getEntityId().equals(passenger.getUUID()))
-            {
-                this.updateSeat(i, Seat.BLANK);
-                break;
-            }
+        if (!this.level.isClientSide)
+            for (int i = 0; i < this.seatCount; i++) if (this.getSeat(i).getEntityId().equals(passenger.getUUID()))
+        {
+            this.updateSeat(i, Seat.BLANK);
+            break;
+        }
     }
 
     @Override

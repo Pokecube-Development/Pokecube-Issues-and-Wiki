@@ -192,9 +192,9 @@
           "trades": [
             {
               "exp": 20,
-              "sell": {"values": {"id": "pokecube_adventures:cloner", "n": "16"}},
+              "sell": {"values": {"id": "pokecube_adventures:cloner", "n": "1"}},
               "buys": [
-                {"values": {"id": "minecraft:emerald", "n": "1"}}
+                {"values": {"id": "minecraft:emerald", "n": "32"}}
               ]
             },
             {
@@ -515,7 +515,7 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thutbling:bling_bag", "n": "1"}},
+              "sell": {"values": {"id": "thut_bling:bling_bag", "n": "1"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "4"}}
               ]
@@ -776,7 +776,7 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thutbling:bling_bag", "n": "1"}},
+              "sell": {"values": {"id": "thut_bling:bling_bag", "n": "1"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "4"}}
               ]
@@ -899,14 +899,14 @@
           "trades": [
             {
               "exp": 5,
-              "sell": {"values": {"id": "thutbling:bling_belt", "n": "1"}},
+              "sell": {"values": {"id": "thut_bling:bling_waist", "n": "1"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "5"}}
               ]
             },
             {
               "exp": 3,
-              "sell": {"values": {"id": "thutbling:bling_wrist", "n": "1"}},
+              "sell": {"values": {"id": "thut_bling:bling_wrist", "n": "1"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}
               ]

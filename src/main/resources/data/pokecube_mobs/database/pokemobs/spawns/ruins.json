@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "ruins",
+      "and_preset": "ruins",
       "entries": [
         {"key": "klefki","min": 2,"max": 4,"rate": 0.2},
         {"key": "honedge","min": 2,"max": 4,"rate": 0.2},
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "spawn_preset": "ruins,hills",
+      "and_preset": "ruins,hills",
       "entries": [
         {"key": "bronzor","min": 2,"max": 4,"rate": 0.1}
       ]

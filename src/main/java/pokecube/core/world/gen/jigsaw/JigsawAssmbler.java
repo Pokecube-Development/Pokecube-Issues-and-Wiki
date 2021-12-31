@@ -381,30 +381,29 @@ public class JigsawAssmbler
     {
         final List<StructurePoolElement> needed = Lists.newArrayList();
         list.removeIf(p -> !this.validator.test(p));
-        list.removeIf(
-                p -> p instanceof CustomJigsawPiece && this.once_added.contains(((CustomJigsawPiece) p).opts.flag));
+        list.removeIf(p -> p instanceof CustomJigsawPiece p2 && this.once_added.contains(p2.opts.flag));
         for (final StructurePoolElement p : list)
-            if (p instanceof CustomJigsawPiece && !((CustomJigsawPiece) p).opts.flag.isEmpty()
-                    && this.needed_once.contains(((CustomJigsawPiece) p).opts.flag))
+            if (p instanceof CustomJigsawPiece p2 && !p2.opts.flag.isEmpty() && this.needed_once.contains(p2.opts.flag))
                 needed.add(p);
         list.removeIf(p -> needed.contains(p));
         Collections.shuffle(needed, this.rand);
         for (final StructurePoolElement p : needed) list.add(0, p);
         final LevelAccessor world = JigsawAssmbler.getForGen(this.chunkGenerator);
         list.forEach(p -> {
-            if (p instanceof CustomJigsawPiece)
+            if (p instanceof CustomJigsawPiece p2)
             {
-                ((CustomJigsawPiece) p).config = this.config;
-                ((CustomJigsawPiece) p).world = (Level) world;
+                p2.config = this.config;
+                p2.world = (Level) world;
             }
         });
     }
 
     @SuppressWarnings("deprecation")
     private void addPiece(final PoolElementStructurePiece villagePieceIn, final MutableObject<VoxelShape> outer_box_ref,
-            final int part_index, final int current_depth, final int default_k)
+            final int part_index, int current_depth, final int default_k)
     {
         final StructurePoolElement part = villagePieceIn.getElement();
+
         final BlockPos blockpos = villagePieceIn.getPosition();
         final Rotation rotation = villagePieceIn.getRotation();
         final StructureTemplatePool.Projection projection = part.getProjection();
@@ -570,8 +569,11 @@ public class JigsawAssmbler
                                         if (PokecubeCore.getConfig().debug)
                                             PokecubeCore.LOGGER.debug("added core part: {}", once);
                                     }
-                                    if (current_depth + 1 <= this.depth) this.availablePieces
-                                            .addLast(new Entry(nextPart, box_ref, l, current_depth + 1));
+                                    int depth = current_depth + 1;
+                                    if (nextPart.getElement() instanceof CustomJigsawPiece p2 && p2.opts.needs_children)
+                                        depth = 0;
+                                    if (depth <= this.depth)
+                                        this.availablePieces.addLast(new Entry(nextPart, box_ref, l, depth));
                                     continue jigsaws;
                                 }
                             }

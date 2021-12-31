@@ -3,12 +3,10 @@ package pokecube.core.entity.pokemobs.helper;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -26,69 +24,58 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.pokedex.PokedexEntryLoader.BodyNode;
-import pokecube.core.database.pokedex.PokedexEntryLoader.BodyPart;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import thut.api.AnimatedCaps;
-import thut.api.entity.IAnimated;
-import thut.api.maths.vecmath.Matrix3f;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.entity.multipart.GenericPartEntity;
+import thut.api.entity.multipart.GenericPartEntity.BodyNode;
+import thut.api.entity.multipart.GenericPartEntity.Factory;
+import thut.api.entity.multipart.IMultpart;
 
-public abstract class PokemobHasParts extends PokemobCombat
+public abstract class PokemobHasParts extends PokemobCombat implements IMultpart<PokemobPart, PokemobHasParts>
 {
-    private PokemobPart[] parts;
 
-    public List<PokemobPart> allParts = Lists.newArrayList();
-
-    float colWidth = 0;
-    float colHeight = 0;
-
-    float last_size = 0;
-
-    final Matrix3f rot = new Matrix3f();
-    final Vector3f r = new Vector3f();
-
-    int update_tick = 0;
-
-    String effective_pose;
-
-    Map<String, PokemobPart[]> partMap = Maps.newHashMap();
+    protected GenericPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
+    private PartHolder<PokemobPart> parts;
 
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
-        this.update_tick = -1;
-        this.effective_pose = "";
+
+        List<PokemobPart> allParts = Lists.newArrayList();
+        Map<String, PokemobPart[]> partMap = Maps.newHashMap();
+        this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
+        this.factory = PokemobPart::new;
     }
 
-    private PokemobPart makePart(final BodyPart part, final float size, final Set<String> names)
+    @Override
+    public Factory<PokemobPart, PokemobHasParts> getFactory()
     {
-        final float dx = (float) (part.__pos__.x * size);
-        final float dy = (float) (part.__pos__.y * size);
-        final float dz = (float) (part.__pos__.z * size);
-
-        final float sx = (float) (part.__size__.x * size);
-        final float sy = (float) (part.__size__.y * size);
-        final float sz = (float) (part.__size__.z * size);
-
-        final float dw = Math.max(sx, sz);
-        final float dh = sy;
-        String name = part.name;
-        int n = 0;
-        while (names.contains(name)) name = part.name + n++;
-        return new PokemobPart(this, dw, dh, dx, dy, dz, name);
+        return factory;
     }
 
-    private void addPart(final String key, final float size, final BodyNode node)
+    @Override
+    public PartHolder<PokemobPart> getHolder()
     {
-        final PokemobPart[] parts = new PokemobPart[node.parts.size()];
-        final Set<String> names = Sets.newHashSet();
-        for (int i = 0; i < parts.length; i++)
+        return parts;
+    }
+
+    @Override
+    public boolean isMultipartEntity()
+    {
+        if (this.getHolder().getParts() == null) this.initParts();
+        return this.getHolder().getParts().length > 0;
+    }
+
+    @Override
+    public PokemobPart[] getParts()
+    {
+        // This only does something complex if the parts have changed, otherwise
+        // it just ensures their locations are synced to us.
+        this.checkUpdateParts();
+        if (!this.isAddedToWorld())
         {
-            parts[i] = this.makePart(node.parts.get(i), size, names);
-            this.allParts.add(parts[i]);
+            return getHolder().makeAllParts(this.getPartClass());
         }
-        this.partMap.put(key, parts);
+        return this.getHolder().getParts();
     }
 
     protected void initSizes(final float size)
@@ -101,11 +88,11 @@ public abstract class PokemobHasParts extends PokemobCombat
         // if (!this.getEntityWorld().isRemote) allParts =
         // Lists.newArrayList(allParts);
 
-        this.allParts.clear();
+        getHolder().allParts().clear();
 
         if (entry.poseShapes != null)
         {
-            this.partMap.clear();
+            getHolder().partMap().clear();
             for (final Entry<String, BodyNode> s : entry.poseShapes.entrySet())
                 this.addPart(s.getKey(), size, s.getValue());
         }
@@ -116,8 +103,8 @@ public abstract class PokemobHasParts extends PokemobCombat
         float length = entry.length * size;
         float height = entry.height * size;
 
-        this.colWidth = width;
-        this.colHeight = height;
+        getHolder().holder().colWidth = width;
+        getHolder().holder().colHeight = height;
 
         if (height > maxH || width > maxW || length > maxW)
         {
@@ -129,27 +116,27 @@ public abstract class PokemobHasParts extends PokemobCombat
             final float dy = height / ny;
             final float dz = length / nz;
 
-            this.parts = new PokemobPart[nx * ny * nz];
+            getHolder().setParts(new PokemobPart[nx * ny * nz]);
             final float dw = Math.max(width / nx, length / nz);
             final float dh = dy;
             int i = 0;
 
             for (int y = 0; y < ny; y++) for (int x = 0; x < nx; x++) for (int z = 0; z < nz; z++)
             {
-                this.parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy, z * dz - nz * dz / 2f,
-                        "part_" + i);
-                this.allParts.add(this.parts[i]);
+                getHolder().holder().parts[i] = new PokemobPart(this, dw, dh, x * dx - nx * dx / 2f, y * dy,
+                        z * dz - nz * dz / 2f, "part_" + i);
+                getHolder().allParts().add(getHolder().holder().parts[i]);
                 i++;
             }
 
-            this.colWidth = Math.min(1, maxW);
-            this.colHeight = Math.min(1, maxH);
+            getHolder().holder().colWidth = Math.min(1, maxW);
+            getHolder().holder().colHeight = Math.min(1, maxH);
         }
         else
         {
-            this.parts = new PokemobPart[0];
+            getHolder().setParts(new PokemobPart[0]);
         }
-        if (!this.partMap.containsKey("idle")) this.partMap.put("idle", this.parts);
+        if (!getHolder().partMap().containsKey("idle")) getHolder().partMap().put("idle", getHolder().holder().parts);
 
         float minX = 0;
         float minY = 0;
@@ -158,7 +145,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         float maxY = 0;
         float maxZ = 0;
         int n = 0;
-        for (final PokemobPart[] parts : this.partMap.values()) for (final PokemobPart part : parts)
+        for (final PokemobPart[] parts : getHolder().partMap().values()) for (final PokemobPart part : parts)
         {
             n++;
             minX = Math.min(minX, part.r0.x - part.width);
@@ -175,8 +162,7 @@ public abstract class PokemobHasParts extends PokemobCombat
             width = maxX - minX;
             length = maxZ - minZ;
         }
-        // if (!this.getEntityWorld().isRemote)
-        // PacketPartsUpdate.sendUpdate(this, allParts, this.allParts);
+
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
@@ -188,6 +174,20 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
+    public void initParts()
+    {
+        float size = this.pokemobCap.getSize();
+        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX)) size = 5 / this.pokemobCap.getPokedexEntry().height;
+        this.initSizes(size);
+    }
+
+    @Override
+    public Class<PokemobPart> getPartClass()
+    {
+        return PokemobPart.class;
+    }
+
+    @Override
     public boolean shouldRenderAtSqrDistance(double dr2)
     {
         double d0 = this.pokemobCap.getMobSizes().magSq();
@@ -195,7 +195,7 @@ public abstract class PokemobHasParts extends PokemobCombat
         {
             d0 = 1.0D;
         }
-        d0 = Math.min(d0,  9);
+        d0 = Math.min(d0, 9);
         d0 *= 4096.0D * viewScale * viewScale;
         return dr2 < d0;
     }
@@ -221,29 +221,6 @@ public abstract class PokemobHasParts extends PokemobCombat
     }
 
     @Override
-    public boolean isMultipartEntity()
-    {
-        if (this.parts == null) this.initSizes(this.pokemobCap.getSize());
-        return this.parts.length > 0;
-    }
-
-    @Override
-    public PokemobPart[] getParts()
-    {
-        // This only does something complex if the parts have changed, otherwise
-        // it just ensures their locations are synced to us.
-        if (this.update_tick != this.tickCount)
-        {
-            this.update_tick = this.tickCount;
-            this.updatePartsPos();
-        }
-
-        if (!this.isAddedToWorld()) return this.allParts.toArray(new PokemobPart[0]);
-
-        return this.parts;
-    }
-
-    @Override
     public boolean isPickable()
     {
         if (this.isMultipartEntity()) return false;
@@ -260,12 +237,6 @@ public abstract class PokemobHasParts extends PokemobCombat
     protected void pushEntities()
     {
         if (!this.isMultipartEntity()) super.pushEntities();
-    }
-
-    @Override
-    public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
-    {
-        return super.hurt(source, amount);
     }
 
     @Override
@@ -293,7 +264,7 @@ public abstract class PokemobHasParts extends PokemobCombat
     @Override
     public boolean is(final Entity entityIn)
     {
-        return this == entityIn || entityIn instanceof PokemobPart && ((PokemobPart) entityIn).base == this;
+        return sameMob(entityIn);
     }
 
     @Override
@@ -303,53 +274,29 @@ public abstract class PokemobHasParts extends PokemobCombat
         super.aiStep();
     }
 
-    protected void updatePartsPos()
-    {
-        float size = this.pokemobCap.getSize();
-        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX)) size = 5 / this.pokemobCap.getPokedexEntry().height;
-        this.initSizes(size);
-
-        // check if effective_pose needs updating
-        final IAnimated holder = AnimatedCaps.getAnimated(this);
-        if (holder != null)
-        {
-            final List<String> anims = holder.getChoices();
-            this.effective_pose = "idle";
-            for (final String s : anims) if (this.partMap.containsKey(s))
-            {
-                this.effective_pose = s;
-                break;
-            }
-            // Update the partmap if we know about this pose.
-            if (this.partMap.containsKey(this.effective_pose)) this.parts = this.partMap.get(this.effective_pose);
-        }
-
-        if (this.parts.length == 0 && this.allParts.isEmpty()) return;
-
-        final Vec3 v = this.position();
-        this.r.set((float) v.x(), (float) v.y(), (float) v.z());
-        final Vec3 dr = new Vec3(this.r.x - this.xOld, this.r.y - this.yOld, this.r.z - this.zOld);
-        this.rot.rotY((float) Math.toRadians(180 - this.yBodyRot));
-
-        if (this.isAddedToWorld()) for (final PokemobPart p : this.parts) p.update(this.rot, this.r, dr);
-        else for (final PokemobPart p : this.allParts) p.update(this.rot, this.r, dr);
-    }
-
     @Override
-    public void move(final MoverType typeIn, final Vec3 pos)
+    public void move(final MoverType typeIn, Vec3 pos)
     {
-        if (this.parts.length == 0)
+        if (getHolder().holder().parts.length == 0)
         {
             super.move(typeIn, pos);
             return;
         }
         final EntityDimensions backup = this.dimensions;
-        this.dimensions = new EntityDimensions(this.colWidth, this.colHeight, true);
+        this.dimensions = new EntityDimensions(getHolder().holder().colWidth, getHolder().holder().colHeight, true);
 
         final boolean first = this.firstTick;
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
+
+        if (getHolder().holder().parts.length < 10) for (PokemobPart part : getHolder().holder().parts)
+        {
+            Vec3 before = part.position();
+            part.move(typeIn, pos);
+            pos = part.position().subtract(before);
+        }
+
         super.move(typeIn, pos);
 
         final BlockPos down = this.getBlockPosBelowThatAffectsMyMovement();
@@ -368,13 +315,13 @@ public abstract class PokemobHasParts extends PokemobCombat
     @Override
     public float getBbHeight()
     {
-        return this.colHeight;
+        return getHolder().holder().colHeight;
     }
 
     @Override
     public float getBbWidth()
     {
-        return this.colWidth;
+        return getHolder().holder().colWidth;
     }
 
     // ================= Pose Related =====================

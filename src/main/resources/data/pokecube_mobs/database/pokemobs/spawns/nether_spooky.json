@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "nether_forests",
+      "and_preset": "nether_forests",
       "entries": [
         {"key": "ponyta_galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "misdreavus","min": 2,"max": 4,"rate": 0.3},
@@ -14,14 +14,15 @@
       ]
     },
     {
-      "spawn_preset": "nether_not_forests",
+      "and_preset": "nether",
+      "not_preset": "forests",
       "entries": [
         {"key": "slugma","min": 2,"max": 4,"rate": 0.5},
         {"key": "magmar","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "nether",
+      "and_preset": "nether",
       "entries": [
         {"key": "koffing","min": 2,"max": 4,"rate": 0.8},
         {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
@@ -41,7 +42,7 @@
       ]
     },
     {
-      "spawn_preset": "spooky_areas",
+      "and_preset": "spooky_areas",
       "entries": [
         {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
         {"key": "litwick","min": 2,"max": 4,"rate": 0.4},
@@ -65,7 +66,7 @@
       ]
     },
     {
-      "spawn_preset": "spooky_areas,caves",
+      "and_preset": "spooky_areas,caves",
       "entries": [
         {"key": "spiritomb","min": 2,"max": 4,"rate": 0.2}
       ]

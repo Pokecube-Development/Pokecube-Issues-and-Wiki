@@ -230,7 +230,7 @@ public class ThutBot
         if (event.side == LogicalSide.CLIENT) return;
         if (event.phase == Phase.START) return;
         final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server.getTickCount() % 200 != 0 || server.getTickCount() > 0) return;
+        if (server.getTickCount() % 200 != 0) return;
 
         ServerLevel level = server.overworld();
 

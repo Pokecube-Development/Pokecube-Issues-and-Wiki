@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "caves",
+      "and_preset": "caves",
       "entries": [
         {"key": "zubat","min": 2,"max": 5,"rate": 1.0},
         {"key": "geodude","min": 2,"max": 5,"rate": 1.0},
@@ -42,27 +42,27 @@
       ]
     },
     {
-      "spawn_preset": "forests,caves",
+      "and_preset": "forests,caves",
       "entries": [
         {"key": "burmy","min": 2,"max": 5,"rate": 0.2},
         {"key": "druddigon","min": 2,"max": 5,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "jungles,caves",
+      "and_preset": "jungles,caves",
       "entries": [
         {"key": "croagunk","min": 2,"max": 5,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "plains,caves",
+      "and_preset": "plains,caves",
       "entries": [
         {"key": "bunnelby","min": 2,"max": 4,"rate": 0.3},
         {"key": "foongus","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "mountains,caves",
+      "and_preset": "mountains,caves",
       "entries": [
         {"key": "durant","min": 2,"max": 4,"rate": 0.5},
         
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "spawn_preset": "desert_caves",
+      "and_preset": "desert_caves",
       "entries": [
         {"key": "yamask","min": 2,"max": 4,"rate": 0.5},
         {"key": "sigilyph","min": 2,"max": 4,"rate": 0.5},
@@ -119,14 +119,15 @@
       ]
     },
     {
-      "spawn_preset": "caves,not_dry_areas",
+      "and_preset": "caves",
+      "not_preset": "dry_areas",
       "entries": [
         {"key": "paras","min": 2,"max": 4,"rate": 0.2},
         {"key": "foongus","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "caves,cold_areas",
+      "and_preset": "caves,cold_areas",
       "entries": [
         {"key": "jynx","min": 2,"max": 4,"rate": 0.3},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.3},
@@ -134,7 +135,7 @@
       ]
     },
     {
-      "spawn_preset": "caves,snowy_areas",
+      "and_preset": "caves,snowy_areas",
       "entries": [
         {"key": "snover","min": 2,"max": 4,"rate": 0.5},
         {"key": "snorunt","min": 2,"max": 4,"rate": 0.5},
@@ -146,7 +147,7 @@
       ]
     },
     {
-      "spawn_preset": "cave_water",
+      "and_preset": "cave_water",
       "entries": [
         {"key": "magikarp","min": 2,"max": 4,"rate": 0.2},
         {"key": "relicanth","min": 2,"max": 4,"rate": 0.025},
@@ -154,7 +155,7 @@
       ]
     },
     {
-      "spawn_preset": "cave_lake_shore",
+      "and_preset": "cave_lake_shore",
       "entries": [
         {"key": "wobbuffet","min": 2,"max": 4,"rate": 0.6},
         
@@ -167,7 +168,7 @@
       ]
     },
     {
-      "spawn_preset": "rivers,caves",
+      "and_preset": "rivers,caves",
       "entries": [
         {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
         {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
@@ -179,7 +180,7 @@
       ]
     },
     {
-      "spawn_preset": "swamps,caves",
+      "and_preset": "swamps,caves",
       "entries": [
         {"key": "wooper","min": 2,"max": 4,"rate": 0.3},
         {"key": "croagunk","min": 2,"max": 4,"rate": 0.3},
@@ -189,14 +190,14 @@
       ]
     },
     {
-      "spawn_preset": "oceans,caves",
+      "and_preset": "oceans,caves",
       "entries": [
         {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
         {"key": "spheal","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "beaches,caves",
+      "and_preset": "beaches,caves",
       "entries": [
         {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
         {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},

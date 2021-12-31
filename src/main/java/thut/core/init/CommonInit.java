@@ -49,7 +49,7 @@ public class CommonInit
             min = min.subtract(mid);
             max = max.subtract(mid);
             final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
-            if (max.getY() - min.getY() > 10 || dw > 2 * 5 + 1)
+            if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
             {
                 final String message = "msg.craft.toobig";
                 if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
@@ -103,7 +103,7 @@ public class CommonInit
             min = min.subtract(mid);
             max = max.subtract(mid);
             final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
-            if (max.getY() - min.getY() > 15 || dw > 2 * 10 + 1)
+            if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
             {
                 final String message = "msg.craft.toobig";
                 if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);

@@ -13,6 +13,7 @@ import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.nbt.CompoundTag;
@@ -1376,65 +1377,59 @@ public class Vector3
 
     public Vector3 set(final Object o)
     {
-        if (o instanceof Entity)
+        if (o instanceof Entity e)
         {
-            final Entity e = (Entity) o;
             this.set(e.getX(), e.getY(), e.getZ());
         }
-        else if (o instanceof BlockEntity)
+        else if (o instanceof BlockEntity te)
         {
-            final BlockEntity te = (BlockEntity) o;
             this.set(te.getBlockPos());
         }
-        else if (o instanceof double[])
+        else if (o instanceof double[] d)
         {
-            final double[] d = (double[]) o;
             this.set(d[0], d[1], d[2]);
         }
-        else if (o instanceof Direction)
+        else if (o instanceof Direction side)
         {
-            final Direction side = (Direction) o;
-            this.set(side.getStepX(), side.getStepY(), side.getStepZ());
+            this.set(side);
         }
-        else if (o instanceof Vector3) this.set((Vector3) o);
-        else if (o instanceof BlockPos)
+        else if (o instanceof Direction8 dir)
         {
-            final BlockPos c = (BlockPos) o;
+            this.clear();
+            for (Direction side : dir.getDirections()) this.addTo(side.getStepX(), side.getStepY(), side.getStepZ());
+        }
+        else if (o instanceof Vector3 v) this.set(v);
+        else if (o instanceof BlockPos c)
+        {
             this.set(c.getX(), c.getY(), c.getZ());
         }
-        else if (o instanceof GlobalPos)
+        else if (o instanceof GlobalPos g)
         {
-            final BlockPos c = ((GlobalPos) o).pos();
+            final BlockPos c = g.pos();
             this.set(c.getX(), c.getY(), c.getZ());
         }
-        else if (o instanceof Node)
+        else if (o instanceof Node p)
         {
-            final Node p = (Node) o;
             this.set(p.x, p.y, p.z);
         }
-        else if (o instanceof Vec3)
+        else if (o instanceof Vec3 p)
         {
-            final Vec3 p = (Vec3) o;
             this.set(p.x, p.y, p.z);
         }
-        else if (o instanceof int[])
+        else if (o instanceof int[] p)
         {
-            final int[] p = (int[]) o;
             this.set(p[0], p[1], p[2]);
         }
-        else if (o instanceof byte[])
+        else if (o instanceof byte[] p)
         {
-            final byte[] p = (byte[]) o;
             this.set(p[0], p[1], p[2]);
         }
-        else if (o instanceof short[])
+        else if (o instanceof short[] p)
         {
-            final short[] p = (short[]) o;
             this.set(p[0], p[1], p[2]);
         }
-        else if (o instanceof float[])
+        else if (o instanceof float[] p)
         {
-            final float[] p = (float[]) o;
             this.set(p[0], p[1], p[2]);
         }
         else if (o instanceof Double) this.x = this.y = this.z = (double) o;

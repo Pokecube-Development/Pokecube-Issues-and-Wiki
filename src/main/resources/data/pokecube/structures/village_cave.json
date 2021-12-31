@@ -3,6 +3,7 @@
     {
       "name": "pokecube:village/cave/town_centers",
       "ignoreAir": false,
+      "base_override": true,
       "options": [
         "pokecube:village/cave/town_centers/center_1",
         "pokecube:village/cave/town_centers/center_2",
@@ -123,7 +124,9 @@
       "size": 6,
       "priority": 12,
       "base_under": false,
+      "base_override": true,
       "biomeType": "cave",
+      "needed_space": 32,
       "needed_once": [
         "pokecenter"
       ],
@@ -134,7 +137,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "and_presets": "not_snowy_areas"
+          "not_presets": "snowy_areas"
         }
       }
     }

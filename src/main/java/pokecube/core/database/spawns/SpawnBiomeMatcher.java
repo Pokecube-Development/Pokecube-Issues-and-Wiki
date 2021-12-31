@@ -108,6 +108,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public static final String ANDPRESET = "and_presets";
     public static final String ORPRESET = "or_presets";
+    public static final String NOTPRESET = "not_presets";
 
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
@@ -193,6 +194,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
      */
     public Set<SpawnBiomeMatcher> _and_children = Sets.newHashSet();
     public Set<SpawnBiomeMatcher> _or_children = Sets.newHashSet();
+    public Set<SpawnBiomeMatcher> _not_children = Sets.newHashSet();
 
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
@@ -321,6 +323,15 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         {
 
             // First check children
+            if (!this._not_children.isEmpty())
+            {
+                boolean any = _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
+                if (any)
+                {
+                    match = false;
+                    break check;
+                }
+            }
             if (!this._and_children.isEmpty())
             {
                 match = _and_children.stream().allMatch(m -> m.checkLoadEvent(event));
@@ -393,6 +404,11 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (!this.valid) return false;
 
         // First check children
+        if (!this._not_children.isEmpty())
+        {
+            boolean any = _or_children.stream().anyMatch(m -> m.checkBiome(biome));
+            if (any) return false;
+        }
         if (!this._and_children.isEmpty())
         {
             return _and_children.stream().allMatch(m -> m.checkBiome(biome));
@@ -414,6 +430,11 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         this.parse();
         if (!this.valid) return false;
         // First check children
+        if (!this._not_children.isEmpty())
+        {
+            boolean any = _or_children.stream().anyMatch(m -> m.matches(checker));
+            if (any) return false;
+        }
         if (!this._and_children.isEmpty())
         {
             return _and_children.stream().allMatch(m -> m.matches(checker));
@@ -611,6 +632,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         String or_presets = spawnRule.values.get(SpawnBiomeMatcher.ORPRESET);
         String and_presets = spawnRule.values.get(SpawnBiomeMatcher.ANDPRESET);
+        String not_presets = spawnRule.values.get(SpawnBiomeMatcher.NOTPRESET);
 
         this.reset();
 
@@ -678,6 +700,23 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             }
         }
 
+        if (not_presets != null)
+        {
+            String[] args = not_presets.split(",");
+            for (String s : args)
+            {
+                SpawnRule rule = PRESETS.get(s);
+                if (rule != null)
+                {
+                    rule = rule.copy();
+                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    this._not_children.add(child);
+                }
+                else if (!__client__)
+                    PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
+            }
+        }
+
         this._structs = new StructureMatcher()
         {
         };
@@ -685,6 +724,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         for (final SpawnBiomeMatcher child : this._and_children) child.parse();
         for (final SpawnBiomeMatcher child : this._or_children) child.parse();
+        for (final SpawnBiomeMatcher child : this._not_children) child.parse();
 
         if (or_base != null)
         {
@@ -1002,6 +1042,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this._blackListCats == null) this._blackListCats = Sets.newHashSet();
         if (this._and_children == null) this._and_children = Sets.newHashSet();
         if (this._or_children == null) this._or_children = Sets.newHashSet();
+        if (this._not_children == null) this._not_children = Sets.newHashSet();
 
         // Now lets ensure they are empty.
         this._validCats.clear();
@@ -1017,6 +1058,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         this._neededWeather.clear();
         this._and_children.clear();
         this._or_children.clear();
+        this._not_children.clear();
 
         minLight = 0;
         maxLight = 1;

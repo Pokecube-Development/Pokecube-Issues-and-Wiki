@@ -25,6 +25,36 @@ public interface IBlockEntityWorld extends LevelAccessor
         return mob.getBlocks()[i][j][k];
     }
 
+    default BlockState getBlockRelative(final BlockPos pos)
+    {
+        final IBlockEntity mob = this.getBlockEntity();
+        int i, j, k;
+        i = pos.getX();
+        j = pos.getY();
+        k = pos.getZ();
+
+        final int sizeX = mob.getBlocks().length;
+        final int sizeY = mob.getBlocks()[0].length;
+        final int sizeZ = mob.getBlocks()[0][0].length;
+        if (i < sizeX && j < sizeY && k < sizeZ && i >= 0 && j >= 0 && k >= 0) return mob.getBlocks()[i][j][k];
+
+        return null;
+    }
+
+    default void setBlockRelative(final BlockPos pos, BlockState state)
+    {
+        final IBlockEntity mob = this.getBlockEntity();
+        int i, j, k;
+        i = pos.getX();
+        j = pos.getY();
+        k = pos.getZ();
+
+        final int sizeX = mob.getBlocks().length;
+        final int sizeY = mob.getBlocks()[0].length;
+        final int sizeZ = mob.getBlocks()[0][0].length;
+        if (i < sizeX && j < sizeY && k < sizeZ && i >= 0 && j >= 0 && k >= 0) mob.getBlocks()[i][j][k] = state;
+    }
+
     IBlockEntity getBlockEntity();
 
     default Level getWorld()
@@ -60,7 +90,8 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int j = pos.getY() - Mth.floor(entity.getY() + mob.getMin().getY());
         final int k = pos.getZ() - Mth.floor(entity.getZ() + mob.getMin().getZ());
         if (i >= mob.getBlocks().length || j >= mob.getBlocks()[0].length || k >= mob.getBlocks()[0][0].length || i < 0
-                || j < 0 || k < 0) return false;
+                || j < 0 || k < 0)
+            return false;
         return true;
     }
 
@@ -91,20 +122,18 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int sizeY = mob.getBlocks()[0].length;
         final int sizeZ = mob.getBlocks()[0][0].length;
         BlockEntity tile;
-        for (int i = 0; i < sizeX; i++)
-            for (int j = 0; j < sizeY; j++)
-                for (int k = 0; k < sizeZ; k++)
-                    if ((tile = mob.getTiles()[i][j][k]) != null)
-                    {
-                        final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(), k + zMin
-                                + entity.getZ());
-                        final BlockPos old = tile.getBlockPos();
-                        if (!old.equals(pos))
-                        {
-                            final CompoundTag tag = tile.serializeNBT();
-                            mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
-                        }
-                    }
+        for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++)
+            for (int k = 0; k < sizeZ; k++) if ((tile = mob.getTiles()[i][j][k]) != null)
+        {
+            final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
+                    k + zMin + entity.getZ());
+            final BlockPos old = tile.getBlockPos();
+            if (!old.equals(pos))
+            {
+                final CompoundTag tag = tile.serializeNBT();
+                mob.getTiles()[i][j][k] = BlockEntity.loadStatic(pos, mob.getBlocks()[i][j][k], tag);
+            }
+        }
     }
 
     default boolean setTile(final BlockPos pos, final BlockEntity tile)
