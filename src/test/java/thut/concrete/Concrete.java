@@ -111,8 +111,9 @@ public class Concrete
         SOLID_BLOCK = regs[1];
 
         layer_props = BlockBehaviour.Properties.of(Material.LAVA).noOcclusion().randomTicks()
-                .requiresCorrectToolForDrops();
-        block_props = BlockBehaviour.Properties.of(Material.LAVA).randomTicks().requiresCorrectToolForDrops();
+                .requiresCorrectToolForDrops().lightLevel(s -> s.getValue(DustBlock.LAYERS) - 1);
+        block_props = BlockBehaviour.Properties.of(Material.LAVA).randomTicks().requiresCorrectToolForDrops()
+                .lightLevel(s -> 15);
 
         ResourceLocation solid_layer = new ResourceLocation(MODID, "solid_layer");
         ResourceLocation solid_block = new ResourceLocation(MODID, "solid_block");
@@ -125,8 +126,9 @@ public class Concrete
 
         BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of(Material.BARRIER).noDrops();
         VOLCANO = BLOCKS.register("volcano", () -> new VolcanoBlock(volc_props));
-        
-        VOLCANO_TYPE = TILES.register("volcano", () -> BlockEntityType.Builder.of(VolcanoEntity::new, VOLCANO.get()).build(null));
+
+        VOLCANO_TYPE = TILES.register("volcano",
+                () -> BlockEntityType.Builder.of(VolcanoEntity::new, VOLCANO.get()).build(null));
 
         // Register the item blocks.
         for (final RegistryObject<Block> reg : BLOCKS.getEntries())

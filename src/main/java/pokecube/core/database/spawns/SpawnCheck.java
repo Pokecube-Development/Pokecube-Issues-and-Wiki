@@ -86,22 +86,6 @@ public class SpawnCheck
     public final ChunkAccess chunk;
     public final Vector3 location;
 
-    public SpawnCheck(final Vector3 location, final LevelAccessor world, final Biome biome)
-    {
-        this.world = world;
-        this.location = location;
-        this.biome = BiomeDatabase.getKey(biome);
-        this.day = this.dusk = this.dawn = this.night = true;
-        this.weather = Weather.NONE;
-        this.thundering = false;
-        this.light = 1f;
-        this.type = BiomeType.NONE;
-        this.material = Material.AIR;
-        this.chunk = world.getChunk(location.intX() >> 4, location.intZ() >> 4, ChunkStatus.EMPTY, false);
-        this.cat = biome.getBiomeCategory();
-        this.terrain = getTerrain(location, world);
-    }
-
     public SpawnCheck(final Vector3 location, final LevelAccessor world)
     {
         this.world = world;

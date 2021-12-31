@@ -14,11 +14,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -69,8 +71,8 @@ public class MoltenBlock extends DustBlock
     public MoltenBlock(Properties properties)
     {
         super(properties);
-        this.slope = 7;
-        hardenRate = 0.5f;
+        this.slope = 4;
+        hardenRate = 0.1f;
         tickRateFall = 20;
         tickRateFlow = 5;
     }
@@ -90,6 +92,12 @@ public class MoltenBlock extends DustBlock
         builder.add(HEATED);
     }
 
+    @Override
+    public RenderShape getRenderShape(BlockState state)
+    {
+        return RenderShape.INVISIBLE;
+    }
+
     public MoltenBlock solidBlock(Supplier<Block> supplier)
     {
         this.solid = supplier;
@@ -100,7 +108,9 @@ public class MoltenBlock extends DustBlock
     public FluidState getFluidState(BlockState state)
     {
         if (isFalling(state)) return Fluids.EMPTY.defaultFluidState();
-        return Fluids.FLOWING_LAVA.defaultFluidState();
+        int amt = state.hasProperty(LAYERS) ? state.getValue(LAYERS) : 16;
+        if (amt < 2) amt = 2;
+        return Fluids.FLOWING_LAVA.defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
 
     @Override
@@ -129,6 +139,7 @@ public class MoltenBlock extends DustBlock
     @Override
     protected BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
+        this.slope = 4;
         checkSolid();
         if (solid_full.isAir()) return mergeInto;
 
