@@ -54,7 +54,7 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
                 () -> new DustBlock(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
         RegistryObject<DustBlock> block_reg = BLOCKS.register(block,
-                () -> new FullDust(layer_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
+                () -> new FullDust(block_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
 
         arr[0] = layer_reg;

@@ -46,7 +46,7 @@ public class MoltenBlock extends DustBlock
         REGMAP.put(layer_id, layer_reg);
 
         RegistryObject<DustBlock> block_reg = BLOCKS.register(block,
-                () -> new FullMolten(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_block).get())
+                () -> new FullMolten(block_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_block).get())
                         .alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
 

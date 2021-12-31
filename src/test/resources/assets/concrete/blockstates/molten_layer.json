@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "layers=1,falling=false": {
+      "model": "concrete:block/molten_1"
+    },
+    "layers=1,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=2,falling=false": {
+      "model": "concrete:block/molten_2"
+    },
+    "layers=2,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=3,falling=false": {
+      "model": "concrete:block/molten_3"
+    },
+    "layers=3,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=4,falling=false": {
+      "model": "concrete:block/molten_4"
+    },
+    "layers=4,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=5,falling=false": {
+      "model": "concrete:block/molten_5"
+    },
+    "layers=5,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=6,falling=false": {
+      "model": "concrete:block/molten_6"
+    },
+    "layers=6,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=7,falling=false": {
+      "model": "concrete:block/molten_7"
+    },
+    "layers=7,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=8,falling=false": {
+      "model": "concrete:block/molten_8"
+    },
+    "layers=8,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=9,falling=false": {
+      "model": "concrete:block/molten_9"
+    },
+    "layers=9,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=10,falling=false": {
+      "model": "concrete:block/molten_10"
+    },
+    "layers=10,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=11,falling=false": {
+      "model": "concrete:block/molten_11"
+    },
+    "layers=11,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=12,falling=false": {
+      "model": "concrete:block/molten_12"
+    },
+    "layers=12,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=13,falling=false": {
+      "model": "concrete:block/molten_13"
+    },
+    "layers=13,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=14,falling=false": {
+      "model": "concrete:block/molten_14"
+    },
+    "layers=14,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=15,falling=false": {
+      "model": "concrete:block/molten_15"
+    },
+    "layers=15,falling=true": {
+      "model": "concrete:block/molten_air"
+    },
+    "layers=16,falling=false": {
+      "model": "concrete:block/molten_block"
+    },
+    "layers=16,falling=true": {
+      "model": "concrete:block/molten_air"
+    }
+  }
+}
