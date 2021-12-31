@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -56,6 +58,8 @@ public class MoltenBlock extends DustBlock
         return arr;
     }
 
+    public static final BooleanProperty HEATED = BooleanProperty.create("heated");
+
     Supplier<Block> solid;
     float hardenRate = 1;
 
@@ -69,6 +73,21 @@ public class MoltenBlock extends DustBlock
         hardenRate = 0.5f;
         tickRateFall = 20;
         tickRateFlow = 5;
+    }
+
+    @Override
+    protected void initStateDefinition()
+    {
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(16))
+                .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FALLING, Boolean.valueOf(false))
+                .setValue(HEATED, Boolean.valueOf(false)));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder)
+    {
+        super.createBlockStateDefinition(builder);
+        builder.add(HEATED);
     }
 
     public MoltenBlock solidBlock(Supplier<Block> supplier)
@@ -117,7 +136,7 @@ public class MoltenBlock extends DustBlock
     {
         double rng = random.nextDouble();
         harden:
-        if (rng < hardenRate && !isFalling(state))
+        if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && rng < hardenRate && !isFalling(state))
         {
             checkSolid();
 
@@ -223,11 +242,13 @@ public class MoltenBlock extends DustBlock
         protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
         {
             builder.add(WATERLOGGED);
+            builder.add(HEATED);
         }
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)));
+            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
+                    .setValue(HEATED, Boolean.valueOf(false)));
         }
 
         @Override

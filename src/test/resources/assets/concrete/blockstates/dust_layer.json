@@ -1,100 +1,55 @@
 {
   "variants": {
+    "falling=true": {
+      "model": "concrete:block/dust_air"
+    },
     "layers=1,falling=false": {
       "model": "concrete:block/dust_1"
-    },
-    "layers=1,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=2,falling=false": {
       "model": "concrete:block/dust_2"
     },
-    "layers=2,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=3,falling=false": {
       "model": "concrete:block/dust_3"
-    },
-    "layers=3,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=4,falling=false": {
       "model": "concrete:block/dust_4"
     },
-    "layers=4,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=5,falling=false": {
       "model": "concrete:block/dust_5"
-    },
-    "layers=5,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=6,falling=false": {
       "model": "concrete:block/dust_6"
     },
-    "layers=6,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=7,falling=false": {
       "model": "concrete:block/dust_7"
-    },
-    "layers=7,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=8,falling=false": {
       "model": "concrete:block/dust_8"
     },
-    "layers=8,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=9,falling=false": {
       "model": "concrete:block/dust_9"
-    },
-    "layers=9,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=10,falling=false": {
       "model": "concrete:block/dust_10"
     },
-    "layers=10,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=11,falling=false": {
       "model": "concrete:block/dust_11"
-    },
-    "layers=11,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=12,falling=false": {
       "model": "concrete:block/dust_12"
     },
-    "layers=12,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=13,falling=false": {
       "model": "concrete:block/dust_13"
-    },
-    "layers=13,falling=true": {
-      "model": "concrete:block/dust_air"
     },
     "layers=14,falling=false": {
       "model": "concrete:block/dust_14"
     },
-    "layers=14,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=15,falling=false": {
       "model": "concrete:block/dust_15"
     },
-    "layers=15,falling=true": {
-      "model": "concrete:block/dust_air"
-    },
     "layers=16,falling=false": {
       "model": "concrete:block/dust_block"
-    },
-    "layers=16,falling=true": {
-      "model": "concrete:block/dust_air"
     }
   }
 }

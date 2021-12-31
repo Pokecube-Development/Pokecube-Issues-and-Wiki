@@ -57,18 +57,17 @@ def make_state_layer(path, name):
     falling = {}
     falling["model"] = f'{path}{name}_air'
 
+    obj["variants"][f"falling=true"] = falling
 
     for i in range(15):
         layer = {}
         layer["model"] = f'{path}{name}_{i+1}'
         obj["variants"][f"layers={i+1},falling=false"] = layer
-        obj["variants"][f"layers={i+1},falling=true"] = falling
 
     layer = {}
     layer["model"] = f'{path}{name}_block'
 
     obj["variants"][f"layers={16},falling=false"] = layer
-    obj["variants"][f"layers={16},falling=true"] = falling
 
     state = json.dumps(obj, ensure_ascii=False, indent=2)
     return state
@@ -105,7 +104,7 @@ def make(name, tex=None):
         f.write(make_layer(i+1, tex))
         f.close()
 
-make('dust')
+make('dust', tex="minecraft:block/tuff")
 make('molten')
 make('solid', tex="minecraft:block/smooth_basalt")
 
