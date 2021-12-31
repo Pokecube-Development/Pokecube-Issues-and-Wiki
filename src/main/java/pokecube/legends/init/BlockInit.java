@@ -800,8 +800,8 @@ public class BlockInit
                 Material.STONE, MaterialColor.COLOR_PURPLE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
 
         METEORITE_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_cosmic_ore",
-                () -> new MeteorCosmicOreBlock(6842513, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)
-                        .sound(SoundType.STONE).strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
+                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)
+                        .sound(SoundType.DRIPSTONE_BLOCK).strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
         ULTRA_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_cosmic_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(2, 5)));
@@ -927,7 +927,7 @@ public class BlockInit
 
         // Meteor Blocks
         METEORITE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_block",
-                () -> new MeteorBlock(2697540, BlockBehaviour.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE)
+                () -> new Block(BlockBehaviour.Properties.of(Material.VEGETABLE, MaterialColor.TERRACOTTA_BLUE)
                         .strength(2.5f).sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
         METEORITE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_stairs",
                 () -> new ItemGenerator.GenericStairs(METEORITE_BLOCK.get().defaultBlockState(),
