@@ -1,14 +1,18 @@
-package thut.api.block;
+package thut.api.block.flowing;
 
+import java.lang.reflect.Array;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
@@ -16,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -27,11 +32,37 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 
 public class DustBlock extends Block implements SimpleWaterloggedBlock
 {
+    private static final Map<ResourceLocation, RegistryObject<DustBlock>> REGMAP = Maps.newHashMap();
+
+    public static RegistryObject<DustBlock>[] makeDust(DeferredRegister<Block> BLOCKS, String modid, String layer,
+            String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props)
+    {
+        ResourceLocation layer_id = new ResourceLocation(modid, layer);
+        ResourceLocation block_id = new ResourceLocation(modid, block);
+
+        @SuppressWarnings("unchecked")
+        RegistryObject<DustBlock>[] arr = (RegistryObject<DustBlock>[]) Array.newInstance(RegistryObject.class, 2);
+
+        RegistryObject<DustBlock> layer_reg = BLOCKS.register(layer,
+                () -> new DustBlock(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
+        REGMAP.put(layer_id, layer_reg);
+        RegistryObject<DustBlock> block_reg = BLOCKS.register(block,
+                () -> new FullDust(layer_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
+        REGMAP.put(block_id, block_reg);
+
+        arr[0] = layer_reg;
+        arr[1] = block_reg;
+
+        return arr;
+    }
+
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 16);
     public static final BooleanProperty FALLING = BlockStateProperties.FALLING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
