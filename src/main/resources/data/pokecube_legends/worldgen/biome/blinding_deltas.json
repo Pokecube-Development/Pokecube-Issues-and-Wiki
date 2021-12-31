@@ -34,8 +34,8 @@
   "features": [
     [],
     [
-      "pokecube_legends:lake_water_surface",
-      "pokecube_legends:lake_water_underground"
+      "pokecube_legends:lake_water_underground",
+      "pokecube_legends:lake_water_surface"
     ],
     [
       "minecraft:amethyst_geode",
