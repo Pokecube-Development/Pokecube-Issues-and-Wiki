@@ -89,8 +89,6 @@ import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedTorch;
 import pokecube.legends.blocks.normalblocks.InfectedTorchWall;
 import pokecube.legends.blocks.normalblocks.MagneticBlock;
-import pokecube.legends.blocks.normalblocks.MeteorBlock;
-import pokecube.legends.blocks.normalblocks.MeteorCosmicOreBlock;
 import pokecube.legends.blocks.normalblocks.MirageGlassBlock;
 import pokecube.legends.blocks.normalblocks.MirageLeavesBlock;
 import pokecube.legends.blocks.normalblocks.OneWayGlass;
