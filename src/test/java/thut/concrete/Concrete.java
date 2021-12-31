@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
@@ -22,6 +23,8 @@ import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.DustBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
+import thut.concrete.block.VolcanoBlock;
+import thut.concrete.block.entity.VolcanoEntity;
 import thut.core.common.ThutCore;
 
 @Mod(value = Concrete.MODID)
@@ -32,6 +35,11 @@ public class Concrete
     public static final DeferredRegister<Fluid> FLUIDS;
     public static final DeferredRegister<Block> BLOCKS;
     public static final DeferredRegister<Item> ITEMS;
+
+    public static final DeferredRegister<BlockEntityType<?>> TILES;
+
+    public static final RegistryObject<BlockEntityType<VolcanoEntity>> VOLCANO_TYPE;
+    public static final RegistryObject<VolcanoBlock> VOLCANO;
 
     public static final RegistryObject<DustBlock> DUST;
     public static final RegistryObject<DustBlock> DUST_BLOCK;
@@ -78,9 +86,10 @@ public class Concrete
     static
     {
         FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
-        
+
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
 
         BlockBehaviour.Properties layer_props = BlockBehaviour.Properties.of(Material.STONE).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops();
@@ -114,6 +123,11 @@ public class Concrete
         MOLTEN = regs[0];
         MOLTEN_BLOCK = regs[1];
 
+        BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of(Material.BARRIER).noDrops();
+        VOLCANO = BLOCKS.register("volcano", () -> new VolcanoBlock(volc_props));
+        
+        VOLCANO_TYPE = TILES.register("volcano", () -> BlockEntityType.Builder.of(VolcanoEntity::new, VOLCANO.get()).build(null));
+
         // Register the item blocks.
         for (final RegistryObject<Block> reg : BLOCKS.getEntries())
         {
@@ -143,6 +157,7 @@ public class Concrete
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         FLUIDS.register(modEventBus);
+        TILES.register(modEventBus);
     }
 
     public void loadComplete(FMLLoadCompleteEvent event)

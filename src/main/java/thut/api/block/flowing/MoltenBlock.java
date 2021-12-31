@@ -118,10 +118,22 @@ public class MoltenBlock extends DustBlock
     }
 
     @Override
+    protected BlockState setAmount(BlockState state, int amt)
+    {
+        boolean hot = state.hasProperty(HEATED) && state.getValue(HEATED);
+        BlockState ret = super.setAmount(state, amt);
+        if (hot && ret.hasProperty(HEATED)) ret = ret.setValue(HEATED, hot);
+        return ret;
+    }
+
+    @Override
     protected BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
         checkSolid();
         if (solid_full.isAir()) return mergeInto;
+
+        // The result from the merge won't be heated, even if we are!
+        if (mergeFrom.hasProperty(HEATED)) mergeFrom = mergeFrom.setValue(HEATED, false);
 
         if (mergeInto.getBlock() == solid_layer.getBlock()) return mergeFrom;
 
