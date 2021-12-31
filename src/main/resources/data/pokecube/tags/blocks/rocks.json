@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
+    "minecraft:smooth_basalt",
+    "minecraft:calcite",
+    "minecraft:amethyst_block",
+    "minecraft:budding_amethyst",
     "#forge:stone",
     "#forge:ores",
     "#forge:sandstone",
