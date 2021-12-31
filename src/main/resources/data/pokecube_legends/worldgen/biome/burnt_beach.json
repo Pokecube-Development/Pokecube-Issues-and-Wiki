@@ -83,19 +83,19 @@
       "pokecube_legends:ore_spectrum_large",
       "pokecube_legends:ore_turquoise_gravel"
     ],
+    [],
     [
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:brown_mushroom_normal",
-      "minecraft:flower_default",
-      "minecraft:patch_ash_scattered",
-      "minecraft:patch_fire",
       "minecraft:patch_grass_badlands",
-      "minecraft:patch_sugar_cane",
+      "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
-      "pokecube_legends:glow_lichen"
+      "minecraft:patch_sugar_cane",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_fire",
+      "pokecube_legends:patch_ash_scattered"
     ],
     [
       "minecraft:freeze_top_layer"

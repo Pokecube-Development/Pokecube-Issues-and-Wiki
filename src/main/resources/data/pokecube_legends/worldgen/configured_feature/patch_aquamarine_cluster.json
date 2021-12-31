@@ -1,6 +1,6 @@
 {
   "config": {
-    "tries": 196,
+    "tries": 32,
     "xz_spread": 7,
     "y_spread": 3,
     "feature": {
@@ -8,15 +8,11 @@
         "config": {
           "to_place": {
             "state": {
-              "Properties": {
-                "west": "false",
-                "up": "false",
-                "south": "false",
-                "north": "false",
-                "east": "false",
-                "age": "0"
-              },
-              "Name": "minecraft:fire"
+		      "Properties": {
+		        "waterlogged": "false",
+		        "facing": "up"
+		      },
+              "Name": "pokecube_legends:aquamarine_cluster"
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -40,7 +36,7 @@
                   0
                 ],
                 "blocks": [
-                  "pokecube_legends:blackened_sand"
+                  "pokecube_legends:crystallized_sand"
                 ],
                 "type": "minecraft:matching_blocks"
               }
