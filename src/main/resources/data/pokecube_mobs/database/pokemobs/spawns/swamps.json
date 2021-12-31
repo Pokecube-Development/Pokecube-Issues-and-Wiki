@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "swamp_ground",
+      "and_preset": "swamp_ground",
       "entries": [
         {"key": "gulpin","min": 2,"max": 4,"rate": 0.4},
         
@@ -22,13 +22,13 @@
       ]
     },
     {
-      "spawn_preset": "swamp_water",
+      "and_preset": "swamp_water",
       "entries": [
         {"key": "barboach","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "swamps",
+      "and_preset": "swamps",
       "entries": [
         {"key": "stunfisk","min": 2,"max": 4,"rate": 0.4},
         {"key": "stunfisk_galar","min": 2,"max": 4,"rate": 0.4},

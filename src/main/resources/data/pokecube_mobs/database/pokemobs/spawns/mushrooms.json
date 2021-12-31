@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "mushrooms",
+      "and_preset": "mushrooms",
       "entries": [
         {"key": "paras","min": 2,"max": 4,"rate": 0.3},
         
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "spawn_preset": "mushrooms,caves",
+      "and_preset": "mushrooms,caves",
       "entries": [
         {"key": "foongus","min": 2,"max": 4,"rate": 0.4},
         

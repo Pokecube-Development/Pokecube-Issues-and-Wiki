@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "end_surface",
+      "and_preset": "end_surface",
       "entries": [
         {"key": "clefairy","min": 2,"max": 4,"rate": 0.25},
         {"key": "beldum","min": 2,"max": 4,"rate": 0.15},
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "spawn_preset": "end_caves",
+      "and_preset": "end_caves",
       "entries": [
         {"key": "clefairy","min": 2,"max": 4,"rate": 0.25},
         {"key": "beldum","min": 2,"max": 4,"rate": 0.15},

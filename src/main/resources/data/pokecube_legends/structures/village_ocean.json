@@ -126,9 +126,8 @@
       ],
       "spawn":{
         "values":{
-          "biomes":"warm_ocean",
-          "typesBlacklist":"cold",
-          "categoryBlacklist":"the_end,nether,icy,beach"
+          "preset":"oceans",
+          "not_presets": "snowy_areas,cold_areas"
         }
       }
     }

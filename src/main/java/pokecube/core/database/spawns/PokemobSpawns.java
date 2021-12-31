@@ -36,7 +36,9 @@ public class PokemobSpawns extends ResourceData
     public static final class SpawnEntry
     {
         public List<MobEntry> entries = Lists.newArrayList();
-        public String spawn_preset;
+        public String and_preset;
+        public String not_preset;
+        public String or_preset;
     }
 
     public static final class MobEntry
@@ -89,20 +91,52 @@ public class PokemobSpawns extends ResourceData
         PokecubeCore.LOGGER.debug("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
-            String[] presets = entry.spawn_preset.split(",");
-            String preset = presets[0];
-            SpawnRule rule = SpawnPresets.PRESETS.get(preset);
+            SpawnRule rule = null;
 
-            if (presets.length > 1)
+            if (entry.and_preset != null)
             {
-                // In this case, we merge all of the other rules in via
-                // ANDPRESETS
-                rule = new SpawnRule();
-                rule.values.put(SpawnBiomeMatcher.ANDPRESET, entry.spawn_preset);
+                String[] presets = entry.and_preset.split(",");
+                String preset = presets[0];
+                rule = SpawnPresets.PRESETS.get(preset);
+
+                if (presets.length > 1)
+                {
+                    // In this case, we merge all of the other rules in via
+                    // ANDPRESETS
+                    rule = new SpawnRule();
+                    rule.values.put(SpawnBiomeMatcher.ANDPRESET, entry.and_preset);
+                }
+            }
+
+            if (entry.or_preset != null)
+            {
+                if (rule == null)
+                {
+                    String[] presets = entry.or_preset.split(",");
+                    String preset = presets[0];
+                    rule = SpawnPresets.PRESETS.get(preset);
+                    if (presets.length > 1)
+                    {
+                        // In this case, we merge all of the other rules in via
+                        // ORPRESETS
+                        rule = new SpawnRule();
+                        rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                    }
+                }
+                else
+                {
+                    rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                }
             }
 
             if (rule != null)
             {
+
+                if (entry.not_preset != null)
+                {
+                    rule.values.put(SpawnBiomeMatcher.NOTPRESET, entry.not_preset);
+                }
+
                 // Final instance of rule so that it works in the below lambda
                 SpawnRule frule = rule;
 
@@ -171,8 +205,7 @@ public class PokemobSpawns extends ResourceData
                 final List<SpawnEntry> conds = m.rules;
                 for (final SpawnEntry rule : conds)
                 {
-                    String preset = rule.spawn_preset;
-                    if (preset == null)
+                    if (rule.and_preset == null && rule.or_preset == null)
                     {
                         PokecubeCore.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
                         continue;

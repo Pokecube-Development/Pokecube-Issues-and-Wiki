@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "snowy_areas",
+      "and_preset": "snowy_areas",
       "entries": [
         {"key": "snorunt","min": 2,"max": 4,"rate": 0.5},
         
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "spawn_preset": "cold_areas,overworld",
+      "and_preset": "cold_areas,overworld",
       "entries": [
         {"key": "nickit","min": 2,"max": 4,"rate": 0.3},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.2},

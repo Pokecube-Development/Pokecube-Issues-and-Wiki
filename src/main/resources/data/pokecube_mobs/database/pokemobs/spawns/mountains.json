@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "mountains",
+      "and_preset": "mountains",
       "entries": [
         {"key": "geodude","min": 2,"max": 4,"rate": 1},
         {"key": "roggenrola","min": 2,"max": 4,"rate": 1},
@@ -59,24 +59,24 @@
       ]
     },
     {
-      "spawn_preset": "mountains,day_time",
+      "and_preset": "mountains,day_time",
       "entries": [
       ]
     },
     {
-      "spawn_preset": "mountains,night_time",
+      "and_preset": "mountains,night_time",
       "entries": [
         {"key": "sableye","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "mountains,snowy_areas",
+      "and_preset": "mountains,snowy_areas",
       "entries": [
         {"key": "bergmite","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "dry_areas,hot_areas,overworld",
+      "and_preset": "dry_areas,hot_areas,overworld",
       "entries": [
         {"key": "slugma","min": 4,"max": 8,"rate": 0.3},
         {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "spawn_preset": "hills,night_time",
+      "and_preset": "hills,night_time",
       "entries": [
         {"key": "hoothoot","min": 2,"max": 4,"rate": 0.3}
       ]

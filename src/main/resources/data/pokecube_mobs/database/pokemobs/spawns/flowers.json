@@ -1,7 +1,8 @@
 {
   "rules": [
     {
-      "spawn_preset": "flowers,not_cold_areas",
+      "and_preset": "flowers",
+      "not_preset": "cold_areas",
       "entries": [
         
         {"key": "oricorio_baile","min": 5,"max": 10,"rate": 0.7},
@@ -13,13 +14,14 @@
       ]
     },
     {
-      "spawn_preset": "flowers,night_time",
+      "and_preset": "flowers,night_time",
       "entries": [
         {"key": "applin","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
-      "spawn_preset": "flowers,day_time,not_cold_areas",
+      "and_preset": "flowers,day_time",
+      "not_preset": "cold_areas",
       "entries": [
         {"key": "flabebe","min": 2,"max": 4,"rate": 0.8},
         

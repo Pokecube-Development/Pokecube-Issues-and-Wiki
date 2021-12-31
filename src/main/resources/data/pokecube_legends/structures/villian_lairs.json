@@ -97,8 +97,8 @@
       "base_override": true,
       "spawn": {
         "values": {
-          "category": "plains",
-          "categoryBlacklist": "ocean,beach"
+          "preset": "plains",
+          "not_presets": "oceans,beaches"
         }
       }
     },
@@ -113,8 +113,8 @@
       "base_override": true,
       "spawn": {
         "values": {
-          "category": "plains",
-          "categoryBlacklist": "ocean,beach"
+          "preset": "plains",
+          "not_presets": "oceans,beaches"
         }
       }
     },
@@ -129,8 +129,8 @@
       "base_override": true,
       "spawn": {
         "values": {
-          "category": "plains",
-          "categoryBlacklist": "ocean,beach"
+          "preset": "plains",
+          "not_presets": "oceans,beaches"
         }
       }
     }

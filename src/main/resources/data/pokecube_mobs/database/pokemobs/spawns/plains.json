@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "plains",
+      "and_preset": "plains",
       "entries": [
         {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
         {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
@@ -73,7 +73,8 @@
       ]
     },
     {
-      "spawn_preset": "plains,not_cold_areas,not_dry_areas",
+      "and_preset": "plains",
+      "not_preset": "cold_areas,dry_areas",
       "entries": [
         
         {"key": "gossifleur","min": 3,"max": 6,"rate": 0.4},
@@ -96,13 +97,15 @@
       ]
     },
     {
-      "spawn_preset": "plains,cold_areas",
+      "and_preset": "plains,snowy_areas",
       "entries": [
-      
+        {"key": "swinub","min": 2,"max": 4,"rate": 0.3},
+        {"key": "bergmite","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "savannas,not_cold_areas",
+      "and_preset": "savannas",
+      "not_preset": "cold_areas",
       "entries": [
         {"key": "kangaskhan","min": 4,"max": 8,"rate": 0.08},
         {"key": "rhyhorn","min": 4,"max": 8,"rate": 0.15},
@@ -111,7 +114,7 @@
       ]
     },
     {
-      "spawn_preset": "plains,night_time",
+      "and_preset": "plains,night_time",
       "entries": [
         {"key": "zigzagoon_galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "espurr","min": 2,"max": 4,"rate": 0.1},
@@ -119,7 +122,7 @@
       ]
     },
     {
-      "spawn_preset": "plains,day_time",
+      "and_preset": "plains,day_time",
       "entries": [
         {"key": "oddish","min": 2,"max": 4,"rate": 0.25}
       ]

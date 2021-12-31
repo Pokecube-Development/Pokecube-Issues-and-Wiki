@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "industrial",
+      "and_preset": "industrial",
       "entries": [
         {"key": "magnemite","min": 2,"max": 4,"rate": 0.7},
         {"key": "grimer","min": 2,"max": 4,"rate": 0.7},
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "spawn_preset": "industrial,day_time",
+      "and_preset": "industrial,day_time",
       "entries": [
         {"key": "helioptile","min": 2,"max": 4,"rate": 0.25},
         
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "spawn_preset": "industrial,night_time",
+      "and_preset": "industrial,night_time",
       "entries": [
         {"key": "rotom","min": 2,"max": 4,"rate": 0.1}
       ]

@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "forests",
+      "and_preset": "forests",
       "entries": [
         {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
         {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
@@ -83,7 +83,8 @@
       ]
     },
     {
-      "spawn_preset": "forests,not_cold_areas,not_dry_areas",
+      "and_preset": "forests",
+      "not_preset": "cold_areas,dry_areas",
       "entries": [
         
         {"key": "cutiefly","min": 4,"max": 8,"rate": 0.3},
@@ -106,13 +107,14 @@
       ]
     },
     {
-      "spawn_preset": "taigas",
+      "and_preset": "taigas",
       "entries": [
         {"key": "calyrex","min": 1,"max": 1,"rate": 0.004}
       ]
     },
     {
-      "spawn_preset": "forests,cold_areas",
+      "and_preset": "forests",
+      "not_preset": "cold_areas",
       "entries": [
         {"key": "pineco","min": 2,"max": 4,"rate": 0.1},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.1},
@@ -122,13 +124,13 @@
       ]
     },
     {
-      "spawn_preset": "forests,hills",
+      "and_preset": "forests,hills",
       "entries": [
         {"key": "spearow","min": 2,"max": 4,"rate": 0.5}
       ]
     },
     {
-      "spawn_preset": "forests,night_time",
+      "and_preset": "forests,night_time",
       "entries": [
         {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
         {"key": "illumise","min": 2,"max": 4,"rate": 0.3},
@@ -142,7 +144,7 @@
       ]
     },
     {
-      "spawn_preset": "forests,day_time",
+      "and_preset": "forests,day_time",
       "entries": [
         {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1},
         {"key": "seedot","min": 2,"max": 5,"rate": 0.3},
