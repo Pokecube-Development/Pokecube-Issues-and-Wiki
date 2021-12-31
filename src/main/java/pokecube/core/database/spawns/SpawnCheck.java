@@ -13,7 +13,6 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import pokecube.core.database.PokedexEntry;

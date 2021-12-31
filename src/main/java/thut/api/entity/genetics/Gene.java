@@ -7,8 +7,8 @@ import net.minecraft.world.entity.Entity;
 public interface Gene<T>
 {
     /**
-     * This is how frequently the expressed gene is used instead of the
-     * parent's genes.
+     * This is how frequently the expressed gene is used instead of the parent's
+     * genes.
      *
      * @return value from 0-1 of how often it uses expressed..
      */
@@ -34,23 +34,34 @@ public interface Gene<T>
     /**
      * This method should return the new gene which results from mixing other
      * with this gene.
+     * 
+     * @param other - the gene we are interpolating between
+     * @return a new gene containing the interpolation
      */
     Gene<T> interpolate(Gene<T> other);
 
     /**
      * Loads the data from tag.
      *
-     * @param tag
+     * @param tag - the compoundTag containing our data
      */
     void load(CompoundTag tag);
 
-    /** This method should return a mutated gene. */
+    /**
+     * This method should return a mutated gene.
+     * 
+     * @return the new mutated gene
+     */
     Gene<T> mutate();
 
     /**
      * This method should return a mutated gene, this one is called during
      * breeding, to allow any changes needed caused by the entirety of the
      * parents genes.
+     * 
+     * @param parent1 - first parent
+     * @param parent2 - second parent
+     * @return the resulting gene
      */
     default Gene<T> mutate(final IMobGenetics parent1, final IMobGenetics parent2)
     {
@@ -61,7 +72,7 @@ public interface Gene<T>
      * This is called whenever the mob associated with this gene ticks. This is
      * only called if this gene is expressed.
      *
-     * @param genes
+     * @param entity - this is the thing that has us as a gene
      */
     default void onUpdateTick(final Entity entity)
     {
@@ -72,8 +83,7 @@ public interface Gene<T>
     CompoundTag save();
 
     /**
-     * @param value
-     *            Sets the value of the gene.
+     * @param value Sets the value of the gene.
      */
     void setValue(T value);
 }

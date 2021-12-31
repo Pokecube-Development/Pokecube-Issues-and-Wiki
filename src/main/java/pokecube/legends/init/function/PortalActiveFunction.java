@@ -25,11 +25,6 @@ import pokecube.legends.init.FeaturesInit;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-/**
- * Uses player interact here to also prevent opening of inventories.
- *
- * @param dependencies
- */
 public class PortalActiveFunction
 {
     public static PokedexEntry getRandomEntry()

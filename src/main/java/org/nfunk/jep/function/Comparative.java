@@ -13,7 +13,7 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.type.Complex;
 
 /**
- * Implements the comparative operations <, >, <=, >=, != and ==.
+ * Implements the comparative operations &lt;, &gt;, &lt;=, &gt;=, != and ==.
  * Caverts should work where arguments are Double, Complex or String
  * for the last two only != and == work.
  * For other types care might be needed.
