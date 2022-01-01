@@ -34,8 +34,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainChecker;
 
 public class DustBlock extends Block implements SimpleWaterloggedBlock
 {
@@ -200,7 +200,7 @@ public class DustBlock extends Block implements SimpleWaterloggedBlock
     protected boolean isStableBelow(BlockState state, BlockPos pos, ServerLevel level)
     {
         int amt = getExistingAmount(state, pos, level);
-        if (PokecubeTerrainChecker.isLeaves(state) || PokecubeTerrainChecker.isWood(state)) return false;
+        if (TerrainChecker.isLeaves(state) || TerrainChecker.isWood(state)) return false;
         return (amt == -1);
     }
 
