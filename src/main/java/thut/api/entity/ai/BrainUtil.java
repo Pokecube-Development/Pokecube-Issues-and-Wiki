@@ -17,7 +17,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
-import pokecube.core.ai.brain.BrainUtils;
 import thut.api.maths.Vector3;
 
 /**
@@ -67,7 +66,7 @@ public class BrainUtil
      */
     public static void lookAt(final LivingEntity entityIn, final double x, final double y, final double z)
     {
-        BrainUtils.lookAt(entityIn, Vector3.getNewVector().set(x, y, z));
+        BrainUtil.lookAt(entityIn, Vector3.getNewVector().set(x, y, z));
     }
 
     /**

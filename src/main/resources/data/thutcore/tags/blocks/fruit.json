@@ -3,6 +3,6 @@
   "values": [
     "minecraft:melon",
     "minecraft:pumpkin",
-    "#pokecube:berry_fruits"
+    {"id": "#pokecube:berry_fruits", "required": false}
   ]
 }

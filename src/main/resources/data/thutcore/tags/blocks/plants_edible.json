@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:small_flowers",
+    {"id": "#pokecube:berry_fruits", "required": false},
+    {"id": "#pokecube:berry_crops", "required": false}
+  ]
+}

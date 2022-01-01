@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Behavior<E>
@@ -126,7 +125,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
             final PosWrapWrap wrapped = new PosWrapWrap(target.getTarget(), this.loadThrottle());
             target = new WalkTarget(wrapped, target.getSpeedModifier(), target.getCloseEnoughDist());
         }
-        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
+        this.entity.getBrain().setMemory(MemoryModuleTypes.WALK_TARGET, target);
     }
 
     protected final boolean isPaused(final E mobIn)

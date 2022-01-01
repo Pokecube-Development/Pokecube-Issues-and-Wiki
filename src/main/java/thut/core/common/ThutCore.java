@@ -108,8 +108,8 @@ public class ThutCore
                 {
                     final Vec3 vector3d1 = optional.get();
                     final double d1 = startVec.distanceToSqr(vector3d1);
-                    if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1
-                            .canRiderInteract())
+                    if (d1 < d0 || d0 == 0.0D)
+                        if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1.canRiderInteract())
                     {
                         if (d0 == 0.0D)
                         {
@@ -143,8 +143,8 @@ public class ThutCore
                 if (var != null && var.getType() == HitResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
-                    if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
-                            .getHand()) != InteractionResult.PASS)
+                    if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(),
+                            event.getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
@@ -186,7 +186,7 @@ public class ThutCore
 
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger(ThutCore.MODID);
-    public static final String MODID  = "thutcore";
+    public static final String MODID = "thutcore";
 
     private static final String NETVERSION = "1.1.0";
 
@@ -240,8 +240,8 @@ public class ThutCore
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(ThutCore.MODID + ".log").toFile();
         if (logfile.exists()) logfile.delete();
         final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) ThutCore.LOGGER;
-        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
-                ThutCore.MODID).build();
+        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath())
+                .setName(ThutCore.MODID).build();
         logger.addAppender(appender);
         appender.start();
 
@@ -304,13 +304,17 @@ public class ThutCore
 
         ThutCore.proxy.setup(event);
 
-        event.enqueueWork(() ->
-        {
+        event.enqueueWork(() -> {
             // Register the mob serializers
             // for seats
             EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
             EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
         });
+    }
+
+    public static ConfigHandler getConfig()
+    {
+        return conf;
     }
 }

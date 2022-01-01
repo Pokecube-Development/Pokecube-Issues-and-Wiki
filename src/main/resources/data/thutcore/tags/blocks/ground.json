@@ -12,7 +12,7 @@
     "#minecraft:base_stone_nether",
     "#minecraft:terracotta",
     "#minecraft:lush_ground_replaceable",
-    "#pokecube_legends:base_stone_distorted_world",
-    "#pokecube_legends:base_stone_ultraspace"
+    {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
+    {"id": "#pokecube_legends:base_stone_ultraspace", "required": false}
   ]
 }

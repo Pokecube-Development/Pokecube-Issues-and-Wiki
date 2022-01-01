@@ -336,8 +336,6 @@ public class Config extends ConfigData
     public double meteorScale = 1.0;
     @Configure(category = Config.world, comment = "Attempts to ensure there is a pokecenter at spawn, this can still fail however depending on worldgen specifics. [Default: true]")
     public boolean doSpawnBuilding = true;
-    @Configure(category = Config.world, comment = "Does a blanket \"plant material\" check for cuttable and edible plants, rather than relying entirely on the block tags. [Default: true]")
-    public boolean autoPopulateLists = true;
     @Configure(category = Config.world, comment = "Resets some subbiomes when spawn checks apply there. [Default: false]")
     public boolean refreshSubbiomes = false;
     @Configure(category = Config.world, comment = "Allows the generic berry item to be added to pokemob drop pools if no other berries are added. [Default: false]")
