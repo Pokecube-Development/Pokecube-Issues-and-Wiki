@@ -1,0 +1,34 @@
+{
+  "config": {
+    "to_place": {
+      "entries": [
+        {
+          "data": {
+            "Name": "pokecube_legends:compreced_mushroom"
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "pokecube_legends:distorced_mushroom"
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "Name": "pokecube_legends:tainted_roots"
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "pokecube_legends:corrupted_grass"
+          },
+          "weight": 50
+        }
+      ],
+      "type": "minecraft:weighted_state_provider"
+    }
+  },
+  "type": "minecraft:simple_block"
+}

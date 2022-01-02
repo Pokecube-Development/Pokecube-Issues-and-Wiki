@@ -4,12 +4,12 @@
   "precipitation": "rain",
   "category": "underground",
   "effects": {
-    "sky_color": 4014925,
-    "fog_color": 4014925,
-    "water_color": 8281120,
-    "water_fog_color": 8281120,
-    "grass_color": 11701550,
-    "foliage_color": 11701550,
+    "sky_color": 1704752,
+    "fog_color": 1710113,
+    "water_color": 3883333,
+    "water_fog_color": 3883333,
+    "grass_color": 3288639,
+    "foliage_color": 4143695,
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
@@ -31,9 +31,9 @@
   },
   "carvers": {
     "air": [
+      "pokecube_legends:canyon",
       "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
+      "pokecube_legends:cave_extra_underground"
     ]
   },
   "features": [
@@ -91,9 +91,13 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "pokecube_legends:glow_lichen"
+      "minecraft:classic_vines_cave_feature",
+      "minecraft:spore_blossom",
+      "pokecube_legends:corrupted_caves_vegetation",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_pink_blossom_tainted_lily_pad",
+      "pokecube_legends:patch_tainted_lily_pad",
+      "pokecube_legends:tainted_seagrass_caves"
     ],
     [
       "minecraft:freeze_top_layer"

@@ -8,6 +8,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,6 +24,7 @@ import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
+import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
 
 public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
@@ -85,8 +87,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TAINTED_KELP= WorldgenFeatures.FEATURES.register("tainted_kelp_feature",
 //            () -> new TaintedKelpFeature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> TAINTED_SEAGRASS = WorldgenFeatures.FEATURES.register("tainted_seagrass_feature",
-//            () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> TAINTED_SEAGRASS = WorldgenFeatures.FEATURES.register("tainted_seagrass_feature",
+            () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
 //            () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
 
