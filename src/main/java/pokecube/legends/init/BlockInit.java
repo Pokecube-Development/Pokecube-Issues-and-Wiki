@@ -650,6 +650,7 @@ public class BlockInit
     public static final RegistryObject<Block> DUSK_GOLD_ORE;
     public static final RegistryObject<Block> ULTRA_GOLD_ORE;
     
+    public static final RegistryObject<Block> ASH_IRON_ORE;
     public static final RegistryObject<Block> DUSK_IRON_ORE;
     public static final RegistryObject<Block> ULTRA_IRON_ORE;
     
@@ -740,7 +741,10 @@ public class BlockInit
         DUSK_COAL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_coal_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
                         .strength(4.5F, 3.0F).requiresCorrectToolForDrops(), UniformInt.of(0, 2)));
-        
+
+        ASH_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ash_iron_ore",
+                () -> new FallingDirtBlockBase(3816264, BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
+                        .speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f).requiresCorrectToolForDrops()));
         ULTRA_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_iron_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops()));
@@ -969,11 +973,10 @@ public class BlockInit
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6f)));
         
         ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new FallingDirtBlockBase(3816264, 
-                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f)
-                .requiresCorrectToolForDrops()));
+                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f)));
         ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, 
                 BlockBehaviour.Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F)
-                .requiresCorrectToolForDrops().isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));
+                .isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));
 
         // Azure Badlands
         AZURE_SAND = PokecubeLegends.DIMENSIONS_TAB.register("azure_sand", () -> new FallingSandBlockBase(1059926,

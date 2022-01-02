@@ -3,6 +3,15 @@
     "targets": [
       {
         "target": {
+          "tag": "pokecube_legends:ash_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:ash_iron_ore"
+        }
+      },
+      {
+        "target": {
           "tag": "pokecube_legends:dusk_dolerite_ore_replaceables",
           "predicate_type": "minecraft:tag_match"
         },
