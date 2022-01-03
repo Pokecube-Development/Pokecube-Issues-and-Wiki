@@ -52,12 +52,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         ModelWrapper.WRAPPERS.forEach(w -> w.imodel = null);
     }
 
-    public final ModelHolder       model;
+    public final ModelHolder model;
     public final IModelRenderer<?> renderer;
-    public IModel                  imodel;
-    private T                      entityIn;
-    protected float                rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
-    protected float                rotateAngleX   = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
+    public IModel imodel;
+    private T entityIn;
+    protected float rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
+    protected float rotateAngleX = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
 
     public long lastInit = -1;
 
@@ -73,7 +73,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         Arrays.fill(this.tmp, 255);
     }
 
-    public void SetEntity(final T entity)
+    public void setEntity(final T entity)
     {
         this.entityIn = entity;
     }
@@ -128,7 +128,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         int red = 255, green = 255, blue = 255;
         int alpha = 255;
-        final IMobColourable poke = entity.getCapability(DefaultColourable.CAPABILITY).orElse(null);
+        final IMobColourable poke = entity == null ? null
+                : entity.getCapability(DefaultColourable.CAPABILITY).orElse(null);
 
         if (poke != null)
         {
@@ -158,7 +159,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final float netHeadYaw, final float headPitch)
     {
         if (!this.isLoaded()) return;
-        this.entityIn = entityIn;
+        this.setEntity(entityIn);
         final HeadInfo info = this.renderer.getAnimationHolder().getHeadInfo();
         if (!info.fixed)
         {
@@ -183,9 +184,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
         mat.pushPose();
-        this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn, Minecraft
-                .getInstance().getFrameTime());
-
+        this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
+                Minecraft.getInstance().getFrameTime());
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();
         if (animChanger != null) for (final String partName : this.imodel.getParts().keySet())
@@ -198,22 +198,14 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         {
             final IExtendedModelPart part = this.imodel.getParts().get(partName);
             if (part == null) continue;
-            try
+            if (part instanceof IRetexturableModel)
+                ((IRetexturableModel) part).setTexturer(this.renderer.getTexturer());
+            if (part.getParent() == null)
             {
-                if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(this.renderer
-                        .getTexturer());
-
-                if (part.getParent() == null)
-                {
-                    mat.pushPose();
-                    this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
-                    part.renderAllExcept(mat, buffer, this.renderer, excluded.toArray(new String[excluded.size()]));
-                    mat.popPose();
-                }
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
+                mat.pushPose();
+                this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
+                part.renderAllExcept(mat, buffer, this.renderer, excluded.toArray(new String[excluded.size()]));
+                mat.popPose();
             }
         }
         mat.popPose();
@@ -231,12 +223,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (texer != null)
         {
             texer.bindObject(entity);
-            this.getParts().forEach((n, p) ->
-            {
+            this.getParts().forEach((n, p) -> {
                 p.applyTexture(bufferIn, default_, texer);
             });
         }
-        this.SetEntity(entity);
+        this.setEntity(entity);
     }
 
     /**
