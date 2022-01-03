@@ -8,10 +8,12 @@
     "pokecube_legends:azure_dirt",
     "pokecube_legends:azure_grass_block",
     "pokecube_legends:corrupted_dirt",
+    "pokecube_legends:corrupted_grass_block",
     "pokecube_legends:distortic_grass_block",
     "pokecube_legends:jungle_dirt",
     "pokecube_legends:jungle_grass_block",
     "pokecube_legends:mushroom_dirt",
-    "pokecube_legends:mushroom_grass_block"
+    "pokecube_legends:mushroom_grass_block",
+    "pokecube_legends:rooted_corrupted_dirt"
   ]
 }

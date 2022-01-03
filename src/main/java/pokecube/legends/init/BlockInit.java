@@ -2,16 +2,17 @@ package pokecube.legends.init;
 
 import java.util.function.ToIntFunction;
 
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.AmethystClusterBlock;
-import net.minecraft.world.level.block.BigDripleafBlock;
-import net.minecraft.world.level.block.BigDripleafStemBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -24,17 +25,15 @@ import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RedStoneOreBlock;
+import net.minecraft.world.level.block.RootedDirtBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SmallDripleafBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -104,7 +103,6 @@ import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
 import pokecube.legends.blocks.plants.AgedTree;
-import pokecube.legends.blocks.plants.AzureColeusBlock;
 import pokecube.legends.blocks.plants.BigContaminatedDripleafBlock;
 import pokecube.legends.blocks.plants.BigContaminatedDripleafStemBlock;
 import pokecube.legends.blocks.plants.CorruptedTree;
@@ -382,6 +380,7 @@ public class BlockInit
     public static final RegistryObject<Block> JUNGLE_GRASS;
     public static final RegistryObject<Block> MUSHROOM_DIRT;
     public static final RegistryObject<Block> MUSHROOM_GRASS;
+    public static final RegistryObject<Block> ROOTED_CORRUPTED_DIRT;
 
     public static final RegistryObject<Block> ULTRA_MAGNET;
     public static final RegistryObject<Block> SPECTRUM_GLASS;
@@ -968,7 +967,10 @@ public class BlockInit
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE)
                         .sound(SoundType.SCAFFOLDING).strength(4f, 5f).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
-                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.METAL).strength(0.9f).requiresCorrectToolForDrops()));
+        ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9f).requiresCorrectToolForDrops()));
         JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", 
                 () -> new JungleGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM)
@@ -2342,24 +2344,33 @@ public class BlockInit
 
     public static void strippableBlocks(final FMLLoadCompleteEvent event)
     {
-        // Enqueue this so that it runs on main thread, to prevent concurrency
-        // issues.
+        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
         event.enqueueWork(() ->
         {
-            ItemGenerator.addStrippable(BlockInit.AGED_LOG.get(), BlockInit.STRIP_AGED_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.AGED_WOOD.get(), BlockInit.STRIP_AGED_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.CONCRETE_LOG.get(), BlockInit.STRIP_CONCRETE_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.CONCRETE_WOOD.get(), BlockInit.STRIP_CONCRETE_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.DISTORTIC_LOG.get(), BlockInit.STRIP_DISTORTIC_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.DISTORTIC_WOOD.get(), BlockInit.STRIP_DISTORTIC_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.INVERTED_LOG.get(), BlockInit.STRIP_INVERTED_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.INVERTED_WOOD.get(), BlockInit.STRIP_INVERTED_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
-            ItemGenerator.addStrippable(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
-            ItemGenerator.addStrippable(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.AGED_LOG.get(), BlockInit.STRIP_AGED_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.AGED_WOOD.get(), BlockInit.STRIP_AGED_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.CONCRETE_LOG.get(), BlockInit.STRIP_CONCRETE_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.CONCRETE_WOOD.get(), BlockInit.STRIP_CONCRETE_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.CORRUPTED_LOG.get(), BlockInit.STRIP_CORRUPTED_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.CORRUPTED_WOOD.get(), BlockInit.STRIP_CORRUPTED_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.DISTORTIC_LOG.get(), BlockInit.STRIP_DISTORTIC_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.DISTORTIC_WOOD.get(), BlockInit.STRIP_DISTORTIC_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.INVERTED_LOG.get(), BlockInit.STRIP_INVERTED_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.INVERTED_WOOD.get(), BlockInit.STRIP_INVERTED_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.MIRAGE_LOG.get(), BlockInit.STRIP_MIRAGE_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.MIRAGE_WOOD.get(), BlockInit.STRIP_MIRAGE_WOOD.get());
+            ItemGenerator.addStrippables(BlockInit.TEMPORAL_LOG.get(), BlockInit.STRIP_TEMPORAL_LOG.get());
+            ItemGenerator.addStrippables(BlockInit.TEMPORAL_WOOD.get(), BlockInit.STRIP_TEMPORAL_WOOD.get());
+        });
+    }
+
+    public static void hoeableBlocks(final FMLLoadCompleteEvent event)
+    {
+        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
+        event.enqueueWork(() ->
+        {
+            ItemGenerator.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; }, 
+                    HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
         });
     }
 
