@@ -1,10 +1,7 @@
 package thut.api.block.flowing;
 
 import java.lang.reflect.Array;
-import java.util.Map;
 import java.util.Random;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -14,30 +11,28 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public class SolidBlock extends DustBlock
+public class SolidBlock extends FlowingBlock
 {
-    public static final Map<ResourceLocation, RegistryObject<DustBlock>> REGMAP = Maps.newHashMap();
-
-    public static RegistryObject<DustBlock>[] makeSolid(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static RegistryObject<FlowingBlock>[] makeSolid(DeferredRegister<Block> BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props)
     {
         ResourceLocation layer_id = new ResourceLocation(modid, layer);
         ResourceLocation block_id = new ResourceLocation(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<DustBlock>[] arr = (RegistryObject<DustBlock>[]) Array.newInstance(RegistryObject.class, 2);
+        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+                2);
 
-        RegistryObject<DustBlock> layer_reg = BLOCKS.register(layer,
+        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new SolidBlock(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
-        RegistryObject<DustBlock> block_reg = BLOCKS.register(block,
+        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullSolid(block_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
 
@@ -51,6 +46,21 @@ public class SolidBlock extends DustBlock
     {
         super(properties);
         this.flows = false;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder)
+    {
+        builder.add(LAYERS);
+        builder.add(WATERLOGGED);
+        builder.add(VISCOSITY);
+    }
+
+    @Override
+    protected void initStateDefinition()
+    {
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1))
+                .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
     }
 
     @Override
@@ -74,40 +84,25 @@ public class SolidBlock extends DustBlock
             super(properties);
         }
 
-        protected int getExistingAmount(BlockState state, BlockPos pos, ServerLevel level)
+        @Override
+        public boolean isFullBlock()
         {
-            if (state.getBlock() == this) return -1;
-            if (state.getBlock() == getAlternate().get()) return state.getValue(LAYERS);
-            if (state.canBeReplaced(Fluids.FLOWING_WATER)) return 0;
-            if (state.isAir()) return 0;
-            return -1;
-        }
-
-        protected BlockState makeFalling(BlockState state, boolean falling)
-        {
-            if (!falling) return this.defaultBlockState();
-            return getAlternate().get().defaultBlockState().setValue(LAYERS, 16).setValue(FALLING, falling);
-        }
-
-        protected BlockState setAmount(BlockState state, int amt)
-        {
-            if (amt == 16) return this.defaultBlockState();
-            return getAlternate().get().defaultBlockState().setValue(LAYERS, amt);
+            return true;
         }
 
         @Override
         protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
         {
-            builder.add(WATERLOGGED);
+            builder.add(VISCOSITY);
         }
 
         protected void initStateDefinition()
         {
-            this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)));
+            this.registerDefaultState(this.stateDefinition.any().setValue(VISCOSITY, 4));
         }
 
         @Override
-        public VoxelShape getShape(BlockState state, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_)
+        public VoxelShape getBlockSupportShape(BlockState state, BlockGetter level, BlockPos pos)
         {
             return Shapes.block();
         }

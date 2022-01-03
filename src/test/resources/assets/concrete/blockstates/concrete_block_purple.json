@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "": {
+      "texture": "concrete:block/concrete_purple",
+      "model": "concrete:block/concrete_block_purple"
+    }
+  }
+}

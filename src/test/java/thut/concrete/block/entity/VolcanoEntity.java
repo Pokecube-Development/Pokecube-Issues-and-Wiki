@@ -5,9 +5,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.block.ITickTile;
-import thut.api.block.flowing.DustBlock;
+import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.concrete.Concrete;
+import thut.concrete.block.VolcanoBlock;
 
 public class VolcanoEntity extends BlockEntity implements ITickTile
 {
@@ -21,22 +22,23 @@ public class VolcanoEntity extends BlockEntity implements ITickTile
     public void tick()
     {
         if (this.level.isClientSide) return;
+//        if (this.hasLevel()) return;
 
-        int v = (int) ((this.getBlockPos().asLong() * 2) & 15);
-//        System.out.println(v);
+        int v = this.getBlockState().getValue(VolcanoBlock.VISCOSITY);
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 20; i++)
         {
             BlockPos pos = this.getBlockPos().above(i);
             for (Direction d : Direction.values())
             {
-                if (d == Direction.UP || d == Direction.DOWN) continue;
+                if (d == Direction.DOWN) continue;
+                pos = this.getBlockPos().above(i);
                 pos = pos.relative(d);
                 BlockState state = this.level.getBlockState(pos);
                 if (!state.hasProperty(MoltenBlock.HEATED) || !state.getValue(MoltenBlock.HEATED))
                 {
                     level.setBlock(pos, Concrete.MOLTEN_BLOCK.get().defaultBlockState()
-                            .setValue(MoltenBlock.HEATED, true).setValue(DustBlock.VISCOSITY, v), 3);
+                            .setValue(MoltenBlock.HEATED, true).setValue(FlowingBlock.VISCOSITY, v), 3);
                     break;
                 }
             }
@@ -50,7 +52,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile
             {
                 BlockPos pos = this.getBlockPos().above(38 + y).north(x).east(z);
                 level.setBlock(pos, Concrete.MOLTEN_BLOCK.get().defaultBlockState().setValue(MoltenBlock.HEATED, true)
-                        .setValue(DustBlock.VISCOSITY, v), 3);
+                        .setValue(FlowingBlock.VISCOSITY, v), 3);
             }
         }
         return;

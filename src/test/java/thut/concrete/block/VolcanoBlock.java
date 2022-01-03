@@ -8,15 +8,26 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import thut.api.block.ITickTile;
+import thut.api.block.flowing.FlowingBlock;
 import thut.concrete.block.entity.VolcanoEntity;
 
 public class VolcanoBlock extends Block implements EntityBlock
 {
+    public static final IntegerProperty VISCOSITY = FlowingBlock.VISCOSITY;
 
     public VolcanoBlock(Properties p_49795_)
     {
         super(p_49795_);
+        this.registerDefaultState(this.stateDefinition.any().setValue(VISCOSITY, 4));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+    {
+        builder.add(VISCOSITY);
     }
 
     @Override

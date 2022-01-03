@@ -1,53 +1,72 @@
 package thut.concrete.block;
 
+import java.util.Random;
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CrossCollisionBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import thut.api.block.flowing.IFlowingBlock;
 import thut.concrete.Concrete;
-import thut.concrete.fluid.ConcreteFluid;
 
-public class RebarBlock extends CrossCollisionBlock implements SimpleWaterloggedBlock
+public class RebarBlock extends CrossCollisionBlock implements SimpleWaterloggedBlock, IFlowingBlock
 {
-    private final VoxelShape[] occlusionByIndex;
+    public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 16);
 
-    public static final BooleanProperty FLUIDLOGGED = BooleanProperty.create("fluidlogged");
+    protected int tickRateFall = 150;
+    protected int tickRateFlow = 10;
 
-    public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 8);
+    Supplier<Block> wetConcrete;
+    Supplier<Block> dry_layer;
+    Supplier<Block> dry_full;
+
+    protected DyeColor colour;
 
     public RebarBlock(Properties properties)
     {
-        super(2.0F, 2.0F, 16.0F, 16.0F, 16.0F, properties);
-        registerDefaultState(getStateDefinition().any().setValue(FLUIDLOGGED, false).setValue(LEVEL, 0));
-        this.occlusionByIndex = this.makeShapes(2.0F, 1.0F, 16.0F, 6.0F, 15.0F);
+        super(2.0F, 2.0F, 16.0f, 16.0f, 16.0f, properties);
+        initStateDefinition();
+        this.colour = DyeColor.LIGHT_GRAY;
+    }
+
+    protected void initStateDefinition()
+    {
+        registerDefaultState(getStateDefinition().any().setValue(IFlowingBlock.WATERLOGGED, false).setValue(LEVEL, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(NORTH, EAST, WEST, SOUTH, FLUIDLOGGED, WATERLOGGED, LEVEL);
+        builder.add(NORTH, EAST, WEST, SOUTH, IFlowingBlock.WATERLOGGED, LEVEL);
     }
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState p_53338_, BlockGetter p_53339_, BlockPos p_53340_)
+    public boolean isRandomlyTicking(BlockState state)
     {
-        return this.occlusionByIndex[this.getAABBIndex(p_53338_)];
+        return getAmount(state) > 0;
+    }
+
+    @Override
+    @Deprecated
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos)
+    {
+        int amt = getAmount(state);
+        if (amt > 0) return IFlowingBlock.SHAPES[amt - 1];
+        return super.getOcclusionShape(state, level, pos);
     }
 
     @Override
@@ -59,15 +78,13 @@ public class RebarBlock extends CrossCollisionBlock implements SimpleWaterlogged
 
     public boolean connectsTo(BlockState p_53330_, boolean p_53331_, Direction p_53332_)
     {
-        Block block = p_53330_.getBlock();
         boolean flag = this.isSameFence(p_53330_);
-        boolean flag1 = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(p_53330_, p_53332_);
-        return !isExceptionForConnection(p_53330_) && p_53331_ || flag || flag1;
+        return flag;
     }
 
-    private boolean isSameFence(BlockState p_153255_)
+    private boolean isSameFence(BlockState state)
     {
-        return p_153255_.getBlock()==this;
+        return state.getBlock() instanceof RebarBlock || state.getBlock() instanceof ReinforcedConcreteBlock.FullDry;
     }
 
     @Override
@@ -98,7 +115,7 @@ public class RebarBlock extends CrossCollisionBlock implements SimpleWaterlogged
                 .setValue(WEST,
                         Boolean.valueOf(this.connectsTo(blockstate3,
                                 blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST), Direction.EAST)))
-                .setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                .setValue(IFlowingBlock.WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
     }
 
     @Deprecated
@@ -106,10 +123,6 @@ public class RebarBlock extends CrossCollisionBlock implements SimpleWaterlogged
     public BlockState updateShape(BlockState p_53323_, Direction p_53324_, BlockState p_53325_, LevelAccessor p_53326_,
             BlockPos p_53327_, BlockPos p_53328_)
     {
-        if (p_53323_.getValue(FLUIDLOGGED))
-        {
-            p_53326_.scheduleTick(p_53327_, Concrete.CONCRETE_FLUID_BLOCK.get(), 10);
-        }
         return p_53324_.getAxis().getPlane() == Direction.Plane.HORIZONTAL
                 ? p_53323_.setValue(PROPERTY_BY_DIRECTION.get(p_53324_), Boolean.valueOf(this.connectsTo(p_53325_,
                         p_53325_.isFaceSturdy(p_53326_, p_53328_, p_53324_.getOpposite()), p_53324_.getOpposite())))
@@ -117,55 +130,76 @@ public class RebarBlock extends CrossCollisionBlock implements SimpleWaterlogged
     }
 
     @Override
-    public boolean canPlaceLiquid(BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluidIn)
+    public Block getAlternate()
     {
-        return !state.getValue(FLUIDLOGGED) && fluidIn == Concrete.CONCRETE_FLUID.get();
+        return this;
     }
 
     @Override
-    public boolean placeLiquid(LevelAccessor worldIn, BlockPos pos, BlockState state, FluidState fluidStateIn)
+    public int getFlowRate()
     {
-        if (canPlaceLiquid(worldIn, pos, state, fluidStateIn.getType()))
-        {
-            if (!worldIn.isClientSide())
-            {
-                int amt = fluidStateIn.getAmount();
-                
-                
-                worldIn.setBlock(pos, state.setValue(FLUIDLOGGED, true).setValue(LEVEL, amt), 3);
-                worldIn.scheduleTick(pos, fluidStateIn.getType(), fluidStateIn.getType().getTickDelay(worldIn));
-            }
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return tickRateFlow;
     }
 
     @Override
-    public ItemStack pickupBlock(LevelAccessor worldIn, BlockPos pos, BlockState state)
+    public int getFallRate()
     {
-        if (state.getValue(FLUIDLOGGED))
-        {
-            worldIn.setBlock(pos, state.setValue(FLUIDLOGGED, false), 3);
-            return new ItemStack(Concrete.CONCRETE_BUCKET.get());
-        }
-        else
-        {
-            return ItemStack.EMPTY;
-        }
+        return tickRateFall;
     }
 
     @Override
-    public FluidState getFluidState(BlockState state)
+    public int getAmount(BlockState state)
     {
-        if (!state.getValue(FLUIDLOGGED))
-            return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
-        int amt = state.getValue(LEVEL);
-        if (amt == 0)
-            return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
-        return Concrete.CONCRETE_FLUID.get().defaultFluidState().setValue(ConcreteFluid.LEVEL, amt);
+        if (state.hasProperty(LEVEL)) return state.getValue(LEVEL);
+        return IFlowingBlock.super.getAmount(state);
+    }
+
+    @Override
+    public BlockState setAmount(BlockState state, int amt)
+    {
+        if (state.hasProperty(LEVEL)) return state.setValue(LEVEL, amt);
+        return IFlowingBlock.super.setAmount(state, amt);
+    }
+
+    @Override
+    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    {
+        if (!(mergeInto.getBlock() instanceof IFlowingBlock))
+        {
+            mergeInto = Concrete.WET_LAYER.get().defaultBlockState();
+            mergeInto = IFlowingBlock.copyValidTo(mergeFrom, mergeInto);
+            mergeInto = this.setAmount(mergeInto, this.getExistingAmount(mergeFrom, posTo, level));
+        }
+        BlockState ret = IFlowingBlock.super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        if (ret.getBlock() == this)
+        {
+            ret = IFlowingBlock.copyValidTo(mergeFrom, ret);
+            ret = this.setAmount(ret, this.getExistingAmount(ret, posTo, level));
+        }
+        return ret;
+    }
+
+    @Override
+    public BlockState makeFalling(BlockState state, boolean falling)
+    {
+        if (state.getBlock() == this) return state;
+        return IFlowingBlock.super.makeFalling(state, falling);
+    }
+
+    @Override
+    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    {
+        int index = colour.ordinal();
+        int amt = this.getAmount(state);
+        Block blockTo = amt == 16 ? Concrete.REF_BLOCK[index].get() : Concrete.REF_LAYER[index].get();
+        BlockState stateTo = IFlowingBlock.copyValidTo(state, blockTo.defaultBlockState());
+        if (amt != 16) stateTo = setAmount(stateTo, amt);
+        level.setBlock(pos, stateTo, 3);
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    {
+        this.doTick(state, level, pos, random);
     }
 }

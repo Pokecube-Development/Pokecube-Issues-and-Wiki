@@ -1,55 +1,132 @@
 {
-  "variants": {
-    "falling=true": {
-      "model": "concrete:block/solid_block"
+  "multipart": [
+    {
+      "when": {
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/solid_block"
+      }
     },
-    "layers=1,falling=false": {
-      "model": "concrete:block/solid_1"
+    {
+      "when": {
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/solid_1"
+      }
     },
-    "layers=2,falling=false": {
-      "model": "concrete:block/solid_2"
+    {
+      "when": {
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/solid_2"
+      }
     },
-    "layers=3,falling=false": {
-      "model": "concrete:block/solid_3"
+    {
+      "when": {
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/solid_3"
+      }
     },
-    "layers=4,falling=false": {
-      "model": "concrete:block/solid_4"
+    {
+      "when": {
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/solid_4"
+      }
     },
-    "layers=5,falling=false": {
-      "model": "concrete:block/solid_5"
+    {
+      "when": {
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/solid_5"
+      }
     },
-    "layers=6,falling=false": {
-      "model": "concrete:block/solid_6"
+    {
+      "when": {
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/solid_6"
+      }
     },
-    "layers=7,falling=false": {
-      "model": "concrete:block/solid_7"
+    {
+      "when": {
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/solid_7"
+      }
     },
-    "layers=8,falling=false": {
-      "model": "concrete:block/solid_8"
+    {
+      "when": {
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/solid_8"
+      }
     },
-    "layers=9,falling=false": {
-      "model": "concrete:block/solid_9"
+    {
+      "when": {
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/solid_9"
+      }
     },
-    "layers=10,falling=false": {
-      "model": "concrete:block/solid_10"
+    {
+      "when": {
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/solid_10"
+      }
     },
-    "layers=11,falling=false": {
-      "model": "concrete:block/solid_11"
+    {
+      "when": {
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/solid_11"
+      }
     },
-    "layers=12,falling=false": {
-      "model": "concrete:block/solid_12"
+    {
+      "when": {
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/solid_12"
+      }
     },
-    "layers=13,falling=false": {
-      "model": "concrete:block/solid_13"
+    {
+      "when": {
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/solid_13"
+      }
     },
-    "layers=14,falling=false": {
-      "model": "concrete:block/solid_14"
+    {
+      "when": {
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/solid_14"
+      }
     },
-    "layers=15,falling=false": {
-      "model": "concrete:block/solid_15"
-    },
-    "layers=16,falling=false": {
-      "model": "concrete:block/solid_block"
+    {
+      "when": {
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/solid_15"
+      }
     }
-  }
+  ]
 }

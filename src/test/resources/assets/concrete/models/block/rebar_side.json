@@ -1,6 +1,30 @@
 {
-  "parent": "minecraft:block/fence_side",
-  "textures": {
-    "texture": "concrete:block/molten"
-  }
+    "textures": {
+    	"texture": "concrete:block/rebar",
+        "particle": "concrete:block/rebar"
+    },
+    "elements": [
+        {   "from": [ 7, 12.05, 0 ],
+            "to": [ 9, 14.95, 9 ],
+            "faces": {
+                "down":  { "uv": [ 7, 0, 9, 9 ], "texture": "#texture" },
+                "up":    { "uv": [ 7, 0, 9, 9 ], "texture": "#texture" },
+                "north": { "uv": [ 7, 1, 9, 4 ], "texture": "#texture", "cullface": "north" },
+                "west":  { "uv": [ 0, 1, 9, 4 ], "texture": "#texture" },
+                "east":  { "uv": [ 0, 1, 9, 4 ], "texture": "#texture" }
+            },
+            "__comment": "top bar adjusted slighly for z-fighting"
+        },
+        {   "from": [ 7, 6.05, 0 ],
+            "to": [ 9, 8.95, 9 ],
+            "faces": {
+                "down":  { "uv": [ 7, 0, 9,  9 ], "texture": "#texture" },
+                "up":    { "uv": [ 7, 0, 9,  9 ], "texture": "#texture" },
+                "north": { "uv": [ 7, 7, 9, 10 ], "texture": "#texture", "cullface": "north" },
+                "west":  { "uv": [ 0, 7, 9, 10 ], "texture": "#texture" },
+                "east":  { "uv": [ 0, 7, 9, 10 ], "texture": "#texture" }
+            },
+            "__comment": "lower bar adjusted slighly for z-fighting"
+        }
+    ]
 }

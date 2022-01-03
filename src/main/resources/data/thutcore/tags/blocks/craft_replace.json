@@ -4,7 +4,7 @@
     "minecraft:water",
     "#minecraft:leaves",
     "#minecraft:small_flowers",
-    "#pokecube:berry_fruits",
-    "#pokecube:berry_crops"
+    {"id": "#pokecube:berry_fruits", "required": false},
+    {"id": "#pokecube:berry_crops", "required": false}
   ]
 }

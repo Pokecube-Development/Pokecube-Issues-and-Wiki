@@ -1,0 +1,296 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "y": 90,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "y": 180,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "y": 270,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_1"
+      }
+    },
+    {
+      "when": {
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_2"
+      }
+    },
+    {
+      "when": {
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_3"
+      }
+    },
+    {
+      "when": {
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_4"
+      }
+    },
+    {
+      "when": {
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_5"
+      }
+    },
+    {
+      "when": {
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_6"
+      }
+    },
+    {
+      "when": {
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_7"
+      }
+    },
+    {
+      "when": {
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_8"
+      }
+    },
+    {
+      "when": {
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_9"
+      }
+    },
+    {
+      "when": {
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_10"
+      }
+    },
+    {
+      "when": {
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_11"
+      }
+    },
+    {
+      "when": {
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_12"
+      }
+    },
+    {
+      "when": {
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_13"
+      }
+    },
+    {
+      "when": {
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_14"
+      }
+    },
+    {
+      "when": {
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_orange_15"
+      }
+    },
+    {
+      "when": {
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/rebar_post"
+      }
+    },
+    {
+      "when": {
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/concrete_block_orange"
+      }
+    }
+  ]
+}

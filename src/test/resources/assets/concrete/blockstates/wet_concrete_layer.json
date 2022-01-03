@@ -1,0 +1,156 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "falling": "true"
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_air"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_block"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_1"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_2"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_3"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_4"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_5"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_6"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_7"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_8"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_9"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_10"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_11"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_12"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_13"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_14"
+      }
+    },
+    {
+      "when": {
+        "falling": "false",
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/wet_concrete_layer_15"
+      }
+    }
+  ]
+}

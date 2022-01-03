@@ -1,0 +1,6 @@
+{
+    "parent": "concrete:block/layered_1",
+    "textures": {
+        "texture": "concrete:block/concrete_white"
+    }
+}

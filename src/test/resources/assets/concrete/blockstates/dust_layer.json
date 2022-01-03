@@ -1,55 +1,156 @@
 {
-  "variants": {
-    "falling=true": {
-      "model": "concrete:block/dust_air"
+  "multipart": [
+    {
+      "when": {
+        "falling": "true"
+      },
+      "apply": {
+        "model": "concrete:block/dust_air"
+      }
     },
-    "layers=1,falling=false": {
-      "model": "concrete:block/dust_1"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/dust_block"
+      }
     },
-    "layers=2,falling=false": {
-      "model": "concrete:block/dust_2"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/dust_1"
+      }
     },
-    "layers=3,falling=false": {
-      "model": "concrete:block/dust_3"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/dust_2"
+      }
     },
-    "layers=4,falling=false": {
-      "model": "concrete:block/dust_4"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/dust_3"
+      }
     },
-    "layers=5,falling=false": {
-      "model": "concrete:block/dust_5"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/dust_4"
+      }
     },
-    "layers=6,falling=false": {
-      "model": "concrete:block/dust_6"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/dust_5"
+      }
     },
-    "layers=7,falling=false": {
-      "model": "concrete:block/dust_7"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/dust_6"
+      }
     },
-    "layers=8,falling=false": {
-      "model": "concrete:block/dust_8"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/dust_7"
+      }
     },
-    "layers=9,falling=false": {
-      "model": "concrete:block/dust_9"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/dust_8"
+      }
     },
-    "layers=10,falling=false": {
-      "model": "concrete:block/dust_10"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/dust_9"
+      }
     },
-    "layers=11,falling=false": {
-      "model": "concrete:block/dust_11"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/dust_10"
+      }
     },
-    "layers=12,falling=false": {
-      "model": "concrete:block/dust_12"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/dust_11"
+      }
     },
-    "layers=13,falling=false": {
-      "model": "concrete:block/dust_13"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/dust_12"
+      }
     },
-    "layers=14,falling=false": {
-      "model": "concrete:block/dust_14"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/dust_13"
+      }
     },
-    "layers=15,falling=false": {
-      "model": "concrete:block/dust_15"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/dust_14"
+      }
     },
-    "layers=16,falling=false": {
-      "model": "concrete:block/dust_block"
+    {
+      "when": {
+        "falling": "false",
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/dust_15"
+      }
     }
-  }
+  ]
 }

@@ -345,6 +345,7 @@ public class Config
                     if (cat_comments.containsKey(cat)) Config.addComment(builder, cat_comments.get(cat));
                 }
                 if (!conf.comment().isEmpty()) Config.addComment(builder, conf.comment());
+                else  Config.addComment(builder, "sets "+field.getName());
                 builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName()
                         + ".tooltip");
                 final Object o = field.get(holder);

@@ -13,6 +13,7 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -43,6 +45,7 @@ import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -182,6 +185,13 @@ public class ThutCore
             event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID, "string"));
             event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID, "powder"));
         }
+
+        public static void registerLootFunction()
+        {
+            LootLayerFunction.TYPE = Registry.register(Registry.LOOT_FUNCTION_TYPE,
+                    new ResourceLocation("thutcore:flowing_layer_loot"),
+                    new LootItemFunctionType(new LootLayerFunction.Serializer()));
+        }
     }
 
     // Directly reference a log4j logger.
@@ -310,6 +320,9 @@ public class ThutCore
             EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
             EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
+
+            // Do the loot functions here, since that isn't a forge registry
+            RegistryEvents.registerLootFunction();
         });
     }
 
