@@ -38,9 +38,9 @@ import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.utils.Tools;
 import thut.api.Tracker;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 

@@ -12,6 +12,7 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -36,14 +37,17 @@ import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.client.gui.NpcScreen;
 import thut.core.client.render.particle.ParticleFactories;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -137,6 +141,12 @@ public class ClientInit
     }
 
     @SubscribeEvent
+    public static void setupClient(final FMLClientSetupEvent event)
+    {
+        MenuScreens.register(NpcContainer.TYPE, NpcScreen::new);
+    }
+    
+    @SubscribeEvent
     public static void RenderBounds(final RenderLevelLastEvent event)
     {
         ItemStack held;
@@ -198,8 +208,8 @@ public class ClientInit
                         (float) maxY, (float) minZ)));
                 lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ), new Vector3f((float) minX,
                         (float) maxY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) maxZ)));
 
                 mat.pushPose();
 

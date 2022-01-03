@@ -12,8 +12,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
-import pokecube.core.inventory.InvHelper;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
 
 public class TMInventory extends SimpleContainer implements ICapabilitySerializable<CompoundTag>

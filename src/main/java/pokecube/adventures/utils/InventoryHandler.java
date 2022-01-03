@@ -6,8 +6,8 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
-import pokecube.core.inventory.InvHelper.ItemCap;
 import thut.api.OwnableCaps;
+import thut.api.inventory.InvHelper.ItemCap;
 
 public class InventoryHandler
 {

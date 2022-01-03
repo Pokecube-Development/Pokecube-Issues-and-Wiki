@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainChecker;
 
@@ -26,6 +28,8 @@ public interface IFlowingBlock
     public static final BooleanProperty FALLING = BlockStateProperties.FALLING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty VISCOSITY = IntegerProperty.create("viscosity", 0, 15);
+
+    public static final ResourceLocation DUSTREPLACEABLE = new ResourceLocation("thutcore:dust_replace");
 
     public static VoxelShape[] makeShapes()
     {
@@ -284,9 +288,9 @@ public interface IFlowingBlock
 
     default boolean canReplace(BlockState state)
     {
-        if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
         if (state.isAir()) return true;
-        return false;
+        if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
+        return ItemList.is(DUSTREPLACEABLE, state);
     }
 
     default BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
@@ -297,10 +301,13 @@ public interface IFlowingBlock
         {
             mergeFrom = mergeFrom.setValue(WATERLOGGED, true);
         }
-        boolean replacelable = canReplace(mergeInto, posTo, level);
-        if (replacelable) return mergeFrom;
-        if (mergeFrom.getBlock() == mergeInto.getBlock()) return mergeFrom;
+        if (canMergeInto(mergeFrom, mergeInto, posTo, level)) return mergeFrom;
         return mergeInto;
+    }
+
+    default boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    {
+        return canReplace(other, posTo, level) || other.getBlock() == here.getBlock();
     }
 
     default void updateNearby(BlockPos centre, ServerLevel level, int tickRate)

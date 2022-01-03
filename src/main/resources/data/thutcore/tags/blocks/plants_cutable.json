@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "#minecraft:leaves",
-    "#minecraft:small_flowers",
+    "#minecraft:flowers",
     "#thutcore:fruits"
   ]
 }

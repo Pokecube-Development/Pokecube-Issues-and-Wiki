@@ -64,9 +64,9 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.events.npc.NpcBreedEvent;
 import pokecube.core.events.npc.NpcEvent;
 import pokecube.core.events.npc.NpcTradesEvent;
-import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.utils.CapHolders;
 import thut.api.entity.ai.BrainUtil;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData

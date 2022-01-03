@@ -1,4 +1,4 @@
-package pokecube.core.inventory.npc;
+package thut.api.inventory.npc;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

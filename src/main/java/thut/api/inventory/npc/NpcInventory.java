@@ -1,6 +1,6 @@
-package pokecube.core.inventory.npc;
+package thut.api.inventory.npc;
 
-import pokecube.core.inventory.InvWrapper;
+import thut.api.inventory.InvWrapper;
 
 public class NpcInventory extends InvWrapper
 {

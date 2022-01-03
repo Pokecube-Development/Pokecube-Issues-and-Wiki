@@ -25,6 +25,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
 public class MoltenBlock extends FlowingBlock
@@ -55,6 +56,8 @@ public class MoltenBlock extends FlowingBlock
 
         return arr;
     }
+
+    public static final ResourceLocation LAVAREPLACEABLE = new ResourceLocation("thutcore:lava_replace");
 
     public static final BooleanProperty HEATED = BooleanProperty.create("heated");
 
@@ -120,8 +123,16 @@ public class MoltenBlock extends FlowingBlock
     @Override
     public boolean canReplace(BlockState state, BlockPos pos, ServerLevel level)
     {
+        if (this.canReplace(state, pos, level)) return true;
         if (state.isFlammable(level, pos, Direction.UP)) return true;
-        return super.canReplace(state, pos, level);
+        return false;
+    }
+
+    @Override
+    public boolean canReplace(BlockState state)
+    {
+        if (ItemList.is(LAVAREPLACEABLE, state)) return true;
+        return super.canReplace(state);
     }
 
     @Override
@@ -136,25 +147,27 @@ public class MoltenBlock extends FlowingBlock
     @Override
     public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
-        checkSolid();
-
-        if (solid_full.isAir()) return mergeInto;
-
         // The result from the merge won't be heated, even if we are!
         if (mergeFrom.hasProperty(HEATED)) mergeFrom = mergeFrom.setValue(HEATED, false);
-
-        IFlowingBlock to = (mergeInto.getBlock() instanceof FlowingBlock) ? (IFlowingBlock) mergeInto.getBlock() : null;
-
-        if (mergeInto.getBlock() == solid_layer.getBlock() || to != null && to.getAlternate() == solid_layer.getBlock())
-        {
-            int amt_from = getAmount(mergeFrom);
-            int amt_to = getAmount(mergeInto);
-            if (amt_from != amt_to) return mergeFrom;
-        }
-        // for now, magma overrides other blocks.
-        else if (to != null) return mergeFrom;
-
         return super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+    }
+
+    @Override
+    public boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    {
+        checkSolid();
+        if (solid_full.isAir()) return false;
+
+        IFlowingBlock to = (other.getBlock() instanceof FlowingBlock) ? (IFlowingBlock) other.getBlock() : null;
+
+        if (other.getBlock() == solid_layer.getBlock() || to != null && to.getAlternate() == solid_layer.getBlock())
+        {
+            int amt_from = getAmount(here);
+            int amt_to = getAmount(other);
+            if (amt_from != amt_to) return true;
+        }
+
+        return super.canMergeInto(here, other, posTo, level);
     }
 
     @Override
@@ -170,13 +183,9 @@ public class MoltenBlock extends FlowingBlock
 
             boolean stableBelow = false;
 
-            for (int i = 1; i < 2; i++)
-            {
-                BlockPos p2 = pos.below(i);
-                BlockState b2 = level.getBlockState(p2);
-                stableBelow = this.isStableBelow(b2, p2, level);
-                if (stableBelow) break;
-            }
+            BlockPos p2 = pos.below();
+            BlockState b2 = level.getBlockState(p2);
+            stableBelow = this.isStableBelow(b2, p2, level);
             if (!stableBelow) break harden;
 
             int dust = getExistingAmount(state, pos, level);

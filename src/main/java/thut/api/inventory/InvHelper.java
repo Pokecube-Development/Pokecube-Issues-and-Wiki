@@ -1,4 +1,4 @@
-package pokecube.core.inventory;
+package thut.api.inventory;
 
 import java.util.function.Predicate;
 

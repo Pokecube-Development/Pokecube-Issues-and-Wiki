@@ -1,4 +1,4 @@
-package pokecube.core.client.gui;
+package thut.core.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import pokecube.core.inventory.npc.NpcContainer;
+import thut.api.inventory.npc.NpcContainer;
 
 public class NpcScreen extends AbstractContainerScreen<NpcContainer>
 {

@@ -3,7 +3,8 @@
   "values": [
     "minecraft:water",
     "#minecraft:leaves",
-    "#minecraft:small_flowers",
+    "#minecraft:flowers",
+    "#minecraft:replaceable_plants",
     {"id": "#pokecube:berry_fruits", "required": false},
     {"id": "#pokecube:berry_crops", "required": false}
   ]

@@ -1,4 +1,4 @@
-package pokecube.core.inventory.npc;
+package thut.api.inventory.npc;
 
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
