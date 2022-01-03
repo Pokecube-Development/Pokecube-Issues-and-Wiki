@@ -84,7 +84,7 @@ public class Config extends ConfigData
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc, comment = "You will be prompted to choose a pokemob when creating a world, without having to look for a professor. [Default: false]")
     public boolean guiOnLogin = false;
-    @Configure(category = Config.misc, comment = "You will be prompted to look for a professor if you have not recieved a starter. [Default: true]")
+    @Configure(category = Config.misc, comment = "You will be prompted to look for a professor if you have not recieved a starter. [Default: false]")
     public boolean msgAboutProfessor = false;
     @Configure(category = Config.misc, comment = "Defeating a player's pokemobs gives exp. [Default: false]")
     public boolean pvpExp = false;
