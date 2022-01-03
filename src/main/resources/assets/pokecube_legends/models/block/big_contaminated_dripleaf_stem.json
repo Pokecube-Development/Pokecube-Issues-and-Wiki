@@ -1,0 +1,30 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "pokecube_legends:block/big_contaminated_dripleaf_stem",
+		"stem": "pokecube_legends:block/big_contaminated_dripleaf_stem"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 12],
+			"to": [12, 16, 12],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 12], "rescale": true},
+			"faces": {
+				"north": {"uv": [1, 0, 14, 16], "texture": "#stem"},
+				"south": {"uv": [1, 0, 14, 16], "texture": "#stem"}
+			}
+		},
+		{
+			"from": [4, 0, 12],
+			"to": [12, 16, 12],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 8, 12], "rescale": true},
+			"faces": {
+				"north": {"uv": [1, 0, 14, 16], "texture": "#stem"},
+				"south": {"uv": [1, 0, 14, 16], "texture": "#stem"}
+			}
+		}
+	]
+}

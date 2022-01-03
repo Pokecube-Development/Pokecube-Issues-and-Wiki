@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,tilt=full": {
+      "y": 90,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_full_tilt"
+    },
+    "facing=east,tilt=none": {
+      "y": 90,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=east,tilt=partial": {
+      "y": 90,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_partial_tilt"
+    },
+    "facing=east,tilt=unstable": {
+      "y": 90,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=north,tilt=full": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_full_tilt"
+    },
+    "facing=north,tilt=none": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=north,tilt=partial": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_partial_tilt"
+    },
+    "facing=north,tilt=unstable": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=south,tilt=full": {
+      "y": 180,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_full_tilt"
+    },
+    "facing=south,tilt=none": {
+      "y": 180,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=south,tilt=partial": {
+      "y": 180,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_partial_tilt"
+    },
+    "facing=south,tilt=unstable": {
+      "y": 180,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=west,tilt=full": {
+      "y": 270,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_full_tilt"
+    },
+    "facing=west,tilt=none": {
+      "y": 270,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    },
+    "facing=west,tilt=partial": {
+      "y": 270,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_partial_tilt"
+    },
+    "facing=west,tilt=unstable": {
+      "y": 270,
+      "model": "pokecube_legends:block/big_contaminated_dripleaf"
+    }
+  }
+}

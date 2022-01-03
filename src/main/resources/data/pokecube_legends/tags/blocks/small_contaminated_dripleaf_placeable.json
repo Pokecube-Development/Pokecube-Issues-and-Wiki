@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:small_dripleaf_placeable",
+    "pokecube_legends:blackened_sand"
+  ]
+}

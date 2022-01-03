@@ -226,6 +226,8 @@
 
     // Plants
     "block.pokecube_legends.azure_coleus": "Azure Coleus",
+    "block.pokecube_legends.big_contaminated_dripleaf": "Big Contaminated Dripleaf",
+    "block.pokecube_legends.big_contaminated_dripleaf_stem": "Big Contaminated Dripleaf Stem",
     "block.pokecube_legends.compreced_mushroom": "Compreced Mushroom",
     "block.pokecube_legends.corrupted_grass": "Corrupted Grass",
     "block.pokecube_legends.crystallized_bush": "Crystallized Bush",
@@ -239,6 +241,7 @@
     "block.pokecube_legends.inverted_orchid": "Inverted Orchid",
     "block.pokecube_legends.large_golden_fern": "Large Golden Fern",
     "block.pokecube_legends.pink_blossom_tainted_lily_pad": "Pink Blossom Tainted Lily Pad",
+    "block.pokecube_legends.small_contaminated_dripleaf": "Small Contaminated Dripleaf",
     "block.pokecube_legends.string_of_pearls": "String of Pearls",
     "block.pokecube_legends.tainted_kelp": "Tainted Kelp",
     "block.pokecube_legends.tainted_kelp_plant": "Tainted Kelp Plant",

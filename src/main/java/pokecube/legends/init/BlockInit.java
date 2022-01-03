@@ -5,10 +5,13 @@ import java.util.function.ToIntFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AmethystClusterBlock;
+import net.minecraft.world.level.block.BigDripleafBlock;
+import net.minecraft.world.level.block.BigDripleafStemBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -24,6 +27,7 @@ import net.minecraft.world.level.block.RedStoneOreBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SmallDripleafBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
@@ -100,6 +104,9 @@ import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
 import pokecube.legends.blocks.plants.AgedTree;
+import pokecube.legends.blocks.plants.AzureColeusBlock;
+import pokecube.legends.blocks.plants.BigContaminatedDripleafBlock;
+import pokecube.legends.blocks.plants.BigContaminatedDripleafStemBlock;
 import pokecube.legends.blocks.plants.CorruptedTree;
 import pokecube.legends.blocks.plants.CrystallizedBush;
 import pokecube.legends.blocks.plants.CrystallizedCactus;
@@ -110,6 +117,7 @@ import pokecube.legends.blocks.plants.MirageSapling;
 import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
+import pokecube.legends.blocks.plants.SmallContaminatedDripleafBlock;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.blocks.plants.TallCrystallizedBush;
 import pokecube.legends.blocks.plants.TemporalTree;
@@ -703,6 +711,10 @@ public class BlockInit
     public static final RegistryObject<Block> SPECTRUM_STAIRS;
 
     public static final RegistryObject<Block> COSMIC_DUST_BLOCK;
+    
+    public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF;
+    public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF_STEM;
+    public static final RegistryObject<Block> SMALL_CONTAMINATED_DRIPLEAF;
 
     public static final RegistryObject<Block> POTTED_AGED_SAPLING;
     public static final RegistryObject<Block> POTTED_CORRUPTED_SAPLING;
@@ -1191,6 +1203,13 @@ public class BlockInit
                 .of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).strength(2.0f, 3.0f).noOcclusion()));
 
         // Corrupted Blocks
+        SMALL_CONTAMINATED_DRIPLEAF = PokecubeLegends.DIMENSIONS_TAB.register("small_contaminated_dripleaf",
+                () -> new SmallContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.SMALL_DRIPLEAF)));
+        BIG_CONTAMINATED_DRIPLEAF = PokecubeLegends.DIMENSIONS_TAB.register("big_contaminated_dripleaf",
+                () -> new BigContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT).strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
+        BIG_CONTAMINATED_DRIPLEAF_STEM = PokecubeLegends.DIMENSIONS_TAB.register("big_contaminated_dripleaf_stem",
+                () -> new BigContaminatedDripleafStemBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
+        
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
                 () -> new SaplingBase(() -> new CorruptedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
@@ -2296,7 +2315,7 @@ public class BlockInit
         for (final RegistryObject<Block> reg : PokecubeLegends.DIMENSIONS_TAB.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == PlantsInit.DISTORTIC_VINES_PLANT || reg == PlantsInit.DISTORTIC_VINES || reg == PlantsInit.TEMPORAL_BAMBOO
+            if (reg == BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM || reg == PlantsInit.DISTORTIC_VINES_PLANT || reg == PlantsInit.DISTORTIC_VINES || reg == PlantsInit.TEMPORAL_BAMBOO
                     || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT || reg == PlantsInit.PINK_TAINTED_LILY_PAD
                     || reg == PlantsInit.TAINTED_LILY_PAD)
                 continue;
@@ -2363,6 +2382,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.INVERTED_SAPLING);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_LEAVES);
         BlockInit.compostableBlocks(0.3f, BlockInit.MIRAGE_SAPLING);
+        BlockInit.compostableBlocks(0.3f, BlockInit.SMALL_CONTAMINATED_DRIPLEAF);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
         BlockInit.compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
@@ -2373,6 +2393,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.5f, BlockInit.STRING_OF_PEARLS);
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
 
+        BlockInit.compostableBlocks(0.65f, BlockInit.BIG_CONTAMINATED_DRIPLEAF);
         BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
@@ -2477,6 +2498,10 @@ public class BlockInit
 
         // Plants
         BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
+        BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
+        BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
+        BlockInit.flammableBlocks(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);
+        
         BlockInit.flammableBlocks(PlantsInit.AZURE_COLEUS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
