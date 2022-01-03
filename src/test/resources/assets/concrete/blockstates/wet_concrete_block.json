@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "": {
-      "texture": "concrete:block/wet_concrete",
-      "model": "concrete:block/wet_concrete_block"
-    }
-  }
-}

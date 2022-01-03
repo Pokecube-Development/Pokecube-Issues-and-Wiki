@@ -268,6 +268,9 @@ public class ThutCore
 
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
+
+        // Do the loot functions here, since that isn't a forge registry
+        RegistryEvents.registerLootFunction();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event)
@@ -320,9 +323,6 @@ public class ThutCore
             EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
             EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
-
-            // Do the loot functions here, since that isn't a forge registry
-            RegistryEvents.registerLootFunction();
         });
     }
 

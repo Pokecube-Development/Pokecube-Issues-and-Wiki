@@ -1,6 +1,0 @@
-{
-    "parent": "concrete:block/layered_9",
-    "textures": {
-        "texture": "concrete:block/concrete_gray"
-    }
-}
