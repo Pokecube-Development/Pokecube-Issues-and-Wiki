@@ -34,8 +34,7 @@ import thut.wearables.ThutWearables;
 
 public class PCContainer extends BaseContainer
 {
-    public static final MenuType<PCContainer> TYPE = new MenuType<>(
-            (IContainerFactory<PCContainer>) PCContainer::new);
+    public static final MenuType<PCContainer> TYPE = new MenuType<>((IContainerFactory<PCContainer>) PCContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
@@ -46,8 +45,7 @@ public class PCContainer extends BaseContainer
     /**
      * Returns true if the item is a filled pokecube.
      *
-     * @param itemstack
-     *            the itemstack to test
+     * @param itemstack the itemstack to test
      * @return true if the id is a filled pokecube one, false otherwise
      */
     public static boolean isItemValid(final ItemStack itemstack)
@@ -58,8 +56,8 @@ public class PCContainer extends BaseContainer
 
         final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)
                 || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
-                || itemstack.getItem() instanceof ItemPokedex || mega.isPresent() && mega.orElse(null).getEntry(
-                        itemstack) != null || worn.isPresent();
+                || itemstack.getItem() instanceof ItemPokedex
+                || mega.isPresent() && mega.orElse(null).getEntry(itemstack) != null || worn.isPresent();
         if (!eggorCube) for (final Predicate<ItemStack> tester : PCContainer.CUSTOMPCWHILTELIST)
             if (tester.test(itemstack)) return true;
         return eggorCube;
@@ -68,8 +66,8 @@ public class PCContainer extends BaseContainer
     public final PCInventory inv;
 
     public final Inventory invPlayer;
-    public final BlockPos        pcPos;
-    public boolean               release = false;
+    public final BlockPos pcPos;
+    public boolean release = false;
     // private GuiPC gpc;
 
     public boolean[] toRelease = new boolean[54];
@@ -106,13 +104,10 @@ public class PCContainer extends BaseContainer
     {
         int n = 0;
         n = this.inv.getPage() * 54;
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 9; j++)
-                this.addSlot(new PCSlot(this.inv, n + j + i * 9, 8 + j * 18 + PCContainer.xOffset, 18 + i * 18
-                        + PCContainer.yOffset));
+        for (int i = 0; i < 6; i++) for (int j = 0; j < 9; j++) this.addSlot(new PCSlot(this.inv, n + j + i * 9,
+                8 + j * 18 + PCContainer.xOffset, 18 + i * 18 + PCContainer.yOffset));
         // int k = 0;
-        for (final Object o : this.slots)
-            if (o instanceof Slot) ((Slot) o).setChanged();
+        for (final Object o : this.slots) if (o instanceof Slot) ((Slot) o).setChanged();
     }
 
     @Override
@@ -199,19 +194,17 @@ public class PCContainer extends BaseContainer
             final PacketPC packet = new PacketPC(PacketPC.RELEASE, id);
             packet.data.putBoolean("T", false);
             packet.data.putInt("page", this.inv.getPage());
-            for (int i = 0; i < 54; i++)
-                if (this.toRelease[i]) packet.data.putBoolean("val" + i, true);
+            for (int i = 0; i < 54; i++) if (this.toRelease[i]) packet.data.putBoolean("val" + i, true);
             PokecubeCore.packets.sendToServer(packet);
         }
         this.release = bool;
     }
 
     @Override
-    public void clicked(final int slotId, final int dragType,
-            final ClickType clickTypeIn,
-            final Player player)
+    public void clicked(final int slotId, final int dragType, final ClickType clickTypeIn, final Player player)
     {
-        if (this.release)
+        // slotId is -1 if an item is held by the player
+        if (slotId != -1) if (this.release)
         {
             if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
             this.getSlot(slotId).set(ItemStack.EMPTY);

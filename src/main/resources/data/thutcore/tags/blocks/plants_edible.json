@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "#minecraft:flowers",
-    {"id": "#pokecube:berry_fruits", "required": false},
-    {"id": "#pokecube:berry_crops", "required": false}
+    {"id": "#pokecube:berry_fruits", "required": false}
   ]
 }
