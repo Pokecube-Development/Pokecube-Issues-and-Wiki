@@ -240,13 +240,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     }
 
     @Override
-    public boolean hurt(final DamageSource source, final float amount)
-    {
-        if (this.isMultipartEntity()) return false;
-        return super.hurt(source, amount);
-    }
-
-    @Override
     public void push(final Entity entityIn)
     {
         if (entityIn.is(this)) return;

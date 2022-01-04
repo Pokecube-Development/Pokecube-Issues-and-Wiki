@@ -131,7 +131,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                     source.getDirectEntity().isShiftKeyDown());
             ThutCore.packets.sendToServer(packet);
         }
-        return this.getParent().isInvulnerableTo(source) ? false : this.getParent().hurt(source, amount);
+        return this.getParent().hurt(source, amount);
     }
 
     /**
