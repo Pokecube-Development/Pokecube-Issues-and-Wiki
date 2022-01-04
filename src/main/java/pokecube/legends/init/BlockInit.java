@@ -102,23 +102,24 @@ import pokecube.legends.blocks.normalblocks.OneWayStainedGlass;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
-import pokecube.legends.blocks.plants.AgedTree;
 import pokecube.legends.blocks.plants.BigContaminatedDripleafBlock;
 import pokecube.legends.blocks.plants.BigContaminatedDripleafStemBlock;
-import pokecube.legends.blocks.plants.CorruptedTree;
 import pokecube.legends.blocks.plants.CrystallizedBush;
 import pokecube.legends.blocks.plants.CrystallizedCactus;
 import pokecube.legends.blocks.plants.DistorticSapling;
-import pokecube.legends.blocks.plants.DistorticTree;
-import pokecube.legends.blocks.plants.InvertedTree;
+import pokecube.legends.blocks.plants.DynaShrubBlock;
 import pokecube.legends.blocks.plants.MirageSapling;
-import pokecube.legends.blocks.plants.MirageTree;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
 import pokecube.legends.blocks.plants.SmallContaminatedDripleafBlock;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
 import pokecube.legends.blocks.plants.TallCrystallizedBush;
-import pokecube.legends.blocks.plants.TemporalTree;
+import pokecube.legends.worldgen.trees.AgedTreeGrower;
+import pokecube.legends.worldgen.trees.CorruptedTreeGrower;
+import pokecube.legends.worldgen.trees.DistorticTreeGrower;
+import pokecube.legends.worldgen.trees.InvertedTreeGrower;
+import pokecube.legends.worldgen.trees.MirageTreeGrower;
+import pokecube.legends.worldgen.trees.TemporalTreeGrower;
 
 @SuppressWarnings("deprecation")
 public class BlockInit
@@ -635,6 +636,7 @@ public class BlockInit
     public static final RegistryObject<Block> DYNA_LEAVES_PINK;
     public static final RegistryObject<Block> DYNA_LEAVES_RED;
     public static final RegistryObject<Block> DYNA_LEAVES_PASTEL_PINK;
+    public static final RegistryObject<Block> DYNA_SHRUB;
 
     // Plants
     public static final RegistryObject<Block> INVERTED_SAPLING;
@@ -967,7 +969,7 @@ public class BlockInit
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE)
                         .sound(SoundType.SCAFFOLDING).strength(4f, 5f).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
-                () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9f).requiresCorrectToolForDrops()));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
@@ -1155,7 +1157,7 @@ public class BlockInit
         // Woods
         // Aged Blocks
         AGED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("aged_sapling",
-                () -> new SaplingBase(() -> new AgedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD)
+                () -> new SaplingBase(() -> new AgedTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         AGED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("aged_leaves",
@@ -1213,7 +1215,7 @@ public class BlockInit
                 () -> new BigContaminatedDripleafStemBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
         
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
-                () -> new SaplingBase(() -> new CorruptedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
+                () -> new SaplingBase(() -> new CorruptedTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         CORRUPTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_leaves",
@@ -1261,7 +1263,7 @@ public class BlockInit
 
         // Distorted Blocks
         DISTORTIC_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("distortic_sapling",
-                () -> new DistorticSapling(new DistorticTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
+                () -> new DistorticSapling(new DistorticTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         DISTORTIC_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_leaves",
@@ -1312,7 +1314,7 @@ public class BlockInit
 
         // Inverted Blocks
         INVERTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("inverted_sapling",
-                () -> new SaplingBase(() -> new InvertedTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
+                () -> new SaplingBase(() -> new InvertedTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         INVERTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("inverted_leaves",
@@ -1365,7 +1367,7 @@ public class BlockInit
 
         // MIRAGE Blocks
         MIRAGE_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("mirage_sapling",
-                () -> new MirageSapling(new MirageTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE)
+                () -> new MirageSapling(new MirageTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_LIGHT_BLUE)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         MIRAGE_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("mirage_leaves",
@@ -1418,7 +1420,7 @@ public class BlockInit
                         .strength(0.2F).sound(SoundType.VINE)));
 
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling",
-                () -> new SaplingBase(() -> new TemporalTree(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.PLANT)
+                () -> new SaplingBase(() -> new TemporalTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.PLANT)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         TEMPORAL_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("temporal_leaves",
@@ -1471,16 +1473,19 @@ public class BlockInit
         // Dyna Leaves
         DYNA_LEAVES_RED = PokecubeLegends.DIMENSIONS_TAB.register("dyna_leaves_red",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f)
-                        .sound(SoundType.WET_GRASS).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
+                        .sound(SoundType.AZALEA_LEAVES).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
                         .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PINK = PokecubeLegends.DIMENSIONS_TAB.register("dyna_leaves_pink",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f)
-                        .sound(SoundType.WET_GRASS).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
+                        .sound(SoundType.AZALEA_LEAVES).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
                         .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PASTEL_PINK = PokecubeLegends.DIMENSIONS_TAB.register("dyna_leaves_pastel_pink",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES, MaterialColor.COLOR_PINK).strength(0.2f)
-                        .sound(SoundType.WET_GRASS).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
+                        .sound(SoundType.AZALEA_LEAVES).noDrops().noOcclusion().isSuffocating((s, r, p) -> false)
                         .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+
+        DYNA_SHRUB = PokecubeLegends.DIMENSIONS_TAB.register("dyna_shrub",
+                () -> new DynaShrubBlock(BlockBehaviour.Properties.of(Material.PLANT).instabreak().sound(SoundType.AZALEA).noOcclusion()));
 
         CRYSTALLIZED_CACTUS = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_cactus", () -> new CrystallizedCactus(
                 BlockBehaviour.Properties.of(Material.CACTUS, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.AMETHYST).strength(0.4f)));
@@ -2405,6 +2410,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.5f, PlantsInit.TALL_GOLDEN_GRASS);
 
         BlockInit.compostableBlocks(0.65f, BlockInit.BIG_CONTAMINATED_DRIPLEAF);
+        BlockInit.compostableBlocks(0.65f, BlockInit.DYNA_SHRUB);
         BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
@@ -2509,6 +2515,7 @@ public class BlockInit
 
         // Plants
         BlockInit.flammableBlocks(BlockInit.STRING_OF_PEARLS.get(), 15, 100);
+        BlockInit.flammableBlocks(BlockInit.DYNA_SHRUB.get(), 30, 60);
         BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);

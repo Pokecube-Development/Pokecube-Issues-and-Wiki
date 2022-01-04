@@ -1,13 +1,12 @@
-package pokecube.legends.blocks.plants;
+package pokecube.legends.worldgen.trees;
 
 import java.util.Random;
 
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import pokecube.legends.worldgen.trees.Trees;
 
-public class InvertedTree extends AbstractTreeGrower
+public class InvertedTreeGrower extends AbstractTreeGrower
 {
     @Override
     protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
@@ -20,5 +19,4 @@ public class InvertedTree extends AbstractTreeGrower
             return b ? Trees.INVERTED_TREE : Trees.INVERTED_TREE;
         }
     }
-
 }

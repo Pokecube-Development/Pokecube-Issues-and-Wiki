@@ -1,9 +1,12 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.data.worldgen.features.NetherFeatures;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,11 +29,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
 
@@ -92,56 +101,6 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
                     .get().defaultBlockState());
     }
 
-//    @Override
-//    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
-//    {
-//        final BlockState blockstate = world.getBlockState(pos);
-//        final BlockPos blockpos = pos.above();
-//        if (blockstate.is(BlockInit.CORRUPTED_GRASS.get()))
-//        {
-//            ForestVegetationFeature.place(world, random, blockpos, FeaturesInit.Configs.TAINTED_BARRENS_CONFIG, 3, 1);
-//        }
-//    }
-
-    @Override
-    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
-    {
-        final BlockPos blockpos = pos.above();
-        final BlockState blockstate = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
-
-        label48: for (int i = 0; i < 128; ++i)
-        {
-            BlockPos blockpos1 = blockpos;
-
-            for (int j = 0; j < i / 16; ++j)
-            {
-                blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1))
-                    continue label48;
-            }
-
-            final BlockState blockstate2 = world.getBlockState(blockpos1);
-            if (blockstate2.is(blockstate.getBlock()) && random.nextInt(10) == 0)
-                ((BonemealableBlock) blockstate.getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
-
-            if (blockstate2.isAir())
-            {
-//             BlockState blockstate1;
-//             if (random.nextInt(8) == 0) {
-//                final List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).getGenerationSettings().getFlowerFeatures();
-//                if (list.isEmpty()) continue;
-//                blockstate1 = GrassCorruptedBlock.getBlockState(random, blockpos1, list.get(0));
-//             }
-//            else blockstate1 = blockstate;
-//
-//             if (blockstate1.canSurvive(world, blockpos1)) {
-//                world.setBlock(blockpos1, blockstate1, 3);
-//                ForestVegetationFeature.place(world, random, blockpos, FeaturesInit.Configs.TAINTED_BARRENS_CONFIG, 3, 1);
-//             }
-            }
-        }
-    }
-
     @Override
     public boolean canSustainPlant(final BlockState state, final BlockGetter block, final BlockPos pos, final Direction direction, final IPlantable plantable)
     {
@@ -160,12 +119,51 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
         else
             return super.canSustainPlant(state, block, pos, direction, plantable);
     }
+    
+    @Override
+    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    {
+        BlockPos posAbove = pos.above();
+        BlockState grassState = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
 
-//    @SuppressWarnings("unchecked")
-//    public static <U extends FeatureConfiguration> BlockState getBlockState(final Random random, final BlockPos pos, final ConfiguredFeature<U, ?> config)
-//    {
-    // FIXME grass bonemeal
-//       final AbstractFlowerFeature<U> feature = (AbstractFlowerFeature<U>)config.feature;
-//       return feature.getRandomFlower(random, pos, config.config());
-//    }
+        label46:
+        for(int i = 0; i < 128; ++i)
+        {
+           BlockPos pos1 = posAbove;
+
+           for(int j = 0; j < i / 16; ++j)
+           {
+              pos1 = pos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+              if (!world.getBlockState(pos1.below()).is(this) || world.getBlockState(pos1).isCollisionShapeFullBlock(world, pos1))
+              {
+                 continue label46;
+              }
+           }
+
+           BlockState state1 = world.getBlockState(pos1);
+           if (state1.is(grassState.getBlock()) && random.nextInt(10) == 0) 
+           {
+              ((BonemealableBlock)grassState.getBlock()).performBonemeal(world, random, pos1, state1);
+           }
+
+           if (state1.isAir())
+           {
+              PlacedFeature placedFeature;
+              if (random.nextInt(8) == 0)
+              {
+                 List<ConfiguredFeature<?, ?>> list = world.getBiome(pos1).getGenerationSettings().getFlowerFeatures();
+                 if (list.isEmpty())
+                 {
+                    continue;
+                 }
+
+                 placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature().get();
+              } else {
+                 placedFeature = FeaturesInit.VegetationPlacements.CORRUPTED_GRASS;
+              }
+
+              placedFeature.place(world, world.getChunkSource().getGenerator(), random, pos1);
+           }
+        }
+     }
 }

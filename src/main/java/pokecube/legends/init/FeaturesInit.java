@@ -1,14 +1,20 @@
 package pokecube.legends.init;
 
 import net.minecraft.core.Registry;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NetherForestVegetationConfig;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import pokecube.legends.Reference;
 
 public class FeaturesInit
@@ -87,11 +93,29 @@ public class FeaturesInit
         public static final BlockPileConfiguration FORBIDDEN_TAIGA_CONFIG = new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
                 .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 25).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 70)));
 
-        public static final BlockPileConfiguration TAINTED_BARRENS_CONFIG = new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
-                .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
-                .add(PlantsInit.TAINTED_LILY_PAD.get().defaultBlockState(), 25).add(PlantsInit.PINK_TAINTED_LILY_PAD.get().defaultBlockState(), 10)));
-    }
+//        public static final BlockPileConfiguration TAINTED_BARRENS_CONFIG = new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
+//                .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
+//                .add(PlantsInit.TAINTED_LILY_PAD.get().defaultBlockState(), 25).add(PlantsInit.PINK_TAINTED_LILY_PAD.get().defaultBlockState(), 10)));
 
+        public static final WeightedStateProvider CORRUPTED_VEGETATION_PROVIDER = 
+                new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+                        .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
+                        .add(PlantsInit.TAINTED_LILY_PAD.get().defaultBlockState(), 25).add(PlantsInit.PINK_TAINTED_LILY_PAD.get().defaultBlockState(), 10));
+        public static final ConfiguredFeature<?, ?> TAINTED_BARRENS_VEGETATION = 
+                FeatureUtils.register("tainted_barrens_vegetation", Feature.NETHER_FOREST_VEGETATION
+                        .configured(new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER, 8, 4)));
+        public static final ConfiguredFeature<?, ?> TAINTED_BARRENS_VEGETATION_BONEMEAL = 
+                FeatureUtils.register("tainted_barrens_vegetation_bonemeal", Feature.NETHER_FOREST_VEGETATION
+                        .configured(new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER, 3, 1)));
+    }
+    
+    public class VegetationPlacements
+    {
+        public static final PlacedFeature CORRUPTED_GRASS = PlacementUtils.register("tainted_barrens_bonemeal", 
+                FeaturesInit.Configs.TAINTED_BARRENS_VEGETATION_BONEMEAL.onlyWhenEmpty());
+
+    }
+    
     static SimpleWeightedRandomList.Builder<BlockState> weightedBlockStateBuilder()
     {
         return SimpleWeightedRandomList.builder();

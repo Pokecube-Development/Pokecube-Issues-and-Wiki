@@ -1,4 +1,4 @@
-package pokecube.legends.blocks.plants;
+package pokecube.legends.worldgen.trees;
 
 import java.util.Random;
 
@@ -7,19 +7,18 @@ import javax.annotation.Nullable;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import pokecube.legends.worldgen.trees.Trees;
 
-public class AgedTree extends AbstractMegaTreeGrower {
-
-	@Override
+public class TemporalTreeGrower extends AbstractMegaTreeGrower
+{
+	  @Override
     protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(final Random randomIn, final boolean b)
     {
-        return randomIn.nextBoolean() ? Trees.AGED_SPRUCE_TREE : Trees.AGED_PINE_TREE;
+        return Trees.TEMPORAL_TREE;
     }
 
     @Nullable
     protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredMegaFeature(Random randomIn)
     {
-        return randomIn.nextBoolean() ? Trees.MEGA_AGED_SPRUCE_TREE : Trees.MEGA_AGED_PINE_TREE;
+        return Trees.MEGA_TEMPORAL_TREE;
     }
 }

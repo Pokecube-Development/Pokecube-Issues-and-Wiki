@@ -20,15 +20,15 @@
         "Properties": {
           "axis": "y"
         },
-        "Name": "pokecube:log_leppa"
+        "Name": "pokecube_legends:corrupted_log"
       },
       "type": "minecraft:simple_state_provider"
     },
     "trunk_placer": {
       "base_height": 10,
-      "height_rand_a": 2,
-      "height_rand_b": 19,
-      "type": "minecraft:mega_jungle_trunk_placer"
+      "height_rand_a": 24,
+      "height_rand_b": 18,
+      "type": "minecraft:fancy_trunk_placer"
     },
     "foliage_provider": {
       "entries": [
@@ -69,11 +69,10 @@
       "type": "minecraft:weighted_state_provider"
     },
     "foliage_placer": {
-      "radius": 4,
-      "offset": 0,
-      "foliage_height": 12,
-      "leaf_placement_attempts": 50,
-      "type": "minecraft:random_spread_foliage_placer"
+      "radius": 3,
+      "offset": 2,
+      "height": 5,
+      "type": "minecraft:fancy_foliage_placer"
     }
   },
   "type": "minecraft:tree"
