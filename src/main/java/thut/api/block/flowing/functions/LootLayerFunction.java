@@ -35,7 +35,7 @@ public class LootLayerFunction extends LootItemConditionalFunction
         BlockState blockstate = context.getParamOrNull(LootContextParams.BLOCK_STATE);
         if (blockstate != null && blockstate.getBlock() instanceof IFlowingBlock b)
         {
-            int amt = b.getAmount(blockstate);
+            int amt = (int) Math.ceil(b.getAmount(blockstate) / 2.0f);
             if (amt > 0) stack_in.setCount(amt);
         }
         return stack_in;

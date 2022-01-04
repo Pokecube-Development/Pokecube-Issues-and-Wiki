@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -17,7 +18,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public class SolidBlock extends FlowingBlock
+public abstract class SolidBlock extends FlowingBlock
 {
     public static RegistryObject<FlowingBlock>[] makeSolid(DeferredRegister<Block> BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props)
@@ -30,7 +31,7 @@ public class SolidBlock extends FlowingBlock
                 2);
 
         RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
-                () -> new SolidBlock(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
+                () -> new PartialSolid(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
         RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullSolid(block_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
@@ -42,7 +43,7 @@ public class SolidBlock extends FlowingBlock
         return arr;
     }
 
-    public SolidBlock(Properties properties)
+    protected SolidBlock(Properties properties)
     {
         super(properties);
         this.flows = false;
@@ -106,5 +107,15 @@ public class SolidBlock extends FlowingBlock
         {
             return Shapes.block();
         }
+    }
+
+    public static class PartialSolid extends SolidBlock implements SimpleWaterloggedBlock
+    {
+
+        public PartialSolid(Properties properties)
+        {
+            super(properties);
+        }
+
     }
 }

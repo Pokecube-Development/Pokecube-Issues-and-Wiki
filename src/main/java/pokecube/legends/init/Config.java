@@ -43,8 +43,6 @@ public class Config extends ConfigData
     public double meteorPowerThreshold = 20;
     @Configure(category = "meteors", comment = "Chance for meteors to spawn. [Default: 0.15]")
     public double meteorChanceForAny   = 0.15;
-    @Configure(category = "meteors", comment = "Chance for meteors to spawn with Cosmic Dust Ores. [Default: 0.25]")
-    public double meteorChanceForDust  = 0.25;
 
     // Raids
     @Configure(category = "raids", comment = "Duration of raids in ticks. [Default: 3000]")

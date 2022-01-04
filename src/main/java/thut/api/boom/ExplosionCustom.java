@@ -10,6 +10,8 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -36,6 +38,7 @@ import thut.api.boom.Checker.ResistMap;
 import thut.api.boom.Checker.ResistProvider;
 import thut.api.boom.Checker.ShadowMap;
 import thut.api.boom.Checker.ShadowSet;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.TerrainManager;
@@ -48,7 +51,7 @@ public class ExplosionCustom extends Explosion
         public final Object2FloatOpenHashMap<BlockPos> results;
 
         public final List<HitEntity> hit;
-        public final boolean         done;
+        public final boolean done;
 
         public BlastResult(final Object2FloatOpenHashMap<BlockPos> results, final List<HitEntity> hit,
                 final boolean done)
@@ -62,7 +65,7 @@ public class ExplosionCustom extends Explosion
     public static class HitEntity
     {
         final Entity entity;
-        final float  blastStrength;
+        final float blastStrength;
 
         public HitEntity(final Entity entity, final float blastStrength)
         {
@@ -78,36 +81,55 @@ public class ExplosionCustom extends Explosion
 
     public static interface BlockBreaker
     {
+        default boolean shouldBreak(BlockPos pos, BlockState state, float power, ServerLevel level)
+        {
+            if (ItemList.is(EXPLOSION_TRANSPARENT, state)) return false;
+            return true;
+        }
+
+        default BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                boolean destroy, ServerLevel level)
+        {
+            if (!destroy) return state;
+            BlockState to = Blocks.AIR.defaultBlockState();
+            if (power < 36)
+            {
+                if (state.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
+                if (state.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
+            }
+            level.setBlock(pos, to, 3);
+            return to;
+        }
+
         default void breakBlocks(final BlastResult result, final ExplosionCustom boom)
         {
-            for (final Entry<BlockPos> pos : result.results.object2FloatEntrySet())
+            if (!(boom.world instanceof ServerLevel level)) return;
+            for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
             {
-                boom.getToBlow().add(pos.getKey());
-                final BlockState destroyed = boom.world.getBlockState(pos.getKey());
-                final float power = pos.getFloatValue();
-                BlockState to = Blocks.AIR.defaultBlockState();
-                if (power < 36)
-                {
-                    if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                    if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
-                }
-                // TODO re-implement dust/melt at some point?
-                boom.world.setBlock(pos.getKey(), to, 3);
+                BlockPos pos = entry.getKey();
+                final BlockState destroyed = level.getBlockState(pos);
+                boom.getToBlow().add(pos);
+                float power = entry.getFloatValue();
+                applyBreak(boom, pos, destroyed, power, shouldBreak(pos, destroyed, power, level), level);
             }
         }
     }
 
-    public static int     MAX_RADIUS     = 127;
-    public static int     MAXPERTICK     = 25;
-    public static float   MINBLASTDAMAGE = 0.1f;
-    public static boolean AFFECTINAIR    = true;
+    public static int MAX_RADIUS = 127;
+    public static int MAXPERTICK = 25;
+    public static float MINBLASTDAMAGE = 0.1f;
+    public static boolean AFFECTINAIR = true;
 
     public static Block melt;
     public static Block solidmelt;
     public static Block dust;
 
-    public IEntityHitter hitter = (e, power, boom) ->
-    {
+    public static final ResourceLocation EXPLOSION_BLOCKING = new ResourceLocation("thutcore:explosion_blocking");
+    public static final ResourceLocation EXPLOSION_TRANSPARENT = new ResourceLocation("thutcore:explosion_transparent");
+    public static final ResourceLocation EXPLOSION_2X_WEAK = new ResourceLocation("thutcore:explosion_2x_weaker");
+    public static final ResourceLocation EXPLOSION_10X_WEAK = new ResourceLocation("thutcore:explosion_10x_weaker");
+
+    public IEntityHitter hitter = (e, power, boom) -> {
         final EntityDimensions size = e.getDimensions(e.getPose());
         final float area = size.width * size.height;
         final float damage = area * power;
@@ -115,7 +137,7 @@ public class ExplosionCustom extends Explosion
     };
 
     int currentIndex = 0;
-    int nextIndex    = 0;
+    int nextIndex = 0;
 
     double last_phi = 0;
     double last_rad = 0.25;
@@ -180,12 +202,12 @@ public class ExplosionCustom extends Explosion
 
     // used to speed up the checking of if a resist exists in the map
     LongSet checked = new LongOpenHashSet();
-    LongSet seen    = new LongOpenHashSet();
+    LongSet seen = new LongOpenHashSet();
 
     Cubes cubes;
 
-    Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(), rTest = Vector3
-            .getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
+    Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(),
+            rTest = Vector3.getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
 
     public ExplosionCustom(final Level world, final Entity par2Entity, final double x, final double y, final double z,
             final float power)
@@ -241,7 +263,8 @@ public class ExplosionCustom extends Explosion
 
     public boolean canBreak(final Vector3 location, final BlockState state)
     {
-        final boolean ret = state.getBlock() != Blocks.BEDROCK;
+        final boolean ret = !ItemList.is(EXPLOSION_BLOCKING, state);
+        if (!ret) return false;
 
         if (this.owner != null) try
         {
@@ -251,18 +274,19 @@ public class ExplosionCustom extends Explosion
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            ThutCore.LOGGER.error("Error checking if we can break a block!");
+            ThutCore.LOGGER.error(e);
             return false;
         }
 
-        return ret;
+        return true;
     }
 
     public void doExplosion()
     {
         this.world.playSound((Player) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (this.world.random.nextFloat()
-                        - this.world.random.nextFloat()) * 0.2F) * 0.7F);
+                SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F,
+                (1.0F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
@@ -346,8 +370,8 @@ public class ExplosionCustom extends Explosion
         if (remainingEnergy > 10)
         {
             absorbedLoc = absorbedLoc.subtract(velocity.normalize());
-            final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, absorbedLoc, remainingEnergy
-                    * factor);
+            final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, absorbedLoc,
+                    remainingEnergy * factor);
             boo.setMaxRadius(this.radius);
             boo.owner = this.owner;
             boo.doExplosion();
@@ -371,8 +395,8 @@ public class ExplosionCustom extends Explosion
         {
             MinecraftForge.EVENT_BUS.unregister(this);
             this.realTotalTime = System.nanoTime() - this.realTotalTime;
-            ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}", this.strength, this.radius, this.r
-                    .mag());
+            ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}", this.strength, this.radius,
+                    this.r.mag());
             ThutCore.LOGGER.info("time (tick/real): {}/{}ms, {} shadowed, {} denied, {} blocked, {} checked",
                     this.totalTime / 1e6, this.realTotalTime / 1e6, this.ind1, this.ind2, this.ind3, this.ind4);
             ThutCore.LOGGER.info("bounds: {} {}", this.min, this.max);

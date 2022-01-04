@@ -4,6 +4,42 @@ issueTrackerURL="https://github.com/Pokecube-Development/Pokecube-Issues-and-Wik
 license="All rights reserved"
 
 [[mods]]
+    modId="pokecube"
+    version="${file.jarVersion}"
+    displayName="Pokécube Core"
+    authors="Thutmose"
+    description='''
+    Core mod for Pokécube Functionality
+    '''
+
+[[mods]]
+    modId="pokecube_mobs"
+    version="${file.jarVersion}"
+    displayName="Pokécube Mobs"
+    authors="Thutmose"
+    description='''
+    General mobs provider for Pokécube
+    '''
+
+[[mods]]
+    modId="pokecube_adventures"
+    version="${file.jarVersion}"
+    displayName="Pokécube Revival"
+    authors="Thutmose"
+    description='''
+    Additional Features for Pokécube..
+    '''
+
+[[mods]]
+    modId="pokecube_legends"
+    version="${file.jarVersion}"
+    displayName="Pokécube Legends"
+    authors="NelkGames, Thutmose"
+    description='''
+    Legendary Spawning mechanics for Pokécube..
+    '''
+
+[[mods]]
     modId="thutcore"
     version="99.99.99"
     displayName="Thut Core"
@@ -45,44 +81,8 @@ license="All rights reserved"
 
     This is the version embedded into Pokécube.
     '''
-
-[[mods]]
-    modId="pokecube"
-    version="${file.jarVersion}"
-    displayName="Pokécube Core"
-    authors="Thutmose"
-    description='''
-    Core mod for Pokécube Functionality
-    '''
-
-[[mods]]
-    modId="pokecube_mobs"
-    version="${file.jarVersion}"
-    displayName="Pokécube Mobs"
-    authors="Thutmose"
-    description='''
-    General mobs provider for Pokécube
-    '''
-
-[[mods]]
-    modId="pokecube_adventures"
-    version="${file.jarVersion}"
-    displayName="Pokécube Revival"
-    authors="Thutmose"
-    description='''
-    Additional Features for Pokécube..
-    '''
-
-[[mods]]
-    modId="pokecube_legends"
-    version="${file.jarVersion}"
-    displayName="Pokécube Legends"
-    authors="NelkGames, Thutmose"
-    description='''
-    Legendary Spawning mechanics for Pokécube..
-    '''
     
-[[dependencies.thutcore]]
+[[dependencies.pokecube]]
     modId="minecraft"
     mandatory=true
     versionRange="version_mc"

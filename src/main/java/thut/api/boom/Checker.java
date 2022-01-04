@@ -15,11 +15,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.HitEntity;
+import thut.api.item.ItemList;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
@@ -32,9 +31,10 @@ public class Checker
         default float getResistance(final BlockPos pos, final ExplosionCustom boom)
         {
             final BlockState state = boom.world.getBlockState(pos);
+            if (ItemList.is(ExplosionCustom.EXPLOSION_TRANSPARENT, state)) return 0;
             float resist = state.getExplosionResistance(boom.world, pos, boom);
-            if (state.getBlock() == Blocks.GRASS_BLOCK) resist /= 2;
-            if (state.getBlock() instanceof LeavesBlock) resist /= 10;
+            if (ItemList.is(ExplosionCustom.EXPLOSION_2X_WEAK, state)) resist /= 2;
+            if (ItemList.is(ExplosionCustom.EXPLOSION_10X_WEAK, state)) resist /= 10;
             if (resist > 1) resist *= resist;
             return resist;
         }

@@ -20,7 +20,7 @@ public class SyncHandler
         long tick = Tracker.instance().getTick();
         if (tick == data.getTick()) return;
         data.setTick(tick);
-        if (tick % data.tickRate() != data.tickOffset() % data.tickRate()) return;
+        if (!data.syncNow() && tick % data.tickRate() != data.tickOffset() % data.tickRate()) return;
         PacketDataSync.sync(event.getEntity(), data, event.getEntity().getId(), false);
     }
 

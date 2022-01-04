@@ -10,8 +10,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -30,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlowingBlock
+public abstract class FlowingBlock extends Block implements IFlowingBlock
 {
     public static final Map<ResourceLocation, RegistryObject<FlowingBlock>> REGMAP = Maps.newHashMap();
 
@@ -45,7 +43,7 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
                 2);
 
         RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
-                () -> new FlowingBlock(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
+                () -> new PartialDust(layer_props).alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
         RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullDust(block_props).alternateBlock(() -> REGMAP.get(layer_id).get()));
@@ -57,12 +55,12 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
         return arr;
     }
 
-    protected int tickRateFall = 150;
-    protected int tickRateFlow = 10;
+    public int tickRateFall = 150;
+    public int tickRateFlow = 10;
     protected boolean flows = true;
     private Supplier<Block> convert;
 
-    public FlowingBlock(Properties properties)
+    protected FlowingBlock(Properties properties)
     {
         super(properties);
         initStateDefinition();
@@ -117,14 +115,13 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
     @Override
     public boolean isRandomlyTicking(BlockState state)
     {
-        return isFalling(state);
+        return flows(state) && isFalling(state);
     }
 
     @Override
     public void neighborChanged(BlockState us, Level level, BlockPos here, Block other, BlockPos changed, boolean bool)
     {
-        level.scheduleTick(here, this, isFalling(us) ? tickRateFall : tickRateFlow);
-        DebugPackets.sendNeighborsUpdatePacket(level, here);
+        if (level instanceof ServerLevel slevel) reScheduleTick(us, slevel, here);
     }
 
     @Override
@@ -150,7 +147,7 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
-        if (this.flows()) this.doTick(state, level, pos, random);
+        if (this.flows(state)) this.doTick(state, level, pos, random);
     }
 
     @Override
@@ -195,22 +192,9 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
 
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context)
     {
+        if (!this.flows(state)) return false;
         int i = this.getAmount(state);
-        if (context.getItemInHand().is(this.asItem()) && i < 16)
-        {
-            if (context.replacingClickedOnBlock())
-            {
-                return context.getClickedFace() == Direction.UP;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            return i == 1;
-        }
+        return i < 3;
     }
 
     public boolean useShapeForLightOcclusion(BlockState p_56630_)
@@ -220,7 +204,6 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
 
     public static class FullDust extends FlowingBlock
     {
-
         public FullDust(Properties properties)
         {
             super(properties);
@@ -249,5 +232,15 @@ public class FlowingBlock extends Block implements SimpleWaterloggedBlock, IFlow
         {
             return Shapes.block();
         }
+    }
+
+    public static class PartialDust extends FlowingBlock implements SimpleWaterloggedBlock
+    {
+
+        public PartialDust(Properties properties)
+        {
+            super(properties);
+        }
+
     }
 }
