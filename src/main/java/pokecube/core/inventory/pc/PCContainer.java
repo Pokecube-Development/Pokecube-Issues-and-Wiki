@@ -203,11 +203,9 @@ public class PCContainer extends BaseContainer
     @Override
     public void clicked(final int slotId, final int dragType, final ClickType clickTypeIn, final Player player)
     {
-        // slotId is -1 if an item is held by the player
-        if (slotId != -1) if (this.release)
+        if (this.release)
         {
             if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
-            this.getSlot(slotId).set(ItemStack.EMPTY);
             return;
         }
         super.clicked(slotId, dragType, clickTypeIn, player);

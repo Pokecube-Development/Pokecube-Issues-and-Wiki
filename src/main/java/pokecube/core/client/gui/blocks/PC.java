@@ -269,8 +269,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         super.render(mat, mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
         {
-            final int x = i % 9 * 18 + this.width / 2 - 79;
-            final int y = i / 9 * 18 + this.height / 2 - 96;
+            final int x = i % 9 * 18 + this.width / 2 - 80;
+            final int y = i / 9 * 18 + this.height / 2 - 97;
             if (!this.textFieldSearch.getValue().isEmpty())
             {
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
