@@ -93,10 +93,6 @@ public class FeaturesInit
         public static final BlockPileConfiguration FORBIDDEN_TAIGA_CONFIG = new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
                 .add(PlantsInit.GOLDEN_FERN.get().defaultBlockState(), 25).add(PlantsInit.GOLDEN_GRASS.get().defaultBlockState(), 70)));
 
-//        public static final BlockPileConfiguration TAINTED_BARRENS_CONFIG = new BlockPileConfiguration(new WeightedStateProvider(weightedBlockStateBuilder()
-//                .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
-//                .add(PlantsInit.TAINTED_LILY_PAD.get().defaultBlockState(), 25).add(PlantsInit.PINK_TAINTED_LILY_PAD.get().defaultBlockState(), 10)));
-
         public static final WeightedStateProvider CORRUPTED_VEGETATION_PROVIDER = 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                         .add(PlantsInit.CORRUPTED_GRASS.get().defaultBlockState(), 70).add(PlantsInit.TAINTED_ROOTS.get().defaultBlockState(), 45)
