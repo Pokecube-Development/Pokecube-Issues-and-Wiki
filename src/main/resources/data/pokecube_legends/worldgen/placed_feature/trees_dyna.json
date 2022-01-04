@@ -1,15 +1,15 @@
 {
-  "feature": "pokecube_legends:inverted_tree_azure_dirt",
+  "feature": "pokecube_legends:trees_dyna",
   "placement": [
     {
       "count": {
         "distribution": [
           {
-            "data": 5,
+            "data": 10,
             "weight": 9
           },
           {
-            "data": 6,
+            "data": 11,
             "weight": 1
           }
         ],
@@ -30,18 +30,6 @@
     },
     {
       "type": "minecraft:biome"
-    },
-    {
-      "predicate": {
-        "state": {
-          "Properties": {
-            "stage": "0"
-          },
-          "Name": "pokecube_legends:inverted_sapling"
-        },
-        "type": "minecraft:would_survive"
-      },
-      "type": "minecraft:block_predicate_filter"
     }
   ]
 }

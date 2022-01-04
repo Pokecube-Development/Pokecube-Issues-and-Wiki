@@ -47,6 +47,7 @@ import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorat
 public class Trees
 {
     private static final BeehiveDecorator BEEHIVE_0002 = new BeehiveDecorator(0.002F);
+    private static final BeehiveDecorator BEEHIVE_002 = new BeehiveDecorator(0.02F);
 
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister
             .create(ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
@@ -304,6 +305,6 @@ public class Trees
                 Feature.TREE.configured(Trees.getDistorticTree().build()));
 
         Trees.DYNA_TREE = FeatureUtils.register("pokecube_legends:dyna_tree",
-                Feature.TREE.configured(Trees.getDynaTree().build()));
+                Feature.TREE.configured(Trees.getDynaTree().decorators(ImmutableList.of(BEEHIVE_002)).build()));
     }
 }

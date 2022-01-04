@@ -59,7 +59,7 @@
     },
     "root_placement_attempts": 20,
     "feature": {
-      "feature": "pokecube_legends:dyna_tree",
+      "feature": "pokecube_legends:corrupted_tree",
       "placement": []
     },
     "required_vertical_space_for_tree": 3,

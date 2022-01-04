@@ -1,0 +1,84 @@
+{
+  "config": {
+    "decorators": [
+      {
+        "probability": 0.02,
+        "type": "minecraft:beehive"
+      }
+    ],
+    "ignore_vines": false,
+    "force_dirt": true,
+    "dirt_provider": {
+      "state": {
+        "Name": "pokecube_legends:rooted_corrupted_dirt"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "minimum_size": {
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1,
+      "type": "minecraft:two_layers_feature_size"
+    },
+    "trunk_provider": {
+      "state": {
+        "Properties": {
+          "axis": "y"
+        },
+        "Name": "pokecube_legends:corrupted_log"
+      },
+      "type": "minecraft:simple_state_provider"
+    },
+    "trunk_placer": {
+      "base_height": 10,
+      "height_rand_a": 24,
+      "height_rand_b": 18,
+      "type": "minecraft:fancy_trunk_placer"
+    },
+    "foliage_provider": {
+      "entries": [
+        {
+          "data": {
+            "Properties": {
+              "persistent": "false",
+              "snowy": "false",
+              "distance": "7"
+            },
+            "Name": "pokecube_legends:dyna_leaves_red"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Properties": {
+              "persistent": "false",
+              "snowy": "false",
+              "distance": "7"
+            },
+            "Name": "pokecube_legends:dyna_leaves_pink"
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Properties": {
+              "persistent": "false",
+              "snowy": "false",
+              "distance": "7"
+            },
+            "Name": "pokecube_legends:dyna_leaves_pastel_pink"
+          },
+          "weight": 1
+        }
+      ],
+      "type": "minecraft:weighted_state_provider"
+    },
+    "foliage_placer": {
+      "radius": 3,
+      "offset": 2,
+      "height": 5,
+      "type": "minecraft:fancy_foliage_placer"
+    }
+  },
+  "type": "minecraft:tree"
+}
