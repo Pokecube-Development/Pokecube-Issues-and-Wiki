@@ -37,6 +37,15 @@
             "Name": "pokecube_legends:tainted_roots"
           },
           "weight": 25
+        },
+        {
+          "data": {
+            "Properties": {
+              "half": "lower"
+            },
+            "Name": "pokecube_legends:tall_corrupted_grass"
+          },
+          "weight": 10
         }
       ],
       "type": "minecraft:weighted_state_provider"

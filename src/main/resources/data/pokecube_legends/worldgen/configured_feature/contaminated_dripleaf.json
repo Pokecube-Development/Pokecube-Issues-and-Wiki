@@ -314,54 +314,6 @@
           }
         },
         "placement": []
-      },
-      {
-        "feature": {
-          "type": "minecraft:simple_block",
-          "config": {
-            "to_place": {
-              "type": "minecraft:simple_state_provider",
-              "state": {
-                "Name": "pokecube_legends:tainted_lily_pad"
-              }
-            }
-          }
-        },
-        "placement": [
-          {
-            "type": "minecraft:block_predicate_filter",
-            "predicate": {
-              "type": "minecraft:matching_blocks",
-              "blocks": [
-                "minecraft:air"
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "feature": {
-          "type": "minecraft:simple_block",
-          "config": {
-            "to_place": {
-              "type": "minecraft:simple_state_provider",
-              "state": {
-                "Name": "pokecube_legends:pink_blossom_tainted_lily_pad"
-              }
-            }
-          }
-        },
-        "placement": [
-          {
-            "type": "minecraft:block_predicate_filter",
-            "predicate": {
-              "type": "minecraft:matching_blocks",
-              "blocks": [
-                "minecraft:air"
-              ]
-            }
-          }
-        ]
       }
     ]
   }

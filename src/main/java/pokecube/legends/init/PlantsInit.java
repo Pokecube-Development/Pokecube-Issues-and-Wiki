@@ -35,6 +35,7 @@ public class PlantsInit
     public static final RegistryObject<Block> AZURE_COLEUS;
     public static final RegistryObject<Block> COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
+    public static final RegistryObject<Block> TALL_CORRUPTED_GRASS;
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> GOLDEN_FERN;
     public static final RegistryObject<Block> LARGE_GOLDEN_FERN;
@@ -90,6 +91,10 @@ public class PlantsInit
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PINK).noCollission().instabreak().sound(SoundType.BAMBOO_SAPLING)));
 
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass", () -> new TallCorruptedGrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.TERRACOTTA_BLUE).noCollission()
+                .instabreak().sound(SoundType.GRASS)));
+
+        TALL_CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("tall_corrupted_grass", () -> new DoublePlantBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.TERRACOTTA_BLUE).noCollission()
                 .instabreak().sound(SoundType.GRASS)));
 
