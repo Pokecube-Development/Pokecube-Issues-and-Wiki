@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -77,12 +76,7 @@ import thut.core.common.ThutCore;
 
 public class WorldgenHandler
 {
-    public static final Gson GSON;
-
-    static
-    {
-        GSON = new GsonBuilder().create();
-    }
+    public static final Gson GSON = JsonUtil.gson;
 
     public static class Options
     {

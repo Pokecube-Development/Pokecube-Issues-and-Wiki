@@ -76,8 +76,8 @@ public class RecipeClone extends PoweredRecipe
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
                 final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
-                entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir
-                        .getStepZ(), world.random.nextFloat() * 360F, 0.0F);
+                entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
+                        world.random.nextFloat() * 360F, 0.0F);
                 entity.getPersistentData().putBoolean("cloned", true);
                 world.addFreshEntity(entity);
                 entity.playAmbientSound();
@@ -97,6 +97,11 @@ public class RecipeClone extends PoweredRecipe
             return entry;
         }
 
+        @Override
+        public boolean shouldKeep(ItemStack stack, int slot)
+        {
+            return slot > 1;
+        }
     }
 
     public static interface ReviveMatcher
@@ -137,7 +142,7 @@ public class RecipeClone extends PoweredRecipe
             return RecipeClone.ENERGYCOST;
         }
 
-        default boolean shouldKeep(final ItemStack stack)
+        default boolean shouldKeep(final ItemStack stack, int slot)
         {
             return false;
         }
@@ -146,12 +151,12 @@ public class RecipeClone extends PoweredRecipe
     public static int ENERGYCOST = 10000;
 
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeClone.ENERGYCOST;
-    private static List<RecipeClone>           recipeList = Lists.newArrayList();
+    private static List<RecipeClone> recipeList = Lists.newArrayList();
 
     private static HashMap<PokedexEntry, RecipeClone> entryMap = Maps.newHashMap();
 
-    public static ReviveMatcher             ANYMATCHER = new AnyMatcher();
-    public static final List<ReviveMatcher> MATCHERS   = Lists.newArrayList();
+    public static ReviveMatcher ANYMATCHER = new AnyMatcher();
+    public static final List<ReviveMatcher> MATCHERS = Lists.newArrayList();
 
     public static PokedexEntry getEntry(final ReviveMatcher matcher, final IPoweredProgress tile)
     {
@@ -196,8 +201,7 @@ public class RecipeClone extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile)
     {
         boolean completed = false;
-        for (final ReviveMatcher matcher : RecipeClone.getMatchers())
-            if (completed = matcher.complete(tile)) break;
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers()) if (completed = matcher.complete(tile)) break;
         if (!completed) completed = RecipeClone.ANYMATCHER.complete(tile);
         if (completed)
         {
@@ -273,14 +277,14 @@ public class RecipeClone extends PoweredRecipe
         ReviveMatcher matcher = RecipeClone.ANYMATCHER;
         for (final ReviveMatcher matcher2 : RecipeClone.getMatchers())
             if (matcher2.getEntry(inv, tile.getLevel()) != Database.missingno)
-            {
-                matcher = matcher2;
-                break;
-            }
+        {
+            matcher = matcher2;
+            break;
+        }
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
             final ItemStack item = inv.getItem(i);
-            if (matcher.shouldKeep(item)) nonnulllist.set(i, item);
+            if (matcher.shouldKeep(item, i)) nonnulllist.set(i, item);
             else if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         return nonnulllist;

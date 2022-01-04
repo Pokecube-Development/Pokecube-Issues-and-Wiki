@@ -16,7 +16,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,7 +38,6 @@ import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -70,7 +68,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import thut.api.boom.ExplosionCustom;
-import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -514,27 +511,15 @@ public final class SpawnHandler
             boom.breaker = new BlockBreaker()
             {
                 @Override
-                public void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+                public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                        boolean applyBreak, ServerLevel level)
                 {
-                    for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
-                    {
-                        final BlockPos pos = entry.getKey();
-                        final float power = entry.getFloatValue();
-                        boom.getToBlow().add(pos);
-                        final BlockState destroyed = boom.world.getBlockState(pos);
-                        BlockState to = Blocks.AIR.defaultBlockState();
-                        if (power < 36)
-                        {
-                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT)
-                                to = Blocks.FIRE.defaultBlockState();
-                        }
-                        final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
-                        MinecraftForge.EVENT_BUS.post(event);
-                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
-                        seg.setBiome(pos, BiomeType.METEOR);
-                        boom.world.setBlock(pos, to, 3);
-                    }
+                    BlockState to = BlockBreaker.super.applyBreak(boom, pos, state, power, applyBreak, level);
+                    final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
+                    MinecraftForge.EVENT_BUS.post(event);
+                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
+                    seg.setBiome(pos, BiomeType.METEOR);
+                    return to;
                 }
             };
 

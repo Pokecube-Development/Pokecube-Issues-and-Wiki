@@ -205,7 +205,10 @@ public class PCContainer extends BaseContainer
     {
         if (this.release)
         {
-            if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
+            if (slotId < 54 && slotId >= 0)
+            {
+                this.toRelease[slotId] = !this.toRelease[slotId];
+            }
             return;
         }
         super.clicked(slotId, dragType, clickTypeIn, player);

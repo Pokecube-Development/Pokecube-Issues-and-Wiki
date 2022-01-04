@@ -157,7 +157,7 @@ public class JigsawAssmbler
     {
         int y = context.config().struct_config.minY;
         BlockPos pos = new BlockPos(context.chunkPos().getMinBlockX() + 7, y, context.chunkPos().getMinBlockZ() + 7);
-        return this.build(context, postProcessor, pos, -1, c -> true);
+        return this.build(context, postProcessor, pos, Integer.MIN_VALUE, c -> true);
     }
 
     public Optional<PieceGenerator<JigsawConfig>> build(Context<JigsawConfig> context,
@@ -257,7 +257,7 @@ public class JigsawAssmbler
         int k = default_k;
         // If we have not been provided with a default value, determine where to
         // place the ground for the structure
-        if (k == -1)
+        if (k == Integer.MIN_VALUE)
         {
             final int variance = this.config.variance <= 0 ? 0 : rand.nextInt(this.config.variance);
             // Air spawns are a somewhat random distance above the surface
@@ -275,11 +275,14 @@ public class JigsawAssmbler
                 else k = chunkGenerator.getSeaLevel();
             }
         }
+        int min_y = JigsawAssmbler.getForGen(chunkGenerator).getMinBuildHeight();
+        int max_y = JigsawAssmbler.getForGen(chunkGenerator).getMaxBuildHeight();
+
         // Ensure it is placed in range
-        if (k <= 0 || k >= chunkGenerator.getGenDepth())
+        if (k <= min_y || k >= max_y)
         {
-            k = chunkGenerator.getGenDepth();
-            k = this.rand.nextInt(k + 1);
+            k = max_y - min_y;
+            k = min_y + this.rand.nextInt(k);
         }
         final int dy = -this.config.height + boundingBox.minY() + poolElement.getGroundLevelDelta();
         poolElement.move(0, k - dy, 0);
@@ -290,7 +293,8 @@ public class JigsawAssmbler
         {
             final int dr = 80;
             final int dh = 255;
-            final AABB axisalignedbb = new AABB(i - dr, k - dr, j - dh, i + dr + 1, k + dh + 1, j + dr + 1);
+            final AABB axisalignedbb = new AABB(i - dr, min_y, j - dh, i + dr + 1, max_y, j + dr + 1);
+            System.out.println(axisalignedbb);
             this.availablePieces
                     .addLast(new Entry(poolElement, new MutableObject<>(Shapes.join(Shapes.create(axisalignedbb),
                             Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST)), k + dh, 0));
@@ -414,12 +418,12 @@ public class JigsawAssmbler
 
         int k0 = default_k;
 
-        if (k0 == -1 && this.SURFACE_TYPE == null)
+        if (k0 == Integer.MIN_VALUE && this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
                     Heightmap.Types.OCEAN_FLOOR_WG, this.heightAccess);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
-            else k0 = -1;
+            else k0 = Integer.MIN_VALUE;
         }
 
         jigsaws:
@@ -463,7 +467,6 @@ public class JigsawAssmbler
 
                 for (final StructurePoolElement next_part : list)
                 {
-
                     boolean allowEmpty = rand.nextDouble() > 0.99;
                     boolean isEmpty = next_part == EmptyPoolElement.INSTANCE;
 
@@ -522,8 +525,8 @@ public class JigsawAssmbler
                             if (root_rigid && rigid) i2 = part_min_y + l1;
                             else
                             {
-                                if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos.getZ(),
-                                        this.SURFACE_TYPE, this.heightAccess);
+                                if (k == Integer.MIN_VALUE) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(),
+                                        jig_pos.getZ(), this.SURFACE_TYPE, this.heightAccess);
                                 i2 = k - target_y;
                             }
 
@@ -535,6 +538,7 @@ public class JigsawAssmbler
                                 final int k2 = Math.max(i1 + 1, box_2.maxY() - box_2.minY());
                                 box_2.encapsulate(new BlockPos(box_2.minX(), box_2.minY() + k2, box_2.minZ()));
                             }
+                            System.out.println(box_ref + " " + box_2);;
 
                             if (!Shapes.joinIsNotEmpty(box_ref.getValue(), Shapes.create(AABB.of(box_2).deflate(0.25D)),
                                     BooleanOp.ONLY_SECOND))
@@ -553,8 +557,9 @@ public class JigsawAssmbler
                                 else if (rigid) i3 = i2 + target_y;
                                 else
                                 {
-                                    if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(),
-                                            jig_pos.getZ(), this.SURFACE_TYPE, this.heightAccess);
+                                    if (k == Integer.MIN_VALUE)
+                                        k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos.getZ(),
+                                                this.SURFACE_TYPE, this.heightAccess);
                                     i3 = k + l1 / 2;
                                 }
                                 if (this.add(nextPart))
