@@ -116,14 +116,6 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(TallCrystallizedBush.HALF));
         BlockState tallBushBlockState = world.getBlockState(tallBushPos);
 
-        if (!world.isClientSide) {
-           if (player.isCreative()) {
-              preventCreativeDropFromBottomPart(world, pos, state, player);
-           } else {
-              dropResources(state, world, pos, (BlockEntity)null, player, player.getMainHandItem());
-           }
-        }
-
         if (tallBushBlockState.getBlock() == this && !pos.equals(tallBushPos)) this.removeHalf(world, tallBushPos,
             tallBushBlockState, player);
         final BlockPos tallBushPartPos = this.getTallBushTopPos(tallBushPos);
