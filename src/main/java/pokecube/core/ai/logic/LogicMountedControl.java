@@ -8,8 +8,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.entity.PartEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
@@ -51,6 +50,13 @@ public class LogicMountedControl extends LogicBase
     public boolean canFly;
     public boolean canSurf;
     public boolean canDive;
+
+    public float moveFwd = 0;
+    public float moveSide = 0;
+    public float moveUp = 0;
+
+    public boolean verticalControl = false;
+    public boolean shouldControl = false;
 
     public boolean inFluid;
 
@@ -117,6 +123,16 @@ public class LogicMountedControl extends LogicBase
         super.tick(world);
         final Entity rider = this.entity.getControllingPassenger();
         this.entity.maxUpStep = 1.1f;
+
+        if (entity.getParts() != null)
+        {
+            for (PartEntity<?> e : entity.getParts())
+            {
+                e.maxUpStep = 1.1f;
+            }
+        }
+
+        moveUp = moveSide = moveFwd = 0;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
         if (rider == null)
         {
@@ -129,12 +145,10 @@ public class LogicMountedControl extends LogicBase
         }
 
         this.wasRiding = true;
-        final Config config = PokecubeCore.getConfig();
-        boolean move = false;
         this.entity.yRot = this.pokemob.getHeading();
 
-        boolean shouldControl = this.entity.isOnGround() || this.pokemob.canUseFly();
-        boolean verticalControl = false;
+        shouldControl = this.entity.isOnGround() || this.pokemob.canUseFly();
+        verticalControl = false;
         boolean waterSpeed = false;
         boolean airSpeed = !this.entity.isOnGround();
 
@@ -172,11 +186,9 @@ public class LogicMountedControl extends LogicBase
             buffs.add(no_burning);
         }
 
-        shouldControl = verticalControl || this.inFluid;
+        shouldControl |= verticalControl || this.inFluid;
 
         this.entity.setNoGravity(verticalControl);
-
-        if (!shouldControl) return;
 
         for (final Entity e : this.entity.getIndirectPassengers()) if (e instanceof LivingEntity)
         {
@@ -198,14 +210,23 @@ public class LogicMountedControl extends LogicBase
             return;
         }
 
-        final float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
-        final float baseSpd = (float) (0.25f * this.throttle * speedFactor);
-        float moveFwd = this.backInputDown ? -baseSpd / 2 : baseSpd;
-        float moveUp = this.upInputDown ? baseSpd : this.downInputDown ? -baseSpd : 0;
+        if (!shouldControl) return;
+        final Config config = PokecubeCore.getConfig();
+        float speedFactor = (float) (1 + Math.sqrt(this.pokemob.getPokedexEntry().getStatVIT()) / 10F);
 
+        speedFactor *= airSpeed ? config.flySpeedFactor
+                : waterSpeed ? config.surfSpeedFactor * 0.125f : config.groundSpeedFactor;
+
+        float baseSpd = (float) (0.5f * this.throttle * speedFactor);
+
+        if (fluidRestricted) baseSpd *= 0.5f;
+
+        moveFwd = this.backInputDown ? -baseSpd / 2 : this.forwardInputDown ? baseSpd : 0;
+        moveSide = this.leftInputDown ? baseSpd : this.rightInputDown ? -baseSpd : 0;
+        moveUp = this.upInputDown ? baseSpd : this.downInputDown ? -baseSpd : 0;
         float pitch = controller.xRot;
 
-        if (Math.abs(pitch) > 25 && this.followOwnerLook)
+        if (Math.abs(pitch) > 45 && this.followOwnerLook && verticalControl)
         {
             pitch *= -0.017453292F;
             if (this.backInputDown) pitch *= -1;
@@ -222,94 +243,12 @@ public class LogicMountedControl extends LogicBase
             if (this.upInputDown) moveUp = Math.abs(moveUp);
             else if (this.downInputDown) moveUp = -Math.abs(moveUp);
         }
-        moveUp *= 0.25;
-
-        final boolean goUp = this.upInputDown || moveUp > 0;
-        final boolean goDown = this.downInputDown || moveUp < 0;
-
-        if (this.forwardInputDown || this.backInputDown)
-        {
-            move = true;
-            float f = moveFwd;
-            if (airSpeed) f *= config.flySpeedFactor;
-            else if (waterSpeed) f *= config.surfSpeedFactor;
-            else f *= config.groundSpeedFactor;
-            if (fluidRestricted) f *= 0.1;
-            if (shouldControl)
-            {
-                vx += Mth.sin(-this.entity.yRot * 0.017453292F) * f;
-                vz += Mth.cos(this.entity.yRot * 0.017453292F) * f;
-            }
-        }
-        if ((goUp || goDown) && verticalControl)
-        {
-            vy += moveUp;
-            move = true;
-        }
-        else if (fluidRestricted)
-        {
-            vy += 0.05 * this.throttle;
-            move = true;
-        }
-        else if (!verticalControl && !this.entity.isOnGround()) vy -= 0.1;
-
-        if (this.inFluid && !(this.upInputDown || this.downInputDown))
-        {
-            double fraction = -1;
-            if (this.entity.isInWater()) fraction = this.entity.getFluidHeight(FluidTags.WATER);
-            if (this.entity.isInLava()) fraction = this.entity.getFluidHeight(FluidTags.LAVA);
-            final double threshold = this.entity.getFluidJumpThreshold();
-            if (fraction > threshold) vy += 0.05;
-        }
+        if (!verticalControl) moveUp = 0;
 
         if (!this.entity.getPassengers().isEmpty())
         {
             this.pokemob.setHeading(controller.yRot);
-            float f = moveFwd / 2;
-            if (this.leftInputDown)
-            {
-                move = true;
-                if (shouldControl)
-                {
-                    if (airSpeed) f *= config.flySpeedFactor;
-                    else if (waterSpeed) f *= config.surfSpeedFactor;
-                    else f *= config.groundSpeedFactor;
-                    vx += Mth.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz += Mth.sin(this.entity.yRot * 0.017453292F) * f;
-                }
-                else if (this.inFluid)
-                {
-                    f *= 0.1;
-                    vx += Mth.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz += Mth.sin(this.entity.yRot * 0.017453292F) * f;
-                }
-            }
-            if (this.rightInputDown)
-            {
-                move = true;
-                if (shouldControl)
-                {
-                    if (airSpeed) f *= config.flySpeedFactor;
-                    else if (waterSpeed) f *= config.surfSpeedFactor;
-                    else f *= config.groundSpeedFactor;
-                    vx -= Mth.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz -= Mth.sin(this.entity.yRot * 0.017453292F) * f;
-                }
-                else if (this.inFluid)
-                {
-                    f *= 0.1;
-                    vx -= Mth.cos(-this.entity.yRot * 0.017453292F) * f;
-                    vz -= Mth.sin(this.entity.yRot * 0.017453292F) * f;
-                }
-            }
         }
-        if (!move)
-        {
-            vx *= 0.5;
-            vz *= 0.5;
-            if (verticalControl) vy *= 0.5;
-        }
-        this.entity.setDeltaMovement(vx, vy, vz);
     }
 
 }

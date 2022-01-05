@@ -144,7 +144,7 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
         // Used to reset the "NOITEMUSE" flag, which controls using healing
         // items, the capture delay, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
@@ -420,10 +420,16 @@ public class PokemobEventsHandler
         }
     }
 
-    private static void onLivingAttack(final LivingAttackEvent event)
+    private static void onLivingAttacked(final LivingAttackEvent event)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getSource().getDirectEntity());
         if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+
+        if (event.getSource().getDirectEntity() != null
+                && event.getSource().getDirectEntity().isPassengerOfSameVehicle(event.getEntity()))
+        {
+            event.setCanceled(true);
+        }
     }
 
     private static void onLivingDeath(final LivingDeathEvent evt)
