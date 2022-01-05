@@ -32,6 +32,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.item.ItemList;
+import thut.api.terrain.TerrainChecker;
 import thut.core.common.ThutCore;
 
 public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterloggedBlock
@@ -205,6 +206,19 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
+    public boolean isStableBelow(BlockState state, BlockPos pos, ServerLevel level)
+    {
+        int amt = getExistingAmount(state, pos, level);
+        if (TerrainChecker.isLeaves(state) || TerrainChecker.isWood(state)) return false;
+        if (amt == 16 && state.getBlock() instanceof IFlowingBlock b)
+        {
+            if (b.isFullBlock() && !b.flows(state)) return true;
+            if (state.hasProperty(HEATED) && state.getValue(HEATED)) return true;
+        }
+        return (amt == -1);
+    }
+
+    @Override
     public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         if (!FMLEnvironment.production)
@@ -236,15 +250,25 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
                 solidTo = solid_layer;
             }
             solidTo = IFlowingBlock.copyValidTo(state, solidTo);
+            solidTo = this.setAmount(solidTo, dust);
             level.setBlock(pos, solidTo, 2);
+            onHarden(state, solidTo, level, pos, random);
             return;
         }
-        else if (rng > hardenRate && !isFalling(state))
+        else if (rng > hardenRate)
         {
             reScheduleTick(state, level, pos);
             return;
         }
         super.onStableTick(state, level, pos, random);
+        // This is called when lighting changes, We do not want to do this, as
+        // it lags everything.
+        if (state.getLightBlock(level, pos) != 0) level.getChunk(pos).setUnsaved(false);
+    }
+
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
+    {
+
     }
 
     protected void checkSolid()

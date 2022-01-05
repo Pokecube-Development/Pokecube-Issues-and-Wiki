@@ -294,7 +294,6 @@ public class JigsawAssmbler
             final int dr = 80;
             final int dh = 255;
             final AABB axisalignedbb = new AABB(i - dr, min_y, j - dh, i + dr + 1, max_y, j + dr + 1);
-            System.out.println(axisalignedbb);
             this.availablePieces
                     .addLast(new Entry(poolElement, new MutableObject<>(Shapes.join(Shapes.create(axisalignedbb),
                             Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST)), k + dh, 0));
@@ -538,8 +537,6 @@ public class JigsawAssmbler
                                 final int k2 = Math.max(i1 + 1, box_2.maxY() - box_2.minY());
                                 box_2.encapsulate(new BlockPos(box_2.minX(), box_2.minY() + k2, box_2.minZ()));
                             }
-                            System.out.println(box_ref + " " + box_2);;
-
                             if (!Shapes.joinIsNotEmpty(box_ref.getValue(), Shapes.create(AABB.of(box_2).deflate(0.25D)),
                                     BooleanOp.ONLY_SECOND))
                             {

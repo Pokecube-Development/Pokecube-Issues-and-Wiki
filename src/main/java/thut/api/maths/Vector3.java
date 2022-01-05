@@ -1483,6 +1483,11 @@ public class Vector3
 
         LevelChunkSection section = chunk.getSections()[j];
         PalettedContainer<Biome> biomes = section.getBiomes();
+
+        Biome old = biomes.get(qx & 3, l & 3, qz & 3);
+        // No need to run this if we are already the same biome...
+        if (old == biome) return;
+
         biomes.set(qx & 3, l & 3, qz & 3, biome);
 
         if (chunk instanceof LevelChunk lchunk)

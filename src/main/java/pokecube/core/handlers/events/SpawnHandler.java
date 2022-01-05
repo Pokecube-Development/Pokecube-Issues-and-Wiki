@@ -500,7 +500,7 @@ public final class SpawnHandler
         for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels) SpawnHandler.loadFunctionFromString(s);
     }
 
-    public static void makeMeteor(final Level world, final Vector3 location, final float power)
+    public static void makeMeteor(final ServerLevel world, final Vector3 location, final float power)
     {
         if (power > 0)
         {
@@ -517,7 +517,7 @@ public final class SpawnHandler
                     BlockState to = BlockBreaker.super.applyBreak(boom, pos, state, power, applyBreak, level);
                     final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
                     MinecraftForge.EVENT_BUS.post(event);
-                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
+                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
                     seg.setBiome(pos, BiomeType.METEOR);
                     return to;
                 }
@@ -525,7 +525,10 @@ public final class SpawnHandler
 
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeCore.LOGGER.debug(message);
-            boom.doExplosion();
+
+            boom.doKineticImpactor(world, Vector3.getNewVector().set(0, -1, 0), location, null, 0.1f, power);
+
+//            boom.doExplosion();
         }
         PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location.getPos()));
     }
@@ -682,7 +685,7 @@ public final class SpawnHandler
                 final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
                 if (location != null)
                 {
-                    if (world.getNearestPlayer(location.x, location.y, location.z, 96,
+                    if (world.getNearestPlayer(location.x, location.y, location.z, 64,
                             EntitySelector.NO_SPECTATORS) != null)
                         return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);

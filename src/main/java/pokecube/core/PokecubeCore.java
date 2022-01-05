@@ -441,6 +441,7 @@ public class PokecubeCore
                     BiomeDictionary.Type.SNOWY, BiomeDictionary.Type.MOUNTAIN, BiomeDictionary.Type.OVERWORLD);
             BiomeDictionary.addTypes(Biomes.STONY_PEAKS, BiomeDictionary.Type.HOT, BiomeDictionary.Type.MOUNTAIN,
                     BiomeDictionary.Type.OVERWORLD);
+            BiomeDictionary.addTypes(Biomes.FROZEN_OCEAN, BiomeDictionary.Type.COLD);
 
             BiomeDictionary.Type UNDERGROUND = BiomeDictionary.Type.getType("UNDERGROUND");
 

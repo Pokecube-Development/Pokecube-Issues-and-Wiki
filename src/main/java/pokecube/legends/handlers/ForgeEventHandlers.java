@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -156,13 +155,10 @@ public class ForgeEventHandlers
     @SubscribeEvent
     public void MeteorDestructionEvent(final MeteorEvent event)
     {
-        final Level worldIn = event.getBoom().world;
-
-        if (!(worldIn instanceof ServerLevel level)) return;
+        final ServerLevel level = event.getBoom().level;
 
         if (event.getPower() > PokecubeLegends.config.meteorPowerThreshold / 50
-                && worldIn.getRandom().nextDouble() < PokecubeLegends.config.meteorChanceForAny
-                && !worldIn.isClientSide)
+                && level.getRandom().nextDouble() < PokecubeLegends.config.meteorChanceForAny)
         {
             BlockPos pos = event.getPos();
             BlockState set = Blocks.AIR.defaultBlockState();
@@ -184,15 +180,15 @@ public class ForgeEventHandlers
             if (!set.isAir())
             {
                 int n = 20;
-                Vector3 hit = Vector3.getNextSurfacePoint(worldIn, Vector3.getNewVector().set(pos), Vector3.secondAxis,
+                Vector3 hit = Vector3.getNextSurfacePoint(level, Vector3.getNewVector().set(pos), Vector3.secondAxis,
                         20);
                 while (hit != null && n-- > 0)
                 {
-                    hit = Vector3.getNextSurfacePoint(worldIn, Vector3.getNewVector().set(pos), Vector3.secondAxis, 20);
+                    hit = Vector3.getNextSurfacePoint(level, Vector3.getNewVector().set(pos), Vector3.secondAxis, 20);
                 }
                 pos = pos.above(n);
-                worldIn.setBlock(pos, set, 3);
-                worldIn.scheduleTick(pos, set.getBlock(), 2);
+                level.setBlock(pos, set, 3);
+                level.scheduleTick(pos, set.getBlock(), 2);
             }
         }
     }
