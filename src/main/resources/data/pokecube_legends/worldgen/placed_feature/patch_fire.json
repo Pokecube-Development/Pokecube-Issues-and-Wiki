@@ -2,6 +2,10 @@
   "feature": "pokecube_legends:patch_fire",
   "placement": [
     {
+      "chance": 16,
+      "type": "minecraft:rarity_filter"
+    },
+    {
       "count": {
         "type": "minecraft:uniform",
         "value": {

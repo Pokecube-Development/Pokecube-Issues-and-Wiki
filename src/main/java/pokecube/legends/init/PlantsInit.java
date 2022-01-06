@@ -3,6 +3,7 @@ package pokecube.legends.init;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -28,6 +29,8 @@ import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
+import pokecube.legends.blocks.plants.PurpleWisteriaVinesBlock;
+import pokecube.legends.blocks.plants.PurpleWisteriaVinesPlantBlock;
 
 public class PlantsInit
 {
@@ -35,26 +38,28 @@ public class PlantsInit
     public static final RegistryObject<Block> AZURE_COLEUS;
     public static final RegistryObject<Block> COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
-    public static final RegistryObject<Block> TALL_CORRUPTED_GRASS;
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
+    public static final RegistryObject<Block> DISTORTIC_VINES;
+    public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
     public static final RegistryObject<Block> GOLDEN_FERN;
-    public static final RegistryObject<Block> LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> GOLDEN_GRASS;
-    public static final RegistryObject<Block> TALL_GOLDEN_GRASS;
     public static final RegistryObject<Block> GOLDEN_POPPY;
     public static final RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> INVERTED_ORCHID;
+    public static final RegistryObject<Block> LARGE_GOLDEN_FERN;
+    public static final RegistryObject<Block> PINK_TAINTED_LILY_PAD;
+    public static final RegistryObject<Block> PURPLE_WISTERIA_VINES;
+    public static final RegistryObject<Block> PURPLE_WISTERIA_VINES_PLANT;
     public static final RegistryObject<Block> TAINTED_KELP;
     public static final RegistryObject<Block> TAINTED_KELP_PLANT;
-    public static final RegistryObject<Block> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Block> TAINTED_LILY_PAD;
     public static final RegistryObject<Block> TAINTED_ROOTS;
     public static final RegistryObject<Block> TAINTED_SEAGRASS;
+    public static final RegistryObject<Block> TALL_CORRUPTED_GRASS;
+    public static final RegistryObject<Block> TALL_GOLDEN_GRASS;
     public static final RegistryObject<Block> TALL_TAINTED_SEAGRASS;
     public static final RegistryObject<Block> TEMPORAL_BAMBOO;
     public static final RegistryObject<Block> TEMPORAL_BAMBOO_SHOOT;
-    public static final RegistryObject<Block> DISTORTIC_VINES;
-    public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
 
     static
     {
@@ -115,6 +120,13 @@ public class PlantsInit
 
         TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("tainted_lily_pad", () -> new LilyPadBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
+
+        PURPLE_WISTERIA_VINES = PokecubeLegends.DIMENSIONS_TAB.register("purple_wisteria_vines", () -> new PurpleWisteriaVinesBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).randomTicks().noCollission()
+                .instabreak().sound(SoundType.CAVE_VINES)));
+        PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("purple_wisteria_vines_plant", () -> new PurpleWisteriaVinesPlantBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
+                .instabreak().sound(SoundType.CAVE_VINES)));
 
         TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new TaintedSeagrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE)

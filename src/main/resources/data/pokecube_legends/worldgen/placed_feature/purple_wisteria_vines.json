@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:corrupted_grass_block_patch",
+  "feature": "pokecube_legends:purple_wisteria_vine",
   "placement": [
     {
-      "count": 125,
+      "count": 188,
       "type": "minecraft:count"
     },
     {
@@ -21,9 +21,10 @@
       "type": "minecraft:height_range"
     },
     {
-      "direction_of_search": "down",
+      "direction_of_search": "up",
       "target_condition": {
-        "type": "minecraft:solid"
+        "direction": "down",
+        "type": "minecraft:has_sturdy_face"
       },
       "allowed_search_condition": {
         "blocks": [
@@ -36,7 +37,7 @@
     },
     {
       "xz_spread": 0,
-      "y_spread": 1,
+      "y_spread": -1,
       "type": "minecraft:random_offset"
     },
     {

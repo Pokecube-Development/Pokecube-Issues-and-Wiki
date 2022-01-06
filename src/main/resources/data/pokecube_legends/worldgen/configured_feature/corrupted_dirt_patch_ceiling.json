@@ -1,0 +1,35 @@
+{
+  "config": {
+    "vegetation_chance": 0.08,
+    "xz_radius": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 4,
+        "max_inclusive": 7
+      }
+    },
+    "extra_edge_column_chance": 0.3,
+    "extra_bottom_block_chance": 0.0,
+    "vertical_range": 5,
+    "vegetation_feature": {
+      "feature": "pokecube_legends:purple_wisteria_vine_in_corrupted_dirt",
+      "placement": []
+    },
+    "surface": "ceiling",
+    "depth": {
+      "type": "minecraft:uniform",
+      "value": {
+        "min_inclusive": 1,
+        "max_inclusive": 2
+      }
+    },
+    "replaceable": "pokecube_legends:corrupted_dirt_replaceable",
+    "ground_state": {
+      "state": {
+        "Name": "pokecube_legends:corrupted_dirt"
+      },
+      "type": "minecraft:simple_state_provider"
+    }
+  },
+  "type": "minecraft:vegetation_patch"
+}
