@@ -8,6 +8,8 @@
     {"id": "pokecube_legends:distortic_mirror", "required": false},
     {"id": "pokecube_legends:distortic_stone", "required": false},
     {"id": "pokecube_legends:dusk_dolerite", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils", "required": false},
+    {"id": "pokecube_legends:hanging_tendrils_plant", "required": false},
     {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
     {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false},
     {"id": "pokecube_legends:turquoise_gravel", "required": false},

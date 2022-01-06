@@ -2327,8 +2327,8 @@ public class BlockInit
         {
             // These are registered separately, so skip them.
             if (reg == BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM || reg == PlantsInit.DISTORTIC_VINES_PLANT || reg == PlantsInit.DISTORTIC_VINES
-                    || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT || reg == PlantsInit.TEMPORAL_BAMBOO || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT
-                    || reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD)
+                    || reg == PlantsInit.HANGING_TENDRILS_PLANT || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT || reg == PlantsInit.TEMPORAL_BAMBOO
+                    || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT || reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD)
                 continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
@@ -2407,6 +2407,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.HANGING_TENDRILS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.PURPLE_WISTERIA_VINES);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_KELP);
         BlockInit.compostableBlocks(0.3f, PlantsInit.TAINTED_SEAGRASS);
@@ -2535,6 +2536,8 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS_PLANT.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.LARGE_GOLDEN_FERN.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.PURPLE_WISTERIA_VINES.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.PURPLE_WISTERIA_VINES_PLANT.get(), 60, 100);

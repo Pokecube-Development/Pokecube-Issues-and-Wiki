@@ -18,6 +18,8 @@ import pokecube.legends.blocks.plants.BlossomLilyPadBlock;
 import pokecube.legends.blocks.plants.DistortedVinesBlock;
 import pokecube.legends.blocks.plants.DistortedVinesTopBlock;
 import pokecube.legends.blocks.plants.GoldenSweetBerryBushBlock;
+import pokecube.legends.blocks.plants.HangingTendrilsBlock;
+import pokecube.legends.blocks.plants.HangingTendrilsPlantBlock;
 import pokecube.legends.blocks.plants.InvertedOrchidBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
 import pokecube.legends.blocks.plants.TaintedKelpBlock;
@@ -46,6 +48,8 @@ public class PlantsInit
     public static final RegistryObject<Block> GOLDEN_POPPY;
     public static final RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> INVERTED_ORCHID;
+    public static final RegistryObject<Block> HANGING_TENDRILS;
+    public static final RegistryObject<Block> HANGING_TENDRILS_PLANT;
     public static final RegistryObject<Block> LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Block> PURPLE_WISTERIA_VINES;
@@ -121,11 +125,18 @@ public class PlantsInit
         TAINTED_LILY_PAD = PokecubeLegends.DIMENSIONS_TAB.register("tainted_lily_pad", () -> new LilyPadBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).instabreak().sound(SoundType.LILY_PAD).noOcclusion()));
 
-        PURPLE_WISTERIA_VINES = PokecubeLegends.DIMENSIONS_TAB.register("purple_wisteria_vines", () -> new PurpleWisteriaVinesBlock(
+        HANGING_TENDRILS = PokecubeLegends.DIMENSIONS_TAB.register("hanging_tendrils", () -> new HangingTendrilsBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).randomTicks().noCollission()
+                .instabreak().sound(SoundType.CAVE_VINES).lightLevel(HangingTendrilsBlock.emission(5))));
+        HANGING_TENDRILS_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("hanging_tendrils_plant", () -> new HangingTendrilsPlantBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
+                .instabreak().sound(SoundType.CAVE_VINES).lightLevel(HangingTendrilsBlock.emission(5))));
+
+        PURPLE_WISTERIA_VINES = PokecubeLegends.DIMENSIONS_TAB.register("purple_wisteria_vines", () -> new PurpleWisteriaVinesBlock(
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).randomTicks().noCollission()
                 .instabreak().sound(SoundType.CAVE_VINES)));
         PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("purple_wisteria_vines_plant", () -> new PurpleWisteriaVinesPlantBlock(
-                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE).noCollission()
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission()
                 .instabreak().sound(SoundType.CAVE_VINES)));
 
         TAINTED_SEAGRASS = PokecubeLegends.DIMENSIONS_TAB.register("tainted_seagrass", () -> new TaintedSeagrassBlock(

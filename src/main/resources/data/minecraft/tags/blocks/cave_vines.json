@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:hanging_tendrils",
+    "pokecube_legends:hanging_tendrils_plant",
     "pokecube_legends:purple_wisteria_vines",
     "pokecube_legends:purple_wisteria_vines_plant"
   ]

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "eyes=false": {
+      "model": "pokecube_legends:block/hanging_tendrils"
+    },
+    "eyes=true": {
+      "model": "pokecube_legends:block/hanging_tendrils_eyes"
+    }
+  }
+}

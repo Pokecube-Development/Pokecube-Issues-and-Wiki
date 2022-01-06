@@ -12,7 +12,7 @@
     "extra_bottom_block_chance": 0.0,
     "vertical_range": 5,
     "vegetation_feature": {
-      "feature": "pokecube_legends:purple_wisteria_vine_in_corrupted_dirt",
+      "feature": "pokecube_legends:hanging_tendril_in_corrupted_dirt",
       "placement": []
     },
     "surface": "ceiling",

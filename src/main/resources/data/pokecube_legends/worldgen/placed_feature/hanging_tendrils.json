@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:purple_wisteria_vine",
+  "feature": "pokecube_legends:hanging_tendril",
   "placement": [
     {
-      "count": 47,
+      "count": 188,
       "type": "minecraft:count"
     },
     {
