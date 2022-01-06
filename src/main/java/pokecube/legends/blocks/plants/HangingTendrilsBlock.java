@@ -59,7 +59,7 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
    @Override
    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
    {
-       if (state.getValue(EYES) && player.isShiftKeyDown())
+       if (state.getValue(EYES) == false && player.isShiftKeyDown())
        {
            float f = Mth.randomBetween(world.random, 0.8F, 1.2F);
            world.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
@@ -80,35 +80,13 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
    @Override
    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
    {
-       return true;
+       return !state.getValue(EYES);
    }
 
    @Override
    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
    {
-       BlockPos posGrowthDirection = pos.relative(this.growthDirection);
-       int i = Math.min(state.getValue(AGE) + 1, 25);
-       int j = this.getBlocksToGrowWhenBonemealed(random);
-       
-       if (!state.getValue(EYES))
-       {
-           world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
-       }
-       else
-       {
-           for(int k = 0; k < j && this.canGrowInto(world.getBlockState(posGrowthDirection)); ++k)
-           {
-              world.setBlockAndUpdate(posGrowthDirection, state.setValue(AGE, Integer.valueOf(i)));
-              posGrowthDirection = posGrowthDirection.relative(this.growthDirection);
-              i = Math.min(i + 1, 25);
-           }
-       }
-   }
-
-   @Override
-   public int getBlocksToGrowWhenBonemealed(Random random)
-   {
-      return NetherVines.getBlocksToGrowWhenBonemealed(random);
+       world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
    }
    
    @Override

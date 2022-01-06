@@ -47,7 +47,7 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
    @Override
    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
    {
-       if (state.getValue(EYES) && player.isShiftKeyDown())
+       if (state.getValue(EYES) == false && player.isShiftKeyDown())
        {
            float f = Mth.randomBetween(world.random, 0.8F, 1.2F);
            world.playSound((Player)null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
@@ -68,16 +68,13 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
    @Override
    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
    {
-       return true;
+       return !state.getValue(EYES);
    }
 
    @Override
    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
-   {       
-       if (!state.getValue(EYES))
-       {
-           world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
-       }
+   {
+       world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
    }
 
    @Override
