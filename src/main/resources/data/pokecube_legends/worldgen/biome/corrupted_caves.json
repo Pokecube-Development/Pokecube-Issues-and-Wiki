@@ -92,7 +92,6 @@
     ],
     [
       "minecraft:classic_vines_cave_feature",
-      "minecraft:spore_blossom",
       "pokecube_legends:corrupted_caves_blackened_sand",
       "pokecube_legends:corrupted_caves_ceiling_vegetation",
       "pokecube_legends:corrupted_caves_vegetation",
@@ -101,6 +100,7 @@
       "pokecube_legends:patch_pink_blossom_tainted_lily_pad",
       "pokecube_legends:patch_tainted_lily_pad",
       "pokecube_legends:patch_tall_corrupted_grass_caves",
+      "pokecube_legends:polluting_blossom",
       "pokecube_legends:purple_wisteria_vines",
       "pokecube_legends:rooted_corrupted_tree",
       "pokecube_legends:tainted_seagrass_caves"

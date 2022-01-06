@@ -109,6 +109,7 @@ import pokecube.legends.blocks.plants.CrystallizedCactus;
 import pokecube.legends.blocks.plants.DistorticSapling;
 import pokecube.legends.blocks.plants.DynaShrubBlock;
 import pokecube.legends.blocks.plants.MirageSapling;
+import pokecube.legends.blocks.plants.PollutingBlossomBlock;
 import pokecube.legends.blocks.plants.PottedCrystallizedBush;
 import pokecube.legends.blocks.plants.PottedCrystallizedCactus;
 import pokecube.legends.blocks.plants.SmallContaminatedDripleafBlock;
@@ -715,6 +716,7 @@ public class BlockInit
     
     public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF;
     public static final RegistryObject<Block> BIG_CONTAMINATED_DRIPLEAF_STEM;
+    public static final RegistryObject<Block> POLLUTING_BLOSSOM;
     public static final RegistryObject<Block> SMALL_CONTAMINATED_DRIPLEAF;
 
     public static final RegistryObject<Block> POTTED_AGED_SAPLING;
@@ -1210,12 +1212,18 @@ public class BlockInit
                 .of(Material.WOOD, MaterialColor.COLOR_BROWN).sound(SoundType.WOOD).strength(2.0f, 3.0f).noOcclusion()));
 
         // Corrupted Blocks
+        POLLUTING_BLOSSOM = PokecubeLegends.DIMENSIONS_TAB.register("polluting_blossom",
+                () -> new PollutingBlossomBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_PURPLE)
+                        .noCollission().instabreak().sound(SoundType.SMALL_DRIPLEAF)));
         SMALL_CONTAMINATED_DRIPLEAF = PokecubeLegends.DIMENSIONS_TAB.register("small_contaminated_dripleaf",
-                () -> new SmallContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.SMALL_DRIPLEAF)));
+                () -> new SmallContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_RED)
+                        .noCollission().instabreak().sound(SoundType.SMALL_DRIPLEAF)));
         BIG_CONTAMINATED_DRIPLEAF = PokecubeLegends.DIMENSIONS_TAB.register("big_contaminated_dripleaf",
-                () -> new BigContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT).strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
+                () -> new BigContaminatedDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_RED)
+                        .strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
         BIG_CONTAMINATED_DRIPLEAF_STEM = PokecubeLegends.DIMENSIONS_TAB.register("big_contaminated_dripleaf_stem",
-                () -> new BigContaminatedDripleafStemBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
+                () -> new BigContaminatedDripleafStemBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.TERRACOTTA_RED)
+                        .noCollission().strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
         
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
                 () -> new SaplingBase(() -> new CorruptedTreeGrower(), BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLACK)
@@ -2426,6 +2434,7 @@ public class BlockInit
 
         BlockInit.compostableBlocks(0.65f, BlockInit.BIG_CONTAMINATED_DRIPLEAF);
         BlockInit.compostableBlocks(0.65f, BlockInit.DYNA_SHRUB);
+        BlockInit.compostableBlocks(0.65f, BlockInit.POLLUTING_BLOSSOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
@@ -2533,6 +2542,7 @@ public class BlockInit
         BlockInit.flammableBlocks(BlockInit.DYNA_SHRUB.get(), 30, 60);
         BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM.get(), 60, 100);
+        BlockInit.flammableBlocks(BlockInit.POLLUTING_BLOSSOM.get(), 60, 100);
         BlockInit.flammableBlocks(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get(), 60, 100);
         
         BlockInit.flammableBlocks(PlantsInit.AZURE_COLEUS.get(), 60, 100);
