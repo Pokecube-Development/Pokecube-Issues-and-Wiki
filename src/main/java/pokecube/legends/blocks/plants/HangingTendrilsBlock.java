@@ -88,6 +88,12 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
    {
        world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
    }
+
+   @Override
+   public int getBlocksToGrowWhenBonemealed(Random random)
+   {
+       return 1;
+   }
    
    @Override
    public boolean canGrowInto(BlockState state)
@@ -107,5 +113,5 @@ public class HangingTendrilsBlock extends GrowingPlantHeadBlock implements Bonem
        {
           return state.getValue(EYES) ? lightLevel : 0;
        };
-    }
+   }
 }

@@ -735,9 +735,11 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
+    public static final RegistryObject<Block> POTTED_HANGING_TENDRILS;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
+    public static final RegistryObject<Block> POTTED_PURPLE_WISTERIA_VINES;
     public static final RegistryObject<Block> POTTED_STRING_OF_PEARLS;
     public static final RegistryObject<Block> POTTED_TAINTED_ROOTS;
     public static final RegistryObject<Block> POTTED_TALL_CRYSTALLIZED_BUSH;
@@ -2281,11 +2283,17 @@ public class BlockInit
         POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_HANGING_TENDRILS = PokecubeLegends.NO_TAB.register("potted_hanging_tendrils",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.HANGING_TENDRILS.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_LARGE_GOLDEN_FERN = PokecubeLegends.NO_TAB.register("potted_large_golden_fern",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.LARGE_GOLDEN_FERN.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_PINK_LILY = PokecubeLegends.NO_TAB.register("potted_pink_blossom_lily",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_PURPLE_WISTERIA_VINES = PokecubeLegends.NO_TAB.register("potted_purple_wisteria_vines",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PURPLE_WISTERIA_VINES.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_STRING_OF_PEARLS = PokecubeLegends.NO_TAB.register("potted_string_of_pearls",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.STRING_OF_PEARLS.get(),
