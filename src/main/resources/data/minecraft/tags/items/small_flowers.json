@@ -1,10 +1,11 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:golden_poppy",
-    "pokecube_legends:inverted_orchid",
-    "pokecube_legends:pink_blossom_tainted_lily_pad",
-    "pokecube_legends:polluting_blossom",
-    "pokecube_legends:purple_wisteria_vines"
+    {"id": "pokecube_legends:golden_poppy", "required": false},
+    {"id": "pokecube_legends:inverted_orchid", "required": false},
+    {"id": "pokecube_legends:pink_blossom_tainted_lily_pad", "required": false},
+    {"id": "pokecube_legends:polluting_blossom", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
+    {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false}
   ]
 }

@@ -741,6 +741,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_PINK_LILY;
+    public static final RegistryObject<Block> POTTED_POLLUTING_BLOSSOM;
     public static final RegistryObject<Block> POTTED_PURPLE_WISTERIA_VINES;
     public static final RegistryObject<Block> POTTED_STRING_OF_PEARLS;
     public static final RegistryObject<Block> POTTED_TAINTED_ROOTS;
@@ -2299,6 +2300,9 @@ public class BlockInit
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_PINK_LILY = PokecubeLegends.NO_TAB.register("potted_pink_blossom_lily",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_POLLUTING_BLOSSOM = PokecubeLegends.NO_TAB.register("potted_polluting_blossom",
+                () -> new ItemGenerator.GenericPottedPlant(BlockInit.POLLUTING_BLOSSOM.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_PURPLE_WISTERIA_VINES = PokecubeLegends.NO_TAB.register("potted_purple_wisteria_vines",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.PURPLE_WISTERIA_VINES.get(),
