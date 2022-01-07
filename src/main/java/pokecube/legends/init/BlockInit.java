@@ -815,10 +815,10 @@ public class BlockInit
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).sound(SoundType.DEEPSLATE)
                         .strength(4.5F, 3.0f).requiresCorrectToolForDrops(), UniformInt.of(3, 7)));
 
-        ULTRA_FOSSIL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.TERRACOTTA_CYAN).strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        DUSK_FOSSIL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.COLOR_PURPLE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
+        ULTRA_FOSSIL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_fossil_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.TERRACOTTA_CYAN).strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops(), UniformInt.of(0, 3)));
+        DUSK_FOSSIL_ORE = PokecubeLegends.DIMENSIONS_TAB.register("dusk_dolerite_fossil_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.COLOR_PURPLE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops(), UniformInt.of(0, 3)));
 
         METEORITE_COSMIC_ORE = PokecubeLegends.DIMENSIONS_TAB.register("meteorite_cosmic_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_BLUE)

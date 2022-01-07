@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -197,10 +199,10 @@ public class PokecubeItems extends ItemList
                 PokecubeItems.TAB_ITEMS)));
 
         // Blocks
-        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.STONE).strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-        DEEPSLATE_FOSSIL_ORE = PokecubeItems.BLOCKS.register("deepslate_fossil_ore", () -> new Block(BlockBehaviour.Properties.of(
-                Material.STONE, MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
+        FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.STONE).strength(3.0f, 3.0f).sound(SoundType.STONE).requiresCorrectToolForDrops(), UniformInt.of(0, 3)));
+        DEEPSLATE_FOSSIL_ORE = PokecubeItems.BLOCKS.register("deepslate_fossil_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
+                Material.STONE, MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops(), UniformInt.of(0, 3)));
         
         NEST = PokecubeItems.BLOCKS.register("nest", () -> new NestBlock(BlockBehaviour.Properties.of(
                 Material.GRASS, MaterialColor.COLOR_BROWN).sound(SoundType.GRASS).strength(0.5F)));
