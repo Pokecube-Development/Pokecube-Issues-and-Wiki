@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -31,15 +32,22 @@ public class Hat
         Color colour;
         final ResourceLocation[] tex = textures.clone();
         float s;
+        
+        mat.mulPose(Vector3f.XP.rotationDegrees(-90));
+        mat.mulPose(Vector3f.ZP.rotationDegrees(90));
+        mat.translate(0, 0, -0.15);
+        
         mat.pushPose();
-        s = 0.285f;
+        s = 0.275f;
         mat.scale(s, -s, -s);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         final VertexConsumer buf0 = Util.makeBuilder(buff, tex[0]);
         renderable.renderAll(mat, buf0);
+        
         mat.popPose();
         mat.pushPose();
+        
         mat.scale(s * 0.995f, -s * 0.995f, -s * 0.995f);
 
         RenderSystem.setShader(GameRenderer::getRendertypeEntityTranslucentCullShader);

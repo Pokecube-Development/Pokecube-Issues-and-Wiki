@@ -25,7 +25,7 @@ import thut.wearables.EnumWearable;
 public abstract class BlingRenderBase
 {
 
-    Map<EnumWearable, IModel>             defaultModels   = Maps.newHashMap();
+    Map<EnumWearable, IModel> defaultModels = Maps.newHashMap();
     Map<EnumWearable, ResourceLocation[]> defaultTextures = Maps.newHashMap();
 
     protected IModel getModel(final EnumWearable slot, final ItemStack stack)
@@ -66,8 +66,7 @@ public abstract class BlingRenderBase
             final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";
             stack.getTag().putString("gem", tex);
         }
-        // TODO remove hardcoded allowance for eyes to be textures instead of
-        // models.
+
         if (model == null && slot != EnumWearable.EYE) return;
         switch (slot)
         {

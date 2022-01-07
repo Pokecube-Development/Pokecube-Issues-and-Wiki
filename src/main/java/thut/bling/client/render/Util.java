@@ -30,7 +30,7 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        final String id = "thutbling:bling_" + (alpha ? "alpha" : "none");
+        final String id = loc + (alpha ? "alpha" : "none");
 
         final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
         // No blur, No MipMap
@@ -51,7 +51,7 @@ public class Util
                 rendertype$state);
     }
 
-    static Map<String, IModel>             customModels   = Maps.newHashMap();
+    static Map<String, IModel> customModels = Maps.newHashMap();
     static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
 
     public static IModel getCustomModel(final EnumWearable slot, final ItemStack stack)
@@ -86,8 +86,8 @@ public class Util
             {
                 textures = new ResourceLocation[2];
                 textures[0] = new ResourceLocation(tex);
-                if (stack.getTag().contains("tex2")) textures[1] = new ResourceLocation(stack.getTag().getString(
-                        "tex2"));
+                if (stack.getTag().contains("tex2"))
+                    textures[1] = new ResourceLocation(stack.getTag().getString("tex2"));
                 else textures[1] = textures[0];
                 Util.customTextures.put(tex, textures);
                 return textures;

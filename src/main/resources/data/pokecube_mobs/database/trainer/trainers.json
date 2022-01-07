@@ -7,7 +7,8 @@
         {
           "values": {
             "rate": "0.05",
-            "and_presets": "forests,not_cold_areas"
+      		"not_preset": "cold_areas",
+            "and_presets": "forests"
           }
         }
       ],

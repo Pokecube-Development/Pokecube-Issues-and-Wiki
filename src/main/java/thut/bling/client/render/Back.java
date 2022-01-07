@@ -32,9 +32,8 @@ public class Back
         mat.pushPose();
         s = 0.65f;
         mat.scale(s, -s, -s);
-        mat.mulPose(Vector3f.XP.rotationDegrees(90));
         mat.mulPose(Vector3f.YP.rotationDegrees(180));
-        mat.translate(0, -.18, -0.85);
+        mat.translate(0, -.55, 0.35);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         final VertexConsumer buf0 = Util.makeBuilder(buff, tex[0]);
@@ -51,9 +50,8 @@ public class Back
         colour = new Color(ret.getTextColor() + 0xFF000000);
         for (final IExtendedModelPart part1 : model.getParts().values())
             part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-        mat.mulPose(Vector3f.XP.rotationDegrees(90));
         mat.mulPose(Vector3f.YP.rotationDegrees(180));
-        mat.translate(0, -.18, -0.85);
+        mat.translate(0, -.55, 0.35);
         final VertexConsumer buf1 = Util.makeBuilder(buff, tex[1]);
         renderable.renderAll(mat, buf1);
         mat.popPose();

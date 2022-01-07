@@ -19,6 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainChecker;
+import thut.core.common.ThutCore;
 
 public interface IFlowingBlock
 {
@@ -182,21 +183,40 @@ public interface IFlowingBlock
                     newBelow = getMergeResult(setAmount(state, total), b, belowPos, level);
                     if (newBelow != b)
                     {
+                        state = setAmount(state, 0);
+                        // Sanity check:
+                        int aB = getAmount(newBelow);
+                        int aH = getAmount(state);
+
+                        if (aB + aH != total)
+                            ThutCore.LOGGER.error("Error falling down {}, fluid not conserved!", this);
+
                         level.setBlock(belowPos, newBelow, 2);
                         level.scheduleTick(belowPos, newBelow.getBlock(), getFallRate());
-                        level.setBlock(pos, state = setAmount(state, 0), 2);
+                        level.setBlock(pos, state, 2);
                         return state;
                     }
                 }
                 else if (dust - diff >= 0)
                 {
-                    BlockState b2 = setAmount(getAlternate().defaultBlockState(), 16);
+                    BlockState b2 = getAlternate().defaultBlockState();
                     b2 = copyValidTo(state, b2);
                     newBelow = getMergeResult(b2, b, belowPos, level);
+
                     if (newBelow != b)
                     {
+                        newBelow = setAmount(newBelow, 16);
+                        state = setAmount(state, dust - diff);
+
+                        // Sanity check:
+                        int aB = getAmount(newBelow);
+                        int aH = getAmount(state);
+
+                        if (aB + aH != total)
+                            ThutCore.LOGGER.error("Error merging down {}, fluid not conserved!", this);
+
                         level.setBlock(belowPos, newBelow, 2);
-                        level.setBlock(pos, state = setAmount(state, dust - diff), 2);
+                        level.setBlock(pos, state, 2);
                         level.scheduleTick(pos.immutable(), thisBlock(), getFallRate());
                         level.scheduleTick(belowPos, newBelow.getBlock(), getFallRate());
                         return state;
@@ -270,6 +290,13 @@ public interface IFlowingBlock
                     BlockState newState = getMergeResult(nextState, b, pos2, level);
                     if (newState != b)
                     {
+
+                        int aB = getAmount(newState);
+                        int aH = getAmount(oldState);
+
+                        if (aB + aH != existing)
+                            ThutCore.LOGGER.error("Error falling down {}, fluid not conserved!", this);
+
                         level.setBlock(pos, oldState, 2);
                         level.setBlock(pos2, newState, 2);
                         level.scheduleTick(pos.immutable(), oldState.getBlock(), getFlowRate());
