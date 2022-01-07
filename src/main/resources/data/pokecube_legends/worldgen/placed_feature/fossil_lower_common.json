@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:ore_cosmic_meteorite",
+  "feature": "pokecube_legends:fossil_diamonds",
   "placement": [
     {
-      "chance": 3,
+      "chance": 48,
       "type": "minecraft:rarity_filter"
     },
     {
@@ -11,12 +11,12 @@
     {
       "height": {
         "min_inclusive": {
-          "above_bottom": -80
+          "above_bottom": 0
         },
         "max_inclusive": {
-          "above_bottom": 80
+          "absolute": -8
         },
-        "type": "minecraft:trapezoid"
+        "type": "minecraft:uniform"
       },
       "type": "minecraft:height_range"
     },

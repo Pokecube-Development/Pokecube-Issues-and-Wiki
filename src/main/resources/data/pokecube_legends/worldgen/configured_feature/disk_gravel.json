@@ -1,13 +1,13 @@
 {
   "config": {
     "state": {
-      "Name": "pokecube_legends:blackened_sand"
+      "Name": "minecraft:gravel"
     },
     "radius": {
       "type": "minecraft:uniform",
       "value": {
         "min_inclusive": 2,
-        "max_inclusive": 4
+        "max_inclusive": 5
       }
     },
     "half_height": 2,
@@ -17,9 +17,6 @@
         "Properties": {
           "axis": "y"
         }
-      },
-      {
-        "Name": "minecraft:gravel"
       },
       {
         "Name": "pokecube_legends:aged_dirt"
@@ -65,9 +62,6 @@
         "Properties": {
           "snowy": "false"
         }
-      },
-      {
-        "Name": "pokecube_legends:turquoise_gravel"
       },
       {
         "Name": "pokecube_legends:ultra_darkstone"

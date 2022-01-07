@@ -24,6 +24,82 @@
       "probability": 0.006
     }
   },
+  "carvers": {
+    "air": [
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:lake_lava_underground",
+      "pokecube_legends:lake_lava_surface"
+    ],
+    [
+      "minecraft:amethyst_geode",
+      "pokecube_legends:aquamarine_geode",
+      "pokecube_legends:ore_meteorite"
+    ],
+    [
+      "pokecube_legends:fossil_lower_common",
+      "pokecube_legends:fossil_surface",
+      "pokecube_legends:fossil_upper_common"
+	],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma",
+      "pokecube_legends:disk_blackened_sand_rare",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_coal_lower",
+      "pokecube_legends:ore_coal_upper",
+	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_cosmic_buried",
+      "pokecube_legends:ore_cosmic_large",
+      "pokecube_legends:ore_cosmic_meteorite",
+      "pokecube_legends:ore_diamond",
+      "pokecube_legends:ore_diamond_buried",
+      "pokecube_legends:ore_diamond_large",
+      "pokecube_legends:ore_fossil",
+      "pokecube_legends:ore_fossil_buried",
+      "pokecube_legends:ore_fossil_large",
+      "pokecube_legends:ore_gold",
+      "pokecube_legends:ore_gold_lower",
+      "pokecube_legends:ore_gravel",
+      "pokecube_legends:ore_iron_middle",
+      "pokecube_legends:ore_iron_small",
+      "pokecube_legends:ore_iron_upper",
+      "pokecube_legends:ore_lapis",
+      "pokecube_legends:ore_lapis_buried",
+      "pokecube_legends:ore_redstone",
+      "pokecube_legends:ore_redstone_lower",
+      "pokecube_legends:ore_ruby",
+      "pokecube_legends:ore_ruby_buried",
+      "pokecube_legends:ore_ruby_large",
+      "pokecube_legends:ore_sapphire",
+      "pokecube_legends:ore_sapphire_buried",
+      "pokecube_legends:ore_sapphire_large",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_spectrum_buried",
+      "pokecube_legends:ore_spectrum_large",
+      "pokecube_legends:ore_turquoise_gravel"
+    ],
+    [],
+    [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "pokecube_legends:dead_ocean_vegetation"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
   "spawners": {
     "monster": [
       {
@@ -128,34 +204,5 @@
     ],
     "misc": []
   },
-  "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
-    ]
-  },
-  "features": [
-    [],
-    [
-      "pokecube_legends:lake_lava_underground",
-      "pokecube_legends:lake_lava_surface"
-    ],
-    [
-      "minecraft:amethyst_geode"
-    ],
-    [],
-    [],
-    [],
-    [
-      "minecraft:underwater_magma",
-      "minecraft:disk_gravel"
-    ],
-    [],
-    [],
-    [
-      "minecraft:freeze_top_layer"
-    ]
-  ]
+  "spawn_costs": {}
 }

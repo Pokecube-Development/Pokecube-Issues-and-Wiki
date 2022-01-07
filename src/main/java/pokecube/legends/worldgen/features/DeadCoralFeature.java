@@ -49,26 +49,26 @@ public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
     public boolean placeDeadCoralBlock(final LevelAccessor world, final Random random, final BlockPos pos,
             final BlockState state)
     {
-        final BlockPos pos1 = pos.above();
-        final BlockState state1 = world.getBlockState(pos);
-        if ((state1.is(Blocks.WATER) || state1.is(DeadCoralFeature.DEAD_CORALS)) && world.getBlockState(pos1).is(
+        final BlockPos posAbove = pos.above();
+        final BlockState statePos = world.getBlockState(pos);
+        if ((statePos.is(Blocks.WATER) || statePos.is(DeadCoralFeature.DEAD_CORALS)) && world.getBlockState(posAbove).is(
                 Blocks.WATER))
         {
             world.setBlock(pos, state, 3);
-            if (random.nextFloat() < 0.25F) world.setBlock(pos1, DeadCoralFeature.DEAD_CORALS.getRandomElement(random)
+            if (random.nextFloat() < 0.25F) world.setBlock(posAbove, DeadCoralFeature.DEAD_CORALS.getRandomElement(random)
                     .defaultBlockState(), 2);
 
             for (final Direction direction : Direction.Plane.HORIZONTAL)
                 if (random.nextFloat() < 0.2F)
                 {
-                    final BlockPos pos2 = pos.relative(direction);
-                    if (world.getBlockState(pos2).is(Blocks.WATER))
+                    final BlockPos posRelative = pos.relative(direction);
+                    if (world.getBlockState(posRelative).is(Blocks.WATER))
                     {
-                        BlockState state2 = DeadCoralFeature.DEAD_WALL_CORALS.getRandomElement(random)
+                        BlockState stateRandom = DeadCoralFeature.DEAD_WALL_CORALS.getRandomElement(random)
                                 .defaultBlockState();
-                        if (state2.hasProperty(BaseCoralWallFanBlock.FACING)) state2 = state2.setValue(
+                        if (stateRandom.hasProperty(BaseCoralWallFanBlock.FACING)) stateRandom = stateRandom.setValue(
                                 BaseCoralWallFanBlock.FACING, direction);
-                        world.setBlock(pos2, state2, 2);
+                        world.setBlock(posRelative, stateRandom, 2);
                     }
                 }
             return true;

@@ -20,6 +20,9 @@ import pokecube.legends.worldgen.features.AquamarineCrystalFeature;
 import pokecube.legends.worldgen.features.AshLayer1Feature;
 import pokecube.legends.worldgen.features.AshLayer2Feature;
 import pokecube.legends.worldgen.features.AshLayer3Feature;
+import pokecube.legends.worldgen.features.DeadCoralClawFeature;
+import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
+import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
@@ -57,12 +60,12 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
 //            () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DEAD_CORAL_CLAW = WorldgenFeatures.FEATURES.register("dead_coral_claw_feature",
-//            () -> new DeadCoralClawFeature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DEAD_CORAL_MUSHROOM = WorldgenFeatures.FEATURES.register("dead_coral_mushroom_feature",
-//            () -> new DeadCoralMushroomFeature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DEAD_CORAL_TREE = WorldgenFeatures.FEATURES.register("dead_coral_tree_feature",
-//            () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_CLAW = WorldgenFeatures.FEATURES.register("dead_coral_claw_feature",
+            () -> new DeadCoralClawFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_MUSHROOM = WorldgenFeatures.FEATURES.register("dead_coral_mushroom_feature",
+            () -> new DeadCoralMushroomFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DEAD_CORAL_TREE = WorldgenFeatures.FEATURES.register("dead_coral_tree_feature",
+            () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DESERT_ROCK = WorldgenFeatures.FEATURES.register("desert_rock_feature",
