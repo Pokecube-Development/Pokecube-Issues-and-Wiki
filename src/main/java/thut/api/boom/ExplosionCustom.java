@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.compress.utils.Lists;
-
 import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -218,7 +216,7 @@ public class ExplosionCustom extends Explosion
     Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(),
             rTest = Vector3.getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
 
-    List<ExplosionCustom> subBooms = Lists.newArrayList();
+    List<ExplosionCustom> subBooms = new ArrayList<>();
     boolean hasSubBooms = false;
     boolean boomDone = false;
 
