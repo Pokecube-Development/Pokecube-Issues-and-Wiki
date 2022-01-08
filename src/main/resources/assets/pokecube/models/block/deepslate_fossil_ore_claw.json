@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "pokecube:block/deepslate_fossil_ore_claw"
+	}
+}

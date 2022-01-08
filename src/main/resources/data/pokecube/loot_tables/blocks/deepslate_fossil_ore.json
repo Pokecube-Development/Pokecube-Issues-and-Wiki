@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube:fossil_ore",
+          "name": "pokecube:deepslate_fossil_ore",
           "conditions": [
             {
               "condition": "minecraft:match_tool",
