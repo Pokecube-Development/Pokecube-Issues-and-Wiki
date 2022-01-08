@@ -93,7 +93,9 @@
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
     ],
-    [],
+    [
+      "pokecube_legends:dead_river_vegetation"
+    ],
     [
       "minecraft:freeze_top_layer"
     ]

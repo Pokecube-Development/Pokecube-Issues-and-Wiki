@@ -2,14 +2,14 @@
   "feature": "pokecube_legends:fossil_fossils",
   "placement": [
     {
-      "chance": 8,
+      "chance": 4,
       "type": "minecraft:rarity_filter"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "heightmap": "OCEAN_FLOOR_WG",
+      "heightmap": "WORLD_SURFACE_WG",
       "type": "minecraft:heightmap"
     },
     {

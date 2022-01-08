@@ -1,6 +1,7 @@
 package pokecube.legends.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
@@ -27,6 +28,7 @@ import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
+import pokecube.legends.worldgen.features.SurfaceFossilFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
 
@@ -86,6 +88,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new LakeFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LARGE_UNREFINED_AQUAMARINE = WorldgenFeatures.FEATURES.register("large_unrefined_aquamarine_feature",
             () -> new LargeUnrefinedAquamarine(LargeDripstoneConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> SURFACE_FOSSILS = WorldgenFeatures.FEATURES.register("surface_fossil_feature",
+            () -> new SurfaceFossilFeature(FossilFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",
 //            () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TAINTED_KELP= WorldgenFeatures.FEATURES.register("tainted_kelp_feature",
