@@ -257,8 +257,8 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will slowly heal while out of combat. [Default: true]")
     public boolean outOfCombatHealing = true;
 
-    @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases. [Default: true]")
-    public boolean doLoadBalancing = true;
+    @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases. [Default: false]")
+    public boolean doLoadBalancing = false;
 
     @Configure(category = Config.mobAI, comment = "Number of ms in a tick to start computing load balancing. [Default: 2]")
     public double loadBalanceThreshold = 2;
