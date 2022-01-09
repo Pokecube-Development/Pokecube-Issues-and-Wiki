@@ -77,15 +77,15 @@ public class SurfaceFossilFeature extends Feature<FossilFeatureConfiguration>
       } else
       {
          structurePlacement.clearProcessors();
-         fossilConfig.fossilProcessors.get().list().forEach((p_159795_) ->
+         fossilConfig.fossilProcessors.get().list().forEach((fossil) ->
          {
-            structurePlacement.addProcessor(p_159795_);
+            structurePlacement.addProcessor(fossil);
          });
          structureTemplate.placeInWorld(world, posStructure, posStructure, structurePlacement, random, 4);
          structurePlacement.clearProcessors();
-         fossilConfig.overlayProcessors.get().list().forEach((p_159792_) ->
+         fossilConfig.overlayProcessors.get().list().forEach((fossil2) ->
          {
-            structurePlacement.addProcessor(p_159792_);
+            structurePlacement.addProcessor(fossil2);
          });
          structureTemplate1.placeInWorld(world, posStructure, posStructure, structurePlacement, random, 4);
          return true;

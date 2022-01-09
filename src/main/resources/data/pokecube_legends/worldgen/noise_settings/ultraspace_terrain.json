@@ -4374,6 +4374,12 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
+								"pokecube_legends:deep_frozen_polluted_ocean",
+								"pokecube_legends:deep_polluted_ocean",
+								"pokecube_legends:frozen_polluted_ocean",
+								"pokecube_legends:frozen_polluted_river",
+								"pokecube_legends:polluted_ocean",
+								"pokecube_legends:polluted_river",
 								"pokecube_legends:shattered_tainted_barrens",
 								"pokecube_legends:tainted_barrens"
                             ]
@@ -5350,6 +5356,12 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
+								    "pokecube_legends:deep_frozen_polluted_ocean",
+								    "pokecube_legends:deep_polluted_ocean",
+								    "pokecube_legends:frozen_polluted_ocean",
+								    "pokecube_legends:frozen_polluted_river",
+								    "pokecube_legends:polluted_ocean",
+								    "pokecube_legends:polluted_river",
 									"pokecube_legends:tainted_barrens",
 									"pokecube_legends:shattered_tainted_barrens"
                                 ]
