@@ -34,8 +34,9 @@ public class OneWayGlass extends GlassBlock
         return (BlockState)((BlockState)this.defaultBlockState().setValue(FACING, direction));
     }
 
-	@Override
-	public boolean shouldDisplayFluidOverlay(final BlockState state, final BlockAndTintGetter world, final BlockPos pos, final FluidState fluidstate) {
-		return true;
-	}
+  	@Override
+    public boolean shouldDisplayFluidOverlay(final BlockState state, final BlockAndTintGetter block, final BlockPos pos, final FluidState fluidState)
+  	{
+  		  return true;
+  	}
 }

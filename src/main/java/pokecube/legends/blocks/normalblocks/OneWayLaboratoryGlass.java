@@ -19,7 +19,8 @@ public class OneWayLaboratoryGlass extends OneWayStainedGlass
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
+    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos)
+    {
         return new float[]{0.62f, 0.85f, 1.00f};
     }
 }

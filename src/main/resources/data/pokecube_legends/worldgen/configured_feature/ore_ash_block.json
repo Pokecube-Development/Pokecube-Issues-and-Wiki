@@ -7,6 +7,9 @@
           "predicate_type": "minecraft:tag_match"
         },
         "state": {
+          "Properties": {
+		    "wet": "false"
+          },
           "Name": "pokecube_legends:ash_block"
         }
       }

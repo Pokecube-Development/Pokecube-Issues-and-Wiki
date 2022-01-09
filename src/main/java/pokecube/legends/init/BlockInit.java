@@ -80,6 +80,7 @@ import pokecube.legends.blocks.normalblocks.DistorticStoneBlock;
 import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.AgedGrassBlock;
 import pokecube.legends.blocks.normalblocks.AquamarineCrystalBlock;
+import pokecube.legends.blocks.normalblocks.AshBlock;
 import pokecube.legends.blocks.normalblocks.AshLayerBlock;
 import pokecube.legends.blocks.normalblocks.AzureGrassBlock;
 import pokecube.legends.blocks.normalblocks.BuddingAquamarineBlock;
@@ -994,8 +995,8 @@ public class BlockInit
         TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6f)));
         
-        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new FallingDirtBlockBase(3816264, 
-                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f)));
+        ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new AshBlock(3816264, 
+                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f).randomTicks()));
         ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, 
                 BlockBehaviour.Properties.of(Material.TOP_SNOW, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F)
                 .isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));

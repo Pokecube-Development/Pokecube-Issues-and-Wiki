@@ -15,13 +15,15 @@ public class GlassBlockBase extends GlassBlock
         super(props);
     }
 
-	@Override
-	public boolean shouldDisplayFluidOverlay(final BlockState state, final BlockAndTintGetter world, final BlockPos pos, final FluidState fluidstate) {
-		return true;
-	}
+  	@Override
+  	public boolean shouldDisplayFluidOverlay(final BlockState state, final BlockAndTintGetter block, final BlockPos pos, final FluidState fluidState)
+  	{
+  		  return true;
+  	}
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
+    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos)
+    {
         return new float[]{0.00f, 0.00f, 0.00f};
     }
 }

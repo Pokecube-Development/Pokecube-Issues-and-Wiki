@@ -11,7 +11,8 @@
               {
                 "data": {
 			      "Properties": {
-			        "layers": "2"
+			        "layers": "2",
+			        "waterlogged": "false"
 			      },
                   "Name": "pokecube_legends:ash"
                 },
@@ -20,7 +21,8 @@
               {
                 "data": {
 			      "Properties": {
-			        "layers": "4"
+			        "layers": "4",
+			        "waterlogged": "false"
 			      },
                   "Name": "pokecube_legends:ash"
                 },

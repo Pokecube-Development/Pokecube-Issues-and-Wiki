@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -11,17 +12,23 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.blocks.FallingBlockBase;
+import pokecube.legends.blocks.customblocks.CramomaticBlock;
+import pokecube.legends.blocks.customblocks.Rotates;
 
-public class AshLayerBlock extends FallingBlockBase implements Fallable
+public class AshLayerBlock extends FallingBlockBase implements Fallable, SimpleWaterloggedBlock
 {
     public static final int MAX_HEIGHT = 16;
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 16);
@@ -35,11 +42,12 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 15.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     public static final int HEIGHT_IMPASSABLE = 10;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     
     public AshLayerBlock(final int color, final Properties properties)
     {
         super(color, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(1)).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -91,13 +99,13 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
-       BlockState state1 = world.getBlockState(pos.below());
-       if (!state1.is(Blocks.BARRIER))
+       BlockState stateBelow = world.getBlockState(pos.below());
+       if (!stateBelow.is(Blocks.BARRIER))
        {
-          if (!state1.is(Blocks.HONEY_BLOCK))
+          if (!stateBelow.is(Blocks.HONEY_BLOCK))
           {
-             return Block.isFaceFull(state1.getCollisionShape(world, pos.below()), Direction.UP)
-                     || state1.is(this) && state1.getValue(LAYERS) == 16;
+             return Block.isFaceFull(stateBelow.getCollisionShape(world, pos.below()), Direction.UP)
+                     || stateBelow.is(this) && stateBelow.getValue(LAYERS) == 16;
           } else
           {
              return true;
@@ -111,7 +119,10 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1)
     {
-        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
+        if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        world.scheduleTick(pos, this, this.getDelayAfterPlace());
+        return !canSurvive(state, world, pos)
+                ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
     @Override
@@ -137,20 +148,29 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-       BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+       BlockPos pos = context.getClickedPos();
+       BlockState state = context.getLevel().getBlockState(pos);
+       FluidState fluidState = context.getLevel().getFluidState(pos);
        if (state.is(this))
        {
           int i = state.getValue(LAYERS);
-          return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+          return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1))).setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
        } else
        {
-          return super.getStateForPlacement(context);
+          return this.defaultBlockState().setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
        }
+    }
+    
+    @Override
+    @SuppressWarnings("deprecation")
+    public FluidState getFluidState(final BlockState state)
+    {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-       builder.add(LAYERS);
+       builder.add(LAYERS, WATERLOGGED);
     }
 }

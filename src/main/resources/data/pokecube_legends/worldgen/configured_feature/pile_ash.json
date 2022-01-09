@@ -3,7 +3,8 @@
     "state_provider": {
       "state": {
         "Properties": {
-          "layers": "4"
+          "layers": "4",
+		  "waterlogged": "false"
         },
         "Name": "pokecube_legends:ash"
       },
