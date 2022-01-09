@@ -32,13 +32,14 @@ public class GuiCharacterButton extends Button
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
 
-        if (this.isHoveredOrFocused()) GuiComponent.fill(mat, this.x, this.y, this.x + GuiCharacterButton.WIDTH, this.y
-                + GuiCharacterButton.HEIGHT, 0x80ffffff);
+        if (this.isHoveredOrFocused()) GuiComponent.fill(mat, this.x, this.y, this.x + GuiCharacterButton.WIDTH,
+                this.y + GuiCharacterButton.HEIGHT, 0x80ffffff);
 
         if (this.active) RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         else RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 1.0F);
 
-        GuiComponent.blit(mat, this.x, this.y, this.id * GuiCharacterButton.WIDTH, 27, GuiCharacterButton.WIDTH,
-                GuiCharacterButton.HEIGHT, my, my, my, my);
+        RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
+        this.blit(mat, this.x, this.y, this.id * GuiCharacterButton.WIDTH, 27, GuiCharacterButton.WIDTH,
+                GuiCharacterButton.HEIGHT);
     }
 }
