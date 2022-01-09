@@ -19,7 +19,7 @@ public class NpcContainer extends BaseContainer
     public static final MenuType<NpcContainer> TYPE = new MenuType<>(
             (IContainerFactory<NpcContainer>) NpcContainer::new);
 
-    private ResourceLocation tex = new ResourceLocation("pokecube", "textures/gui/generic_4x2.png");
+    private ResourceLocation tex = new ResourceLocation("thutcore", "textures/gui/generic_4x2.png");
 
     private final Container wrapped;
 
