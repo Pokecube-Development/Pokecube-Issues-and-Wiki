@@ -40,7 +40,8 @@
             "predicates": [
               {
                 "blocks": [
-                  "minecraft:air"
+                  "minecraft:air",
+                  "minecraft:water"
                 ],
                 "type": "minecraft:matching_blocks"
               }
