@@ -2,37 +2,20 @@ package pokecube.legends.blocks.normalblocks;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.FarmlandWaterManager;
-import pokecube.legends.blocks.FallingBlockBase;
 import pokecube.legends.blocks.FallingDirtBlockBase;
-import pokecube.legends.blocks.customblocks.CramomaticBlock;
-import pokecube.legends.blocks.customblocks.Rotates;
 
 public class AshBlock extends FallingDirtBlockBase implements Fallable
 {
@@ -52,7 +35,7 @@ public class AshBlock extends FallingDirtBlockBase implements Fallable
             world.setBlock(pos, state.setValue(WET, true), 2);
         }
         
-        if (isFree(world.getBlockState(pos.below())) && pos.getY() >= world.getMinBuildHeight())
+        if (isFree(world.getBlockState(pos.below())) && pos.getY() >= world.getMinBuildHeight() && state.getValue(WET) == false)
         {
             FallingBlockEntity fallingBlock = 
                     new FallingBlockEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, world.getBlockState(pos));
@@ -60,8 +43,22 @@ public class AshBlock extends FallingDirtBlockBase implements Fallable
             world.addFreshEntity(fallingBlock);
         }
     }
+    
+    @Override
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    {
+        if (!isNearWater(world, pos) && !world.isRainingAt(pos.above()))
+        {
+            world.setBlock(pos, state.setValue(WET, false), 2);
+        }
+        
+        if (world.isRainingAt(pos.above()))
+        {
+            world.setBlock(pos, state.setValue(WET, true), 2);
+        }
+    }
 
-    private static boolean isNearWater(LevelReader world, BlockPos pos)
+    public static boolean isNearWater(LevelReader world, BlockPos pos)
     {
         if (world.getFluidState(pos.above()).is(FluidTags.WATER) || world.getFluidState(pos.below()).is(FluidTags.WATER)
               || world.getFluidState(pos.north()).is(FluidTags.WATER) || world.getFluidState(pos.south()).is(FluidTags.WATER)
@@ -69,7 +66,23 @@ public class AshBlock extends FallingDirtBlockBase implements Fallable
         {
            return true;
         }
-        return FarmlandWaterManager.hasBlockWaterTicket(world, pos);
+        return false;
+    }
+    
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
+    {
+        if (random.nextInt(16) == 0 && state.getValue(WET) == false)
+        {
+           BlockPos posBelow = pos.below();
+           if (isFree(world.getBlockState(posBelow)))
+           {
+              double d0 = (double)pos.getX() + random.nextDouble();
+              double d1 = (double)pos.getY() - 0.05D;
+              double d2 = (double)pos.getZ() + random.nextDouble();
+              world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+           }
+        }
     }
     
     @Override

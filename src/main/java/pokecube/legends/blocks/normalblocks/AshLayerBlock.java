@@ -25,8 +25,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.blocks.FallingBlockBase;
-import pokecube.legends.blocks.customblocks.CramomaticBlock;
-import pokecube.legends.blocks.customblocks.Rotates;
 
 public class AshLayerBlock extends FallingBlockBase implements Fallable, SimpleWaterloggedBlock
 {
@@ -120,9 +118,8 @@ public class AshLayerBlock extends FallingBlockBase implements Fallable, SimpleW
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1)
     {
         if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        world.scheduleTick(pos, this, this.getDelayAfterPlace());
         return !canSurvive(state, world, pos)
-                ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
+                ? state.getBlock().defaultBlockState().setValue(LAYERS, state.getValue(LAYERS)) : super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
     @Override
