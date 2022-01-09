@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -39,8 +40,6 @@ public class CheckBurrow extends BaseIdleTask
         // We use this memory to decide where to put the hive
         CheckBurrow.mems.put(MemoryModules.VISIBLE_BLOCKS, MemoryStatus.VALUE_PRESENT);
     }
-
-    public static int BURROWSPACING = 64;
 
     int burrowCheckTimer = -10;
 
@@ -83,14 +82,13 @@ public class CheckBurrow extends BaseIdleTask
 
             final PoiManager pois = this.world.getPoiManager();
             final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.blockPosition(),
-                    CheckBurrow.BURROWSPACING, PoiManager.Occupancy.ANY);
+                    PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
 
             if (blocks == null || num != 0) return;
 
             // Otherwise on the ground
             final List<NearBlock> surfaces = Lists.newArrayList();
-            blocks.forEach(b ->
-            {
+            blocks.forEach(b -> {
                 if (b == null) return;
                 if (PokecubeTerrainChecker.isTerrain(b.getState())) surfaces.add(b);
             });
@@ -106,15 +104,14 @@ public class CheckBurrow extends BaseIdleTask
         {
             // Here we might want to check if the burrow is still valid?
             StoreTask storage = null;
-            for (final IAIRunnable run : this.pokemob.getTasks())
-                if (run instanceof StoreTask)
-                {
-                    storage = (StoreTask) run;
-                    this.pokemob.setRoutineState(AIRoutine.STORE, true);
-                    storage.storageLoc = this.burrow.nest.getBlockPos();
-                    storage.berryLoc = this.burrow.nest.getBlockPos();
-                    break;
-                }
+            for (final IAIRunnable run : this.pokemob.getTasks()) if (run instanceof StoreTask)
+            {
+                storage = (StoreTask) run;
+                this.pokemob.setRoutineState(AIRoutine.STORE, true);
+                storage.storageLoc = this.burrow.nest.getBlockPos();
+                storage.berryLoc = this.burrow.nest.getBlockPos();
+                break;
+            }
         }
     }
 

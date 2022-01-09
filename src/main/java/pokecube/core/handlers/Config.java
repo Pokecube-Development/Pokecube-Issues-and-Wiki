@@ -441,6 +441,8 @@ public class Config extends ConfigData
     public int nestMobNumber = 3;
     @Configure(category = Config.nests, comment = "The number of ant pokemobs that work at one nest. [Default: 10]")
     public int antNestMobNumber = 10;
+    @Configure(category = Config.nests, comment = "Minimum distance between burrows made by wild pokemobs. [Default: 64]")
+    public int nestSpacing = 64;
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[]
