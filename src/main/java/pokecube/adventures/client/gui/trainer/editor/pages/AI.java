@@ -20,6 +20,7 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AI
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -172,11 +173,35 @@ public class AI extends Page
 
     private void onChanged()
     {
-        final Tag tag = this.parent.aiStates.serializeNBT();
-        final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
+        Tag tag = this.parent.aiStates.serializeNBT();
+        try
+        {
+            parent.aiStates.setDirection(Float.parseFloat(this.faceDirection.getValue()));
+        }
+        catch (NumberFormatException e)
+        {
+            PokecubeCore.LOGGER.error(e);
+        }
+        PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         message.getTag().putInt("I", this.parent.entity.getId());
         message.getTag().put("__ai__", tag);
-        PacketTrainer.ASSEMBLER.sendToServer(message);
+        if (this.parent.trainer instanceof DefaultPokemobs)
+        {
+            final DefaultPokemobs trainer = (DefaultPokemobs) this.parent.trainer;
 
+            try
+            {
+                trainer.resetTimeLose = Integer.parseInt(this.resetTimeLose.getValue());
+                trainer.resetTimeWin = Integer.parseInt(this.resetTimeWin.getValue());
+                trainer.battleCooldown = Integer.parseInt(this.battleCooldown.getValue());
+            }
+            catch (NumberFormatException e)
+            {
+                PokecubeCore.LOGGER.error(e);
+            }
+            tag = trainer.serializeNBT();
+            message.getTag().put("__T__", tag);
+        }
+        PacketTrainer.ASSEMBLER.sendToServer(message);
     }
 }
