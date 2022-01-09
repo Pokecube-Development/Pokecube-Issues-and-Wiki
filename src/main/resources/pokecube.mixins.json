@@ -7,9 +7,11 @@
   "mixins": [
     "MixinBaseFireBlock",
     "MixinLakesFeature",
-    "MixinMobEntity",
     "MixinStructure",
-    "MixinBeardifier"
+    "MixinBeardifier",
+    "brain.MixinLivingEntityInit",
+    "brain.MixinVilagerBrainUpdate",
+    "brain.MixinMobEntity"
   ],
   "client": [
   ],

@@ -478,8 +478,8 @@ public class PokemobEventsHandler
             final Mob newMob = modified.getEntity();
             if (world instanceof ServerLevel && !newMob.isAddedToWorld()) world.addFreshEntity(newMob);
         }
-        // This initializes logics on the client side.
-        if (!(world instanceof ServerLevel)) pokemob.initAI();
+        // This init stage involves block checks, etc, so do that here
+        pokemob.postInitAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
@@ -487,7 +487,7 @@ public class PokemobEventsHandler
         final Entity mob = event.getEntity();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
-        pokemob.initAI();
+        pokemob.preInitAI();
     }
 
     private static void onStartTracking(final StartTracking event)

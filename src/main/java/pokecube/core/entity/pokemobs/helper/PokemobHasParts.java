@@ -35,11 +35,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
-
-        List<PokemobPart> allParts = Lists.newArrayList();
-        Map<String, PokemobPart[]> partMap = Maps.newHashMap();
-        this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
-        this.factory = PokemobPart::new;
     }
 
     @Override
@@ -51,6 +46,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public PartHolder<PokemobPart> getHolder()
     {
+        if (parts == null)
+        {
+            List<PokemobPart> allParts = Lists.newArrayList();
+            Map<String, PokemobPart[]> partMap = Maps.newHashMap();
+            this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
+            this.factory = PokemobPart::new;
+        }
         return parts;
     }
 
@@ -296,7 +298,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         }
 
         super.move(typeIn, pos);
-        
+
         this.horizontalCollision = horizontalCollision;
         this.minorHorizontalCollision = minorHorizontalCollision;
         this.onGround = onGround;

@@ -63,10 +63,10 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getCombatState(final CombatStates state)
     {
-        if (this.getEntity().getCommandSenderWorld().isClientSide) this.cachedCombatState = this.dataSync().get(
-                this.params.COMBATSTATESDW);
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null) return this.getGenesDynamax()
-                .getExpressed().getValue().gigantamax;
+        if (this.getEntity().getCommandSenderWorld().isClientSide)
+            this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
+        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
+            return this.getGenesDynamax().getExpressed().getValue().gigantamax;
         return (this.cachedCombatState & state.getMask()) != 0;
     }
 
@@ -82,16 +82,16 @@ public abstract class PokemobAI extends PokemobEvolves
         // Read tamed status based on if we have an owner, rather than flag in
         // the bitmask.
         if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
-        if (this.getEntity().getCommandSenderWorld().isClientSide) this.cachedGeneralState = this.dataSync().get(
-                this.params.GENERALSTATESDW);
+        if (this.getEntity().getCommandSenderWorld().isClientSide)
+            this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
         return (this.cachedGeneralState & state.getMask()) != 0;
     }
 
     @Override
     public boolean getLogicState(final LogicStates state)
     {
-        if (this.getEntity().getCommandSenderWorld().isClientSide) this.cachedLogicState = this.dataSync().get(
-                this.params.LOGICSTATESDW);
+        if (this.getEntity().getCommandSenderWorld().isClientSide)
+            this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
         return (this.cachedLogicState & state.getMask()) != 0;
     }
 
@@ -104,8 +104,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getPokemonUID()
     {
-        if (this.uid == -1 && this.getOwnerId() != null) this.uid = PokecubeSerializer.getInstance(this.getEntity()
-                .isEffectiveAi()).getNextID();
+        if (this.uid == -1 && this.getOwnerId() != null)
+            this.uid = PokecubeSerializer.getInstance(this.getEntity().isEffectiveAi()).getNextID();
         return this.uid;
     }
 
@@ -136,8 +136,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean isGrounded()
     {
-        return this.getLogicState(LogicStates.GROUNDED) || !this.isRoutineEnabled(AIRoutine.AIRBORNE) || this
-                .getLogicState(LogicStates.SITTING) || this.getLogicState(LogicStates.SLEEPING);
+        return this.getLogicState(LogicStates.GROUNDED) || !this.isRoutineEnabled(AIRoutine.AIRBORNE)
+                || this.getLogicState(LogicStates.SITTING) || this.getLogicState(LogicStates.SLEEPING);
     }
 
     @Override
@@ -167,10 +167,12 @@ public abstract class PokemobAI extends PokemobEvolves
             final Vector3 particleLoc = Vector3.getNewVector();
             for (int i = 0; i < 20; ++i)
             {
-                particleLoc.set(this.getEntity().getX() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
-                        - this.getEntity().getBbWidth(), this.getEntity().getY() + 0.5D + this.rand.nextFloat() * this
-                                .getEntity().getBbHeight(), this.getEntity().getZ() + this.rand.nextFloat() * this
-                                        .getEntity().getBbWidth() * 2.0F - this.getEntity().getBbWidth());
+                particleLoc.set(
+                        this.getEntity().getX() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                                - this.getEntity().getBbWidth(),
+                        this.getEntity().getY() + 0.5D + this.rand.nextFloat() * this.getEntity().getBbHeight(),
+                        this.getEntity().getZ() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
+                                - this.getEntity().getBbWidth());
                 this.getEntity().getCommandSenderWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
                         particleLoc.y, particleLoc.z, 0, 0, 0);
             }
@@ -188,8 +190,8 @@ public abstract class PokemobAI extends PokemobEvolves
         final int byte0 = this.dataSync().get(this.params.COMBATSTATESDW);
         if (flag == ((byte0 & state.getMask()) != 0)) return;
         final int newState = flag ? byte0 | state.getMask() : byte0 & -state.getMask() - 1;
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null) this.getGenesDynamax().getExpressed()
-                .getValue().gigantamax = flag;
+        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
+            this.getGenesDynamax().getExpressed().getValue().gigantamax = flag;
         this.setTotalCombatState(newState);
     }
 
@@ -256,8 +258,8 @@ public abstract class PokemobAI extends PokemobEvolves
         this.cachedLogicState = state;
         this.dataSync().set(this.params.LOGICSTATESDW, state);
         // Sync sitting status over to the TameableEntity
-        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity()).setOrderedToSit(
-                (this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
+        if (this.getEntity() instanceof TamableAnimal) ((TamableAnimal) this.getEntity())
+                .setOrderedToSit((this.cachedLogicState & LogicStates.SITTING.getMask()) != 0);
     }
 
     @Override
@@ -280,8 +282,9 @@ public abstract class PokemobAI extends PokemobEvolves
 
     @SuppressWarnings("unchecked")
     @Override
-    public void initAI()
+    public void preInitAI()
     {
+
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
         // If brain was cleared at some point, this memory is removed.
         if (brain.checkMemory(MemoryModules.ATTACKTARGET, MemoryStatus.REGISTERED)) return;
@@ -291,13 +294,13 @@ public abstract class PokemobAI extends PokemobEvolves
 
         this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         this.genes = entity.getCapability(ThutCaps.GENETICS_CAP).orElse(null);
-        if (this.getOwnerHolder() == null) PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! "
-                + this.getPokedexEntry());
-        if (this.guardCap == null) PokecubeCore.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this
-                .getPokedexEntry());
-        if (this.genes == null) PokecubeCore.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this
-                .getPokedexEntry());
-        
+        if (this.getOwnerHolder() == null)
+            PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! " + this.getPokedexEntry());
+        if (this.guardCap == null)
+            PokecubeCore.LOGGER.warn("Pokemob without guard cap, this is a bug! " + this.getPokedexEntry());
+        if (this.genes == null)
+            PokecubeCore.LOGGER.warn("Pokemob without genetics cap, this is a bug! " + this.getPokedexEntry());
+
         this.getTickLogic().clear();
 
         // // Controller is done separately for ease of locating it for
@@ -314,30 +317,7 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.getCommandSenderWorld() == null || ThutCore.proxy.isClientSide()) return;
-
-        // Set the pathing priorities for various blocks
-        if (entity.fireImmune())
-        {
-            entity.setPathfindingMalus(BlockPathTypes.LAVA, 0);
-            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0);
-            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0);
-        }
-        else
-        {
-            entity.setPathfindingMalus(BlockPathTypes.LAVA, -1);
-            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
-            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16);
-        }
-        if (this.swims()) entity.setPathfindingMalus(BlockPathTypes.WATER, 0);
-        if (this.getPokedexEntry().hatedMaterial != null) for (final String material : this
-                .getPokedexEntry().hatedMaterial)
-            if (material.equalsIgnoreCase("water")) entity.setPathfindingMalus(BlockPathTypes.WATER, -1);
-            else if (material.equalsIgnoreCase("fire"))
-            {
-                entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
-                entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1);
-            }
+        if (entity.getLevel() == null || ThutCore.proxy.isClientSide()) return;
 
         // DOLATER decide on speed scaling here?
         if (entry.stock) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
@@ -370,6 +350,37 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
+    public void postInitAI()
+    {
+        // If the mob was constructed without a world somehow (during init for
+        // JEI, etc), do not bother with AI stuff.
+        if (entity.getLevel() == null || ThutCore.proxy.isClientSide()) return;
+
+        // Set the pathing priorities for various blocks
+        if (entity.fireImmune())
+        {
+            entity.setPathfindingMalus(BlockPathTypes.LAVA, 0);
+            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0);
+            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0);
+        }
+        else
+        {
+            entity.setPathfindingMalus(BlockPathTypes.LAVA, -1);
+            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
+            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16);
+        }
+        if (this.swims()) entity.setPathfindingMalus(BlockPathTypes.WATER, 0);
+        if (this.getPokedexEntry().hatedMaterial != null)
+            for (final String material : this.getPokedexEntry().hatedMaterial)
+                if (material.equalsIgnoreCase("water")) entity.setPathfindingMalus(BlockPathTypes.WATER, -1);
+                else if (material.equalsIgnoreCase("fire"))
+        {
+            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
+            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1);
+        }
+    }
+
+    @Override
     public void onSetTarget(final LivingEntity entity, final boolean forced)
     {
         final boolean remote = this.getEntity().getCommandSenderWorld().isClientSide;
@@ -385,15 +396,15 @@ public abstract class PokemobAI extends PokemobEvolves
         {
             final IOwnable target = OwnableCaps.getOwnable(entity);
             final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(),
-                    entity);
+            if (PokecubeCore.getConfig().debug)
+                PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(), entity);
             /**
              * Ensure that the target being set is actually a valid target.
              */
             if (entity == this.getEntity())
             {
-                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) BrainUtils.clearAttackTarget(this
-                        .getEntity());
+                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity())
+                    BrainUtils.clearAttackTarget(this.getEntity());
                 return;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId())

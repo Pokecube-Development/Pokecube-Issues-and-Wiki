@@ -158,8 +158,9 @@ public class CaptureManager
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
-            // Ensure AI is initialized
-            pokemob.initAI();
+            
+            // FIXME See if AI need init?
+            
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
             pokemob.setOwner((UUID) null);
