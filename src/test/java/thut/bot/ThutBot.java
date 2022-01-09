@@ -66,7 +66,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.network.NetworkConstants;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import thut.api.entity.CopyCaps;
 import thut.api.util.JsonUtil;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
@@ -114,9 +113,6 @@ public class ThutBot
         PermNodes.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
-
-        // The bot is technically a player, so we add this for MimicBot
-        CopyCaps.register(EntityType.PLAYER);
 
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
                 () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (ver, remote) -> true));

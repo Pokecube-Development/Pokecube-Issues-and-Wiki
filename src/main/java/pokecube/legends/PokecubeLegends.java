@@ -87,7 +87,6 @@ import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.tileentity.RingTile;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
-import thut.api.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
 
 @Mod(value = Reference.ID)
