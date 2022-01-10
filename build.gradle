@@ -23,6 +23,9 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
+eclipseJdtApt.enabled = false
+eclipseFactoryPath.enabled = false
+
 mixin { add sourceSets.main, "pokecube.refmap.json" }
 
 ext {

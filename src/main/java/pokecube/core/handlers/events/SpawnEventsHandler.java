@@ -200,6 +200,8 @@ public class SpawnEventsHandler
         EventsHandler.Schedule(event.worldActual, w ->
         {
             SpawnEventsHandler.applyFunction(mob, thing);
+            // force load the chunk so we can add the mob
+            w.getChunk(mob.blockPosition());
             w.addFreshEntity(mob);
             return true;
         });

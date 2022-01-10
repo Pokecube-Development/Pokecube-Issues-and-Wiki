@@ -361,6 +361,8 @@ public class TrainerSpawnHandler
                 EventsHandler.Schedule(event.worldActual, w ->
                 {
                     SpawnEventsHandler.applyFunction(mob, apply);
+                    // force load the chunk so we can add the mob
+                    w.getChunk(mob.blockPosition());
                     w.addFreshEntity(mob);
                     return true;
                 });
