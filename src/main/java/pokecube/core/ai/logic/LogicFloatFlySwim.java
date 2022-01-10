@@ -47,7 +47,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing()) return;
+            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
             super.tick();
         }
 
@@ -73,8 +73,8 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             this.mob.setNoGravity(this.mob.isInWater());
-            
-            if (pokemob.getController().blocksPathing()) return;
+
+            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
             {
@@ -149,8 +149,8 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing()) return;
-            
+            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
+
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {
                 this.operation = MoveControl.Operation.WAIT;

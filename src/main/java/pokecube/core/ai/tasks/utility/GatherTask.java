@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.utility;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -11,6 +12,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -274,6 +277,78 @@ public class GatherTask extends UtilTask
         this.storage = storage;
     }
 
+    private boolean isValidItem(ItemEntity item)
+    {
+        ItemStack stack = pokemob.getHeldItem();
+        if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        {
+            final ListTag pages = (ListTag) stack.getTag().get("pages");
+            try
+            {
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                boolean isFilter = false;
+                boolean matched = false;
+                for (final String line : comp.getString().split("\n"))
+                {
+                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
+                    {
+                        isFilter = true;
+                        continue;
+                    }
+                    ResourceLocation res = new ResourceLocation(line);
+                    if (ItemList.is(res, item.getItem())) matched = true;
+                    if (isFilter && matched) break;
+                }
+                if (isFilter) return matched;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    private boolean isValidBlock(NearBlock block)
+    {
+        ItemStack stack = pokemob.getHeldItem();
+        if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        {
+            final ListTag pages = (ListTag) stack.getTag().get("pages");
+            try
+            {
+                final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                boolean isFilter = false;
+                boolean matched = false;
+                for (final String line : comp.getString().split("\n"))
+                {
+                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
+                    {
+                        isFilter = true;
+                        continue;
+                    }
+                    ResourceLocation res = new ResourceLocation(line);
+                    if (ItemList.is(res, block.getState())) matched = true;
+                    if (isFilter && matched) break;
+                }
+                if (isFilter) return matched;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        boolean canHarvest = false;
+        for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
+        {
+            canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, block.getState(), block.getPos(),
+                    this.world);
+            if (canHarvest) break;
+        }
+        return canHarvest;
+    }
+
     private boolean hasStuff()
     {
         if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
@@ -440,14 +515,7 @@ public class GatherTask extends UtilTask
             this.blocks = Lists.newArrayList(blocks);
             this.blocks.removeIf(b -> {
                 if (!inRange.test(b.getPos())) return true;
-                boolean canHarvest = false;
-                for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
-                {
-                    canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, b.getState(), b.getPos(),
-                            this.world);
-                    if (canHarvest) break;
-                }
-                return !canHarvest;
+                return !isValidBlock(b);
             });
             if (this.blocks.isEmpty()) this.blocks = null;
         }
@@ -455,7 +523,7 @@ public class GatherTask extends UtilTask
         if (items != null)
         {
             this.items = Lists.newArrayList(items);
-            this.items.removeIf(b -> !inRange.test(b.blockPosition()));
+            this.items.removeIf(b -> !inRange.test(b.blockPosition()) || !isValidItem(b));
             if (this.items.isEmpty()) this.items = null;
         }
 

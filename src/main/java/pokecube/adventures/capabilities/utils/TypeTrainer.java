@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -390,7 +389,7 @@ public class TypeTrainer extends NpcType
     public static void initSpawns()
     {
         for (final TypeTrainer type : TypeTrainer.typeMap.values())
-            for (final SpawnBiomeMatcher matcher : type.matchers.keySet())
+            for (final SpawnBiomeMatcher matcher : type.spawns.keySet())
         {
             matcher.reset();
             matcher.parse();
@@ -461,7 +460,6 @@ public class TypeTrainer extends NpcType
     /** 1 = male, 2 = female, 3 = both */
     public byte genders = 1;
 
-    public Map<SpawnBiomeMatcher, Float> matchers = Maps.newHashMap();
     public boolean hasBag = false;
     public ItemStack bag = ItemStack.EMPTY;
     public boolean hasBelt = false;

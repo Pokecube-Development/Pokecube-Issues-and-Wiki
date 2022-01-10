@@ -51,6 +51,7 @@ public class NpcContainer extends BaseContainer
                     super.onTake(thePlayer, stack);
                 }
             });
+        this.bindPlayerInventory(ivplay, -19);
     }
 
     public ResourceLocation getTexture()

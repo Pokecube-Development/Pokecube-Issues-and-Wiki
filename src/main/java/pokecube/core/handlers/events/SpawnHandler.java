@@ -60,6 +60,7 @@ import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -200,7 +201,6 @@ public final class SpawnHandler
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
-    public static boolean doSpawns = true;
     public static boolean onlySubbiomes = false;
     public static boolean refreshSubbiomes = false;
 
@@ -266,11 +266,11 @@ public final class SpawnHandler
 
     public static boolean canSpawnInWorld(final Level world, final boolean respectDifficulty)
     {
-        if (world == null) return true;
+        if (world == null || !(world instanceof ServerLevel level)) return true;
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
-        if (!SpawnHandler.doSpawns) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(world.dimension())) return false;
-        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.dimension()))
+        if (!Config.Rules.doSpawn(level)) return false;
+        if (SpawnHandler.dimensionBlacklist.contains(level.dimension())) return false;
+        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(level.dimension()))
             return false;
         return true;
     }
@@ -869,7 +869,7 @@ public final class SpawnHandler
     public void tick(final ServerLevel world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
-        if (!PokecubeCore.getConfig().pokemonSpawn) return;
+        if (!Config.Rules.doSpawn(world)) return;
         try
         {
             final int rate = PokecubeCore.getConfig().spawnRate;

@@ -17,14 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates.AIState;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.adventures.events.TrainerSpawnHandler;
-import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.interfaces.IPokemob;
@@ -115,24 +109,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public Villager getBreedOffspring(final ServerLevel p_241840_1_, final AgeableMob ageable)
     {
-        if (this.isBaby() || this.getAge() > 0) return null;
-        if (TrainerTracker.countTrainers(this.getCommandSenderWorld(), this.location.set(this),
-                PokecubeAdv.config.trainerBox) > 5)
-            return null;
-        if (this.pokemobsCap.getGender() == 2)
-        {
-            final IHasPokemobs other = TrainerCaps.getHasPokemobs(ageable);
-            final IHasNPCAIStates otherAI = TrainerCaps.getNPCAIStates(ageable);
-            if (other != null && otherAI != null && other.getGender() == 1)
-            {
-                if (this.location == null) this.location = Vector3.getNewVector();
-                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this),
-                        (ServerLevel) this.getCommandSenderWorld());
-                if (baby != null) baby.setAge(-24000);
-                return baby;
-            }
-        }
-        return null;
+        return super.getBreedOffspring(p_241840_1_, ageable);
     }
 
     private int getBaseStats(final IPokemob mob)
@@ -172,13 +149,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         return this;
     }
 
-    public TrainerNpc setType(final TypeTrainer type)
-    {
-        this.pokemobsCap.setType(type);
-        this.pokemobsCap.getType().initTrainerItems(this);
-        return this;
-    }
-
     @Override
     public void initTeam(final int level)
     {
@@ -189,7 +159,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     {
         if (this.pokemobsCap.getType() == null)
         {
-            this.setType(TypeTrainer.get(this, false));
+            this.setNpcType(TypeTrainer.get(this, false));
             this.initTeam(5);
         }
         if (this.getNPCName().isEmpty())

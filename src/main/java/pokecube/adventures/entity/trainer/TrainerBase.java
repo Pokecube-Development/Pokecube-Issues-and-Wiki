@@ -83,7 +83,10 @@ public abstract class TrainerBase extends NpcMob
     {
         NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(this);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.getResult() == Result.ALLOW)
+
+        boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
+
+        if (event.getResult() == Result.ALLOW || creativeStick)
         {
             if (player instanceof ServerPlayer sp)
             {
@@ -255,7 +258,11 @@ public abstract class TrainerBase extends NpcMob
     public void setNpcType(final NpcType type)
     {
         super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer) this.pokemobsCap.setType((TypeTrainer) type);
+        if (this.pokemobsCap != null && type instanceof TypeTrainer)
+        {
+            this.pokemobsCap.setType((TypeTrainer) type);
+            this.pokemobsCap.getType().initTrainerItems(this);
+        }
     }
 
     public abstract void initTeam(int level);

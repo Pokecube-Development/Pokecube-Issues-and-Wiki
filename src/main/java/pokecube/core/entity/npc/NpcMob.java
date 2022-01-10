@@ -167,11 +167,14 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         EntityType<?> other = level.getRandom().nextBoolean() ? this.getType() : mob.getType();
         NpcMob villager = (NpcMob) other.create(level);
 
-        NpcType newType = NpcType.byType("none");
-
-        if (level.getRandom().nextDouble() > 0.5)
+        NpcType newType = NpcType.getRandomForLocation(Vector3.getNewVector().set(mob), level);
+        if (newType == null || level.getRandom().nextDouble() > 0.5)
         {
-            newType = level.getRandom().nextBoolean() ? this.getNpcType() : npc.getNpcType();
+            newType = NpcType.byType("none");
+            if (level.getRandom().nextDouble() > 0.5)
+            {
+                newType = level.getRandom().nextBoolean() ? this.getNpcType() : npc.getNpcType();
+            }
         }
 
         villager.setMale(mob.getRandom().nextBoolean());

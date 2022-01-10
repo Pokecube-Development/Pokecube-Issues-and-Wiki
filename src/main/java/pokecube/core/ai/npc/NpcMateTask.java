@@ -158,7 +158,7 @@ public class NpcMateTask extends VillagerMakeLove
 
     private boolean canReach(Villager mob, BlockPos target)
     {
-        Path path = mob.getNavigation().createPath(target, PoiType.HOME.getValidRange());
+        Path path = mob.getNavigation().createPath(target.above(), PoiType.HOME.getValidRange());
         return path != null && path.canReach();
     }
 

@@ -503,8 +503,6 @@ public class Config extends ConfigData
     public boolean disableVanillaAnimals = false;
     @Configure(category = Config.spawning, comment = "Similar to deactivateMonsters, but for vanilla animals. [Default: true]")
     public boolean deactivateAnimals = true;
-    @Configure(category = Config.spawning, comment = "If false, pokemobs will not spawn naturally. [Default: true]")
-    public boolean pokemonSpawn = true;
 
     @Configure(category = Config.spawning, comment = "Legendary pokemobs will not spawn naturally below this level. [Default: 1]")
     public int minLegendLevel = 1;
@@ -824,7 +822,6 @@ public class Config extends ConfigData
 
         AITools.initIDs();
 
-        SpawnHandler.doSpawns = this.pokemonSpawn;
         SpawnHandler.lvlCap = this.shouldCap;
         SpawnHandler.capLevel = this.levelCap;
         SpawnHandler.initSpawnFunctions();

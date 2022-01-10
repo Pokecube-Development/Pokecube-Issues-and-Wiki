@@ -20,10 +20,13 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.interfaces.IInhabitable;
+import pokecube.core.utils.TagNames;
 
 public class CapabilityInhabitable
 {
-    public static final Capability<IInhabitable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IInhabitable> CAPABILITY = CapabilityManager.get(new CapabilityToken<>()
+    {
+    });
 
     public static class HabitatProvider implements ICapabilityProvider, IInhabitable
     {
@@ -55,13 +58,14 @@ public class CapabilityInhabitable
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onExitHabitat(mob);
-            mob.setPersistenceRequired();
+            mob.getPersistentData().putBoolean(TagNames.NOPOOF, true);
         }
 
         @Override
         public boolean onEnterHabitat(final Mob mob)
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
+            mob.getPersistentData().putBoolean(TagNames.NOPOOF, true);
             return this.getWrapped().onEnterHabitat(mob);
         }
 
@@ -136,25 +140,22 @@ public class CapabilityInhabitable
                 if (key == null || !nbt.contains(key))
                 {
                     ResourceLocation keyLoc = null;
-                    for (final String s : nbt.getAllKeys())
-                        try
-                        {
-                            keyLoc = new ResourceLocation(s);
-                            key = s;
-                            break;
-                        }
-                        catch (final Exception e)
-                        {
-                        }
-                    if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc)) this.setWrapped(
-                            CapabilityInhabitable.REGISTRY.get(keyLoc).get());
+                    for (final String s : nbt.getAllKeys()) try
+                    {
+                        keyLoc = new ResourceLocation(s);
+                        key = s;
+                        break;
+                    }
+                    catch (final Exception e)
+                    {}
+                    if (CapabilityInhabitable.REGISTRY.containsKey(keyLoc))
+                        this.setWrapped(CapabilityInhabitable.REGISTRY.get(keyLoc).get());
                 }
-                if (this.getWrapped() instanceof INBTSerializable) ((INBTSerializable<Tag>) this.getWrapped())
-                        .deserializeNBT(nbt.get(key));
+                if (this.getWrapped() instanceof INBTSerializable)
+                    ((INBTSerializable<Tag>) this.getWrapped()).deserializeNBT(nbt.get(key));
             }
             catch (final Exception e)
-            {
-            }
+            {}
         }
 
     }
@@ -166,8 +167,7 @@ public class CapabilityInhabitable
     {
         @Override
         public void onExitHabitat(final Mob mob)
-        {
-        }
+        {}
 
         @Override
         public boolean onEnterHabitat(final Mob mob)
