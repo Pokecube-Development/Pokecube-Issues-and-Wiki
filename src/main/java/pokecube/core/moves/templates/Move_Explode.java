@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
+import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.IMoveConstants;
@@ -42,9 +44,9 @@ public class Move_Explode extends Move_Basic
 {
     private static class Hitter implements IEntityHitter
     {
-        private final IPokemob     user;
+        private final IPokemob user;
         private final Move_Explode move;
-        private final BitSet       hit = new BitSet();
+        private final BitSet hit = new BitSet();
 
         public Hitter(final IPokemob user, final Move_Explode move)
         {
@@ -64,10 +66,12 @@ public class Move_Explode extends Move_Basic
 
             byte statusChange = IMoveConstants.STATUS_NON;
             byte changeAddition = IMoveConstants.CHANGE_NONE;
-            if (this.move.move.statusChange != IMoveConstants.STATUS_NON && MovesUtils.rand
-                    .nextFloat() <= this.move.move.statusChance) statusChange = this.move.move.statusChange;
-            if (this.move.move.change != IMoveConstants.CHANGE_NONE && MovesUtils.rand
-                    .nextFloat() <= this.move.move.chanceChance) changeAddition = this.move.move.change;
+            if (this.move.move.statusChange != IMoveConstants.STATUS_NON
+                    && MovesUtils.rand.nextFloat() <= this.move.move.statusChance)
+                statusChange = this.move.move.statusChange;
+            if (this.move.move.change != IMoveConstants.CHANGE_NONE
+                    && MovesUtils.rand.nextFloat() <= this.move.move.chanceChance)
+                changeAddition = this.move.move.change;
             final MovePacket packet = new MovePacket(this.user, e, this.move.name, this.move.getType(this.user),
                     this.move.getPWR(this.user, e), this.move.move.crit, statusChange, changeAddition);
             this.move.onAttack(packet);
@@ -75,8 +79,7 @@ public class Move_Explode extends Move_Basic
 
     }
 
-    public static final DamageSource SELFBOOM = new DamageSource("pokemob.exploded").setExplosion()
-            .bypassMagic();
+    public static final DamageSource SELFBOOM = new DamageSource("pokemob.exploded").setExplosion().bypassMagic();
 
     /**
      * @param name
@@ -97,25 +100,23 @@ public class Move_Explode extends Move_Basic
      */
     public void actualAttack(final IPokemob attacker, final Vector3 location)
     {
-        final List<Entity> targets = attacker.getEntity().getCommandSenderWorld().getEntities(attacker
-                .getEntity(), location.getAABB().inflate(8));
+        final List<Entity> targets = attacker.getEntity().getCommandSenderWorld().getEntities(attacker.getEntity(),
+                location.getAABB().inflate(8));
         final List<Entity> toRemove = Lists.newArrayList();
-        for (final Entity e : targets)
-            if (!(e instanceof LivingEntity)) toRemove.add(e);
+        for (final Entity e : targets) if (!(e instanceof LivingEntity)) toRemove.add(e);
         targets.removeAll(toRemove);
         final int n = targets.size();
         if (n > 0)
         {
-            for (final Entity e : targets)
-                if (e != null)
-                {
-                    final Entity attacked = e;
-                    final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.getType(attacker), this
-                            .getPWR(attacker, attacked), this.move.crit, IMoveConstants.STATUS_NON,
-                            IMoveConstants.CHANGE_NONE);
-                    packet.applyOngoing = false;
-                    this.onAttack(packet);
-                }
+            for (final Entity e : targets) if (e != null)
+            {
+                final Entity attacked = e;
+                final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.getType(attacker),
+                        this.getPWR(attacker, attacked), this.move.crit, IMoveConstants.STATUS_NON,
+                        IMoveConstants.CHANGE_NONE);
+                packet.applyOngoing = false;
+                this.onAttack(packet);
+            }
         }
         else MovesUtils.displayEfficiencyMessages(attacker, null, -1, 0);
         this.doWorldAction(attacker, location);
@@ -149,8 +150,8 @@ public class Move_Explode extends Move_Basic
             return;
         }
         this.playSounds(mob, attacked, null);
-        final float f1 = (float) (this.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength * pokemob
-                .getStat(Stats.ATTACK, true) / 500000f);
+        final float f1 = (float) (this.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength
+                * pokemob.getStat(Stats.ATTACK, true) / 500000f);
 
         final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
         boom.hitter = new Hitter(pokemob, this);
@@ -158,7 +159,7 @@ public class Move_Explode extends Move_Basic
         MinecraftForge.EVENT_BUS.post(evt);
         if (!evt.isCanceled())
         {
-            final boolean explodeDamage = PokecubeCore.getConfig().explosions;
+            final boolean explodeDamage = mob.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
             final boolean damagePerms = MoveEventsHandler.canAffectBlock(pokemob, this.v.set(mob), this.getName());
             // If these, we let the explosion handle the damage.
             if (explodeDamage && damagePerms) boom.doExplosion();
@@ -166,16 +167,16 @@ public class Move_Explode extends Move_Basic
             {
                 // Otherwise spawn in some effects
                 mob.getCommandSenderWorld().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(),
-                        SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (mob
-                                .getCommandSenderWorld().random.nextFloat() - mob.getCommandSenderWorld().random.nextFloat()) * 0.2F)
-                                * 0.7F);
-                if (this.getPWR() > 200) mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob
-                        .getY(), mob.getZ(), 1.0D, 0.0D, 0.0D);
-                else mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(), mob
-                        .getZ(), 1.0D, 0.0D, 0.0D);
+                        SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F,
+                        (1.0F + (mob.getCommandSenderWorld().random.nextFloat()
+                                - mob.getCommandSenderWorld().random.nextFloat()) * 0.2F) * 0.7F);
+                if (this.getPWR() > 200) mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(),
+                        mob.getY(), mob.getZ(), 1.0D, 0.0D, 0.0D);
+                else mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
+                        mob.getZ(), 1.0D, 0.0D, 0.0D);
                 // and hit nearby targets normally.
-                this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0, pokemob.getSize()
-                        * pokemob.getPokedexEntry().height / 2, 0));
+                this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0,
+                        pokemob.getSize() * pokemob.getPokedexEntry().height / 2, 0));
             }
             // First give it some health so it is alive
             mob.setHealth(1);
@@ -197,19 +198,23 @@ public class Move_Explode extends Move_Basic
         final Entity attacked = packet.attacked;
         final IPokemob pokemob = packet.attacker;
         final IPokemob target = CapabilityPokemob.getPokemobFor(attacked);
-        if (!PokecubeCore.getConfig().explosions) if (pokemob.getHealth() <= 0 && target != null && pokemob
-                .getHealth() >= 0 && attacked != pokemob)
+
+        final boolean explodeDamage = attacked.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
+
+        if (!explodeDamage && pokemob.getHealth() <= 0 && target != null && pokemob.getHealth() >= 0
+                && attacked != pokemob)
         {
             boolean giveExp = true;
-            if (target.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().pvpExp && target
-                    .getOwner() instanceof Player) giveExp = false;
+            if (target.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().pvpExp
+                    && target.getOwner() instanceof Player)
+                giveExp = false;
             if (target.getGeneralState(GeneralStates.TAMED) && !PokecubeCore.getConfig().trainerExp) giveExp = false;
             if (giveExp)
             {
                 // voltorb's enemy wins XP and EVs even if it didn't
                 // attack
-                target.setExp(target.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, pokemob
-                        .getBaseXP(), pokemob.getLevel()), true);
+                target.setExp(target.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
+                        pokemob.getBaseXP(), pokemob.getLevel()), true);
                 final byte[] evsToAdd = pokemob.getPokedexEntry().getEVs();
                 target.addEVs(evsToAdd);
             }

@@ -59,6 +59,7 @@ import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
@@ -295,7 +296,8 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
-        if (PokecubeCore.getConfig().pokemobsDropItems) return this.pokemobCap.getPokedexEntry().lootTable;
+        if (this.getLevel() instanceof ServerLevel level && Config.Rules.dropLoot(level))
+            return this.pokemobCap.getPokedexEntry().lootTable;
         else return null;
     }
 
@@ -509,8 +511,10 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean requiresCustomPersistence()
     {
-        final boolean despawns = PokecubeCore.getConfig().despawn;
-        final boolean culls = PokecubeCore.getConfig().cull;
+        if (!(level instanceof ServerLevel level)) return true;
+
+        final boolean despawns = Config.Rules.doDespawn(level);
+        final boolean culls = Config.Rules.doCull(level);
         final boolean owned = this.pokemobCap.getOwnerId() != null;
         if (owned) return true;
         if (this.getPersistentData().contains(TagNames.NOPOOF)) return true;
@@ -519,19 +523,17 @@ public class EntityPokemob extends PokemobRidable
 
     private boolean cullCheck(final double distanceToClosestPlayer)
     {
-        if (this.pokemobCap.getOwnerId() != null) return false;
-        boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
+        if (this.pokemobCap.getOwnerId() != null || !(level instanceof ServerLevel level)) return false;
         final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
         if (noPoof) return false;
-        if (PokecubeCore.getConfig().despawn)
+        if (Config.Rules.doCull(level, distanceToClosestPlayer)) return true;
+        if (Config.Rules.doDespawn(level, distanceToClosestPlayer))
         {
             this.despawntimer--;
-            if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
-            else if (this.despawntimer == 0) return true;
+            if (this.despawntimer <= 0) return true;
+            return false;
         }
-        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance,
-                this.getCommandSenderWorld().getMaxBuildHeight(), this);
-        if (PokecubeCore.getConfig().cull && !player) return true;
+        this.despawntimer = PokecubeCore.getConfig().despawnTimer;
         return false;
     }
 

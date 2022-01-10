@@ -616,7 +616,7 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
-        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel)
+        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel level)
         {
             final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
             final EntityPokemob mob = (EntityPokemob) living;
@@ -631,14 +631,9 @@ public class PokemobEventsHandler
             if (near != null && pokemob.getOwnerId() == null)
             {
                 dist = near.distanceTo(mob);
-                if (PokecubeCore.getConfig().cull && dist > PokecubeCore.getConfig().cullDistance)
+                if (Config.Rules.doCull(level, dist))
                 {
                     pokemobCap.onRecall();
-                    evt.setCanceled(true);
-                    return;
-                }
-                if (dist > PokecubeCore.getConfig().aiDisableDistance)
-                {
                     evt.setCanceled(true);
                     return;
                 }
