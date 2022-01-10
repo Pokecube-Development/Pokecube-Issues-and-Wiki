@@ -1099,44 +1099,35 @@ public class PortalWarp extends Rotates implements SimpleWaterloggedBlock, Entit
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos portalWarpTopPos = this.getPortalWarpTopPos(pos, context.getHorizontalDirection().getOpposite());
-        final BlockPos portalWarpTopLeftPos = this.getPortalWarpTopLeftPos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        final BlockPos portalWarpTopRightPos = this.getPortalWarpTopRightPos(pos, context.getHorizontalDirection()
-                .getOpposite());
+        final BlockPos posTop = this.getPortalWarpTopPos(pos, direction);
+        final BlockPos posTopLeft = this.getPortalWarpTopLeftPos(pos, direction);
+        final BlockPos posTopRight = this.getPortalWarpTopRightPos(pos, direction);
 
-        final BlockPos portalWarpMiddlePos = this.getPortalWarpMiddlePos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        final BlockPos portalWarpMiddleLeftPos = this.getPortalWarpMiddleLeftPos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        final BlockPos portalWarpMiddleRightPos = this.getPortalWarpMiddleRightPos(pos, context.getHorizontalDirection()
-                .getOpposite());
+        final BlockPos posMiddle = this.getPortalWarpMiddlePos(pos, direction);
+        final BlockPos posMiddleLeft = this.getPortalWarpMiddleLeftPos(pos, direction);
+        final BlockPos posMiddleRight = this.getPortalWarpMiddleRightPos(pos, direction);
 
-        final BlockPos portalWarpBottomLeftPos = this.getPortalWarpBottomLeftPos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        final BlockPos portalWarpBottomRightPos = this.getPortalWarpBottomRightPos(pos, context.getHorizontalDirection()
-                .getOpposite());
+        final BlockPos posBottomLeft = this.getPortalWarpBottomLeftPos(pos, direction);
+        final BlockPos posBottomRight = this.getPortalWarpBottomRightPos(pos, direction);
 
-        if (pos.getY() < 255 && portalWarpTopPos.getY() < 255 && context.getLevel().getBlockState(pos.above(2))
-                .canBeReplaced(context) && portalWarpTopLeftPos.getY() < 255 && context.getLevel().getBlockState(
-                        portalWarpTopLeftPos).canBeReplaced(context) && portalWarpTopRightPos.getY() < 255 && context
-                                .getLevel().getBlockState(portalWarpTopRightPos).canBeReplaced(context)
-                && portalWarpMiddlePos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                        context) && portalWarpMiddleLeftPos.getY() < 255 && context.getLevel().getBlockState(
-                                portalWarpMiddleLeftPos).canBeReplaced(context) && portalWarpMiddleRightPos.getY() < 255
-                && context.getLevel().getBlockState(portalWarpMiddleRightPos).canBeReplaced(context)
-                && portalWarpBottomLeftPos.getY() < 255 && context.getLevel().getBlockState(portalWarpBottomLeftPos)
-                        .canBeReplaced(context) && portalWarpBottomRightPos.getY() < 255 && context.getLevel()
-                                .getBlockState(portalWarpBottomRightPos).canBeReplaced(context)) return this
-                                        .defaultBlockState().setValue(PortalWarp.FACING, context
-                                                .getHorizontalDirection().getOpposite()).setValue(PortalWarp.PART,
-                                                        PortalWarpPart.BOTTOM).setValue(PortalWarp.WATERLOGGED,
-                                                                ifluidstate.is(FluidTags.WATER) && ifluidstate
-                                                                        .getAmount() == 8).setValue(PortalWarp.ACTIVE,
-                                                                                true);
+        if (pos.getY() < world.getMaxBuildHeight() && posTop.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above(2)).canBeReplaced(context) && posTopLeft.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posTopLeft).canBeReplaced(context) && posTopRight.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posTopRight).canBeReplaced(context) && posMiddle.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context) && posMiddleLeft.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posMiddleLeft).canBeReplaced(context) && posMiddleRight.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posMiddleRight).canBeReplaced(context) && posBottomLeft.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posBottomLeft).canBeReplaced(context) && posBottomRight.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(posBottomRight).canBeReplaced(context))
+            return this.defaultBlockState().setValue(PortalWarp.FACING, direction)
+                    .setValue(PART, PortalWarpPart.BOTTOM)
+                    .setValue(PortalWarp.WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8)
+                    .setValue(ACTIVE, true);
         return null;
     }
 

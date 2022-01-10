@@ -403,31 +403,27 @@ public class XerneasCore extends Rotates implements SimpleWaterloggedBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos xerneasCoreMiddleLeftPos = this.getXerneasCoreMiddleLeftPos(pos, context.getHorizontalDirection().getOpposite());
-        final BlockPos xerneasCoreMiddleRightPos = this.getXerneasCoreMiddleRightPos(pos, context.getHorizontalDirection().getOpposite());
-        final BlockPos xerneasCoreTopPos = this.getXerneasCoreTopPos(pos, context.getHorizontalDirection().getOpposite());
-        final BlockPos xerneasCoreTopLeftPos = this.getXerneasCoreTopLeftPos(pos, context.getHorizontalDirection().getOpposite());
-        final BlockPos xerneasCoreTopRightPos = this.getXerneasCoreTopRightPos(pos, context.getHorizontalDirection().getOpposite());
+        final BlockPos posMiddleLeft = this.getXerneasCoreMiddleLeftPos(pos, direction);
+        final BlockPos posMiddleRight = this.getXerneasCoreMiddleRightPos(pos, direction);
+        
+        final BlockPos posTop = this.getXerneasCoreTopPos(pos, direction);
+        final BlockPos posTopLeft = this.getXerneasCoreTopLeftPos(pos, direction);
+        final BlockPos posTopRight = this.getXerneasCoreTopRightPos(pos, direction);
 
-        if  (xerneasCoreMiddleLeftPos.getY() < 255 &&
-            context.getLevel().getBlockState(xerneasCoreMiddleLeftPos).canBeReplaced(context) &&
-            xerneasCoreMiddleRightPos.getY() < 255 &&
-            context.getLevel().getBlockState(xerneasCoreMiddleRightPos).canBeReplaced(context) &&
-            pos.getY() < 255 && xerneasCoreTopPos.getY() < 255 &&
-            context.getLevel().getBlockState(pos.above()).canBeReplaced(context) &&
-            xerneasCoreTopLeftPos.getY() < 255 &&
-            context.getLevel().getBlockState(xerneasCoreTopLeftPos).canBeReplaced(context) &&
-            xerneasCoreTopRightPos.getY() < 255 &&
-            context.getLevel().getBlockState(xerneasCoreTopRightPos).canBeReplaced(context))
+        if  (pos.getY() < world.getMaxBuildHeight()
+                && posMiddleLeft.getY() < world.getMaxBuildHeight() && context.getLevel().getBlockState(posMiddleLeft).canBeReplaced(context)
+                && posMiddleRight.getY() < world.getMaxBuildHeight() && context.getLevel().getBlockState(posMiddleRight).canBeReplaced(context)
+                && posTop.getY() < world.getMaxBuildHeight() && context.getLevel().getBlockState(pos.above()).canBeReplaced(context)
+                && posTopLeft.getY() < world.getMaxBuildHeight() && context.getLevel().getBlockState(posTopLeft).canBeReplaced(context)
+                && posTopRight.getY() < world.getMaxBuildHeight() && context.getLevel().getBlockState(posTopRight).canBeReplaced(context))
         {
-            return this.defaultBlockState().setValue(
-                XerneasCore.FACING, context.getHorizontalDirection().getOpposite())
-                .setValue(XerneasCore.PART, XerneasCorePart.BOTTOM)
-                .setValue(XerneasCore.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
-                .getAmount() == 8);
+            return this.defaultBlockState().setValue(FACING, direction).setValue(PART, XerneasCorePart.BOTTOM)
+                .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         }
         return null;
     }

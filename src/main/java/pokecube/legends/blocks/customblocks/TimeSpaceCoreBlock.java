@@ -186,15 +186,16 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos timeSpacePos = this.getTimeSpaceTopPos(pos, context.getHorizontalDirection().getOpposite());
-        if (pos.getY() < 255 && timeSpacePos.getY() < 255 && context.getLevel().getBlockState(pos.above())
-                .canBeReplaced(context)) return this.defaultBlockState().setValue(TimeSpaceCoreBlock.FACING, context
-                        .getHorizontalDirection().getOpposite()).setValue(TimeSpaceCoreBlock.HALF,
-                                TimeSpaceCorePart.BOTTOM).setValue(TimeSpaceCoreBlock.WATERLOGGED, ifluidstate.is(
-                                        FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        final BlockPos timeSpacePos = this.getTimeSpaceTopPos(pos, direction);
+        if (pos.getY() < world.getMaxBuildHeight() && timeSpacePos.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+            return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, TimeSpaceCorePart.BOTTOM)
+                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         return null;
     }
 
