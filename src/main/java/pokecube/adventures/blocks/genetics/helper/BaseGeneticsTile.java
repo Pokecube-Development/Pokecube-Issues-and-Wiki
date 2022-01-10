@@ -24,8 +24,8 @@ import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
-import pokecube.core.inventory.InvHelper;
 import thut.api.block.ITickTile;
+import thut.api.inventory.InvHelper;
 
 public abstract class BaseGeneticsTile extends InteractableTile implements IPoweredProgress, ITickTile, WorldlyContainer
 {

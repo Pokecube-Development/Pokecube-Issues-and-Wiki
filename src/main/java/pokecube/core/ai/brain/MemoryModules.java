@@ -11,9 +11,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.level.pathfinder.Path;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -21,8 +19,9 @@ import pokecube.core.ai.tasks.ants.AntTasks;
 import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.entity.ai.MemoryModuleTypes;
 
-public class MemoryModules
+public class MemoryModules extends MemoryModuleTypes
 {
     // Used for combat
     public static final MemoryModuleType<LivingEntity> ATTACKTARGET = new MemoryModuleType<>(Optional.empty());
@@ -45,21 +44,12 @@ public class MemoryModules
 
     public static final MemoryModuleType<Boolean> GOING_HOME = new MemoryModuleType<>(Optional.of(Codec.BOOL));
 
-    // Used for pathing
-    public static final MemoryModuleType<Path> PATH = MemoryModuleType.PATH;
-    public static final MemoryModuleType<WalkTarget> WALK_TARGET = MemoryModuleType.WALK_TARGET;
-    public static final MemoryModuleType<Long> NOT_FOUND_PATH = MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE;
-
-    // Misc
-    public static final MemoryModuleType<PositionTracker> LOOK_TARGET = MemoryModuleType.LOOK_TARGET;
-
     public static final MemoryModuleType<EntityPokemobEgg> EGG = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<NearBlock>> VISIBLE_BLOCKS = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<List<ItemEntity>> VISIBLE_ITEMS = new MemoryModuleType<>(Optional.empty());
 
     public static final MemoryModuleType<List<AgeableMob>> POSSIBLE_MATES = new MemoryModuleType<>(Optional.empty());
-    public static final MemoryModuleType<AgeableMob> MATE_TARGET = MemoryModuleType.BREED_TARGET;
 
     public static final MemoryModuleType<List<LivingEntity>> HERD_MEMBERS = new MemoryModuleType<>(Optional.empty());
 

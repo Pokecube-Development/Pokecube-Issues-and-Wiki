@@ -385,6 +385,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;
+        material.cull = mat.cull;
 
         final Material old = this.wrapped.body.namesToMats.get(mat_name);
         final ArrayList<Face> faces = this.wrapped.body.matsToFaces.remove(old);

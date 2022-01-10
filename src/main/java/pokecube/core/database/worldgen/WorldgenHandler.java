@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -77,12 +76,7 @@ import thut.core.common.ThutCore;
 
 public class WorldgenHandler
 {
-    public static final Gson GSON;
-
-    static
-    {
-        GSON = new GsonBuilder().create();
-    }
+    public static final Gson GSON = JsonUtil.gson;
 
     public static class Options
     {
@@ -105,6 +99,9 @@ public class WorldgenHandler
         public boolean water = false;
 
         public boolean override = false;
+        public boolean needs_children = false;
+
+        public boolean base_override = false;
 
         public Map<String, JsonElement> extra = Maps.newHashMap();
 
@@ -139,6 +136,7 @@ public class WorldgenHandler
         public boolean ignoreAir = false;
         public boolean water = false;
         public boolean filler = false;
+        public boolean base_override = false;
         public List<String> includes = Lists.newArrayList();
     }
 
@@ -176,6 +174,7 @@ public class WorldgenHandler
         public SpawnRule spawn;
         public boolean surface = true;
         public boolean base_under = true;
+        public boolean base_override = false;
         public boolean water = false;
         public boolean air = false;
         public boolean allow_void = false;
@@ -250,6 +249,11 @@ public class WorldgenHandler
     private static Map<ResourceLocation, Integer> SPACENEEDS = Maps.newConcurrentMap();
 
     private static Map<ResourceLocation, StructureFeature<?>> FEATURELOOKUP = Maps.newConcurrentMap();
+
+    public static List<JigSawPool> BASE_OVERRIDES = Lists.newArrayList();
+    public static Set<StructureFeature<?>> HAS_BASE_OVERRIDES = Sets.newHashSet();
+
+    public static Set<StructureFeature<?>> HAS_BASES = Sets.newHashSet();
 
     public static Set<ResourceKey<Level>> SOFTBLACKLIST = Sets.newHashSet();
 
@@ -693,13 +697,14 @@ public class WorldgenHandler
         Set<JigSawConfig> types = this.variants.get(structure);
         if (types == null) this.variants.put(structure, types = Sets.newHashSet());
         types.add(struct);
+
+        if (struct.base_override) HAS_BASE_OVERRIDES.add(structure);
+
         return structure;
     }
 
     private static void forceVillageFeature(final StructureFeature<?> feature)
     {
-        final List<StructureFeature<?>> list = Lists.newArrayList(StructureFeature.NOISE_AFFECTING_FEATURES);
-        if (!list.contains(feature)) list.add(feature);
-        StructureFeature.NOISE_AFFECTING_FEATURES = list;
+        if (!WorldgenHandler.HAS_BASES.contains(feature)) WorldgenHandler.HAS_BASES.add(feature);
     }
 }

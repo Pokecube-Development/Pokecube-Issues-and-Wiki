@@ -97,35 +97,33 @@ public abstract class PokemobBase implements IPokemob
             // type2
 
             // From EntityAiPokemob
-            this.DIRECTIONPITCHDW = sync.register(new Data_Float(), Float.valueOf(0));
-            this.HEADINGDW = sync.register(new Data_Float(), Float.valueOf(0));
+            this.DIRECTIONPITCHDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
+            this.HEADINGDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
             this.ATTACKTARGETIDDW = sync.register(new Data_Int(), Integer.valueOf(-1));
-            this.GENERALSTATESDW = sync.register(new Data_Int(), Integer.valueOf(0));
-            this.LOGICSTATESDW = sync.register(new Data_Int(), Integer.valueOf(0));
-            this.COMBATSTATESDW = sync.register(new Data_Int(), Integer.valueOf(0));
+            this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+            this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+            this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
 
             // from EntityEvolvablePokemob
-            this.EVOLTICKDW = sync.register(new Data_Int(), Integer.valueOf(0));// evolution
+            this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));// evolution
             this.DYNAPOWERDW = sync.register(new Data_Float(), Float.valueOf(1));
             // tick
 
             // From EntityMovesPokemb
             this.STATUSDW = sync.register(new Data_Byte(), Byte.valueOf((byte) -1));
-            this.MOVEINDEXDW = sync.register(new Data_Byte(), Byte.valueOf((byte) -1));
-            this.STATUSTIMERDW = sync.register(new Data_Int(), Integer.valueOf(0));
-            this.ATTACKCOOLDOWN = sync.register(new Data_Int(), Integer.valueOf(0));
+            this.MOVEINDEXDW = sync.register(new Data_Byte().setRealtime(), Byte.valueOf((byte) -1));
+            this.STATUSTIMERDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+            this.ATTACKCOOLDOWN = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
 
             this.DYECOLOUR = sync.register(new Data_Int(), Integer.valueOf(-1));
 
             this.ZMOVECD = sync.register(new Data_Int(), Integer.valueOf(-1));
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 5; i++)
-                this.FLAVOURS[i] = sync.register(new Data_Int(), Integer.valueOf(0));
+            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int(), Integer.valueOf(0));
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 4; i++)
-                this.DISABLE[i] = sync.register(new Data_Int(), Integer.valueOf(0));
+            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int(), Integer.valueOf(0));
 
             // EntityID of the active move use entity.
             this.ACTIVEMOVEID = sync.register(new Data_Int(), Integer.valueOf(-1));
@@ -138,50 +136,50 @@ public abstract class PokemobBase implements IPokemob
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
     /** Inventory of the pokemob. */
-    protected AnimalChest  pokeChest;
+    protected AnimalChest pokeChest;
     /** Prevents duplication on returning to pokecubes */
-    public boolean         returning = false;
+    public boolean returning = false;
     /** Is this owned by a player? */
-    protected boolean      players   = false;
+    protected boolean players = false;
     /** Cached Team for this Pokemob */
-    protected String       team      = "";
-    protected double       moveSpeed;
+    protected String team = "";
+    protected double moveSpeed;
     /** Cached Pokedex Entry for this pokemob. */
     protected PokedexEntry entry;
 
     /** The happiness value of the pokemob */
-    protected int                  bonusHappiness   = 0;
+    protected int bonusHappiness = 0;
     /** Tracks whether this was a shadow mob at some point. */
-    protected boolean              wasShadow        = false;
+    protected boolean wasShadow = false;
     /** Number used as seed for various RNG things. */
-    protected int                  personalityValue = 0;
+    protected int personalityValue = 0;
     /** Modifiers on stats. */
-    protected StatModifiers        modifiers        = new StatModifiers();
+    protected StatModifiers modifiers = new StatModifiers();
     /** Egg we are trying to protect. */
-    protected Entity               egg              = null;
+    protected Entity egg = null;
     /**
      * Timer for determining whether wants to breed, will only do so if this is
      * greater than 0
      */
-    protected int                  loveTimer;
+    protected int loveTimer;
     /** List of nearby male mobs to breed with */
-    protected Vector<IBreedingMob> males            = new Vector<>();
+    protected Vector<IBreedingMob> males = new Vector<>();
     /** Simpler UID for some client sync things. */
-    protected int                  uid              = -1;
+    protected int uid = -1;
     /** The pokecube this mob is "in" */
-    protected ItemStack            pokecube         = ItemStack.EMPTY;
+    protected ItemStack pokecube = ItemStack.EMPTY;
     /** Tracker for things related to moves. */
-    protected PokemobMoveStats     moveInfo         = new PokemobMoveStats();
+    protected PokemobMoveStats moveInfo = new PokemobMoveStats();
     /**
      * The current move being used, this is used to track whether the mob can
      * launch a new move, only allows sending a new move if this returns true
      * for isDone()
      */
-    protected EntityMoveUse        activeMove;
+    protected EntityMoveUse activeMove;
     /** Used for size when pathing */
-    protected Vector3              sizes            = Vector3.getNewVector();
+    protected Vector3 sizes = Vector3.getNewVector();
     /** Cooldown for hunger AI */
-    protected int                  hungerCooldown   = 0;
+    protected int hungerCooldown = 0;
 
     protected ITargetFinder targetFinder;
 
@@ -190,30 +188,30 @@ public abstract class PokemobBase implements IPokemob
     protected SpawnRule spawnInitRule = null;
 
     /** Data manager used for syncing data */
-    public DataSync                dataSync;
+    public DataSync dataSync;
     /** Holds the data parameters used for syncing our stuff. */
     protected final DataParameters params = new DataParameters();
 
     /** Stack which will be used for evolution */
-    protected ItemStack          stack = ItemStack.EMPTY;
+    protected ItemStack stack = ItemStack.EMPTY;
     /** Manages mounted control */
-    public LogicMountedControl   controller;
+    public LogicMountedControl controller;
     /** Used for various cases where things at mobs location need checking */
-    protected Vector3            here  = Vector3.getNewVector();
+    protected Vector3 here = Vector3.getNewVector();
     /** The Entity this IPokemob is attached to. */
-    protected Mob          entity;
+    protected Mob entity;
     /** RNG used, should be entity.getRNG() */
-    protected Random             rand  = ThutCore.newRandom();
+    protected Random rand = ThutCore.newRandom();
     /** Our original owner. */
-    protected UUID               OTID;
+    protected UUID OTID;
     /** Used for maintaining/storing homes and routes. */
     protected IGuardAICapability guardCap;
     /** How long the mob is */
-    protected float              length;
+    protected float length;
     /** The IMobGenetics used to store our genes. */
-    public IMobGenetics          genes;
+    public IMobGenetics genes;
     /** The IMobGenetics used to store our genes. */
-    private IOwnable             ownerHolder;
+    private IOwnable ownerHolder;
 
     protected ICopyMob transformed = new CopyCaps.Impl();
 
@@ -225,8 +223,8 @@ public abstract class PokemobBase implements IPokemob
      */
     protected ResourceLocation[] textures;
 
-    protected final Map<ResourceLocation, ResourceLocation>   shinyTexs = Maps.newHashMap();
-    protected final Map<ResourceLocation, ResourceLocation[]> texs      = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation> shinyTexs = Maps.newHashMap();
+    protected final Map<ResourceLocation, ResourceLocation[]> texs = Maps.newHashMap();
 
     /**
      * This is the nbt of searalizable tasks.
@@ -270,10 +268,9 @@ public abstract class PokemobBase implements IPokemob
     protected void setMaxHealth(final float maxHealth)
     {
         final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
-        for (final AttributeModifier modifier : health.getModifiers())
-            health.removeModifier(modifier);
-        final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax", this
-                .getDynamaxFactor(), Operation.MULTIPLY_BASE);
+        for (final AttributeModifier modifier : health.getModifiers()) health.removeModifier(modifier);
+        final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax",
+                this.getDynamaxFactor(), Operation.MULTIPLY_BASE);
         if (this.getCombatState(CombatStates.DYNAMAX)) health.addTransientModifier(dynahealth);
         health.setBaseValue(maxHealth);
     }

@@ -30,7 +30,7 @@ import org.nfunk.jep.function.UMinus;
  * OperatorSet opSet = new OperatorSet();
  * Operator myOp = opSet.getAdd();
  * </pre>
- * <p>
+ * </p>
  * 
  * @author Rich Morris
  *         Created on 19-Oct-2003

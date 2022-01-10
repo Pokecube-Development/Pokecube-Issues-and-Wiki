@@ -14,6 +14,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -43,11 +45,14 @@ import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.network.EntityUpdate;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -244,10 +249,21 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void checkCollision()
     {
         BlockPos.betweenClosedStream(this.getBoundingBox()).forEach(p -> {
-            final Level world = this.getCommandSenderWorld();
+            final Level world = this.getLevel();
             final BlockState block = world.getBlockState(p);
-            if (world.isEmptyBlock(p) && block.getBlock() != BlockEntityBase.FAKEBLOCK)
-                world.setBlockAndUpdate(p, BlockEntityBase.FAKEBLOCK.defaultBlockState());
+
+            ResourceLocation replaceable = new ResourceLocation("thutcore:craft_replace");
+            boolean air = block.isAir();
+
+            boolean isReplaceable = air || ItemList.is(replaceable, block);
+
+            if (isReplaceable && block.getBlock() != BlockEntityBase.FAKEBLOCK)
+            {
+                final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
+                if (!air) world.destroyBlock(p, true);
+                world.setBlockAndUpdate(p,
+                        BlockEntityBase.FAKEBLOCK.defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
+            }
             final BlockEntity te = world.getBlockEntity(p);
             if (te instanceof TempTile)
             {
@@ -260,7 +276,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (v > 1e-5)
         {
             final List<Entity> mobs = this.level.getEntities(this, this.getBoundingBox().inflate(Math.sqrt(v) + 0.5));
-//            if (!this.isServerWorld()) System.out.println(mobs + " " + this.tickCount);
             mobs.forEach(m -> this.onEntityCollision(m));
 
             if (this.getPersistentData().contains("__lift_cache__"))
@@ -277,8 +292,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
                     if (mob.position().distanceTo(r1) > 0)
                     {
-                        System.out.println(tickCount + " Missed it? " + (tickCount - tick));
-
                         mob.setPos(r1);
                         mob.setDeltaMovement(v0);
                     }
@@ -290,6 +303,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public void onEntityCollision(final Entity entityIn)
     {
+        boolean isPassenger = this.passengers.contains(entityIn);
+        if (isPassenger) return;
+
         final VoxelShape shapeHere = this.collider.buildShape();
         if (shapeHere.isEmpty()) return;
 
@@ -300,7 +316,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         Vec3 r0 = this.position();
         Vec3 r1 = entityIn.position();
 
-        boolean serverSide = entityIn.getCommandSenderWorld().isClientSide;
+        boolean serverSide = entityIn.getLevel().isClientSide;
         final boolean isPlayer = entityIn instanceof Player && !(entityIn instanceof Npc);
         if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
 
@@ -384,7 +400,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public final void doMotion()
     {
         final Vec3 v = this.getDeltaMovement();
-        this.move(MoverType.SELF, v);
+        if (v.lengthSqr() > 0)
+        {
+            this.move(MoverType.SELF, v);
+        }
+        if (this.tickCount % 60 == 0 && this.isServerWorld())
+        {
+            EntityUpdate.sendEntityUpdate(this);
+        }
     }
 
     @Override
@@ -442,7 +465,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public Vec3 getDeltaMovement()
     {
         return super.getDeltaMovement();
-//        return this.getEntityData().get(BlockEntityBase.velocity);
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, double speedPos,
@@ -590,15 +612,14 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void defineSynchedData()
     {
-        this.getEntityData().define(BlockEntityBase.velocity, Vec3.ZERO);
-        this.getEntityData().define(BlockEntityBase.position, Vec3.ZERO);
+
     }
 
     /** Will get destroyed next tick. */
     @Override
     public void remove(final RemovalReason reason)
     {
-        if (!this.getCommandSenderWorld().isClientSide && this.isAlive() && this.shouldRevert)
+        if (!this.getLevel().isClientSide && this.isAlive() && this.shouldRevert)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove(reason);
     }
@@ -631,28 +652,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void setDeltaMovement(final Vec3 vec)
     {
         super.setDeltaMovement(vec);
-        this.getEntityData().set(BlockEntityBase.velocity, vec);
     }
 
     @Override
     public void setPosRaw(final double x, final double y, final double z)
     {
-        final Vec3 pos = new Vec3(x, y, z);
-        Vec3 vec = pos;
-        if (this.getEntityData() != null) vec = this.getEntityData().get(BlockEntityBase.position);
-        final double ds2 = vec.distanceToSqr(pos);
         super.setPosRaw(x, y, z);
-
-        if (this.isServerWorld() && this.getEntityData() != null && ds2 > 0)
-            this.getEntityData().set(BlockEntityBase.position, pos);
-
-        // This is null during init, when setPosition is first called.
-        if (this.getEntityData() == null) return;
-        if (!this.isServerWorld())
-        {
-            vec = this.getEntityData().get(BlockEntityBase.position);
-            if (!vec.equals(Vec3.ZERO)) super.setPosRaw(vec.x, vec.y, vec.z);
-        }
     }
 
     @Override
@@ -670,32 +675,22 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void tick()
     {
+        super.tick();
         if (this.getBlocks() == null) return;
 
         if (!this.isAddedToWorld()) this.onAddedToWorld();
 
-        this.xo = this.getX();
-        this.yo = this.getY();
-        this.zo = this.getZ();
-
         if (this.collider == null) this.collider = new BlockEntityUpdater(this);
         this.setBoundingBox(this.collider.getBoundingBox());
-
-        if (this.isServerWorld())
-        {
-            final Vec3 orig = this.getDeltaMovement();
-            final Vec3 motion = new Vec3(orig.x, orig.y, orig.z);
-            this.setDeltaMovement(motion);
-        }
 
         this.yRot = 0;
         this.xRot = 0;
         this.preColliderTick();
         this.collider.onUpdate();
-        this.accelerate();
 
-        if (this.toMoveY || this.toMoveX || this.toMoveZ) this.doMotion();
-//        if (!this.isServerWorld())
+        this.accelerate();
+        this.doMotion();
+
         this.checkCollision();
     }
 

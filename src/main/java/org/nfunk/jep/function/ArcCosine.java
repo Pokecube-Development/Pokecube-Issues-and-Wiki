@@ -15,7 +15,7 @@ import org.nfunk.jep.type.Complex;
  * The acos function.
  * 
  * @author Nathan Funk
- *         TODO How to handle acos(x) for real x with x>1 or x<-1
+ *         TODO How to handle acos(x) for real x with x&gt;1 or x&lt;-1
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ArcCosine extends PostfixMathCommand

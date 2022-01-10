@@ -15,11 +15,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.HitEntity;
+import thut.api.item.ItemList;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
@@ -31,10 +30,11 @@ public class Checker
     {
         default float getResistance(final BlockPos pos, final ExplosionCustom boom)
         {
-            final BlockState state = boom.world.getBlockState(pos);
-            float resist = state.getExplosionResistance(boom.world, pos, boom);
-            if (state.getBlock() == Blocks.GRASS_BLOCK) resist /= 2;
-            if (state.getBlock() instanceof LeavesBlock) resist /= 10;
+            final BlockState state = boom.level.getBlockState(pos);
+            if (ItemList.is(ExplosionCustom.EXPLOSION_TRANSPARENT, state)) return 0;
+            float resist = state.getExplosionResistance(boom.level, pos, boom);
+            if (ItemList.is(ExplosionCustom.EXPLOSION_2X_WEAK, state)) resist /= 2;
+            if (ItemList.is(ExplosionCustom.EXPLOSION_10X_WEAK, state)) resist /= 10;
             if (resist > 1) resist *= resist;
             return resist;
         }
@@ -72,7 +72,7 @@ public class Checker
                     {
                         // Ensure the chunk exists.
                         final ChunkPos cpos = new ChunkPos(boom.rTestAbs.getPos());
-                        boom.world.getChunk(cpos.x, cpos.z);
+                        boom.level.getChunk(cpos.x, cpos.z);
                         res = boom.resistProvider.getResistance(boom.rTestAbs.getPos(), boom);
                         this.set(testPos, res);
                     }
@@ -398,7 +398,7 @@ public class Checker
         double str;
         ChunkPos cpos;
 
-        if (this.boom.r.y + this.boom.centre.y > this.boom.world.getMaxBuildHeight()) return false;
+        if (this.boom.r.y + this.boom.centre.y > this.boom.level.getMaxBuildHeight()) return false;
         final double rSq = this.boom.r.magSq();
         if (rSq > radSq) return false;
         rMag = Math.sqrt(rSq);
@@ -409,7 +409,6 @@ public class Checker
         if (this.outOfBounds(this.unit)) return false;
 
         str = this.boom.strength / rSq;
-
         // Return due to out of blast power.
         if (str <= this.boom.minBlastDamage) return true;
 
@@ -427,16 +426,16 @@ public class Checker
 
         // Ensure the chunk exists.
         cpos = new ChunkPos(this.boom.rAbs.getPos());
-        if (!seen.contains(cpos) && seen.add(cpos)) this.boom.world.getChunk(cpos.x, cpos.z);
+        if (seen.add(cpos)) this.boom.level.getChunk(cpos.x, cpos.z);
 
         final boolean doAirCheck = this.boom.rHat.y < this.boom.max.y * 0.9 && this.boom.rHat.y > this.boom.min.y * 0.9;
 
         // // Check for mobs to hit at this point.
-        if (doAirCheck && this.boom.rAbs.isAir(this.boom.world) && !this.boom.r.isEmpty())
+        if (doAirCheck && this.boom.rAbs.isAir(this.boom.level) && !this.boom.r.isEmpty())
         {
             if (ExplosionCustom.AFFECTINAIR)
             {
-                final List<Entity> hits = this.boom.world.getEntities(this.boom.exploder,
+                final List<Entity> hits = this.boom.level.getEntities(this.boom.exploder,
                         this.boom.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
                 // If this is the case, we do actually need to trace to there.
                 if (hits != null && !hits.isEmpty())
@@ -450,7 +449,7 @@ public class Checker
             return false;
         }
         // Continue to next site, we can't break this block.
-        if (!this.boom.canBreak(this.boom.rAbs, this.boom.rAbs.getBlockState(this.boom.world)))
+        if (!this.boom.canBreak(this.boom.rAbs, this.boom.rAbs.getBlockState(this.boom.level)))
         {
             this.boom.shadow.block(relPos, this.boom.rHat);
             this.boom.ind2++;
@@ -475,7 +474,7 @@ public class Checker
         // Add as affected location.
         this.boom.getToBlow().add(pos);
         // Check for additional mobs to hit.
-        final List<Entity> hits = this.boom.world.getEntities(this.boom.exploder,
+        final List<Entity> hits = this.boom.level.getEntities(this.boom.exploder,
                 this.boom.rAbs.getAABB().inflate(0.5, 0.5, 0.5));
         if (hits != null) for (final Entity e : hits) entityAffected.add(new HitEntity(e, (float) str));
         // Add to blocks to remove list.
@@ -496,7 +495,7 @@ public class Checker
         final Object2FloatOpenHashMap<BlockPos> ret = new Object2FloatOpenHashMap<>();
         final List<HitEntity> entityAffected = Lists.newArrayList();
         final HashSet<ChunkPos> seen = new HashSet<>();
-        boolean done = true;
+        boolean done = boom.last_rad >= boom.radius;
 
         final boolean sphere = true;
 
@@ -590,7 +589,7 @@ public class Checker
         this.boom.totalTime += System.nanoTime() - nanoS;
         // Increment the boom index for next pass.
         this.boom.nextIndex = this.boom.currentIndex + increment;
-        return new BlastResult(ret, entityAffected, done);
+        return new BlastResult(ret, entityAffected, seen, done);
     }
 
     float kToY(final int k, final float N)

@@ -13,8 +13,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.interfaces.IPokecube;
-import pokecube.core.inventory.InvHelper;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.inventory.InvHelper;
 
 public class TradeInventory extends SimpleContainer implements ICapabilitySerializable<CompoundTag>
 {

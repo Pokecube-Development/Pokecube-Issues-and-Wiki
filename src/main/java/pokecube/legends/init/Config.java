@@ -39,12 +39,10 @@ public class Config extends ConfigData
     public boolean generateOres          = true;
 
     // Meteor adjustments
-    @Configure(category = "meteors", comment = "Size and power of meteors. Anything above 100 is not recommended. [Default: 20]")
+    @Configure(category = "meteors", comment = "Threshold for meteor explosions to leave lava. [Default: 50]")
     public double meteorPowerThreshold = 20;
     @Configure(category = "meteors", comment = "Chance for meteors to spawn. [Default: 0.15]")
     public double meteorChanceForAny   = 0.15;
-    @Configure(category = "meteors", comment = "Chance for meteors to spawn with Cosmic Dust Ores. [Default: 0.25]")
-    public double meteorChanceForDust  = 0.25;
 
     // Raids
     @Configure(category = "raids", comment = "Duration of raids in ticks. [Default: 3000]")

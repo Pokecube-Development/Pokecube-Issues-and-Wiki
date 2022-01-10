@@ -32,7 +32,7 @@ public class Neck
         dx = 0;
         dy = -.0f;
         dz = -0.03f;
-        s = 0.525f;
+        s = 0.5f;
         mat.mulPose(Vector3f.XP.rotationDegrees(90));
         mat.mulPose(Vector3f.ZP.rotationDegrees(180));
         mat.translate(dx, dy, dz);

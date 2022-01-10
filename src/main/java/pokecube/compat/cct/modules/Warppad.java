@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.maths.Vector3;
 
 public class Warppad extends BasePeripheral<WarpPadTile>
 {
@@ -21,13 +22,15 @@ public class Warppad extends BasePeripheral<WarpPadTile>
         {
             final TeleDest dest = this.tile.getDest();
 
-            return new float[] { dest.loc.pos().getX(), dest.loc.pos().getY(), dest.loc.pos().getZ() };
+            return new float[]
+            { dest.loc.pos().getX(), dest.loc.pos().getY(), dest.loc.pos().getZ() };
         }
 
         public boolean setDest(final int x, final int y, final int z) throws LuaException
         {
             final TeleDest dest = this.tile.getDest();
-            dest.setPos(GlobalPos.of(this.tile.getLevel().dimension(), new BlockPos(x, y, z)));
+            dest.setLoc(GlobalPos.of(this.tile.getLevel().dimension(), new BlockPos(x, y, z)),
+                    Vector3.getNewVector().set(new BlockPos(x, y, z)).add(0.5, 0, 0.5));
             return true;
         }
     }

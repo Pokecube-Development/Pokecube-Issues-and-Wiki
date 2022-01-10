@@ -21,7 +21,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
@@ -30,6 +29,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.moves.Battle;
+import thut.api.entity.ai.RootTask;
 
 public class ForgetTargetTask extends CombatTask
 {

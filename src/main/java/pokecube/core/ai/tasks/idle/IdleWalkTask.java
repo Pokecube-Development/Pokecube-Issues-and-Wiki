@@ -76,7 +76,7 @@ public class IdleWalkTask extends BaseIdleTask
     private double y;
     private double z;
 
-    Vector3 v  = Vector3.getNewVector();
+    Vector3 v = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
     public IdleWalkTask(final IPokemob pokemob)
@@ -102,13 +102,12 @@ public class IdleWalkTask extends BaseIdleTask
     private void doFlyingIdle()
     {
         final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed) this.doGroundIdle();
-        final Player player = this.world.getNearestPlayer(this.entity, PokecubeCore
-                .getConfig().aiDisableDistance);
+        final Player player = this.world.getNearestPlayer(this.entity, PokecubeCore.getConfig().aiDisableDistance);
         if (player != null)
         {
             final double diff = Math.abs(player.getY() - this.y);
@@ -146,14 +145,13 @@ public class IdleWalkTask extends BaseIdleTask
 
     private boolean getLocation()
     {
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
         boolean goHome = false;
         if (!tameFactor)
         {
-            if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0 && this.pokemob.getHome()
-                    .getY() == 0 && this.pokemob.getHome().getZ() == 0)
+            if (this.pokemob.getHome() == null)
             {
                 this.v1.set(this.entity);
                 this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
@@ -161,7 +159,8 @@ public class IdleWalkTask extends BaseIdleTask
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.blockPosition().distSqr(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance()) goHome = true;
+                    * this.pokemob.getHomeDistance())
+                goHome = true;
         }
         else
         {
@@ -179,8 +178,8 @@ public class IdleWalkTask extends BaseIdleTask
         {
             final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance);
             if (v == null) return false;
-            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(), this.pokemob
-                    .getPokedexEntry().width * this.pokemob.getSize());
+            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
+                    this.pokemob.getPokedexEntry().width * this.pokemob.getSize());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
@@ -192,8 +191,7 @@ public class IdleWalkTask extends BaseIdleTask
 
     @Override
     public void reset()
-    {
-    }
+    {}
 
     @Override
     public void run()
@@ -207,7 +205,7 @@ public class IdleWalkTask extends BaseIdleTask
         this.v1.set(this.entity);
         this.v.set(this.x, this.y, this.z);
         if (this.v1.distToSq(this.v) <= 1) return;
-        this.setWalkTo(this.v, 1, 0);
+        this.setWalkTo(this.v, 1, 3);
     }
 
     @Override
@@ -247,8 +245,7 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
         return !this.entity.getBrain().hasMemoryValue(MemoryModules.WALK_TARGET);
     }

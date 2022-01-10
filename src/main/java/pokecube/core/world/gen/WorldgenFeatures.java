@@ -29,6 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.database.worldgen.WorldgenHandler.Options;
@@ -49,10 +50,6 @@ public class WorldgenFeatures
             () -> new CanyonCarver(CanyonCarverConfiguration.CODEC));
     public static final RegistryObject<WorldCarver<?>> OCEAN_CAVE = WorldgenFeatures.CARVERS.register("ocean_cave",
             () -> new CaveCarver(CaveCarverConfiguration.CODEC));
-//    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CAVE   = WorldgenFeatures.CARVERS.register("underwater_cave",
-//            () -> new UnderwaterCaveCarver(CaveCarverConfiguration.CODEC));
-//    public static final RegistryObject<WorldCarver<?>> UNDERWATER_CANYON = WorldgenFeatures.CARVERS.register("underwater_canyon",
-//            () -> new UnderwaterCanyonCarver(CanyonCarverConfiguration.CODEC));
 
     public static final List<StructureProcessor> BERRYRULES = ImmutableList.of(BerryGenManager.NOREPLACE);
     public static final List<StructureProcessor> GENERICRULES = Lists.newArrayList(ProcessorLists.STREET_PLAINS.list());
@@ -98,6 +95,9 @@ public class WorldgenFeatures
         final List<Pair<Function<Projection, ? extends StructurePoolElement>, Integer>> pairs = Lists.newArrayList();
         int size = 0;
         final StructureProcessorList listToUse = default_list;
+
+        if (pool.base_override) WorldgenHandler.BASE_OVERRIDES.add(pool);
+
         for (final String option : pool.options)
         {
             int second = 1;
@@ -115,6 +115,7 @@ public class WorldgenFeatures
                 opts.rigid = pool.rigid;
                 opts.water = pool.water;
                 opts.proc_list = pool.proc_list;
+                opts.base_override = pool.base_override;
             }
             final Pair<Function<Projection, ? extends StructurePoolElement>, Integer> pair = Pair
                     .of(WorldgenFeatures.makePiece(args[0], listToUse, opts), second);

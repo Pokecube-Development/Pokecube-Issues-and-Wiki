@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "deserts",
+      "and_preset": "deserts",
       "entries": [
         {"key": "trapinch","min": 2,"max": 4,"rate": 0.5},
         
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "spawn_preset": "deserts,night_time",
+      "and_preset": "deserts,night_time",
       "entries": [
         {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
         {"key": "yamask","min": 2,"max": 4,"rate": 0.2},
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "spawn_preset": "deserts,day_time",
+      "and_preset": "deserts,day_time",
       "entries": [
         {"key": "cacnea","min": 2,"max": 4,"rate": 0.6},
         {"key": "maractus","min": 2,"max": 4,"rate": 0.6},
@@ -46,13 +46,13 @@
       ]
     },
     {
-      "spawn_preset": "deserts,hills",
+      "and_preset": "deserts,hills",
       "entries": [
         {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "mesas",
+      "and_preset": "mesas",
       "entries": [
         {"key": "geodude","min": 2,"max": 4,"rate": 0.3},
         {"key": "roggenrola","min": 2,"max": 4,"rate": 0.3},
@@ -75,26 +75,26 @@
       ]
     },
     {
-      "spawn_preset": "mesas,night_time",
+      "and_preset": "mesas,night_time",
       "entries": [
         {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
         {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
       ]
     },
     {
-      "spawn_preset": "mesas,day_time",
+      "and_preset": "mesas,day_time",
       "entries": [
         {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
       ]
     },
     {
-      "spawn_preset": "mesas,hills",
+      "and_preset": "mesas,hills",
       "entries": [
         {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
-      "spawn_preset": "mesa_forests",
+      "and_preset": "mesa_forests",
       "entries": [
         {"key": "durant","min": 2,"max": 4,"rate": 0.5},
         

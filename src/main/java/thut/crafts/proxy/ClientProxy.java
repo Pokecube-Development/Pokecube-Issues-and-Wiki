@@ -1,18 +1,12 @@
 package thut.crafts.proxy;
 
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -143,49 +137,17 @@ public class ClientProxy
                 final double maxX = Math.max(one.maxX, two.maxX);
                 final double maxY = Math.max(one.maxY, two.maxY);
                 final double maxZ = Math.max(one.maxZ, two.maxZ);
+                AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 
-                final PoseStack mat = event.getPoseStack();
-                mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-
-                final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) minY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) minX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ), new Vector3f((float) minX,
-                        (float) maxY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) maxY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) minX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ), new Vector3f((float) minX,
-                        (float) maxY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                mat.pushPose();
-
-                final Matrix4f positionMatrix = mat.last().pose();
-
-                final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                final VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
-                for (final Pair<Vector3f, Vector3f> line : lines)
-                    thut.core.init.ClientInit.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
-                            1f);
-                mat.popPose();
+                final PoseStack matrix = event.getPoseStack();
+                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
+                Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+                matrix.pushPose();
+                matrix.translate(-camera.x, -camera.y, -camera.z);
+                LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
+                matrix.popPose();
+                buffer.endBatch(RenderType.LINES);
             }
         }
     }

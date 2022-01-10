@@ -84,7 +84,7 @@ public class Config extends ConfigData
     public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc, comment = "You will be prompted to choose a pokemob when creating a world, without having to look for a professor. [Default: false]")
     public boolean guiOnLogin = false;
-    @Configure(category = Config.misc, comment = "You will be prompted to look for a professor if you have not recieved a starter. [Default: true]")
+    @Configure(category = Config.misc, comment = "You will be prompted to look for a professor if you have not recieved a starter. [Default: false]")
     public boolean msgAboutProfessor = false;
     @Configure(category = Config.misc, comment = "Defeating a player's pokemobs gives exp. [Default: false]")
     public boolean pvpExp = false;
@@ -257,8 +257,8 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will slowly heal while out of combat. [Default: true]")
     public boolean outOfCombatHealing = true;
 
-    @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases. [Default: true]")
-    public boolean doLoadBalancing = true;
+    @Configure(category = Config.mobAI, comment = "If true, idle AI for pokemobs will slow down as server load increases. [Default: false]")
+    public boolean doLoadBalancing = false;
 
     @Configure(category = Config.mobAI, comment = "Number of ms in a tick to start computing load balancing. [Default: 2]")
     public double loadBalanceThreshold = 2;
@@ -336,8 +336,6 @@ public class Config extends ConfigData
     public double meteorScale = 1.0;
     @Configure(category = Config.world, comment = "Attempts to ensure there is a pokecenter at spawn, this can still fail however depending on worldgen specifics. [Default: true]")
     public boolean doSpawnBuilding = true;
-    @Configure(category = Config.world, comment = "Does a blanket \"plant material\" check for cuttable and edible plants, rather than relying entirely on the block tags. [Default: true]")
-    public boolean autoPopulateLists = true;
     @Configure(category = Config.world, comment = "Resets some subbiomes when spawn checks apply there. [Default: false]")
     public boolean refreshSubbiomes = false;
     @Configure(category = Config.world, comment = "Allows the generic berry item to be added to pokemob drop pools if no other berries are added. [Default: false]")
@@ -443,6 +441,8 @@ public class Config extends ConfigData
     public int nestMobNumber = 3;
     @Configure(category = Config.nests, comment = "The number of ant pokemobs that work at one nest. [Default: 10]")
     public int antNestMobNumber = 10;
+    @Configure(category = Config.nests, comment = "Minimum distance between burrows made by wild pokemobs. [Default: 64]")
+    public int nestSpacing = 64;
 
     @Configure(category = Config.spawning, comment = "These determine what lvl pokemobs spawn based on location. If central is true, then the origin for the function is 0,0, otherwise it is world spawn. if radial is true, then the function takes the variable r, which is horizontal distance from the origin. Otherwise it takes x and y, which are the horizontal coordinates with respect to the origin.")
     public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[]

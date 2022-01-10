@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.schedule.Activity;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.npc.Activities;
+import thut.api.entity.ai.RootTask;
 
 public class GuardTask<T extends LivingEntity> extends RootTask<T>
 {

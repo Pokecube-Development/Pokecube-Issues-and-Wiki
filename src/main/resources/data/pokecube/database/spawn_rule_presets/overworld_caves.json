@@ -3,10 +3,8 @@
     {
       "values": {
         "preset": "desert_caves",
-        "typesBlacklist": "wet",
-        "types": "sandy,dry",
         "or_presets": "underground,cave_subbiome",
-        "and_presets": "overworld"
+        "and_presets": "deserts"
       }
     },
     {

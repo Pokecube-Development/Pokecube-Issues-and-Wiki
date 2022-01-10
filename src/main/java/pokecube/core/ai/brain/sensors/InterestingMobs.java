@@ -21,13 +21,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
+import thut.api.entity.ai.RootTask;
 import thut.api.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>

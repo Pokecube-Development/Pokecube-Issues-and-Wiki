@@ -294,7 +294,9 @@ public class TextureHelper implements IPartTexturer
     @Override
     public void bindObject(final Object thing)
     {
-        this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
+        this.mob = null;
+        if (thing != null)
+            this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
         if (this.mob == null && thing instanceof Entity) this.mob = new IMobTexturable()
         {
             Entity entity = (Entity) thing;
@@ -327,14 +329,18 @@ public class TextureHelper implements IPartTexturer
                 return this.remapped.getOrDefault(in, IMobTexturable.super.preApply(in));
             }
         };
-        final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
-        this.default_tex = this.getResource(defaults);
+
+        if (this.mob != null)
+        {
+            final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
+            this.default_tex = this.getResource(defaults);
+        }
     }
 
     private ResourceLocation bindPerState(final String part)
     {
         final Map<String, String> partNames = this.texNames2.get(part);
-        if (partNames == null) return null;
+        if (partNames == null || mob == null) return null;
         final List<String> states = this.mob.getTextureStates();
         for (final String key : partNames.keySet()) if (states.contains(key))
         {

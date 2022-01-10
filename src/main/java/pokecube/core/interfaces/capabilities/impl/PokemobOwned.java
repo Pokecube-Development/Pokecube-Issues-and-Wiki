@@ -291,6 +291,9 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.setCombatState(CombatStates.NOMOVESWAP, false);
         this.setCombatState(CombatStates.ANGRY, false);
 
+        // Reset this so that the ability shows correctly on the cube.
+        this.timeSinceCombat = -50;
+
         this.getEntity().captureDrops(Lists.newArrayList());
         final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().getCommandSenderWorld());
 

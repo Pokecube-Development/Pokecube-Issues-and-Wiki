@@ -1,27 +1,16 @@
 package pokecube.core.ai.brain;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.sensing.Sensor;
-import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.schedule.Activity;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -31,27 +20,12 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.AITools;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
-public class BrainUtils
+public class BrainUtils extends BrainUtil
 {
-    public static boolean targetIsValid(Brain<?> brain, MemoryModuleType<? extends LivingEntity> module,
-            Predicate<LivingEntity> validator)
-    {
-        return brain.getMemory(module).filter(validator).filter(LivingEntity::isAlive).filter((mob) -> {
-            return BehaviorUtils.entityIsVisible(brain, mob);
-        }).isPresent();
-    }
-
-    public static boolean canSee(final LivingEntity mobIn, final LivingEntity target)
-    {
-        final boolean brainMemory = mobIn.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
-        boolean canSee = brainMemory && BehaviorUtils.entityIsVisible(mobIn.getBrain(), target);
-        if (!brainMemory) canSee = mobIn.hasLineOfSight(target);
-        return canSee;
-    }
-
     public static LivingEntity getAttackTarget(final LivingEntity mobIn)
     {
         final Brain<?> brain = mobIn.getBrain();
@@ -122,16 +96,6 @@ public class BrainUtils
         final Brain<?> brain = mobIn.getBrain();
         if (brain.checkMemory(MemoryModules.MATE_TARGET, MemoryStatus.REGISTERED))
             brain.setMemory(MemoryModules.MATE_TARGET, target);
-    }
-
-    public static void lookAt(final LivingEntity entityIn, final double x, final double y, final double z)
-    {
-        BrainUtils.lookAt(entityIn, Vector3.getNewVector().set(x, y, z));
-    }
-
-    public static void lookAt(final LivingEntity entityIn, final Vector3 vec)
-    {
-        entityIn.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new VectorPosWrapper(vec));
     }
 
     public static void setMoveUseTarget(final LivingEntity mobIn, final Vector3 pos)
@@ -206,52 +170,6 @@ public class BrainUtils
         final Optional<List<AgeableMob>> pos = brain.getMemory(MemoryModules.POSSIBLE_MATES);
         if (pos == null || !pos.isPresent()) return null;
         return pos.get();
-    }
-
-    public static void removeSensors(final Brain<?> brain, final List<SensorType<?>> SENSOR_TYPES)
-    {
-        for (final SensorType<?> type : SENSOR_TYPES) brain.sensors.remove(type);
-    }
-
-    public static void addToBrain(final Brain<?> brain, final List<MemoryModuleType<?>> MEMORY_TYPES,
-            final List<SensorType<?>> SENSOR_TYPES)
-    {
-        MEMORY_TYPES.forEach((module) -> {
-            // Only add the memory module if it wasn't already added!
-            if (!brain.memories.containsKey(module)) brain.memories.put(module, Optional.empty());
-        });
-        SENSOR_TYPES.forEach((type) -> {
-            @SuppressWarnings("unchecked")
-            final SensorType<? extends Sensor<? super LivingEntity>> stype = (SensorType<? extends Sensor<? super LivingEntity>>) type;
-            @SuppressWarnings("unchecked")
-            final Sensor<LivingEntity> sense = (Sensor<LivingEntity>) stype.create();
-            brain.sensors.put(stype, sense);
-        });
-        brain.sensors.values().forEach((sensor) -> {
-            for (final MemoryModuleType<?> memorymoduletype : sensor.requires())
-                if (!brain.memories.containsKey(memorymoduletype))
-                    brain.memories.put(memorymoduletype, Optional.empty());
-        });
-
-    }
-
-    public static void removeMatchingTasks(final Brain<?> brain, final Predicate<Behavior<?>> match)
-    {
-        brain.availableBehaviorsByPriority.forEach((i, map) -> map.values().forEach(s -> s.removeIf(match)));
-    }
-
-    public static void addToActivity(final Brain<?> brain, final Activity act,
-            final Collection<Pair<Integer, ? extends Behavior<? super LivingEntity>>> tasks)
-    {
-        tasks.forEach((pair) -> {
-            final Integer prior = pair.getFirst();
-            final Behavior<? super LivingEntity> task = pair.getSecond();
-            brain.availableBehaviorsByPriority.computeIfAbsent(prior, (val) -> {
-                return Maps.newHashMap();
-            }).computeIfAbsent(act, (tmp) -> {
-                return Sets.newLinkedHashSet();
-            }).add(task);
-        });
     }
 
     public static void initiateCombat(final Mob mob, LivingEntity target)

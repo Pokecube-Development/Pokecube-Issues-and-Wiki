@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.core.ai.brain.RootTask;
+import thut.api.entity.ai.RootTask;
 
 public class LookAtTask extends RootTask<Mob>
 {

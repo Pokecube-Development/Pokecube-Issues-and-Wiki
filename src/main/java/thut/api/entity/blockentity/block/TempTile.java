@@ -2,6 +2,7 @@ package thut.api.entity.blockentity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,10 +42,15 @@ public class TempTile extends BlockEntity implements ITickTile
         // Check if entity is actually alive
         if (!shouldRemove) shouldRemove = !this.blockEntity.isAlive();
         // Check if we are still in bounds.
-        if (!shouldRemove) shouldRemove = !this.blockEntity.getBoundingBox().inflate(1.01).contains(new Vec3(this
-                .getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()));
+        if (!shouldRemove) shouldRemove = !this.blockEntity.getBoundingBox().inflate(1.01)
+                .contains(new Vec3(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()));
 
-        if (shouldRemove) this.level.removeBlock(this.getBlockPos(), false);
+        if (shouldRemove)
+        {
+            boolean water = this.getBlockState().getValue(TempBlock.WATERLOGGED);
+            this.level.removeBlock(this.getBlockPos(), false);
+            if (water) this.level.setBlock(getBlockPos(), Blocks.WATER.defaultBlockState(), 3);
+        }
         else
         {
             final BlockState fake = this.getEffectiveState();
@@ -54,8 +60,8 @@ public class TempTile extends BlockEntity implements ITickTile
                 final int lightR = real.getLightEmission(this.getLevel(), this.getBlockPos());
                 @SuppressWarnings("deprecation")
                 final int lightF = fake.getLightEmission();
-                if (lightR != lightF) this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(
-                        TempBlock.LIGHTLEVEL, lightF));
+                if (lightR != lightF)
+                    this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL, lightF));
             }
         }
     }

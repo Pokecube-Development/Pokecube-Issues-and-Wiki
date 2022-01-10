@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.ai.brain.RootTask;
+import thut.api.entity.ai.RootTask;
 
 public class RunAway extends RootTask<PathfinderMob>
 {

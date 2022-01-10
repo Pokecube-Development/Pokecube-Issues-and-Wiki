@@ -1,18 +1,16 @@
 package thut.core.init;
 
-import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
@@ -36,19 +34,33 @@ import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.client.gui.NpcScreen;
 import thut.core.client.render.particle.ParticleFactories;
+import thut.core.common.ThutCore;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientInit
 {
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID, value = Dist.CLIENT)
+    public static class ModInit
+    {
+        @SubscribeEvent
+        public static void setupClient(final FMLClientSetupEvent event)
+        {
+            MenuScreens.register(NpcContainer.TYPE, NpcScreen::new);
+        }
+    }
+
     public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final float dx1,
             final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
             final float g, final float b, final float a)
@@ -90,7 +102,7 @@ public class ClientInit
         if (event.getLeft().contains(msg)) return;
         event.getLeft().add("");
         event.getLeft().add(msg);
-        
+
         if (Screen.hasAltDown())
         {
             event.getLeft().add("");
@@ -121,8 +133,8 @@ public class ClientInit
             final LivingEntity entity = copied.getCopiedMob();
             final boolean backup = event.getRenderer().entityRenderDispatcher.camera.isInitialized();
             event.getRenderer().entityRenderDispatcher.setRenderShadow(false);
-            event.getRenderer().entityRenderDispatcher.render(entity, 0, 0, 0, 0, event.getPartialTick(), event
-                    .getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
+            event.getRenderer().entityRenderDispatcher.render(entity, 0, 0, 0, 0, event.getPartialTick(),
+                    event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
             event.getRenderer().entityRenderDispatcher.setRenderShadow(backup);
             event.setCanceled(true);
         }
@@ -148,13 +160,13 @@ public class ClientInit
             {
                 final Minecraft mc = Minecraft.getInstance();
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z).add(mc.player.getViewVector(
-                        event.getPartialTick()));
+                Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z)
+                        .add(mc.player.getViewVector(event.getPartialTick()));
                 if (mc.hitResult != null && mc.hitResult.getType() == Type.BLOCK)
                 {
                     final BlockHitResult result = (BlockHitResult) mc.hitResult;
-                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(), result.getBlockPos()
-                            .getZ());
+                    pointed = new Vec3(result.getBlockPos().getX(), result.getBlockPos().getY(),
+                            result.getBlockPos().getZ());
                     //
                 }
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
@@ -168,48 +180,18 @@ public class ClientInit
                 final double maxX = Math.max(one.maxX, two.maxX);
                 final double maxY = Math.max(one.maxY, two.maxY);
                 final double maxZ = Math.max(one.maxZ, two.maxZ);
+                AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 
-                final PoseStack mat = event.getPoseStack();
-                mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+                final PoseStack matrix = event.getPoseStack();
+                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
+                Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+                matrix.pushPose();
+                matrix.translate(-camera.x, -camera.y, -camera.z);
+                LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
+                matrix.popPose();
+                buffer.endBatch(RenderType.LINES);
 
-                final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) minY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) minX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) minY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ), new Vector3f((float) minX,
-                        (float) maxY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) maxY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ), new Vector3f((float) minX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) minZ)));
-                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ), new Vector3f((float) minX,
-                        (float) maxY, (float) maxZ)));
-                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ), new Vector3f((float) maxX,
-                        (float) maxY, (float) maxZ)));
-
-                mat.pushPose();
-
-                final Matrix4f positionMatrix = mat.last().pose();
-
-                final MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                final VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
-                for (final Pair<Vector3f, Vector3f> line : lines)
-                    ClientInit.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0, 1f);
-                mat.popPose();
             }
         }
     }

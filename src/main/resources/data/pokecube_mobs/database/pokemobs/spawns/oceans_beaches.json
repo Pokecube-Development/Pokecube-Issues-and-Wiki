@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "oceans",
+      "and_preset": "oceans",
       "entries": [
         {"key": "clobbopus","min": 2,"max": 4,"rate": 0.2},
         {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
@@ -10,14 +10,14 @@
       ]
     },
     {
-      "spawn_preset": "ocean_ground",
+      "and_preset": "ocean_ground",
       "entries": [
         {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
         {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
       ]
     },
     {
-      "spawn_preset": "ocean_water",
+      "and_preset": "ocean_water",
       "entries": [
         {"key": "magikarp","min": 2,"max": 4,"rate": 1},
         {"key": "tentacool","min": 2,"max": 4,"rate": 1},
@@ -58,13 +58,13 @@
       ]
     },
     {
-      "spawn_preset": "ocean_water,night_time",
+      "and_preset": "ocean_water,night_time",
       "entries": [
         {"key": "inkay","min": 2,"max": 4,"rate": 1}
       ]
     },
     {
-      "spawn_preset": "beaches",
+      "and_preset": "beaches",
       "entries": [
         {"key": "binacle","min": 2,"max": 4,"rate": 0.5},
         {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
@@ -86,7 +86,7 @@
       ]
     },
     {
-      "spawn_preset": "beach_ground",
+      "and_preset": "beach_ground",
       "entries": [
         {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
         {"key": "glameow","min": 2,"max": 4,"rate": 0.2},
@@ -101,7 +101,7 @@
       ]
     },
     {
-      "spawn_preset": "beach_water",
+      "and_preset": "beach_water",
       "entries": [
         {"key": "magikarp","min": 2,"max": 4,"rate": 1},
         {"key": "tentacool","min": 2,"max": 4,"rate": 1},
@@ -124,7 +124,7 @@
       ]
     },
     {
-      "spawn_preset": "beach_water,night_time",
+      "and_preset": "beach_water,night_time",
       "entries": [
         {"key": "inkay","min": 2,"max": 4,"rate": 1}
       ]

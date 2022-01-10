@@ -1,6 +1,5 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -56,6 +55,4 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
     {
         return this.dimensions.scale(this.getScale());
     }
-
-    abstract boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount);
 }

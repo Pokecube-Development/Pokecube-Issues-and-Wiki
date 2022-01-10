@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.Tasks;
@@ -39,6 +38,7 @@ import pokecube.core.interfaces.IInhabitor;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
 public class BeeTasks
@@ -88,7 +88,7 @@ public class BeeTasks
         // Try to make a hive if we don't have one for too long
         list.add(new MakeHive(pokemob));
 
-        BrainUtils.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.MEMORY_TYPES, BeeTasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BeeTasks.MEMORY_TYPES, BeeTasks.SENSOR_TYPES);
     }
 
     public static boolean isValid(final Entity entity)

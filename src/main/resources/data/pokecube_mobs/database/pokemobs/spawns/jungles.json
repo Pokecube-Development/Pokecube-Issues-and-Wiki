@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "jungles",
+      "and_preset": "jungles",
       "entries": [
         
         {"key": "morelull","min": 4,"max": 8,"rate": 0.3},
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "spawn_preset": "jungles,night_time",
+      "and_preset": "jungles,night_time",
       "entries": [
         {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
         {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
@@ -50,13 +50,13 @@
       ]
     },
     {
-      "spawn_preset": "jungles,hills",
+      "and_preset": "jungles,hills",
       "entries": [
         {"key": "mew","min": 1,"max": 1,"rate": 0.01}
       ]
     },
     {
-      "spawn_preset": "jungles,day_time",
+      "and_preset": "jungles,day_time",
       "entries": [
         {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1}
       ]

@@ -1,13 +1,12 @@
 package pokecube.core.entity.npc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-
-import org.apache.commons.compress.utils.Lists;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -136,7 +135,7 @@ public class NpcType
 
     public static ItemListing[] join(ItemListing[]... listings)
     {
-        List<ItemListing> list = Lists.newArrayList();
+        List<ItemListing> list = new ArrayList<>();
         for (ItemListing[] listing : listings) for (ItemListing l : listing) list.add(l);
         return list.toArray(new ItemListing[list.size()]);
     }

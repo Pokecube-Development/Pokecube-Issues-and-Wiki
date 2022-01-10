@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.ShuffledTask;
@@ -55,6 +54,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
 import thut.api.entity.IBreedingMob;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
 public class Tasks
@@ -69,7 +69,7 @@ public class Tasks
 
     public static void initBrain(final Brain<?> brain)
     {
-        BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
     }
 
     private static Map<Init.Type, List<ITaskAdder>> taskAdders = Maps.newConcurrentMap();

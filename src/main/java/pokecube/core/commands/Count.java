@@ -22,12 +22,12 @@ import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
+import thut.api.entity.ai.RootTask;
 import pokecube.core.utils.Tools;
 
 public class Count

@@ -1,11 +1,12 @@
 {
   "rules": [
     {
-      "spawn_preset": "snowy_areas",
+      "and_preset": "snowy_areas",
       "entries": [
         {"key": "snorunt","min": 2,"max": 4,"rate": 0.5},
         
         {"key": "swinub","min": 2,"max": 4,"rate": 0.3},
+        {"key": "bergmite","min": 2,"max": 4,"rate": 0.3},
         {"key": "snover","min": 2,"max": 4,"rate": 0.3},
         {"key": "darumaka_galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "snom","min": 2,"max": 4,"rate": 0.3},
@@ -27,7 +28,7 @@
       ]
     },
     {
-      "spawn_preset": "cold_areas,overworld",
+      "and_preset": "cold_areas,overworld",
       "entries": [
         {"key": "nickit","min": 2,"max": 4,"rate": 0.3},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.2},

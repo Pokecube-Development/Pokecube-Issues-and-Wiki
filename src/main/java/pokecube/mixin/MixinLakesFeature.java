@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler;
 
 @SuppressWarnings("deprecation")
 @Mixin(LakeFeature.class)
@@ -42,10 +43,22 @@ public abstract class MixinLakesFeature extends Feature<BlockStateConfiguration>
         if (!PokecubeCore.getConfig().lakeFeatureMixin) return;
         for (final StructureFeature<?> village : StructureFeature.NOISE_AFFECTING_FEATURES)
             if (!context.level().startsForFeature(SectionPos.of(context.origin()), village).isEmpty())
-            {
-                cir.setReturnValue(false);
-                break;
-            }
+        {
+            cir.setReturnValue(false);
+            return;
+        }
+        for (final StructureFeature<?> village : WorldgenHandler.HAS_BASE_OVERRIDES)
+            if (!context.level().startsForFeature(SectionPos.of(context.origin()), village).isEmpty())
+        {
+            cir.setReturnValue(false);
+            return;
+        }
+        for (final StructureFeature<?> village : WorldgenHandler.HAS_BASES)
+            if (!context.level().startsForFeature(SectionPos.of(context.origin()), village).isEmpty())
+        {
+            cir.setReturnValue(false);
+            return;
+        }
     }
 
 }

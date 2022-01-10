@@ -267,6 +267,20 @@ public class PacketTrainer extends NBTPacket
                 }
             }
 
+            // Here we do the trainer in general
+            if (this.getTag().contains("__T__"))
+            {
+                mobHolder = TrainerCaps.getHasPokemobs(mob);
+                try
+                {
+                    mobHolder.deserializeNBT((CompoundTag) this.getTag().get("__T__"));
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
             // Here we edit the AI holder
             if (this.getTag().contains("__ai__"))
             {

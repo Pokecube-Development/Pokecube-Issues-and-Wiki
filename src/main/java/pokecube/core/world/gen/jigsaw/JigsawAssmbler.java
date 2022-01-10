@@ -157,7 +157,7 @@ public class JigsawAssmbler
     {
         int y = context.config().struct_config.minY;
         BlockPos pos = new BlockPos(context.chunkPos().getMinBlockX() + 7, y, context.chunkPos().getMinBlockZ() + 7);
-        return this.build(context, postProcessor, pos, -1, c -> true);
+        return this.build(context, postProcessor, pos, Integer.MIN_VALUE, c -> true);
     }
 
     public Optional<PieceGenerator<JigsawConfig>> build(Context<JigsawConfig> context,
@@ -257,7 +257,7 @@ public class JigsawAssmbler
         int k = default_k;
         // If we have not been provided with a default value, determine where to
         // place the ground for the structure
-        if (k == -1)
+        if (k == Integer.MIN_VALUE)
         {
             final int variance = this.config.variance <= 0 ? 0 : rand.nextInt(this.config.variance);
             // Air spawns are a somewhat random distance above the surface
@@ -275,11 +275,14 @@ public class JigsawAssmbler
                 else k = chunkGenerator.getSeaLevel();
             }
         }
+        int min_y = JigsawAssmbler.getForGen(chunkGenerator).getMinBuildHeight();
+        int max_y = JigsawAssmbler.getForGen(chunkGenerator).getMaxBuildHeight();
+
         // Ensure it is placed in range
-        if (k <= 0 || k >= chunkGenerator.getGenDepth())
+        if (k <= min_y || k >= max_y)
         {
-            k = chunkGenerator.getGenDepth();
-            k = this.rand.nextInt(k + 1);
+            k = max_y - min_y;
+            k = min_y + this.rand.nextInt(k);
         }
         final int dy = -this.config.height + boundingBox.minY() + poolElement.getGroundLevelDelta();
         poolElement.move(0, k - dy, 0);
@@ -290,7 +293,7 @@ public class JigsawAssmbler
         {
             final int dr = 80;
             final int dh = 255;
-            final AABB axisalignedbb = new AABB(i - dr, k - dr, j - dh, i + dr + 1, k + dh + 1, j + dr + 1);
+            final AABB axisalignedbb = new AABB(i - dr, min_y, j - dh, i + dr + 1, max_y, j + dr + 1);
             this.availablePieces
                     .addLast(new Entry(poolElement, new MutableObject<>(Shapes.join(Shapes.create(axisalignedbb),
                             Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST)), k + dh, 0));
@@ -381,30 +384,29 @@ public class JigsawAssmbler
     {
         final List<StructurePoolElement> needed = Lists.newArrayList();
         list.removeIf(p -> !this.validator.test(p));
-        list.removeIf(
-                p -> p instanceof CustomJigsawPiece && this.once_added.contains(((CustomJigsawPiece) p).opts.flag));
+        list.removeIf(p -> p instanceof CustomJigsawPiece p2 && this.once_added.contains(p2.opts.flag));
         for (final StructurePoolElement p : list)
-            if (p instanceof CustomJigsawPiece && !((CustomJigsawPiece) p).opts.flag.isEmpty()
-                    && this.needed_once.contains(((CustomJigsawPiece) p).opts.flag))
+            if (p instanceof CustomJigsawPiece p2 && !p2.opts.flag.isEmpty() && this.needed_once.contains(p2.opts.flag))
                 needed.add(p);
         list.removeIf(p -> needed.contains(p));
         Collections.shuffle(needed, this.rand);
         for (final StructurePoolElement p : needed) list.add(0, p);
         final LevelAccessor world = JigsawAssmbler.getForGen(this.chunkGenerator);
         list.forEach(p -> {
-            if (p instanceof CustomJigsawPiece)
+            if (p instanceof CustomJigsawPiece p2)
             {
-                ((CustomJigsawPiece) p).config = this.config;
-                ((CustomJigsawPiece) p).world = (Level) world;
+                p2.config = this.config;
+                p2.world = (Level) world;
             }
         });
     }
 
     @SuppressWarnings("deprecation")
     private void addPiece(final PoolElementStructurePiece villagePieceIn, final MutableObject<VoxelShape> outer_box_ref,
-            final int part_index, final int current_depth, final int default_k)
+            final int part_index, int current_depth, final int default_k)
     {
         final StructurePoolElement part = villagePieceIn.getElement();
+
         final BlockPos blockpos = villagePieceIn.getPosition();
         final Rotation rotation = villagePieceIn.getRotation();
         final StructureTemplatePool.Projection projection = part.getProjection();
@@ -415,12 +417,12 @@ public class JigsawAssmbler
 
         int k0 = default_k;
 
-        if (k0 == -1 && this.SURFACE_TYPE == null)
+        if (k0 == Integer.MIN_VALUE && this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
                     Heightmap.Types.OCEAN_FLOOR_WG, this.heightAccess);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);
-            else k0 = -1;
+            else k0 = Integer.MIN_VALUE;
         }
 
         jigsaws:
@@ -464,7 +466,6 @@ public class JigsawAssmbler
 
                 for (final StructurePoolElement next_part : list)
                 {
-
                     boolean allowEmpty = rand.nextDouble() > 0.99;
                     boolean isEmpty = next_part == EmptyPoolElement.INSTANCE;
 
@@ -523,8 +524,8 @@ public class JigsawAssmbler
                             if (root_rigid && rigid) i2 = part_min_y + l1;
                             else
                             {
-                                if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos.getZ(),
-                                        this.SURFACE_TYPE, this.heightAccess);
+                                if (k == Integer.MIN_VALUE) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(),
+                                        jig_pos.getZ(), this.SURFACE_TYPE, this.heightAccess);
                                 i2 = k - target_y;
                             }
 
@@ -536,7 +537,6 @@ public class JigsawAssmbler
                                 final int k2 = Math.max(i1 + 1, box_2.maxY() - box_2.minY());
                                 box_2.encapsulate(new BlockPos(box_2.minX(), box_2.minY() + k2, box_2.minZ()));
                             }
-
                             if (!Shapes.joinIsNotEmpty(box_ref.getValue(), Shapes.create(AABB.of(box_2).deflate(0.25D)),
                                     BooleanOp.ONLY_SECOND))
                             {
@@ -554,8 +554,9 @@ public class JigsawAssmbler
                                 else if (rigid) i3 = i2 + target_y;
                                 else
                                 {
-                                    if (k == -1) k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(),
-                                            jig_pos.getZ(), this.SURFACE_TYPE, this.heightAccess);
+                                    if (k == Integer.MIN_VALUE)
+                                        k = this.chunkGenerator.getFirstFreeHeight(jig_pos.getX(), jig_pos.getZ(),
+                                                this.SURFACE_TYPE, this.heightAccess);
                                     i3 = k + l1 / 2;
                                 }
                                 if (this.add(nextPart))
@@ -570,8 +571,11 @@ public class JigsawAssmbler
                                         if (PokecubeCore.getConfig().debug)
                                             PokecubeCore.LOGGER.debug("added core part: {}", once);
                                     }
-                                    if (current_depth + 1 <= this.depth) this.availablePieces
-                                            .addLast(new Entry(nextPart, box_ref, l, current_depth + 1));
+                                    int depth = current_depth + 1;
+                                    if (nextPart.getElement() instanceof CustomJigsawPiece p2 && p2.opts.needs_children)
+                                        depth = 0;
+                                    if (depth <= this.depth)
+                                        this.availablePieces.addLast(new Entry(nextPart, box_ref, l, depth));
                                     continue jigsaws;
                                 }
                             }

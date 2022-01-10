@@ -32,7 +32,7 @@ import java.nio.FloatBuffer;
 /**
  * Holds a 2-tuple vector.
  *
- * @author cix_foo <cix_foo@users.sourceforge.net>
+ * @author cix_foo &lt;cix_foo@users.sourceforge.net&gt;
  * @version $Revision$
  *          $Id$
  */

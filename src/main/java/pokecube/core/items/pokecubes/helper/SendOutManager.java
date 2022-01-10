@@ -49,6 +49,10 @@ public class SendOutManager
             for (final PartEntity<?> part : parts) if (box == null) box = part.getBoundingBox();
             else box = box.minmax(part.getBoundingBox());
             if (box == null) box = mob.getBoundingBox();
+            else
+            {
+                box = box.move(mob.position());
+            }
         }
         if (SendOutManager.valid(box, world)) return pos.copy();
         final int size = 10;
@@ -191,7 +195,7 @@ public class SendOutManager
             cube.setReleased(mob);
 
             // Ensure AI is initialized
-            pokemob.initAI();
+//            pokemob.postInitAI();FIXME
 
             SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setItem(pokemob.getPokecube());

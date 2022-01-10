@@ -15,7 +15,7 @@ import thut.api.inventory.BaseContainer;
 
 public class AfaContainer extends BaseContainer
 {
-    public static class InvWrapper extends pokecube.core.inventory.InvWrapper
+    public static class InvWrapper extends thut.api.inventory.InvWrapper
     {
         public InvWrapper(final IItemHandlerModifiable wrapped, final IOwnableTE ownable)
         {

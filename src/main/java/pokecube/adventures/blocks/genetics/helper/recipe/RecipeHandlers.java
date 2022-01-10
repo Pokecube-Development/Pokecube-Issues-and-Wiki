@@ -168,7 +168,7 @@ public class RecipeHandlers
             }
 
             @Override
-            public boolean shouldKeep(final ItemStack stack)
+            public boolean shouldKeep(final ItemStack stack, int slot)
             {
                 for (final Integer test : this.remains)
                 {

@@ -70,8 +70,10 @@ public interface DataSync
      */
     default int tickRate()
     {
-        return 2;
+        return 10;
     }
+    
+    boolean syncNow();
 
     /**
      * @return A random offset to apply with use with tickRate()

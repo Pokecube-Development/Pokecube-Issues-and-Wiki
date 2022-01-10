@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.tasks.Tasks;
@@ -28,6 +27,7 @@ import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 
 public class BurrowTasks
@@ -68,7 +68,7 @@ public class BurrowTasks
         list.add(new DigBurrow(pokemob));
         list.add(new ReturnHome(pokemob));
 
-        BrainUtils.addToBrain(pokemob.getEntity().getBrain(), BurrowTasks.MEMORY_TYPES, BurrowTasks.SENSOR_TYPES);
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BurrowTasks.MEMORY_TYPES, BurrowTasks.SENSOR_TYPES);
     }
 
     public static boolean isValid(final Entity entity)

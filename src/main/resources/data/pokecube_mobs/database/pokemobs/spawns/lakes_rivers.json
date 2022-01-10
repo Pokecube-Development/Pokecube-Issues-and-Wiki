@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "spawn_preset": "lakes",
+      "and_preset": "lakes",
       "entries": [
         {"key": "lotad","min": 2,"max": 4,"rate": 0.4},
         
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "spawn_preset": "rivers",
+      "and_preset": "rivers",
       "entries": [
         {"key": "lotad","min": 2,"max": 4,"rate": 0.4},
         
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "spawn_preset": "river_ground",
+      "and_preset": "river_ground",
       "entries": [
         {"key": "yanma","min": 2,"max": 4,"rate": 0.3},
         
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "spawn_preset": "lake_ground",
+      "and_preset": "lake_ground",
       "entries": [
         {"key": "surskit","min": 2,"max": 4,"rate": 0.4},
         
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "spawn_preset": "lake_water",
+      "and_preset": "lake_water",
       "entries": [
         {"key": "magikarp","min": 2,"max": 4,"rate": 1},
         
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "spawn_preset": "river_water",
+      "and_preset": "river_water",
       "entries": [
         {"key": "magikarp","min": 2,"max": 4,"rate": 1},
         

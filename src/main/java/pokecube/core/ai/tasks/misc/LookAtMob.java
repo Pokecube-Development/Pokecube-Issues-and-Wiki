@@ -13,7 +13,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import pokecube.core.ai.brain.RootTask;
+import thut.api.entity.ai.RootTask;
 
 public class LookAtMob extends RootTask<LivingEntity>
 {

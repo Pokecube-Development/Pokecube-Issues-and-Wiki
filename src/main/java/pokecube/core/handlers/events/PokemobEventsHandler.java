@@ -70,7 +70,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -108,6 +107,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.entity.ai.RootTask;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
@@ -144,7 +144,7 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
         // Used to reset the "NOITEMUSE" flag, which controls using healing
         // items, the capture delay, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
@@ -420,10 +420,16 @@ public class PokemobEventsHandler
         }
     }
 
-    private static void onLivingAttack(final LivingAttackEvent event)
+    private static void onLivingAttacked(final LivingAttackEvent event)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getSource().getDirectEntity());
         if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+
+        if (event.getSource().getDirectEntity() != null
+                && event.getSource().getDirectEntity().isPassengerOfSameVehicle(event.getEntity()))
+        {
+            event.setCanceled(true);
+        }
     }
 
     private static void onLivingDeath(final LivingDeathEvent evt)
@@ -472,8 +478,8 @@ public class PokemobEventsHandler
             final Mob newMob = modified.getEntity();
             if (world instanceof ServerLevel && !newMob.isAddedToWorld()) world.addFreshEntity(newMob);
         }
-        // This initializes logics on the client side.
-        if (!(world instanceof ServerLevel)) pokemob.initAI();
+        // This init stage involves block checks, etc, so do that here
+        pokemob.postInitAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
@@ -481,7 +487,7 @@ public class PokemobEventsHandler
         final Entity mob = event.getEntity();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
-        pokemob.initAI();
+        pokemob.preInitAI();
     }
 
     private static void onStartTracking(final StartTracking event)

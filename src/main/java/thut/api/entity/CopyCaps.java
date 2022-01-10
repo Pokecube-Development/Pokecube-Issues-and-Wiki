@@ -31,9 +31,9 @@ public class CopyCaps
     {
         private final LazyOptional<ICopyMob> holder = LazyOptional.of(() -> this);
 
-        public ResourceLocation copiedID  = null;
-        public LivingEntity     copiedMob = null;
-        public CompoundTag      copiedNBT = new CompoundTag();
+        public ResourceLocation copiedID = null;
+        public LivingEntity copiedMob = null;
+        public CompoundTag copiedNBT = new CompoundTag();
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -78,7 +78,7 @@ public class CopyCaps
         }
     }
 
-    public static final ResourceLocation LOC  = new ResourceLocation("thutcore:copymob");
+    public static final ResourceLocation LOC = new ResourceLocation("thutcore:copymob");
     public static final ResourceLocation ANIM = new ResourceLocation("thutcore:animations");
 
     private static final Set<ResourceLocation> ATTACH_TO = Sets.newHashSet();
@@ -124,6 +124,9 @@ public class CopyCaps
 
         CapabilitySync.TO_SYNC.add(CopyCaps.LOC.toString());
         CapabilitySync.TO_SYNC.add(CopyCaps.ANIM.toString());
+
+        // Lets make this one default.
+        CopyCaps.register(EntityType.PLAYER);
     }
 
     public static void register(final EntityType<?> type)

@@ -59,7 +59,6 @@ import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
-import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
@@ -200,7 +199,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void travel(final Vec3 dr)
+    public void travel(Vec3 dr)
     {
         // If we are ridden on ground, do similar stuff to horses.
         ridden:
@@ -227,15 +226,11 @@ public class EntityPokemob extends PokemobRidable
             this.setRot(this.yRot, this.xRot);
             this.yBodyRot = this.yRot;
             this.yHeadRot = this.yBodyRot;
-            float strafe = livingentity.xxa * 0.5F;
-            float forwards = livingentity.zza;
-            if (forwards <= 0.0F) forwards *= 0.25F;
 
-            if (!this.onGround && this.jumpPower == 0.0F)
-            {
-                strafe = 0.0F;
-                forwards = 0.0F;
-            }
+            float strafe = controller.moveSide;
+            float forwards = controller.moveFwd;
+            float upwards = controller.moveUp;
+
             if (this.jumpPower > 0.0F && !this.jumping && this.onGround)
             {
                 final double jumpStrength = 1.7;
@@ -259,15 +254,18 @@ public class EntityPokemob extends PokemobRidable
                 }
                 this.jumpPower = 0.0F;
             }
-            this.flyingSpeed = this.getSpeed() * 0.1F;
+            this.flyingSpeed = this.getSpeed();
             if (this.isControlledByLocalInstance())
             {
-                final double speed = controller.throttle;
-                final float speedFactor = (float) (1 + Math.sqrt(this.pokemobCap.getPokedexEntry().getStatVIT()) / 10F);
-                final Config config = PokecubeCore.getConfig();
-                final float moveSpeed = (float) (config.groundSpeedFactor * speed * speedFactor);
-                this.setSpeed(moveSpeed);
-                super.travel(new Vec3(strafe, dr.y, forwards));
+                dr = new Vec3(strafe, upwards, forwards);
+                this.setSpeed((float) dr.length());
+                if (controller.verticalControl)
+                {
+                    this.moveRelative(this.getSpeed(), dr.normalize());
+                    this.move(MoverType.SELF, this.getDeltaMovement());
+                    this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
+                }
+                else super.travel(new Vec3(strafe, upwards, forwards));
             }
             else if (livingentity instanceof Player) this.setDeltaMovement(Vec3.ZERO);
 

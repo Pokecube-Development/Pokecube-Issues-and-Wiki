@@ -4,20 +4,19 @@ import thut.api.entity.IMobTexturable;
 
 public class Colour
 {
-    public float   red   = 1;
-    public float   blue  = 1;
-    public float   green = 1;
-    public float   alpha = 1;
-    public String  forme = "";
-    public boolean mul   = true;
+    public float red = 1;
+    public float blue = 1;
+    public float green = 1;
+    public float alpha = 1;
+    public String forme = "";
+    public boolean mul = true;
 
     public Colour()
-    {
-    }
+    {}
 
     public void apply(final int[] rgbaIn, final IMobTexturable mob)
     {
-        if (!this.forme.isEmpty() && !this.forme.equals(mob.getForm())) return;
+        if (mob != null && !this.forme.isEmpty() && !this.forme.equals(mob.getForm())) return;
 
         if (this.mul)
         {

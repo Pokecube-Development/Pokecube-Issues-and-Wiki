@@ -1,13 +1,12 @@
 package thut.bot.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
-
-import org.apache.commons.compress.utils.Lists;
 
 import com.mojang.authlib.GameProfile;
 
@@ -226,7 +225,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         else if (cmd.contains("reset"))
         {
             if (this.routine != null) this.routine.end(talker);
-            List<String> tags = Lists.newArrayList();
+            List<String> tags = new ArrayList<>();
             tags.addAll(this.getPersistentData().getAllKeys());
             tags.forEach(s -> getPersistentData().remove(s));
             this.routine = null;

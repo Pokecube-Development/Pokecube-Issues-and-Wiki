@@ -173,7 +173,7 @@ public class BlockEntityUpdater
         double dx = 0, dz = 0, dy = 0;
         Vec3 motion_b = entity.getDeltaMovement();
 
-        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
+        boolean serverSide = entity.getLevel().isClientSide;
         final boolean isPlayer = entity instanceof Player;
         if (isPlayer) serverSide = entity instanceof ServerPlayer;
 
@@ -317,64 +317,9 @@ public class BlockEntityUpdater
         return collided;
     }
 
+    @Deprecated
     public void applyEntityCollision(final Entity entity)
     {
-//        // TODO instead of this, apply appropriate transformation to the
-//        // entity's box, and then collide off that, then apply appropriate
-//        // inverse transformation before actually applying collision to entity.
-//        if ((this.theEntity.yRot + 360) % 90 > 5 || this.theEntity.hasPassenger(entity)) return;
-//
-//        boolean serverSide = entity.getCommandSenderWorld().isClientSide;
-//        final boolean isPlayer = entity instanceof Player;
-//        if (isPlayer) serverSide = entity instanceof ServerPlayer;
-//
-//        double dx = 0, dz = 0, dy = 0;
-//        final Vec3 motion_a = this.theEntity.getDeltaMovement();
-//        Vec3 motion_b = entity.getDeltaMovement();
-//        final AABB boundingBox = entity.getBoundingBox();
-//        if (isPlayer && serverSide)
-//        {
-//            final ServerPlayer player = (ServerPlayer) entity;
-//            dx = player.xCloak - player.xCloakO;
-//            dy = player.yCloak - player.yCloakO;
-//            dz = player.zCloak - player.zCloakO;
-//            motion_b = new Vec3(dx, dy, dz).scale(0.5);
-//        }
-//        final Vec3 diffV = motion_a.subtract(motion_b);
-//        /** Expanded box by velocities to test for collision with. */
-//        final AABB testBox = boundingBox.expandTowards(diffV.x, diffV.y, diffV.z);// .grow(0.1);
-//
-//        // Used to select which boxes to consider for collision
-//        final AABB hitTest = testBox.inflate(0.1 + diffV.length());
-//        BlockEntityUpdater.fill(this.blockBoxes, hitTest, this.buildShape());
-//        final boolean collided = BlockEntityUpdater.applyEntityCollision(entity, entity.getBoundingBox(),
-//                this.blockBoxes, motion_a);
-//
-//        // Extra stuff to do with players, apply these regardless of collision.
-//        // This is done to prevent "flying on server" kicks when the craft is
-//        // moving down
-//        if (isPlayer && (collided || motion_a.y < 0))
-//        {
-//            final Player player = (Player) entity;
-//
-//            if (serverSide)
-//            {
-//                final ServerPlayer serverplayer = (ServerPlayer) player;
-//                // Meed to set floatingTickCount to prevent being kicked
-//                serverplayer.connection.aboveGroundVehicleTickCount = 0;
-//                serverplayer.connection.aboveGroundTickCount = 0;
-//            }
-//
-//            if (!serverSide && (Minecraft.getInstance().options.bobView
-//                    || TickHandler.playerTickTracker.containsKey(player.getUUID())))
-//            { // This fixes jitter, need a better way to handle this.
-//                TickHandler.playerTickTracker.put(player.getUUID(), (int) (System.currentTimeMillis() % 2000));
-//                Minecraft.getInstance().options.bobView = false;
-//            }
-//            /** This is for clearing jump values on client. */
-//            if (!serverSide) player.getPersistentData().putInt("lastStandTick", player.tickCount);
-//
-//        }
     }
 
     public AABB getBoundingBox()
@@ -404,17 +349,13 @@ public class BlockEntityUpdater
         if (this.blockEntity.getBlocks() == null) return;
         final BlockPos dims = this.blockEntity.getSize();
         final double uMax = Math.max(dims.getX(), Math.max(dims.getY(), dims.getZ()));
-        this.theEntity.getCommandSenderWorld().increaseMaxEntityRadius(uMax);
+        this.theEntity.getLevel().increaseMaxEntityRadius(uMax);
         EntityDimensions size = this.theEntity.getDimensions(this.theEntity.getPose());
         if (size.width != dims.getX() + 1)
         {
             size = EntityDimensions.fixed(1 + dims.getX(), this.blockEntity.getMax().getY());
             this.blockEntity.setSize(size);
         }
-        double y;
-        if (this.theEntity.getDeltaMovement().y == 0
-                && this.theEntity.getY() != (y = Math.round(this.theEntity.getY())))
-            this.theEntity.setPos(this.theEntity.getX(), y, this.theEntity.getZ());
         final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         final int sizeX = dims.getX();
@@ -422,7 +363,7 @@ public class BlockEntityUpdater
         final int sizeZ = dims.getZ();
 
         final Level world = this.blockEntity.getFakeWorld() instanceof Level ? (Level) this.blockEntity.getFakeWorld()
-                : this.theEntity.getCommandSenderWorld();
+                : this.theEntity.getLevel();
 
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
         {
