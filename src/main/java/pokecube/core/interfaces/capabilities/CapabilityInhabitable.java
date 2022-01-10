@@ -55,6 +55,7 @@ public class CapabilityInhabitable
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onExitHabitat(mob);
+            mob.setPersistenceRequired();
         }
 
         @Override

@@ -57,7 +57,7 @@
             {
               "custom": "allBerrySell",
               "exp": 5,
-              "count": 4,
+              "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}
               ]
@@ -65,7 +65,7 @@
             {
               "custom": "allBerryBuy",
               "exp": 1,
-              "count": 8,
+              "count": 16,
               "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
             }
           ]
@@ -227,7 +227,7 @@
             {
               "custom": "allBerryBuy",
               "exp": 1,
-              "count": 8,
+              "count": 16,
               "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
             }
           ]
@@ -264,7 +264,7 @@
             {
               "custom": "allBerrySell",
               "exp": 5,
-              "count": 4,
+              "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}
               ]
@@ -535,7 +535,7 @@
             {
               "custom": "allBerrySell",
               "exp": 5,
-              "count": 4,
+              "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "2"}}
               ]
@@ -796,7 +796,7 @@
             {
               "custom": "allBerrySell",
               "exp": 5,
-              "count": 4,
+              "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "2"}}
               ]
@@ -919,7 +919,7 @@
             {
               "custom": "allBerryBuy",
               "exp": 1,
-              "count": 4,
+              "count": 16,
               "sell": {"values": {"id": "minecraft:emerald", "n": "1"}}
             }
           ]
@@ -1003,7 +1003,7 @@
             {
               "custom": "allBerrySell",
               "exp": 2,
-              "count": 4,
+              "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}
               ]

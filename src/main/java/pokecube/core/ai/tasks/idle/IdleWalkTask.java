@@ -17,6 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -107,7 +108,7 @@ public class IdleWalkTask extends BaseIdleTask
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed) this.doGroundIdle();
-        final Player player = this.world.getNearestPlayer(this.entity, PokecubeCore.getConfig().aiDisableDistance);
+        final Player player = this.world.getNearestPlayer(this.entity, Config.Rules.despawnDistance(world));
         if (player != null)
         {
             final double diff = Math.abs(player.getY() - this.y);

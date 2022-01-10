@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.core.PokecubeCore;
+import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
@@ -48,7 +49,7 @@ public class Kill
             {
                 try
                 {
-                    if (cull && world.getNearestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
+                    if (cull && world.getNearestPlayer(e.getEntity(), Config.Rules.despawnDistance(world)) != null)
                         continue;
                     if (!tame && e.getOwnerId() != null) continue;
                     final KillCommandEvent event = new KillCommandEvent(e.getEntity());

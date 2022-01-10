@@ -2,15 +2,25 @@ package pokecube.core.handlers;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.GameRules.Category;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig.Type;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -34,6 +44,101 @@ import thut.core.common.config.Configure;
 
 public class Config extends ConfigData
 {
+    @EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
+    public static class Rules
+    {
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_SPAWN;
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_CULL;
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_DESPAWN;
+        private static GameRules.Key<GameRules.IntegerValue> POKEMOB_CULL_DISTANCE;
+        private static GameRules.Key<GameRules.IntegerValue> POKEMOB_DESPAWN_DISTANCE;
+
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_AFFECT_BLOCKS;
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_EXPLODE;
+        private static GameRules.Key<GameRules.BooleanValue> POKEMOBS_DROP_ITEMS;
+
+        private static <T extends GameRules.Value<T>> T get(@Nullable ServerLevel level, GameRules.Key<T> key)
+        {
+            if (level == null) return ServerLifecycleHooks.getCurrentServer().getGameRules().getRule(key);
+            return level.getGameRules().getRule(key);
+        }
+
+        public static boolean doSpawn(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_SPAWN).get();
+        }
+
+        public static boolean doBoom(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_EXPLODE).get();
+        }
+
+        public static boolean canAffectBlocks(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_AFFECT_BLOCKS).get();
+        }
+
+        public static boolean dropLoot(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_DROP_ITEMS).get();
+        }
+
+        public static boolean doCull(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_CULL).get();
+        }
+
+        public static boolean doCull(@Nullable ServerLevel level, double distance)
+        {
+            return get(level, POKEMOBS_CULL).get() && distance > cullDistance(level);
+        }
+
+        public static boolean doDespawn(@Nullable ServerLevel level, double distance)
+        {
+            return get(level, POKEMOBS_DESPAWN).get() && distance > despawnDistance(level);
+        }
+
+        public static boolean doDespawn(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOBS_DESPAWN).get();
+        }
+
+        public static int cullDistance(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOB_CULL_DISTANCE).get();
+        }
+
+        public static int despawnDistance(@Nullable ServerLevel level)
+        {
+            return get(level, POKEMOB_DESPAWN_DISTANCE).get();
+        }
+
+        @SubscribeEvent
+        public static void commonSetup(FMLCommonSetupEvent event)
+        {
+            event.enqueueWork(() -> {
+                POKEMOBS_SPAWN = GameRules.register("pokecube:pokemobs_spawn", Category.SPAWNING,
+                        GameRules.BooleanValue.create(true));
+                POKEMOBS_DESPAWN = GameRules.register("pokecube:pokemobs_despawn", Category.SPAWNING,
+                        GameRules.BooleanValue.create(true));
+                POKEMOBS_CULL = GameRules.register("pokecube:pokemobs_cull", Category.SPAWNING,
+                        GameRules.BooleanValue.create(true));
+
+                POKEMOB_CULL_DISTANCE = GameRules.register("pokecube:pokemob_cull_distance", Category.SPAWNING,
+                        GameRules.IntegerValue.create(96));
+                POKEMOB_DESPAWN_DISTANCE = GameRules.register("pokecube:pokemob_despawn_distance", Category.SPAWNING,
+                        GameRules.IntegerValue.create(48));
+
+                POKEMOBS_AFFECT_BLOCKS = GameRules.register("pokecube:pokemobs_affect_blocks", Category.MOBS,
+                        GameRules.BooleanValue.create(true));
+                POKEMOBS_EXPLODE = GameRules.register("pokecube:pokemobs_explode", Category.MOBS,
+                        GameRules.BooleanValue.create(true));
+                POKEMOBS_DROP_ITEMS = GameRules.register("pokecube:pokemobs_drop_loot", Category.MOBS,
+                        GameRules.BooleanValue.create(true));
+            });
+        }
+    }
+
     public static final String nests = "nests";
     public static final String spawning = "spawning";
     public static final String database = "database";
@@ -179,8 +284,6 @@ public class Config extends ConfigData
     public int breedingDelay = 4000;
     @Configure(category = Config.mobAI, comment = "Maximum time for eggs to hatch, the average number is about half this. [Default: 10000]")
     public int eggHatchTime = 10000;
-    @Configure(category = Config.mobAI, comment = "If cull is enabled, idle wild mobs will vanish if exceeding this distance from a player, requires aiDisableDistance to be larger. [Default: 96]")
-    public int cullDistance = 96;
     @Configure(category = Config.mobAI, comment = "If despawn is enabled, when mobs exceed cullDistance, and are within aiDisableDistance, they will vanish after this many ticks if no player get back in range. [Default: 2000]")
     public int despawnTimer = 2000;
     @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. [Default: 3]")
@@ -203,10 +306,6 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "This number multiplied by mobSpawnNumber is how many mobs can be in an area before pokemobs stop breeding, this is for tamed pokemobs. [Default: 4]")
     public double mateDensityPlayer = 4;
 
-    @Configure(category = Config.mobAI, comment = "If true, pokemobs will vanish if they are more than cullDistance from a player. [Default: false]")
-    public boolean cull = false;
-    @Configure(category = Config.mobAI, comment = "If true, pokemobs may despawn if more than cullDistance from a player. [Default: true]")
-    public boolean despawn = true;
     @Configure(category = Config.mobAI, comment = "If true, hungry lithovores might eat gravel to nothing. [Default: false]")
     public boolean pokemobsEatGravel = false;
     @Configure(category = Config.mobAI, comment = "If true, hungry lithovores will eat rocks to cobble/gravel. [Default: true]")
@@ -219,12 +318,6 @@ public class Config extends ConfigData
     public boolean pokemobsDamageOwner = false;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs can hurt players. [Default: true]")
     public boolean pokemobsDamagePlayers = true;
-    @Configure(category = Config.mobAI, comment = "If true, pokemob attacks can remove or destroy blocks in the world. [Default: false]")
-    public boolean pokemobsDamageBlocks = false;
-    @Configure(category = Config.mobAI, comment = "If true, pokemobs drop their items from their loot tables. [Default: true]")
-    public boolean pokemobsDropItems = true;
-    @Configure(category = Config.mobAI, comment = "If true, explosion type moves make large physical explosions. [Default: true]")
-    public boolean explosions = true;
     @Configure(category = Config.mobAI, comment = "If true, player's in the same team can still battle each other. [Default: true]")
     public boolean teamsBattleEachOther = true;
 
@@ -232,8 +325,6 @@ public class Config extends ConfigData
     public int chaseDistance = 32;
     @Configure(category = Config.mobAI, comment = "This is the target distance between two pokemobs during a fight. [Default: 4]")
     public int combatDistance = 4;
-    @Configure(category = Config.mobAI, comment = "If a pokemob is more than this far from a player, it will freeze and not tick. This distance must be larger than cullDistance for cull or despawn to do anything. [Default: 32]")
-    public int aiDisableDistance = 32;
     @Configure(category = Config.mobAI, comment = "This is how often tamed pokemobs look for items to collect, smaller values are faster. [Min: 1] [Default: 20]")
     public int tameGatherDelay = 20;
     @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs look for items to collect, smaller values are faster. [Min: 1] [Default: 200]")
@@ -348,8 +439,6 @@ public class Config extends ConfigData
     public boolean autoDetectSubbiomes = true;
     @Configure(category = Config.world, comment = "Fossil ores will be added to certain biomes. [Default: true]")
     public boolean generateFossils = true;
-    // @Configure(category = Config.world, comment = "")
-    // public boolean villagePokecenters = true;
 
     @Configure(category = Config.world, comment = "Pokecube structures will not spawn in these dimensions, unless specifically stated in the structure's spawn rules.")
     public List<String> softWorldgenDimBlacklist = Lists.newArrayList(

@@ -42,6 +42,7 @@ import pokecube.core.ai.tasks.ants.sensors.NestSensor;
 import pokecube.core.ai.tasks.ants.sensors.NestSensor.AntNest;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
@@ -50,6 +51,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.utils.TagNames;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
@@ -68,12 +70,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public Set<UUID> eggs = Sets.newHashSet();
     public Set<UUID> ants = Sets.newHashSet();
 
-    public List<NearBlock>  blocks = Lists.newArrayList();
-    public List<ItemEntity> items  = Lists.newArrayList();
+    public List<NearBlock> blocks = Lists.newArrayList();
+    public List<ItemEntity> items = Lists.newArrayList();
 
-    BlockPos    here;
+    BlockPos here;
     ServerLevel world;
-    BlockEntity  tile;
+    BlockEntity tile;
 
     int antExitCooldown = 0;
 
@@ -88,8 +90,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
     public AntHabitat()
     {
-        for (final AntJob job : AntJob.values())
-            this.workers.put(job, Sets.newHashSet());
+        for (final AntJob job : AntJob.values()) this.workers.put(job, Sets.newHashSet());
     }
 
     @Override
@@ -121,8 +122,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             if (tile == null)
             {
                 this.onTick(world);
-                this.ants.removeIf(uuid ->
-                {
+                this.ants.removeIf(uuid -> {
                     final Entity mob = world.getEntity(uuid);
                     if (AntTasks.isValid(mob)) return false;
                     return true;
@@ -178,8 +178,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         int low = Integer.MAX_VALUE;
         AntJob least = AntJob.NONE;
         int ready = 0;
-        for (final Node n : this.rooms.allRooms)
-            if (n.started) ready++;
+        for (final Node n : this.rooms.allRooms) if (n.started) ready++;
         for (final AntJob job : AntJob.values())
         {
             if (ready < this.rooms.allRooms.size() && job != AntJob.DIG && job != AntJob.BUILD) continue;
@@ -218,12 +217,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         if (root.edges.size() > 2) return;
 
         final Vector3 centroid = Vector3.getNewVector();
-        for (final Node n : nodes)
-            if (n.type == AntRoom.ENTRANCE)
-            {
-                centroid.set(n.getCenter());
-                break;
-            }
+        for (final Node n : nodes) if (n.type == AntRoom.ENTRANCE)
+        {
+            centroid.set(n.getCenter());
+            break;
+        }
 
         final int r = 12;
         final int x = rng.nextInt(r * 2) - r;
@@ -274,8 +272,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         room.depth = root.depth + 1;
         room.setCenter(nodePos, next_size);
 
-        for (final Node n : nodes)
-            if (room.getOutBounds().intersects(n.getOutBounds())) return;
+        for (final Node n : nodes) if (room.getOutBounds().intersects(n.getOutBounds())) return;
 
         if (nodePos.getY() > entrance.getCenter().getY() - 2) return;
 
@@ -325,8 +322,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             {
                 final List<Node> rooms = Lists.newArrayList(eggRooms);
                 Collections.shuffle(rooms);
-                for (final Node n : rooms)
-                    if (n.started) return Optional.of(n.getCenter());
+                for (final Node n : rooms) if (n.started) return Optional.of(n.getCenter());
             }
         }
         return Optional.empty();
@@ -342,16 +338,15 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         y = this.here.getY();
         z = this.here.getZ();
 
-        final boolean playerNear = !world.getPlayers(p -> p.distanceToSqr(x, y, z) < PokecubeCore
-                .getConfig().cullDistance).isEmpty();
+        final boolean playerNear = !world
+                .getPlayers(p -> p.distanceToSqr(x, y, z) < Config.Rules.despawnDistance(world)).isEmpty();
 
         final int ants = this.ants_in.size() + this.ants.size();
 
         final Random rng = ThutCore.newRandom();
         // Lets make the eggs not hatch for now, if we are about say 5 ants,
         // This also removes hatched/removed eggs
-        this.eggs.removeIf(uuid ->
-        {
+        this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
@@ -384,8 +379,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             this.hasItems = false;
             if (nest != null)
             {
-                final IItemHandler handler = nest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(
-                        null);
+                final IItemHandler handler = nest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                        .orElse(null);
                 for (int i = 0; i < handler.getSlots(); i++)
                 {
                     final ItemStack stack = handler.getStackInSlot(i);
@@ -400,20 +395,17 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             }
             if (world.getGameTime() % 12000 == 0)
             {
-                for (final Node n : this.allRooms)
-                    if (n.type == AntRoom.EGG) n.type = AntRoom.NODE;
+                for (final Node n : this.allRooms) if (n.type == AntRoom.EGG) n.type = AntRoom.NODE;
                 int i = 0;
                 Collections.shuffle(this.allRooms);
-                for (final Node n : this.allRooms)
-                    if (n.type == AntRoom.NODE && i++ < 3) n.type = AntRoom.EGG;
+                for (final Node n : this.allRooms) if (n.type == AntRoom.NODE && i++ < 3) n.type = AntRoom.EGG;
                 this.rooms.deserializeNBT(this.rooms.serializeNBT());
             }
         }
 
         // Workers should only contain actual live ants! so if they are not
         // found here, remove them from the list
-        this.workers.forEach((j, s) -> s.removeIf(uuid ->
-        {
+        this.workers.forEach((j, s) -> s.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (AntTasks.isValid(mob))
             {
@@ -449,8 +441,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     {
                         if (!n.shouldBuild(time)) continue;
                         final BlockPos pos = n.getCenter();
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Build Order for {} {} {}", pos, mob
-                                .getId(), n.type);
+                        if (PokecubeMod.debug)
+                            PokecubeCore.LOGGER.debug("Node Build Order for {} {} {}", pos, mob.getId(), n.type);
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
@@ -462,8 +454,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (!n.started) break build;
                     final List<Edge> edges = Lists.newArrayList(n.edges);
                     Collections.shuffle(edges);
-                    edges.sort((e1, e2) ->
-                    {
+                    edges.sort((e1, e2) -> {
                         final int o1 = !e1.node1.started || !e1.node2.started ? 0 : 1;
                         final int o2 = !e2.node1.started || !e2.node2.started ? 0 : 1;
                         return Integer.compare(o1, o2);
@@ -472,8 +463,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (!a.shouldBuild(time)) break build;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(),
-                            info);
+                    if (PokecubeMod.debug)
+                        PokecubeCore.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
@@ -508,8 +499,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 if (n.shouldDig(time))
                 {
                     final BlockPos pos = n.getCenter();
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(),
-                            n.type);
+                    if (PokecubeMod.debug)
+                        PokecubeCore.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(), n.type);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
@@ -521,8 +512,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 {
                     final List<Edge> edges = Lists.newArrayList(n.edges);
                     Collections.shuffle(edges);
-                    edges.sort((e1, e2) ->
-                    {
+                    edges.sort((e1, e2) -> {
                         final int o1 = !e1.node1.started || !e1.node2.started ? 0 : 1;
                         final int o2 = !e2.node1.started || !e2.node2.started ? 0 : 1;
                         return Integer.compare(o1, o2);
@@ -532,8 +522,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (!a.shouldDig(time)) break dig;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(),
-                            info);
+                    if (PokecubeMod.debug)
+                        PokecubeCore.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
@@ -548,10 +538,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             break;
         case GUARD:
             /**
-             * Guard ants do the following:
-             * <br>
-             * They Walk to a random node
-             * Check for hostiles near the node
+             * Guard ants do the following: <br>
+             * They Walk to a random node Check for hostiles near the node
              * Attack anything they don't like at the nodes.
              */
             nodes:
@@ -580,11 +568,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onBroken(final ServerLevel world)
     {
-        this.ants_in.forEach(ant ->
-        {
+        this.ants_in.forEach(ant -> {
             final CompoundTag tag = ant.entityData;
-            final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) ->
-            {
+            final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) -> {
                 // Here we should do things like heal the ant,
                 // maybe update the inventory of the nest/ant
                 // etc
@@ -608,8 +594,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         if (release)
         {
             final CompoundTag tag = ant.entityData;
-            final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) ->
-            {
+            final Entity entity = EntityType.loadEntityRecursive(tag, world, (mob) -> {
                 // Here we should do things like heal the ant,
                 // maybe update the inventory of the nest/ant
                 // etc
@@ -624,6 +609,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onExitHabitat(final Mob mob)
     {
+        if (this.world == null) this.world = (ServerLevel) mob.getLevel();
+
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
         // to keep it stored
@@ -685,12 +672,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         // enter:
         {
-            if (this.world != null) for (final ServerPlayer player : this.world.players())
-                if (player.getCamera() == mob)
-                {
-                    mob.getPersistentData().putUUID("spectated_by", player.getUUID());
-                    player.setCamera(null);
-                }
+            if (this.world != null)
+                for (final ServerPlayer player : this.world.players()) if (player.getCamera() == mob)
+            {
+                mob.getPersistentData().putUUID("spectated_by", player.getUUID());
+                player.setCamera(null);
+            }
             if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Ant Entered Nest");
 
             mob.stopRiding();
@@ -702,8 +689,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             drop:
             if (pokemob != null && nest.isPresent())
             {
-                final IItemHandler handler = nest.get().nest.getCapability(
-                        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+                final IItemHandler handler = nest.get().nest
+                        .getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
                 if (!(handler instanceof IItemHandlerModifiable)) break drop;
                 final IItemHandlerModifiable itemhandler = new InvWrapper(pokemob.getInventory());
                 for (int i = 2; i < itemhandler.getSlots(); i++)
@@ -748,10 +735,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         }
         compound.put("ants", ants);
         final ListTag workers = new ListTag();
-        this.workers.forEach((j, s) ->
-        {
-            s.forEach(u ->
-            {
+        this.workers.forEach((j, s) -> {
+            s.forEach(u -> {
                 final CompoundTag tag = new CompoundTag();
                 tag.putString("job", j.name());
                 tag.putUUID("id", u);
@@ -761,8 +746,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         compound.put("workers", workers);
         compound.put("rooms", this.rooms.serializeNBT());
         final ListTag eggs = new ListTag();
-        this.eggs.forEach(uuid ->
-        {
+        this.eggs.forEach(uuid -> {
             final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             eggs.add(tag);
@@ -784,8 +768,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         for (int i = 0; i < ants.size(); ++i)
         {
             final CompoundTag tag = ants.getCompound(i);
-            final Ant ant = new Ant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt(
-                    "MinOccupationTicks"));
+            final Ant ant = new Ant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"),
+                    tag.getInt("MinOccupationTicks"));
             this.ants_in.add(ant);
         }
         final ListTag workers = nbt.getList("workers", compoundId);
@@ -815,7 +799,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     {
         public final CompoundTag entityData;
 
-        public int       ticksInHive;
+        public int ticksInHive;
         public final int minOccupationTicks;
 
         private Ant(final CompoundTag nbt, final int ticksInHive, final int minOccupationTicks)
