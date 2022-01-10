@@ -4,7 +4,8 @@
       "state": {
         "Properties": {
           "layers": "4",
-		  "waterlogged": "false"
+		  "waterlogged": "false",
+		  "wet": "false"
         },
         "Name": "pokecube_legends:ash"
       },

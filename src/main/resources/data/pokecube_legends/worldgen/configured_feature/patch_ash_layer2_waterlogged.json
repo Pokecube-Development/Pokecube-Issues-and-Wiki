@@ -12,8 +12,8 @@
                 "data": {
 			      "Properties": {
 			        "layers": "2",
-			        "waterlogged": "false",
-		            "wet": "false"
+			        "waterlogged": "true",
+		            "wet": "true"
 			      },
                   "Name": "pokecube_legends:ash"
                 },
@@ -23,8 +23,8 @@
                 "data": {
 			      "Properties": {
 			        "layers": "4",
-			        "waterlogged": "false",
-		            "wet": "false"
+			        "waterlogged": "true",
+		            "wet": "true"
 			      },
                   "Name": "pokecube_legends:ash"
                 },
@@ -42,7 +42,7 @@
             "predicates": [
               {
                 "blocks": [
-                  "minecraft:air"
+                  "minecraft:water"
                 ],
                 "type": "minecraft:matching_blocks"
               }

@@ -94,7 +94,8 @@
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane_badlands",
       "pokecube_legends:glow_lichen",
-      "pokecube_legends:patch_ash_layer2"
+      "pokecube_legends:patch_ash_layer2",
+      "pokecube_legends:patch_ash_layer2_waterlogged"
     ],
     [
       "minecraft:freeze_top_layer"

@@ -95,7 +95,8 @@
       "minecraft:patch_sugar_cane",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_fire",
-      "pokecube_legends:patch_ash_scattered"
+      "pokecube_legends:patch_ash_scattered",
+      "pokecube_legends:patch_ash_scattered_waterlogged"
     ],
     [
       "minecraft:freeze_top_layer"

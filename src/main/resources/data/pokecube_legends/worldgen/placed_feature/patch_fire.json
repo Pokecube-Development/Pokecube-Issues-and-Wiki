@@ -2,33 +2,17 @@
   "feature": "pokecube_legends:patch_fire",
   "placement": [
     {
-      "chance": 16,
-      "type": "minecraft:rarity_filter"
-    },
-    {
       "count": {
         "type": "minecraft:uniform",
         "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 5
+          "min_inclusive": 16,
+          "max_inclusive": 32
         }
       },
       "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
-    },
-    {
-      "height": {
-        "min_inclusive": {
-          "above_bottom": 4
-        },
-        "max_inclusive": {
-          "below_top": 4
-        },
-        "type": "minecraft:uniform"
-      },
-      "type": "minecraft:height_range"
     },
     {
       "type": "minecraft:biome"
