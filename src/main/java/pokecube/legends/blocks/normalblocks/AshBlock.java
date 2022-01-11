@@ -84,7 +84,7 @@ public class AshBlock extends FallingDirtBlockBase implements Fallable
            }
         }
     }
-    
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
