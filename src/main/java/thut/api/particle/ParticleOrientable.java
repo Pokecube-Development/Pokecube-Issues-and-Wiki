@@ -10,7 +10,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector4;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class ParticleOrientable extends ParticleBase
 {
@@ -50,7 +50,7 @@ public class ParticleOrientable extends ParticleBase
     @Override
     @OnlyIn(value = Dist.CLIENT)
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
-            final Vector3f offset)
+            final Vec3f offset)
     {
         Quaternion quaternion;
         quaternion = new Quaternion(renderInfo.rotation());

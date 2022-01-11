@@ -8,7 +8,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.Factory;
@@ -174,25 +174,25 @@ public class X3dXML
         float            shininess;
         @XmlAttribute(name = "transparency")
         float            transparency;
-        private Vector3f diffuse;
+        private Vec3f diffuse;
 
-        private Vector3f specular;
+        private Vec3f specular;
 
-        private Vector3f emissive;
+        private Vec3f emissive;
 
-        public Vector3f getDiffuse()
+        public Vec3f getDiffuse()
         {
             if (this.diffuse == null) this.diffuse = X3dXML.fromString(this.diffuseColor);
             return this.diffuse;
         }
 
-        public Vector3f getEmissive()
+        public Vec3f getEmissive()
         {
             if (this.emissive == null) this.emissive = X3dXML.fromString(this.emissiveColor);
             return this.emissive;
         }
 
-        public Vector3f getSpecular()
+        public Vec3f getSpecular()
         {
             if (this.specular == null) this.specular = X3dXML.fromString(this.specularColor);
             return this.specular;
@@ -281,11 +281,11 @@ public class X3dXML
         Scene scene;
     }
 
-    private static Vector3f fromString(String vect)
+    private static Vec3f fromString(String vect)
     {
         if (vect == null) vect = "0 0 0";
         final String[] var = vect.split(" ");
-        return new Vector3f(Float.parseFloat(var[0]), Float.parseFloat(var[1]), Float.parseFloat(var[2]));
+        return new Vec3f(Float.parseFloat(var[0]), Float.parseFloat(var[1]), Float.parseFloat(var[2]));
     }
 
     public X3D model;

@@ -46,7 +46,7 @@ public class Quat4f extends Tuple4f implements java.io.Serializable
 
     }
 
-    public Quat4f(final Vector3f axis, float angle, final boolean degrees)
+    public Quat4f(final Vec3f axis, float angle, final boolean degrees)
     {
         if (degrees) angle *= (float) Math.PI / 180F;
 
@@ -342,7 +342,7 @@ public class Quat4f extends Tuple4f implements java.io.Serializable
      * @param m1
      *            the Matrix4f
      */
-    public final void set(final Matrix4f m1)
+    public final void set(final Mat4f m1)
     {
         float ww = 0.25f * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
 
@@ -410,7 +410,7 @@ public class Quat4f extends Tuple4f implements java.io.Serializable
      * @param m1
      *            the Matrix4d
      */
-    public final void set(final Matrix4d m1)
+    public final void set(final Mat4d m1)
     {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
 
@@ -476,7 +476,7 @@ public class Quat4f extends Tuple4f implements java.io.Serializable
      * @param m1
      *            the Matrix3f
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
         float ww = 0.25f * (m1.m00 + m1.m11 + m1.m22 + 1.0f);
 

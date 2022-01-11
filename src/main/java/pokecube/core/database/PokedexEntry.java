@@ -83,7 +83,7 @@ import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -1105,7 +1105,7 @@ public class PokedexEntry
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
-    public Vector3f modelSize = null;
+    public Vec3f modelSize = null;
 
     /** Cached trimmed name. */
     private String trimmedName;
@@ -1652,9 +1652,9 @@ public class PokedexEntry
 
     }
 
-    public Vector3f getModelSize()
+    public Vec3f getModelSize()
     {
-        if (this.modelSize == null) this.modelSize = new Vector3f(this.length, this.height, this.width);
+        if (this.modelSize == null) this.modelSize = new Vec3f(this.length, this.height, this.width);
         return this.modelSize;
     }
 

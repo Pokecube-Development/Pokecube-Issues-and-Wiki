@@ -1,17 +1,17 @@
 package thut.core.client.render.model;
 
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class Vector6f
 {
-    public Vector3f vector1;
+    public Vec3f vector1;
     /** when used for rotation is Euler angles in radians */
-    public Vector3f vector2;
+    public Vec3f vector2;
 
     public Vector6f(float x, float y, float z, float x1, float y1, float z1)
     {
-        this.vector1 = new Vector3f(x, y, z);
-        this.vector2 = new Vector3f(x1, y1, z1);
+        this.vector1 = new Vec3f(x, y, z);
+        this.vector2 = new Vec3f(x1, y1, z1);
     }
 
     public void clean()

@@ -27,7 +27,7 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Mat4f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -277,7 +277,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                     pitch = (float) Math.toRadians(pitch) * info.pitchDirection;
 
                     // Head rotation matrix
-                    Matrix4f headRot = new Matrix4f();
+                    Mat4f headRot = new Mat4f();
 
                     float xr = 0, yr = 0, zr = 0;
 
@@ -379,9 +379,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         final String mat_name = ThutCore.trim(mat.name);
         final Material material = new Material(mat_name);
-        material.diffuseColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
-        material.emissiveColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
-        material.specularColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
+        material.diffuseColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
+        material.emissiveColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
+        material.specularColor = new thut.api.maths.vecmath.Vec3f(1, 1, 1);
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;

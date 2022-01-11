@@ -114,7 +114,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -775,7 +775,7 @@ public class PokemobEventsHandler
                 return false;
         }
         final float scale = pokemob.getSize();
-        final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+        final Vec3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getBbWidth()
                 && Math.max(dims.x, dims.z) * scale > rider.getBbWidth() * 1.4;
     }

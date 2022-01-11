@@ -21,7 +21,7 @@ import thut.api.boom.ExplosionCustom.HitEntity;
 import thut.api.item.ItemList;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
 public class Checker
@@ -341,14 +341,14 @@ public class Checker
 
     final ExplosionCustom boom;
 
-    final Vector3f unit = new Vector3f();
+    final Vec3f unit = new Vec3f();
 
     public Checker(final ExplosionCustom boom)
     {
         this.boom = boom;
     }
 
-    private boolean outOfBounds(final Vector3f unit)
+    private boolean outOfBounds(final Vec3f unit)
     {
         if (unit.x < this.boom.min.x) return true;
         if (unit.y < this.boom.min.y) return true;

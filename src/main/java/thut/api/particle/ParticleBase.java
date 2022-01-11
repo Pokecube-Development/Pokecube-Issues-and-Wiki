@@ -117,7 +117,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     protected void render(final VertexConsumer buffer, final Quaternion quaternion,
-            final thut.api.maths.vecmath.Vector3f offset)
+            final thut.api.maths.vecmath.Vec3f offset)
     {
         final Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
         vector3f1.transform(quaternion);
@@ -159,7 +159,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     @Override
     @OnlyIn(value = Dist.CLIENT)
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
-            final thut.api.maths.vecmath.Vector3f offset)
+            final thut.api.maths.vecmath.Vec3f offset)
     {
         Quaternion quaternion;
         quaternion = renderInfo.rotation();

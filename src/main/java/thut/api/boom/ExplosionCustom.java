@@ -44,7 +44,7 @@ import thut.api.boom.Checker.ShadowMap;
 import thut.api.boom.Checker.ShadowSet;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
@@ -190,11 +190,11 @@ public class ExplosionCustom extends Explosion
 
     Entity exploder;
 
-    Vector3f min = new Vector3f(-1, -1, -1);
-    Vector3f max = new Vector3f(1, 1, 1);
+    Vec3f min = new Vec3f(-1, -1, -1);
+    Vec3f max = new Vec3f(1, 1, 1);
 
-    Vector3f min_next = new Vector3f(1, 1, 1);
-    Vector3f max_next = new Vector3f(-1, -1, -1);
+    Vec3f min_next = new Vec3f(1, 1, 1);
+    Vec3f max_next = new Vec3f(-1, -1, -1);
 
     float lastBoundCheck = 10;
 

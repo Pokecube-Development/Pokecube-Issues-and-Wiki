@@ -57,7 +57,7 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.IMobColourable;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -202,7 +202,7 @@ public class AnimationGui extends Screen
     List<String> components;
 
     private static final Set<PokedexEntry> borked = Sets.newHashSet();
-    private static final Map<PokedexEntry, Vector3f> original_sizes = Maps.newHashMap();
+    private static final Map<PokedexEntry, Vec3f> original_sizes = Maps.newHashMap();
     private static int tries = 0;
 
     public AnimationGui()
@@ -415,9 +415,9 @@ public class AnimationGui extends Screen
             final float big = 1.05f;
             final float sml = 0.95f;
             float s = width / target;
-            final Vector3f dims = AnimationGui.entry.getModelSize();
+            final Vec3f dims = AnimationGui.entry.getModelSize();
             if (!AnimationGui.original_sizes.containsKey(AnimationGui.entry))
-                AnimationGui.original_sizes.put(AnimationGui.entry, new Vector3f(dims));
+                AnimationGui.original_sizes.put(AnimationGui.entry, new Vec3f(dims));
             if (s > big)
             {
                 if (slowly) s = 1.005f;
@@ -553,7 +553,7 @@ public class AnimationGui extends Screen
                 }
                 catch (final Exception e)
                 {
-                    final Vector3f dims = AnimationGui.entry.getModelSize();
+                    final Vec3f dims = AnimationGui.entry.getModelSize();
                     if (AnimationGui.borked.add(AnimationGui.entry))
                     {
                         if (AnimationGui.original_sizes.containsKey(AnimationGui.entry))

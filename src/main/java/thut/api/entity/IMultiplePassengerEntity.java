@@ -10,8 +10,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import thut.api.maths.vecmath.Matrix3f;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Mat3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public interface IMultiplePassengerEntity
 {
@@ -21,21 +21,21 @@ public interface IMultiplePassengerEntity
         {
             final Entity entity = (Entity) multipassenger;
             if (!entity.hasPassenger(passenger)) return;
-            Vector3f v = multipassenger.getSeat(passenger);
+            Vec3f v = multipassenger.getSeat(passenger);
             final float yaw = -multipassenger.getYaw() * 0.017453292F;
             final float pitch = -multipassenger.getPitch() * 0.017453292F;
             final float sinYaw = Mth.sin(yaw);
             final float cosYaw = Mth.cos(yaw);
             final float sinPitch = Mth.sin(pitch);
             final float cosPitch = Mth.cos(pitch);
-            final Matrix3f matrixYaw = new Matrix3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
-            final Matrix3f matrixPitch = new Matrix3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
-            final Matrix3f transform = new Matrix3f();
+            final Mat3f matrixYaw = new Mat3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
+            final Mat3f matrixPitch = new Mat3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
+            final Mat3f transform = new Mat3f();
             transform.mul(matrixYaw, matrixPitch);
-            if (v == null) v = new Vector3f();
+            if (v == null) v = new Vec3f();
             else
             {
-                v = (Vector3f) v.clone();
+                v = (Vec3f) v.clone();
                 transform.transform(v);
             }
             passenger.setPos(entity.getX() + v.x, entity.getY() + passenger.getMyRidingOffset() + v.y, entity
@@ -54,17 +54,17 @@ public interface IMultiplePassengerEntity
             return new Seat(buf);
         }
 
-        public Vector3f seat;
+        public Vec3f seat;
 
         private UUID entityId;
 
         public Seat(final FriendlyByteBuf buf)
         {
-            this.seat = new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
+            this.seat = new Vec3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
             this.setEntityId(new UUID(buf.readLong(), buf.readLong()));
         }
 
-        public Seat(final Vector3f vector3f, final UUID readInt)
+        public Seat(final Vec3f vector3f, final UUID readInt)
         {
             this.seat = vector3f;
             this.setEntityId(readInt != null ? readInt : Seat.BLANK);
@@ -73,7 +73,7 @@ public interface IMultiplePassengerEntity
         @Override
         public Object clone()
         {
-            return new Seat((Vector3f) this.seat.clone(), this.getEntityId());
+            return new Seat((Vec3f) this.seat.clone(), this.getEntityId());
         }
 
         @Override
@@ -129,7 +129,7 @@ public interface IMultiplePassengerEntity
         @Override
         public Seat copy(final Seat value)
         {
-            return new Seat((Vector3f) value.seat.clone(), value.getEntityId());
+            return new Seat((Vec3f) value.seat.clone(), value.getEntityId());
         }
 
         @Override
@@ -159,7 +159,7 @@ public interface IMultiplePassengerEntity
      * @param seat
      * @return
      */
-    Entity getPassenger(Vector3f seat);
+    Entity getPassenger(Vec3f seat);
 
     /**
      * Current pitch rotation for offsetting the ridden entitites
@@ -189,14 +189,14 @@ public interface IMultiplePassengerEntity
      * @param passenger
      * @return
      */
-    Vector3f getSeat(Entity passenger);
+    Vec3f getSeat(Entity passenger);
 
     /**
      * List of seats on this entity;
      *
      * @return
      */
-    List<Vector3f> getSeats();
+    List<Vec3f> getSeats();
 
     /**
      * Current rotation yaw, for offsetting of the ridden entitites.

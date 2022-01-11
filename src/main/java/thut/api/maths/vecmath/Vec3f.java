@@ -7,14 +7,14 @@ import thut.api.maths.Vector3;
  * x,y,z coordinates. If this value represents a normal, then it should
  * be normalized.
  */
-public class Vector3f extends Tuple3f implements java.io.Serializable
+public class Vec3f extends Tuple3f implements java.io.Serializable
 {
-    public static Vector3f XN = new Vector3f(-1.0F, 0.0F, 0.0F);
-    public static Vector3f XP = new Vector3f(1.0F, 0.0F, 0.0F);
-    public static Vector3f YN = new Vector3f(0.0F, -1.0F, 0.0F);
-    public static Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
-    public static Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
-    public static Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
+    public static Vec3f XN = new Vec3f(-1.0F, 0.0F, 0.0F);
+    public static Vec3f XP = new Vec3f(1.0F, 0.0F, 0.0F);
+    public static Vec3f YN = new Vec3f(0.0F, -1.0F, 0.0F);
+    public static Vec3f YP = new Vec3f(0.0F, 1.0F, 0.0F);
+    public static Vec3f ZN = new Vec3f(0.0F, 0.0F, -1.0F);
+    public static Vec3f ZP = new Vec3f(0.0F, 0.0F, 1.0F);
 
     // Combatible with 1.1
     static final long serialVersionUID = -7031930069184524614L;
@@ -29,7 +29,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param z
      *            the z coordinate
      */
-    public Vector3f(final float x, final float y, final float z)
+    public Vec3f(final float x, final float y, final float z)
     {
         super(x, y, z);
     }
@@ -40,7 +40,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param v
      *            the array of length 3 containing xyz in order
      */
-    public Vector3f(final float[] v)
+    public Vec3f(final float[] v)
     {
         super(v);
     }
@@ -51,7 +51,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param v1
      *            the Vector3f containing the initialization x y z data
      */
-    public Vector3f(final Vector3f v1)
+    public Vec3f(final Vec3f v1)
     {
         super(v1);
     }
@@ -62,7 +62,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param v1
      *            the Vector3d containing the initialization x y z data
      */
-    public Vector3f(final Vector3d v1)
+    public Vec3f(final Vector3d v1)
     {
         super(v1);
     }
@@ -73,7 +73,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param t1
      *            the Tuple3f containing the initialization x y z data
      */
-    public Vector3f(final Tuple3f t1)
+    public Vec3f(final Tuple3f t1)
     {
         super(t1);
     }
@@ -84,7 +84,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param t1
      *            the Tuple3d containing the initialization x y z data
      */
-    public Vector3f(final Tuple3d t1)
+    public Vec3f(final Tuple3d t1)
     {
         super(t1);
     }
@@ -92,7 +92,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
     /**
      * Constructs and initializes a Vector3f to (0,0,0).
      */
-    public Vector3f()
+    public Vec3f()
     {
         super();
     }
@@ -112,7 +112,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         return new com.mojang.math.Vector3f(this.x, this.y, this.z);
     }
 
-    public Vector3f(final Vector3 rHat)
+    public Vec3f(final Vector3 rHat)
     {
         this((float) rHat.x, (float) rHat.y, (float) rHat.z);
     }
@@ -152,7 +152,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param v2
      *            the second vector
      */
-    public final void cross(final Vector3f v1, final Vector3f v2)
+    public final void cross(final Vec3f v1, final Vec3f v2)
     {
         float x, y;
 
@@ -170,7 +170,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      *            the other vector
      * @return the dot product of this vector and v1
      */
-    public final float dot(final Vector3f v1)
+    public final float dot(final Vec3f v1)
     {
         return this.x * v1.x + this.y * v1.y + this.z * v1.z;
     }
@@ -181,7 +181,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      * @param v1
      *            the un-normalized vector
      */
-    public final void normalize(final Vector3f v1)
+    public final void normalize(final Vec3f v1)
     {
         float norm;
 
@@ -212,7 +212,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
      *            the other vector
      * @return the angle in radians in the range [0,PI]
      */
-    public final float angle(final Vector3f v1)
+    public final float angle(final Vec3f v1)
     {
         double vDot = this.dot(v1) / (this.length() * v1.length());
         if (vDot < -1.0) vDot = -1.0;

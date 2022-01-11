@@ -51,7 +51,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 
@@ -407,9 +407,9 @@ public class Pokecube extends Item implements IPokecube
             final ServerPlayer player = (ServerPlayer) thrower;
             final InteractionHand hand = player.getUsedItemHand();
             final Vec3 tmp = thrower.getLookAngle();
-            final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-            final Vector3f shift = new Vector3f();
-            shift.cross(look, new Vector3f(0, 1, 0));
+            final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+            final Vec3f shift = new Vec3f();
+            shift.cross(look, new Vec3f(0, 1, 0));
             shift.scale(player.getBbWidth() / 2);
             switch (hand)
             {
@@ -469,9 +469,9 @@ public class Pokecube extends Item implements IPokecube
                 final ServerPlayer player = (ServerPlayer) thrower;
                 final InteractionHand hand = player.getUsedItemHand();
                 final Vec3 tmp = thrower.getLookAngle();
-                final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-                final Vector3f shift = new Vector3f();
-                shift.cross(look, new Vector3f(0, 1, 0));
+                final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+                final Vec3f shift = new Vec3f();
+                shift.cross(look, new Vec3f(0, 1, 0));
                 shift.scale(player.getBbWidth() / 2);
                 switch (hand)
                 {

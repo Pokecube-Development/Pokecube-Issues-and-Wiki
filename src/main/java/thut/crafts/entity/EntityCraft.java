@@ -31,7 +31,7 @@ import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
@@ -255,7 +255,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         this.setDeltaMovement(vx, vy, vz);
     }
 
-    public void addSeat(final Vector3f seat)
+    public void addSeat(final Vec3f seat)
     {
         final Seat toSet = this.getSeat(this.getSeatCount());
         toSet.seat.set(seat);
@@ -321,7 +321,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Entity getPassenger(final Vector3f seatl)
+    public Entity getPassenger(final Vec3f seatl)
     {
         UUID id = null;
         for (int i = 0; i < this.getSeatCount(); i++)
@@ -353,9 +353,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Vector3f getSeat(final Entity passenger)
+    public Vec3f getSeat(final Entity passenger)
     {
-        final Vector3f ret = null;
+        final Vec3f ret = null;
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             Seat seat;
@@ -375,9 +375,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public List<Vector3f> getSeats()
+    public List<Vec3f> getSeats()
     {
-        final List<Vector3f> ret = Lists.newArrayList();
+        final List<Vec3f> ret = Lists.newArrayList();
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             final Seat seat = this.getSeat(i);
@@ -432,7 +432,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         super.defineSynchedData();
         this.entityData.define(EntityCraft.MAINSEATDW, Integer.valueOf(-1));
-        for (int i = 0; i < 10; i++) this.entityData.define(EntityCraft.SEAT[i], new Seat(new Vector3f(), null));
+        for (int i = 0; i < 10; i++) this.entityData.define(EntityCraft.SEAT[i], new Seat(new Vec3f(), null));
         this.entityData.define(EntityCraft.SEATCOUNT, 0);
     }
 

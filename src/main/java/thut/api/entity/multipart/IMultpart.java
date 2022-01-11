@@ -15,8 +15,8 @@ import thut.api.AnimatedCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
-import thut.api.maths.vecmath.Matrix3f;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Mat3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
 public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
@@ -31,8 +31,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public T[] allParts;
         public T[] parts;
 
-        public Matrix3f rot = new Matrix3f();
-        public Vector3f r = new Vector3f();
+        public Mat3f rot = new Mat3f();
+        public Vec3f r = new Vec3f();
         public String effective_pose = "";
 
         int tick = -1;
@@ -152,8 +152,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
         if (getHolder().holder().parts.length == 0 && getHolder().allParts().isEmpty()) return;
 
-        Matrix3f rot = getHolder().holder().rot;
-        Vector3f r = getHolder().holder().r;
+        Mat3f rot = getHolder().holder().rot;
+        Vec3f r = getHolder().holder().r;
 
         final Vec3 v = self().position();
         r.set((float) v.x(), (float) v.y(), (float) v.z());

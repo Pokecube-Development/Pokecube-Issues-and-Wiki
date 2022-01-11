@@ -324,7 +324,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable
      * @param m1
      *            the matrix4f
      */
-    public final void set(final Matrix4f m1)
+    public final void set(final Mat4f m1)
     {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
 
@@ -390,7 +390,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable
      * @param m1
      *            the matrix4d
      */
-    public final void set(final Matrix4d m1)
+    public final void set(final Mat4d m1)
     {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + m1.m33);
 
@@ -456,7 +456,7 @@ public class Quat4d extends Tuple4d implements java.io.Serializable
      * @param m1
      *            the matrix3f
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
         double ww = 0.25 * (m1.m00 + m1.m11 + m1.m22 + 1.0);
 

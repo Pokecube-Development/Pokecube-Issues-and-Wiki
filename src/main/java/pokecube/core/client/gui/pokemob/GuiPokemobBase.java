@@ -104,7 +104,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
                     final boolean stock = pokemob.getPokedexEntry().stock;
                     if (stock)
                     {
-                        final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                        final thut.api.maths.vecmath.Vec3f dims = pokemob.getPokedexEntry().getModelSize();
                         mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
                     }
                     else mobScale = Math.max(renderMob.getBbHeight(), renderMob.getBbWidth());
@@ -112,7 +112,7 @@ public class GuiPokemobBase extends AbstractContainerScreen<ContainerPokemob>
             }
             else
             {
-                final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                final thut.api.maths.vecmath.Vec3f dims = pokemob.getPokedexEntry().getModelSize();
                 mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             }
 
