@@ -90,14 +90,12 @@ public class AITools
 
     private static class ValidDamageToPokemob implements Predicate<DamageSource>
     {
-
         @Override
         public boolean test(final DamageSource t)
         {
             if (!PokecubeCore.getConfig().onlyPokemobsDamagePokemobs) return true;
             return t instanceof IPokedamage;
         }
-
     }
 
     public static boolean handleDamagedTargets = true;

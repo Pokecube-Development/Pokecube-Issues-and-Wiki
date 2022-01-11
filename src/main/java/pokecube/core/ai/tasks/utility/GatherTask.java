@@ -256,6 +256,9 @@ public class GatherTask extends UtilTask
     public ItemEntity targetItem = null;
     public NearBlock targetBlock = null;
 
+    private ItemStack heldItem = ItemStack.EMPTY;
+    private List<ResourceLocation> keys = Lists.newArrayList();
+
     boolean hasRoom = true;
 
     int collectCooldown = 0;
@@ -277,68 +280,57 @@ public class GatherTask extends UtilTask
         this.storage = storage;
     }
 
-    private boolean isValidItem(ItemEntity item)
+    private void checkHeldItem()
     {
         ItemStack stack = pokemob.getHeldItem();
-        if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+        if (stack != this.heldItem)
         {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
-            try
+            this.heldItem = stack;
+            keys.clear();
+            if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
             {
-                final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                boolean isFilter = false;
-                boolean matched = false;
-                for (final String line : comp.getString().split("\n"))
+                final ListTag pages = (ListTag) stack.getTag().get("pages");
+                try
                 {
-                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
+                    final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                    boolean isFilter = false;
+                    for (final String line : comp.getString().split("\n"))
                     {
-                        isFilter = true;
-                        continue;
+                        if (line.toLowerCase(Locale.ROOT).contains("item filters"))
+                        {
+                            isFilter = true;
+                            continue;
+                        }
+                        if (isFilter)
+                        {
+                            ResourceLocation res = new ResourceLocation(line);
+                            keys.add(res);
+                        }
                     }
-                    ResourceLocation res = new ResourceLocation(line);
-                    if (ItemList.is(res, item.getItem())) matched = true;
-                    if (isFilter && matched) break;
                 }
-                if (isFilter) return matched;
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
-        return true;
+    }
+
+    private boolean checkValid(Object item_or_block)
+    {
+        checkHeldItem();
+        for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
+        return keys.isEmpty();
+    }
+
+    private boolean isValidItem(ItemEntity item)
+    {
+        return checkValid(item.getItem());
     }
 
     private boolean isValidBlock(NearBlock block)
     {
-        ItemStack stack = pokemob.getHeldItem();
-        if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
-        {
-            final ListTag pages = (ListTag) stack.getTag().get("pages");
-            try
-            {
-                final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                boolean isFilter = false;
-                boolean matched = false;
-                for (final String line : comp.getString().split("\n"))
-                {
-                    if (line.toLowerCase(Locale.ROOT).contains("item filters"))
-                    {
-                        isFilter = true;
-                        continue;
-                    }
-                    ResourceLocation res = new ResourceLocation(line);
-                    if (ItemList.is(res, block.getState())) matched = true;
-                    if (isFilter && matched) break;
-                }
-                if (isFilter) return matched;
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
+        if (!checkValid(block.getState())) return false;
         boolean canHarvest = false;
         for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
         {
