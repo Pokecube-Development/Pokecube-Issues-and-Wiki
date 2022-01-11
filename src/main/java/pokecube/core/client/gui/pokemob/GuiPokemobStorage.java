@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,6 +54,20 @@ public class GuiPokemobStorage extends GuiPokemobBase
         final CompoundTag tag = container.data.readNbt();
         this.ai.deserializeNBT(tag);
         container.setMode(PacketPokemobGui.STORAGE);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    {
+        if (keyCode == GLFW.GLFW_KEY_ENTER)
+        {
+            this.sendUpdate();
+            return true;
+        }
+        for (EditBox box : textBoxes) if (box.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE
+                && keyCode != GLFW.GLFW_KEY_ESCAPE && !Screen.hasControlDown())
+            return true;
+        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override
@@ -156,6 +171,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
     @Override
     public boolean mouseClicked(final double x, final double y, final int mouseButton)
     {
+        for (EditBox box : textBoxes) box.setFocused(false);
         final boolean ret = super.mouseClicked(x, y, mouseButton);
 
         BlockPos newLink = null;
@@ -178,14 +194,12 @@ public class GuiPokemobStorage extends GuiPokemobBase
                 text.setValue(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
                 effect = true;
             }
-            if (ret) effect = true;
         }
         if (effect)
         {
             this.sendUpdate();
             return true;
         }
-
         return ret;
     }
 
