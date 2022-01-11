@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -520,6 +521,7 @@ public class AnimationGui extends Screen
                 this.renderHolder.overrideAnim = true;
                 this.renderHolder.anim = ThutCore.trim(this.anim.getValue());
             }
+            RenderSystem.setShaderLights(com.mojang.math.Vector3f.YN, com.mojang.math.Vector3f.ZP);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);

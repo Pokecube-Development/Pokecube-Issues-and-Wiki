@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale=".20"/>
-    <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="1"/>
+  <phase name="global" scale=".40"/>
+    <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>  
+    <customTex default="torchic">
+    <part name="torchiceye" tex="torchiceye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+  </customTex>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="Left_leg" legAngle="45" name="biWalk" rightArm="" rightLeg="Right_leg"/>
  </model>
 </ModelAnimator>
