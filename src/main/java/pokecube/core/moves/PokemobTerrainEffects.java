@@ -260,7 +260,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     public void doEntryEffect(final LivingEntity entity)
     {
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
-        if (mob != null)
+        if (mob != null && entity.getLevel() instanceof ServerLevel)
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel"))) mob.setStatus(IMoveConstants.STATUS_PSN);
