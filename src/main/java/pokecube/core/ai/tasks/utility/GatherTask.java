@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.utility;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -12,8 +11,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -256,9 +253,6 @@ public class GatherTask extends UtilTask
     public ItemEntity targetItem = null;
     public NearBlock targetBlock = null;
 
-    private ItemStack heldItem = ItemStack.EMPTY;
-    private List<ResourceLocation> keys = Lists.newArrayList();
-
     boolean hasRoom = true;
 
     int collectCooldown = 0;
@@ -280,57 +274,14 @@ public class GatherTask extends UtilTask
         this.storage = storage;
     }
 
-    private void checkHeldItem()
-    {
-        ItemStack stack = pokemob.getHeldItem();
-        if (stack != this.heldItem)
-        {
-            this.heldItem = stack;
-            keys.clear();
-            if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
-            {
-                final ListTag pages = (ListTag) stack.getTag().get("pages");
-                try
-                {
-                    final Component comp = Component.Serializer.fromJson(pages.getString(0));
-                    boolean isFilter = false;
-                    for (final String line : comp.getString().split("\n"))
-                    {
-                        if (line.toLowerCase(Locale.ROOT).contains("item filters"))
-                        {
-                            isFilter = true;
-                            continue;
-                        }
-                        if (isFilter)
-                        {
-                            ResourceLocation res = new ResourceLocation(line);
-                            keys.add(res);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private boolean checkValid(Object item_or_block)
-    {
-        checkHeldItem();
-        for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
-        return keys.isEmpty();
-    }
-
     private boolean isValidItem(ItemEntity item)
     {
-        return checkValid(item.getItem());
+        return storage.checkValid(item.getItem());
     }
 
     private boolean isValidBlock(NearBlock block)
     {
-        if (!checkValid(block.getState())) return false;
+        if (!storage.checkValid(block.getState())) return false;
         boolean canHarvest = false;
         for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
         {

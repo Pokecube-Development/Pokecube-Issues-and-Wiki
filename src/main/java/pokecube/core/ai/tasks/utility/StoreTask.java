@@ -1,12 +1,17 @@
 package pokecube.core.ai.tasks.utility;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
@@ -39,7 +44,7 @@ import thut.lib.ItemStackTools;
 public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>, ContainerListener
 {
     public static int COOLDOWN = 10;
-    public static int MAXSIZE  = 100;
+    public static int MAXSIZE = 100;
 
     // Inventory to store stuff in.
     public BlockPos storageLoc = null;
@@ -53,17 +58,20 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     public Direction emptyFace = Direction.UP;
 
     int searchInventoryCooldown = 0;
-    int doStorageCooldown       = 0;
+    int doStorageCooldown = 0;
 
     int berrySlotIndex;
 
     boolean hasBerries = false;
 
     public int filledSlots = 0;
-    public int emptySlots  = 0;
-    public int firstEmpty  = 0;
+    public int emptySlots = 0;
+    public int firstEmpty = 0;
 
     public boolean pathing = false;
+
+    protected ItemStack heldItem = ItemStack.EMPTY;
+    protected List<ResourceLocation> keys = Lists.newArrayList();
 
     private final Set<BlockPos> knownValid = Sets.newHashSet();
 
@@ -76,6 +84,49 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             // Initialize this.
             this.containerChanged(entity.getInventory());
         }
+    }
+
+    private void checkHeldItem()
+    {
+        ItemStack stack = pokemob.getHeldItem();
+        if (stack != this.heldItem)
+        {
+            this.heldItem = stack;
+            keys.clear();
+            if (stack.hasTag() && stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListTag)
+            {
+                final ListTag pages = (ListTag) stack.getTag().get("pages");
+                try
+                {
+                    final Component comp = Component.Serializer.fromJson(pages.getString(0));
+                    boolean isFilter = false;
+                    for (final String line : comp.getString().split("\n"))
+                    {
+                        if (line.toLowerCase(Locale.ROOT).contains("item filters"))
+                        {
+                            isFilter = true;
+                            continue;
+                        }
+                        if (isFilter)
+                        {
+                            ResourceLocation res = new ResourceLocation(line);
+                            keys.add(res);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    protected boolean checkValid(Object item_or_block)
+    {
+        checkHeldItem();
+        for (ResourceLocation l : keys) if (ItemList.is(l, item_or_block)) return true;
+        return keys.isEmpty();
     }
 
     @Override
@@ -232,20 +283,20 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         int start = 0;
         inv:
         for (int slot = this.firstEmpty; slot < pokemobInv.getSlots(); slot++)
-            if (pokemobInv.getStackInSlot(slot).isEmpty()) for (int i = start; i < Math.min(inventory.getSlots(),
-                    StoreTask.MAXSIZE); i++)
+            if (pokemobInv.getStackInSlot(slot).isEmpty())
+                for (int i = start; i < Math.min(inventory.getSlots(), StoreTask.MAXSIZE); i++)
+        {
+            final ItemStack stack = inventory.getStackInSlot(i);
+            if (!stack.isEmpty() && checkValid(stack))
             {
-                final ItemStack stack = inventory.getStackInSlot(i);
-                if (!stack.isEmpty())
-                {
-                    inventory.setStackInSlot(i, ItemStack.EMPTY);
-                    pokemobInv.setStackInSlot(slot, stack);
-                    // Collected our item successfully
-                    collected = true;
-                    start = i + 1;
-                    continue inv;
-                }
+                inventory.setStackInSlot(i, ItemStack.EMPTY);
+                pokemobInv.setStackInSlot(slot, stack);
+                // Collected our item successfully
+                collected = true;
+                start = i + 1;
+                continue inv;
             }
+        }
         this.pathing = false;
         return collected;
     }
@@ -352,8 +403,9 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile == null) return null;
         IItemHandler handler;
-        if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElse(
-                null)) instanceof IItemHandlerModifiable) return (IItemHandlerModifiable) handler;
+        if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)
+                .orElse(null)) instanceof IItemHandlerModifiable)
+            return (IItemHandlerModifiable) handler;
         return null;
     }
 
@@ -392,8 +444,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
 
     @Override
     public void run()
-    {
-    }
+    {}
 
     @Override
     public CompoundTag serializeNBT()
@@ -448,8 +499,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
      */
     private boolean tameCheck()
     {
-        return this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        return this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
     }
 
     @Override
