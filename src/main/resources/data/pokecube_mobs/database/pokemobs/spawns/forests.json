@@ -32,6 +32,7 @@
         {"key": "skitty","min": 2,"max": 4,"rate": 0.2},
         {"key": "emolga","min": 2,"max": 4,"rate": 0.2},
         {"key": "morpeko","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pikachu","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "ekans","min": 2,"max": 4,"rate": 0.15},
         {"key": "mankey","min": 2,"max": 4,"rate": 0.15},
