@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:dusk_dolerite_copper_ore",
+    "pokecube_legends:dusk_dolerite_cosmic_ore",
+    "pokecube_legends:dusk_dolerite_lapis_ore",
+    "pokecube_legends:dusk_dolerite_redstone_ore",
+    "pokecube_legends:meteorite_cosmic_ore",
+    "pokecube_legends:ultra_copper_ore",
+    "pokecube_legends:ultra_cosmic_ore",
+    "pokecube_legends:ultra_lapis_ore",
+    "pokecube_legends:ultra_redstone_ore"
+  ]
+}

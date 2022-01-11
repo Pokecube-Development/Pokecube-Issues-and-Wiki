@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:spectrum_ore",
+    "pokecube_legends:ultra_coal_ore",
+    "pokecube_legends:ultra_copper_ore",
+    "pokecube_legends:ultra_cosmic_ore",
+    "pokecube_legends:ultra_diamond_ore",
+    "pokecube_legends:ultra_emerald_ore",
+    "pokecube_legends:ultra_fossil_ore",
+    "pokecube_legends:ultra_gold_ore",
+    "pokecube_legends:ultra_iron_ore",
+    "pokecube_legends:ultra_lapis_ore",
+    "pokecube_legends:ultra_redstone_ore",
+    "pokecube_legends:ultra_ruby_ore",
+    "pokecube_legends:ultra_sapphire_ore"
+  ]
+}
