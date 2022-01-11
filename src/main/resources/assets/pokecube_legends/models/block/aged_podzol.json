@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "pokecube_legends:block/aged_dirt",
+    "top": "pokecube_legends:block/aged_podzol_top",
+    "side": "pokecube_legends:block/aged_podzol_side",
+    "particle": "pokecube_legends:block/aged_podzol_top"
+  }
+}

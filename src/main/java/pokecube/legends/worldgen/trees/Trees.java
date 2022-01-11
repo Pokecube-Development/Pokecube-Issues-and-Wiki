@@ -85,8 +85,8 @@ public class Trees
 
     public static final class States
     {
-        public static final BlockState ULTRA_JUNGLE_GRASS = BlockInit.JUNGLE_GRASS.get().defaultBlockState();
-        public static final BlockState ULTRA_AGED_GRASS = BlockInit.AGED_GRASS.get().defaultBlockState();
+        public static final BlockState JUNGLE_GRASS = BlockInit.JUNGLE_GRASS.get().defaultBlockState();
+        public static final BlockState AGED_PODZOL = BlockInit.AGED_PODZOL.get().defaultBlockState();
     }
 
     public static void init(final IEventBus bus)
@@ -146,7 +146,7 @@ public class Trees
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()), 
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(3, 8)),
             new TwoLayersFeatureSize(1, 1, 2))
-                .decorators(ImmutableList.of(BEEHIVE_0002, new AlterGroundDecorator(BlockStateProvider.simple(States.ULTRA_AGED_GRASS))));
+                .decorators(ImmutableList.of(BEEHIVE_0002, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
     }
 
     public static TreeConfigurationBuilder getMegaAgedSpruceTree()
@@ -157,7 +157,7 @@ public class Trees
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()),
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(8, 13)),
             new TwoLayersFeatureSize(1, 1, 2))
-                .decorators(ImmutableList.of(BEEHIVE_0002, new AlterGroundDecorator(BlockStateProvider.simple(States.ULTRA_AGED_GRASS))));
+                .decorators(ImmutableList.of(BEEHIVE_0002, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
     }
 
     public static TreeConfigurationBuilder getCorruptedTree()
@@ -243,7 +243,7 @@ public class Trees
             new MegaJungleFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
             new TwoLayersFeatureSize(1, 1, 2)).decorators(ImmutableList.of(TrunkStringOfPearlsDecorator.INSTANCE, 
                     LeavesStringOfPearlsDecorator.INSTANCE, BEEHIVE_0002, 
-                    new AlterGroundDecorator(BlockStateProvider.simple(States.ULTRA_JUNGLE_GRASS))));
+                    new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_GRASS))));
     }
 
     private static void registerPlacements()

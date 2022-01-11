@@ -4041,8 +4041,7 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
-                              "pokecube_legends:windswept_forbidden_taiga",
-                              "pokecube_legends:windswept_temporal_jungle"
+                              "pokecube_legends:windswept_forbidden_taiga"
                             ]
                           },
                           "then_run": {
@@ -4053,7 +4052,7 @@
                                 "if_true": {
                                   "type": "minecraft:noise_threshold",
                                   "noise": "minecraft:surface",
-                                  "min_threshold": 0.21212121212121213,
+                                  "min_threshold": 0.41212121212121213,
                                   "max_threshold": 1.7976931348623157e+308
                                 },
                                 "then_run": {
@@ -4067,14 +4066,17 @@
                                 "type": "minecraft:condition",
                                 "if_true": {
                                   "type": "minecraft:noise_threshold",
-                                  "noise": "minecraft:ice",
+                                  "noise": "minecraft:surface",
                                   "min_threshold": 0.21212121212121213,
                                   "max_threshold": 1.7976931348623157e+308
                                 },
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:coarse_dirt"
+                                    "Name": "pokecube_legends:aged_podzol",
+                                    "Properties": {
+                                      "snowy": "false"
+                                    }
                                   }
                                 }
                               },
@@ -4082,8 +4084,67 @@
                                 "type": "minecraft:condition",
                                 "if_true": {
                                   "type": "minecraft:noise_threshold",
-                                  "noise": "minecraft:ice",
-                                  "min_threshold": -0.06060606060606061,
+                                  "noise": "minecraft:surface",
+                                  "min_threshold": 0.06060606060606061,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:aged_coarse_dirt"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+                              "pokecube_legends:windswept_temporal_jungle"
+                            ]
+                          },
+                          "then_run": {
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "minecraft:surface",
+                                  "min_threshold": 0.41212121212121213,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "pokecube_legends:ultra_stone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "minecraft:surface",
+                                  "min_threshold": 0.21212121212121213,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:podzol"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "minecraft:surface",
+                                  "min_threshold": 0.06060606060606061,
                                   "max_threshold": 1.7976931348623157e+308
                                 },
                                 "then_run": {
@@ -4118,7 +4179,10 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:coarse_dirt"
+                                    "Name": "pokecube_legends:aged_podzol",
+                                    "Properties": {
+                                      "snowy": "false"
+                                    }
                                   }
                                 }
                               },
@@ -4127,16 +4191,13 @@
                                 "if_true": {
                                   "type": "minecraft:noise_threshold",
                                   "noise": "minecraft:surface",
-                                  "min_threshold": -0.11515151515151514,
+                                  "min_threshold": 0.06060606060606061,
                                   "max_threshold": 1.7976931348623157e+308
                                 },
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:podzol",
-                                    "Properties": {
-                                      "snowy": "false"
-                                    }
+                                    "Name": "pokecube_legends:aged_coarse_dirt"
                                   }
                                 }
                               }
@@ -5116,8 +5177,31 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
-                              "pokecube_legends:windswept_temporal_jungle",
                               "pokecube_legends:windswept_forbidden_taiga"
+                            ]
+                          },
+                          "then_run": {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "minecraft:surface",
+                              "min_threshold": 0.21212121212121213,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:block",
+                              "result_state": {
+                                "Name": "pokecube_legends:aged_coarse_dirt"
+                              }
+                            }
+                          }
+                        },
+						{
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+                              "pokecube_legends:windswept_temporal_jungle"
                             ]
                           },
                           "then_run": {

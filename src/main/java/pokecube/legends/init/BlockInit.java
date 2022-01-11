@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.RootedDirtBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -370,8 +371,10 @@ public class BlockInit
     public static final RegistryObject<Block> INFECTED_TORCH;
     public static final RegistryObject<Block> INFECTED_TORCH_WALL;
 
+    public static final RegistryObject<Block> AGED_COARSE_DIRT;
     public static final RegistryObject<Block> AGED_DIRT;
     public static final RegistryObject<Block> AGED_GRASS;
+    public static final RegistryObject<Block> AGED_PODZOL;
     public static final RegistryObject<Block> ASH;
     public static final RegistryObject<Block> ASH_BLOCK;
     public static final RegistryObject<Block> AZURE_COARSE_DIRT;
@@ -962,41 +965,46 @@ public class BlockInit
         // Soils
         AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
                 () -> new AgedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD)
-                        .sound(SoundType.GRASS).strength(1f, 2f).randomTicks()));
+                        .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
+        AGED_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
+                () -> new SnowyDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.GOLD)
+                        .sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
         AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt",
-                () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 1f, 2f, SoundType.WET_GRASS, false));
+                () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 0.5F, 0.5F, SoundType.WET_GRASS, false));
+        AGED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_coarse_dirt",
+                () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 0.5F, 0.5F, SoundType.GRAVEL, false));
         AZURE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("azure_grass_block",
                 () -> new AzureGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_LIGHT_BLUE)
-                        .sound(SoundType.GRASS).strength(0.6f).randomTicks()));
+                        .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         AZURE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_dirt",
-                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.GRAVEL, false));
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5F, 0.5F, SoundType.GRAVEL, false));
         AZURE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_coarse_dirt",
-                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5f, 0.5f, SoundType.GRAVEL, false));
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5F, 0.5F, SoundType.GRAVEL, false));
         CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block",
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE)
-                        .sound(SoundType.SCAFFOLDING).strength(4f, 5f).randomTicks().requiresCorrectToolForDrops()));
+                        .sound(SoundType.SCAFFOLDING).strength(4F, 5F).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
                 () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.METAL).strength(0.9f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
-                        .sound(SoundType.METAL).strength(0.9f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
         JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", 
                 () -> new JungleGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM)
-                        .sound(SoundType.GRASS).strength(1f, 2f).randomTicks()));
+                        .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt",
-                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 1f, 2f, SoundType.GRAVEL, false));
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 0.5F, 0.5F, SoundType.GRAVEL, false));
         MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block",
                 () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
-                        .strength(1f, 2f).randomTicks()));
+                        .strength(0.6F).randomTicks()));
         MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt",
-                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_PURPLE, 1f, 2f, SoundType.GRAVEL, false));
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_PURPLE, 0.5F, 0.5F, SoundType.GRAVEL, false));
         
         TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
-                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6f)));
+                BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6F)));
         
         ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new AshBlock(3816264, 
-                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f).randomTicks()));
+                BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2F).randomTicks()));
         ASH = PokecubeLegends.DIMENSIONS_TAB.register("ash", () -> new AshLayerBlock(3816264, 
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_BLACK).speedFactor(0.3F).sound(SoundType.SNOW).strength(0.1F).randomTicks()
                 .isViewBlocking((state, block, pos) -> { return state.getValue(AshLayerBlock.LAYERS) >= 16; })));
@@ -2399,6 +2407,10 @@ public class BlockInit
         // Enqueue this so that it runs on main thread, to prevent concurrency issues.
         event.enqueueWork(() ->
         {
+            ItemGenerator.addHoeables(BlockInit.AGED_COARSE_DIRT.get(),
+                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
+            ItemGenerator.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(),
+                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; }, 
                     HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
         });

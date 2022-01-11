@@ -1,8 +1,10 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_coarse_dirt",
     "pokecube_legends:aged_dirt",
     "pokecube_legends:aged_grass_block",
+    "pokecube_legends:aged_podzol",
     "pokecube_legends:azure_coarse_dirt",
     "pokecube_legends:azure_dirt",
     "pokecube_legends:azure_grass_block",
