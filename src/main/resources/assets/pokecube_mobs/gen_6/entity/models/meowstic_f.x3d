@@ -528,7 +528,7 @@
 				</Transform>
 			</Transform>
 			<Transform DEF="scarf3_TRANSFORM"
-			           translation="-0.193553 0.246344 -0.144283"
+			           translation="0.193553 0.246344 -0.144283"
 			           scale="1.000000 1.000000 1.000000"
 			           rotation="0.000000 1.000000 0.000000 0.000000"
 			           >
@@ -905,7 +905,7 @@
 					</Transform>
 				</Transform>
 				<Transform DEF="mouth2_TRANSFORM"
-				           translation="-0.006704 0.108375 0.289945"
+				           translation="-0.005096 0.10794 0.289945"
 				           scale="1.000000 1.000000 1.000000"
 				           rotation="0.000000 1.000000 0.000000 0.000000"
 				           >
