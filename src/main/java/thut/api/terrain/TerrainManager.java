@@ -128,7 +128,7 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.getCommandSenderWorld(), e.getX(), e.getY(), e.getZ());
+        return this.getTerrain(e.getLevel(), e.getX(), e.getY(), e.getZ());
     }
 
     public TerrainSegment getTerrian(final LevelAccessor world, final Vector3 v)

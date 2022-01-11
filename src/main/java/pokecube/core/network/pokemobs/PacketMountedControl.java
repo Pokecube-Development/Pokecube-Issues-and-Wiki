@@ -111,7 +111,7 @@ public class PacketMountedControl extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
+        final Entity mob = player.getLevel().getEntity(this.entityId);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob != null && pokemob.getController() != null)
         {

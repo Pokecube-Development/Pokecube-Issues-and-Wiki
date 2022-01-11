@@ -208,7 +208,7 @@ public abstract class PokemobRidable extends PokemobHasParts
 
     protected void initSeats()
     {
-        if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(this.getLevel() instanceof ServerLevel)) return;
         if (this.init && this.lastPose.equals(getHolder().holder().effective_pose)) return;
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
         this.lastPose = getHolder().holder().effective_pose;

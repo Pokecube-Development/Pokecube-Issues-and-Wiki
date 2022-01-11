@@ -28,7 +28,7 @@ public class NpcContainer extends BaseContainer
         super(TYPE, id);
         final LivingEntity entity = ivplay.player;
         final int num = data.readInt();
-        final Entity mob = entity.getCommandSenderWorld().getEntity(num);
+        final Entity mob = entity.getLevel().getEntity(num);
 
         if (!(mob instanceof Villager npc)) throw new IllegalStateException("Error with accessing inventory of " + mob);
 

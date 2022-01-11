@@ -122,8 +122,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
             final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, attacked
-                    .getCommandSenderWorld());
-            attacked.thunderHit((ServerLevel) attacked.getCommandSenderWorld(), lightning);
+                    .getLevel());
+            attacked.thunderHit((ServerLevel) attacked.getLevel(), lightning);
         }
         if (attacked instanceof Creeper)
         {

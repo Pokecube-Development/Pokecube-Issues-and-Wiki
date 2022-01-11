@@ -100,7 +100,7 @@ public class Move_Explode extends Move_Basic
      */
     public void actualAttack(final IPokemob attacker, final Vector3 location)
     {
-        final List<Entity> targets = attacker.getEntity().getCommandSenderWorld().getEntities(attacker.getEntity(),
+        final List<Entity> targets = attacker.getEntity().getLevel().getEntities(attacker.getEntity(),
                 location.getAABB().inflate(8));
         final List<Entity> toRemove = Lists.newArrayList();
         for (final Entity e : targets) if (!(e instanceof LivingEntity)) toRemove.add(e);
@@ -155,7 +155,7 @@ public class Move_Explode extends Move_Basic
 
         final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
         boom.hitter = new Hitter(pokemob, this);
-        final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getCommandSenderWorld(), boom);
+        final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getLevel(), boom);
         MinecraftForge.EVENT_BUS.post(evt);
         if (!evt.isCanceled())
         {
@@ -166,13 +166,13 @@ public class Move_Explode extends Move_Basic
             else
             {
                 // Otherwise spawn in some effects
-                mob.getCommandSenderWorld().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(),
+                mob.getLevel().playSound((Player) null, mob.getX(), mob.getY(), mob.getZ(),
                         SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F,
-                        (1.0F + (mob.getCommandSenderWorld().random.nextFloat()
-                                - mob.getCommandSenderWorld().random.nextFloat()) * 0.2F) * 0.7F);
-                if (this.getPWR() > 200) mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(),
+                        (1.0F + (mob.getLevel().random.nextFloat()
+                                - mob.getLevel().random.nextFloat()) * 0.2F) * 0.7F);
+                if (this.getPWR() > 200) mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(),
                         mob.getY(), mob.getZ(), 1.0D, 0.0D, 0.0D);
-                else mob.getCommandSenderWorld().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
+                else mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
                         mob.getZ(), 1.0D, 0.0D, 0.0D);
                 // and hit nearby targets normally.
                 this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0,

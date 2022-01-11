@@ -52,7 +52,7 @@ public class FlowerSensor extends Sensor<LivingEntity>
                     .nextFloat() < this.flowerSenseChance)
             {
                 brain.eraseMemory(BeeTasks.NO_FLOWER_TIME);
-                brain.setMemory(BeeTasks.FLOWER_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(),
+                brain.setMemory(BeeTasks.FLOWER_POS, GlobalPos.of(entityIn.getLevel().dimension(),
                         b.getPos()));
                 return;
             }

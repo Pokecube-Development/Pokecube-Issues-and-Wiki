@@ -67,7 +67,7 @@ public class PacketPokemobGui extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.id, true);
+        final Entity entity = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.id, true);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
         buffer.writeInt(entity.getId());
         buffer.writeByte(this.message);

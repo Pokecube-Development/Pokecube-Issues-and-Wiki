@@ -12,6 +12,7 @@ import com.mojang.authlib.GameProfile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
@@ -59,70 +60,6 @@ import thut.core.common.ThutCore;
 /** @author Thutmose */
 public class Vector3
 {
-    public static final class MutableBlockPos extends BlockPos
-    {
-        /** Mutable X Coordinate */
-        public int x;
-        /** Mutable Y Coordinate */
-        public int y;
-        /** Mutable Z Coordinate */
-        public int z;
-
-        public MutableBlockPos(final int x_, final int y_, final int z_)
-        {
-            super(0, 0, 0);
-            this.x = x_;
-            this.y = y_;
-            this.z = z_;
-        }
-
-        MutableBlockPos(final int p_i46025_1_, final int p_i46025_2_, final int p_i46025_3_, final Object p_i46025_4_)
-        {
-            this(p_i46025_1_, p_i46025_2_, p_i46025_3_);
-        }
-
-        /** Get the X coordinate */
-        @Override
-        public int getX()
-        {
-            return this.x;
-        }
-
-        /** Get the Y coordinate */
-        @Override
-        public int getY()
-        {
-            return this.y;
-        }
-
-        /** Get the Z coordinate */
-        @Override
-        public int getZ()
-        {
-            return this.z;
-        }
-
-        void setTo(final Vector3 vector)
-        {
-            this.x = vector.intX();
-            this.y = vector.intY();
-            this.z = vector.intZ();
-        }
-
-        public void set(final int x0, final int y0, final int z0)
-        {
-            this.x = x0;
-            this.y = y0;
-            this.z = z0;
-        }
-
-        @Override
-        public BlockPos immutable()
-        {
-            return new BlockPos(this);
-        }
-    }
-
     public static final Vector3 secondAxis = Vector3.getNewVector().set(0, 1, 0);
     public static final Vector3 secondAxisNeg = Vector3.getNewVector().set(0, -1, 0);
     public static final Vector3 firstAxis = Vector3.getNewVector().set(1, 0, 0);
@@ -942,7 +879,7 @@ public class Vector3
     public BlockPos getPos()
     {
         if (this.pos == null) this.pos = new MutableBlockPos(this.intX(), this.intY(), this.intZ());
-        else this.pos.setTo(this);
+        else this.pos.set(this.intX(), this.intY(), this.intZ());
         return this.pos;
     }
 

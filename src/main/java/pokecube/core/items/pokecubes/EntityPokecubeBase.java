@@ -177,7 +177,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         if (!this.isAlive()) return;
 
-        final boolean serverSide = this.getCommandSenderWorld() instanceof ServerLevel;
+        final boolean serverSide = this.getLevel() instanceof ServerLevel;
         final boolean capturing = this.getTilt() >= 0;
         final boolean releasing = this.isReleasing();
 
@@ -304,8 +304,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (raytraceresult instanceof BlockHitResult)
             {
                 final BlockHitResult result = (BlockHitResult) raytraceresult;
-                final BlockState hit = this.getCommandSenderWorld().getBlockState(result.getBlockPos());
-                final VoxelShape shape = hit.getCollisionShape(this.getCommandSenderWorld(), result.getBlockPos());
+                final BlockState hit = this.getLevel().getBlockState(result.getBlockPos());
+                final VoxelShape shape = hit.getCollisionShape(this.getLevel(), result.getBlockPos());
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
@@ -424,7 +424,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         {
             this.checkCube = false;
             PokemobTracker.removePokecube(this);
-            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getCommandSenderWorld());
+            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getLevel());
             if (this.containedMob != null && this.shooter == null)
             {
                 this.shootingEntity = this.containedMob.getOwner();
@@ -612,7 +612,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public Entity getReleased()
     {
         final int id = this.getEntityData().get(EntityPokecubeBase.ENTITYID);
-        final Entity ret = this.getCommandSenderWorld().getEntity(id);
+        final Entity ret = this.getLevel().getEntity(id);
         return ret;
     }
 

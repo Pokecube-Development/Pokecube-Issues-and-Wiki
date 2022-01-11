@@ -38,7 +38,7 @@ public class PacketSyncExp extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final int exp = this.exp;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
         if (mob != null) mob.getMoveStats().exp = exp;
     }

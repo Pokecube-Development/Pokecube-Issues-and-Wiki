@@ -48,7 +48,7 @@ public class ActionSmash implements IMoveAction
         }
         if (!used)
         {
-            final Level world = user.getEntity().getCommandSenderWorld();
+            final Level world = user.getEntity().getLevel();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
             if (!items.isEmpty())
             {
@@ -83,7 +83,7 @@ public class ActionSmash implements IMoveAction
         if (owner instanceof Player) player = (Player) owner;
         final int fortune = digger.getLevel() / 30;
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
-        final Level world = digger.getEntity().getCommandSenderWorld();
+        final Level world = digger.getEntity().getLevel();
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
         final int range = 1;

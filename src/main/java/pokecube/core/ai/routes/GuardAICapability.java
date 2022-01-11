@@ -134,7 +134,7 @@ public class GuardAICapability implements IGuardAICapability
         {
             if (this.path_fails++ > 100)
             {
-                final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) entity.getLevel();
 
                 final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.

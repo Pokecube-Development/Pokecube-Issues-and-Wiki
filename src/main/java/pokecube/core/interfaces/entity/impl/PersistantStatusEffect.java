@@ -145,7 +145,7 @@ public class PersistantStatusEffect extends BaseEffect
                         .getZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
-                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
 
@@ -158,7 +158,7 @@ public class PersistantStatusEffect extends BaseEffect
             {
                 loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
                         .getZ());
-                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
     }

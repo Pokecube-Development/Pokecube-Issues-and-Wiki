@@ -64,7 +64,7 @@ public class Linker extends Item
             if (pos == null || user.isCrouching())
             {
                 this.linker.getOrCreateTag().remove("thutcore:pos");
-                if (!user.getCommandSenderWorld().isClientSide)
+                if (!user.getLevel().isClientSide)
                 {
                     if (user instanceof Player)
                     {
@@ -83,7 +83,7 @@ public class Linker extends Item
             {
                 this.linker.getOrCreateTag().put("thutcore:pos",
                         GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).get().left().get());
-                if (!user.getCommandSenderWorld().isClientSide)
+                if (!user.getLevel().isClientSide)
                 {
                     if (user instanceof Player)
                     {
@@ -97,7 +97,7 @@ public class Linker extends Item
                                 Util.NIL_UUID);
                     }
                 }
-                if (user.getCommandSenderWorld().isClientSide) try
+                if (user.getLevel().isClientSide) try
                 {
                     final String loc = String.format("%d %d %d", pos.pos().getX(), pos.pos().getY(), pos.pos().getZ());
                     Minecraft.getInstance().keyboardHandler.setClipboard(loc);
@@ -138,7 +138,7 @@ public class Linker extends Item
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
         final GlobalPos pos = storage.getLinkedPos(playerIn);
-        if (ai != null && pos != null && pos.dimension() == target.getCommandSenderWorld().dimension())
+        if (ai != null && pos != null && pos.dimension() == target.getLevel().dimension())
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;

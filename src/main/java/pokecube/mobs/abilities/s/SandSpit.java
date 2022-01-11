@@ -21,7 +21,7 @@ public class SandSpit extends Ability
     public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         final IPokemob attacker = move.attacker;
-        final Level world = mob.getEntity().getCommandSenderWorld();
+        final Level world = mob.getEntity().getLevel();
 
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, Vector3.getNewVector());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");

@@ -45,13 +45,13 @@ public class ParticlesOnTarget extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info)
     {
         if (Math.random() > this.density) return;
-        this.initColour(info.attacker.getCommandSenderWorld().getDayTime(), 0, info.move);
+        this.initColour(info.attacker.getLevel().getDayTime(), 0, info.move);
         final Vector3 temp = Vector3.getNewVector().set(info.target);
         final Random rand = ThutCore.newRandom();
         float dw = 0.25f;
         if (info.attacked != null) dw = info.attacked.getBbWidth();
         final float width = this.width * dw;
         temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
-        PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, temp, null, this.rgba);
+        PokecubeCore.spawnParticle(info.attacker.getLevel(), this.particle, temp, null, this.rgba);
     }
 }

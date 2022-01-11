@@ -336,7 +336,7 @@ public abstract class Move_Base
     {
         final Vector3 pos = Vector3.getNewVector();
         final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;
-        final Level world = attacker.getCommandSenderWorld();
+        final Level world = attacker.getLevel();
         final float pitch = 1;
         final float volume = 1 * scale;
         if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)

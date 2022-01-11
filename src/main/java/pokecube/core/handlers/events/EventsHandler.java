@@ -138,15 +138,15 @@ public class EventsHandler
         public ChooseFirst(final Player player)
         {
             this.player = player;
-            this.start = player.getCommandSenderWorld().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.getCommandSenderWorld(), false)) return;
+            this.start = player.getLevel().getGameTime();
+            if (!SpawnHandler.canSpawnInWorld(player.getLevel(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (event.player.getCommandSenderWorld().getGameTime() - this.start < 20) return;
+            if (event.player.getLevel().getGameTime() - this.start < 20) return;
             if (event.player == this.player)
             {
                 PacketChoose packet;
@@ -641,7 +641,7 @@ public class EventsHandler
         for (int i = 0; i < evt.getPlayer().getInventory().getContainerSize(); i++)
         {
             final ItemStack stack = evt.getPlayer().getInventory().getItem(i);
-            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getCommandSenderWorld());
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getLevel());
         }
     }
 
@@ -650,7 +650,7 @@ public class EventsHandler
         final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (poke != null) poke.onTick();
 
-        if (evt.getEntity().getCommandSenderWorld().isClientSide || !evt.getEntity().isAlive()) return;
+        if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
@@ -713,7 +713,7 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        final Level tworld = entity.getCommandSenderWorld();
+        final Level tworld = entity.getLevel();
         if (tworld.isClientSide || !(tworld instanceof ServerLevel)) return;
         // Recall the pokemobs if the player changes dimension.
         final ServerLevel world = (ServerLevel) tworld;

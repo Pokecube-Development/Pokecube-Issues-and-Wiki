@@ -63,7 +63,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     protected void addMobTrades(final ItemStack buy1)
     {
         final ItemStack buy = buy1.copy();
-        final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.getCommandSenderWorld());
+        final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.getLevel());
         if (mon1 == null) return;
         final int stat1 = this.getBaseStats(mon1);
         for (int i = 0; i < this.pokemobsCap.getMaxPokemobCount(); i++)
@@ -71,7 +71,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             ItemStack stack = this.pokemobsCap.getPokemob(i);
             if (PokecubeManager.isFilled(stack))
             {
-                final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getCommandSenderWorld());
+                final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getLevel());
                 final int stat = this.getBaseStats(mon);
                 if (stat > stat1 || mon.getLevel() > mon1.getLevel()
                         || SpecialCaseRegister.getCaptureCondition(mon.getEvolutionEntry()) != null
@@ -99,7 +99,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (!(PokecubeManager.isFilled(poke1) && PokecubeManager.isFilled(poke2))) return;
         final int num = poke2.getTag().getInt("slotnum");
         final LivingEntity player2 = this;
-        final IPokemob mon1 = PokecubeManager.itemToPokemob(poke1, this.getCommandSenderWorld());
+        final IPokemob mon1 = PokecubeManager.itemToPokemob(poke1, this.getLevel());
         final UUID trader2 = player2.getUUID();
         mon1.setOwner(trader2);
         poke1 = PokecubeManager.pokemobToItem(mon1);

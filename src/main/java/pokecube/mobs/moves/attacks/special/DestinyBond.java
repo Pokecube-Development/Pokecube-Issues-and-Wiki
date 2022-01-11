@@ -40,9 +40,9 @@ public class DestinyBond extends Move_Basic
         final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = this.usedOn.remove(killed);
 
-        if (targets != null && event.killed.getEntity().getCommandSenderWorld() instanceof ServerLevel)
+        if (targets != null && event.killed.getEntity().getLevel() instanceof ServerLevel)
         {
-            final ServerLevel world = (ServerLevel) event.killed.getEntity().getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) event.killed.getEntity().getLevel();
             final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), this);
             source.bypassMagic();
             source.bypassArmor();

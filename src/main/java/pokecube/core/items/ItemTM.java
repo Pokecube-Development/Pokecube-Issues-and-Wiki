@@ -25,7 +25,7 @@ public class ItemTM extends Item
 
     public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
-        if (mob.getCommandSenderWorld().isClientSide) return stack.hasTag();
+        if (mob.getLevel().isClientSide) return stack.hasTag();
         if (stack.hasTag()) return ItemTM.feedToPokemob(stack, mob);
         return false;
     }

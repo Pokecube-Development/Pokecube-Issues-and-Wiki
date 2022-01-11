@@ -92,7 +92,7 @@ public class SphericalFunction extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info)
     {
         final Vector3 source = this.reverse ? info.source : info.target;
-        this.initColour(info.attacker.getCommandSenderWorld().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.getLevel().getDayTime() * 20, 0, info.move);
         final Vector3 temp = Vector3.getNewVector();
         double scale = this.width;
         if (!this.absolute) if (this.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
@@ -101,7 +101,7 @@ public class SphericalFunction extends MoveAnimationBase
         {
             this.setVector(i, temp);
             temp.scalarMultBy(scale).addTo(source);
-            PokecubeCore.spawnParticle(info.attacker.getCommandSenderWorld(), this.particle, temp, null, this.rgba,
+            PokecubeCore.spawnParticle(info.attacker.getLevel(), this.particle, temp, null, this.rgba,
                     this.particleLife);
         }
     }

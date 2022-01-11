@@ -264,7 +264,7 @@ public class Tools
         if (selector != null) predicate = predicate.and(selector);
         predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(
                 entity, c));
-        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
+        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getLevel(), entity, predicate);
         if (hit != null) hit = EntityTools.getCoreEntity(hit);
         return hit;
     }
@@ -275,7 +275,7 @@ public class Tools
         final double d0 = distance;
         final Vec3 vec31 = entity.getViewVector(0);
         final Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        final Level world = entity.getCommandSenderWorld();
+        final Level world = entity.getLevel();
         final BlockHitResult result = world.clip(new ClipContext(vec3, vec32,
                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result == null || result.getBlockPos() == null) return null;
@@ -438,7 +438,7 @@ public class Tools
         final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.getCommandSenderWorld().playSound((Player) null, PlayerEntity.getX(), PlayerEntity
+            PlayerEntity.getLevel().playSound((Player) null, PlayerEntity.getX(), PlayerEntity
                     .getY(), PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((PlayerEntity
                             .getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             PlayerEntity.inventoryMenu.broadcastChanges();
@@ -464,7 +464,7 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
             final Entity entity)
     {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getCommandSenderWorld(), Vector3
+        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getLevel(), Vector3
                 .getNewVector().set(entity));
     }
 
@@ -491,7 +491,7 @@ public class Tools
 
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
-        final Level world = entity.getCommandSenderWorld();
+        final Level world = entity.getLevel();
         return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
                 EntitySelector.NO_SPECTATORS) != null;
     }

@@ -388,8 +388,8 @@ public final class SpawnHandler
 
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
-        if (player == null || !(player.getCommandSenderWorld() instanceof ServerLevel)) return null;
-        return SpawnHandler.getRandomPointNear((ServerLevel) player.getCommandSenderWorld(),
+        if (player == null || !(player.getLevel() instanceof ServerLevel)) return null;
+        return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(),
                 Vector3.getNewVector().set(player), range);
     }
 

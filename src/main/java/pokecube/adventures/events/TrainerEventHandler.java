@@ -235,7 +235,7 @@ public class TrainerEventHandler
         {
             drop = JsonUtil.gson.fromJson(arg, Drop.class);
             return Tools.getStack(drop.getValues(),
-                    sender.getCommandSenderWorld() instanceof ServerLevel ? (ServerLevel) sender.getCommandSenderWorld()
+                    sender.getLevel() instanceof ServerLevel ? (ServerLevel) sender.getLevel()
                             : null);
         }
         catch (final JsonSyntaxException e)
@@ -384,7 +384,7 @@ public class TrainerEventHandler
             final LivingEntity npc = event.getEntityLiving();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof Mob && npc.getCommandSenderWorld() instanceof ServerLevel)
+            if (npc instanceof Mob && npc.getLevel() instanceof ServerLevel)
             {
                 TypeTrainer.addAI((Mob) npc);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
@@ -402,11 +402,11 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
-        if (mobs == null || !(mob.getCommandSenderWorld() instanceof ServerLevel) || mob instanceof Player) return;
+        if (mobs == null || !(mob.getLevel() instanceof ServerLevel) || mob instanceof Player) return;
         if (mob.getPersistentData().contains("pokeadv_join")
-                && mob.getPersistentData().getLong("pokeadv_join") == mob.getCommandSenderWorld().getGameTime())
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.getLevel().getGameTime())
             return;
-        mob.getPersistentData().putLong("pokeadv_join", mob.getCommandSenderWorld().getGameTime());
+        mob.getPersistentData().putLong("pokeadv_join", mob.getLevel().getGameTime());
 
         if (mobs.countPokemon() != 0) return;
         final TypeTrainer newType = TypeTrainer.get(mob, true);
@@ -416,7 +416,7 @@ public class TrainerEventHandler
                 Vector3.getNewVector().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
         if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
-        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getCommandSenderWorld());
+        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getLevel());
         if (mob.isAddedToWorld()) EntityUpdate.sendEntityUpdate(mob);
     }
 

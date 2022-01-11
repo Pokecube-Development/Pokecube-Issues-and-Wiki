@@ -31,7 +31,7 @@ public class AttackEntityHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob)
     {
-        final Level world = pokemob.getEntity().getCommandSenderWorld();
+        final Level world = pokemob.getEntity().getLevel();
         final Entity target = PokecubeCore.getEntityProvider().getEntity(world, this.targetId, true);
         if (target == null || !(target instanceof LivingEntity))
         {

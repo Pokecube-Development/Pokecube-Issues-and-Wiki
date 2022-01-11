@@ -38,7 +38,7 @@ public class CheckHive extends AbstractBeeTask
             final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS);
             if (pos_opt.isPresent())
             {
-                final Level world = this.entity.getCommandSenderWorld();
+                final Level world = this.entity.getLevel();
                 final GlobalPos pos = pos_opt.get();
                 boolean clearHive = pos.dimension() != world.dimension();
                 if (!clearHive)

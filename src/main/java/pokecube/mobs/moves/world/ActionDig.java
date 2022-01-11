@@ -46,7 +46,7 @@ public class ActionDig implements IMoveAction
 
         final LivingEntity owner = digger.getOwner();
         Player player = null;
-        final Level world = digger.getEntity().getCommandSenderWorld();
+        final Level world = digger.getEntity().getLevel();
         if (owner instanceof Player) player = (Player) owner;
         else player = PokecubeMod.getFakePlayer(world);
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;

@@ -102,7 +102,7 @@ public class HiveSensor extends Sensor<Mob>
 
     public static boolean doesHiveHaveSpace(final Mob entityIn, final BlockPos pos)
     {
-        final BlockEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(pos);
+        final BlockEntity tile = entityIn.getLevel().getBlockEntity(pos);
         if (tile != null) for (final IHiveSpaceCheck checker : HiveSensor.hiveSpaceCheckers)
             if (checker.canAddBee(entityIn, tile)) return true;
         return false;
@@ -110,7 +110,7 @@ public class HiveSensor extends Sensor<Mob>
 
     public static boolean tryAddToBeeHive(final Mob entityIn, final BlockPos hive)
     {
-        final BlockEntity tile = entityIn.getCommandSenderWorld().getBlockEntity(hive);
+        final BlockEntity tile = entityIn.getLevel().getBlockEntity(hive);
         if (tile != null) for (final IHiveEnterer checker : HiveSensor.hiveEnterers)
             if (checker.addBee(entityIn, tile)) return true;
         return false;
@@ -128,7 +128,7 @@ public class HiveSensor extends Sensor<Mob>
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(BeeTasks.NO_HIVE_TIMER);
-            brain.setMemory(BeeTasks.HIVE_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), hives
+            brain.setMemory(BeeTasks.HIVE_POS, GlobalPos.of(entityIn.getLevel().dimension(), hives
                     .get(0)));
         }
         else

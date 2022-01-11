@@ -660,7 +660,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             {
                 if (!room.isPresent()) room = Optional.of(this.here);
                 final PokedexEntry entry = poke.getPokedexEntry();
-                final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) mob.getLevel();
                 if (world.isEmptyBlock(room.get().above()))
                 {
                     final EntityPokemobEgg egg = NestTile.spawnEgg(entry, room.get().above(), world, false);
@@ -715,7 +715,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public boolean canEnterHabitat(final Mob mob)
     {
         if (!AntTasks.isValid(mob)) return false;
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel)) return false;
+        if (!(mob.getLevel() instanceof ServerLevel)) return false;
         return true;
     }
 

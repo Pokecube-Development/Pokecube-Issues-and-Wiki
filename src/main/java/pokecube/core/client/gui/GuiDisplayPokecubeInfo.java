@@ -472,7 +472,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
         final Player player = this.minecraft.player;
 
-        if (player == null || player.getCommandSenderWorld() == null) return GuiDisplayPokecubeInfo.EMPTY;
+        if (player == null || player.getLevel() == null) return GuiDisplayPokecubeInfo.EMPTY;
 
         final List<IPokemob> pokemobs = EventsHandlerClient.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();

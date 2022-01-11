@@ -40,7 +40,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.getCommandSenderWorld().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER
+        if (entity.getLevel().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER
                 && mob.isType(PokeType.getType("water")))
             x = 3.5;
         return x;
@@ -50,7 +50,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final int light = entity.getCommandSenderWorld().getMaxLocalRawBrightness(entity.blockPosition());
+        final int light = entity.getLevel().getMaxLocalRawBrightness(entity.blockPosition());
         if (light < 5) x = 3.5;
         return x;
     }
@@ -100,7 +100,7 @@ public class PokecubeHelper
         {// grow in 1.12
             final AABB bb = Vector3.getNewVector().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
                     .inflate(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = entity.getCommandSenderWorld().getEntitiesOfClass(FishingHook.class, bb);
+            final List<FishingHook> hooks = entity.getLevel().getEntitiesOfClass(FishingHook.class, bb);
             if (!hooks.isEmpty()) for (final FishingHook hook : hooks) if (hook.getHookedIn() == entity) return 5;
         }
         return 1;
@@ -120,7 +120,7 @@ public class PokecubeHelper
     {
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
         if (PokecubeHelper.moonMatcher.matches(
-                new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob.getEntity().getCommandSenderWorld())))
+                new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob.getEntity().getLevel())))
             return 4;
         return 1;
     }

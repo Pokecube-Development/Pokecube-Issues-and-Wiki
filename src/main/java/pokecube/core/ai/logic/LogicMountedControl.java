@@ -111,7 +111,7 @@ public class LogicMountedControl extends LogicBase
                 this.canDive = false;
         }
         if (this.canFly)
-            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getCommandSenderWorld().dimension());
+            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
     }
 
     public boolean hasInput()

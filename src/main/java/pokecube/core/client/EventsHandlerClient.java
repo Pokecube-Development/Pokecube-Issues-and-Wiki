@@ -383,7 +383,7 @@ public class EventsHandlerClient
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
                     final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player
-                            .getCommandSenderWorld());
+                            .getLevel());
                     if (pokemob == null) continue;
                     int x = w / 2;
                     x = i + x + 20 * l - 8;

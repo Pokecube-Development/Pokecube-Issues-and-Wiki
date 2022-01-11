@@ -85,7 +85,7 @@ public class PacketSyncRoutes extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         guard.loadTasks((ListTag) data.get("R"));
@@ -97,7 +97,7 @@ public class PacketSyncRoutes extends Packet
     {
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (e == null) return;
         final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 

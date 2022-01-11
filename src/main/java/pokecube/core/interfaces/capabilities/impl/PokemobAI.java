@@ -63,7 +63,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getCombatState(final CombatStates state)
     {
-        if (this.getEntity().getCommandSenderWorld().isClientSide)
+        if (this.getEntity().getLevel().isClientSide)
             this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
         if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
             return this.getGenesDynamax().getExpressed().getValue().gigantamax;
@@ -82,7 +82,7 @@ public abstract class PokemobAI extends PokemobEvolves
         // Read tamed status based on if we have an owner, rather than flag in
         // the bitmask.
         if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
-        if (this.getEntity().getCommandSenderWorld().isClientSide)
+        if (this.getEntity().getLevel().isClientSide)
             this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
         return (this.cachedGeneralState & state.getMask()) != 0;
     }
@@ -90,7 +90,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getLogicState(final LogicStates state)
     {
-        if (this.getEntity().getCommandSenderWorld().isClientSide)
+        if (this.getEntity().getLevel().isClientSide)
             this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
         return (this.cachedLogicState & state.getMask()) != 0;
     }
@@ -154,7 +154,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.getEntity().fallDistance = 0;
         this.getEntity().clearFire();
         // After here is server side only.
-        if (this.getEntity().getCommandSenderWorld().isClientSide) return;
+        if (this.getEntity().getLevel().isClientSide) return;
         // Flag as not evolving
         this.setGeneralState(GeneralStates.EVOLVING, false);
 
@@ -173,7 +173,7 @@ public abstract class PokemobAI extends PokemobEvolves
                         this.getEntity().getY() + 0.5D + this.rand.nextFloat() * this.getEntity().getBbHeight(),
                         this.getEntity().getZ() + this.rand.nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth());
-                this.getEntity().getCommandSenderWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
+                this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
                         particleLoc.y, particleLoc.z, 0, 0, 0);
             }
         }
@@ -383,7 +383,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void onSetTarget(final LivingEntity entity, final boolean forced)
     {
-        final boolean remote = this.getEntity().getCommandSenderWorld().isClientSide;
+        final boolean remote = this.getEntity().getLevel().isClientSide;
         if (remote) return;
         if (entity == null)
         {

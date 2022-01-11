@@ -82,8 +82,8 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarpPadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension())
-                || entityIn.getCommandSenderWorld().isClientSide)
+        if (WarpPadTile.invalidSources.contains(entityIn.getLevel().dimension())
+                || entityIn.getLevel().isClientSide)
             return;
 
         final TeleDest dest = this.getDest();

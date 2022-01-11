@@ -154,7 +154,7 @@ public abstract class PokemobMoves extends PokemobStats
         if (id == -1) return null;
         if (this.activeMove == null || this.activeMove.getId() != id)
         {
-            final Entity move = this.getEntity().getCommandSenderWorld().getEntity(id);
+            final Entity move = this.getEntity().getLevel().getEntity(id);
             if (move instanceof EntityMoveUse) this.activeMove = (EntityMoveUse) move;
         }
         return this.activeMove;

@@ -153,7 +153,7 @@ public class TypeTrainer extends NpcType
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getCommandSenderWorld(), Vector3.getNewVector().set(e), dist) > num)
+                if (TrainerTracker.countTrainers(e.getLevel(), Vector3.getNewVector().set(e), dist) > num)
                     return false;
                 return true;
             };
@@ -186,7 +186,7 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> notNearHealer = e -> {
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
-                final ServerLevel world = (ServerLevel) npc.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) npc.getLevel();
                 final BlockPos blockpos = e.blockPosition();
                 final PoiManager pois = world.getPoiManager();
                 final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
@@ -400,7 +400,7 @@ public class TypeTrainer extends NpcType
             final int level)
     {
         IPokemob pokemob = CapabilityPokemob
-                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
+                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
         if (pokemob != null)
         {
             final double x = trainer.getX();

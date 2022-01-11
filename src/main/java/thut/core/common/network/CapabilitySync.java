@@ -55,7 +55,7 @@ public class CapabilitySync extends NBTPacket
 
     private static CapabilitySync makePacket(final Entity entity, final Set<String> toSync)
     {
-        if (entity.getCommandSenderWorld().isClientSide)
+        if (entity.getLevel().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return null;

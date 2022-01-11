@@ -58,7 +58,7 @@ public class TrainerTracker
         // First remove the mob from all maps, incase it is in one.
         TrainerTracker.removeTrainer(npc);
 
-        final ResourceKey<Level> dim = npc.getCommandSenderWorld().dimension();
+        final ResourceKey<Level> dim = npc.getLevel().dimension();
         // Find the appropriate map
         final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there

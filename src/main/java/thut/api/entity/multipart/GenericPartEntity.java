@@ -125,7 +125,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
-        if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof Player)
+        if (this.getLevel().isClientSide && source.getDirectEntity() instanceof Player)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(),
                     source.getDirectEntity().isShiftKeyDown());
@@ -152,7 +152,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
-        if (this.getCommandSenderWorld().isClientSide)
+        if (this.getLevel().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec,
                     player.isShiftKeyDown());
@@ -164,7 +164,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand)
     {
-        if (this.getCommandSenderWorld().isClientSide)
+        if (this.getLevel().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand,
                     player.isShiftKeyDown());

@@ -64,7 +64,7 @@ public class BlockEventHandler
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
-            if (!user.getCommandSenderWorld().isClientSide)
+            if (!user.getLevel().isClientSide)
             {
                 if (user instanceof Player)
                 {

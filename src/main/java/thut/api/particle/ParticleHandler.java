@@ -86,10 +86,10 @@ public class ParticleHandler
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());
                     mat.popPose();
-                    if (particle.lastTick() != player.getCommandSenderWorld().getGameTime())
+                    if (particle.lastTick() != player.getLevel().getGameTime())
                     {
                         particle.setDuration(particle.getDuration() - 1);
-                        particle.setLastTick(player.getCommandSenderWorld().getGameTime());
+                        particle.setLastTick(player.getLevel().getGameTime());
                     }
                     if (particle.getDuration() < 0)
                     {

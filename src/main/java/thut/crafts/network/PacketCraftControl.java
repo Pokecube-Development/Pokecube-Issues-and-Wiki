@@ -60,7 +60,7 @@ public class PacketCraftControl extends Packet
         ctx.get().enqueueWork(() ->
         {
             final Player player = ctx.get().getSender();
-            final Entity mob = player.getCommandSenderWorld().getEntity(this.entityId);
+            final Entity mob = player.getLevel().getEntity(this.entityId);
             if (mob != null && mob instanceof EntityCraft)
             {
                 final CraftController controller = ((EntityCraft) mob).controller;

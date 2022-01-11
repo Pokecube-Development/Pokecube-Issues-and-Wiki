@@ -33,7 +33,7 @@ public class Thunder extends MoveAnimationBase
     public void spawnClientEntities(final MovePacketInfo info)
     {
         final net.minecraft.client.multiplayer.ClientLevel theRealWorld = (net.minecraft.client.multiplayer.ClientLevel) info.attacker
-                .getCommandSenderWorld();
+                .getLevel();
         final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, theRealWorld);
         info.target.moveEntity(lightning);
         lightning.setVisualOnly(false);

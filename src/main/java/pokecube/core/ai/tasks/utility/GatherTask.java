@@ -346,7 +346,7 @@ public class GatherTask extends UtilTask
         if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
         if (this.targetBlock != null)
         {
-            final BlockState state = this.entity.getCommandSenderWorld().getBlockState(this.targetBlock.getPos());
+            final BlockState state = this.entity.getLevel().getBlockState(this.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
             PokecubeCore.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
@@ -440,7 +440,7 @@ public class GatherTask extends UtilTask
 
         if (dist < diff)
         {
-            final BlockState state = stuffLoc.getBlockState(this.entity.getCommandSenderWorld());
+            final BlockState state = stuffLoc.getBlockState(this.entity.getLevel());
             if (this.currentHarvester != null)
             {
                 final IHarvester harvest = GatherTask.REGISTRY.get(this.currentHarvester);

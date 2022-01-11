@@ -116,7 +116,7 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getCommandSenderWorld(), null, 0);
+            final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.getLevel(), null, 0);
             // TODO check lighting/etc in this call!
             itemRenderer.render(stack, net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.FIXED,
                     true, mat, buff, 0, 0, ibakedmodel);

@@ -211,7 +211,7 @@ public class CommanderTile extends InteractableTile
         if (id != null)
         {
             this.setPokeID(id);
-            if (!player.getCommandSenderWorld().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
+            if (!player.getLevel().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return InteractionResult.SUCCESS;
         }
         else if (!player.isCrouching() && player instanceof ServerPlayer)

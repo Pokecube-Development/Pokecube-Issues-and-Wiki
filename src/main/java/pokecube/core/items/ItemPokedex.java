@@ -82,7 +82,7 @@ public class ItemPokedex extends Item
     public InteractionResultHolder<ItemStack> use(final Level world, final Player player, final InteractionHand hand)
     {
         final ItemStack itemstack = player.getItemInHand(hand);
-        if (!world.isClientSide) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getCommandSenderWorld(),
+        if (!world.isClientSide) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getLevel(),
                 true);
         if (!player.isCrouching())
         {
@@ -104,7 +104,7 @@ public class ItemPokedex extends Item
         final Block block = hit.getBlockState(worldIn).getBlock();
         if (!worldIn.isClientSide)
         {
-            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getCommandSenderWorld(), true);
+            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getLevel(), true);
             if (PokecubeMod.debug)
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
@@ -150,7 +150,7 @@ public class ItemPokedex extends Item
     {
         if (player instanceof ServerPlayer)
         {
-            final ChunkAccess chunk = player.getCommandSenderWorld().getChunk(player.blockPosition());
+            final ChunkAccess chunk = player.getLevel().getChunk(player.blockPosition());
             TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z),
                     (ServerPlayer) player);
             PacketDataSync.syncData(player, "pokecube-stats");

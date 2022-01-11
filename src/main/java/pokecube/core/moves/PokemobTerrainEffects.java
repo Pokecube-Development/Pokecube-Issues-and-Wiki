@@ -201,7 +201,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (EventsHandler.COOLDOWN_BASED && Tracker.instance().getTick() % (2 * PokecubeCore
                 .getConfig().attackCooldown) != 0) return;
-        if (!AITools.validTargets.test(entity) || !(entity.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!AITools.validTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel)) return;
 
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
         boolean immune = false;
@@ -242,7 +242,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         else if (!PokecubeCore.getConfig().pokemobsDamagePlayers) immune = true;
 
         if (source != null && !immune) entity.hurt(source, damage);
-        this.dropDurations((ServerLevel) entity.getCommandSenderWorld());
+        this.dropDurations((ServerLevel) entity.getLevel());
     }
 
     public boolean isEffectActive(final EffectType effect)

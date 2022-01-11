@@ -365,7 +365,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // owner is online.
         if (this.pokemob.getOwner() == null) return false;
         final Player player = (Player) this.pokemob.getOwner();
-        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), pos, world.getBlockState(pos), player);
+        final BreakEvent evt = new BreakEvent(player.getLevel(), pos, world.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled()) return false;
         this.knownValid.add(pos.immutable());

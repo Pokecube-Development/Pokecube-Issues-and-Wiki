@@ -42,7 +42,7 @@ public class EatPlant extends EatBlockBase
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) entity.getLevel();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatPlant.checker.test(current)) return EatResult.NOEAT;
 

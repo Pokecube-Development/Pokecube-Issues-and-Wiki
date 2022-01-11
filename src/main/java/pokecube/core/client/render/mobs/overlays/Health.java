@@ -329,7 +329,7 @@ public class Health
         mat.scale(20, -20, -1);
         Minecraft.getInstance().getItemRenderer().renderStatic(mob, stack,
                 net.minecraft.client.renderer.block.model.ItemTransforms.TransformType.GUI, false, mat, buf,
-                mob.getCommandSenderWorld(), br, OverlayTexture.NO_OVERLAY, 0);
+                mob.getLevel(), br, OverlayTexture.NO_OVERLAY, 0);
         mat.popPose();
     }
 }

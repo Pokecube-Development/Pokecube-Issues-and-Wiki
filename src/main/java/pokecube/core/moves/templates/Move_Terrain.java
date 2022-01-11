@@ -49,7 +49,7 @@ public class Move_Terrain extends Move_Basic
         attacker.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, location);
 
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");

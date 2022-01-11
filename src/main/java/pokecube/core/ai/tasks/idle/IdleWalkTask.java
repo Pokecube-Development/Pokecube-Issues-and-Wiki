@@ -53,7 +53,7 @@ public class IdleWalkTask extends BaseIdleTask
         v.addTo(x, y, z);
 
         // Ensure the target location is loaded.
-        if (!TerrainManager.isAreaLoaded(mob.getEntity().getCommandSenderWorld(), v, 8)) return null;
+        if (!TerrainManager.isAreaLoaded(mob.getEntity().getLevel(), v, 8)) return null;
 
         // TODO also ensure no lava, etc
         if (v.isClearOfBlocks(world)) return v;

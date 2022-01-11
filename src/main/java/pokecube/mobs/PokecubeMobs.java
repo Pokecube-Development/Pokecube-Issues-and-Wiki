@@ -268,7 +268,7 @@ public class PokecubeMobs
             if (hasCube && hasSpace)
             {
                 final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player
-                        .getCommandSenderWorld());
+                        .getLevel());
                 if (pokemon != null)
                 {
                     final ItemStack mobCube = cube.copy();
@@ -646,7 +646,7 @@ public class PokecubeMobs
                 {
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
-                            .getPokedexEntry(), cube.getCommandSenderWorld()));
+                            .getPokedexEntry(), cube.getLevel()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     cube.setTime(cube.getTilt() * 20 + 5);
                     if (!tameSnag) evt.getCaught().setPokecube(evt.getFilledCube());
@@ -655,7 +655,7 @@ public class PokecubeMobs
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
                     evt.getCaught().getEntity().discard();
                     cube.setDeltaMovement(0, 0.1, 0);
-                    cube.getCommandSenderWorld().addFreshEntity(cube.copy());
+                    cube.getLevel().addFreshEntity(cube.copy());
                     evt.pokecube.discard();
                 }
                 evt.setCanceled(true);
@@ -684,7 +684,7 @@ public class PokecubeMobs
                 final EntityPokecube cube = (EntityPokecube) evt.pokecube;
 
                 final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
-                        .getPokedexEntry(), cube.getCommandSenderWorld()));
+                        .getPokedexEntry(), cube.getLevel()));
                 final Vector3 v = Vector3.getNewVector();
                 final Entity thrower = cube.shootingEntity;
                 int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(), mob.getPokedexEntry());
@@ -699,7 +699,7 @@ public class PokecubeMobs
                 v.moveEntity(mob.getEntity());
                 evt.getCaught().getEntity().discard();
                 cube.setDeltaMovement(0, 0.1, 0);
-                cube.getCommandSenderWorld().addFreshEntity(cube.copy());
+                cube.getLevel().addFreshEntity(cube.copy());
                 evt.setCanceled(true);
                 evt.pokecube.discard();
             }

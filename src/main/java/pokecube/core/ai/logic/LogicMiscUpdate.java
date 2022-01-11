@@ -386,7 +386,7 @@ public class LogicMiscUpdate extends LogicBase
         this.checkAnimationStates();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
-        if (this.entity.getCommandSenderWorld() instanceof ServerLevel)
+        if (this.entity.getLevel() instanceof ServerLevel)
         {
             if (targ != null && targ.isAlive())
             {
@@ -474,7 +474,7 @@ public class LogicMiscUpdate extends LogicBase
                                 - this.entity.getBbWidth(),
                         this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
                                 + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
-                this.entity.getCommandSenderWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
+                this.entity.getLevel().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
                         0);
             }
         }
@@ -495,7 +495,7 @@ public class LogicMiscUpdate extends LogicBase
                         rand.nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
-            PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo,
+            PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo,
                     args);
         }
         for (int i = 0; i < this.flavourAmounts.length; i++)
@@ -521,7 +521,7 @@ public class LogicMiscUpdate extends LogicBase
                 args = new int[]
                 { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc,
+                PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc,
                         particleVelo, args);
             }
         }

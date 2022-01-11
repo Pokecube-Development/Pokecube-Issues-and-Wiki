@@ -40,7 +40,7 @@ public class PacketGui extends Packet
 
         protected WearableContext(final Player player, final ItemStack heldItem, final CompoundTag nbt)
         {
-            super(player.getCommandSenderWorld(), player, InteractionHand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
+            super(player.getLevel(), player, InteractionHand.MAIN_HAND, heldItem, WearableContext.fromNBT(player, nbt));
         }
 
     }
@@ -96,7 +96,7 @@ public class PacketGui extends Packet
             LivingEntity target = player;
             if (this.data.contains("w_open_target_"))
             {
-                final Entity mob = player.getCommandSenderWorld().getEntity(this.data.getInt("w_open_target_"));
+                final Entity mob = player.getLevel().getEntity(this.data.getInt("w_open_target_"));
                 if (mob instanceof LivingEntity) target = (LivingEntity) mob;
             }
             final LivingEntity t = target;

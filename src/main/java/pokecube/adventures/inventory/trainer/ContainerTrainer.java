@@ -24,7 +24,7 @@ public class ContainerTrainer extends BaseContainer
         super(PokecubeAdv.TRAINER_CONT.get(), id);
         final LivingEntity entity = ivplay.player;
         final int num = data.readInt();
-        final Entity mob = entity.getCommandSenderWorld().getEntity(num);
+        final Entity mob = entity.getLevel().getEntity(num);
         this.pokemobs = TrainerCaps.getHasPokemobs(mob);
         int index = 0;
         for (int i = 0; i < 3; ++i)
@@ -39,7 +39,7 @@ public class ContainerTrainer extends BaseContainer
                 @Override
                 public void onTake(final Player thePlayer, final ItemStack stack)
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getCommandSenderWorld());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(stack, thePlayer.getLevel());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(thePlayer);
