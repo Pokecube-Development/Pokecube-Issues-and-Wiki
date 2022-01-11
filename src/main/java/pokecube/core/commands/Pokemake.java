@@ -267,10 +267,10 @@ public class Pokemake
             for (final String s : split)
                 newArgs.add(s);
         }
-        final Vector3 offset = Vector3.getNewVector().set(0, 1, 0);
+        final Vector3 offset = new Vector3().set(0, 1, 0);
         Pokemake.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
         pokemob.spawnInit();
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         temp.set(source.getPosition()).addTo(offset);
         temp.moveEntity(mob);
         GeneticsManager.initMob(mob);

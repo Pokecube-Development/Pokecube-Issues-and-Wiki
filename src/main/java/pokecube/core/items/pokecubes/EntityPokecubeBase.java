@@ -117,15 +117,15 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public double       speed          = 2;
     public LivingEntity targetEntity;
-    public Vector3      targetLocation = Vector3.getNewVector();
+    public Vector3      targetLocation = new Vector3();
 
     protected Block    tile;
     protected BlockPos tilePos;
     private int        tilt = -1;
-    public Vector3     v0   = Vector3.getNewVector();
-    protected Vector3  v1   = Vector3.getNewVector();
+    public Vector3     v0   = new Vector3();
+    protected Vector3  v1   = new Vector3();
 
-    public Vector3 capturePos = Vector3.getNewVector();
+    public Vector3 capturePos = new Vector3();
 
     private Entity ignoreEntity;
     private int    ignoreTime;
@@ -331,13 +331,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (!this.targetLocation.equals(Vector3.secondAxisNeg)) this.targetLocation.clear();
         }
 
-        final Vector3 target = Vector3.getNewVector();
+        final Vector3 target = new Vector3();
         if (this.targetEntity != null) target.set(this.targetEntity);
         else target.set(this.targetLocation);
         if (!target.isEmpty() && this.seeking)
         {
-            final Vector3 here = Vector3.getNewVector().set(this);
-            final Vector3 dir = Vector3.getNewVector().set(target);
+            final Vector3 here = new Vector3().set(this);
+            final Vector3 dir = new Vector3().set(target);
             if (this.targetEntity != null)
             {
                 dir.x += this.targetEntity.getDeltaMovement().x;

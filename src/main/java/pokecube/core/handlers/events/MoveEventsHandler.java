@@ -289,7 +289,7 @@ public class MoveEventsHandler
         final Level world = attacker.getEntity().getLevel();
         final BlockState state = location.getBlockState(world);
         final Block block = state.getBlock();
-        final Vector3 nextBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).reverse()
+        final Vector3 nextBlock = new Vector3().set(attacker.getEntity()).subtractFrom(location).reverse()
                 .norm().addTo(location);
         final BlockState nextState = nextBlock.getBlockState(world);
         if (block == Blocks.SAND)
@@ -512,7 +512,7 @@ public class MoveEventsHandler
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         final Player player = user.getOwner() instanceof Player ? (Player) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Vector3 origin = new Vector3().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
         final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY,
@@ -526,7 +526,7 @@ public class MoveEventsHandler
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         final Player player = user instanceof Player ? (Player) user : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user);
+        final Vector3 origin = new Vector3().set(user);
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
         final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user);

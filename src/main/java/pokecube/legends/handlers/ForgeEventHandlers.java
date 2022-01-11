@@ -180,11 +180,11 @@ public class ForgeEventHandlers
             if (!set.isAir())
             {
                 int n = 20;
-                Vector3 hit = Vector3.getNextSurfacePoint(level, Vector3.getNewVector().set(pos), Vector3.secondAxis,
+                Vector3 hit = Vector3.getNextSurfacePoint(level, new Vector3().set(pos), Vector3.secondAxis,
                         20);
                 while (hit != null && n-- > 0)
                 {
-                    hit = Vector3.getNextSurfacePoint(level, Vector3.getNewVector().set(pos), Vector3.secondAxis, 20);
+                    hit = Vector3.getNextSurfacePoint(level, new Vector3().set(pos), Vector3.secondAxis, 20);
                 }
                 pos = pos.above(n);
                 level.setBlock(pos, set, 3);

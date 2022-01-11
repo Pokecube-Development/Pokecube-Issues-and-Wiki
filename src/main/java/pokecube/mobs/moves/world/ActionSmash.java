@@ -84,7 +84,7 @@ public class ActionSmash implements IMoveAction
         final int fortune = digger.getLevel() / 30;
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
         final Level world = digger.getEntity().getLevel();
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         temp.set(v);
         final int range = 1;
         for (int i = -range; i <= range; i++)

@@ -77,8 +77,8 @@ public class IdleWalkTask extends BaseIdleTask
     private double y;
     private double z;
 
-    Vector3 v = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v = new Vector3();
+    Vector3 v1 = new Vector3();
 
     public IdleWalkTask(final IPokemob pokemob)
     {

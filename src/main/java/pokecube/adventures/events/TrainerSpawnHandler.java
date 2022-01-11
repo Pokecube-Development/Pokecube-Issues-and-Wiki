@@ -67,7 +67,7 @@ import thut.core.common.ThutCore;
 
 public class TrainerSpawnHandler
 {
-    private static Vector3 vec1 = Vector3.getNewVector();
+    private static Vector3 vec1 = new Vector3();
 
     static JEP parser = new JEP();
 
@@ -77,7 +77,7 @@ public class TrainerSpawnHandler
             final ServerLevel world = (ServerLevel) mob.level;
             // Then apply trainer specific stuff.
             int level = SpawnHandler
-                    .getSpawnLevel(new SpawnContext(world, Database.missingno, Vector3.getNewVector().set(mob)));
+                    .getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
@@ -195,7 +195,7 @@ public class TrainerSpawnHandler
 
     public static void randomizeTrainerTeam(final Entity trainer, final IHasPokemobs mobs)
     {
-        final Vector3 loc = Vector3.getNewVector().set(trainer);
+        final Vector3 loc = new Vector3().set(trainer);
         // Set level based on what wild pokemobs have.
         int level = SpawnHandler.getSpawnLevel(
                 new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));

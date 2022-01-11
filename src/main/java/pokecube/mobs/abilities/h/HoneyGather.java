@@ -46,7 +46,7 @@ public class HoneyGather extends Ability
         if (Math.random() < 1 - diff) return;
 
         final LivingEntity entity = mob.getEntity();
-        final Vector3 here = Vector3.getNewVector().set(entity);
+        final Vector3 here = new Vector3().set(entity);
         final Random rand = entity.getRandom();
 
         final Brain<?> brain = entity.getBrain();

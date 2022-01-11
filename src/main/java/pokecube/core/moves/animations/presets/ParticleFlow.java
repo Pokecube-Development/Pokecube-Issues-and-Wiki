@@ -55,9 +55,9 @@ public class ParticleFlow extends MoveAnimationBase
         final double frac2 = info.currentTick / (float) this.getDuration();
         final double frac = dist * frac2;
         final double frac3 = dist * (info.currentTick + 1) / this.getDuration();
-        final Vector3 temp = Vector3.getNewVector().set(target).subtractFrom(source).norm();
+        final Vector3 temp = new Vector3().set(target).subtractFrom(source).norm();
         final Random rand = ThutCore.newRandom();
-        final Vector3 temp1 = Vector3.getNewVector();
+        final Vector3 temp1 = new Vector3();
         final Vector3 angleF = temp.horizonalPerp();
         if (this.flat)
         {

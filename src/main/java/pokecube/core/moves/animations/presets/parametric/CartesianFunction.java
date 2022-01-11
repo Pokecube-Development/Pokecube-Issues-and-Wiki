@@ -15,10 +15,10 @@ public class CartesianFunction extends MoveAnimationBase
     JEP y;
     JEP z;
 
-    Vector3 v        = Vector3.getNewVector();
+    Vector3 v        = new Vector3();
     boolean reverse  = false;
     boolean absolute = false;
-    Vector3 v1       = Vector3.getNewVector();
+    Vector3 v1       = new Vector3();
 
     public CartesianFunction()
     {
@@ -87,7 +87,7 @@ public class CartesianFunction extends MoveAnimationBase
     {
         final Vector3 source = this.reverse ? info.source : info.target;
         this.initColour(info.attacker.getLevel().getDayTime() * 20, 0, info.move);
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         double scale = this.width;
         if (!this.absolute) if (this.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
         else if (!this.reverse && info.attacked != null) scale *= info.attacked.getBbWidth();

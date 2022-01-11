@@ -317,7 +317,7 @@ public class EntityPokemob extends PokemobRidable
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
         if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        final Vector3 loc = Vector3.getNewVector().set(this);
+        final Vector3 loc = new Vector3().set(this);
 
         SpawnContext context = new SpawnContext(pokemob);
         SpawnCheck checker = new SpawnCheck(loc, worldIn);

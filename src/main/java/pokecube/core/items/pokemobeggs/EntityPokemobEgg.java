@@ -42,7 +42,7 @@ public class EntityPokemobEgg extends AgeableMob
     int delayBeforeCanPickup = 0;
     int lastIncubate = 0;
     public IPokemob mother = null;
-    Vector3 here = Vector3.getNewVector();
+    Vector3 here = new Vector3();
     private ItemStack eggCache = null;
     boolean init = false;
 

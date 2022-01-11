@@ -97,7 +97,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         {
 
             double cost = 0;
-            final Vector3 here = Vector3.getNewVector().set(this);
+            final Vector3 here = new Vector3().set(this);
             WarpPadTile.parser.setVarValue("dx", link.getX() - here.x);
             WarpPadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
             WarpPadTile.parser.setVarValue("dz", link.getZ() - here.z);

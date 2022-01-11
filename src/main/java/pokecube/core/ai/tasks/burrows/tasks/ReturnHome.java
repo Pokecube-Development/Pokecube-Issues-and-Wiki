@@ -10,7 +10,7 @@ import thut.api.maths.Vector3;
 
 public class ReturnHome extends AbstractBurrowTask
 {
-    final Vector3 homePos = Vector3.getNewVector();
+    final Vector3 homePos = new Vector3();
 
     int enterTimer = 0;
 

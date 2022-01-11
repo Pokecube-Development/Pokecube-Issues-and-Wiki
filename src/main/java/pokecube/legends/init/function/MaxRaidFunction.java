@@ -66,7 +66,7 @@ public class MaxRaidFunction
         if (entry != null && entry != Database.missingno)
         {
             final Mob entity = PokecubeCore.createPokemob(entry, world);
-            final Vector3 v = Vector3.getNewVector().set(pos);
+            final Vector3 v = new Vector3().set(pos);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 

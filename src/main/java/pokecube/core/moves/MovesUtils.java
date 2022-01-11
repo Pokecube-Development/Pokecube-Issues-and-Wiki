@@ -622,7 +622,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Entity targetHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker, false);
+        final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
         return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker,
                 ignoreAllies, MovesUtils.targetMatcher(attacker));
@@ -647,7 +647,7 @@ public class MovesUtils implements IMoveConstants
 
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker);
+        final Vector3 source = new Vector3().set(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source,
                 attacker.getLevel(), attacker);
         final List<LivingEntity> ret = new ArrayList<>();
@@ -657,7 +657,7 @@ public class MovesUtils implements IMoveConstants
 
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker);
+        final Vector3 source = new Vector3().set(attacker);
         final List<Entity> targets = attacker.getLevel().getEntities(attacker,
                 source.getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();

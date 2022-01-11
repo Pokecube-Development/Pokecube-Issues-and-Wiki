@@ -62,7 +62,7 @@ public class CaptureManager
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
-        final Vector3 v = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
         cube.autoRelease = -1;
         if (modifier <= 0)
         {

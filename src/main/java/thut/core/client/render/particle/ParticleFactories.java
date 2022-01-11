@@ -124,8 +124,8 @@ public class ParticleFactories
     public static final ParticleProvider<ParticleBase> GENERICFACTORY = (type, world, x, y, z, vx, vy, vz) ->
     {
         type = ThutParticles.clone(type);
-        type.setVelocity(Vector3.getNewVector().set(vx, vy, vz));
-        type.setPosition(Vector3.getNewVector().set(x, y, z));
+        type.setVelocity(new Vector3().set(vx, vy, vz));
+        type.setPosition(new Vector3().set(x, y, z));
         return new ThutParticle(world, type);
     };
 }

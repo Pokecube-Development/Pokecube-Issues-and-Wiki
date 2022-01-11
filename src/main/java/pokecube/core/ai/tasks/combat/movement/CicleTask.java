@@ -33,8 +33,8 @@ public class CicleTask extends CombatTask implements IAICombat
     {
         if (this.centre == null)
         {
-            final Vector3 targetLoc = Vector3.getNewVector().set(this.target);
-            final Vector3 attackerLoc = Vector3.getNewVector().set(this.entity);
+            final Vector3 targetLoc = new Vector3().set(this.target);
+            final Vector3 attackerLoc = new Vector3().set(this.entity);
             final Vector3 diff = targetLoc.addTo(attackerLoc).scalarMultBy(0.5);
             this.centre = diff;
             this.centre.y = Math.min(attackerLoc.y, targetLoc.y);
@@ -58,14 +58,14 @@ public class CicleTask extends CombatTask implements IAICombat
         if (!this.entity.getNavigation().isDone() && (point = this.entity.getNavigation().getPath()
                 .getEndNode()) != null)
         {
-            final Vector3 end = Vector3.getNewVector().set(point);
-            final Vector3 here = Vector3.getNewVector().set(this.entity);
+            final Vector3 end = new Vector3().set(point);
+            final Vector3 here = new Vector3().set(this.entity);
             float f = this.entity.getBbWidth();
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
 
-        final Vector3 here = Vector3.getNewVector().set(this.entity);
+        final Vector3 here = new Vector3().set(this.entity);
         final Vector3 diff = here.subtract(this.centre);
         if (diff.magSq() < 1) diff.norm();
         int combatDistance = PokecubeCore.getConfig().combatDistance;

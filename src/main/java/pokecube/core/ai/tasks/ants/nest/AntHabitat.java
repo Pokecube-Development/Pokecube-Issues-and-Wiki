@@ -215,7 +215,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         if (root.edges.size() > 2) return;
 
-        final Vector3 centroid = Vector3.getNewVector();
+        final Vector3 centroid = new Vector3();
         for (final Node n : nodes) if (n.type == AntRoom.ENTRANCE)
         {
             centroid.set(n.getCenter());
@@ -247,14 +247,14 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         edgeShift = new BlockPos((next_size - 0.5) * dx / ds, 0, (next_size - 0.5) * dz / ds);
 
-        final Vector3 vec2 = Vector3.getNewVector().set(end1.subtract(end2));
+        final Vector3 vec2 = new Vector3().set(end1.subtract(end2));
         vec2.y = 0;
 
         for (final Edge e : root.edges)
         {
             // Check how parallel horizontally this it to an existing edge,
             // if too much, skip.
-            final Vector3 vec1 = Vector3.getNewVector().set(e.getEnd1().subtract(e.getEnd2()));
+            final Vector3 vec1 = new Vector3().set(e.getEnd1().subtract(e.getEnd2()));
             if (e.node2 == root) vec1.set(e.getEnd2().subtract(e.getEnd1()));
             vec1.y = 0;
             if (vec1.norm().dot(vec2.norm()) > 0.7) return;
@@ -545,7 +545,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             for (final Node n : this.rooms.allRooms)
             {
                 if (!n.started) continue;
-                final Vector3 x0 = Vector3.getNewVector().set(n.getCenter());
+                final Vector3 x0 = new Vector3().set(n.getCenter());
                 final AABB box = x0.getAABB().inflate(2);
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)

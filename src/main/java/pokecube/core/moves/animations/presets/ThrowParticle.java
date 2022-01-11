@@ -44,7 +44,7 @@ public class ThrowParticle extends MoveAnimationBase
         RenderSystem.setShaderTexture(0, texture);
 
         final double dist = source.distanceTo(target);
-        final Vector3 temp = Vector3.getNewVector().set(source).subtractFrom(target);
+        final Vector3 temp = new Vector3().set(source).subtractFrom(target);
 
         double factor = (info.currentTick + partialTick) / (double) this.getDuration();
         factor = Math.min(1, factor);

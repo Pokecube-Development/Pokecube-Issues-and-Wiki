@@ -194,7 +194,7 @@ public class Pokecube extends Item implements IPokecube
             cube.setDeltaMovement(0, 0, 0);
             cube.shootingEntity = null;
             cube.shooter = null;
-            Vector3.getNewVector().set(oldItem).moveEntity(cube);
+            new Vector3().set(oldItem).moveEntity(cube);
             cube.setNoCollisionRelease();
             cube.targetLocation.clear();
             return cube;
@@ -320,7 +320,7 @@ public class Pokecube extends Item implements IPokecube
                 return pokemob.getOwner() != player;
             };
             Entity target = Tools.getPointedEntity(player, 32, selector);
-            final Vector3 direction = Vector3.getNewVector().set(player.getViewVector(0));
+            final Vector3 direction = new Vector3().set(player.getViewVector(0));
             final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
             if (target instanceof EntityPokecube) target = null;
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -401,7 +401,7 @@ public class Pokecube extends Item implements IPokecube
         entity.shooter = thrower.getUUID();
         entity.setItem(stack);
 
-        final Vector3 temp = Vector3.getNewVector().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
+        final Vector3 temp = new Vector3().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
         if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
         {
             final ServerPlayer player = (ServerPlayer) thrower;
@@ -462,7 +462,7 @@ public class Pokecube extends Item implements IPokecube
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
-            final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
+            final Vector3 temp = new Vector3().set(thrower).add(0, thrower.getEyeHeight(), 0);
             temp.moveEntity(entity);
             if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
             {

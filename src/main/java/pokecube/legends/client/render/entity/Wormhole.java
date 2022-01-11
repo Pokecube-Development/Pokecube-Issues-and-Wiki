@@ -45,9 +45,9 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     private IPartTexturer     texer   = null;
     private IAnimationHolder  holder  = null;
 
-    final Vector3   rotPoint  = Vector3.getNewVector();
-    private Vector3 offset    = Vector3.getNewVector();
-    private Vector3 scale     = Vector3.getNewVector();
+    final Vector3   rotPoint  = new Vector3();
+    private Vector3 offset    = new Vector3();
+    private Vector3 scale     = new Vector3();
     private Vector5 rotations = new Vector5();
 
     public Wormhole(final EntityRendererProvider.Context renderManager)

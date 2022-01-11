@@ -175,7 +175,7 @@ public class Move_Explode extends Move_Basic
                 else mob.getLevel().addParticle(ParticleTypes.EXPLOSION, mob.getX(), mob.getY(),
                         mob.getZ(), 1.0D, 0.0D, 0.0D);
                 // and hit nearby targets normally.
-                this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0,
+                this.actualAttack(pokemob, new Vector3().set(pokemob.getEntity()).add(0,
                         pokemob.getSize() * pokemob.getPokedexEntry().height / 2, 0));
             }
             // First give it some health so it is alive

@@ -52,8 +52,8 @@ public abstract class PokemobMoves extends PokemobStats
         if (attack == IMoveConstants.MOVE_NONE || attack == null) return;
 
         // If no target location selected, set it accordingly.
-        if (targetLocation == null) if (target != null) targetLocation = Vector3.getNewVector().set(target);
-        else targetLocation = Vector3.getNewVector().set(this.getEntity());
+        if (targetLocation == null) if (target != null) targetLocation = new Vector3().set(target);
+        else targetLocation = new Vector3().set(this.getEntity());
 
         // If all moves are disabled, use struggle instead.
         final int index = this.getMoveIndex();
@@ -139,7 +139,7 @@ public abstract class PokemobMoves extends PokemobStats
             this.displayMessageToOwner(mess);
             return;
         }
-        if (this.here == null) this.here = Vector3.getNewVector();
+        if (this.here == null) this.here = new Vector3();
         this.here.set(this.getEntity()).addTo(0, this.getEntity().getEyeHeight(), 0);
         MovesUtils.useMove(move, this.getEntity(), target, this.here, targetLocation);
         // clear this if we use a move.

@@ -103,7 +103,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.setPersistenceRequired();
-        this.location = Vector3.getNewVector();
+        this.location = new Vector3();
     }
 
     @Override
@@ -167,7 +167,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         EntityType<?> other = level.getRandom().nextBoolean() ? this.getType() : mob.getType();
         NpcMob villager = (NpcMob) other.create(level);
 
-        NpcType newType = NpcType.getRandomForLocation(Vector3.getNewVector().set(mob), level);
+        NpcType newType = NpcType.getRandomForLocation(new Vector3().set(mob), level);
         if (newType == null || level.getRandom().nextDouble() > 0.5)
         {
             newType = NpcType.byType("none");

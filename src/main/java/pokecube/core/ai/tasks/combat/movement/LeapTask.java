@@ -41,8 +41,8 @@ public class LeapTask extends TaskBase implements IAICombat
 
     PositionTracker pos = null;
 
-    Vector3 leapTarget = Vector3.getNewVector();
-    Vector3 leapOrigin = Vector3.getNewVector();
+    Vector3 leapTarget = new Vector3();
+    Vector3 leapOrigin = new Vector3();
 
     public LeapTask(final IPokemob mob)
     {
@@ -73,7 +73,7 @@ public class LeapTask extends TaskBase implements IAICombat
         // Target loc could just be a position
         this.leapTarget.set(this.pos.currentPosition());
 
-        final Vector3 location = Vector3.getNewVector().set(this.entity);
+        final Vector3 location = new Vector3().set(this.entity);
         final Vector3 diff = this.leapTarget.subtract(location);
 
         /* Don't leap up if too far. */
@@ -95,8 +95,8 @@ public class LeapTask extends TaskBase implements IAICombat
 
         // Compute differences in velocities, and then account for that during
         // the leap.
-        final Vector3 v_a = Vector3.getNewVector().setToVelocity(this.entity);
-        final Vector3 v_t = Vector3.getNewVector();
+        final Vector3 v_a = new Vector3().setToVelocity(this.entity);
+        final Vector3 v_t = new Vector3();
         if (target != null) v_t.setToVelocity(target);
         // Compute velocity differential.
         final Vector3 dv = v_a.subtractFrom(v_t);
@@ -117,7 +117,7 @@ public class LeapTask extends TaskBase implements IAICombat
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.getLevel().dimension(), Vector3.getNewVector().set(this.entity), this
+        new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this
                 .getLeapSound(), SoundSource.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }

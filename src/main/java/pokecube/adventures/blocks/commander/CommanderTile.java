@@ -125,7 +125,7 @@ public class CommanderTile extends InteractableTile
             final Class<?> type = argTypes[i];
             if (type == Vector3.class)
             {
-                final Vector3 arg = Vector3.getNewVector();
+                final Vector3 arg = new Vector3();
                 arg.set(Double.parseDouble(args[index]), Double.parseDouble(args[index + 1]),
                         Double.parseDouble(args[index + 2]));
                 index += 3;

@@ -652,7 +652,7 @@ public class PokecubeMobs
                     if (!tameSnag) evt.getCaught().setPokecube(evt.getFilledCube());
                     cube.setItem(PokecubeManager.pokemobToItem(evt.getCaught()));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                    Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
+                    new Vector3().set(evt.pokecube).moveEntity(cube);
                     evt.getCaught().getEntity().discard();
                     cube.setDeltaMovement(0, 0.1, 0);
                     cube.getLevel().addFreshEntity(cube.copy());
@@ -685,7 +685,7 @@ public class PokecubeMobs
 
                 final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.getCaught()
                         .getPokedexEntry(), cube.getLevel()));
-                final Vector3 v = Vector3.getNewVector();
+                final Vector3 v = new Vector3();
                 final Entity thrower = cube.shootingEntity;
                 int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(), mob.getPokedexEntry());
                 has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUUID(), mob.getPokedexEntry());

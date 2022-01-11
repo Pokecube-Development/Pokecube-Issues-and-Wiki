@@ -52,7 +52,7 @@ public class ActionDig implements IMoveAction
         final boolean silky = Move_Basic.shouldSilk(digger) && player != null;
         final boolean dropAll = this.shouldDropAll(digger);
         final double uselessDrop = Math.pow((100 - digger.getLevel()) / 100d, 3);
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         temp.set(v);
         final int range = 1;
         for (int i = -range; i <= range; i++)

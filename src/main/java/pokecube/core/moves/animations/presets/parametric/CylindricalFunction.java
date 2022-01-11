@@ -14,8 +14,8 @@ public class CylindricalFunction extends MoveAnimationBase
     JEP radial;
     JEP angular;
 
-    Vector3 v  = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v  = new Vector3();
+    Vector3 v1 = new Vector3();
 
     public CylindricalFunction()
     {
@@ -82,8 +82,8 @@ public class CylindricalFunction extends MoveAnimationBase
         final double frac2 = info.currentTick / (float) this.getDuration();
         final double frac = dist * frac2;
         final double frac3 = dist * (info.currentTick + 1) / this.getDuration();
-        final Vector3 temp = Vector3.getNewVector().set(target).subtractFrom(source).norm();
-        final Vector3 temp1 = Vector3.getNewVector();
+        final Vector3 temp = new Vector3().set(target).subtractFrom(source).norm();
+        final Vector3 temp1 = new Vector3();
         final Vector3 angleF = temp.horizonalPerp().norm();
         for (double i = frac; i < frac3; i += 0.1)
         {

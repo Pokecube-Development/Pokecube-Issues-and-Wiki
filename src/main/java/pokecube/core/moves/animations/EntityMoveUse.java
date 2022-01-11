@@ -120,13 +120,13 @@ public class EntityMoveUse extends ThrowableProjectile
     static final EntityDataAccessor<Integer> APPLYTICK = SynchedEntityData.<Integer> defineId(EntityMoveUse.class,
             EntityDataSerializers.INT);
 
-    Vector3 end   = Vector3.getNewVector();
-    Vector3 start = Vector3.getNewVector();
+    Vector3 end   = new Vector3();
+    Vector3 start = new Vector3();
 
-    Vector3 here = Vector3.getNewVector();
-    Vector3 prev = Vector3.getNewVector();
+    Vector3 here = new Vector3();
+    Vector3 prev = new Vector3();
 
-    Vector3 dir = Vector3.getNewVector();
+    Vector3 dir = new Vector3();
 
     Entity user   = null;
     Entity target = null;
@@ -146,7 +146,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
-    private final Vector3 size = Vector3.getNewVector();
+    private final Vector3 size = new Vector3();
 
     Predicate<Entity> valid = e ->
     {

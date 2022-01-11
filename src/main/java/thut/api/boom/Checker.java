@@ -140,7 +140,7 @@ public class Checker
 
         final float num;
 
-        Vector3 tmp = Vector3.getNewVector();
+        Vector3 tmp = new Vector3();
 
         public ShadowSet(final ExplosionCustom boom)
         {
@@ -194,7 +194,7 @@ public class Checker
         int minCube = Integer.MAX_VALUE;
         int minFound = -1;
 
-        Vector3 tmp = Vector3.getNewVector();
+        Vector3 tmp = new Vector3();
 
         public Cubes(final ExplosionCustom boom)
         {

@@ -75,7 +75,7 @@ public class SecretBase
             return 1;
         }
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslatableComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
         return 0;
@@ -86,9 +86,9 @@ public class SecretBase
         if (SecretBase.pendingBaseLocations.containsKey(player.getUUID()))
         {
             final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUUID());
-            final Vector3 pos = Vector3.getNewVector().set(loc.pos());
+            final Vector3 pos = new Vector3().set(loc.pos());
             final ResourceKey<Level> type = loc.dimension();
-            if (type == player.getLevel().dimension() && pos.distTo(Vector3.getNewVector().set(input)) < 16)
+            if (type == player.getLevel().dimension() && pos.distTo(new Vector3().set(input)) < 16)
             {
                 final BlockPos base_pos = new BlockPos(input);
                 final BlockState original = pos.getBlockState(player.getLevel());

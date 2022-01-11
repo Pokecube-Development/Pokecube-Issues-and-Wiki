@@ -20,7 +20,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
     {
         if (Math.random() > this.density) return;
         this.initColour(info.attacker.getLevel().getDayTime(), 0, info.move);
-        final Vector3 temp = Vector3.getNewVector().set(info.source);
+        final Vector3 temp = new Vector3().set(info.source);
         final Random rand = ThutCore.newRandom();
         float dw = 0.25f;
         if (info.attacker != null) dw = info.attacker.getBbWidth();

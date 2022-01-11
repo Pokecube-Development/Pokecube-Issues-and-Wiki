@@ -68,7 +68,7 @@ public class EatPlant extends EatBlockBase
         if (PokecubeCore.getConfig().pokemobsEatPlants)
         {
             // If we are allowed to, we remove the eaten block
-            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, Vector3.getNewVector().set(block.getPos()),
+            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(block.getPos()),
                     "nom_nom_nom", false, false);
             if (canEat) world.setBlockAndUpdate(block.getPos(), Blocks.AIR.defaultBlockState());
         }

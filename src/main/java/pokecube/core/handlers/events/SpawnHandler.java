@@ -390,7 +390,7 @@ public final class SpawnHandler
     {
         if (player == null || !(player.getLevel() instanceof ServerLevel)) return null;
         return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(),
-                Vector3.getNewVector().set(player), range);
+                new Vector3().set(player), range);
     }
 
     public static SpawnContext getSpawnForLoc(SpawnContext context)
@@ -526,7 +526,7 @@ public final class SpawnHandler
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeCore.LOGGER.debug(message);
 
-            boom.doKineticImpactor(world, Vector3.getNewVector().set(0, -1, 0), location, null, 0.1f, power);
+            boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
 
 //            boom.doExplosion();
         }
@@ -537,7 +537,7 @@ public final class SpawnHandler
     {
         if (!(world instanceof ServerLevel level)) return 0;
         // BlockPos p = world.
-        final Vector3 spawn = Vector3.getNewVector().set(level.getSharedSpawnPos());
+        final Vector3 spawn = new Vector3().set(level.getSharedSpawnPos());
         final ResourceKey<Level> type = world.dimension();
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
@@ -604,7 +604,7 @@ public final class SpawnHandler
     {
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-        final Vector3 temp1 = Vector3.getNewVector();
+        final Vector3 temp1 = new Vector3();
         final int x0 = t.chunkX * 16, y0 = t.chunkY * 16, z0 = t.chunkZ * 16;
         final int dx = TerrainSegment.GRIDSIZE / 2;
         final int dy = TerrainSegment.GRIDSIZE / 2;
@@ -668,8 +668,8 @@ public final class SpawnHandler
             final Entity player = players.get(rand.nextInt(players.size()));
             final int dx = rand.nextInt(200) - 100;
             final int dz = rand.nextInt(200) - 100;
-            final Vector3 v = Vector3.getNewVector();
-            final Vector3 v1 = Vector3.getNewVector();
+            final Vector3 v = new Vector3();
+            final Vector3 v1 = new Vector3();
             v.set(player).add(dx, 0, dz);
             final Vector4 loc = new Vector4(player);
             loc.x += dx;
@@ -717,7 +717,7 @@ public final class SpawnHandler
         double dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeMod.debug && dt > 500)
         {
-            final Vector3 debug = Vector3.getNewVector().set(v.getPos());
+            final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
             PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt));
         }
@@ -726,7 +726,7 @@ public final class SpawnHandler
         dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeMod.debug && dt > 500)
         {
-            final Vector3 debug = Vector3.getNewVector().set(v.getPos());
+            final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
             PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt, num, context.entry()));
         }
@@ -765,7 +765,7 @@ public final class SpawnHandler
     public void doSpawn(ServerPlayer player, ServerLevel level, final int minRadius, final int maxRadius)
     {
         if (minRadius > maxRadius) return;
-        Vector3 v = Vector3.getNewVector().set(player);
+        Vector3 v = new Vector3().set(player);
         SpawnContext base = new SpawnContext(player, level, Database.missingno, v);
         SpawnContext context = randomSpawnContext(base, minRadius, maxRadius);
         this.doSpawnForContext(context);
@@ -780,9 +780,9 @@ public final class SpawnHandler
         Vector3 loc = context.location();
         PokedexEntry dbe = context.entry();
 
-        final Vector3 v = Vector3.getNewVector();
-        final Vector3 v2 = Vector3.getNewVector();
-        final Vector3 v3 = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
+        final Vector3 v2 = new Vector3();
+        final Vector3 v3 = new Vector3();
         int totalSpawnCount = 0;
         final Vector3 point = v2.clear();
         SpawnHandler.refreshTerrain(loc, level, false);

@@ -89,8 +89,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     protected boolean valid  = true;
     protected boolean loaded = false;
 
-    Vector3 min = Vector3.getNewVector();
-    Vector3 max = Vector3.getNewVector();
+    Vector3 min = new Vector3();
+    Vector3 max = new Vector3();
 
     Model             wrapped;
     IPartTexturer     texturer;

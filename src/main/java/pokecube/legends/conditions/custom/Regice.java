@@ -27,7 +27,7 @@ public class Regice extends AbstractRegiCondition
     public void onSpawn(IPokemob mob)
     {
     	mob = mob.setForSpawn(54500);
-        final Vector3 location = Vector3.getNewVector().set(mob.getEntity()).add(0, -1, 0);
+        final Vector3 location = new Vector3().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
         final Level world = mob.getEntity().getLevel();
         locations.add(location.add(0, -1, 0));

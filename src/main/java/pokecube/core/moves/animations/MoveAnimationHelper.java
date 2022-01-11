@@ -103,8 +103,8 @@ public class MoveAnimationHelper
         return MoveAnimationHelper.instance;
     }
 
-    final Vector3 source = Vector3.getNewVector();
-    final Vector3 target = Vector3.getNewVector();
+    final Vector3 source = new Vector3();
+    final Vector3 target = new Vector3();
     final int     index;
 
     private int effects = 0;

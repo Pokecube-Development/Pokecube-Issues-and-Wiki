@@ -331,8 +331,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (Minecraft.getInstance().player == null) return;
 
-        final Vector3 temp = Vector3.getNewVector();
-        final Vector3 temp2 = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
+        final Vector3 temp2 = new Vector3();
         final Vector3 dir = direction.scalarMult(8);
         final int time = Minecraft.getInstance().player.tickCount;
         final Random rand = new Random(time / 200);
@@ -411,7 +411,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             assert Minecraft.getInstance().player != null;
             final int time = Minecraft.getInstance().player.tickCount;
 
-            final Vector3 direction = Vector3.getNewVector().set(0, -1, 0);
+            final Vector3 direction = new Vector3().set(0, -1, 0);
             final float partialTicks = Minecraft.getInstance().getFrameTime();
             final float tick = (time + partialTicks) / 10f;
 

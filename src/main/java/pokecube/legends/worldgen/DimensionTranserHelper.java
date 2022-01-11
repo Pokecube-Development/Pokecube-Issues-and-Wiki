@@ -21,7 +21,7 @@ public class DimensionTranserHelper
     {
         final ResourceKey<Level> targetDim = FeaturesInit.DISTORTEDWORLD_KEY;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
     }
 
@@ -29,7 +29,7 @@ public class DimensionTranserHelper
     {
         final ResourceKey<Level> targetDim = FeaturesInit.ULTRASPACE_KEY;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
     }
 
@@ -37,7 +37,7 @@ public class DimensionTranserHelper
     {
         final ResourceKey<Level> targetDim = Level.OVERWORLD;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
     }
 

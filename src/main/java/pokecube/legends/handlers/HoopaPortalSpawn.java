@@ -32,7 +32,7 @@ public class HoopaPortalSpawn
         final Entity player = (Entity) players.get(rand.nextInt(players.size()));
         final int dx = rand.nextInt(distance) - distance / 2;
         final int dz = rand.nextInt(distance) - distance / 2;
-        final Vector3 v = Vector3.getNewVector().set(player).add(dx, 0, dz);
+        final Vector3 v = new Vector3().set(player).add(dx, 0, dz);
 
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
@@ -42,7 +42,7 @@ public class HoopaPortalSpawn
         {
 
             final PortalWarp block = (PortalWarp) BlockInit.PORTAL.get();
-            final Vector3 fakePos = Vector3.getNewVector().set(v);
+            final Vector3 fakePos = new Vector3().set(v);
 
             // Randomize the position a bit so the orientation of portal is
             // randomized

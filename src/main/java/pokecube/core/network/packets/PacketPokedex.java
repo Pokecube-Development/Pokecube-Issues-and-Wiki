@@ -428,7 +428,7 @@ public class PacketPokedex extends NBTPacket
         SpawnData data;
         final CompoundTag spawns = new CompoundTag();
 
-        pos = Vector3.getNewVector().set(player);
+        pos = new Vector3().set(player);
         checker = new SpawnCheck(pos, player.level);
 
         switch (this.message)

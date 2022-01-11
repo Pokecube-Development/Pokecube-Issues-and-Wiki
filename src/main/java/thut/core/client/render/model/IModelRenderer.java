@@ -47,7 +47,7 @@ public interface IModelRenderer<T extends Entity>
 
     public static final String DEFAULTPHASE = "idle";
 
-    static final Vector3 DEFAULTSCALE = Vector3.getNewVector().set(1);
+    static final Vector3 DEFAULTSCALE = new Vector3().set(1);
 
     default void doRender(final T entity, final double d, final double d1, final double d2, final float f,
             final float partialTick)

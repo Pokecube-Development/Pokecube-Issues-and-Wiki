@@ -39,16 +39,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public Vector4 preRot = new Vector4();
     public Vector4 postRot = new Vector4();
-    public Vector3 preTrans = Vector3.getNewVector();
-    public Vector3 postTrans = Vector3.getNewVector();
+    public Vector3 preTrans = new Vector3();
+    public Vector3 postTrans = new Vector3();
     public Vertex preScale = new Vertex(1, 1, 1);
 
-    public Vector3 offset = Vector3.getNewVector();
+    public Vector3 offset = new Vector3();
     public Vector4 rotations = new Vector4();
     public Vertex scale = new Vertex(1, 1, 1);
 
-    Vector3 min = Vector3.getNewVector();
-    Vector3 max = Vector3.getNewVector();
+    Vector3 min = new Vector3();
+    Vector3 max = new Vector3();
 
     public int red = 255, green = 255, blue = 255, alpha = 255;
 

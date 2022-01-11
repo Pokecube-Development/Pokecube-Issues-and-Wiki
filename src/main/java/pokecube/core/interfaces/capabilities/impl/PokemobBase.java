@@ -177,7 +177,7 @@ public abstract class PokemobBase implements IPokemob
      */
     protected EntityMoveUse activeMove;
     /** Used for size when pathing */
-    protected Vector3 sizes = Vector3.getNewVector();
+    protected Vector3 sizes = new Vector3();
     /** Cooldown for hunger AI */
     protected int hungerCooldown = 0;
 
@@ -197,7 +197,7 @@ public abstract class PokemobBase implements IPokemob
     /** Manages mounted control */
     public LogicMountedControl controller;
     /** Used for various cases where things at mobs location need checking */
-    protected Vector3 here = Vector3.getNewVector();
+    protected Vector3 here = new Vector3();
     /** The Entity this IPokemob is attached to. */
     protected Mob entity;
     /** RNG used, should be entity.getRNG() */

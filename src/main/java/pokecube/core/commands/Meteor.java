@@ -23,7 +23,7 @@ public class Meteor
         final ServerLevel world = source.getLevel();
         final Vec3 pos = source.getPosition();
 
-        final Vector3 v = Vector3.getNewVector().set(pos);
+        final Vector3 v = new Vector3().set(pos);
         v.x = v.intX() + 0.5;
         v.y = v.intY() + 0.5;
         v.z = v.intZ() + 0.5;

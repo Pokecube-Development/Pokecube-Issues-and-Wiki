@@ -213,7 +213,7 @@ public class PacketTrainer extends NBTPacket
             PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
 
             final int level = this.getTag().getInt("L");
-            final Vector3 vec = Vector3.getNewVector().set(player);
+            final Vector3 vec = new Vector3().set(player);
             String args = "pokecube:mob:npc";
             final JsonObject thing = new JsonObject();
 

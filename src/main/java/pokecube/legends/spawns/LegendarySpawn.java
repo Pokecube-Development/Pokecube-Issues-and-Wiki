@@ -72,7 +72,7 @@ public class LegendarySpawn
         final ISpecialCaptureCondition captureCondition = ISpecialCaptureCondition.captureMap.get(entry);
         if (spawnCondition != null)
         {
-            final Vector3 location = Vector3.getNewVector().set(evt.getPos());
+            final Vector3 location = new Vector3().set(evt.getPos());
             final CanSpawn test = spawnCondition.canSpawn(context, message);
 
             // Priority of errors:
@@ -140,7 +140,7 @@ public class LegendarySpawn
         if (!repeated || evt.getPlayer().isCrouching()) return;
         evt.getPlayer().getPersistentData().putLong("pokecube_legends:msgtick", now);
 
-        final Vector3 location = Vector3.getNewVector().set(evt.getPos());
+        final Vector3 location = new Vector3().set(evt.getPos());
 
         ItemStack stack = evt.getItemStack();
         // Try both hands just incase.

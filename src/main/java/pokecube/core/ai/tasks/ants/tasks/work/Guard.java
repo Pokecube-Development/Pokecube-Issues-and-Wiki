@@ -79,7 +79,7 @@ public class Guard extends AbstractWorkTask
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
         // used if it is on stay, or it has no owner.
-        final Vector3 centre = Vector3.getNewVector();
+        final Vector3 centre = new Vector3();
         centre.set(this.pokemob.getOwner());
 
         final List<LivingEntity> ret = new ArrayList<>();

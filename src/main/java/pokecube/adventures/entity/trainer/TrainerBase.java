@@ -209,7 +209,7 @@ public abstract class TrainerBase extends NpcMob
             {
                 this.checkedMobs = true;
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
-                        Vector3.getNewVector().set(this));
+                        new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
                 this.initTeam(level);
                 type.initTrainerItems(this);

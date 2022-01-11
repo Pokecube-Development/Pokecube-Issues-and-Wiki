@@ -15,7 +15,7 @@ import thut.api.maths.Vector3;
  */
 public class LogicInMaterials extends LogicBase
 {
-    Vector3 v = Vector3.getNewVector();
+    Vector3 v = new Vector3();
 
     public LogicInMaterials(final IPokemob entity)
     {

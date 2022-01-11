@@ -268,10 +268,10 @@ public class GatherTask extends UtilTask
 
     ResourceLocation currentHarvester = null;
 
-    Vector3 seeking = Vector3.getNewVector();
+    Vector3 seeking = new Vector3();
 
-    Vector3 v = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v = new Vector3();
+    Vector3 v1 = new Vector3();
 
     public GatherTask(final IPokemob mob, final double distance, final StoreTask storage)
     {
@@ -400,7 +400,7 @@ public class GatherTask extends UtilTask
     {
         if (!this.hasStuff()) return;
 
-        final Vector3 stuffLoc = Vector3.getNewVector();
+        final Vector3 stuffLoc = new Vector3();
         if (this.targetItem != null) stuffLoc.set(this.targetItem);
         else stuffLoc.set(this.targetBlock.getPos());
 

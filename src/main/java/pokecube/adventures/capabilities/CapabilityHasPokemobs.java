@@ -770,8 +770,8 @@ public class CapabilityHasPokemobs
             {
                 this.aiStates.setAIState(AIState.INBATTLE, true);
                 final IPokecube cube = (IPokecube) i.getItem();
-                final Vector3 here = Vector3.getNewVector().set(this.user);
-                final Vector3 t = Vector3.getNewVector().set(target);
+                final Vector3 here = new Vector3().set(this.user);
+                final Vector3 t = new Vector3().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
                 PokecubeManager.heal(i, user.level);
 

@@ -595,7 +595,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
         if (Screen.hasShiftDown() && pokemob != null && pokemob.getOwner() != null)
         {
-            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(Vector3.getNewVector().set(pokemob
+            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(new Vector3().set(pokemob
                     .getOwner()), 1.0f));
             return;
         }

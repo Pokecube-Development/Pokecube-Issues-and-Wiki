@@ -140,7 +140,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     // processing to make sure that we fit properly
                     if (col)
                     {
-                        Vector3 v = Vector3.getNewVector().set(this.evolution);
+                        Vector3 v = new Vector3().set(this.evolution);
                         v = SendOutManager.getFreeSpot(this.evolution, world, v, false);
                         this.evolution.refreshDimensions();
                         if (v != null) v.moveEntity(this.evolution);

@@ -235,7 +235,7 @@ public class PokedexEntry
             if (this.matcher != null && mob.getEntity().level instanceof ServerLevel world)
             {
                 final LivingEntity entity = mob.getEntity();
-                final Vector3 loc = Vector3.getNewVector().set(entity);
+                final Vector3 loc = new Vector3().set(entity);
                 if (!world.isPositionEntityTicking(loc.getPos()))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");

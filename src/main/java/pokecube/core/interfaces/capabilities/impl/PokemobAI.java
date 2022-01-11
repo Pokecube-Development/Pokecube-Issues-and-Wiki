@@ -164,7 +164,7 @@ public abstract class PokemobAI extends PokemobEvolves
         // Do the shiny particle effect.
         if (this.isShiny())
         {
-            final Vector3 particleLoc = Vector3.getNewVector();
+            final Vector3 particleLoc = new Vector3();
             for (int i = 0; i < 20; ++i)
             {
                 particleLoc.set(

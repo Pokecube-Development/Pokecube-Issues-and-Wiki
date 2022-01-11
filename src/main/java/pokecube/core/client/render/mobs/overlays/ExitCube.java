@@ -29,9 +29,9 @@ public class ExitCube
         if (sealTag != null && !sealTag.isEmpty())
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector().set(entity, true);
+            final Vector3 loc = new Vector3().set(entity, true);
             final float width = entity.getBbWidth();
-            final Vector3 vel = Vector3.getNewVector();
+            final Vector3 vel = new Vector3();
             if (sealTag.getBoolean("Bubbles"))
             {
                 loc.x += (rand.nextDouble() - 0.5) * width;
@@ -74,9 +74,9 @@ public class ExitCube
         if (pokemob.isShiny())
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector().set(entity, true);
+            final Vector3 loc = new Vector3().set(entity, true);
             final float width = entity.getBbWidth();
-            final Vector3 vel = Vector3.getNewVector();
+            final Vector3 vel = new Vector3();
             vel.x = rand.nextGaussian() / 100;
             vel.y = rand.nextGaussian() / 100;
             vel.z = rand.nextGaussian() / 100;

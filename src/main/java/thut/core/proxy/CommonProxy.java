@@ -110,7 +110,7 @@ public class CommonProxy implements Proxy
         {
             if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
             final CompoundTag min = new CompoundTag();
-            Vector3.getNewVector().set(pos).writeToNBT(min, "");
+            new Vector3().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
             final String message = "msg.subbiome.setcorner";
             if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, pos), Util.NIL_UUID);

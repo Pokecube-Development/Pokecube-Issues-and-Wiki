@@ -74,7 +74,7 @@ public class ParticleHandler
                         continue;
                     }
                     final Player player = Minecraft.getInstance().player;
-                    final Vector3 source = Vector3.getNewVector().set(player.xOld, player.yOld,
+                    final Vector3 source = new Vector3().set(player.xOld, player.yOld,
                             player.zOld);
                     mat.pushPose();
                     source.set(target.subtract(source));

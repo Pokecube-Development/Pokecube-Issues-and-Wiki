@@ -51,7 +51,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                     || !PokecubeCore.getConfig().autoDetectSubbiomes)
                 return BiomeType.NONE;
             boolean sky = false;
-            final Vector3 temp1 = Vector3.getNewVector();
+            final Vector3 temp1 = new Vector3();
             final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
             final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
             final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
@@ -88,7 +88,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         int industrial = 0;
         int water = 0;
         int flower = 0;
-        final Vector3 temp1 = Vector3.getNewVector();
+        final Vector3 temp1 = new Vector3();
         final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
         final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
         final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;

@@ -56,7 +56,7 @@ public class SendOutManager
         }
         if (SendOutManager.valid(box, world)) return pos.copy();
         final int size = 10;
-        final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();
+        final Vector3 r = new Vector3(), rAbs = new Vector3(), rHat = new Vector3();
         final long start = System.nanoTime();
         // Starts at 1, as 0 is pos
         for (int i = 1; i < size * size * size; i++)

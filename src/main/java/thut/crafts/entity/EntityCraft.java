@@ -180,27 +180,27 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         seats:
         if (seat != null)
         {
-            final Vector3 rel = Vector3.getNewVector().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
+            final Vector3 rel = new Vector3().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
             BlockState block = this.getFakeWorld().getBlockRelative(pos);
             if (block == null || !block.hasProperty(StairBlock.FACING)) break seats;
-            Vector3 dest = Vector3.getNewVector().set(destX, destY, destZ);
+            Vector3 dest = new Vector3().set(destX, destY, destZ);
             switch (block.getValue(StairBlock.FACING))
             {
             case DOWN:
                 break;
             case EAST:
-                dest = dest.rotateAboutAngles(0, -Math.PI / 2, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, -Math.PI / 2, new Vector3(), new Vector3());
                 break;
             case NORTH:
                 break;
             case SOUTH:
-                dest = dest.rotateAboutAngles(0, Math.PI, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, Math.PI, new Vector3(), new Vector3());
                 break;
             case UP:
                 break;
             case WEST:
-                dest = dest.rotateAboutAngles(0, Math.PI / 2, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, Math.PI / 2, new Vector3(), new Vector3());
                 break;
             default:
                 break;
@@ -291,7 +291,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         if (!EntityCraft.ENERGYUSE) return true;
         boolean power = false;
-        final Vector3 bounds = Vector3.getNewVector().set(this.boundMax.subtract(this.boundMin));
+        final Vector3 bounds = new Vector3().set(this.boundMax.subtract(this.boundMin));
         final double volume = bounds.x * bounds.y * bounds.z;
         final float speed = 10;
         double energyCost = Math.abs(speed) * EntityCraft.ENERGYCOST * volume * 0.01;

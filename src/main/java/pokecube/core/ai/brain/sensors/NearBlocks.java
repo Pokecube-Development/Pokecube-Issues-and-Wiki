@@ -84,8 +84,8 @@ public class NearBlocks extends Sensor<LivingEntity>
         final int size = gathering ? 15 : 8;
         if (!TerrainManager.isAreaLoaded(entityIn.getLevel(), entityIn.blockPosition(), size + 8)) return;
 
-        final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
-        final Vector3 origin = Vector3.getNewVector();
+        final Vector3 r = new Vector3(), rAbs = new Vector3();
+        final Vector3 origin = new Vector3();
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
 

@@ -105,7 +105,7 @@ public class ThutTeleporter
             if (pos != null)
             {
                 this.loc = pos;
-                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
+                this.subLoc = new Vector3().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
                         .pos().getZ() + 0.5);
                 this.name = "";
             }
@@ -147,7 +147,7 @@ public class ThutTeleporter
 
         public void writeToNBT(final CompoundTag nbt)
         {
-            if (this.subLoc == null) this.subLoc = Vector3.getNewVector().set(this.loc.pos()).add(0.5, 0, 0.5);
+            if (this.subLoc == null) this.subLoc = new Vector3().set(this.loc.pos()).add(0.5, 0, 0.5);
             this.subLoc.writeToNBT(nbt, "v");
             nbt.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.loc).get().left().get());
             nbt.putString("name", this.name);
@@ -407,7 +407,7 @@ public class ThutTeleporter
             targetZ = event.getTargetZ();
 
             dest = new TeleDest().setLoc(GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY,
-                    targetZ)), Vector3.getNewVector().set(targetX, targetY, targetZ));
+                    targetZ)), new Vector3().set(targetX, targetY, targetZ));
         }
 
         if (entity instanceof ServerPlayer)

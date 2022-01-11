@@ -48,7 +48,7 @@ public abstract class AbstractBurrowTask extends TaskBase
 
     public boolean tryHarvest(final BlockPos pos, final boolean breakOnly)
     {
-        final Vector3 v = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {

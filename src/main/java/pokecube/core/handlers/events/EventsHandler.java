@@ -470,7 +470,7 @@ public class EventsHandler
 
         if (isSpawnPresetDebug)
         {
-            Vector3 v = Vector3.getNewVector().set(player);
+            Vector3 v = new Vector3().set(player);
             Level level = player.level;
             SpawnCheck check = new SpawnCheck(v, level);
 

@@ -376,7 +376,7 @@ public class PokemobEventsHandler
                     // processing to make sure that we fit properly
                     if (col)
                     {
-                        Vector3 v = Vector3.getNewVector().set(toPush);
+                        Vector3 v = new Vector3().set(toPush);
                         v = SendOutManager.getFreeSpot(toPush, world, v, false);
                         if (v != null) v.moveEntity(toPush);
                     }
@@ -841,7 +841,7 @@ public class PokemobEventsHandler
                     if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
                     return;
                 }
-                final Vector3 look = Vector3.getNewVector().set(player.getLookAngle()).scalarMultBy(1);
+                final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
                 look.y = 0.2;
                 look.addVelocities(target);
                 return;

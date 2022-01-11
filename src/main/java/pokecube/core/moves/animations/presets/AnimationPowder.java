@@ -48,7 +48,7 @@ public class AnimationPowder extends MoveAnimationBase
     {
         final Vector3 target = info.target;
         this.initColour(info.attacker.getLevel().getDayTime() * 20, 0, info.move);
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
         for (int i = 0; i < 100 * this.density; i++)
         {

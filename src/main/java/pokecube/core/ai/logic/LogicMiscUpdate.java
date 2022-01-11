@@ -115,7 +115,7 @@ public class LogicMiscUpdate extends LogicBase
 
     BlockPos lastCache = null;
 
-    Vector3 v = Vector3.getNewVector();
+    Vector3 v = new Vector3();
 
     UUID prevOwner = null;
 
@@ -406,9 +406,9 @@ public class LogicMiscUpdate extends LogicBase
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = ThutCore.newRandom();
-        final Vector3 particleLoc = Vector3.getNewVector().set(this.entity);
+        final Vector3 particleLoc = new Vector3().set(this.entity);
         boolean randomV = false;
-        final Vector3 particleVelo = Vector3.getNewVector();
+        final Vector3 particleVelo = new Vector3();
         boolean pokedex = false;
         int particleIntensity = 100;
         if (this.pokemob.isShadow()) this.particle = "portal";
@@ -466,7 +466,7 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && this.entity.tickCount % 10 == 0)
         {
-            final Vector3 heart = Vector3.getNewVector();
+            final Vector3 heart = new Vector3();
             for (int i = 0; i < 3; ++i)
             {
                 heart.set(
@@ -484,7 +484,7 @@ public class LogicMiscUpdate extends LogicBase
             if (!pokedex)
             {
                 final float scale = this.entity.getBbWidth() * 2;
-                final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
                         rand.nextDouble() - 0.5);
                 offset.scalarMultBy(scale);
                 particleLoc.addTo(offset);
@@ -507,7 +507,7 @@ public class LogicMiscUpdate extends LogicBase
                 if (!pokedex)
                 {
                     final float scale = this.entity.getBbWidth() * 2;
-                    final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                    final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
                             rand.nextDouble() - 0.5);
                     offset.scalarMultBy(scale);
                     particleLoc.addTo(offset);

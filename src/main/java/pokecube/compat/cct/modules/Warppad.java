@@ -30,7 +30,7 @@ public class Warppad extends BasePeripheral<WarpPadTile>
         {
             final TeleDest dest = this.tile.getDest();
             dest.setLoc(GlobalPos.of(this.tile.getLevel().dimension(), new BlockPos(x, y, z)),
-                    Vector3.getNewVector().set(new BlockPos(x, y, z)).add(0.5, 0, 0.5));
+                    new Vector3().set(new BlockPos(x, y, z)).add(0.5, 0, 0.5));
             return true;
         }
     }

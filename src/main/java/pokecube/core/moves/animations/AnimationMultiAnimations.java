@@ -138,7 +138,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                     }
                 }
                 boolean valid = toRun.soundSource;
-                final Vector3 pos = Vector3.getNewVector();
+                final Vector3 pos = new Vector3();
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);

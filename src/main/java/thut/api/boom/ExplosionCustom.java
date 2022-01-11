@@ -213,8 +213,8 @@ public class ExplosionCustom extends Explosion
 
     Cubes cubes;
 
-    Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(),
-            rTest = Vector3.getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
+    Vector3 r = new Vector3(), rAbs = new Vector3(), rHat = new Vector3(),
+            rTest = new Vector3(), rTestPrev = new Vector3(), rTestAbs = new Vector3();
 
     List<ExplosionCustom> subBooms = new ArrayList<>();
     boolean hasSubBooms = false;
@@ -223,7 +223,7 @@ public class ExplosionCustom extends Explosion
     public ExplosionCustom(final ServerLevel world, final Entity par2Entity, final double x, final double y,
             final double z, final float power)
     {
-        this(world, par2Entity, Vector3.getNewVector().set(x, y, z), power);
+        this(world, par2Entity, new Vector3().set(x, y, z), power);
     }
 
     public ExplosionCustom(final ServerLevel world, final Entity par2Entity, final Vector3 center, final float power)
@@ -345,7 +345,7 @@ public class ExplosionCustom extends Explosion
             boo.doExplosion();
             return;
         }
-        Vector3 absorbedLoc = Vector3.getNewVector();
+        Vector3 absorbedLoc = new Vector3();
         float remainingEnergy = 0;
         density -= resist;
 

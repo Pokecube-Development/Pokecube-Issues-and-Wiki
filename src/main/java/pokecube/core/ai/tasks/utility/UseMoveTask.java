@@ -39,7 +39,7 @@ public class UseMoveTask extends UtilTask
 
     PositionTracker pos = null;
 
-    Vector3 destination = Vector3.getNewVector();
+    Vector3 destination = new Vector3();
 
     double speed;
 
@@ -93,7 +93,7 @@ public class UseMoveTask extends UtilTask
         }
         // Look at your destination
         BrainUtils.lookAt(this.entity, this.destination);
-        final Vector3 loc = Vector3.getNewVector().set(this.entity, false);
+        final Vector3 loc = new Vector3().set(this.entity, false);
         final double dist = loc.distToSq(this.destination);
         double var1 = 4;
 

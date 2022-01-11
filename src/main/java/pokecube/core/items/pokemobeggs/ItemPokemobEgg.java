@@ -172,7 +172,7 @@ public class ItemPokemobEgg extends Item
 
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
-        final Vector3 location = Vector3.getNewVector().set(mob.getEntity());
+        final Vector3 location = new Vector3().set(mob.getEntity());
         Player player = mob.getEntity().getLevel().getNearestPlayer(location.x, location.y, location.z,
                 ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
         LivingEntity owner = player;
@@ -379,7 +379,7 @@ public class ItemPokemobEgg extends Item
         final Level worldIn = context.getLevel();
         if (worldIn.isClientSide) return InteractionResult.SUCCESS;
         final Vec3 hit = context.getClickLocation();
-        final Vector3 loc = Vector3.getNewVector().set(hit);
+        final Vector3 loc = new Vector3().set(hit);
         final ItemStack stack = context.getItemInHand();
         final Player playerIn = context.getPlayer();
         if (this.dropEgg(worldIn, stack, loc, playerIn) && !playerIn.getAbilities().instabuild) stack.shrink(1);

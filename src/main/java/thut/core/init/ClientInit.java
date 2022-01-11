@@ -96,7 +96,7 @@ public class ClientInit
         final boolean debug = Minecraft.getInstance().options.renderDebug;
         if (!debug) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
-        final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
+        final Vector3 v = new Vector3().set(Minecraft.getInstance().player);
         final BiomeType type = t.getBiome(v);
         final String msg = "Sub-Biome: " + I18n.get(type.readableName) + " (" + type.name + ")";
         if (event.getLeft().contains(msg)) return;
