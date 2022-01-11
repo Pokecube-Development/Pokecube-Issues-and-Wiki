@@ -1,0 +1,86 @@
+{
+  "config": {
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2,
+    "feature": {
+      "feature": {
+        "config": {
+          "to_place": {
+            "seed": 2345,
+            "noise": {
+              "firstOctave": -3,
+              "amplitudes": [
+                1.0
+              ]
+            },
+            "scale": 1.0,
+            "states": [
+              {
+                "Name": "minecraft:allium"
+              },
+              {
+                "Name": "minecraft:azure_bluet"
+              },
+              {
+                "Name": "minecraft:cornflower"
+              },
+              {
+                "Name": "minecraft:dandelion"
+              },
+              {
+                "Name": "minecraft:oxeye_daisy"
+              },
+              {
+                "Name": "pokecube_legends:golden_fern"
+              },
+              {
+                "Name": "pokecube_legends:golden_grass"
+              },
+              {
+                "Name": "pokecube_legends:golden_poppy"
+              },
+              {
+                "Properties": {
+                  "half": "lower"
+                },
+                "Name": "pokecube_legends:large_golden_fern"
+              },
+              {
+                "Properties": {
+                  "half": "lower"
+                },
+                "Name": "pokecube_legends:tall_golden_grass"
+              }
+            ],
+            "variety": [
+              1,
+              3
+            ],
+            "slow_noise": {
+              "firstOctave": -10,
+              "amplitudes": [
+                1.0
+              ]
+            },
+            "slow_scale": 1.0,
+            "type": "minecraft:dual_noise_provider"
+          }
+        },
+        "type": "minecraft:simple_block"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "blocks": [
+              "minecraft:air"
+            ],
+            "type": "minecraft:matching_blocks"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:flower"
+}

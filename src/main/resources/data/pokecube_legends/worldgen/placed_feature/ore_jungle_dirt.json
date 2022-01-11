@@ -1,5 +1,5 @@
 {
-  "feature": "pokecube_legends:ore_aged_dirt",
+  "feature": "pokecube_legends:ore_jungle_dirt",
   "placement": [
     {
       "count": 1,
@@ -11,7 +11,7 @@
     {
       "height": {
         "min_inclusive": {
-          "absolute": 0
+          "absolute": -16
         },
         "max_inclusive": {
           "absolute": 160

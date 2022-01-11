@@ -764,7 +764,7 @@ public class BlockInit
 
         ASH_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ash_iron_ore",
                 () -> new AshBlock(3816264, BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BLACK)
-                        .speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f).requiresCorrectToolForDrops()));
+                        .speedFactor(0.3F).sound(SoundType.SNOW).strength(0.2f).randomTicks().requiresCorrectToolForDrops()));
         ULTRA_IRON_ORE = PokecubeLegends.DIMENSIONS_TAB.register("ultra_iron_ore",
                 () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_CYAN).sound(SoundType.STONE)
                         .strength(3.0F, 3.0f).requiresCorrectToolForDrops()));

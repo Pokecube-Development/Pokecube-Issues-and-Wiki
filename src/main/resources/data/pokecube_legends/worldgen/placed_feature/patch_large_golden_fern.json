@@ -1,8 +1,8 @@
 {
-  "feature": "pokecube_legends:flower_default",
+  "feature": "pokecube_legends:patch_large_golden_fern",
   "placement": [
     {
-      "chance": 32,
+      "chance": 5,
       "type": "minecraft:rarity_filter"
     },
     {

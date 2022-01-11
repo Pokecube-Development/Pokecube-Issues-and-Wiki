@@ -2,13 +2,7 @@
   "feature": "pokecube_legends:patch_fire",
   "placement": [
     {
-      "count": {
-        "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 16,
-          "max_inclusive": 32
-        }
-      },
+      "count": 128,
       "type": "minecraft:count"
     },
     {

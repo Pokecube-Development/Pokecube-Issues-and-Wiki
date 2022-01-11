@@ -878,7 +878,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -938,7 +938,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -4118,7 +4118,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -7448,7 +7448,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -7958,7 +7958,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -8018,7 +8018,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -9758,7 +9758,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -12338,7 +12338,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -13568,7 +13568,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -13628,7 +13628,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -14318,7 +14318,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -17108,7 +17108,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -18578,7 +18578,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -19928,7 +19928,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -19988,7 +19988,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -20138,7 +20138,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -20198,70 +20198,10 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
-              -0.15
-            ],
-            "humidity": [
-              -0.1,
-              0.3
-            ],
-            "continentalness": [
-              0.03,
-              1
-            ],
-            "erosion": [
-              -0.78,
-              -0.2225
-            ],
-            "weirdness": [
-              0.7666667,
-              0.93333334
-            ],
-            "depth": [
-              -0.2,
-              0
-            ],
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:forbidden_meadow",
-          "parameters": {
-            "temperature": [
-              -0.45,
-              0.2
-            ],
-            "humidity": [
-              0.3,
-              1
-            ],
-            "continentalness": [
-              0.03,
-              1
-            ],
-            "erosion": [
-              -0.78,
-              -0.375
-            ],
-            "weirdness": [
-              0.7666667,
-              0.93333334
-            ],
-            "depth": [
-              -0.2,
-              0
-            ],
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:forbidden_meadow",
-          "parameters": {
-            "temperature": [
-              -0.15,
               0.2
             ],
             "humidity": [
@@ -20468,7 +20408,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -20528,7 +20468,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -22748,7 +22688,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -22808,7 +22748,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -25988,7 +25928,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -29318,7 +29258,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -29828,7 +29768,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -29888,7 +29828,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -31628,7 +31568,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -34208,7 +34148,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -35438,7 +35378,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -35498,7 +35438,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -36188,7 +36128,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -38978,7 +38918,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -40448,7 +40388,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -41798,7 +41738,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -41858,7 +41798,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
@@ -42008,7 +41948,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -42068,70 +42008,10 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,
-              -0.15
-            ],
-            "humidity": [
-              -0.1,
-              0.3
-            ],
-            "continentalness": [
-              0.03,
-              1
-            ],
-            "erosion": [
-              -0.78,
-              -0.2225
-            ],
-            "weirdness": [
-              0.7666667,
-              0.93333334
-            ],
-            "depth": [
-              1,
-              1.2
-            ],
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:forbidden_meadow",
-          "parameters": {
-            "temperature": [
-              -0.45,
-              0.2
-            ],
-            "humidity": [
-              0.3,
-              1
-            ],
-            "continentalness": [
-              0.03,
-              1
-            ],
-            "erosion": [
-              -0.78,
-              -0.375
-            ],
-            "weirdness": [
-              0.7666667,
-              0.93333334
-            ],
-            "depth": [
-              1,
-              1.2
-            ],
-            "offset": 0
-          }
-        },
-        {
-          "biome": "pokecube_legends:forbidden_meadow",
-          "parameters": {
-            "temperature": [
-              -0.15,
               0.2
             ],
             "humidity": [
@@ -42338,7 +42218,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -1,
@@ -42398,7 +42278,7 @@
           }
         },
         {
-          "biome": "pokecube_legends:forbidden_meadow",
+          "biome": "pokecube_legends:forbidden_grove",
           "parameters": {
             "temperature": [
               -0.45,

@@ -193,7 +193,7 @@ public class EventsHandler
                     && !player.isCreative() && !player.isSpectator()
                     && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.WITHER))
             {
-                effect = new MobEffectInstance(MobEffects.WITHER, 480, 0);
+                effect = new MobEffectInstance(MobEffects.WITHER, 480, 1);
 
                 if (player.getInventory().armor.get(3).getItem() != new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
                         || player.getInventory().armor.get(2).getItem() != new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1).getItem()

@@ -116,29 +116,29 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
         label46:
         for(int i = 0; i < 128; ++i)
         {
-           BlockPos pos1 = posAbove;
+           BlockPos posAbove1 = posAbove;
 
            for(int j = 0; j < i / 16; ++j)
            {
-              pos1 = pos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-              if (!world.getBlockState(pos1.below()).is(this) || world.getBlockState(pos1).isCollisionShapeFullBlock(world, pos1))
+              posAbove1 = posAbove1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+              if (!world.getBlockState(posAbove1.below()).is(this) || world.getBlockState(posAbove1).isCollisionShapeFullBlock(world, posAbove1))
               {
                  continue label46;
               }
            }
 
-           BlockState state1 = world.getBlockState(pos1);
-           if (state1.is(grassState.getBlock()) && random.nextInt(10) == 0) 
+           BlockState stateAbove = world.getBlockState(posAbove1);
+           if (stateAbove.is(grassState.getBlock()) && random.nextInt(10) == 0) 
            {
-              ((BonemealableBlock)grassState.getBlock()).performBonemeal(world, random, pos1, state1);
+              ((BonemealableBlock)grassState.getBlock()).performBonemeal(world, random, posAbove1, stateAbove);
            }
 
-           if (state1.isAir())
+           if (stateAbove.isAir())
            {
               PlacedFeature placedFeature;
               if (random.nextInt(8) == 0)
               {
-                 List<ConfiguredFeature<?, ?>> list = world.getBiome(pos1).getGenerationSettings().getFlowerFeatures();
+                 List<ConfiguredFeature<?, ?>> list = world.getBiome(posAbove1).getGenerationSettings().getFlowerFeatures();
                  if (list.isEmpty())
                  {
                     continue;
@@ -146,11 +146,11 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature().get();
               } else {
-                 placedFeature = FeaturesInit.VegetationPlacements.CORRUPTED_GRASS;
+                 placedFeature = FeaturesInit.PlantPlacements.PATCH_CORRUPTED_GRASS;
               }
 
-              placedFeature.place(world, world.getChunkSource().getGenerator(), random, pos1);
+              placedFeature.place(world, world.getChunkSource().getGenerator(), random, posAbove1);
            }
         }
-     }
+    }
 }

@@ -1,5 +1,8 @@
 package pokecube.legends.worldgen;
 
+import com.mojang.serialization.Codec;
+
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
@@ -8,6 +11,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureCon
 import net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.LargeDripstoneConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NetherForestVegetationConfig;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
@@ -35,6 +39,7 @@ import pokecube.legends.worldgen.features.SurfaceFossilFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
 import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
+import pokecube.legends.worldgen.features.UltraspaceVegetationFeature;
 
 public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
 {
@@ -106,6 +111,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
 //            () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NetherForestVegetationConfig>> ULTRASPACE_VEGETATION = WorldgenFeatures.FEATURES.register("ultraspace_vegetation_feature",
+            () -> new UltraspaceVegetationFeature(NetherForestVegetationConfig.CODEC));
 
     public static void init(final IEventBus bus)
     {

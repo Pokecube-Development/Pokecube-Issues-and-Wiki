@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:ore_cosmic_meteorite",
   "placement": [
     {
-      "count": 64,
+      "count": 128,
       "type": "minecraft:count"
     },
     {

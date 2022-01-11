@@ -1,0 +1,17 @@
+{
+  "feature": "pokecube_legends:aged_pine_tree",
+  "placement": [
+    {
+      "predicate": {
+        "state": {
+	      "Properties": {
+	        "stage": "0"
+	      },
+	      "Name": "pokecube_legends:aged_sapling"
+        },
+        "type": "minecraft:would_survive"
+      },
+      "type": "minecraft:block_predicate_filter"
+    }
+  ]
+}
