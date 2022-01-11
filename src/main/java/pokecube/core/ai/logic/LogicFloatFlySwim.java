@@ -231,7 +231,9 @@ public class LogicFloatFlySwim extends LogicBase
     private final MoveControl swimController;
 
     // Path validators
-    Vector3 lastPos = new Vector3();
+    final Vector3 lastPos = new Vector3();
+    final Vector3 hereVec = new Vector3();
+    final Vector3 nextVec = new Vector3();
     int time_at_pos = 0;
 
     public LogicFloatFlySwim(final IPokemob entity)
@@ -274,8 +276,8 @@ public class LogicFloatFlySwim extends LogicBase
         if (path != null && !path.isDone())
         {
             final BlockPos next = path.getNextNodePos();
-            final Vector3 hereVec = new Vector3().set(this.entity);
-            final Vector3 nextVec = new Vector3().set(next);
+            hereVec.set(this.entity);
+            nextVec.set(next);
 
             if (hereVec.distToSq(this.lastPos) < 1)
             {

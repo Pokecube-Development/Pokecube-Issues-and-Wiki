@@ -246,6 +246,8 @@ public class ActionNaturePower implements IMoveAction
         boolean yaxis = false;
         int maxRSq = 8 * 8;
 
+        final Vector3 temp = new Vector3();
+
         public PointChecker(final Level world, final Vector3 pos, final Predicate<BlockPos> validator)
         {
             this.world = world;
@@ -267,7 +269,6 @@ public class ActionNaturePower implements IMoveAction
         private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
         {
             boolean ret = false;
-            final Vector3 temp = new Vector3();
             // Check the connected blocks, see if they match predicate, if they
             // do, add them to the list. This also checks diagonally connected
             // blocks.
