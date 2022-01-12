@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
@@ -26,7 +23,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -36,15 +32,9 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.boom.Checker.Cubes;
-import thut.api.boom.Checker.ResistCache;
-import thut.api.boom.Checker.ResistMap;
 import thut.api.boom.Checker.ResistProvider;
-import thut.api.boom.Checker.ShadowMap;
-import thut.api.boom.Checker.ShadowSet;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
@@ -141,22 +131,9 @@ public class ExplosionCustom extends Explosion
         if (!e.isInvulnerable()) e.hurt(DamageSource.explosion(boom), damage);
     };
 
-    int currentIndex = 0;
-    int nextIndex = 0;
-
-    double last_phi = 0;
-    double last_rad = 0.25;
-
-    int ind1;
-    int ind2;
-    int ind3;
-    int ind4;
-
     float minBlastDamage;
 
     int radius = ExplosionCustom.MAX_RADIUS;
-
-    int currentRadius = 0;
 
     public int maxPerTick;
 
@@ -178,47 +155,15 @@ public class ExplosionCustom extends Explosion
 
     List<Entity> targets = new ArrayList<>();
 
-    private final double explosionX;
-    private final double explosionY;
-    private final double explosionZ;
-
-    private float factor = 150;
-
-    public long totalTime = 0;
-
-    public long realTotalTime = 0;
+    public float factor = 150;
 
     Entity exploder;
-
-    Vec3f min = new Vec3f(-1, -1, -1);
-    Vec3f max = new Vec3f(1, 1, 1);
-
-    Vec3f min_next = new Vec3f(1, 1, 1);
-    Vec3f max_next = new Vec3f(-1, -1, -1);
-
-    float lastBoundCheck = 10;
-
-    // DOLATER figure out a good way to clear these between each set of shells.
-    Long2FloatOpenHashMap resistMap = new Long2FloatOpenHashMap();
-
-    LongSet blockedSet = new LongOpenHashSet();
-
-    ShadowMap shadow;
-
-    ResistCache resists;
-
-    // used to speed up the checking of if a resist exists in the map
-    LongSet checked = new LongOpenHashSet();
-    LongSet seen = new LongOpenHashSet();
-
-    Cubes cubes;
-
-    Vector3 r = new Vector3(), rAbs = new Vector3(), rHat = new Vector3(),
-            rTest = new Vector3(), rTestPrev = new Vector3(), rTestAbs = new Vector3();
 
     List<ExplosionCustom> subBooms = new ArrayList<>();
     boolean hasSubBooms = false;
     boolean boomDone = false;
+
+    private AbstractChecker boomApplier;
 
     public ExplosionCustom(final ServerLevel world, final Entity par2Entity, final double x, final double y,
             final double z, final float power)
@@ -232,22 +177,13 @@ public class ExplosionCustom extends Explosion
         super(world, par2Entity, null, null, center.x, center.y, center.z, power, false, BlockInteraction.DESTROY);
         this.level = world;
         this.exploder = par2Entity;
-        this.explosionX = center.x;
-        this.explosionY = center.y;
-        this.explosionZ = center.z;
         this.centre = center.copy();
         this.minBlastDamage = ExplosionCustom.MINBLASTDAMAGE;
         this.maxPerTick = ExplosionCustom.MAXPERTICK;
 
         this.strength = factor * power;
 
-        this.cubes = new Cubes(this);
-        this.shadow = new ShadowSet(this);
-        this.resists = new ResistMap();
-        this.resists = this.cubes;
-
-        this.lastBoundCheck = center.intY() - world.getHeight(Types.MOTION_BLOCKING, center.intX(), center.intZ()) + 10;
-        this.lastBoundCheck = Math.max(this.lastBoundCheck, 10);
+        boomApplier = new Checker(this);
     }
 
     private void applyBlockEffects(final BlastResult result)
@@ -288,19 +224,17 @@ public class ExplosionCustom extends Explosion
             ThutCore.LOGGER.error(e);
             return false;
         }
-
         return true;
     }
 
     public void doExplosion()
     {
-        this.level.playSound((Player) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F,
+        this.level.playSound((Player) null, this.centre.x, this.centre.y, this.centre.z, SoundEvents.GENERIC_EXPLODE,
+                SoundSource.BLOCKS, 4.0F,
                 (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
-        this.level.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
-                0.0D);
+        this.level.addParticle(ParticleTypes.EXPLOSION, this.centre.x, this.centre.y, this.centre.z, 1.0D, 0.0D, 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
-        this.realTotalTime = System.nanoTime();
+        boomApplier.start();
         if (this.hasSubBooms)
         {
             this.subBooms.get(0).doExplosion();
@@ -424,12 +358,10 @@ public class ExplosionCustom extends Explosion
         this.maxPerTick = Math.min((int) dt / 2, MAXPERTICK);
 
         this.clearToBlow();
-        final BlastResult result = new Checker(this).getBlocksToRemove();
+        final BlastResult result = boomApplier.getBlocksToRemove();
         this.applyBlockEffects(result);
         this.applyEntityEffects(result);
         final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.level, this, this.targets);
-        // ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}",
-        // this.strength, this.radius, this.r.mag());
         MinecraftForge.EVENT_BUS.post(evt2);
 
         // Process the chunks and set them not unsaved, this will prevent them
@@ -443,12 +375,7 @@ public class ExplosionCustom extends Explosion
         if (result.done)
         {
             MinecraftForge.EVENT_BUS.unregister(this);
-            this.realTotalTime = System.nanoTime() - this.realTotalTime;
-            ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}", this.strength / 150, this.radius,
-                    this.r.mag());
-            ThutCore.LOGGER.info("time (tick/real): {}/{}ms, {} shadowed, {} denied, {} blocked, {} checked",
-                    this.totalTime / 1e6, this.realTotalTime / 1e6, this.ind1, this.ind2, this.ind3, this.ind4);
-            ThutCore.LOGGER.info("bounds: {} {}", this.min, this.max);
+            boomApplier.printDebugInfo();
             boomDone = true;
         }
     }
