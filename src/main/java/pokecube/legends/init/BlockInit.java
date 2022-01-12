@@ -966,7 +966,7 @@ public class BlockInit
         AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
                 () -> new AgedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
-        AGED_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
+        AGED_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("aged_podzol",
                 () -> new SnowyDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.GOLD)
                         .sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
         AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt",
