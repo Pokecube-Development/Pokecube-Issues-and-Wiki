@@ -4,14 +4,17 @@ import java.util.function.ToIntFunction;
 
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,6 +34,7 @@ import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TintedGlassBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -101,6 +105,7 @@ import pokecube.legends.blocks.normalblocks.OneWayLaboratoryGlass;
 import pokecube.legends.blocks.normalblocks.OneWayMirageGlass;
 import pokecube.legends.blocks.normalblocks.OneWaySpectrumGlass;
 import pokecube.legends.blocks.normalblocks.OneWayStainedGlass;
+import pokecube.legends.blocks.normalblocks.OneWayTintedGlass;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
@@ -324,6 +329,7 @@ public class BlockInit
     public static final RegistryObject<Block> ONE_WAY_GLASS_LAB;
     public static final RegistryObject<Block> ONE_WAY_GLASS_MIRAGE;
     public static final RegistryObject<Block> ONE_WAY_GLASS_SPECTRUM;
+    public static final RegistryObject<Block> ONE_WAY_GLASS_TINTED;
     public static final RegistryObject<Block> ONE_WAY_FRAMED_MIRROR;
 
     public static final RegistryObject<Block> DISTORTIC_STONE_BRICKS;
@@ -1934,79 +1940,105 @@ public class BlockInit
         // Glass
         MIRAGE_GLASS = PokecubeLegends.DECORATION_TAB.register("mirage_glass",
                 () -> new MirageGlassBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn((s, r, p, o) -> false).isRedstoneConductor((s, r, p) -> false)
-                        .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false)));
+                        .strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never)));
         SPECTRUM_GLASS = PokecubeLegends.DECORATION_TAB.register("spectrum_glass",
                 () -> new SpectrumGlassBlock(DyeColor.ORANGE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_ORANGE)
-                        .strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn((s, r, p, o) -> false).isRedstoneConductor((s, r, p) -> false)
-                        .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false)));
+                        .strength(0.3F).sound(SoundType.GLASS).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never)));
         FRAMED_DISTORTIC_MIRROR = PokecubeLegends.DECORATION_TAB.register("framed_distortic_mirror",
                 () -> new OneWayStainedGlass(DyeColor.WHITE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
 
         ONE_WAY_GLASS = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_glass", 
                 () -> new OneWayGlass(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_WHITE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_white_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.WHITE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_ORANGE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_orange_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.ORANGE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_MAGENTA = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_magenta_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.MAGENTA, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_LIGHT_BLUE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_light_blue_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_YELLOW = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_yellow_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.YELLOW, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_LIME = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_lime_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.LIME, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_PINK = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_pink_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.PINK, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_GRAY = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_gray_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.GRAY, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_LIGHT_GRAY = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_light_gray_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.LIGHT_GRAY, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_CYAN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_cyan_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.CYAN, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_PURPLE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_purple_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.PURPLE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_BLUE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_blue_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_BROWN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_brown_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.BROWN, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_GREEN = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_green_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.GREEN, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_RED = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_red_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.RED, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_BLACK = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_black_stained_glass",
                 () -> new OneWayStainedGlass(DyeColor.BLACK, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
+        ONE_WAY_GLASS_TINTED = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_tinted_glass",
+                () -> new OneWayTintedGlass(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never)));
         ONE_WAY_GLASS_LAB = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_laboratory_glass",
                 () -> new OneWayLaboratoryGlass(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_MIRAGE = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_mirage_glass",
                 () -> new OneWayMirageGlass(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_GLASS_SPECTRUM = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_spectrum_glass",
                 () -> new OneWaySpectrumGlass(DyeColor.ORANGE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW)
-                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
         ONE_WAY_FRAMED_MIRROR = PokecubeLegends.DECORATION_TAB.register("distortic_one_way_framed_mirror",
                 () -> new OneWayStainedGlass(DyeColor.WHITE, BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.SNOW).noOcclusion()
-                        .sound(SoundType.GLASS).strength(0.3f).requiresCorrectToolForDrops()));
+                        .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
+                        .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
 
         // Tapus Totems
         TOTEM_BLOCK = PokecubeLegends.DECORATION_TAB.register("totem_block",
@@ -2342,6 +2374,16 @@ public class BlockInit
         {
             return state.getValue(BlockStateProperties.LIT) ? i : 0;
         };
+    }
+
+    private static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
+    {
+       return (boolean)false;
+    }
+
+    private static boolean never(BlockState state, BlockGetter block, BlockPos pos)
+    {
+       return false;
     }
 
     public static void init()
