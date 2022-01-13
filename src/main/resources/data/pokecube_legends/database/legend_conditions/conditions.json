@@ -352,7 +352,7 @@
           "id": "pokecube_legends:adamantorb"
         },
         "target": {
-          "id": "pokecube_legends:timerspawn"
+          "id": "pokecube_legends:timerspace_spawn"
         }
       }
     },
@@ -367,7 +367,7 @@
           "id": "pokecube_legends:lustrousorb"
         },
         "target": {
-          "id": "pokecube_legends:timerspawn"
+          "id": "pokecube_legends:timerspace_spawn"
         }
       }
     },
@@ -383,7 +383,7 @@
           "id": "pokecube_legends:magmacore"
         },
         "target": {
-          "id": "pokecube_legends:heatran_block"
+          "id": "pokecube_legends:heatran_spawn"
         }
       }
     },
@@ -454,7 +454,7 @@
           "id": "pokecube_legends:azure_flute"
         },
         "target": {
-          "id": "pokecube_legends:timerspawn"
+          "id": "pokecube_legends:timerspace_spawn"
         }
       }
     },
@@ -470,7 +470,7 @@
           "id": "pokecube_legends:emblem"
         },
         "target": {
-          "id": "pokecube_legends:victiniblock"
+          "id": "pokecube_legends:victini_spawn"
         }
       }
     },
@@ -486,7 +486,7 @@
           "id": "pokecube_legends:cobalion_sword"
         },
         "target": {
-          "id": "pokecube_legends:keldeoblock"
+          "id": "pokecube_legends:keldeo_spawn"
         }
       }
     },
@@ -502,7 +502,7 @@
           "id": "pokecube_legends:terrakion_sword"
         },
         "target": {
-          "id": "pokecube_legends:keldeoblock"
+          "id": "pokecube_legends:keldeo_spawn"
         }
       }
     },
@@ -518,7 +518,7 @@
           "id": "pokecube_legends:virizion_sword"
         },
         "target": {
-          "id": "pokecube_legends:keldeoblock"
+          "id": "pokecube_legends:keldeo_spawn"
         }
       }
     },
@@ -533,7 +533,7 @@
           "id": "pokecube_legends:green_rune"
         },
         "target": {
-          "id": "pokecube_legends:naturespawn"
+          "id": "pokecube_legends:nature_spawn"
         }
       }
     },
@@ -549,7 +549,7 @@
           "id": "pokecube_legends:blue_rune"
         },
         "target": {
-          "id": "pokecube_legends:naturespawn"
+          "id": "pokecube_legends:nature_spawn"
         }
       }
     },
@@ -565,7 +565,7 @@
           "id": "pokecube_legends:lightstone"
         },
         "target": {
-          "id": "pokecube_legends:blackwhite_block"
+          "id": "pokecube_legends:blackwhite_spawn"
         }
       }
     },
@@ -581,7 +581,7 @@
           "id": "pokecube_legends:darkstone"
         },
         "target": {
-          "id": "pokecube_legends:blackwhite_block"
+          "id": "pokecube_legends:blackwhite_spawn"
         }
       }
     },
@@ -596,7 +596,7 @@
           "id": "pokecube_legends:orange_rune"
         },
         "target": {
-          "id": "pokecube_legends:naturespawn"
+          "id": "pokecube_legends:nature_spawn"
         }
       }
     },
@@ -626,7 +626,7 @@
           "id": "pokecube_legends:keldeo_sword"
         },
         "target": {
-          "id": "pokecube_legends:keldeoblock"
+          "id": "pokecube_legends:keldeo_spawn"
         }
       }
     },
