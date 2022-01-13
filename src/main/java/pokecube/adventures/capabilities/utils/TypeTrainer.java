@@ -153,17 +153,14 @@ public class TypeTrainer extends NpcType
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getLevel(), new Vector3().set(e), dist) > num)
-                    return false;
+                if (TrainerTracker.countTrainers(e.getLevel(), new Vector3().set(e), dist) > num) return false;
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
                 if (e instanceof Villager)
                 {
                     final Villager villager = (Villager) e;
-                    final Schedule s = villager.getBrain().getSchedule();
-                    final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
-                    if (a == Activity.REST) return false;
+                    if (villager.isSleeping()) return false;
                 }
                 return noRunIfCrowded.test(e);
             };
@@ -239,10 +236,10 @@ public class TypeTrainer extends NpcType
         public final ItemStack _input_a;
         public final ItemStack _input_b;
         public final ItemStack _output;
-        public int _uses;
-        public final int _maxUses;
-        public int _demand;
-        public float _multiplier;
+        public int _uses = 0;
+        public int _maxUses = 16;
+        public int _demand = 0;
+        public float _multiplier = 0.05f;
         public int _exp = 1;
 
         public int min = -1;
@@ -286,7 +283,8 @@ public class TypeTrainer extends NpcType
                 if (this.max < this.min) this.max = this.min;
                 sell.setCount(this.min + rand.nextInt(1 + this.max - this.min));
             }
-            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, Integer.MAX_VALUE, 10, 1);
+            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, this._uses, this._maxUses, this._exp,
+                    this._multiplier, this._demand);
             return ret;
         }
 
@@ -399,8 +397,7 @@ public class TypeTrainer extends NpcType
     public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final LevelAccessor world,
             final int level)
     {
-        IPokemob pokemob = CapabilityPokemob
-                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
         if (pokemob != null)
         {
             final double x = trainer.getX();
