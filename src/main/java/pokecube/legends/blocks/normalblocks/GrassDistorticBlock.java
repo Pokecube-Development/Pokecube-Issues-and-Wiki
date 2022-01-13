@@ -146,7 +146,6 @@ public class GrassDistorticBlock extends DirectionalBlock implements Bonemealabl
                 .get().defaultBlockState());
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
