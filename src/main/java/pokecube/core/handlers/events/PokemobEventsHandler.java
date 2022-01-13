@@ -114,7 +114,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -376,7 +376,7 @@ public class PokemobEventsHandler
                     // processing to make sure that we fit properly
                     if (col)
                     {
-                        Vector3 v = Vector3.getNewVector().set(toPush);
+                        Vector3 v = new Vector3().set(toPush);
                         v = SendOutManager.getFreeSpot(toPush, world, v, false);
                         if (v != null) v.moveEntity(toPush);
                     }
@@ -775,7 +775,7 @@ public class PokemobEventsHandler
                 return false;
         }
         final float scale = pokemob.getSize();
-        final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+        final Vec3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getBbWidth()
                 && Math.max(dims.x, dims.z) * scale > rider.getBbWidth() * 1.4;
     }
@@ -841,7 +841,7 @@ public class PokemobEventsHandler
                     if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
                     return;
                 }
-                final Vector3 look = Vector3.getNewVector().set(player.getLookAngle()).scalarMultBy(1);
+                final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
                 look.y = 0.2;
                 look.addVelocities(target);
                 return;

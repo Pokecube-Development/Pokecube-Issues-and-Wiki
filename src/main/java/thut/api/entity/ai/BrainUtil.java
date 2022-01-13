@@ -66,7 +66,7 @@ public class BrainUtil
      */
     public static void lookAt(final LivingEntity entityIn, final double x, final double y, final double z)
     {
-        BrainUtil.lookAt(entityIn, Vector3.getNewVector().set(x, y, z));
+        BrainUtil.lookAt(entityIn, new Vector3().set(x, y, z));
     }
 
     /**

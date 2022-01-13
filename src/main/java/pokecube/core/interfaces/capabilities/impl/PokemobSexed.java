@@ -111,16 +111,16 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     {
         this.here.set(this.getEntity());
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this + " lay()");
-        if (this.getEntity().getCommandSenderWorld().isClientSide) return;
-        final int num = PokemobTracker.countPokemobs(this.getEntity().getCommandSenderWorld(), this.here,
+        if (this.getEntity().getLevel().isClientSide) return;
+        final int num = PokemobTracker.countPokemobs(this.getEntity().getLevel(), this.here,
                 PokecubeCore.getConfig().maxSpawnRadius);
         if (!(this.getOwner() instanceof Player) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
         if (num > PokecubeCore.getConfig().mobSpawnNumber * 10) return;
         final Vector3 pos = this.here.set(this.getEntity()).addTo(0,
                 Math.max(this.getPokedexEntry().height * this.getSize() / 4, 0.5f), 0);
-        if (pos.isClearOfBlocks(this.getEntity().getCommandSenderWorld()))
+        if (pos.isClearOfBlocks(this.getEntity().getLevel()))
         {
-            Entity eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getCommandSenderWorld())
+            Entity eggItem = new EntityPokemobEgg(EntityPokemobEgg.TYPE, this.getEntity().getLevel())
                     .setToPos(this.here).setStackByParents(this.getEntity(), male);
             EggEvent.Lay event;
             event = new EggEvent.Lay(eggItem);
@@ -131,7 +131,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
                         : male.getOwner() instanceof ServerPlayer ? male.getOwner() : null);
                 if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
                 this.egg = eggItem;
-                this.getEntity().getCommandSenderWorld().addFreshEntity(this.egg);
+                this.getEntity().getLevel().addFreshEntity(this.egg);
             }
             return;
         }
@@ -186,7 +186,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         if (this.loveCause == null) return null;
         else
         {
-            final Player playerentity = this.getEntity().getCommandSenderWorld().getPlayerByUUID(this.loveCause);
+            final Player playerentity = this.getEntity().getLevel().getPlayerByUUID(this.loveCause);
             return playerentity instanceof ServerPlayer ? (ServerPlayer) playerentity : null;
         }
     }

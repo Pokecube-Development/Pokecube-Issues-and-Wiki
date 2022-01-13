@@ -13,7 +13,7 @@ public class PokecubeDim
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final ResourceKey<Level> key = entity.getCommandSenderWorld().dimension();
+        final ResourceKey<Level> key = entity.getLevel().dimension();
         if (key == FeaturesInit.DISTORTEDWORLD_KEY || key == FeaturesInit.ULTRASPACE_KEY) x = 3.7;
         return x;
     }

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -154,7 +153,7 @@ public class TypeTrainer extends NpcType
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.getCommandSenderWorld(), Vector3.getNewVector().set(e), dist) > num)
+                if (TrainerTracker.countTrainers(e.getLevel(), new Vector3().set(e), dist) > num)
                     return false;
                 return true;
             };
@@ -187,7 +186,7 @@ public class TypeTrainer extends NpcType
             };
             final Predicate<LivingEntity> notNearHealer = e -> {
                 if (!PokecubeAdv.config.no_battle_near_pokecenter) return true;
-                final ServerLevel world = (ServerLevel) npc.getCommandSenderWorld();
+                final ServerLevel world = (ServerLevel) npc.getLevel();
                 final BlockPos blockpos = e.blockPosition();
                 final PoiManager pois = world.getPoiManager();
                 final long num = pois.getCountInRange(p -> p == PointsOfInterest.HEALER.get(), blockpos,
@@ -390,7 +389,7 @@ public class TypeTrainer extends NpcType
     public static void initSpawns()
     {
         for (final TypeTrainer type : TypeTrainer.typeMap.values())
-            for (final SpawnBiomeMatcher matcher : type.matchers.keySet())
+            for (final SpawnBiomeMatcher matcher : type.spawns.keySet())
         {
             matcher.reset();
             matcher.parse();
@@ -401,7 +400,7 @@ public class TypeTrainer extends NpcType
             final int level)
     {
         IPokemob pokemob = CapabilityPokemob
-                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getCommandSenderWorld()));
+                .getPokemobFor(PokecubeCore.createPokemob(entry, trainer.getLevel()));
         if (pokemob != null)
         {
             final double x = trainer.getX();
@@ -461,7 +460,6 @@ public class TypeTrainer extends NpcType
     /** 1 = male, 2 = female, 3 = both */
     public byte genders = 1;
 
-    public Map<SpawnBiomeMatcher, Float> matchers = Maps.newHashMap();
     public boolean hasBag = false;
     public ItemStack bag = ItemStack.EMPTY;
     public boolean hasBelt = false;

@@ -115,8 +115,8 @@ public class HungerTask extends BaseIdleTask
 
     List<NearBlock> blocks = null;
 
-    Vector3 v  = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v  = new Vector3();
+    Vector3 v1 = new Vector3();
     Random  rand;
 
     public HungerTask(final IPokemob pokemob)
@@ -135,7 +135,7 @@ public class HungerTask extends BaseIdleTask
         {
             final AABB bb = this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0).getAABB().inflate(
                     PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = this.entity.getCommandSenderWorld().getEntitiesOfClass(FishingHook.class,
+            final List<FishingHook> hooks = this.entity.getLevel().getEntitiesOfClass(FishingHook.class,
                     bb);
             if (!hooks.isEmpty())
             {
@@ -232,7 +232,7 @@ public class HungerTask extends BaseIdleTask
      */
     protected boolean checkPhotoeat()
     {
-        if (this.entity.getCommandSenderWorld().isDay() && this.v.canSeeSky(this.world))
+        if (this.entity.getLevel().isDay() && this.v.canSeeSky(this.world))
         {
             this.pokemob.applyHunger(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
             this.pokemob.setCombatState(CombatStates.HUNTING, false);
@@ -252,7 +252,7 @@ public class HungerTask extends BaseIdleTask
         this.sleepy = true;
         for (final TimePeriod p : this.pokemob.getPokedexEntry().activeTimes())
             // TODO AR-like support.
-            if (p != null && p.contains(this.entity.getCommandSenderWorld().getDayTime(), 24000))
+            if (p != null && p.contains(this.entity.getLevel().getDayTime(), 24000))
             {
                 this.sleepy = false;
                 this.pokemob.setLogicState(LogicStates.SLEEPING, false);
@@ -429,16 +429,16 @@ public class HungerTask extends BaseIdleTask
                     this.entity.hurt(DamageSource.STARVE, damage);
                     if (!dead)
                     {
-                        if (this.lastMessageTick1 < this.entity.getCommandSenderWorld().getGameTime())
+                        if (this.lastMessageTick1 < this.entity.getLevel().getGameTime())
                         {
-                            this.lastMessageTick1 = (int) (this.entity.getCommandSenderWorld().getGameTime() + 100);
+                            this.lastMessageTick1 = (int) (this.entity.getLevel().getGameTime() + 100);
                             this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.hurt",
                                     this.pokemob.getDisplayName()));
                         }
                     }
-                    else if (this.lastMessageTick2 < this.entity.getCommandSenderWorld().getGameTime())
+                    else if (this.lastMessageTick2 < this.entity.getLevel().getGameTime())
                     {
-                        this.lastMessageTick2 = (int) (this.entity.getCommandSenderWorld().getGameTime() + 100);
+                        this.lastMessageTick2 = (int) (this.entity.getLevel().getGameTime() + 100);
                         this.pokemob.displayMessageToOwner(new TranslatableComponent("pokemob.hungry.dead", this.pokemob
                                 .getDisplayName()));
                     }
@@ -453,7 +453,7 @@ public class HungerTask extends BaseIdleTask
 
         // Regenerate health if out of battle.
         if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0 && !this.entity
-                .getCommandSenderWorld().isClientSide && this.pokemob.getHungerCooldown() < 0 && this.pokemob
+                .getLevel().isClientSide && this.pokemob.getHungerCooldown() < 0 && this.pokemob
                         .getHungerTime() < 0 && cur % 10 == tick)
         {
             final float dh = Math.max(1, this.pokemob.getMaxHealth() * 0.05f);

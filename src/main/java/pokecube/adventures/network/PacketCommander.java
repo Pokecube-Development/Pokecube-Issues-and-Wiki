@@ -64,7 +64,7 @@ public class PacketCommander extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Level world = player.getCommandSenderWorld();
+        final Level world = player.getLevel();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
         final BlockEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile)) return;

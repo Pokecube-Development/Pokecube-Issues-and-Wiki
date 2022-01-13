@@ -140,7 +140,7 @@ public class EntityPokecube extends EntityPokecubeBase
 
     public EntityPokecube copy()
     {
-        final EntityPokecube copy = new EntityPokecube(EntityPokecube.TYPE, this.getCommandSenderWorld());
+        final EntityPokecube copy = new EntityPokecube(EntityPokecube.TYPE, this.getLevel());
         copy.copyPosition(this);
         copy.restoreFrom(this);
         return copy;
@@ -188,10 +188,10 @@ public class EntityPokecube extends EntityPokecubeBase
                     }
                     else if (this.lootTable != null)
                     {
-                        final LootTable loottable = this.getCommandSenderWorld().getServer().getLootTables().get(
+                        final LootTable loottable = this.getLevel().getServer().getLootTables().get(
                                 this.lootTable);
                         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) this
-                                .getCommandSenderWorld()).withParameter(LootContextParams.THIS_ENTITY, this);
+                                .getLevel()).withParameter(LootContextParams.THIS_ENTITY, this);
                         for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable
                                 .getParamSet())))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
@@ -260,7 +260,7 @@ public class EntityPokecube extends EntityPokecubeBase
             return;
         }
         capture:
-        if (this.getCommandSenderWorld() instanceof ServerLevel)
+        if (this.getLevel() instanceof ServerLevel)
         {
             final boolean validTime = this.getTime() <= 0;
 

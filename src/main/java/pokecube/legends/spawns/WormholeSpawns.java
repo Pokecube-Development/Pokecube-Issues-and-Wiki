@@ -174,13 +174,13 @@ public class WormholeSpawns implements IWorldTickListener
 
         final double dx = rand.nextFloat() * distance - distance / 2;
         final double dz = rand.nextFloat() * distance - distance / 2;
-        final Vector3 v = Vector3.getNewVector().set(players.get(0)).add(dx, 0, dz);
+        final Vector3 v = new Vector3().set(players.get(0)).add(dx, 0, dz);
 
         // Only spawn this if the nearby area is actually loaded.
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
         final BlockPos p = WormholeSpawns.getWormholePos(world, v.getPos());
-        final Vector3 pos = Vector3.getNewVector().set(p);
+        final Vector3 pos = new Vector3().set(p);
 
         for (final BlockPos p2 : holes.getWormholes())
             if (p2.closerThan(pos.getPos(), wormholeSpacing)) return;

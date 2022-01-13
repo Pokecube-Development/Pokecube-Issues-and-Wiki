@@ -332,7 +332,7 @@ public class RecipeHandlers
         final CraftingContainer inv = (CraftingContainer) event.getInventory();
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
-        if (!test.matches(inv, event.getEntity().getCommandSenderWorld())) return;
+        if (!test.matches(inv, event.getEntity().getLevel())) return;
         final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
         if (value == RecipeSelector.defaultSelector) return;
         event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);

@@ -83,7 +83,7 @@ import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -235,7 +235,7 @@ public class PokedexEntry
             if (this.matcher != null && mob.getEntity().level instanceof ServerLevel world)
             {
                 final LivingEntity entity = mob.getEntity();
-                final Vector3 loc = Vector3.getNewVector().set(entity);
+                final Vector3 loc = new Vector3().set(entity);
                 if (!world.isPositionEntityTicking(loc.getPos()))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
@@ -243,7 +243,7 @@ public class PokedexEntry
                             new IllegalStateException());
                     return false;
                 }
-                final SpawnCheck check = new SpawnCheck(loc, entity.getCommandSenderWorld());
+                final SpawnCheck check = new SpawnCheck(loc, entity.getLevel());
                 return this.matcher.matches(check);
             }
             return true;
@@ -307,7 +307,7 @@ public class PokedexEntry
             }
             if (this.rainOnly)
             {
-                final Level world = mob.getEntity().getCommandSenderWorld();
+                final Level world = mob.getEntity().getLevel();
                 final boolean rain = world.isRaining();
                 if (!rain)
                 {
@@ -349,7 +349,7 @@ public class PokedexEntry
             if (!rightTime)
             {
                 // TODO better way to choose current time.
-                final double time = mob.getEntity().getCommandSenderWorld().getDayTime() % 24000 / 24000d;
+                final double time = mob.getEntity().getLevel().getDayTime() % 24000 / 24000d;
                 rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
                         : this.nightOnly ? PokedexEntry.night.contains(time)
                                 : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);
@@ -530,10 +530,10 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables()
+                final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()
                         .get(action.lootTable);
                 final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                        (ServerLevel) pokemob.getEntity().getCommandSenderWorld())
+                        (ServerLevel) pokemob.getEntity().getLevel())
                                 .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity());
                 for (final ItemStack itemstack : loottable
                         .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
@@ -1105,7 +1105,7 @@ public class PokedexEntry
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
-    public Vector3f modelSize = null;
+    public Vec3f modelSize = null;
 
     /** Cached trimmed name. */
     private String trimmedName;
@@ -1652,9 +1652,9 @@ public class PokedexEntry
 
     }
 
-    public Vector3f getModelSize()
+    public Vec3f getModelSize()
     {
-        if (this.modelSize == null) this.modelSize = new Vector3f(this.length, this.height, this.width);
+        if (this.modelSize == null) this.modelSize = new Vec3f(this.length, this.height, this.width);
         return this.modelSize;
     }
 
@@ -1720,12 +1720,12 @@ public class PokedexEntry
 
     public ItemStack getRandomHeldItem(final Mob mob)
     {
-        if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
+        if (mob.getLevel().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null)
         {
-            final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(this.heldTable);
+            final LootTable loottable = mob.getLevel().getServer().getLootTables().get(this.heldTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                    (ServerLevel) mob.getCommandSenderWorld()).withParameter(LootContextParams.THIS_ENTITY, mob)
+                    (ServerLevel) mob.getLevel()).withParameter(LootContextParams.THIS_ENTITY, mob)
                             .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC)
                             .withParameter(LootContextParams.ORIGIN, mob.position());
             for (final ItemStack itemstack : loottable.getRandomItems(

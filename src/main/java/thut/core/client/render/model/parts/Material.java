@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class Material
 {
@@ -40,9 +40,9 @@ public class Material
     private final String render_name;
 
     public String texture;
-    public Vector3f diffuseColor;
-    public Vector3f specularColor;
-    public Vector3f emissiveColor;
+    public Vec3f diffuseColor;
+    public Vec3f specularColor;
+    public Vec3f emissiveColor;
 
     public ResourceLocation tex;
 
@@ -64,8 +64,8 @@ public class Material
         this.render_name = "thutcore:mat_" + name + "_";
     }
 
-    public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
-            final Vector3f emissive, final float ambient, final float shiny)
+    public Material(final String name, final String texture, final Vec3f diffuse, final Vec3f specular,
+            final Vec3f emissive, final float ambient, final float shiny)
     {
         this(name);
         this.texture = texture;

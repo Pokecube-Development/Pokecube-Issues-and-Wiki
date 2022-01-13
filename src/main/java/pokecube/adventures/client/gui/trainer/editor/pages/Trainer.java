@@ -134,7 +134,7 @@ public class Trainer extends Page
                 if (!(this.parent.current_page instanceof Pokemob)) return;
                 final Pokemob page = (Pokemob) this.parent.current_page;
                 page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(Trainer.lastMobIndex),
-                        this.parent.entity.getCommandSenderWorld());
+                        this.parent.entity.getLevel());
                 page.index = Trainer.lastMobIndex;
                 page.deleteCallback = () ->
                 {
@@ -167,7 +167,7 @@ public class Trainer extends Page
                             if (!(this.parent.current_page instanceof Pokemob)) return;
                             final Pokemob page = (Pokemob) this.parent.current_page;
                             page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(i2),
-                                    this.parent.entity.getCommandSenderWorld());
+                                    this.parent.entity.getLevel());
                             page.index = i2;
                             page.deleteCallback = () ->
                             {

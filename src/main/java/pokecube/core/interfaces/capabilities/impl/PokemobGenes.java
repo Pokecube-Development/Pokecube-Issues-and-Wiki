@@ -515,7 +515,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMove(final int i, final String moveName)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel) || this.getTransformedTo() != null)
+        if (!(this.getEntity().getLevel() instanceof ServerLevel) || this.getTransformedTo() != null)
             return;
 
         final String[] moves = this.getMoves();
@@ -527,7 +527,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public void setMoves(final String[] moves)
     {
         // do not blanket set moves on client, or when transformed.
-        if (!(this.getEntity().getCommandSenderWorld() instanceof ServerLevel) || this.getTransformedTo() != null)
+        if (!(this.getEntity().getLevel() instanceof ServerLevel) || this.getTransformedTo() != null)
             return;
         if (moves != null && moves.length == 4)
         {
@@ -581,8 +581,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.entry = newEntry;
         info.entry = newEntry;
 
-        if (this.getEntity().getCommandSenderWorld() != null) ret.setSize(ret.getSize());
-        if (this.getEntity().getCommandSenderWorld() != null && this.getEntity().isEffectiveAi()) PacketChangeForme
+        if (this.getEntity().getLevel() != null) ret.setSize(ret.getSize());
+        if (this.getEntity().getLevel() != null && this.getEntity().isEffectiveAi()) PacketChangeForme
                 .sendPacketToTracking(ret.getEntity(), newEntry);
         return ret;
     }

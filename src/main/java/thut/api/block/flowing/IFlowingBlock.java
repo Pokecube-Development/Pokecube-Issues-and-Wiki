@@ -244,7 +244,7 @@ public interface IFlowingBlock
 
         if (dust >= slope)
         {
-            Vector3 v = Vector3.getNewVector().set(pos);
+            Vector3 v = new Vector3().set(pos);
             BlockState b = null;
             Direction dir = null;
 

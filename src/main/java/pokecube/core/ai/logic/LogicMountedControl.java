@@ -22,6 +22,7 @@ import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 
@@ -70,6 +71,7 @@ public class LogicMountedControl extends LogicBase
     public boolean blocksPathing()
     {
         final Entity rider = this.entity.getControllingPassenger();
+        if (this.pokemob.getLogicState(LogicStates.SITTING)) return true;
         if (rider == null) return false;
         return !this.canPathWhileRidden;
     }
@@ -109,7 +111,7 @@ public class LogicMountedControl extends LogicBase
                 this.canDive = false;
         }
         if (this.canFly)
-            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getCommandSenderWorld().dimension());
+            this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
     }
 
     public boolean hasInput()

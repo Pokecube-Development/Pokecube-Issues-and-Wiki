@@ -91,13 +91,13 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel))
+        if (!(mob.getLevel() instanceof ServerLevel))
         {
             PokecubeCore.LOGGER.error("Error checking for a battle on wrong side!");
             PokecubeCore.LOGGER.error(new IllegalAccessError());
             return null;
         }
-        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) mob.getLevel();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         return manager.getFor(mob);
     }
@@ -105,12 +105,12 @@ public class Battle
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         if (mobB == null || !AITools.validTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.getCommandSenderWorld() instanceof ServerLevel)) return false;
+        if (mobA == null || !(mobA.getLevel() instanceof ServerLevel)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
 
-        final ServerLevel world = (ServerLevel) mobA.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) mobA.getLevel();
 
         if (existingA != null && existingB != null)
         {
@@ -167,7 +167,7 @@ public class Battle
         side.put(mob.getUUID(), mob);
         teams.add(team);
 
-        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) mob.getLevel();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         manager.battlesById.put(mob.getUUID(), this);
 

@@ -72,7 +72,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     {
         final BlockHitResult trace = event.getHitVec();
         if (trace == null) return;
-        final Level world = event.getPlayer().getCommandSenderWorld();
+        final Level world = event.getPlayer().getLevel();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile)
         {

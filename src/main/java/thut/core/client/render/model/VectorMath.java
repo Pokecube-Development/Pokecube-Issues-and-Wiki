@@ -1,15 +1,15 @@
 package thut.core.client.render.model;
 
-import thut.api.maths.vecmath.Matrix4f;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Mat4f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class VectorMath
 {
-    static final Vector3f X_AXIS = new Vector3f(1.0F, 0.0F, 0.0F);
-    static final Vector3f Y_AXIS = new Vector3f(0.0F, 1.0F, 0.0F);
-    static final Vector3f Z_AXIS = new Vector3f(0.0F, 0.0F, 1.0F);
+    static final Vec3f X_AXIS = new Vec3f(1.0F, 0.0F, 0.0F);
+    static final Vec3f Y_AXIS = new Vec3f(0.0F, 1.0F, 0.0F);
+    static final Vec3f Z_AXIS = new Vec3f(0.0F, 0.0F, 1.0F);
 
-    public static void cleanSmall(final Matrix4f matrix)
+    public static void cleanSmall(final Mat4f matrix)
     {
         if (Math.abs(matrix.m00) < 1e-6) matrix.m00 = 0;
         if (Math.abs(matrix.m01) < 1e-6) matrix.m01 = 0;
@@ -32,21 +32,21 @@ public class VectorMath
         if (Math.abs(matrix.m33) < 1e-6) matrix.m33 = 0;
     }
 
-    public static Matrix4f fromFloat(final float val)
+    public static Mat4f fromFloat(final float val)
     {
         return VectorMath.fromVector6f(val, val, val, val, val, val);
     }
 
-    public static Matrix4f fromFloatArray(final float[] vals)
+    public static Mat4f fromFloatArray(final float[] vals)
     {
         return VectorMath.fromVector6f(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5]);
     }
 
-    public static Matrix4f fromVector6f(final float xl, final float yl, final float zl, final float xr, final float yr,
+    public static Mat4f fromVector6f(final float xl, final float yl, final float zl, final float xr, final float yr,
             final float zr)
     {
-        final Vector3f loc = new Vector3f(xl, yl, zl);
-        final Matrix4f ret = new Matrix4f();
+        final Vec3f loc = new Vec3f(xl, yl, zl);
+        final Mat4f ret = new Mat4f();
         VectorMath.translate(loc, ret);
         VectorMath.rotate(zr, VectorMath.Z_AXIS, ret);
         VectorMath.rotate(yr, VectorMath.Y_AXIS, ret);
@@ -55,13 +55,13 @@ public class VectorMath
         return ret;
     }
 
-    public static Matrix4f fromVector6f(final Vector6f vector)
+    public static Mat4f fromVector6f(final Vector6f vector)
     {
         return VectorMath.fromVector6f(vector.vector1.x, vector.vector1.y, vector.vector1.z, vector.vector2.x,
                 vector.vector2.y, vector.vector2.z);
     }
 
-    public static Matrix4f rotate(final float angle, final Vector3f axis, final Matrix4f matrix)
+    public static Mat4f rotate(final float angle, final Vec3f axis, final Mat4f matrix)
     {
         return VectorMath.rotate(angle, axis, matrix, matrix);
     }
@@ -81,9 +81,9 @@ public class VectorMath
      *            created
      * @return The rotated matrix
      */
-    public static Matrix4f rotate(final float angle, final Vector3f axis, final Matrix4f src, Matrix4f dest)
+    public static Mat4f rotate(final float angle, final Vec3f axis, final Mat4f src, Mat4f dest)
     {
-        if (dest == null) dest = new Matrix4f();
+        if (dest == null) dest = new Mat4f();
         final float c = (float) Math.cos(angle);
         final float s = (float) Math.sin(angle);
         final float oneminusc = 1.0f - c;
@@ -129,14 +129,14 @@ public class VectorMath
         return dest;
     }
 
-    public static Matrix4f translate(final Vector3f vec, final Matrix4f matrix)
+    public static Mat4f translate(final Vec3f vec, final Mat4f matrix)
     {
         return VectorMath.translate(vec, matrix, matrix);
     }
 
-    public static Matrix4f translate(final Vector3f vec, final Matrix4f src, Matrix4f dest)
+    public static Mat4f translate(final Vec3f vec, final Mat4f src, Mat4f dest)
     {
-        if (dest == null) dest = new Matrix4f();
+        if (dest == null) dest = new Mat4f();
 
         dest.m30 += src.m00 * vec.x + src.m10 * vec.y + src.m20 * vec.z;
         dest.m31 += src.m01 * vec.x + src.m11 * vec.y + src.m21 * vec.z;

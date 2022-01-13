@@ -29,15 +29,15 @@ public class ExitCube
         if (sealTag != null && !sealTag.isEmpty())
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector().set(entity, true);
+            final Vector3 loc = new Vector3().set(entity, true);
             final float width = entity.getBbWidth();
-            final Vector3 vel = Vector3.getNewVector();
+            final Vector3 vel = new Vector3();
             if (sealTag.getBoolean("Bubbles"))
             {
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), ParticleTypes.BUBBLE.getRegistryName().toString(),
+                PokecubeCore.spawnParticle(entity.getLevel(), ParticleTypes.BUBBLE.getRegistryName().toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Flames"))
@@ -45,7 +45,7 @@ public class ExitCube
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), ParticleTypes.FLAME.getRegistryName().toString(),
+                PokecubeCore.spawnParticle(entity.getLevel(), ParticleTypes.FLAME.getRegistryName().toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Leaves"))
@@ -56,7 +56,7 @@ public class ExitCube
                 loc.x += rand.nextGaussian() / 2;
                 loc.y += rand.nextGaussian() / 2;
                 loc.z += rand.nextGaussian() / 2;
-                PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "leaf", loc, vel);
+                PokecubeCore.spawnParticle(entity.getLevel(), "leaf", loc, vel);
             }
             if (sealTag.contains("dye"))
             {
@@ -68,15 +68,15 @@ public class ExitCube
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
                 final int colour = DyeColor.byId(id).getTextColor();
-                PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "powder", loc, vel, colour | 0xFF000000);
+                PokecubeCore.spawnParticle(entity.getLevel(), "powder", loc, vel, colour | 0xFF000000);
             }
         }
         if (pokemob.isShiny())
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector().set(entity, true);
+            final Vector3 loc = new Vector3().set(entity, true);
             final float width = entity.getBbWidth();
-            final Vector3 vel = Vector3.getNewVector();
+            final Vector3 vel = new Vector3();
             vel.x = rand.nextGaussian() / 100;
             vel.y = rand.nextGaussian() / 100;
             vel.z = rand.nextGaussian() / 100;
@@ -84,7 +84,7 @@ public class ExitCube
             loc.y += width * rand.nextGaussian() / 2;
             loc.z += width * rand.nextGaussian() / 2;
             final int colour = DyeColor.GREEN.getTextColor();
-            if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getCommandSenderWorld(), "happy_villager", loc,
+            if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getLevel(), "happy_villager", loc,
                     vel, colour | 0xFF000000);
         }
     }

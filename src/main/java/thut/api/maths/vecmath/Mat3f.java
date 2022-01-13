@@ -4,7 +4,7 @@ package thut.api.maths.vecmath;
  * A single precision floating point 3 by 3 matrix.
  * Primarily to support 3D rotations.
  */
-public class Matrix3f implements java.io.Serializable, Cloneable
+public class Mat3f implements java.io.Serializable, Cloneable
 {
 
     // Compatible with 1.1
@@ -83,7 +83,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m22
      *            the [2][2] element
      */
-    public Matrix3f(final float m00, final float m01, final float m02, final float m10, final float m11,
+    public Mat3f(final float m00, final float m01, final float m02, final float m10, final float m11,
             final float m12, final float m20, final float m21, final float m22)
     {
         this.m00 = m00;
@@ -107,7 +107,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param v
      *            the array of length 9 containing in order
      */
-    public Matrix3f(final float[] v)
+    public Mat3f(final float[] v)
     {
         this.m00 = v[0];
         this.m01 = v[1];
@@ -130,7 +130,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the source matrix
      */
-    public Matrix3f(final Matrix3d m1)
+    public Mat3f(final Matrix3d m1)
     {
         this.m00 = (float) m1.m00;
         this.m01 = (float) m1.m01;
@@ -153,7 +153,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the source matrix
      */
-    public Matrix3f(final Matrix3f m1)
+    public Mat3f(final Mat3f m1)
     {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
@@ -172,7 +172,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
     /**
      * Constructs and initializes a Matrix3f to all zeros.
      */
-    public Matrix3f()
+    public Mat3f()
     {
         this.m00 = (float) 0.0;
         this.m01 = (float) 0.0;
@@ -326,7 +326,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param v
      *            the vector into which the matrix row values will be copied
      */
-    public final void getRow(final int row, final Vector3f v)
+    public final void getRow(final int row, final Vec3f v)
     {
         if (row == 0)
         {
@@ -391,7 +391,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param v
      *            the vector into which the matrix row values will be copied
      */
-    public final void getColumn(final int column, final Vector3f v)
+    public final void getColumn(final int column, final Vec3f v)
     {
         if (column == 0)
         {
@@ -555,7 +555,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param v
      *            the replacement row
      */
-    public final void setRow(final int row, final Vector3f v)
+    public final void setRow(final int row, final Vec3f v)
     {
         switch (row)
         {
@@ -664,7 +664,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param v
      *            the replacement column
      */
-    public final void setColumn(final int column, final Vector3f v)
+    public final void setColumn(final int column, final Vec3f v)
     {
         switch (column)
         {
@@ -773,7 +773,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the original matrix values
      */
-    public final void add(final float scalar, final Matrix3f m1)
+    public final void add(final float scalar, final Mat3f m1)
     {
         this.m00 = m1.m00 + scalar;
         this.m01 = m1.m01 + scalar;
@@ -794,7 +794,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the second matrix
      */
-    public final void add(final Matrix3f m1, final Matrix3f m2)
+    public final void add(final Mat3f m1, final Mat3f m2)
     {
         this.m00 = m1.m00 + m2.m00;
         this.m01 = m1.m01 + m2.m01;
@@ -816,7 +816,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the other matrix
      */
-    public final void add(final Matrix3f m1)
+    public final void add(final Mat3f m1)
     {
         this.m00 += m1.m00;
         this.m01 += m1.m01;
@@ -840,7 +840,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the second matrix
      */
-    public final void sub(final Matrix3f m1, final Matrix3f m2)
+    public final void sub(final Mat3f m1, final Mat3f m2)
     {
         this.m00 = m1.m00 - m2.m00;
         this.m01 = m1.m01 - m2.m01;
@@ -862,7 +862,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the other matrix
      */
-    public final void sub(final Matrix3f m1)
+    public final void sub(final Mat3f m1)
     {
         this.m00 -= m1.m00;
         this.m01 -= m1.m01;
@@ -903,7 +903,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix to be transposed
      */
-    public final void transpose(final Matrix3f m1)
+    public final void transpose(final Mat3f m1)
     {
         if (this != m1)
         {
@@ -954,7 +954,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
     public final void set(final AxisAngle4f a1)
     {
         float mag = (float) Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix3f.EPS)
+        if (mag < Mat3f.EPS)
         {
             this.m00 = 1.0f;
             this.m01 = 0.0f;
@@ -1008,7 +1008,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
     public final void set(final AxisAngle4d a1)
     {
         double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix3f.EPS)
+        if (mag < Mat3f.EPS)
         {
             this.m00 = 1.0f;
             this.m01 = 0.0f;
@@ -1105,7 +1105,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the source matrix3f
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
 
         this.m00 = m1.m00;
@@ -1153,7 +1153,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix to be inverted
      */
-    public final void invert(final Matrix3f m1)
+    public final void invert(final Mat3f m1)
     {
         this.invertGeneral(m1);
     }
@@ -1173,7 +1173,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * Also note that since this routine is slow anyway, we won't worry
      * about allocating a little bit of garbage.
      */
-    private final void invertGeneral(final Matrix3f m1)
+    private final void invertGeneral(final Mat3f m1)
     {
         final double temp[] = new double[9];
         final double result[] = new double[9];
@@ -1197,7 +1197,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
         temp[8] = m1.m22;
 
         // Calculate LU decomposition: Is the matrix singular?
-        if (!Matrix3f.luDecomposition(temp, row_perm)) // Matrix has no inverse
+        if (!Mat3f.luDecomposition(temp, row_perm)) // Matrix has no inverse
             throw new SingularMatrixException(VecMathI18N.getString("Matrix3f12"));
 
         // Perform back substitution on the identity matrix
@@ -1206,7 +1206,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
         result[0] = 1.0;
         result[4] = 1.0;
         result[8] = 1.0;
-        Matrix3f.luBacksubstitution(temp, row_perm, result);
+        Mat3f.luBacksubstitution(temp, row_perm, result);
 
         this.m00 = (float) result[0];
         this.m01 = (float) result[1];
@@ -1591,7 +1591,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the original matrix
      */
-    public final void mul(final float scalar, final Matrix3f m1)
+    public final void mul(final float scalar, final Mat3f m1)
     {
         this.m00 = scalar * m1.m00;
         this.m01 = scalar * m1.m01;
@@ -1614,7 +1614,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the other matrix
      */
-    public final void mul(final Matrix3f m1)
+    public final void mul(final Mat3f m1)
     {
         float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 
@@ -1650,7 +1650,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the second matrix
      */
-    public final void mul(final Matrix3f m1, final Matrix3f m2)
+    public final void mul(final Mat3f m1, final Mat3f m2)
     {
         if (this != m1 && this != m2)
         {
@@ -1702,7 +1702,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulNormalize(final Matrix3f m1)
+    public final void mulNormalize(final Mat3f m1)
     {
 
         final double[] tmp = new double[9];  // scratch matrix
@@ -1747,7 +1747,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulNormalize(final Matrix3f m1, final Matrix3f m2)
+    public final void mulNormalize(final Mat3f m1, final Mat3f m2)
     {
 
         final double[] tmp = new double[9];  // scratch matrix
@@ -1790,7 +1790,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeBoth(final Matrix3f m1, final Matrix3f m2)
+    public final void mulTransposeBoth(final Mat3f m1, final Mat3f m2)
     {
         if (this != m1 && this != m2)
         {
@@ -1845,7 +1845,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeRight(final Matrix3f m1, final Matrix3f m2)
+    public final void mulTransposeRight(final Mat3f m1, final Mat3f m2)
     {
         if (this != m1 && this != m2)
         {
@@ -1899,7 +1899,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeLeft(final Matrix3f m1, final Matrix3f m2)
+    public final void mulTransposeLeft(final Mat3f m1, final Mat3f m2)
     {
         if (this != m1 && this != m2)
         {
@@ -1975,7 +1975,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix values to be normalized
      */
-    public final void normalize(final Matrix3f m1)
+    public final void normalize(final Mat3f m1)
     {
         final double[] tmp = new double[9];  // scratch matrix
         final double[] tmp_rot = new double[9];  // scratch matrix
@@ -2037,7 +2037,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            Provides the matrix values to be normalized
      */
-    public final void normalizeCP(final Matrix3f m1)
+    public final void normalizeCP(final Mat3f m1)
     {
         float mag = 1.0f / (float) Math.sqrt(m1.m00 * m1.m00 + m1.m10 * m1.m10 + m1.m20 * m1.m20);
         this.m00 = m1.m00 * mag;
@@ -2063,7 +2063,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      *            the matrix with which the comparison is made
      * @return true or false
      */
-    public boolean equals(final Matrix3f m1)
+    public boolean equals(final Mat3f m1)
     {
         try
         {
@@ -2094,7 +2094,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
         try
         {
 
-            final Matrix3f m2 = (Matrix3f) o1;
+            final Mat3f m2 = (Mat3f) o1;
             return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m10 == m2.m10
                     && this.m11 == m2.m11 && this.m12 == m2.m12 && this.m20 == m2.m20 && this.m21 == m2.m21
                     && this.m22 == m2.m22;
@@ -2121,7 +2121,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param epsilon
      *            the threshold value
      */
-    public boolean epsilonEquals(final Matrix3f m1, final float epsilon)
+    public boolean epsilonEquals(final Mat3f m1, final float epsilon)
     {
         boolean status = true;
 
@@ -2211,7 +2211,7 @@ public class Matrix3f implements java.io.Serializable, Cloneable
      * @param m1
      *            the source matrix
      */
-    public final void negate(final Matrix3f m1)
+    public final void negate(final Mat3f m1)
     {
         this.m00 = -m1.m00;
         this.m01 = -m1.m01;
@@ -2296,10 +2296,10 @@ public class Matrix3f implements java.io.Serializable, Cloneable
     @Override
     public Object clone()
     {
-        Matrix3f m1 = null;
+        Mat3f m1 = null;
         try
         {
-            m1 = (Matrix3f) super.clone();
+            m1 = (Mat3f) super.clone();
         }
         catch (final CloneNotSupportedException e)
         {

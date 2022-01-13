@@ -37,7 +37,7 @@ import java.nio.FloatBuffer;
  *          $Id$
  */
 
-public class Vector2f extends Vector implements Serializable
+public class Vec2f extends Vector implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class Vector2f extends Vector implements Serializable
     /**
      * Constructor for Vector3f.
      */
-    public Vector2f()
+    public Vec2f()
     {
         super();
     }
@@ -55,7 +55,7 @@ public class Vector2f extends Vector implements Serializable
     /**
      * Constructor
      */
-    public Vector2f(final float x, final float y)
+    public Vec2f(final float x, final float y)
     {
         this.set(x, y);
     }
@@ -88,7 +88,7 @@ public class Vector2f extends Vector implements Serializable
      *            the translation in y
      * @return this
      */
-    public Vector2f translate(final float x, final float y)
+    public Vec2f translate(final float x, final float y)
     {
         this.x += x;
         this.y += y;
@@ -116,9 +116,9 @@ public class Vector2f extends Vector implements Serializable
      *            created
      * @return the negated vector
      */
-    public Vector2f negate(Vector2f dest)
+    public Vec2f negate(Vec2f dest)
     {
-        if (dest == null) dest = new Vector2f();
+        if (dest == null) dest = new Vec2f();
         dest.x = -this.x;
         dest.y = -this.y;
         return dest;
@@ -132,11 +132,11 @@ public class Vector2f extends Vector implements Serializable
      *            created
      * @return the normalised vector
      */
-    public Vector2f normalise(Vector2f dest)
+    public Vec2f normalise(Vec2f dest)
     {
         final float l = this.length();
 
-        if (dest == null) dest = new Vector2f(this.x / l, this.y / l);
+        if (dest == null) dest = new Vec2f(this.x / l, this.y / l);
         else dest.set(this.x / l, this.y / l);
 
         return dest;
@@ -152,7 +152,7 @@ public class Vector2f extends Vector implements Serializable
      *            The RHS vector
      * @return left dot right
      */
-    public static float dot(final Vector2f left, final Vector2f right)
+    public static float dot(final Vec2f left, final Vec2f right)
     {
         return left.x * right.x + left.y * right.y;
     }
@@ -166,9 +166,9 @@ public class Vector2f extends Vector implements Serializable
      *            The other vector
      * @return the angle between the two vectors, in radians
      */
-    public static float angle(final Vector2f a, final Vector2f b)
+    public static float angle(final Vec2f a, final Vec2f b)
     {
-        float dls = Vector2f.dot(a, b) / (a.length() * b.length());
+        float dls = Vec2f.dot(a, b) / (a.length() * b.length());
         if (dls < -1f) dls = -1f;
         else if (dls > 1.0f) dls = 1.0f;
         return (float) Math.acos(dls);
@@ -187,9 +187,9 @@ public class Vector2f extends Vector implements Serializable
      *            created
      * @return the sum of left and right in dest
      */
-    public static Vector2f add(final Vector2f left, final Vector2f right, final Vector2f dest)
+    public static Vec2f add(final Vec2f left, final Vec2f right, final Vec2f dest)
     {
-        if (dest == null) return new Vector2f(left.x + right.x, left.y + right.y);
+        if (dest == null) return new Vec2f(left.x + right.x, left.y + right.y);
         else
         {
             dest.set(left.x + right.x, left.y + right.y);
@@ -211,9 +211,9 @@ public class Vector2f extends Vector implements Serializable
      *            created
      * @return left minus right in dest
      */
-    public static Vector2f sub(final Vector2f left, final Vector2f right, final Vector2f dest)
+    public static Vec2f sub(final Vec2f left, final Vec2f right, final Vec2f dest)
     {
-        if (dest == null) return new Vector2f(left.x - right.x, left.y - right.y);
+        if (dest == null) return new Vec2f(left.x - right.x, left.y - right.y);
         else
         {
             dest.set(left.x - right.x, left.y - right.y);
@@ -324,7 +324,7 @@ public class Vector2f extends Vector implements Serializable
         if (this == obj) return true;
         if (obj == null) return false;
         if (this.getClass() != obj.getClass()) return false;
-        final Vector2f other = (Vector2f) obj;
+        final Vec2f other = (Vec2f) obj;
 
         if (this.x == other.x && this.y == other.y) return true;
 

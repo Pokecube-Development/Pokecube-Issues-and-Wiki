@@ -111,7 +111,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     private IAnimationChanger changer = null;
     private IPartTexturer texer = null;
 
-    private final Vector3 scale = Vector3.getNewVector();
+    private final Vector3 scale = new Vector3();
 
     IAnimationHolder animHolder = new CapabilityAnimation.DefaultImpl();
 

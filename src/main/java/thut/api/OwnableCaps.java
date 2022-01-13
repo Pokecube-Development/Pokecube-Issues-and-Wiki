@@ -93,8 +93,8 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null && this.owner == null
-                    && this.wrapped.getCommandSenderWorld() instanceof ServerLevel)
-                return this.owner = this.getOwner((ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
+                    && this.wrapped.getLevel() instanceof ServerLevel)
+                return this.owner = this.getOwner((ServerLevel) this.wrapped.getLevel(), this.owner);
             return this.owner;
         }
 
@@ -143,8 +143,8 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.wrapped.getCommandSenderWorld() instanceof ServerLevel)
-                return this.owner = this.getOwner((ServerLevel) this.wrapped.getCommandSenderWorld(), this.owner);
+            if (this.getOwnerId() != null && this.wrapped.getLevel() instanceof ServerLevel)
+                return this.owner = this.getOwner((ServerLevel) this.wrapped.getLevel(), this.owner);
             return this.owner;
         }
 

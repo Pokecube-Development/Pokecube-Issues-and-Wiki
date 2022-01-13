@@ -179,8 +179,8 @@ public class PacketTrade extends Packet
                 trade:
                 if (toTrade)
                 {
-                    final IPokemob pokemob0 = PokecubeManager.itemToPokemob(pokecube0, player.getCommandSenderWorld());
-                    final IPokemob pokemob1 = PokecubeManager.itemToPokemob(pokecube1, player.getCommandSenderWorld());
+                    final IPokemob pokemob0 = PokecubeManager.itemToPokemob(pokecube0, player.getLevel());
+                    final IPokemob pokemob1 = PokecubeManager.itemToPokemob(pokecube1, player.getLevel());
                     final UUID owner0 = pokemob0.getOwnerId();
                     final UUID owner1 = pokemob1.getOwnerId();
                     if (owner0 != null && owner0.equals(owner1)) break trade;
@@ -200,7 +200,7 @@ public class PacketTrade extends Packet
                 else if (pokeseal) RecipePokeseals.process(cube, seal);
                 else if (reskin)
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.getCommandSenderWorld());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.getLevel());
                     pokemob.setPokecube(skin);
                     inv.setStackInSlot(cubeIndex, PokecubeManager.pokemobToItem(pokemob));
                     inv.setStackInSlot(cubeIndex == 0 ? 1 : 0, ItemStack.EMPTY);

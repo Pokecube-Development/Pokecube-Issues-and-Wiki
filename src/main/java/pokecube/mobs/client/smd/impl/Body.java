@@ -13,7 +13,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.resources.ResourceLocation;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -260,7 +260,7 @@ public class Body implements IRetexturableModel
         if (result != null) return result;
         try
         {
-            result = new Material(materialName, materialName, new Vector3f(), new Vector3f(), new Vector3f(), 1, 1);
+            result = new Material(materialName, materialName, new Vec3f(), new Vec3f(), new Vec3f(), 1, 1);
             this.namesToMats.put(materialName, result);
             return result;
         }

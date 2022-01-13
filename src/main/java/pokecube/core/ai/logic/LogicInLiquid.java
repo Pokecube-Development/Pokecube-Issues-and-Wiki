@@ -3,7 +3,6 @@ package pokecube.core.ai.logic;
 import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import thut.api.maths.Matrix3;
 
 /**
  * This checks if the pokemob is in lava or water. The checks are done on a
@@ -11,7 +10,6 @@ import thut.api.maths.Matrix3;
  */
 public class LogicInLiquid extends LogicBase
 {
-    Matrix3 box = new Matrix3();
 
     public LogicInLiquid(IPokemob pokemob_)
     {

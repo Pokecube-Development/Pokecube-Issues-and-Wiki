@@ -164,7 +164,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IItem
                     final boolean stock = pokemob.getPokedexEntry().stock;
                     if (stock)
                     {
-                        final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+                        final thut.api.maths.vecmath.Vec3f dims = pokemob.getPokedexEntry().getModelSize();
                         mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
                     }
                     else mobScale = Math.max(mob.getBbHeight(), mob.getBbWidth());

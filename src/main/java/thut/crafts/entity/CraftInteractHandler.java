@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class CraftInteractHandler extends BlockEntityInteractHandler
 {
@@ -74,7 +74,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                     final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
                     if (state1.getBlock() instanceof StairBlock)
                     {
-                        final Vector3f seat = new Vector3f(i + 0.5f, j + 0.5f, k + 0.5f);
+                        final Vec3f seat = new Vec3f(i + 0.5f, j + 0.5f, k + 0.5f);
                         this.craft.addSeat(seat);
                     }
                 }
@@ -83,11 +83,11 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
             for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
                 final Seat seat = this.craft.getSeat(i);
-                final Vector3f seatPos = seat.seat;
+                final Vec3f seatPos = seat.seat;
                 final BlockPos pos1 = new BlockPos(seatPos.x, seatPos.y, seatPos.z);
                 if (pos1.equals(pos))
                 {
-                    if (!player.getCommandSenderWorld().isClientSide && !seat.getEntityId().equals(player.getUUID()))
+                    if (!player.getLevel().isClientSide && !seat.getEntityId().equals(player.getUUID()))
                     {
                         this.craft.setSeatID(i, player.getUUID());
                         player.startRiding(this.craft);

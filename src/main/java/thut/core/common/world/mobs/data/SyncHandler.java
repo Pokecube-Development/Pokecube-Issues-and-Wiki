@@ -14,7 +14,7 @@ public class SyncHandler
     @SubscribeEvent
     public static void EntityUpdate(final LivingUpdateEvent event)
     {
-        if (event.getEntity().getCommandSenderWorld().isClientSide) return;
+        if (event.getEntity().getLevel().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getEntity());
         if (data == null) return;
         long tick = Tracker.instance().getTick();
@@ -32,7 +32,7 @@ public class SyncHandler
     @SubscribeEvent
     public static void startTracking(final StartTracking event)
     {
-        if (event.getTarget().getCommandSenderWorld().isClientSide) return;
+        if (event.getTarget().getLevel().isClientSide) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
         if (data == null) return;
         PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);

@@ -579,7 +579,7 @@ public class BerryGenManager
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
         SpawnBiomeMatcher toMatch = null;
-        final SpawnCheck checker = new SpawnCheck(Vector3.getNewVector().set(location), world);
+        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), world);
         /**
          * Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for

@@ -64,9 +64,9 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         worldIn.destroyBlock(pos, false);
     }
 
-    Vector3 v = Vector3.getNewVector();
+    Vector3 v = new Vector3();
 
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v1 = new Vector3();
 
     /**
      * Constructor for a Pokemob move. <br/>
@@ -122,8 +122,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
         {
             final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, attacked
-                    .getCommandSenderWorld());
-            attacked.thunderHit((ServerLevel) attacked.getCommandSenderWorld(), lightning);
+                    .getLevel());
+            attacked.thunderHit((ServerLevel) attacked.getLevel(), lightning);
         }
         if (attacked instanceof Creeper)
         {
@@ -149,7 +149,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     @Override
     public void doWorldAction(final IPokemob attacker, Vector3 location)
     {
-        final Vector3 origin = Vector3.getNewVector().set(attacker.getEntity().getEyePosition(0));
+        final Vector3 origin = new Vector3().set(attacker.getEntity().getEyePosition(0));
         final Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
         location = location.add(direction);
         final MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);

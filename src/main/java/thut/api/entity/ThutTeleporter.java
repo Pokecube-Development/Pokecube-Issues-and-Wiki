@@ -105,7 +105,7 @@ public class ThutTeleporter
             if (pos != null)
             {
                 this.loc = pos;
-                this.subLoc = Vector3.getNewVector().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
+                this.subLoc = new Vector3().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc
                         .pos().getZ() + 0.5);
                 this.name = "";
             }
@@ -147,7 +147,7 @@ public class ThutTeleporter
 
         public void writeToNBT(final CompoundTag nbt)
         {
-            if (this.subLoc == null) this.subLoc = Vector3.getNewVector().set(this.loc.pos()).add(0.5, 0, 0.5);
+            if (this.subLoc == null) this.subLoc = new Vector3().set(this.loc.pos()).add(0.5, 0, 0.5);
             this.subLoc.writeToNBT(nbt, "v");
             nbt.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.loc).get().left().get());
             nbt.putString("name", this.name);
@@ -219,7 +219,7 @@ public class ThutTeleporter
             this.dest = dest;
             this.sound = sound;
             this.destWorld = destWorld;
-            final boolean inTick = destWorld.isHandlingTick() || ((ServerLevel) entity.getCommandSenderWorld())
+            final boolean inTick = destWorld.isHandlingTick() || ((ServerLevel) entity.getLevel())
                     .isHandlingTick();
             if (inTick) MinecraftForge.EVENT_BUS.register(this);
             else if (entity instanceof ServerPlayer)
@@ -250,7 +250,7 @@ public class ThutTeleporter
         @SubscribeEvent
         public void TickEvent(final WorldTickEvent event)
         {
-            if (event.world == this.entity.getCommandSenderWorld() && event.phase == Phase.END)
+            if (event.world == this.entity.getLevel() && event.phase == Phase.END)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 if (this.entity instanceof ServerPlayer)
@@ -329,7 +329,7 @@ public class ThutTeleporter
 
     public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound)
     {
-        if (entity.getCommandSenderWorld() instanceof ServerLevel)
+        if (entity.getLevel() instanceof ServerLevel)
         {
             new InvulnTicker(entity);
             if (dest.loc.dimension() == entity.level.dimension())
@@ -351,7 +351,7 @@ public class ThutTeleporter
             player = (ServerPlayer) entity;
             player.isChangingDimension = true;
         }
-        final ServerLevel serverworld = (ServerLevel) entity.getCommandSenderWorld();
+        final ServerLevel serverworld = (ServerLevel) entity.getLevel();
 
         final List<Entity> passengers = entity.getPassengers();
         entity.ejectPassengers();
@@ -407,7 +407,7 @@ public class ThutTeleporter
             targetZ = event.getTargetZ();
 
             dest = new TeleDest().setLoc(GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY,
-                    targetZ)), Vector3.getNewVector().set(targetX, targetY, targetZ));
+                    targetZ)), new Vector3().set(targetX, targetY, targetZ));
         }
 
         if (entity instanceof ServerPlayer)

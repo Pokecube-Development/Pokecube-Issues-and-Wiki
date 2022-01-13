@@ -75,7 +75,7 @@ public class PortalActiveFunction
 
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
         final Mob entity = PokecubeCore.createPokemob(entityToSpawn, world);
-        final Vector3 v = Vector3.getNewVector().set(pos);
+        final Vector3 v = new Vector3().set(pos);
         final ResourceKey<Level> key = world.dimension();
 
         // // Normal Worlds

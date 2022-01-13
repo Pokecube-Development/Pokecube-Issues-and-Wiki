@@ -179,7 +179,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
         // used if it is on stay, or it has no owner.
-        final Vector3 centre = Vector3.getNewVector();
+        final Vector3 centre = new Vector3();
         if (this.pokemob.getGeneralState(GeneralStates.STAYING) || this.pokemob.getOwner() == null) centre.set(
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());

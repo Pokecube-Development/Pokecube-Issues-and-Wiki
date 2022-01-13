@@ -46,7 +46,7 @@ public class HoneyGather extends Ability
         if (Math.random() < 1 - diff) return;
 
         final LivingEntity entity = mob.getEntity();
-        final Vector3 here = Vector3.getNewVector().set(entity);
+        final Vector3 here = new Vector3().set(entity);
         final Random rand = entity.getRandom();
 
         final Brain<?> brain = entity.getBrain();
@@ -56,7 +56,7 @@ public class HoneyGather extends Ability
             if (pos_opt.isPresent())
             {
                 here.set(pos_opt.get().pos());
-                final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
+                final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getLevel());
                 player.setPos(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
                 player.getInventory().items.set(player.getInventory().selected, new ItemStack(Items.BONE_MEAL));
                 final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(
@@ -69,7 +69,7 @@ public class HoneyGather extends Ability
         here.set(entity).addTo(this.range * (rand.nextDouble() - 0.5), Math.min(10, this.range) * (rand.nextDouble()
                 - 0.5), this.range * (rand.nextDouble() - 0.5));
 
-        final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getCommandSenderWorld());
+        final Player player = PokecubeMod.getFakePlayer(mob.getEntity().getLevel());
         player.setPos(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
         player.getInventory().items.set(player.getInventory().selected, new ItemStack(Items.BONE_MEAL));
         final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(

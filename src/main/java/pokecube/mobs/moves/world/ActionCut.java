@@ -24,7 +24,7 @@ public class ActionCut implements IMoveAction
         final int level = user.getLevel();
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 8;
         if (!MoveEventsHandler.canAffectBlock(user, location, this.getMoveName())) return false;
-        TreeRemover remover = new TreeRemover(user.getEntity().getCommandSenderWorld(), user, this.getMoveName(), location);
+        TreeRemover remover = new TreeRemover(user.getEntity().getLevel(), user, this.getMoveName(), location);
         int cut = remover.cut(true);
         if (cut == 0)
         {
@@ -32,7 +32,7 @@ public class ActionCut implements IMoveAction
             for (int i = 0; i < 6; i++)
             {
                 final Direction dir = Direction.values()[(i + index) % 6];
-                remover = new TreeRemover(user.getEntity().getCommandSenderWorld(), user, this.getMoveName(), location.offset(
+                remover = new TreeRemover(user.getEntity().getLevel(), user, this.getMoveName(), location.offset(
                         dir));
                 cut = remover.cut(true);
                 if (cut != 0) break;

@@ -245,7 +245,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         for (Transform t : allTransforms)
         {
             String[] offset = t.translation.split(" ");
-            final Vector3 translation = Vector3.getNewVector().set(Float.parseFloat(offset[0]), Float.parseFloat(
+            final Vector3 translation = new Vector3().set(Float.parseFloat(offset[0]), Float.parseFloat(
                     offset[1]), Float.parseFloat(offset[2]));
             offset = t.scale.split(" ");
             final Vertex scale = new Vertex(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]), Float.parseFloat(

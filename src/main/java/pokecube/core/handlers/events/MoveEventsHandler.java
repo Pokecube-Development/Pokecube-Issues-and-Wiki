@@ -171,7 +171,7 @@ public class MoveEventsHandler
 
     public static boolean attemptSmelt(final IPokemob attacker, final Vector3 location)
     {
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
         if (!items.isEmpty())
         {
@@ -254,17 +254,17 @@ public class MoveEventsHandler
             return false;
         }
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getCommandSenderWorld(), location.intX(),
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getLevel(), location.intX(),
                 location.intY(), location.intZ()) == ForbidReason.REPEL;
-        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().getCommandSenderWorld());
+        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().getLevel());
         if (repel)
         {
             if (!user.inCombat() && repelWarning) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
         final Player player = (Player) owner;
-        final BreakEvent evt = new BreakEvent(player.getCommandSenderWorld(), location.getPos(),
-                location.getBlockState(player.getCommandSenderWorld()), player);
+        final BreakEvent evt = new BreakEvent(player.getLevel(), location.getPos(),
+                location.getBlockState(player.getLevel()), player);
         MinecraftForge.EVENT_BUS.post(evt);
         if (evt.isCanceled())
         {
@@ -286,10 +286,10 @@ public class MoveEventsHandler
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
 
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final BlockState state = location.getBlockState(world);
         final Block block = state.getBlock();
-        final Vector3 nextBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).reverse()
+        final Vector3 nextBlock = new Vector3().set(attacker.getEntity()).subtractFrom(location).reverse()
                 .norm().addTo(location);
         final BlockState nextState = nextBlock.getBlockState(world);
         if (block == Blocks.SAND)
@@ -315,7 +315,7 @@ public class MoveEventsHandler
     public static boolean doDefaultFire(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.LAVA.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
@@ -429,7 +429,7 @@ public class MoveEventsHandler
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(attacker, location, move.getName())) return false;
 
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.SNOW.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
@@ -452,7 +452,7 @@ public class MoveEventsHandler
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
         if (move.isSelfMove()) return false;
-        final Level world = attacker.getEntity().getCommandSenderWorld();
+        final Level world = attacker.getEntity().getLevel();
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.WATER.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();
@@ -512,7 +512,7 @@ public class MoveEventsHandler
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         final Player player = user.getOwner() instanceof Player ? (Player) user.getOwner()
                 : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Vector3 origin = new Vector3().set(user.getEntity());
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
         final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY,
@@ -526,7 +526,7 @@ public class MoveEventsHandler
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         final Player player = user instanceof Player ? (Player) user : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = Vector3.getNewVector().set(user);
+        final Vector3 origin = new Vector3().set(user);
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
         final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user);

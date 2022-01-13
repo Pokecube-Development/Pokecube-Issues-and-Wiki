@@ -262,10 +262,10 @@ public class GatherTask extends UtilTask
 
     ResourceLocation currentHarvester = null;
 
-    Vector3 seeking = Vector3.getNewVector();
+    Vector3 seeking = new Vector3();
 
-    Vector3 v = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3 v = new Vector3();
+    Vector3 v1 = new Vector3();
 
     public GatherTask(final IPokemob mob, final double distance, final StoreTask storage)
     {
@@ -274,12 +274,30 @@ public class GatherTask extends UtilTask
         this.storage = storage;
     }
 
+    private boolean isValidItem(ItemEntity item)
+    {
+        return storage.checkValid(item.getItem());
+    }
+
+    private boolean isValidBlock(NearBlock block)
+    {
+        if (!storage.checkValid(block.getState())) return false;
+        boolean canHarvest = false;
+        for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
+        {
+            canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, block.getState(), block.getPos(),
+                    this.world);
+            if (canHarvest) break;
+        }
+        return canHarvest;
+    }
+
     private boolean hasStuff()
     {
         if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
         if (this.targetBlock != null)
         {
-            final BlockState state = this.entity.getCommandSenderWorld().getBlockState(this.targetBlock.getPos());
+            final BlockState state = this.entity.getLevel().getBlockState(this.targetBlock.getPos());
             final HarvestCheckEvent event = new HarvestCheckEvent(this.pokemob, state, this.targetBlock.getPos());
             PokecubeCore.POKEMOB_BUS.post(event);
             final boolean gatherable = event.getResult() == Result.ALLOW ? true
@@ -333,7 +351,7 @@ public class GatherTask extends UtilTask
     {
         if (!this.hasStuff()) return;
 
-        final Vector3 stuffLoc = Vector3.getNewVector();
+        final Vector3 stuffLoc = new Vector3();
         if (this.targetItem != null) stuffLoc.set(this.targetItem);
         else stuffLoc.set(this.targetBlock.getPos());
 
@@ -373,7 +391,7 @@ public class GatherTask extends UtilTask
 
         if (dist < diff)
         {
-            final BlockState state = stuffLoc.getBlockState(this.entity.getCommandSenderWorld());
+            final BlockState state = stuffLoc.getBlockState(this.entity.getLevel());
             if (this.currentHarvester != null)
             {
                 final IHarvester harvest = GatherTask.REGISTRY.get(this.currentHarvester);
@@ -440,14 +458,7 @@ public class GatherTask extends UtilTask
             this.blocks = Lists.newArrayList(blocks);
             this.blocks.removeIf(b -> {
                 if (!inRange.test(b.getPos())) return true;
-                boolean canHarvest = false;
-                for (final Entry<ResourceLocation, IHarvester> entry : GatherTask.REGISTRY.entrySet())
-                {
-                    canHarvest = entry.getValue().isHarvestable(this.entity, this.pokemob, b.getState(), b.getPos(),
-                            this.world);
-                    if (canHarvest) break;
-                }
-                return !canHarvest;
+                return !isValidBlock(b);
             });
             if (this.blocks.isEmpty()) this.blocks = null;
         }
@@ -455,7 +466,7 @@ public class GatherTask extends UtilTask
         if (items != null)
         {
             this.items = Lists.newArrayList(items);
-            this.items.removeIf(b -> !inRange.test(b.blockPosition()));
+            this.items.removeIf(b -> !inRange.test(b.blockPosition()) || !isValidItem(b));
             if (this.items.isEmpty()) this.items = null;
         }
 

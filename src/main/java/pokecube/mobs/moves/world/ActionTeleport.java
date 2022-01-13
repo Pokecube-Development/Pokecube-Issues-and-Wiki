@@ -32,7 +32,7 @@ public class ActionTeleport implements IMoveAction
             if (v != null) break;
         }
         if (v == null) return false;
-        v = Vector3.getNextSurfacePoint(toTeleport.getCommandSenderWorld(), v, Vector3.secondAxisNeg, 20);
+        v = Vector3.getNextSurfacePoint(toTeleport.getLevel(), v, Vector3.secondAxisNeg, 20);
         if (v == null) return false;
         destX = v.x;
         destY = v.y + 1;
@@ -68,9 +68,9 @@ public class ActionTeleport implements IMoveAction
                     .getBbHeight();
             final double var28 = posZ + (toTeleport.getZ() - posZ) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
                     * toTeleport.getBbWidth() * 2.0D;
-            toTeleport.getCommandSenderWorld().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
+            toTeleport.getLevel().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
-        toTeleport.getCommandSenderWorld().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT,
+        toTeleport.getLevel().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT,
                 SoundSource.HOSTILE, 1.0F, 1.0F, false);
         toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
         return true;

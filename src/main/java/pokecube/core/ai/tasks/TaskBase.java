@@ -127,8 +127,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     {
         super(pokemob.getEntity(), neededMems);
         this.pokemob = pokemob;
-        if (this.entity.getCommandSenderWorld() instanceof ServerLevel) this.world = (ServerLevel) this.entity
-                .getCommandSenderWorld();
+        if (this.entity.getLevel() instanceof ServerLevel) this.world = (ServerLevel) this.entity
+                .getLevel();
         else this.world = null;
     }
 

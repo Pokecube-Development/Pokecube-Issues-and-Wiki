@@ -52,7 +52,7 @@ public class PacketSyncNewMoves extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
+        final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
         if (pokemob != null)
         {

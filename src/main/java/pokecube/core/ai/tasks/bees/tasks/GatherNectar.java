@@ -35,8 +35,8 @@ public class GatherNectar extends AbstractBeeTask
     // setting HAS_NECTAR, and clearing the FLOWER_POS
     int gather_timer = 0;
 
-    Vector3 gatherSpot = Vector3.getNewVector();
-    Vector3 flowerSpot = Vector3.getNewVector();
+    Vector3 gatherSpot = new Vector3();
+    Vector3 flowerSpot = new Vector3();
 
     public GatherNectar(final IPokemob pokemob)
     {
@@ -56,7 +56,7 @@ public class GatherNectar extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = this.entity.getBrain().getMemory(BeeTasks.FLOWER_POS);
         if (pos_opt.isPresent())
         {
-            final Level world = this.entity.getCommandSenderWorld();
+            final Level world = this.entity.getLevel();
             final GlobalPos pos = pos_opt.get();
             boolean clearPos = pos.dimension() != world.dimension();
             // Once a second check if flower is still valid.

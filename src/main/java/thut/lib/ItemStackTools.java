@@ -2,13 +2,86 @@ package thut.lib;
 
 import net.minecraft.CrashReport;
 import net.minecraft.ReportedException;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ItemStackTools
 {
+
+    public static boolean addItemStackToInventory(final ItemStack itemStackIn, final Container toAddTo,
+            final int minIndex, Direction face)
+    {
+        if (toAddTo instanceof WorldlyContainer container && face != null)
+        {
+            if (!itemStackIn.isEmpty()) try
+            {
+                if (itemStackIn.isDamaged())
+                {
+                    for (int i : container.getSlotsForFace(face))
+                    {
+                        ItemStack s = container.getItem(i);
+                        if (s.isEmpty() && container.canPlaceItemThroughFace(i, itemStackIn, face))
+                        {
+                            container.setItem(i, itemStackIn.copy());
+                            itemStackIn.setCount(0);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                int count = itemStackIn.getCount();
+
+                for (int i : container.getSlotsForFace(face))
+                {
+                    ItemStack s = container.getItem(i);
+                    if (container.canPlaceItemThroughFace(i, itemStackIn, face)
+                            && (s.isEmpty() || canMergeStacks(s, itemStackIn)))
+                    {
+                        if (s.isEmpty())
+                        {
+                            container.setItem(i, itemStackIn.copy());
+                            itemStackIn.setCount(0);
+                            return true;
+                        }
+
+                        int total = s.getCount() + itemStackIn.getCount();
+                        if (total <= s.getMaxStackSize())
+                        {
+                            s.setCount(total);
+                            itemStackIn.setCount(0);
+                            break;
+                        }
+                        else
+                        {
+                            int diff = s.getMaxStackSize() - s.getCount();
+                            s.setCount(s.getMaxStackSize());
+                            itemStackIn.setCount(itemStackIn.getCount() - diff);
+                        }
+                    }
+                    int num = itemStackIn.getCount();
+                    if (num <= 0) break;
+                }
+                return itemStackIn.getCount() < count;
+            }
+            catch (final Throwable throwable)
+            {
+                final CrashReport crashreport = CrashReport.forThrowable(throwable, "Adding item to inventory");
+                crashreport.addCategory("Item being added");
+                // crashreportcategory.addCrashSection("Item ID",
+                // Integer.valueOf(Item.getIdFromItem(itemStackIn.getItem())));
+                // crashreportcategory.addCrashSection("Item data",
+                // Integer.valueOf(itemStackIn.getMetadata()));
+                throw new ReportedException(crashreport);
+            }
+            return false;
+        }
+        return ItemStackTools.addItemStackToInventory(itemStackIn, toAddTo, minIndex);
+    }
+
     public static boolean addItemStackToInventory(final ItemStack itemStackIn, final Container toAddTo,
             final int minIndex)
     {
@@ -16,8 +89,7 @@ public class ItemStackTools
     }
 
     /**
-     * Adds the item stack to the inventory, returns false if it is
-     * impossible.
+     * Adds the item stack to the inventory, returns false if it is impossible.
      */
     public static boolean addItemStackToInventory(final ItemStack itemStackIn, final IItemHandlerModifiable toAddTo,
             final int minIndex)
@@ -63,8 +135,8 @@ public class ItemStackTools
 
     private static boolean canMergeStacks(final ItemStack stack1, final ItemStack stack2)
     {
-        return !stack1.isEmpty() && ItemStackTools.stackEqualExact(stack1, stack2) && stack1.isStackable() && stack1
-                .getCount() < stack1.getMaxStackSize();
+        return !stack1.isEmpty() && ItemStackTools.stackEqualExact(stack1, stack2) && stack1.isStackable()
+                && stack1.getCount() < stack1.getMaxStackSize();
     }
 
     public static int getFirstEmptyStack(final Container inventory, final int minIndex)
@@ -120,11 +192,11 @@ public class ItemStackTools
 
         int remainingCount = count;
         final int size = inventory.getStackInSlot(index).getCount();
-        if (count > inventory.getStackInSlot(index).getMaxStackSize() - size) remainingCount = inventory.getStackInSlot(
-                index).getMaxStackSize() - size;
+        if (count > inventory.getStackInSlot(index).getMaxStackSize() - size)
+            remainingCount = inventory.getStackInSlot(index).getMaxStackSize() - size;
 
-        if (remainingCount > inventory.getSlotLimit(index) - size) remainingCount = inventory.getSlotLimit(index)
-                - size;
+        if (remainingCount > inventory.getSlotLimit(index) - size)
+            remainingCount = inventory.getSlotLimit(index) - size;
 
         if (remainingCount == 0) return count;
         count = count - remainingCount;

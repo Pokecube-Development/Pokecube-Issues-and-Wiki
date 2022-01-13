@@ -19,8 +19,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.PartEntity;
-import thut.api.maths.vecmath.Matrix3f;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Mat3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PacketPartInteract;
 
@@ -71,12 +71,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                 final String id);
     }
 
-    public Vector3f r0;
+    public Vec3f r0;
 
     public float width;
     public float height;
 
-    public Vector3f r;
+    public Vec3f r;
 
     public final String id;
 
@@ -92,11 +92,11 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 
         this.dimensions = EntityDimensions.scalable(width, height);
 
-        this.r0 = new Vector3f(x + width / 2, y, z + width / 2);
-        this.r = new Vector3f(x, y, z);
+        this.r0 = new Vec3f(x + width / 2, y, z + width / 2);
+        this.r = new Vec3f(x, y, z);
     }
 
-    public void update(final Matrix3f rot, final Vector3f r, final Vec3 dr)
+    public void update(final Mat3f rot, final Vec3f r, final Vec3 dr)
     {
         this.r.set(this.r0.getX(), this.r0.getY(), this.r0.getZ());
         rot.transform(this.r);
@@ -125,7 +125,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public boolean hurt(final DamageSource source, final float amount)
     {
-        if (this.getCommandSenderWorld().isClientSide && source.getDirectEntity() instanceof Player)
+        if (this.getLevel().isClientSide && source.getDirectEntity() instanceof Player)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(),
                     source.getDirectEntity().isShiftKeyDown());
@@ -152,7 +152,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
-        if (this.getCommandSenderWorld().isClientSide)
+        if (this.getLevel().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand, vec,
                     player.isShiftKeyDown());
@@ -164,7 +164,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand)
     {
-        if (this.getCommandSenderWorld().isClientSide)
+        if (this.getLevel().isClientSide)
         {
             final PacketPartInteract packet = new PacketPartInteract(this.id, this.getParent(), hand,
                     player.isShiftKeyDown());

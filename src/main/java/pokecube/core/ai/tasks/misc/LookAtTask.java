@@ -23,11 +23,9 @@ public class LookAtTask extends RootTask<Mob>
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
-        return entityIn.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).filter((target) ->
-        {
+        return entityIn.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).filter((target) -> {
             return target.isVisibleBy(entityIn);
         }).isPresent();
     }
@@ -41,8 +39,7 @@ public class LookAtTask extends RootTask<Mob>
     @Override
     protected void tick(final ServerLevel worldIn, final Mob owner, final long gameTime)
     {
-        owner.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).ifPresent((pos) ->
-        {
+        owner.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).ifPresent((pos) -> {
             owner.getLookControl().setLookAt(pos.currentPosition());
         });
     }

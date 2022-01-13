@@ -83,7 +83,10 @@ public abstract class TrainerBase extends NpcMob
     {
         NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(this);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.getResult() == Result.ALLOW)
+
+        boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
+
+        if (event.getResult() == Result.ALLOW || creativeStick)
         {
             if (player instanceof ServerPlayer sp)
             {
@@ -101,7 +104,7 @@ public abstract class TrainerBase extends NpcMob
         final ItemStack stack = player.getItemInHand(hand);
         if (player.getAbilities().instabuild && player.isCrouching())
         {
-            if (!this.getCommandSenderWorld().isClientSide && player.isCrouching()
+            if (!this.getLevel().isClientSide && player.isCrouching()
                     && player.getMainHandItem().getItem() == Items.STICK)
                 this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -155,7 +158,7 @@ public abstract class TrainerBase extends NpcMob
         this.invuln = true;
         if (PokecubeAdv.config.trainerAIPause)
         {
-            final Player near = this.getCommandSenderWorld().getNearestPlayer(this, -1);
+            final Player near = this.getLevel().getNearestPlayer(this, -1);
             if (near != null)
             {
                 final float dist = near.distanceTo(this);
@@ -206,7 +209,7 @@ public abstract class TrainerBase extends NpcMob
             {
                 this.checkedMobs = true;
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
-                        Vector3.getNewVector().set(this));
+                        new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
                 this.initTeam(level);
                 type.initTrainerItems(this);
@@ -255,7 +258,11 @@ public abstract class TrainerBase extends NpcMob
     public void setNpcType(final NpcType type)
     {
         super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer) this.pokemobsCap.setType((TypeTrainer) type);
+        if (this.pokemobsCap != null && type instanceof TypeTrainer)
+        {
+            this.pokemobsCap.setType((TypeTrainer) type);
+            this.pokemobsCap.getType().initTrainerItems(this);
+        }
     }
 
     public abstract void initTeam(int level);

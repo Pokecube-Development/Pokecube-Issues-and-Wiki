@@ -8,7 +8,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector4f;
 
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
@@ -53,23 +53,23 @@ public abstract class Mesh
         // Calculate the normals for each triangle.
         for (int i = 0; i < this.order.length; i += iter)
         {
-            Vector3f v1, v2, v3;
+            Vec3f v1, v2, v3;
             vertex = this.vertices[this.order[i]];
-            v1 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            v1 = new Vec3f(vertex.x, vertex.y, vertex.z);
             vertex = this.vertices[this.order[i + 1]];
-            v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            v2 = new Vec3f(vertex.x, vertex.y, vertex.z);
             vertex = this.vertices[this.order[i + 2]];
-            v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            v3 = new Vec3f(vertex.x, vertex.y, vertex.z);
 
             centre.add(v1.x, v1.y, v1.z, 0);
             centre.add(v2.x, v2.y, v2.z, 0);
             centre.add(v3.x, v3.y, v3.z, 0);
 
-            final Vector3f a = new Vector3f(v2);
+            final Vec3f a = new Vec3f(v2);
             a.sub(v1);
-            final Vector3f b = new Vector3f(v3);
+            final Vec3f b = new Vec3f(v3);
             b.sub(v1);
-            final Vector3f c = new Vector3f();
+            final Vec3f c = new Vec3f();
             c.cross(a, b);
             c.normalize();
             normal = new Vertex(c.x, c.y, c.z);

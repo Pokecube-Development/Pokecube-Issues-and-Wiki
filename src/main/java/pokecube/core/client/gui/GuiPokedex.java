@@ -307,7 +307,7 @@ public class GuiPokedex extends Screen
 
         // Draw mob
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
-                .getCommandSenderWorld());
+                .getLevel());
         if (!renderMob.getEntity().isAddedToWorld()) EntityTools.copyEntityTransforms(renderMob.getEntity(),
                 this.PlayerEntity);
 

@@ -1,8 +1,8 @@
 package thut.core.client.render.model;
 
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
-public class Vertex extends Vector3f
+public class Vertex extends Vec3f
 {
     /**
      *

@@ -63,7 +63,7 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getLevel());
         player.setPos(source.x(), source.y() - player.getEyeHeight(), source.z());
 
-        final Vector3 loc = Vector3.getNewVector().set(source.getPos().relative(dir));
+        final Vector3 loc = new Vector3().set(source.getPos().relative(dir));
         final AABB box = loc.getAABB().inflate(2);
         final List<Mob> mobs = source.getLevel().getEntitiesOfClass(Mob.class, box);
         Collections.shuffle(mobs);

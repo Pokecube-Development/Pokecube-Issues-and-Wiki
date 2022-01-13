@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
@@ -83,10 +83,10 @@ public interface IModel
     {
         mat.name = ThutCore.trim(mat.name);
         final Material material = new Material(mat.name);
-        material.diffuseColor = new Vector3f(1, 1, 1);
-        material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
+        material.diffuseColor = new Vec3f(1, 1, 1);
+        material.emissiveColor = new Vec3f(mat.light, mat.light, mat.light);
         material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
-        material.specularColor = new Vector3f(1, 1, 1);
+        material.specularColor = new Vec3f(1, 1, 1);
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;

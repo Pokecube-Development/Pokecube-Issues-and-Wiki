@@ -54,7 +54,7 @@ public class Vector3d extends Tuple3d implements java.io.Serializable
      * @param v1
      *            the Vector3f containing the initialization x y z data
      */
-    public Vector3d(final Vector3f v1)
+    public Vector3d(final Vec3f v1)
     {
         super(v1);
     }

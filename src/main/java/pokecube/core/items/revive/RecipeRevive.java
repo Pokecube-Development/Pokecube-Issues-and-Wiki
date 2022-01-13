@@ -106,6 +106,6 @@ public class RecipeRevive extends CustomRecipe
         revive = revive && !other.isEmpty();
         pokeseal = !seal.isEmpty() && !other.isEmpty();
         if (n != 2) return false;
-        return pokeseal || revive && other.getDamageValue() == 0;
+        return pokeseal || revive && other.getDamageValue() == 255;
     }
 }

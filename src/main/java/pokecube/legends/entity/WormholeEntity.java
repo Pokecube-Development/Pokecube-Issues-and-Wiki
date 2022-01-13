@@ -175,7 +175,7 @@ public class WormholeEntity extends LivingEntity
         final Random rand = world.getRandom();
         if (rand.nextDouble() > chance) return;
 
-        final Vector3 pos = Vector3.getNewVector().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
+        final Vector3 pos = new Vector3().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
         final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
         pos.moveEntity(wormhole);
         holes.addWormhole(wormhole.getPos().getPos().pos());

@@ -119,7 +119,7 @@ public class EntityPokemob extends PokemobRidable
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getCommandSenderWorld());
+        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
         egg.setStackByParents(this, other);
         return egg;
     }
@@ -156,7 +156,7 @@ public class EntityPokemob extends PokemobRidable
     protected void tickDeath()
     {
         ++this.deathTime;
-        if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(this.getLevel() instanceof ServerLevel)) return;
 
         if (this.isVehicle()) this.ejectPassengers();
 
@@ -317,7 +317,7 @@ public class EntityPokemob extends PokemobRidable
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
         if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        final Vector3 loc = Vector3.getNewVector().set(this);
+        final Vector3 loc = new Vector3().set(this);
 
         SpawnContext context = new SpawnContext(pokemob);
         SpawnCheck checker = new SpawnCheck(loc, worldIn);

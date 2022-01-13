@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.37"/>
-  <metadata head="head" headCap="-60,60" headCap1="-50,50" headAxis="1" headAxis2="0" headDir="-1" headDir2="-1"/>
-  <phase duration="8" leftArm="" leftLeg="leftleg1" legAngle="35" name="biWalk" rightArm="" rightLeg="rightleg1"/>  
+  <phase name="global" scale="0.38"/>
+  <metadata head="head" headCap="-70,70" headCap1="-65,65" headAxis="1" headAxis2="0" headDir="-1" headDir2="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leftleg1" legAngle="35" name="biWalk" rightArm="" rightLeg="rightleg1"/>
+  <worn angles="180,0,90" id="__HAT__" offset="0.08,0.0,-0.7" parent="head" scale="1.0"/>
+  <worn angles="80,35,-70" id="__EAR_left__" offset="0.13,-0.03,0.23" parent="leftear2" scale="1.35"/>
+  <worn angles="80,-35,70" id="__EAR_right__" offset="-0.13,-0.03,0.23" parent="rightear2" scale="1.35"/>
+  <worn angles="-90,0,0" id="__EYE__" offset="0.0,-0.33,0.0" parent="head" scale="1.2,1.0,1.2"/>
+  <worn angles="100,180,0" id="__NECK__" offset="0,0.0,-0.08" parent="scarf1" scale="1.0"/>
+  <worn angles="180,0,0" id="__BACK__" offset="0.0,-1.05,-0.15" parent="body" scale="0.85,0.65,0.5"/> 
+<worn angles="-90,0,0" id="__WAIST__" offset="0.0,-0.4,0" parent="body" scale="0.85,0.8,1.275"/>
+<worn angles="-180,0,-90" id="__WRIST_right__" offset="0,-0.3,0.07" parent="rightarm2" scale="0.8,0.45,0.325"/> 
+<worn angles="-180,0,90" id="__WRIST_left__" offset="0,-0.3,0.055" parent="leftarm2" scale="0.8,0.45,0.325"/>
+<worn angles="90,180,0" id="__ANKLE_right__" offset="0,-0.35,0.06" parent="rightleg2" scale="0.45,0.8,0.38"/>
+<worn angles="90,180,0" id="__ANKLE_left__" offset="0,-0.35,0.06" parent="leftleg2" scale="0.45,0.8,0.38"/>     
   <customTex default="meowsticf">
    <part name="eyes" tex="meowsticeyef"/>
    <animation diffs="0,0.5" part="eyes" trigger="random:0.005:1"/>

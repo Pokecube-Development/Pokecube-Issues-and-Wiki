@@ -8,7 +8,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector4f;
 
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 
@@ -22,9 +22,9 @@ public class Face
     public TextureCoordinate[] uvs;
     public Vertex              normal;
 
-    Vector3f a = new Vector3f();
-    Vector3f b = new Vector3f();
-    Vector3f c = new Vector3f();
+    Vec3f a = new Vec3f();
+    Vec3f b = new Vec3f();
+    Vec3f c = new Vec3f();
 
     public Face(final Face face, final ArrayList<MutableVertex> verts)
     {

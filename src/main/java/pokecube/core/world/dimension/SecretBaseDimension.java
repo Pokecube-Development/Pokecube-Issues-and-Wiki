@@ -73,7 +73,7 @@ public class SecretBaseDimension
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)
     {
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslatableComponent("pokecube.secretbase.enter"), Util.NIL_UUID);
     }
@@ -81,7 +81,7 @@ public class SecretBaseDimension
     public static void sendToExit(final ServerPlayer player, final UUID baseOwner)
     {
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
-        final Vector3 v = Vector3.getNewVector().set(pos).addTo(0.5, 0, 0.5);
+        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
         ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
         player.sendMessage(new TranslatableComponent("pokecube.secretbase.exit"), Util.NIL_UUID);
     }

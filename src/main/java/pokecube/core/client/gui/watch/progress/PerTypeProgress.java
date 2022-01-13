@@ -123,7 +123,7 @@ public class PerTypeProgress extends Progress
         final AABB centre = this.watch.player.getBoundingBox();
         final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
                 .getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getCommandSenderWorld().getEntities(this.watch.player,
+        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player,
                 bb, input ->
                 {
                     IPokemob pokemob;

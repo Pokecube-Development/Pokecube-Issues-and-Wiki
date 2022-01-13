@@ -232,7 +232,7 @@ public class AxisAngle4d implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix4f
      */
-    public final void set(final Matrix4f m1)
+    public final void set(final Mat4f m1)
     {
         final Matrix3d m3d = new Matrix3d();
 
@@ -274,7 +274,7 @@ public class AxisAngle4d implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix4d
      */
-    public final void set(final Matrix4d m1)
+    public final void set(final Mat4d m1)
     {
         final Matrix3d m3d = new Matrix3d();
 
@@ -317,7 +317,7 @@ public class AxisAngle4d implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix3f
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
         this.x = m1.m21 - m1.m12;
         this.y = m1.m02 - m1.m20;

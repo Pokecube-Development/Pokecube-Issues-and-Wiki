@@ -133,32 +133,32 @@ public class PersistantStatusEffect extends BaseEffect
         protected void spawnPoisonParticle(final Entity entity)
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector();
+            final Vector3 loc = new Vector3();
             // int i = 0xFFFF00FF;
             // final double d0 = (i >> 16 & 255) / 255.0D;
             // final double d1 = (i >> 8 & 255) / 255.0D;
             // final double d2 = (i >> 0 & 255) / 255.0D;
-            // final Vector3 vel = Vector3.getNewVector().set(d0, d1, d2);
+            // final Vector3 vel = new Vector3().set(d0, d1, d2);
             for (int i = 0; i < 3; ++i)
             {
                 loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
                         .getZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
-                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
 
         protected void spawnSleepParticle(final Entity entity)
         {
             final Random rand = ThutCore.newRandom();
-            final Vector3 loc = Vector3.getNewVector();
-            Vector3.getNewVector();
+            final Vector3 loc = new Vector3();
+            new Vector3();
             for (int i = 0; i < 3; ++i)
             {
                 loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity
                         .getZ());
-                entity.getCommandSenderWorld().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
     }

@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import thut.api.ModelHolder;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -110,7 +110,7 @@ public class Util
 
     public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
-            final ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
+            final ResourceLocation[] tex, final Vec3f dr, final Vec3f ds, final int brightness, final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
         ResourceLocation tex0 = tex[0];

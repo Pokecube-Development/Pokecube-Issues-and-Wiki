@@ -68,7 +68,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.thisEntity = thisEntity;
             this.evolution = evolution;
-            this.world = thisEntity.getCommandSenderWorld();
+            this.world = thisEntity.getLevel();
         }
 
         public void init()
@@ -80,7 +80,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             if (this.done) return;
             this.done = true;
-            final ServerLevel world = (ServerLevel) this.thisEntity.getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) this.thisEntity.getLevel();
             final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
@@ -102,7 +102,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
                 if (old != null) PokemobTracker.removePokemob(old);
                 this.evolution.setUUID(this.thisEntity.getUUID());
-                this.evolution.getCommandSenderWorld().addFreshEntity(this.evolution);
+                this.evolution.getLevel().addFreshEntity(this.evolution);
 
                 this.evolution.refreshDimensions();
                 final AABB oldBox = this.thisEntity.getBoundingBox();
@@ -140,7 +140,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     // processing to make sure that we fit properly
                     if (col)
                     {
-                        Vector3 v = Vector3.getNewVector().set(this.evolution);
+                        Vector3 v = new Vector3().set(this.evolution);
                         v = SendOutManager.getFreeSpot(this.evolution, world, v, false);
                         this.evolution.refreshDimensions();
                         if (v != null) v.moveEntity(this.evolution);
@@ -183,7 +183,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 final boolean dynamaxing)
         {
             this.mob = evolver.getEntity();
-            this.world = this.mob.getCommandSenderWorld();
+            this.world = this.mob.getLevel();
             this.evoTime = this.world.getGameTime() + evoTime;
             this.message = message;
             this.mega = mega;
@@ -293,7 +293,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         if (!this.isEvolving()) return;
         final LivingEntity entity = this.getEntity();
-        if (this.getEntity().getCommandSenderWorld().isClientSide)
+        if (this.getEntity().getLevel().isClientSide)
         {
             final MessageServer message = new MessageServer(MessageServer.CANCELEVOLVE, entity.getId());
             PokecubeCore.packets.sendToServer(message);
@@ -496,7 +496,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level, theMob
                 .getMoveStats().oldLevel);
         Collections.shuffle(moves);
-        if (!theEntity.getCommandSenderWorld().isClientSide)
+        if (!theEntity.getLevel().isClientSide)
         {
             final Component mess = new TranslatableComponent("pokemob.info.levelup", theMob.getDisplayName(),
                     level + "");
@@ -544,9 +544,9 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default IPokemob megaEvolve(final PokedexEntry newEntry)
     {
-        if (this.getEntity().getCommandSenderWorld() instanceof ServerLevel)
+        if (this.getEntity().getLevel() instanceof ServerLevel)
         {
-            final ServerLevel world = (ServerLevel) this.getEntity().getCommandSenderWorld();
+            final ServerLevel world = (ServerLevel) this.getEntity().getLevel();
             return this.megaEvolve(newEntry, !world.isHandlingTick());
         }
         return this.megaEvolve(newEntry, true);
@@ -590,7 +590,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
 
-            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getCommandSenderWorld());
+            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getLevel());
             if (evolution == null)
             {
                 PokecubeCore.LOGGER.warn("No Entry for " + newEntry);

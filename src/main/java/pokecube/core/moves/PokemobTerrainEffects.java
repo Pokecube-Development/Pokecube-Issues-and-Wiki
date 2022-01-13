@@ -201,7 +201,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (EventsHandler.COOLDOWN_BASED && Tracker.instance().getTick() % (2 * PokecubeCore
                 .getConfig().attackCooldown) != 0) return;
-        if (!AITools.validTargets.test(entity) || !(entity.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!AITools.validTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel)) return;
 
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
         boolean immune = false;
@@ -242,7 +242,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         else if (!PokecubeCore.getConfig().pokemobsDamagePlayers) immune = true;
 
         if (source != null && !immune) entity.hurt(source, damage);
-        this.dropDurations((ServerLevel) entity.getCommandSenderWorld());
+        this.dropDurations((ServerLevel) entity.getLevel());
     }
 
     public boolean isEffectActive(final EffectType effect)
@@ -260,7 +260,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     public void doEntryEffect(final LivingEntity entity)
     {
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
-        if (mob != null)
+        if (mob != null && entity.getLevel() instanceof ServerLevel)
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel"))) mob.setStatus(IMoveConstants.STATUS_PSN);
@@ -331,8 +331,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (Minecraft.getInstance().player == null) return;
 
-        final Vector3 temp = Vector3.getNewVector();
-        final Vector3 temp2 = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
+        final Vector3 temp2 = new Vector3();
         final Vector3 dir = direction.scalarMult(8);
         final int time = Minecraft.getInstance().player.tickCount;
         final Random rand = new Random(time / 200);
@@ -411,7 +411,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
             assert Minecraft.getInstance().player != null;
             final int time = Minecraft.getInstance().player.tickCount;
 
-            final Vector3 direction = Vector3.getNewVector().set(0, -1, 0);
+            final Vector3 direction = new Vector3().set(0, -1, 0);
             final float partialTicks = Minecraft.getInstance().getFrameTime();
             final float tick = (time + partialTicks) / 10f;
 

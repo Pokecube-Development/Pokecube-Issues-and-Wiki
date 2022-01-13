@@ -15,7 +15,7 @@ import thut.api.maths.Vector3;
  */
 public class LogicInMaterials extends LogicBase
 {
-    Vector3 v = Vector3.getNewVector();
+    Vector3 v = new Vector3();
 
     public LogicInMaterials(final IPokemob entity)
     {
@@ -32,14 +32,14 @@ public class LogicInMaterials extends LogicBase
             if (material.equalsIgnoreCase("light"))
             {
                 float value = 0.5f;
-                if (this.entity.getCommandSenderWorld().isDay() && !this.entity.getCommandSenderWorld().isClientSide && !this.pokemob
+                if (this.entity.getLevel().isDay() && !this.entity.getLevel().isClientSide && !this.pokemob
                         .getGeneralState(GeneralStates.TAMED))
                 {
 
                     value = Float.parseFloat(this.pokemob.getPokedexEntry().hatedMaterial[1]);
                     final String action = this.pokemob.getPokedexEntry().hatedMaterial[2];
                     final float f = this.entity.getBrightness();
-                    if (f > value && this.entity.getCommandSenderWorld().canSeeSkyFromBelowWater(this.entity.blockPosition())) if (action
+                    if (f > value && this.entity.getLevel().canSeeSkyFromBelowWater(this.entity.blockPosition())) if (action
                             .equalsIgnoreCase("despawn")) this.entity.discard();
                     else if (action.equalsIgnoreCase("hurt") && Math.random() < 0.1) this.entity.hurt(
                             DamageSource.ON_FIRE, 1);

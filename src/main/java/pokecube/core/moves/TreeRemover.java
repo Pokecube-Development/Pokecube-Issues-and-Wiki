@@ -42,7 +42,7 @@ public class TreeRemover
 
     public void cutGrass()
     {
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         for (int i = -4; i < 5; i++)
             for (int j = -4; j < 5; j++)
                 for (int k = -1; k < 6; k++)
@@ -81,9 +81,9 @@ public class TreeRemover
 
     private Vector3 findTreeBase()
     {
-        final Vector3 base = Vector3.getNewVector();
+        final Vector3 base = new Vector3();
         int k = -1;
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
 
         if (PokecubeTerrainChecker.isWood(temp.set(this.centre).getBlockState(this.world)))
         {
@@ -108,7 +108,7 @@ public class TreeRemover
     {
         boolean ret = false;
 
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++)

@@ -1,4 +1,4 @@
-package pokecube.core.ai.npc;
+package pokecube.core.ai.npc.behaviours;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -77,6 +77,8 @@ public class NpcMateTask extends VillagerMakeLove
         Optional<BlockPos> optional = this.takeVacantBed(level, mob);
         if (!optional.isPresent())
         {
+            mob.setAge(3000);
+            target.setAge(3000);
             level.broadcastEntityEvent(target, (byte) 13);
             level.broadcastEntityEvent(mob, (byte) 13);
         }
@@ -158,7 +160,7 @@ public class NpcMateTask extends VillagerMakeLove
 
     private boolean canReach(Villager mob, BlockPos target)
     {
-        Path path = mob.getNavigation().createPath(target, PoiType.HOME.getValidRange());
+        Path path = mob.getNavigation().createPath(target.above(), PoiType.HOME.getValidRange());
         return path != null && path.canReach();
     }
 

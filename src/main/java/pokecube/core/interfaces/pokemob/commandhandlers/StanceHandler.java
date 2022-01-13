@@ -59,7 +59,7 @@ public class StanceHandler extends DefaultHandler
         }
         if (stay)
         {
-            final Vector3 mid = Vector3.getNewVector().set(pokemob.getEntity());
+            final Vector3 mid = new Vector3().set(pokemob.getEntity());
             if (guard != null)
             {
                 guard.getPrimaryTask().setActiveTime(TimePeriod.fullDay);

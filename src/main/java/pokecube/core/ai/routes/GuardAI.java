@@ -53,14 +53,14 @@ public class GuardAI extends Goal
 
     public void setPos(final BlockPos pos)
     {
-        if (this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) this.capability
+        if (this.capability.hasActiveTask(this.entity.getLevel().getDayTime(), 24000)) this.capability
                 .getActiveTask().setPos(pos);
         else this.capability.getPrimaryTask().setPos(pos);
     }
 
     public void setTimePeriod(final TimePeriod time)
     {
-        if (this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) this.capability
+        if (this.capability.hasActiveTask(this.entity.getLevel().getDayTime(), 24000)) this.capability
                 .getActiveTask().setActiveTime(time);
         else this.capability.getPrimaryTask().setActiveTime(time);
     }
@@ -69,7 +69,7 @@ public class GuardAI extends Goal
     public boolean canContinueToUse()
     {
         if (!this.shouldRun.shouldRun()) return false;
-        if (!this.capability.hasActiveTask(this.entity.getCommandSenderWorld().getDayTime(), 24000)) return false;
+        if (!this.capability.hasActiveTask(this.entity.getLevel().getDayTime(), 24000)) return false;
         this.capability.getActiveTask().continueTask(this.entity);
         switch (this.capability.getState())
         {
@@ -103,7 +103,7 @@ public class GuardAI extends Goal
         }
         // TODO find some way to determine actual length of day
         // for things like AR support.
-        if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.getCommandSenderWorld()
+        if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.getLevel()
                 .getDayTime(), 24000)) return false;
         final IGuardTask task = this.capability.getActiveTask();
         final BlockPos pos = task.getPos();

@@ -69,7 +69,7 @@ public class Impl
         @Override
         public String getTeam(final Entity entityIn)
         {
-            if (entityIn.getCommandSenderWorld().isClientSide) return "";
+            if (entityIn.getLevel().isClientSide) return "";
             final IOwnable ownable = OwnableCaps.getOwnable(entityIn);
             UUID id = ownable != null ? ownable.getOwnerId() : null;
             if (id == null) id = entityIn.getUUID();
@@ -132,11 +132,11 @@ public class Impl
 
     public static void recallOutMobsOnLogout(final PlayerLoggedOutEvent event)
     {
-        if (!(event.getPlayer().getCommandSenderWorld() instanceof ServerLevel)) return;
-        final ServerLevel world = (ServerLevel) event.getPlayer().getCommandSenderWorld();
+        if (!(event.getPlayer().getLevel() instanceof ServerLevel)) return;
+        final ServerLevel world = (ServerLevel) event.getPlayer().getLevel();
         if (!Essentials.config.versioned_dim_keys.contains(world.dimension().location())) return;
         final List<Entity> mobs = PokemobTracker.getMobs(event.getPlayer(), e -> Essentials.config.versioned_dim_keys
-                .contains(e.getCommandSenderWorld().dimension().location()));
+                .contains(e.getLevel().dimension().location()));
         PCEventsHandler.recallAll(mobs, true);
     }
 

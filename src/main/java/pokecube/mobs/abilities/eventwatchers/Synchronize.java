@@ -14,7 +14,7 @@ import thut.core.common.ThutCore;
 
 public class Synchronize extends Ability
 {
-    Vector3  location = Vector3.getNewVector();
+    Vector3  location = new Vector3();
     IPokemob pokemob;
     int      range    = 16;
 
@@ -43,7 +43,7 @@ public class Synchronize extends Ability
                 if (IPokemob.class.isInstance(args[i]))
                 {
                     MinecraftForge.EVENT_BUS.register(this);
-                    this.location = Vector3.getNewVector().set(args[i]);
+                    this.location = new Vector3().set(args[i]);
                     this.pokemob = IPokemob.class.cast(args[i]);
                 }
                 if (args[i] instanceof Integer) this.range = (int) args[i];
