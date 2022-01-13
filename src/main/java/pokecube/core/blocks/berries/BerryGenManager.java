@@ -58,7 +58,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
@@ -389,7 +388,7 @@ public class BerryGenManager
                 if (isSoil && y < world.getMaxBuildHeight() - l - 1)
                 {
                     // This is what onPlantGrow did.
-                    if (state.is(Tags.Blocks.DIRT)) world.setBlock(pos, Blocks.DIRT.defaultBlockState(), 2);
+                    if (state.is(BlockTags.DIRT)) world.setBlock(pos, Blocks.DIRT.defaultBlockState(), 2);
 
                     b0 = 3;
                     final byte b1 = 0;
