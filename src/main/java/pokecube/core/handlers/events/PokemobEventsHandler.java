@@ -848,17 +848,17 @@ public class PokemobEventsHandler
             }
             // Debug thing to maximize happiness
             if (held.getItem() == Items.APPLE)
-                if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob.addHappiness(255);
+                if (player.isCreative() && player.isShiftKeyDown()) pokemob.addHappiness(255);
             // Debug thing to increase hunger time
             if (held.getItem() == Items.GOLDEN_HOE)
-                if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob.applyHunger(+4000);
+                if (player.isCreative() && player.isShiftKeyDown()) pokemob.applyHunger(+4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
                 if (player.isShiftKeyDown())
                 {
                     pokemob.setShiny(!pokemob.isShiny());
-                    if (!player.getAbilities().instabuild) held.split(1);
+                    if (!player.isCreative()) held.split(1);
                 }
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -883,7 +883,7 @@ public class PokemobEventsHandler
             if (dye != null && (entry.validDyes.isEmpty() || entry.validDyes.contains(dye)))
             {
                 pokemob.setDyeColour(dye.getId());
-                if (!player.getAbilities().instabuild) held.shrink(1);
+                if (!player.isCreative()) held.shrink(1);
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
                 return;
@@ -923,7 +923,7 @@ public class PokemobEventsHandler
                     && !hasTarget && held.getItem() instanceof ItemBerry
                     && (fav == -1 || fav == ((ItemBerry) held.getItem()).type.index))
             {
-                if (!player.getAbilities().instabuild)
+                if (!player.isCreative())
                 {
                     held.shrink(1);
                     if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
@@ -961,7 +961,7 @@ public class PokemobEventsHandler
                     if (!valid) break evo;
 
                     final IPokemob evolution = pokemob.evolve(true, false, held);
-                    if (evolution != null) if (!player.getAbilities().instabuild)
+                    if (evolution != null) if (!player.isCreative())
                     {
                         held.shrink(1);
                         if (held.isEmpty())
