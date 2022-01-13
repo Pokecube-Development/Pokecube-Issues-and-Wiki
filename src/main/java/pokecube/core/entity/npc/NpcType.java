@@ -272,6 +272,11 @@ public class NpcType
 
     public boolean hasTrades(int level)
     {
+        if (VillagerTrades.TRADES.containsKey(this.getProfession())
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0)
+            return true;
+
         if (TRADE_MAP.get(name) == null) return false;
         /*
          * We have trades in the following cases:
@@ -281,9 +286,7 @@ public class NpcType
          * The vanilla TRADES map tells us we have trades
          * 
          */
-        return TRADE_MAP.get(name).get(level).length > 0 || (VillagerTrades.TRADES.containsKey(this.getProfession())
-                && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
-                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0);
+        return TRADE_MAP.get(name).get(level).length > 0;
     }
 
     public boolean shouldSpawn(SpawnCheck checker, final ServerLevel w)

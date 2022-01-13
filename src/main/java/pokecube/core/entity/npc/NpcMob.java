@@ -280,11 +280,21 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
         if (this.getVillagerData().getProfession() != this.getNpcType().getProfession())
         {
-            // Initialise exp as 1, so we don't get reset by the reset
-            // profession task in the AI. This does get us a free 10% of the way
-            // to the next level, but at least it prevents the resetting.
-            this.setVillagerXp(1);
-            this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
+            if (this.getNpcType().getProfession() == VillagerProfession.NONE)
+            {
+                String prof = this.getVillagerData().getProfession().getName();
+                NpcType type = NpcType.byType(prof);
+                this.setNpcType(type);
+            }
+            else
+            {
+                // Initialise exp as 1, so we don't get reset by the reset
+                // profession task in the AI. This does get us a free 10% of the
+                // way to the next level, but at least it prevents the
+                // resetting.
+                this.setVillagerXp(1);
+                this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
+            }
         }
 
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE

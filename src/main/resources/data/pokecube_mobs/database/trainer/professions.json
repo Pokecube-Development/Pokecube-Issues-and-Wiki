@@ -56,7 +56,7 @@
           "trades": [
             {
               "custom": "allBerrySell",
-              "exp": 5,
+              "exp": 1,
               "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}
@@ -263,7 +263,7 @@
           "trades": [
             {
               "custom": "allBerrySell",
-              "exp": 5,
+              "exp": 1,
               "count": 1,
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "3"}}

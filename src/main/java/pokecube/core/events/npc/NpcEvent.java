@@ -1,22 +1,22 @@
 package pokecube.core.events.npc;
 
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import pokecube.core.entity.npc.NpcMob;
 
 public abstract class NpcEvent extends LivingEvent
 {
-    private final NpcMob trainer;
+    private final Villager trainer;
     private final LevelAccessor world;
 
-    public NpcEvent(NpcMob entity)
+    public NpcEvent(Villager entity)
     {
         super(entity);
         this.trainer = entity;
         this.world = entity.level;
     }
 
-    public NpcMob getNpcMob()
+    public Villager getNpcMob()
     {
         return this.trainer;
     }
@@ -36,7 +36,7 @@ public abstract class NpcEvent extends LivingEvent
     public static class OpenInventory extends NpcEvent
     {
 
-        public OpenInventory(NpcMob entity)
+        public OpenInventory(Villager entity)
         {
             super(entity);
         }

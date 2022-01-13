@@ -237,7 +237,7 @@ public class CapabilityHasPokemobs
             // Valid if any watchers say so
             for (final ITargetWatcher w : this.watchers) if (w.isValidTarget(target)) return AllowedBattle.YES;
             // Otherwise false.
-            return AllowedBattle.NO;
+            return AllowedBattle.NOTNOW;
         }
 
         @Override
