@@ -12,7 +12,6 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,12 +19,11 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.HitEntity;
 import thut.api.item.ItemList;
-import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 
-public class Checker extends AbstractChecker
+public abstract class ShadowMaskChecker extends AbstractChecker
 {
     public static interface ResistProvider
     {
@@ -54,7 +52,7 @@ public class Checker extends AbstractChecker
 
         }
 
-        default float getTotalValue(final Vector3 rHat, final float r, final int minCube, final Checker boom)
+        default float getTotalValue(final Vector3 rHat, final float r, final int minCube, final ShadowMaskChecker boom)
         {
 
             float resist = 0;
@@ -234,7 +232,7 @@ public class Checker extends AbstractChecker
         }
 
         @Override
-        public float getTotalValue(final Vector3 rHat, final float r, final int minCube, final Checker boom)
+        public float getTotalValue(final Vector3 rHat, final float r, final int minCube, final ShadowMaskChecker boom)
         {
             return ResistCache.super.getTotalValue(rHat, r, minCube, boom);
         }
@@ -381,7 +379,7 @@ public class Checker extends AbstractChecker
     Vector3 r = new Vector3(), rAbs = new Vector3(), rHat = new Vector3(), rTest = new Vector3(),
             rTestPrev = new Vector3(), rTestAbs = new Vector3();
 
-    public Checker(final ExplosionCustom boom)
+    public ShadowMaskChecker(final ExplosionCustom boom)
     {
         super(boom);
 
@@ -438,7 +436,7 @@ public class Checker extends AbstractChecker
         }
     }
 
-    private boolean run(final double radSq, final int num, final Set<ChunkPos> seen,
+    protected boolean run(final double radSq, final int num, final Set<ChunkPos> seen,
             final Object2FloatOpenHashMap<BlockPos> ret, final List<HitEntity> entityAffected)
     {
         double rMag;
@@ -530,110 +528,18 @@ public class Checker extends AbstractChecker
         return false;
     }
 
+    protected abstract boolean apply(Object2FloatOpenHashMap<BlockPos> ret, List<HitEntity> entityAffected,
+            HashSet<ChunkPos> seen);
+
     @Override
     protected BlastResult getBlocksToRemove()
     {
         beginLoop();
-        
-        int num = (int) Math.sqrt(this.boom.strength / 0.5);
-        final int max = this.boom.radius * 2 + 1;
-        num = Math.min(num, max);
-        final int numCubed = num * num * num;
-        final double radSq = num * num / 4;
-        int increment = 0;
         final Object2FloatOpenHashMap<BlockPos> ret = new Object2FloatOpenHashMap<>();
         final List<HitEntity> entityAffected = Lists.newArrayList();
         final HashSet<ChunkPos> seen = new HashSet<>();
-        boolean done = last_rad >= this.boom.radius;
-
-        final boolean sphere = true;
-
-        if (!sphere)
-        {
-            final int ind = this.currentIndex;
-            final int maxIndex = numCubed;
-            for (this.currentIndex = ind; this.currentIndex < maxIndex; this.currentIndex++)
-            {
-                increment++;
-                // Break out early if we have taken too long.
-                if (!canContinue())
-                {
-                    done = false;
-                    break;
-                }
-                Cruncher.indexToVals(this.currentIndex, this.r, sphere);
-                done = this.run(radSq, num, seen, ret, entityAffected);
-                if (done) break;
-            }
-        }
-        else
-        {
-
-            double radius = this.last_rad;
-            final double C = 4;
-            double area = 4 * Math.PI * radius * radius;
-            final float grid = 0.5f;
-            float N = (float) Math.ceil(area / grid);
-            boom:
-            while (canContinue() && radius < this.boom.radius)
-            {
-                int k;
-                double phi_k_1 = this.last_phi;
-                if (this.currentIndex < 1) this.currentIndex = 1;
-
-                // Easy critera to skip a good portion of the loop, as we
-                // can easily determine which ending index will fit within the
-                // maximum value of y on the unit sphere which was checked
-                // in the last shell.
-                final int k_end = this.yToKMax(this.max.y, N);
-                final float sqrtN = (float) Math.sqrt(N);
-
-                // Spiral algorithm based on
-                // https://doi.org/10.1007/BF03024331
-                for (k = this.currentIndex; k <= k_end; k++)
-                {
-                    this.currentIndex = k;
-                    // Break out early if we have taken too long.
-                    if (!canContinue())
-                    {
-                        done = false;
-                        break boom;
-                    }
-                    final float h_k = -this.kToY(k, N);
-                    final float sin_theta = (float) Math.sqrt(1 - h_k * h_k);
-                    final float phi_k = (float) (k > 1 && k < N ? (phi_k_1 + C / (sqrtN * sin_theta)) % (2 * Math.PI)
-                            : 0);
-                    this.last_phi = phi_k_1 = phi_k;
-                    final double x = sin_theta * Mth.cos(phi_k) * radius;
-                    final double y = h_k * radius;
-                    final double z = sin_theta * Mth.sin(phi_k) * radius;
-                    this.rTest.set(x, y, z);
-                    this.r.set(this.rTest.intX(), this.rTest.intY(), this.rTest.intZ());
-                    done = this.run(radSq, num, seen, ret, entityAffected);
-                    if (done) break boom;
-                }
-                // This gives us an easy way to determine which is the first
-                // value of k which will result in a point that will fall within
-                // the bounds of the last unit-sphere checked. Y is most likely
-                // to run out first, as that is the most limited coordinate
-                // here, as usually at least half of it is masked by the ground.
-                int k_start = this.yToKMin(this.min.y, N);
-
-                this.currentIndex = 1;
-                this.last_phi = 0;
-                radius += grid;
-                area = 4 * Math.PI * radius * radius;
-                N = (float) Math.ceil(area / grid);
-                k_start = this.yToKMin(this.min.y, N);
-                this.currentIndex = k_start;
-                this.currentRadius = Mth.ceil(radius);
-            }
-            this.last_rad = radius;
-        }
-
+        boolean done = this.apply(ret, entityAffected, seen);
         endLoop();
-        // Increment the boom index for next pass.
-        this.nextIndex = this.currentIndex + increment;
         return new BlastResult(ret, entityAffected, seen, done);
     }
 
@@ -646,24 +552,5 @@ public class Checker extends AbstractChecker
         ThutCore.LOGGER.info("time (tick/real): {}/{}ms, {} shadowed, {} denied, {} blocked, {} checked",
                 this.totalTime / 1e6, this.realTotalTime / 1e6, this.ind1, this.ind2, this.ind3, this.ind4);
         ThutCore.LOGGER.info("bounds: {} {}", this.min, this.max);
-    }
-
-    private float kToY(final int k, final float N)
-    {
-        return -1 + 2 * (k - 1) / (N - 1);
-    }
-
-    private int yToKMin(final float y, final float N)
-    {
-        int k = (int) (1 + (y + 1) * (N - 1) / 2);
-        k = Math.max(1, k);
-        return k;
-    }
-
-    private int yToKMax(final float y, final float N)
-    {
-        int k = Mth.ceil(1 + (y + 1) * (N - 1) / 2);
-        k = (int) Math.min(N, k);
-        return k;
     }
 }

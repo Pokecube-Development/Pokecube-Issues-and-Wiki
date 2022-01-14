@@ -32,7 +32,7 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.boom.Checker.ResistProvider;
+import thut.api.boom.ShadowMaskChecker.ResistProvider;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -183,7 +183,7 @@ public class ExplosionCustom extends Explosion
 
         this.strength = factor * power;
 
-        boomApplier = new Checker(this);
+        boomApplier = new SphereMaskChecker(this);
     }
 
     private void applyBlockEffects(final BlastResult result)
