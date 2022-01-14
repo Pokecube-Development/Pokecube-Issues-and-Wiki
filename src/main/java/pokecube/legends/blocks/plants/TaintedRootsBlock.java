@@ -18,7 +18,7 @@ public class TaintedRootsBlock extends RootsBlock
    @Override
    public boolean mayPlaceOn(BlockState state, BlockGetter block, BlockPos pos)
    {
-      return state.is(BlockTags.NYLIUM) || state.is(Tags.Blocks.DIRT) || state.is(BlockTags.DIRT)
+      return state.is(BlockTags.NYLIUM) || state.is(BlockTags.DIRT)
               || super.mayPlaceOn(state, block, pos);
    }
 }
