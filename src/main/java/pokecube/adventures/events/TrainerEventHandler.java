@@ -11,7 +11,6 @@ import com.google.gson.JsonSyntaxException;
 import io.netty.buffer.Unpooled;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -448,12 +447,12 @@ public class TrainerEventHandler
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-        if (target instanceof Villager villager && evt.getPlayer() instanceof ServerPlayer splayer)
-        {
-            final int rep_base = PokecubeAdv.config.trainer_min_rep;
-            final int rep = villager.getPlayerReputation(splayer) + rep_base;
-            splayer.sendMessage(new TextComponent(" (" + rep + ")"), null);
-        }
+//        if (target instanceof Villager villager && evt.getPlayer() instanceof ServerPlayer splayer)
+//        {
+//            final int rep_base = PokecubeAdv.config.trainer_min_rep;
+//            final int rep = villager.getPlayerReputation(splayer) + rep_base;
+//            splayer.sendMessage(new TextComponent(" (" + rep + ")"), null);
+//        }
         InteractionResult succeed = InteractionResult.sidedSuccess(target.level.isClientSide);
 
         if (target instanceof Villager vill)
