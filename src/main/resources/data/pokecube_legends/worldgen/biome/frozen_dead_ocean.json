@@ -42,8 +42,7 @@
       "minecraft:amethyst_geode",
       "minecraft:iceberg_packed",
       "minecraft:iceberg_blue",
-      "pokecube_legends:aquamarine_geode",
-      "pokecube_legends:ore_meteorite"
+      "pokecube_legends:aquamarine_geode"
     ],
     [
       "minecraft:blue_ice",
@@ -58,6 +57,7 @@
       "pokecube_legends:disk_blackened_sand_rare",
       "pokecube_legends:disk_clay",
       "pokecube_legends:disk_gravel",
+      "pokecube_legends:ore_meteorite",
       "pokecube_legends:ore_coal_lower",
       "pokecube_legends:ore_coal_upper",
 	  "pokecube_legends:ore_copper",

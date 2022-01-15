@@ -36,8 +36,7 @@
     [
       "minecraft:amethyst_geode",
       "minecraft:large_dripstone",
-      "pokecube_legends:aquamarine_geode",
-      "pokecube_legends:ore_meteorite"
+      "pokecube_legends:aquamarine_geode"
     ],
     [],
     [],
@@ -47,6 +46,7 @@
       "pokecube_legends:disk_clay",
       "pokecube_legends:disk_crystallized_sand",
       "pokecube_legends:disk_turquoise_gravel",
+      "pokecube_legends:ore_meteorite",
       "pokecube_legends:ore_coal_lower",
       "pokecube_legends:ore_coal_upper",
       "pokecube_legends:ore_copper_large",
