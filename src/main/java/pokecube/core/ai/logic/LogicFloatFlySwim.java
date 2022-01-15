@@ -47,7 +47,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
+            if (pokemob.getController().blocksPathing()) return;
             super.tick();
         }
 
@@ -74,7 +74,7 @@ public class LogicFloatFlySwim extends LogicBase
         {
             this.mob.setNoGravity(this.mob.isInWater());
 
-            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
+            if (pokemob.getController().blocksPathing()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
             {
@@ -149,7 +149,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing() || mob.getNavigation().isDone()) return;
+            if (pokemob.getController().blocksPathing()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {
@@ -299,7 +299,7 @@ public class LogicFloatFlySwim extends LogicBase
                 path.setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
 
-        final boolean air = this.pokemob.floats() || this.pokemob.flys();
+        final boolean air = (this.pokemob.floats() || this.pokemob.flys());
         final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
         if (air && this.entity.isAlive())

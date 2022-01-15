@@ -99,7 +99,6 @@ public class LogicMiscUpdate extends LogicBase
     private String particle = null;
     private boolean initHome = false;
     private boolean checkedEvol = false;
-    private int pathTimer = 0;
     private long dynatime = -1;
     private boolean de_dyna = false;
 
@@ -199,6 +198,10 @@ public class LogicMiscUpdate extends LogicBase
             this.combatTimer = 50;
         }
 
+        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
+        noMotion |= sitting;
+
         this.inCombat = angry;
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
@@ -212,15 +215,18 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
 
         // Ensure sitting things don't have a path.
-        if (this.pokemob.getLogicState(LogicStates.SITTING) && !this.entity.getNavigation().isDone())
-            this.entity.getNavigation().stop();
-
-        // Check pathing states.
-        if (this.pokemob.getLogicState(LogicStates.PATHING) && this.entity.getNavigation().isDone()
-                && this.pathTimer++ > 10)
+        if (sitting && !this.entity.getNavigation().isDone())
         {
-            this.pokemob.setLogicState(LogicStates.PATHING, false);
-            this.pathTimer = 0;
+            this.entity.getNavigation().stop();
+        }
+
+        if (noMotion)
+        {
+            Vec3 v = entity.getDeltaMovement();
+            entity.setZza(0);
+            entity.setXxa(0);
+            entity.setYya(0);
+            entity.setDeltaMovement(v.x * 0.5f, v.y, v.z * 0.5f);
         }
 
         // Check if we shouldn't just randomly go to sleep.
@@ -474,8 +480,7 @@ public class LogicMiscUpdate extends LogicBase
                                 - this.entity.getBbWidth(),
                         this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
                                 + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
-                this.entity.getLevel().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
-                        0);
+                this.entity.getLevel().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }
         }
         int[] args = {};
@@ -495,8 +500,7 @@ public class LogicMiscUpdate extends LogicBase
                         rand.nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
-            PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo,
-                    args);
+            PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
         }
         for (int i = 0; i < this.flavourAmounts.length; i++)
         {
@@ -521,8 +525,7 @@ public class LogicMiscUpdate extends LogicBase
                 args = new int[]
                 { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc,
-                        particleVelo, args);
+                PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
             }
         }
         this.particle = null;

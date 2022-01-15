@@ -30,9 +30,9 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
     {
-        public final int       entity;
-        public final int       slot;
-        public final int       minSlot;
+        public final int entity;
+        public final int slot;
+        public final int minSlot;
         public final ItemStack stack;
 
         public InventoryChange(final Entity entity, final int slot, final ItemStack stack, final boolean min)
@@ -58,8 +58,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
             if (e == null || pokemob == null) return false;
             if (this.slot > 0) pokemob.getInventory().setItem(this.slot, this.stack);
-            else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot)) e
-                    .spawnAtLocation(this.stack, 0);
+            else if (!ItemStackTools.addItemStackToInventory(this.stack, pokemob.getInventory(), this.minSlot))
+                e.spawnAtLocation(this.stack, 0);
             return true;
         }
 
@@ -69,11 +69,11 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     public static class PlaySound implements IRunnable
     {
         final ResourceKey<Level> dim;
-        final Vector3            loc;
-        final SoundEvent         sound;
-        final SoundSource      cat;
-        final float              volume;
-        final float              pitch;
+        final Vector3 loc;
+        final SoundEvent sound;
+        final SoundSource cat;
+        final float volume;
+        final float pitch;
 
         public PlaySound(final ResourceKey<Level> registryKey, final Vector3 loc, final SoundEvent sound,
                 final SoundSource cat, final float volume, final float pitch)
@@ -101,12 +101,15 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         // Don't allow motion if the mob is actually a passenger, this should
         // help for say gengars riding dragons...
         if (pokemob.getEntity().isPassenger()) return false;
-        final boolean sitting = pokemob.getLogicState(LogicStates.SITTING);
-        final boolean sleeping = pokemob.getLogicState(LogicStates.SLEEPING) || (pokemob.getStatus()
-                & IMoveConstants.STATUS_SLP) > 0;
+        // Can't move at all in this case
+        if (pokemob.getLogicState(LogicStates.CANNOTMOVE)) return false;
+        // Don't move while sitting
+        if (pokemob.getLogicState(LogicStates.SITTING)) return false;
+        final boolean sleeping = pokemob.getLogicState(LogicStates.SLEEPING)
+                || (pokemob.getStatus() & IMoveConstants.STATUS_SLP) > 0;
         final boolean frozen = (pokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0;
         // DOLATER add other checks for things like bind, etc
-        return !(sitting || sleeping || frozen);
+        return !(sleeping || frozen);
     }
 
     protected final IPokemob pokemob;
@@ -115,7 +118,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
 
     int priority = 0;
 
-    boolean tempRun  = false;
+    boolean tempRun = false;
     boolean tempCont = false;
 
     public TaskBase(final IPokemob pokemob)
@@ -127,8 +130,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     {
         super(pokemob.getEntity(), neededMems);
         this.pokemob = pokemob;
-        if (this.entity.getLevel() instanceof ServerLevel) this.world = (ServerLevel) this.entity
-                .getLevel();
+        if (this.entity.getLevel() instanceof ServerLevel) this.world = (ServerLevel) this.entity.getLevel();
         else this.world = null;
     }
 
@@ -160,8 +162,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
 
     @Override
     public void tick()
-    {
-    }
+    {}
 
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
@@ -180,8 +181,7 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
         if (this.isPaused(entityIn)) return this.tempCont;
         return this.tempCont = this.shouldRun();

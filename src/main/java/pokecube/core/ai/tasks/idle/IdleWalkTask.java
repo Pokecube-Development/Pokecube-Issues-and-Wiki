@@ -22,7 +22,6 @@ import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
@@ -235,9 +234,6 @@ public class IdleWalkTask extends BaseIdleTask
 
         // Angry at something
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
-
-        // Pathing somewhere.
-        if (this.pokemob.getLogicState(LogicStates.PATHING)) return false;
 
         // Owner is controlling us.
         if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;

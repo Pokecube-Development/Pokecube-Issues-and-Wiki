@@ -96,6 +96,8 @@ public class WalkToTask extends RootTask<Mob>
         {
             final Optional<WalkTarget> optional = entityIn.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
             final PathNavigation pathnavigator = entityIn.getNavigation();
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+            if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
             return !pathnavigator.isDone() && optional.isPresent() && !this.hasReachedTarget(entityIn, optional.get());
         }
         else return false;
