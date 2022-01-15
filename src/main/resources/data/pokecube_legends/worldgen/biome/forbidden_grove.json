@@ -6,8 +6,8 @@
   "effects": {
     "sky_color": 16753930,
     "fog_color": 16753930,
-    "water_color": 4182244,
-    "water_fog_color": 4182244,
+    "water_color": 2853783,
+    "water_fog_color": 2853783,
     "grass_color": 16763145,
     "foliage_color": 16763145,
     "ambient_sound": "minecraft:ambient.crimson_forest.loop",

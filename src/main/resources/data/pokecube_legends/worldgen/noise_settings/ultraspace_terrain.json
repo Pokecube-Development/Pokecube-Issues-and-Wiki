@@ -3668,7 +3668,8 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
-                                  "pokecube_legends:ultra_stony_peaks"
+                                  "pokecube_legends:ultra_stony_peaks",
+                                  "pokecube_legends:ultra_stony_shore"
                                 ]
                               },
                               "then_run": {
@@ -3678,14 +3679,14 @@
                                     "type": "minecraft:condition",
                                     "if_true": {
                                       "type": "minecraft:noise_threshold",
-                                      "noise": "minecraft:calcite",
+                                      "noise": "pokecube_legends:meteorite_block",
                                       "min_threshold": -0.0125,
                                       "max_threshold": 0.0125
                                     },
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:calcite"
+                                        "Name": "pokecube_legends:meteorite_block"
                                       }
                                     }
                                   },
@@ -4884,7 +4885,8 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
-                                  "pokecube_legends:ultra_stony_peaks"
+                                  "pokecube_legends:ultra_stony_peaks",
+                                  "pokecube_legends:ultra_stony_shore"
                                 ]
                               },
                               "then_run": {
@@ -4894,14 +4896,14 @@
                                     "type": "minecraft:condition",
                                     "if_true": {
                                       "type": "minecraft:noise_threshold",
-                                      "noise": "minecraft:calcite",
+                                      "noise": "pokecube_legends:meteorite_block",
                                       "min_threshold": -0.0125,
                                       "max_threshold": 0.0125
                                     },
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:calcite"
+                                        "Name": "pokecube_legends:meteorite_block"
                                       }
                                     }
                                   },

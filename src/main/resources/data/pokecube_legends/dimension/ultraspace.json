@@ -16996,6 +16996,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.4,
+              0.93333334
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.4,
+              0.93333334
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
@@ -18436,6 +18496,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              -0.19,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              -0.19,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
@@ -19186,6 +19306,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -0.78,
+              -0.375
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -0.78,
+              -0.375
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              -0.2,
+              0
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
@@ -38806,6 +38986,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.4,
+              0.93333334
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.4,
+              0.93333334
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
@@ -40246,6 +40486,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              -0.19,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              -0.19,
+              1
+            ],
+            "erosion": [
+              -1,
+              -0.78
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
@@ -40996,6 +41296,66 @@
             ],
             "humidity": [
               -1,
+              -0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -0.78,
+              -0.375
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:jagged_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              -0.1,
+              0.1
+            ],
+            "continentalness": [
+              0.03,
+              1
+            ],
+            "erosion": [
+              -0.78,
+              -0.375
+            ],
+            "weirdness": [
+              0.56666666,
+              0.7666667
+            ],
+            "depth": [
+              1,
+              1.2
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "pokecube_legends:frozen_peaks",
+          "parameters": {
+            "temperature": [
+              -1,
+              0.2
+            ],
+            "humidity": [
+              0.1,
               1
             ],
             "continentalness": [
