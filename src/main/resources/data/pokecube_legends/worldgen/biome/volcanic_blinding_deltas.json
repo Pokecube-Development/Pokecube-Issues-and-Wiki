@@ -99,9 +99,9 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane_badlands",
+      "pokecube_legends:compreced_mushroom_normal",
+      "pokecube_legends:distorced_mushroom_normal",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_ash_layer6",
       "pokecube_legends:patch_ash_layer6_waterlogged",
