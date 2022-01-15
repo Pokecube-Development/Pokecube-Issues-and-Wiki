@@ -576,6 +576,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 return mob;
             });
             this.antExitCooldown = 100;
+            if (world.getEntity(entity.getUUID()) != null) return;
             if (entity != null) world.addFreshEntity(entity);
         });
         // We clear this, as ants may re-make us as a habitat, this prevents
@@ -599,6 +600,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 // etc
                 return mob;
             });
+            if (world.getEntity(entity.getUUID()) != null) return true;
             this.antExitCooldown = 100;
             if (entity != null) return world.addFreshEntity(entity);
         }
