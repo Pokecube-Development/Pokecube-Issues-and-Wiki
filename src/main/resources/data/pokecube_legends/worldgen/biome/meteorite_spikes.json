@@ -5,8 +5,8 @@
   "category": "plains",
   "creature_spawn_probability": 0.07,
   "effects": {
-    "sky_color": 5127218,
-    "fog_color": 5127218,
+    "sky_color": 921110,
+    "fog_color": 1315873,
     "water_color": 3815495,
     "water_fog_color": 3815495,
     "grass_color": 4864289,
@@ -65,7 +65,7 @@
       "pokecube_legends:ore_cosmic_buried",
       "pokecube_legends:ore_cosmic_large",
       "pokecube_legends:ore_cosmic_meteorite",
-      "pokecube_legends:ore_cosmic_meteorite_upper",
+      "pokecube_legends:ore_cosmic_meteorite_spikes",
       "pokecube_legends:ore_diamond",
       "pokecube_legends:ore_diamond_buried",
       "pokecube_legends:ore_diamond_large",
@@ -100,8 +100,8 @@
       "pokecube_legends:distorced_mushroom_normal",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_fire",
-      "pokecube_legends:patch_ash_layer2",
-      "pokecube_legends:patch_ash_layer2_waterlogged",
+      "pokecube_legends:patch_ash_scattered",
+      "pokecube_legends:patch_ash_scattered_waterlogged",
       "pokecube_legends:patch_grass_badlands"
     ],
     [

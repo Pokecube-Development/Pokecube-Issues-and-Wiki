@@ -6,7 +6,7 @@
       "type": "minecraft:count"
     },
     {
-      "chance": 4,
+      "chance": 8,
       "type": "minecraft:rarity_filter"
     },
     {

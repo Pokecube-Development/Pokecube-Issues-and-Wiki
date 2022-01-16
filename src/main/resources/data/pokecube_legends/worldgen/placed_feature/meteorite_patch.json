@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:meteorite_patch",
   "placement": [
     {
-      "count": 2,
+      "count": 1,
       "type": "minecraft:count"
     },
     {

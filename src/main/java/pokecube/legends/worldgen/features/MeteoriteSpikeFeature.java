@@ -5,26 +5,16 @@ import java.util.Random;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.Tags;
-import pokecube.legends.blocks.normalblocks.AshLayerBlock;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.worldgen.WorldgenFeatures;
 
 public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 {
@@ -43,7 +33,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
       for(world = context.level(); world.isEmptyBlock(pos) && pos.getY() > world.getMinBuildHeight() + 2; pos = pos.below())
       {}
 
-      if (!world.getBlockState(pos).is(BlockInit.BLACKENED_SAND.get()) && !world.getBlockState(pos).is(BlockInit.BLACKENED_SANDSTONE.get()))
+      if (world.getBlockState(pos).is(Blocks.AIR) || world.getBlockState(pos).is(Blocks.LAVA) || world.getBlockState(pos).is(Blocks.WATER))
       {
          return false;
       } else
