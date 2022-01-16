@@ -87,9 +87,11 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
+      "pokecube_legends:brown_mushroom_normal",
+      "pokecube_legends:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
+      "pokecube_legends:compreced_mushroom_normal",
+      "pokecube_legends:distorced_mushroom_normal",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:flower_default",
       "pokecube_legends:fungal_plains_vegetation",

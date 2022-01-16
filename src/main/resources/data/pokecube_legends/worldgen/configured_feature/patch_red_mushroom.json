@@ -8,7 +8,7 @@
         "config": {
           "to_place": {
             "state": {
-              "Name": "minecraft:brown_mushroom"
+              "Name": "minecraft:red_mushroom"
             },
             "type": "minecraft:simple_state_provider"
           }
