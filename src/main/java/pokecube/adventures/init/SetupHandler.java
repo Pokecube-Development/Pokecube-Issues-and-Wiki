@@ -49,6 +49,8 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onNpcBreedCheck);
         // Hotkey to open belt inventory
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onWearableUse);
+        // Hotkey to open belt inventory
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::dropBelt);
 
         // One phase of initializing trainers.
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onJoinWorld);

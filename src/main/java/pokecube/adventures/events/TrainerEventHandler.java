@@ -14,6 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -111,6 +113,7 @@ import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
+import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.events.WearableUseEvent;
 
 public class TrainerEventHandler
@@ -544,6 +547,27 @@ public class TrainerEventHandler
             NetworkHooks.openGui(player, provider, buf -> {
                 buf.writeInt(player.getId());
             });
+        }
+    }
+
+    public static void dropBelt(final WearableDroppedEvent event)
+    {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(player);
+        if (!ItemList.is(BELT, event.getToDrop())) return;
+        if (pokemobs == null) return;
+        LivingEntity mob = event.getParent().getEntityLiving();
+        for (int i = 0; i < pokemobs.getContainerSize(); i++)
+        {
+            ItemStack stack = pokemobs.getItem(i);
+            if (stack.isEmpty()) continue;
+            final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
+            final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
+            final float f = mob.getRandom().nextFloat() * 0.5F;
+            final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
+            drop.setDeltaMovement(-Mth.sin(f1) * f, Mth.cos(f1) * f, 0.2);
+            pokemobs.setItem(i, ItemStack.EMPTY);
+            event.getParent().getDrops().add(drop);
         }
     }
 

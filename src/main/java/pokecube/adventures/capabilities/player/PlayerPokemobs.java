@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -136,6 +137,16 @@ public class PlayerPokemobs extends DefaultPokemobs
         final CompoundTag nbt = new CompoundTag();
         if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
         if (this.getType() != null) nbt.putString("type", this.getType().getName());
+        final ListTag ListNBT = new ListTag();
+        for (int index = 0; index < this.getMaxPokemobCount(); index++)
+        {
+            final ItemStack i = this.getPokemob(index);
+            if (i.isEmpty()) continue;
+            final CompoundTag CompoundNBT = new CompoundTag();
+            ListNBT.add(i.save(CompoundNBT));
+        }
+
+        nbt.put("pokemobs", ListNBT);
         return nbt;
     }
 
@@ -144,6 +155,13 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
         if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
+        if (nbt.contains("pokemobs", 9))
+        {
+            if (this.clearOnLoad()) this.clearContent();
+            final ListTag ListNBT = nbt.getList("pokemobs", 10);
+            if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
+                this.setPokemob(i, ItemStack.of(ListNBT.getCompound(i)));
+        }
     }
 
     @Override

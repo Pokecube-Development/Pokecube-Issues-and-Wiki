@@ -232,7 +232,7 @@ public class ThutWearables
             if (!stack.isEmpty())
             {
                 EnumWearable.takeOff(mob, stack, i);
-                final WearableDroppedEvent dropEvent = new WearableDroppedEvent(mob, stack, i);
+                final WearableDroppedEvent dropEvent = new WearableDroppedEvent(event, stack, i);
                 if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
                 final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
                 final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
