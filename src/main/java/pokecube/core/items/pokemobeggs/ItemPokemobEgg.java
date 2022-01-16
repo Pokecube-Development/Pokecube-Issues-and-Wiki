@@ -261,9 +261,9 @@ public class ItemPokemobEgg extends Item
             mob.setHealth(mob.getMaxHealth());
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
             exp = Math.max(1, exp);
-            mob.setForSpawn(exp);
             entity.moveTo(Math.floor(egg.getX()) + 0.5, Math.floor(egg.getY()) + 0.5, Math.floor(egg.getZ()) + 0.5,
                     world.random.nextFloat() * 360F, 0.0F);
+            mob.setForSpawn(exp);
             final CompoundTag nbt = stack.getTag();
             final boolean hasNest = nbt.contains("nestLoc");
             if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
