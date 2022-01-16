@@ -1,4 +1,4 @@
-package pokecube.mixin;
+package pokecube.mixin.worldgen;
 
 import java.util.List;
 import java.util.function.Predicate;
