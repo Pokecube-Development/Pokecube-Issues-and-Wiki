@@ -38,6 +38,7 @@ import pokecube.legends.worldgen.features.MeteoriteSpikeFeature;
 import pokecube.legends.worldgen.features.PatchFeature;
 import pokecube.legends.worldgen.features.PollutedIcebergFeature;
 import pokecube.legends.worldgen.features.PollutedSnowAndFreezeFeature;
+import pokecube.legends.worldgen.features.RockFeature;
 import pokecube.legends.worldgen.features.SurfaceFossilFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
@@ -82,8 +83,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DESERT_ROCK = WorldgenFeatures.FEATURES.register("desert_rock_feature",
-//            () -> new DesertRockFeature(BlockStateConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> ROCK = WorldgenFeatures.FEATURES.register("rock_feature",
+            () -> new RockFeature(BlockStateConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
 //            () -> new DiskFeature(DiskConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",

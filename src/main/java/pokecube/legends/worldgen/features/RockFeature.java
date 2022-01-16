@@ -7,15 +7,16 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraftforge.common.Tags;
 
-public class DesertRockFeature extends Feature<BlockStateConfiguration>
+public class RockFeature extends Feature<BlockStateConfiguration>
 {
-   public DesertRockFeature(Codec<BlockStateConfiguration> config)
+   public RockFeature(Codec<BlockStateConfiguration> config)
    {
       super(config);
    }
@@ -33,7 +34,7 @@ public class DesertRockFeature extends Feature<BlockStateConfiguration>
          if (!world.isEmptyBlock(pos.below()))
          {
             BlockState state = world.getBlockState(pos.below());
-            if (isSand(state) || isSandstone(state))
+            if (state.is(Blocks.AIR) || state.is(Blocks.LAVA) || state.is(Blocks.WATER))
             {
                break;
             }
