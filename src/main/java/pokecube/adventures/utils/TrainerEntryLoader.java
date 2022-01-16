@@ -138,7 +138,7 @@ public class TrainerEntryLoader
                             "Error with weight for " + type.getName() + " " + rule.values + " " + entry.spawns, e);
                     return;
                 }
-                final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
+                final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
                 type.spawns.put(matcher, weight);
             });
             type.hasBelt = entry.belt;

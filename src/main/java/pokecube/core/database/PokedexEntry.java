@@ -253,7 +253,7 @@ public class PokedexEntry
         {
             this.preset = null;
             if (data.level != null) this.level = data.level;
-            if (data.location != null) this.matcher = new SpawnBiomeMatcher(data.location);
+            if (data.location != null) this.matcher =SpawnBiomeMatcher.get(data.location);
             if (data.animation != null) this.FX = data.animation;
             if (data.item != null) this.item = Tools.getStack(data.item.getValues());
             if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);

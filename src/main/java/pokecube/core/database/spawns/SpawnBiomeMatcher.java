@@ -113,14 +113,24 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
 
+    private static final Map<String, SpawnRule> RULES = Maps.newHashMap();
+    private static final Map<SpawnRule, SpawnBiomeMatcher> MATCHERS = Maps.newHashMap();
+
+    public static SpawnBiomeMatcher get(SpawnRule rule)
+    {
+        final SpawnRule orig = rule;
+        rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
+        return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
+    }
+
     static
     {
         SpawnRule rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "all");
-        ALLMATCHER = new SpawnBiomeMatcher(rule);
+        ALLMATCHER = SpawnBiomeMatcher.get(rule);
         rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "none");
-        NONEMATCHER = new SpawnBiomeMatcher(rule);
+        NONEMATCHER = SpawnBiomeMatcher.get(rule);
     }
 
     private static int lastBiomesSize = -1;
@@ -228,8 +238,12 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     private boolean _checked_cats = false;
 
-    private final Object mutex = new Object();
-
+    @Deprecated
+    /**
+     * Do not call this, use the static method instead!
+     * 
+     * @param rules
+     */
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
@@ -396,11 +410,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     /**
      * This is a check for just a single biome, it doesn't factor in the other
      * values such as subbiome (unless flagged all), lighting, time, etc.
+     * 
+     * This is synchronised as it is run during worldgen, on multiple threads.
      *
      * @param biome
-     * @return
+     * @return true if the biome matches us
      */
-    public boolean checkBiome(final ResourceLocation biome)
+    public synchronized boolean checkBiome(final ResourceLocation biome)
     {
         this.parse();
         if (!this.valid) return false;
@@ -613,6 +629,11 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return changed;
     }
 
+    /**
+     * This sets up the lists of valid biomes and types.
+     * 
+     * This is synchronised as it is run during worldgen, on multiple threads.
+     */
     public synchronized void parse()
     {
         if (this.parsed || __client__) return;
@@ -657,7 +678,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                or_base = new SpawnBiomeMatcher(base).setClient(__client__);
+                or_base = SpawnBiomeMatcher.get(base).setClient(__client__);
                 this._or_children.add(or_base);
             }
 
@@ -667,7 +688,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
                     this._or_children.add(child);
                 }
                 else if (!__client__)
@@ -684,7 +705,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                and_base = new SpawnBiomeMatcher(base).setClient(__client__);
+                and_base = SpawnBiomeMatcher.get(base).setClient(__client__);
                 this._and_children.add(and_base);
             }
 
@@ -694,7 +715,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
                     this._and_children.add(child);
                 }
                 else if (!__client__)
@@ -711,7 +732,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
                     this._not_children.add(child);
                 }
                 else if (!__client__)
@@ -1024,6 +1045,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         }
     }
 
+    /**
+     * This resets the lists for if they need to be recomputed for resource
+     * reloading/etc.
+     * 
+     * This is synchronised as it may be run during worldgen, on multiple
+     * threads.
+     */
     public synchronized void reset()
     {
         this.parsed = false;

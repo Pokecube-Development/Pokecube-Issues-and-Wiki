@@ -31,6 +31,10 @@ import pokecube.core.database.Database;
 
 public class PackFinder implements RepositorySource
 {
+    public static long time_listing = 0;
+    public static long time_getting_1 = 0;
+    public static long time_getting_2 = 0;
+
     static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
 
     public static Collection<ResourceLocation> getJsonResources(final String path)
@@ -41,23 +45,41 @@ public class PackFinder implements RepositorySource
     public static Collection<ResourceLocation> getResources(String path, final Predicate<String> match)
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-        return Database.resourceManager.listResources(path, match);
+
+        long start = System.nanoTime();
+        Collection<ResourceLocation> ret = Database.resourceManager.listResources(path, match);
+        long end = System.nanoTime();
+        time_listing += (end - start);
+
+        return ret;
     }
 
     public static InputStream getStream(ResourceLocation l) throws IOException
     {
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
-        return Database.resourceManager.getResource(l).getInputStream();
+
+        long start = System.nanoTime();
+        InputStream ret = Database.resourceManager.getResource(l).getInputStream();
+        long end = System.nanoTime();
+        time_getting_1 += (end - start);
+
+        return ret;
     }
 
     public static List<Resource> getResources(ResourceLocation l) throws IOException
     {
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
-        return Database.resourceManager.getResources(l);
+
+        long start = System.nanoTime();
+        List<Resource> ret = Database.resourceManager.getResources(l);
+        long end = System.nanoTime();
+        time_getting_2 += (end - start);
+
+        return ret;
     }
 
-    public final List<PackResources> allPacks    = Lists.newArrayList();
-    public Set<PackResources>        folderPacks = Sets.newHashSet();
+    public final List<PackResources> allPacks = Lists.newArrayList();
+    public Set<PackResources> folderPacks = Sets.newHashSet();
 
     private final FolderRepositorySource folderFinder_old;
     private final FolderRepositorySource folderFinder_new;

@@ -33,7 +33,7 @@ public class PokecubeHelper
         final SpawnRule rule = new SpawnRule();
         rule.values.put("rate", "1");
         rule.values.put("types", "moon");
-        PokecubeHelper.moonMatcher = new SpawnBiomeMatcher(rule);
+        PokecubeHelper.moonMatcher = SpawnBiomeMatcher.get(rule);
     }
 
     public double dive(final IPokemob mob)

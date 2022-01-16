@@ -630,7 +630,7 @@ public class BerryGenManager
         if (BerryGenManager.list != null)
             for (final BerrySpawn rule : BerryGenManager.list.locations) for (final SpawnRule spawn : rule.spawn)
         {
-            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(spawn);
+            final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(spawn);
             final List<ItemStack> berries = Lists.newArrayList();
             for (final String s : rule.berry.split(","))
             {
