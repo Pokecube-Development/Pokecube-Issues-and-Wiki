@@ -266,8 +266,6 @@ public class JigsawAssmbler
         Pools.bootstrap();
         StructureFeature.bootstrap();
 
-        if (!context.config().struct_config.name.contains("high")) return Optional.empty();
-
         RegistryAccess dynamicRegistryManager = context.registryAccess();
         ResourceLocation resourceLocationIn = new ResourceLocation(context.config().struct_config.root);
         JigsawPlacement.PieceFactory pieceFactory = PoolElementStructurePiece::new;
