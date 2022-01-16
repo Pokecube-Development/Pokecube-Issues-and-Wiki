@@ -3668,6 +3668,35 @@
                               "if_true": {
                                 "type": "minecraft:biome",
                                 "biome_is": [
+                                  "pokecube_legends:meteorite_spikes"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:sequence",
+                                "sequence": [
+                                  {
+                                    "type": "minecraft:condition",
+                                    "if_true": {
+                                      "type": "minecraft:noise_threshold",
+                                      "noise": "pokecube_legends:meteorite_block",
+                                      "min_threshold": -0.0125,
+                                      "max_threshold": 0.0125
+                                    },
+                                    "then_run": {
+                                      "type": "minecraft:block",
+                                      "result_state": {
+                                        "Name": "pokecube_legends:meteorite_block"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
                                   "pokecube_legends:ultra_stony_peaks",
                                   "pokecube_legends:ultra_stony_shore"
                                 ]
@@ -4880,6 +4909,35 @@
                         {
                           "type": "minecraft:sequence",
                           "sequence": [
+                            {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
+                                  "pokecube_legends:meteorite_spikes"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:sequence",
+                                "sequence": [
+                                  {
+                                    "type": "minecraft:condition",
+                                    "if_true": {
+                                      "type": "minecraft:noise_threshold",
+                                      "noise": "pokecube_legends:meteorite_block",
+                                      "min_threshold": -0.0125,
+                                      "max_threshold": 0.0125
+                                    },
+                                    "then_run": {
+                                      "type": "minecraft:block",
+                                      "result_state": {
+                                        "Name": "pokecube_legends:meteorite_block"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
                             {
                               "type": "minecraft:condition",
                               "if_true": {

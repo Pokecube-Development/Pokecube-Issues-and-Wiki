@@ -42,7 +42,9 @@
       "pokecube_legends:aquamarine_geode"
     ],
     [],
-    [],
+    [
+      "pokecube_legends:ash_patch_rare"
+    ],
     [],
     [
       "minecraft:underwater_magma",
@@ -89,14 +91,14 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:patch_grass_badlands",
       "minecraft:patch_sugar_cane",
       "pokecube_legends:compreced_mushroom_normal",
       "pokecube_legends:distorced_mushroom_normal",
       "pokecube_legends:glow_lichen",
       "pokecube_legends:patch_fire",
       "pokecube_legends:patch_ash_scattered",
-      "pokecube_legends:patch_ash_scattered_waterlogged"
+      "pokecube_legends:patch_ash_scattered_waterlogged",
+      "pokecube_legends:patch_grass_badlands"
     ],
     [
       "minecraft:freeze_top_layer"

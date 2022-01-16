@@ -33,6 +33,7 @@ import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
 import pokecube.legends.worldgen.features.LargeUnrefinedAquamarine;
+import pokecube.legends.worldgen.features.MeteoriteSpikeFeature;
 import pokecube.legends.worldgen.features.PollutedIcebergFeature;
 import pokecube.legends.worldgen.features.PollutedSnowAndFreezeFeature;
 import pokecube.legends.worldgen.features.SurfaceFossilFeature;
@@ -97,6 +98,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 //            () -> new LakeFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LARGE_UNREFINED_AQUAMARINE = WorldgenFeatures.FEATURES.register("large_unrefined_aquamarine_feature",
             () -> new LargeUnrefinedAquamarine(LargeDripstoneConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> METEORITE_SPIKES = WorldgenFeatures.FEATURES.register("meteorite_spike_feature",
+            () -> new MeteoriteSpikeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> POLLUTED_ICEBERG = WorldgenFeatures.FEATURES.register("polluted_iceberg_feature",
             () -> new PollutedIcebergFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> POLLUTED_SNOW_FREEZE = WorldgenFeatures.FEATURES.register("freeze_top_layer_polluted_feature",
