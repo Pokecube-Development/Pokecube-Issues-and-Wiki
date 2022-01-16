@@ -212,7 +212,6 @@ public class WorldgenHandler
                 if (this.seed < 0) this.seed *= -1;
             }
             return new StructureFeatureConfiguration(this.distance, this.separation, this.seed);
-//            return new StructureFeatureConfiguration(4, 1, this.seed);
         }
 
         public static JigSawConfig deserialize(final String structstring)
@@ -240,7 +239,7 @@ public class WorldgenHandler
         {
             if (this.spawn == null) return null;
             if (_matcher != null) return _matcher;
-            return _matcher = new SpawnBiomeMatcher(spawn);
+            return _matcher = SpawnBiomeMatcher.get(spawn);
         }
     }
 
@@ -563,7 +562,7 @@ public class WorldgenHandler
                     final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
                     final StructureFeature<?> structure = reg.getValue(location);
                     if (reg.containsKey(location))
-                        serverWorld.findNearestMapFeature(structure, BlockPos.ZERO, 50, false);
+                        serverWorld.findNearestMapFeature(structure, BlockPos.ZERO, 5, false);
                 });
 
         }

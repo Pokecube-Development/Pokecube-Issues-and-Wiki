@@ -76,50 +76,104 @@ import thut.core.common.ThutCore;
 
 public class JigsawAssmbler
 {
+    public static record StructureHolder(ResourceLocation id, BlockPos origin, BoundingBox box)
+            implements Comparable<StructureHolder>
+    {
+        public static StructureHolder start(StructureStart<?> s)
+        {
+            return new StructureHolder(s.getFeature().getRegistryName(), s.getBoundingBox().getCenter(),
+                    s.getBoundingBox());
+        }
+
+        public static StructureHolder update(StructureHolder in, BoundingBox box)
+        {
+            return new StructureHolder(in.id, in.origin, box);
+        }
+
+        public boolean conflicts(StructureHolder other)
+        {
+            // No conflicting with self.
+            if (sameStructure(other)) return false;
+            return box.intersects(other.box);
+        }
+
+        public final boolean sameStructure(StructureHolder other)
+        {
+            return id.equals(other.id) && origin.equals(other.origin);
+        }
+
+        @Override
+        public final int compareTo(StructureHolder o)
+        {
+            return origin.compareTo(o.origin);
+        }
+
+        @Override
+        public final boolean equals(Object obj)
+        {
+            if (obj instanceof StructureHolder h) return sameStructure(h) && box.equals(h.box);
+            return false;
+        }
+
+        @Override
+        public final int hashCode()
+        {
+            return id.hashCode() ^ origin.hashCode() ^ box.hashCode();
+        }
+
+        @Override
+        public String toString()
+        {
+            return id + " " + origin + " " + box;
+        }
+    }
+
     @EventBusSubscriber(bus = Bus.FORGE)
     public static class LevelStructureManager
     {
         static Object mutex = new Object();
 
-        static Map<ResourceKey<Level>, Map<ChunkPos, List<BoundingBox>>> BOXMAP = Maps.newConcurrentMap();
+        static Map<ResourceKey<Level>, Map<ChunkPos, List<StructureHolder>>> BOXMAP = Maps.newConcurrentMap();
 
-        public static void fillPossibleConflicts(ChunkPos pos, ResourceKey<Level> dim, Collection<BoundingBox> toFill)
+        public static void fillPossibleConflicts(StructureHolder reference, ChunkPos pos, ResourceKey<Level> dim,
+                Collection<StructureHolder> toFill)
         {
             synchronized (mutex)
             {
-                Map<ChunkPos, List<BoundingBox>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
-                List<BoundingBox> others = here.get(pos);
+                Map<ChunkPos, List<StructureHolder>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
+                List<StructureHolder> others = here.get(pos);
                 if (others != null)
                 {
-                    toFill.addAll(others);
+                    others.forEach(c -> {
+                        if (!c.sameStructure(reference)) toFill.add(c);
+                    });
                 }
             }
         }
 
-        public static void addPossibleConflicts(BoundingBox box, ResourceKey<Level> dim)
+        public static void addPossibleConflicts(StructureHolder reference, ResourceKey<Level> dim)
         {
             synchronized (mutex)
             {
-                Map<ChunkPos, List<BoundingBox>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
+                Map<ChunkPos, List<StructureHolder>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
+                BoundingBox box = reference.box();
                 Set<ChunkPos> added = Sets.newHashSet();
-                int dx = Math.min(8, box.getXSpan() / 4);
-                int dz = Math.min(8, box.getZSpan() / 4);
 
-                dx = Math.max(dx, 1);
-                dz = Math.max(dz, 1);
+                int x_0 = SectionPos.blockToSectionCoord(box.minX);
+                int x_1 = SectionPos.blockToSectionCoord(box.maxX);
 
-                for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minZ; j < box.maxZ; j += dz)
+                int z_0 = SectionPos.blockToSectionCoord(box.minZ);
+                int z_1 = SectionPos.blockToSectionCoord(box.maxZ);
+
+                for (int x = x_0; x <= x_1; x++) for (int z = z_0; z <= z_1; z++)
                 {
-                    int x = SectionPos.blockToSectionCoord(i);
-                    int z = SectionPos.blockToSectionCoord(j);
-
                     ChunkPos cpos = new ChunkPos(x, z);
                     if (added.contains(cpos)) continue;
                     added.add(cpos);
 
-                    List<BoundingBox> list = here.get(cpos);
+                    List<StructureHolder> list = here.get(cpos);
                     if (list == null) here.put(cpos, list = Lists.newArrayList());
-                    list.add(box);
+                    list.add(reference);
                 }
             }
         }
@@ -130,7 +184,12 @@ public class JigsawAssmbler
             if (!(event.getWorld() instanceof ServerLevel level)) return;
             for (StructureStart<?> s : event.getChunk().getAllStarts().values())
             {
-                if (s.isValid()) addPossibleConflicts(s.getBoundingBox(), level.dimension());
+                if (s.isValid())
+                {
+                    StructureHolder holder = new StructureHolder(s.getFeature().getRegistryName(),
+                            s.getBoundingBox().getCenter(), s.getBoundingBox());
+                    addPossibleConflicts(holder, level.dimension());
+                }
             }
         }
 
@@ -202,8 +261,9 @@ public class JigsawAssmbler
     private final Set<String> once_added = Sets.newHashSet();
     private final Set<String> needed_once = Sets.newHashSet();
 
-    private final Set<BoundingBox> conflict_check = Sets.newHashSet();
+    private final Set<StructureHolder> conflict_check = Sets.newHashSet();
     private final Set<ChunkPos> checked_chunks = Sets.newHashSet();
+    private StructureHolder reference;
 
     private final JigSawConfig config;
 
@@ -273,6 +333,7 @@ public class JigsawAssmbler
         StructureManager templateManagerIn = context.structureManager();
         WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
         LevelHeightAccessor heightAccessor = context.heightAccessor();
+        reference = new StructureHolder(structName, pos, null);
 
         worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
 
@@ -281,7 +342,7 @@ public class JigsawAssmbler
                 heightAccessor);
         if (conflicted)
         {
-            PokecubeMod.LOGGER.debug("Failed due to conflicts for " + context.config().struct_config.name);
+            PokecubeMod.LOGGER.info("Failed due to conflicts for " + context.config().struct_config.name);
             return Optional.empty();
         }
 
@@ -296,11 +357,11 @@ public class JigsawAssmbler
                     templateManagerIn, pos, worldgenrandom, isValid, default_k, heightAccessor);
             if (conflicted)
             {
-                PokecubeMod.LOGGER.debug("Failed due to conflicts for " + context.config().struct_config.name);
+                PokecubeMod.LOGGER.info("Failed due to conflicts for " + context.config().struct_config.name);
                 return Optional.empty();
             }
         }
-        if (n > 1) PokecubeMod.LOGGER.debug(n + " iterations of build for: " + context.config().struct_config.name);
+        if (n > 1) PokecubeMod.LOGGER.info(n + " iterations of build for: " + context.config().struct_config.name);
 
         if (parts.isEmpty() || n > maxN) return Optional.empty();
 
@@ -329,7 +390,8 @@ public class JigsawAssmbler
                 total = merge;
             }
         }
-        LevelStructureManager.addPossibleConflicts(total, dimension);
+        StructureHolder holder = StructureHolder.update(reference, total);
+        LevelStructureManager.addPossibleConflicts(holder, dimension);
 
         return Optional.of((builder, context_) -> {
             postProcessor.accept(context_, parts);
@@ -442,31 +504,27 @@ public class JigsawAssmbler
         if (checkConflicts && thisFeature != null)
         {
             BoundingBox box = part.getBoundingBox();
-            int dx = Math.min(8, box.getXSpan() / 4);
-            int dz = Math.min(8, box.getZSpan() / 4);
 
-            dx = Math.max(dx, 1);
-            dz = Math.max(dz, 1);
+            int x_0 = SectionPos.blockToSectionCoord(box.minX);
+            int x_1 = SectionPos.blockToSectionCoord(box.maxX);
 
-            for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minZ; j < box.maxZ; j += dz)
+            int z_0 = SectionPos.blockToSectionCoord(box.minZ);
+            int z_1 = SectionPos.blockToSectionCoord(box.maxZ);
+
+            for (int x = x_0; x <= x_1; x++) for (int z = z_0; z <= z_1; z++)
             {
-                int x = SectionPos.blockToSectionCoord(i);
-                int z = SectionPos.blockToSectionCoord(j);
-
                 ChunkPos pos = new ChunkPos(x, z);
                 if (checked_chunks.contains(pos)) continue;
                 checked_chunks.add(pos);
 
-                LevelStructureManager.fillPossibleConflicts(pos, dimension, conflict_check);
+                LevelStructureManager.fillPossibleConflicts(reference, pos, dimension, conflict_check);
 
                 // Here we check if there are any conflicting structures around.
-
                 final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
                 final StructureSettings settings = chunkGenerator.getSettings();
 
-                // We ask for EMPTY chunk, and allow it to be null, so
-                // that
+                // We ask for EMPTY chunk, and allow it to be null, so that
                 // we don't cause issues if the chunk doesn't exist yet.
                 final ChunkAccess ichunk = world.getChunk(x, z, ChunkStatus.EMPTY, false);
                 // We then only care about chunks which have already
@@ -476,6 +534,9 @@ public class JigsawAssmbler
 
                 for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
                 {
+                    // We shouldn't be conflicting with ourself
+                    if (s.getRegistryName().equals(structName)) continue;
+
                     final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
                     // This means it doesn't spawn in this world, so we skip.
                     if (structureseparationsettings == null) continue;
@@ -486,15 +547,18 @@ public class JigsawAssmbler
                     // This means we do conflict, so no spawn here.
                     if (structurestart != null && structurestart.isValid())
                     {
-                        conflict_check.add(structurestart.getBoundingBox());
+                        conflict_check.add(StructureHolder.start(structurestart));
                     }
                 }
             }
-            for (BoundingBox b : conflict_check)
+
+            // Update our local holder to only include the box we are trying to
+            // make.
+            StructureHolder here = StructureHolder.update(reference, box);
+            for (StructureHolder b : conflict_check)
             {
-                if (b.intersects(box))
+                if (here.conflicts(b))
                 {
-                    this.conflicted = true;
                     return false;
                 }
             }
