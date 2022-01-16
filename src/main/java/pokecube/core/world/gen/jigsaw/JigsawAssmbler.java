@@ -1,8 +1,10 @@
 package pokecube.core.world.gen.jigsaw;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -12,6 +14,7 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 
@@ -22,6 +25,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.SectionPos;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -59,6 +63,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
@@ -67,6 +76,91 @@ import thut.core.common.ThutCore;
 
 public class JigsawAssmbler
 {
+    @EventBusSubscriber(bus = Bus.FORGE)
+    public static class LevelStructureManager
+    {
+        static Object mutex = new Object();
+
+        static Map<ResourceKey<Level>, Map<ChunkPos, List<BoundingBox>>> BOXMAP = Maps.newConcurrentMap();
+
+        public static void fillPossibleConflicts(ChunkPos pos, ResourceKey<Level> dim, Collection<BoundingBox> toFill)
+        {
+            synchronized (mutex)
+            {
+                Map<ChunkPos, List<BoundingBox>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
+                List<BoundingBox> others = here.get(pos);
+                if (others != null)
+                {
+                    toFill.addAll(others);
+                }
+            }
+        }
+
+        public static void addPossibleConflicts(BoundingBox box, ResourceKey<Level> dim)
+        {
+            synchronized (mutex)
+            {
+                Map<ChunkPos, List<BoundingBox>> here = BOXMAP.computeIfAbsent(dim, (a) -> Maps.newConcurrentMap());
+                Set<ChunkPos> added = Sets.newHashSet();
+                int dx = Math.min(8, box.getXSpan() / 4);
+                int dz = Math.min(8, box.getZSpan() / 4);
+
+                dx = Math.max(dx, 1);
+                dz = Math.max(dz, 1);
+
+                for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minZ; j < box.maxZ; j += dz)
+                {
+                    int x = SectionPos.blockToSectionCoord(i);
+                    int z = SectionPos.blockToSectionCoord(j);
+
+                    ChunkPos cpos = new ChunkPos(x, z);
+                    if (added.contains(cpos)) continue;
+                    added.add(cpos);
+
+                    List<BoundingBox> list = here.get(cpos);
+                    if (list == null) here.put(cpos, list = Lists.newArrayList());
+                    list.add(box);
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onChunkLoad(ChunkEvent.Load event)
+        {
+            if (!(event.getWorld() instanceof ServerLevel level)) return;
+            for (StructureStart<?> s : event.getChunk().getAllStarts().values())
+            {
+                if (s.isValid()) addPossibleConflicts(s.getBoundingBox(), level.dimension());
+            }
+        }
+
+        @SubscribeEvent
+        public static void onChunkUnload(ChunkEvent.Unload event)
+        {
+            if (!(event.getWorld() instanceof ServerLevel level)) return;
+            if (!BOXMAP.containsKey(level.dimension())) return;
+            synchronized (mutex)
+            {
+                BOXMAP.get(level.dimension()).remove(event.getChunk().getPos());
+            }
+
+        }
+
+        @SubscribeEvent
+        public static void onWorldLoad(WorldEvent.Load event)
+        {}
+
+        @SubscribeEvent
+        public static void onWorldUnload(WorldEvent.Unload event)
+        {
+            if (!(event.getWorld() instanceof ServerLevel level)) return;
+            synchronized (mutex)
+            {
+                BOXMAP.remove(level.dimension());
+            }
+        }
+    }
+
     static final class Entry
     {
         private final PoolElementStructurePiece villagePiece;
@@ -113,9 +207,13 @@ public class JigsawAssmbler
 
     private final JigSawConfig config;
 
+    ResourceKey<Level> dimension;
+
     private LevelHeightAccessor heightAccess;
 
     private boolean checkConflicts = false;
+
+    private boolean conflicted = false;
 
     final ResourceLocation structName;
     StructureFeature<?> thisFeature;
@@ -144,6 +242,7 @@ public class JigsawAssmbler
         this.once_added.clear();
         this.needed_once.clear();
         this.needed_once.addAll(this.config.needed_once);
+        this.dimension = getForGen(chunkGenerator).dimension();
     }
 
     private StructureTemplatePool init(final RegistryAccess regAccess, final ResourceLocation pool)
@@ -167,6 +266,8 @@ public class JigsawAssmbler
         Pools.bootstrap();
         StructureFeature.bootstrap();
 
+        if (!context.config().struct_config.name.contains("high")) return Optional.empty();
+
         RegistryAccess dynamicRegistryManager = context.registryAccess();
         ResourceLocation resourceLocationIn = new ResourceLocation(context.config().struct_config.root);
         JigsawPlacement.PieceFactory pieceFactory = PoolElementStructurePiece::new;
@@ -180,25 +281,35 @@ public class JigsawAssmbler
         boolean built = build(dynamicRegistryManager, resourceLocationIn, context.config().struct_config.size,
                 pieceFactory, chunkGenerator, templateManagerIn, pos, worldgenrandom, isValid, default_k,
                 heightAccessor);
+        if (conflicted)
+        {
+            PokecubeMod.LOGGER.debug("Failed due to conflicts for " + context.config().struct_config.name);
+            return Optional.empty();
+        }
 
         LegacyRandomSource rand = new LegacyRandomSource(0);
 
         int n = 1;
-
         int maxN = 5;
         while (!built && n++ < maxN)
         {
             worldgenrandom.setLargeFeatureSeed(rand.nextLong(), context.chunkPos().x, context.chunkPos().z);
             built = build(dynamicRegistryManager, resourceLocationIn, default_k, pieceFactory, chunkGenerator,
                     templateManagerIn, pos, worldgenrandom, isValid, default_k, heightAccessor);
+            if (conflicted)
+            {
+                PokecubeMod.LOGGER.debug("Failed due to conflicts for " + context.config().struct_config.name);
+                return Optional.empty();
+            }
         }
-        if (n > 1) PokecubeMod.LOGGER.warn(n + " iterations of build for: " + context.config().struct_config.name);
+        if (n > 1) PokecubeMod.LOGGER.debug(n + " iterations of build for: " + context.config().struct_config.name);
 
         if (parts.isEmpty() || n > maxN) return Optional.empty();
 
         int max_h = JigsawAssmbler.getForGen(chunkGenerator).dimensionType().logicalHeight() - 5;
 
         int y_shift = 0;
+        BoundingBox total = null;
         for (StructurePiece p : parts)
         {
             if (p.getBoundingBox().maxY > max_h) y_shift = Math.min(y_shift, max_h - p.getBoundingBox().maxY);
@@ -209,6 +320,18 @@ public class JigsawAssmbler
             PokecubeMod.LOGGER.debug("Shifting {} down by {} ", context.config().struct_config.name, y_shift);
             for (StructurePiece p : parts) p.move(0, y_shift, 0);
         }
+
+        for (StructurePiece p : parts)
+        {
+            if (total == null) total = p.getBoundingBox();
+            else
+            {
+                @SuppressWarnings("deprecation")
+                BoundingBox merge = total.encapsulate(p.getBoundingBox());
+                total = merge;
+            }
+        }
+        LevelStructureManager.addPossibleConflicts(total, dimension);
 
         return Optional.of((builder, context_) -> {
             postProcessor.accept(context_, parts);
@@ -321,13 +444,13 @@ public class JigsawAssmbler
         if (checkConflicts && thisFeature != null)
         {
             BoundingBox box = part.getBoundingBox();
-            int dx = Math.min(16, box.getXSpan() / 4);
-            int dz = Math.min(16, box.getZSpan() / 4);
+            int dx = Math.min(8, box.getXSpan() / 4);
+            int dz = Math.min(8, box.getZSpan() / 4);
 
             dx = Math.max(dx, 1);
             dz = Math.max(dz, 1);
 
-            for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minX; j < box.maxX; j += dz)
+            for (int i = box.minX; i < box.maxX; i += dx) for (int j = box.minZ; j < box.maxZ; j += dz)
             {
                 int x = SectionPos.blockToSectionCoord(i);
                 int z = SectionPos.blockToSectionCoord(j);
@@ -336,10 +459,11 @@ public class JigsawAssmbler
                 if (checked_chunks.contains(pos)) continue;
                 checked_chunks.add(pos);
 
+                LevelStructureManager.fillPossibleConflicts(pos, dimension, conflict_check);
+
                 // Here we check if there are any conflicting structures around.
 
                 final ServerLevel world = JigsawAssmbler.getForGen(chunkGenerator);
-                world.getChunkSource();
                 final StructureFeatureManager sfmanager = world.structureFeatureManager();
                 final StructureSettings settings = chunkGenerator.getSettings();
 
@@ -348,16 +472,12 @@ public class JigsawAssmbler
                 // we don't cause issues if the chunk doesn't exist yet.
                 final ChunkAccess ichunk = world.getChunk(x, z, ChunkStatus.EMPTY, false);
                 // We then only care about chunks which have already
-                // reached
-                // at least this stage of loading.
+                // reached at least this stage of loading.
                 if (ichunk == null || !ichunk.getStatus().isOrAfter(ChunkStatus.STRUCTURE_STARTS)) continue;
                 if (!ichunk.hasAnyStructureReferences()) continue;
 
                 for (final StructureFeature<?> s : WorldgenHandler.getSortedList())
                 {
-                    // We shouldn't be conflicting with ourself
-                    if (s.getRegistryName().equals(structName)) continue;
-
                     final StructureFeatureConfiguration structureseparationsettings = settings.getConfig(s);
                     // This means it doesn't spawn in this world, so we skip.
                     if (structureseparationsettings == null) continue;
@@ -374,7 +494,11 @@ public class JigsawAssmbler
             }
             for (BoundingBox b : conflict_check)
             {
-                if (b.intersects(box)) return false;
+                if (b.intersects(box))
+                {
+                    this.conflicted = true;
+                    return false;
+                }
             }
         }
         return parts.add(part);
@@ -582,8 +706,10 @@ public class JigsawAssmbler
                         }
                     }
                 }
+
             }
             else PokecubeCore.LOGGER.warn("Empty or none existent pool: {}", jigsaw_block.nbt.getString("target_pool"));
+//            PokecubeCore.LOGGER.info("Ended Structure");
         }
     }
 }

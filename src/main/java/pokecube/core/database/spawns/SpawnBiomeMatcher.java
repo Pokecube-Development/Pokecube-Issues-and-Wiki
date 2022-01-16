@@ -192,9 +192,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
      * If the spawnRule has an anyType key, make a child for each type in it,
      * then check if any of the children are valid.
      */
-    public Set<SpawnBiomeMatcher> _and_children = Sets.newHashSet();
-    public Set<SpawnBiomeMatcher> _or_children = Sets.newHashSet();
-    public Set<SpawnBiomeMatcher> _not_children = Sets.newHashSet();
+    public List<SpawnBiomeMatcher> _and_children = Lists.newArrayList();
+    public List<SpawnBiomeMatcher> _or_children = Lists.newArrayList();
+    public List<SpawnBiomeMatcher> _not_children = Lists.newArrayList();
 
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
@@ -227,6 +227,8 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     public Set<TerrainType> _validTerrain = ALL_TERRAIN;
 
     private boolean _checked_cats = false;
+
+    private final Object mutex = new Object();
 
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
@@ -611,7 +613,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return changed;
     }
 
-    public void parse()
+    public synchronized void parse()
     {
         if (this.parsed || __client__) return;
 
@@ -1022,7 +1024,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         }
     }
 
-    public void reset()
+    public synchronized void reset()
     {
         this.parsed = false;
         this._checked_cats = false;
@@ -1040,9 +1042,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this._neededWeather == null) this._neededWeather = Sets.newHashSet();
         if (this._validCats == null) this._validCats = Sets.newHashSet();
         if (this._blackListCats == null) this._blackListCats = Sets.newHashSet();
-        if (this._and_children == null) this._and_children = Sets.newHashSet();
-        if (this._or_children == null) this._or_children = Sets.newHashSet();
-        if (this._not_children == null) this._not_children = Sets.newHashSet();
+        if (this._and_children == null) this._and_children = Lists.newArrayList();
+        if (this._or_children == null) this._or_children = Lists.newArrayList();
+        if (this._not_children == null) this._not_children = Lists.newArrayList();
 
         // Now lets ensure they are empty.
         this._validCats.clear();

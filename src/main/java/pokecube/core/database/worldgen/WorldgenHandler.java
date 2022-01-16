@@ -191,7 +191,7 @@ public class WorldgenHandler
         private final List<ResourceKey<Level>> _blacklisted = Lists.newArrayList();
         private final List<ResourceKey<Level>> _whitelisted = Lists.newArrayList();
 
-        public SpawnBiomeMatcher _matcher;
+        private SpawnBiomeMatcher _matcher;
 
         public String serialize()
         {
@@ -212,6 +212,7 @@ public class WorldgenHandler
                 if (this.seed < 0) this.seed *= -1;
             }
             return new StructureFeatureConfiguration(this.distance, this.separation, this.seed);
+//            return new StructureFeatureConfiguration(4, 1, this.seed);
         }
 
         public static JigSawConfig deserialize(final String structstring)
@@ -233,6 +234,13 @@ public class WorldgenHandler
             }
             if (this._whitelisted.contains(dim)) return false;
             return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
+        }
+
+        public SpawnBiomeMatcher getMatcher()
+        {
+            if (this.spawn == null) return null;
+            if (_matcher != null) return _matcher;
+            return _matcher = new SpawnBiomeMatcher(spawn);
         }
     }
 
@@ -323,8 +331,6 @@ public class WorldgenHandler
         public BiomeStructure(final ConfiguredStructureFeature<?, ?> configured, final JigSawConfig config)
         {
             this.configured_feature = configured;
-
-            if (config.spawn != null) config._matcher = new SpawnBiomeMatcher(config.spawn);
         }
     }
 
@@ -580,7 +586,8 @@ public class WorldgenHandler
             final BiomeStructure value = new BiomeStructure(configured, struct);
             // Add the structures to the list, the predicate based on the spawn
             // rules it made.
-            this.structures.put(value, c -> struct._matcher == null ? false : struct._matcher.checkLoadEvent(c));
+            this.structures.put(value,
+                    c -> struct.getMatcher() == null ? false : struct.getMatcher().checkLoadEvent(c));
         }
     }
 

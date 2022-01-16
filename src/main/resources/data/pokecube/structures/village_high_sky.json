@@ -9,7 +9,7 @@
     },
     {
       "name": "pokecube:village/high_sky/terminators",
-      "rigid": false,
+      "rigid": true,
       "options": [
         "pokecube:village/high_sky/terminators/terminator_01"
       ]

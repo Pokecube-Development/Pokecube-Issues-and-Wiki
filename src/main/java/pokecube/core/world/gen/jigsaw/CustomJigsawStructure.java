@@ -138,8 +138,8 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
 
             for (Biome b : biomes)
             {
-                if (any) validContext = validContext || config.struct_config._matcher.checkBiome(b.getRegistryName());
-                else validContext = validContext && config.struct_config._matcher.checkBiome(b.getRegistryName());
+                if (any) validContext = validContext || config.struct_config.getMatcher().checkBiome(b.getRegistryName());
+                else validContext = validContext && config.struct_config.getMatcher().checkBiome(b.getRegistryName());
             }
             if (!validContext)
             {
