@@ -1,5 +1,10 @@
 {
-    "variants": {
-        "": { "model": "pokecube_legends:block/mushroom_coarse_dirt" }
-    }
+	"variants": {
+		"": [
+			{ "model": "pokecube_legends:block/mushroom_coarse_dirt" },
+			{ "model": "pokecube_legends:block/mushroom_coarse_dirt", "y": 90 },
+			{ "model": "pokecube_legends:block/mushroom_coarse_dirt", "y": 180 },
+			{ "model": "pokecube_legends:block/mushroom_coarse_dirt", "y": 270 }
+		]
+	}
 }

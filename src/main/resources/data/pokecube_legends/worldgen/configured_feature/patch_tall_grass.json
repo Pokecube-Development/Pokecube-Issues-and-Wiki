@@ -36,6 +36,7 @@
                 ],
                 "blocks": [
                   "pokecube_legends:azure_grass_block",
+                  "pokecube_legends:fungal_nylium",
                   "pokecube_legends:mushroom_grass_block"
                 ],
                 "type": "minecraft:matching_blocks"
