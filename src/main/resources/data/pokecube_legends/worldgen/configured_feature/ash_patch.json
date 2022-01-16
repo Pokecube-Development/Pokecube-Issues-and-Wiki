@@ -1,7 +1,7 @@
 {
   "config": {
     "state": {
-      "Name": "pokecube_legends:meteorite_block"
+      "Name": "pokecube_legends:ash_block"
     },
     "radius": {
       "type": "minecraft:uniform",
