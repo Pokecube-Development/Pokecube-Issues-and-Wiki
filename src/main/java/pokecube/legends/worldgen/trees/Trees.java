@@ -149,8 +149,7 @@ public class Trees
             new GiantTrunkPlacer(13, 2, 14),
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()), 
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(3, 8)),
-            new TwoLayersFeatureSize(1, 1, 2))
-                .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
+            new TwoLayersFeatureSize(1, 1, 2));
     }
 
     public static TreeConfigurationBuilder getMegaAgedSpruceTree()
@@ -160,8 +159,7 @@ public class Trees
             new GiantTrunkPlacer(13, 2, 14),
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()),
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(8, 13)),
-            new TwoLayersFeatureSize(1, 1, 2))
-                .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
+            new TwoLayersFeatureSize(1, 1, 2));
     }
 
     public static TreeConfigurationBuilder getCorruptedTree()
@@ -295,9 +293,11 @@ public class Trees
         Trees.AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:aged_spruce_tree",
                 Feature.TREE.configured(Trees.getAgedSpruceTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
         Trees.MEGA_AGED_PINE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_pine_tree",
-                Feature.TREE.configured(Trees.getMegaAgedPineTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
+                Feature.TREE.configured(Trees.getMegaAgedPineTree()
+                        .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL)))).build()));
         Trees.MEGA_AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_spruce_tree",
-                Feature.TREE.configured(Trees.getMegaAgedSpruceTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
+                Feature.TREE.configured(Trees.getMegaAgedSpruceTree()
+                        .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL)))).build()));
 
         Trees.CORRUPTED_TREE = FeatureUtils.register("pokecube_legends:corrupted_tree",
                 Feature.TREE.configured(Trees.getCorruptedTree().dirt(BlockStateProvider.simple(BlockInit.ROOTED_CORRUPTED_DIRT.get())).forceDirt().build()));
