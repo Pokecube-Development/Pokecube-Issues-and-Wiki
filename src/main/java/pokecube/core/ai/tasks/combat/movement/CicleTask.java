@@ -18,9 +18,9 @@ import thut.api.maths.Vector3;
  */
 public class CicleTask extends CombatTask implements IAICombat
 {
-    Entity  target;
+    Entity target;
     Vector3 centre;
-    double  movementSpeed;
+    double movementSpeed;
 
     public CicleTask(final IPokemob mob)
     {
@@ -55,8 +55,8 @@ public class CicleTask extends CombatTask implements IAICombat
         Node point = null;
         // If the mob has a path already, check if it is near the end, if not,
         // return early, getFinalPathPoint() is nullable!
-        if (!this.entity.getNavigation().isDone() && (point = this.entity.getNavigation().getPath()
-                .getEndNode()) != null)
+        if (!this.entity.getNavigation().isDone()
+                && (point = this.entity.getNavigation().getPath().getEndNode()) != null)
         {
             final Vector3 end = new Vector3().set(point);
             final Vector3 here = new Vector3().set(this.entity);
@@ -96,7 +96,8 @@ public class CicleTask extends CombatTask implements IAICombat
     {
         if (!TaskBase.canMove(this.pokemob)) return false;
         // Has target and is angry.
-        return (this.target = BrainUtils.getAttackTarget(this.entity)) != null && this.pokemob.getCombatState(
-                CombatStates.ANGRY);
+        return (this.target = BrainUtils.getAttackTarget(this.entity)) != null
+                && this.pokemob.getCombatState(CombatStates.ANGRY)
+                && !this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
     }
 }
