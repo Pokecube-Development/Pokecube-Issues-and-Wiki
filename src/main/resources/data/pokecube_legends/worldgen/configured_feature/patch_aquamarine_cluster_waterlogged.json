@@ -18,28 +18,28 @@
             "states": [
               {
 		        "Properties": {
-		          "waterlogged": "false",
+		          "waterlogged": "true",
 		          "facing": "up"
 		        },
                 "Name": "pokecube_legends:small_aquamarine_bud"
               },
               {
 		        "Properties": {
-		          "waterlogged": "false",
+		          "waterlogged": "true",
 		          "facing": "up"
 		        },
                 "Name": "pokecube_legends:medium_aquamarine_bud"
               },
               {
 		        "Properties": {
-		          "waterlogged": "false",
+		          "waterlogged": "true",
 		          "facing": "up"
 		        },
                 "Name": "pokecube_legends:large_aquamarine_bud"
               },
               {
 		        "Properties": {
-		          "waterlogged": "false",
+		          "waterlogged": "true",
 		          "facing": "up"
 		        },
                 "Name": "pokecube_legends:aquamarine_cluster"
@@ -56,7 +56,7 @@
             "predicates": [
               {
                 "blocks": [
-                  "minecraft:air"
+                  "minecraft:water"
                 ],
                 "type": "minecraft:matching_blocks"
               },
