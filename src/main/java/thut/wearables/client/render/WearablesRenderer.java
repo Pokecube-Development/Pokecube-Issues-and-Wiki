@@ -23,14 +23,15 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M>
 {
-    float[]                             offsetArr = { 0, 0, 0 };
+    float[] offsetArr =
+    { 0, 0, 0 };
 
-    private final RenderLayerParent<?, ?> livingEntityRenderer;
+    private final RenderLayerParent<?, ?> parent;
 
     public WearablesRenderer(final RenderLayerParent<T, M> livingEntityRendererIn)
     {
         super(livingEntityRendererIn);
-        this.livingEntityRenderer = livingEntityRendererIn;
+        this.parent = livingEntityRendererIn;
     }
 
     private IWearable getWearable(final ItemStack stack)
@@ -48,8 +49,8 @@ public class WearablesRenderer<T extends LivingEntity, M extends HumanoidModel<T
         if (wearer.getEffect(MobEffects.INVISIBILITY) != null) return;
         // Only applies to bipeds, anyone else needs to write their own render
         // layer.
-        if (!(this.livingEntityRenderer.getModel() instanceof HumanoidModel<?>)) return;
-        final HumanoidModel<?> theModel = (HumanoidModel<?>) this.livingEntityRenderer.getModel();
+        if (!(this.parent.getModel() instanceof HumanoidModel<?>)) return;
+        final HumanoidModel<?> theModel = (HumanoidModel<?>) this.parent.getModel();
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;

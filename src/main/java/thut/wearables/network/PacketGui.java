@@ -20,9 +20,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
+import thut.wearables.events.WearableUseEvent;
 import thut.wearables.inventory.ContainerWearables;
 
 public class PacketGui extends Packet
@@ -73,8 +76,10 @@ public class PacketGui extends Packet
             final ItemStack stack = ThutWearables.getWearables(player).getStackInSlot(slot);
             if (!stack.isEmpty())
             {
-                final UseOnContext context = new WearableContext(player, stack, this.data);
-                EnumWearable.interact(player, stack, slot, context);
+                final WearableContext context = new WearableContext(player, stack, this.data);
+                WearableUseEvent event = new WearableUseEvent(context);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (event.getResult() == Result.DEFAULT) EnumWearable.interact(player, stack, slot, context);
             }
         }
         else if (this.data.contains("close"))
@@ -86,8 +91,8 @@ public class PacketGui extends Packet
                 final LivingEntity t = player;
                 final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
                 buffer.writeInt(t.getId());
-                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                        e) -> new ContainerWearables(i, p, buffer), t.getName());
+                final SimpleMenuProvider provider = new SimpleMenuProvider(
+                        (i, p, e) -> new ContainerWearables(i, p, buffer), t.getName());
                 NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
             }
         }
@@ -102,8 +107,8 @@ public class PacketGui extends Packet
             final LivingEntity t = target;
             final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
             buffer.writeInt(t.getId());
-            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p,
-                    e) -> new ContainerWearables(i, p, buffer), t.getName());
+            final SimpleMenuProvider provider = new SimpleMenuProvider(
+                    (i, p, e) -> new ContainerWearables(i, p, buffer), t.getName());
             NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
         }
     }

@@ -69,6 +69,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
@@ -101,6 +102,7 @@ import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.inventory.npc.NpcContainer;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.api.world.mobs.data.DataSync;
@@ -109,6 +111,7 @@ import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
+import thut.wearables.events.WearableUseEvent;
 
 public class TrainerEventHandler
 {
@@ -447,12 +450,6 @@ public class TrainerEventHandler
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-//        if (target instanceof Villager villager && evt.getPlayer() instanceof ServerPlayer splayer)
-//        {
-//            final int rep_base = PokecubeAdv.config.trainer_min_rep;
-//            final int rep = villager.getPlayerReputation(splayer) + rep_base;
-//            splayer.sendMessage(new TextComponent(" (" + rep + ")"), null);
-//        }
         InteractionResult succeed = InteractionResult.sidedSuccess(target.level.isClientSide);
 
         if (target instanceof Villager vill)
@@ -530,6 +527,23 @@ public class TrainerEventHandler
                 evt.setCanceled(true);
                 evt.setCancellationResult(succeed);
             }
+        }
+    }
+
+    private static final ResourceLocation BELT = new ResourceLocation(PokecubeAdv.MODID, "poke_belt");
+
+    public static void onWearableUse(WearableUseEvent event)
+    {
+        if (ItemList.is(BELT, event.context.getItemInHand())
+                && event.context.getPlayer() instanceof ServerPlayer player)
+        {
+            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+            buffer.writeInt(player.getId());
+            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
+                    player.getDisplayName());
+            NetworkHooks.openGui(player, provider, buf -> {
+                buf.writeInt(player.getId());
+            });
         }
     }
 
