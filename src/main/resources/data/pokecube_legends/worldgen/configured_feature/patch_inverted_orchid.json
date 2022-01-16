@@ -8,7 +8,7 @@
         "config": {
           "to_place": {
             "state": {
-              "Name": "pokecube_legends:azure_coleus"
+              "Name": "pokecube_legends:inverted_orchid"
             },
             "type": "minecraft:simple_state_provider"
           }

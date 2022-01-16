@@ -72,10 +72,27 @@
       "placement": [
         {
           "predicate": {
-            "blocks": [
-              "minecraft:air"
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:air"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "pokecube_legends:aged_grass_block",
+                  "pokecube_legends:aged_podzol"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
             ],
-            "type": "minecraft:matching_blocks"
+            "type": "minecraft:all_of"
           },
           "type": "minecraft:block_predicate_filter"
         }

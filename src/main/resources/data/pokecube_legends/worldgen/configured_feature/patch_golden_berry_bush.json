@@ -35,7 +35,8 @@
                   0
                 ],
                 "blocks": [
-                  "pokecube_legends:aged_grass_block"
+                  "pokecube_legends:aged_grass_block",
+                  "pokecube_legends:aged_podzol"
                 ],
                 "type": "minecraft:matching_blocks"
               }

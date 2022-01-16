@@ -2,7 +2,7 @@
   "config": {
     "decorators": [
       {
-        "probability": 0.002,
+        "probability": 0.02,
         "type": "minecraft:beehive"
       },
       {

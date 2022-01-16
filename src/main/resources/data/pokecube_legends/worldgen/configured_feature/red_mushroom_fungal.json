@@ -1,0 +1,42 @@
+{
+  "config": {
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2,
+    "feature": {
+      "feature": {
+        "config": {
+          "to_place": {
+            "seed": 2345,
+            "noise": {
+              "firstOctave": 0,
+              "amplitudes": [
+                1.0
+              ]
+            },
+            "scale": 0.020833334,
+            "states": [
+              {
+                "Name": "minecraft:red_mushroom"
+              }
+            ],
+            "type": "minecraft:noise_provider"
+          }
+        },
+        "type": "minecraft:simple_block"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "blocks": [
+              "minecraft:air"
+            ],
+            "type": "minecraft:matching_blocks"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:flower"
+}

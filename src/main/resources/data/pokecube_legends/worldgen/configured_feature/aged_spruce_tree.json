@@ -1,11 +1,6 @@
 {
   "config": {
-    "decorators": [
-      {
-        "probability": 0.002,
-        "type": "minecraft:beehive"
-      }
-    ],
+    "decorators": [],
     "ignore_vines": true,
     "force_dirt": false,
     "dirt_provider": {

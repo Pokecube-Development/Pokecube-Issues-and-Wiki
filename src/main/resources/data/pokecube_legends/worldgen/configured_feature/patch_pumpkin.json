@@ -32,106 +32,12 @@
                   0
                 ],
                 "blocks": [
-                  "pokecube_legends:aged_grass_block"
-                ],
-                "type": "minecraft:matching_blocks"
-              }
-            ],
-            "type": "minecraft:all_of"
-          },
-          "type": "minecraft:block_predicate_filter"
-        },
-        {
-          "predicate": {
-            "predicates": [
-              {
-                "blocks": [
-                  "minecraft:air"
-                ],
-                "type": "minecraft:matching_blocks"
-              },
-              {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
-                "blocks": [
-                  "pokecube_legends:azure_grass_block"
-                ],
-                "type": "minecraft:matching_blocks"
-              }
-            ],
-            "type": "minecraft:all_of"
-          },
-          "type": "minecraft:block_predicate_filter"
-        },
-        {
-          "predicate": {
-            "predicates": [
-              {
-                "blocks": [
-                  "minecraft:air"
-                ],
-                "type": "minecraft:matching_blocks"
-              },
-              {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
-                "blocks": [
-                  "pokecube_legends:corrupted_grass_block"
-                ],
-                "type": "minecraft:matching_blocks"
-              }
-            ],
-            "type": "minecraft:all_of"
-          },
-          "type": "minecraft:block_predicate_filter"
-        },
-        {
-          "predicate": {
-            "predicates": [
-              {
-                "blocks": [
-                  "minecraft:air"
-                ],
-                "type": "minecraft:matching_blocks"
-              },
-              {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
-                "blocks": [
-                  "pokecube_legends:jungle_grass_block"
-                ],
-                "type": "minecraft:matching_blocks"
-              }
-            ],
-            "type": "minecraft:all_of"
-          },
-          "type": "minecraft:block_predicate_filter"
-        },
-        {
-          "predicate": {
-            "predicates": [
-              {
-                "blocks": [
-                  "minecraft:air"
-                ],
-                "type": "minecraft:matching_blocks"
-              },
-              {
-                "offset": [
-                  0,
-                  -1,
-                  0
-                ],
-                "blocks": [
+                  "pokecube_legends:aged_grass_block",
+                  "pokecube_legends:aged_podzol",
+                  "pokecube_legends:azure_grass_block",
+                  "pokecube_legends:corrupted_grass_block",
+                  "pokecube_legends:fungal_nylium",
+                  "pokecube_legends:jungle_grass_block",
                   "pokecube_legends:mushroom_grass_block"
                 ],
                 "type": "minecraft:matching_blocks"

@@ -1,0 +1,72 @@
+{
+  "config": {
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2,
+    "feature": {
+      "feature": {
+        "config": {
+          "to_place": {
+            "seed": 6789,
+            "noise": {
+              "firstOctave": -5,
+              "amplitudes": [
+                1.0,
+                1.0,
+                1.0,
+                5.0
+              ]
+            },
+            "scale": 0.020833334,
+            "states": [
+              {
+                "Name": "minecraft:brown_mushroom"
+              },
+              {
+                "Name": "minecraft:red_mushroom"
+              },
+              {
+                "Name": "pokecube_legends:compreced_mushroom"
+              },
+              {
+                "Name": "pokecube_legends:distorced_mushroom"
+              }
+            ],
+            "type": "minecraft:noise_provider"
+          }
+        },
+        "type": "minecraft:simple_block"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:air"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "pokecube_legends:aged_podzol",
+                  "pokecube_legends:fungal_nylium",
+                  "pokecube_legends:mushroom_grass_block"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
+            ],
+            "type": "minecraft:all_of"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:flower"
+}
