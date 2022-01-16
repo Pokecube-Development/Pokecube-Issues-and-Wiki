@@ -125,14 +125,6 @@ repositories {
     flatDir {
         dirs 'libs'
     }
-    maven { // Computer Craft
-        url 'https://squiddev.cc/maven/' 
-    }
-    //TODO check dependency
-    maven { // The repo from which to get waila
-        name "Mobius Repo"
-        url "https://maven.tehnut.info"
-    }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
@@ -143,53 +135,17 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
-    maven { // TOP
-        name 'tterrag maven'
-        url "https://maven.tterrag.com/"
-    }
-    maven { // Minecolonies
-        name 'LDTTeam - Modding'
-        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
-    }
-    maven {
-        url = "https://maven.theillusivec4.top/"
-    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
-    //Computer Craft Support.
-    implementation fg.deobf("org.squiddev:cc-tweaked-${version_cct_mc}:${version_cct}")
-    
-    //Lost Cities
-    //implementation "blank:lostcities-1.16-4.0.7-beta"
-    
-    //Thut Essentials
-    implementation "${depstr_thutessentials}"
-    
     //JEI
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
-    
-    //WHYLA
-    implementation fg.deobf("curse.maven:Jade-${version_jade}")
-    
-    //Minecolonies
-    implementation "blank:minecolonies-1.17.1-1.0.23-ALPHA-api"
-    
-    //Immersive Enginnering
-    //implementation "blusunrize:ImmersiveEngineering:0.15-+"
-    
-    // Advanced Rocketry
-    //implementation "blank:AdvancedRocketry-1.16.5-1.7.1-4-api"
-    //implementation "blank:LibVulpes-1.16.5-1.0.1-6-api"
-
-    // Curios - Wearables Support
-    implementation fg.deobf("curse.maven:curios-${version_curios}")
 }
 
 sourceSets {
