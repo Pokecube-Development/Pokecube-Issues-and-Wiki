@@ -268,6 +268,12 @@ public class Vector3
         ret.z = nbt.getDouble(tag + "z");
         return ret;
     }
+    
+    @Deprecated
+    /*
+     * Do not use, use new Vector3() instead!
+     */
+    public static Vector3 getNewVector() {return new Vector3();}
 
     public double x;
 
