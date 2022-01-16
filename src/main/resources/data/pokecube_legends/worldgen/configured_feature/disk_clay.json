@@ -16,7 +16,13 @@
         "Name": "minecraft:clay"
       },
       {
+        "Name": "pokecube_legends:aged_coarse_dirt"
+      },
+      {
         "Name": "pokecube_legends:aged_dirt"
+      },
+      {
+        "Name": "pokecube_legends:azure_coarse_dirt"
       },
       {
         "Name": "pokecube_legends:azure_dirt"
@@ -28,7 +34,16 @@
         "Name": "pokecube_legends:jungle_dirt"
       },
       {
+        "Name": "pokecube_legends:mushroom_coarse_dirt"
+      },
+      {
         "Name": "pokecube_legends:mushroom_dirt"
+      },
+      {
+        "Name": "pokecube_legends:rooted_corrupted_dirt"
+      },
+      {
+        "Name": "pokecube_legends:rooted_mushroom_dirt"
       }
     ]
   },

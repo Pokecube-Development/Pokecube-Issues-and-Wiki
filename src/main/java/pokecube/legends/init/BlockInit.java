@@ -34,7 +34,6 @@ import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TintedGlassBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -53,7 +52,6 @@ import pokecube.legends.blocks.BookshelfBase;
 import pokecube.legends.blocks.FallingSandBlockBase;
 import pokecube.legends.blocks.FaceBlockBase;
 import pokecube.legends.blocks.FallingBlockBase;
-import pokecube.legends.blocks.FallingDirtBlockBase;
 import pokecube.legends.blocks.SaplingBase;
 import pokecube.legends.blocks.containers.GenericBarrel;
 import pokecube.legends.blocks.containers.GenericBookshelfEmpty;
@@ -388,11 +386,14 @@ public class BlockInit
     public static final RegistryObject<Block> AZURE_GRASS;
     public static final RegistryObject<Block> CORRUPTED_DIRT;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
+    public static final RegistryObject<Block> FUNGAL_NYLIUM;
     public static final RegistryObject<Block> JUNGLE_DIRT;
     public static final RegistryObject<Block> JUNGLE_GRASS;
     public static final RegistryObject<Block> MUSHROOM_DIRT;
+    public static final RegistryObject<Block> MUSHROOM_COARSE_DIRT;
     public static final RegistryObject<Block> MUSHROOM_GRASS;
     public static final RegistryObject<Block> ROOTED_CORRUPTED_DIRT;
+    public static final RegistryObject<Block> ROOTED_MUSHROOM_DIRT;
 
     public static final RegistryObject<Block> ULTRA_MAGNET;
     public static final RegistryObject<Block> SPECTRUM_GLASS;
@@ -743,6 +744,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
+    public static final RegistryObject<Block> POTTED_DYNA_SHRUB;
     public static final RegistryObject<Block> POTTED_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
@@ -1003,8 +1005,16 @@ public class BlockInit
         MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block",
                 () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
                         .strength(0.6F).randomTicks()));
+        FUNGAL_NYLIUM = PokecubeLegends.DIMENSIONS_TAB.register("fungal_nylium",
+                () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_PINK).sound(SoundType.NYLIUM)
+                        .strength(0.6F).randomTicks()));
         MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_PURPLE, 0.5F, 0.5F, SoundType.GRAVEL, false));
+        MUSHROOM_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_coarse_dirt",
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_PURPLE, 0.5F, 0.5F, SoundType.GRAVEL, false));
+        ROOTED_MUSHROOM_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_mushroom_dirt", 
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_PURPLE)
+                        .sound(SoundType.ROOTED_DIRT).strength(0.9F)));
         
         TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6F)));
@@ -2318,6 +2328,9 @@ public class BlockInit
         POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_VINES.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DYNA_SHRUB = PokecubeLegends.NO_TAB.register("potted_dyna_shrub",
+                () -> new ItemGenerator.GenericPottedPlant(BlockInit.DYNA_SHRUB.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_FERN = PokecubeLegends.NO_TAB.register("potted_golden_fern",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_FERN.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
@@ -2453,8 +2466,12 @@ public class BlockInit
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(),
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
+            ItemGenerator.addHoeables(BlockInit.MUSHROOM_COARSE_DIRT.get(),
+                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; }, 
                     HoeItem.changeIntoStateAndDropItem(BlockInit.CORRUPTED_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
+            ItemGenerator.addHoeables(BlockInit.ROOTED_MUSHROOM_DIRT.get(), Pair.of((item) -> { return true; }, 
+                    HoeItem.changeIntoStateAndDropItem(BlockInit.MUSHROOM_DIRT.get().defaultBlockState(), Items.HANGING_ROOTS)));
         });
     }
 

@@ -10,7 +10,7 @@
     "force_dirt": true,
     "dirt_provider": {
       "state": {
-        "Name": "pokecube_legends:rooted_corrupted_dirt"
+        "Name": "pokecube_legends:rooted_mushroom_dirt"
       },
       "type": "minecraft:simple_state_provider"
     },
@@ -25,7 +25,7 @@
         "Properties": {
           "axis": "y"
         },
-        "Name": "minecraft:oak_log"
+        "Name": "pokecube_legends:aged_log"
       },
       "type": "minecraft:simple_state_provider"
     },

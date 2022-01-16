@@ -279,6 +279,7 @@
     "block.pokecube_legends.potted_distorced_mushroom": "Potted Distorced Mushroom",
     "block.pokecube_legends.potted_distortic_sapling": "Potted Distortic Sapling",
     "block.pokecube_legends.potted_distortic_vines": "Potted Distortic Vines",
+    "block.pokecube_legends.potted_dyna_shrub": "Potted Dyna Shrub",
     "block.pokecube_legends.potted_golden_fern": "Potted Golden Fern",
     "block.pokecube_legends.potted_golden_grass": "Potted Golden Grass",
     "block.pokecube_legends.potted_golden_poppy": "Potted Golden Poppy",
@@ -593,11 +594,14 @@
     "block.pokecube_legends.azure_grass_block": "Azure Grass Block",
     "block.pokecube_legends.corrupted_dirt": "Corrupted Dirt",
     "block.pokecube_legends.corrupted_grass_block": "Corrupted Grass Block",
+    "block.pokecube_legends.fungal_nylium": "Fungal Nylium",
+    "block.pokecube_legends.mushroom_coarse_dirt": "Mushroom Coarse Dirt",
     "block.pokecube_legends.mushroom_dirt": "Mushroom Dirt",
     "block.pokecube_legends.mushroom_grass_block": "Mushroom Grass Block",
     "block.pokecube_legends.jungle_dirt": "Jungle Dirt",
     "block.pokecube_legends.jungle_grass_block": "Jungle Grass Block",
     "block.pokecube_legends.rooted_corrupted_dirt": "Rooted Corrupted Dirt",
+    "block.pokecube_legends.rooted_mushroom_dirt": "Rooted Mushroom Dirt",
 
     "block.pokecube_legends.turquoise_gravel": "Turquoise Gravel",
 

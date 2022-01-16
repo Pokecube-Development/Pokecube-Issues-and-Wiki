@@ -75,7 +75,6 @@
                   0
                 ],
                 "blocks": [
-                  "pokecube_legends:fungal_nylium",
                   "pokecube_legends:mushroom_grass_block"
                 ],
                 "type": "minecraft:matching_blocks"

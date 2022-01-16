@@ -187,7 +187,7 @@ public class Trees
     public static TreeConfigurationBuilder getDynaTree()
     {
         return new TreeConfigurationBuilder(
-            BlockStateProvider.simple(Blocks.OAK_LOG), 
+            BlockStateProvider.simple(BlockInit.AGED_LOG.get()), 
             new BendingTrunkPlacer(6, 2, 2, 5, UniformInt.of(1, 2)), 
             new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                     .add(BlockInit.DYNA_LEAVES_RED.get().defaultBlockState(), 3)
@@ -309,6 +309,7 @@ public class Trees
                 Feature.TREE.configured(Trees.getDistorticTree().build()));
 
         Trees.DYNA_TREE = FeatureUtils.register("pokecube_legends:dyna_tree",
-                Feature.TREE.configured(Trees.getDynaTree().decorators(ImmutableList.of(BEEHIVE_002)).build()));
+                Feature.TREE.configured(Trees.getDynaTree().decorators(ImmutableList.of(BEEHIVE_002))
+                        .dirt(BlockStateProvider.simple(BlockInit.ROOTED_MUSHROOM_DIRT.get())).forceDirt().build()));
     }
 }

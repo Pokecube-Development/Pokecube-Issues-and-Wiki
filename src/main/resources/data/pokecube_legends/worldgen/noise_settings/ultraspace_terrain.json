@@ -4246,7 +4246,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:mycelium",
+                                    "Name": "pokecube_legends:fungal_nylium",
                                     "Properties": {
                                       "snowy": "false"
                                     }
@@ -4264,7 +4264,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:coarse_dirt"
+                                    "Name": "pokecube_legends:mushroom_coarse_dirt"
                                   }
                                 }
                               }
