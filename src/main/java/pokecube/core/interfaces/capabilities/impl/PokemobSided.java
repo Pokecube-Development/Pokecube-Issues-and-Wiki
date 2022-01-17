@@ -3,14 +3,11 @@ package pokecube.core.interfaces.capabilities.impl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 
 public abstract class PokemobSided extends PokemobBase
 {
-    protected FormeHolder forme_holder = null;
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture()
@@ -89,21 +86,5 @@ public abstract class PokemobSided extends PokemobBase
         }
         else texture = this.shinyTexs.get(texture);
         return texture;
-    }
-
-    @Override
-    public void setCustomHolder(FormeHolder holder)
-    {
-        if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
-        this.forme_holder = holder;
-    }
-
-    @Override
-    public FormeHolder getCustomHolder()
-    {
-        if (this.forme_holder == null) return this.getPokedexEntry().getModel(this.getSexe());
-        if (Database.formeToEntry.getOrDefault(this.forme_holder.key, this.getPokedexEntry()) != this.getPokedexEntry())
-            return this.getPokedexEntry().getModel(this.getSexe());
-        return this.forme_holder;
     }
 }

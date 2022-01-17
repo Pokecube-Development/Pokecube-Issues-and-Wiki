@@ -1,7 +1,12 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +18,7 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import thut.api.entity.genetics.Gene;
 import thut.core.common.ThutCore;
 
@@ -20,8 +26,10 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 {
     public static class SpeciesInfo
     {
-        public byte         value;
+        public byte value;
         public PokedexEntry entry;
+        @Nullable
+        public FormeHolder forme;
 
         @Override
         public SpeciesInfo clone()
@@ -29,6 +37,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             final SpeciesInfo info = new SpeciesInfo();
             info.value = this.value;
             info.entry = this.entry;
+            info.forme = this.forme;
             return info;
         }
 
@@ -44,6 +53,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         {
             this.value = tag.getByte("G");
             this.entry = Database.getEntry(tag.getString("E"));
+            if (tag.contains("F")) forme = FormeHolder.load(tag.getCompound("F"));
         }
 
         CompoundTag save()
@@ -51,6 +61,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             final CompoundTag tag = new CompoundTag();
             tag.putByte("G", this.value);
             if (this.entry != null) tag.putString("E", this.entry.getName());
+            if (forme != null) tag.put("F", forme.save());
             return tag;
         }
 
@@ -120,17 +131,19 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         final Map<String, MutationHolder> mutations = Tags.GENES.getMutations(this.getKey());
         if (!mutations.isEmpty())
         {
-            final String[] opts = new String[7];
+            final List<String> opts = new ArrayList<>();
 
             // These are the possile combinations of mutations, we will check
             // them in this order.
-            opts[0] = mother.info.entry.getTrimmedName() + "+" + father.info.entry.getTrimmedName();
-            opts[1] = father.info.entry.getTrimmedName() + "+" + mother.info.entry.getTrimmedName();
-            opts[2] = "null+" + mother.info.entry.getTrimmedName();
-            opts[3] = "null+" + father.info.entry.getTrimmedName();
-            opts[4] = mother.info.entry.getTrimmedName() + "+null";
-            opts[5] = father.info.entry.getTrimmedName() + "+null";
-            opts[6] = "";
+            opts.add(mother.info.entry.getTrimmedName() + "+" + father.info.entry.getTrimmedName());
+            opts.add(father.info.entry.getTrimmedName() + "+" + mother.info.entry.getTrimmedName());
+            opts.add("null+" + mother.info.entry.getTrimmedName());
+            opts.add("null+" + father.info.entry.getTrimmedName());
+            opts.add(mother.info.entry.getTrimmedName() + "+null");
+            opts.add(father.info.entry.getTrimmedName() + "+null");
+            opts.add("");
+
+            Collections.shuffle(opts);
 
             boolean mutated = false;
             for (String s : opts)
@@ -151,12 +164,19 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     private void applyMutation(final MutationHolder mutationHolder, final SpeciesGene newGene)
     {
         final Mutation mutation = mutationHolder.getFor(this.rand.nextFloat());
-        final PokedexEntry value = Database.getEntry(mutation.result);
+
+        String[] args = mutation.result.split(":;");
+
+        PokedexEntry value = Database.getEntry(args[0]);
+        FormeHolder forme = args.length > 1 ? Database.formeHolders.get(new ResourceLocation(args[1])) : null;
+
         if (value != null)
         {
             newGene.info.entry = value;
             // Ensure gender ratios are correct
             newGene.info.value = SpeciesGene.getSexe(newGene.info.entry.getSexeRatio(), this.rand);
+            // Also apply the formeholder if present (defaults to null)
+            newGene.info.forme = forme;
         }
     }
 

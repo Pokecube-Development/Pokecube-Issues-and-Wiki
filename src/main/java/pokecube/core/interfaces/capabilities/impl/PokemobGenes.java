@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.server.level.ServerLevel;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
@@ -656,5 +657,28 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         }
         final SizeGene gene = this.genesSize.getExpressed();
         gene.setValue(size);
+    }
+
+    @Override
+    public void setCustomHolder(FormeHolder holder)
+    {
+        if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
+        // Ensures the species gene is initialised
+        this.genesSpecies.getExpressed().getValue().forme = holder;
+    }
+
+    @Override
+    public FormeHolder getCustomHolder()
+    {
+        // Ensures the species gene is initialised
+        this.getPokedexEntry();
+        FormeHolder holder = this.genesSpecies.getExpressed().getValue().forme;
+        if (holder == null) return this.getPokedexEntry().getModel(this.getSexe());
+        if (Database.formeToEntry.getOrDefault(holder.key, this.getPokedexEntry()) != this.getPokedexEntry())
+        {
+            this.genesSpecies.getExpressed().getValue().forme = null;
+            return this.getPokedexEntry().getModel(this.getSexe());
+        }
+        return holder;
     }
 }

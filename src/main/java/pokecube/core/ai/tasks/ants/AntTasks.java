@@ -59,8 +59,8 @@ public class AntTasks
     public static final MemoryModuleType<GlobalPos> WORK_POS = MemoryModules.WORK_POS;
 
     public static final MemoryModuleType<Integer> OUT_OF_HIVE_TIMER = MemoryModules.OUT_OF_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_HIVE_TIMER     = MemoryModules.NO_NEST_TIMER;
-    public static final MemoryModuleType<Integer> NO_WORK_TIME      = MemoryModules.NO_WORK_TIMER;
+    public static final MemoryModuleType<Integer> NO_HIVE_TIMER = MemoryModules.NO_NEST_TIMER;
+    public static final MemoryModuleType<Integer> NO_WORK_TIME = MemoryModules.NO_WORK_TIMER;
 
     public static final MemoryModuleType<EntityPokemobEgg> EGG = MemoryModules.EGG;
 
@@ -70,10 +70,10 @@ public class AntTasks
 
     public static final MemoryModuleType<Boolean> GOING_HOME = MemoryModules.GOING_HOME;
 
-    public static final SensorType<NestSensor>   NEST_SENSOR   = new SensorType<>(NestSensor::new);
-    public static final SensorType<GatherSensor> WORK_SENSOR   = new SensorType<>(GatherSensor::new);
+    public static final SensorType<NestSensor> NEST_SENSOR = new SensorType<>(NestSensor::new);
+    public static final SensorType<GatherSensor> WORK_SENSOR = new SensorType<>(GatherSensor::new);
     public static final SensorType<ThreatSensor> THREAT_SENSOR = new SensorType<>(ThreatSensor::new);
-    public static final SensorType<EggSensor>    EGG_SENSOR    = new SensorType<>(EggSensor::new);
+    public static final SensorType<EggSensor> EGG_SENSOR = new SensorType<>(EggSensor::new);
 
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(AntTasks.NEST_POS,
             AntTasks.WORK_POS, AntTasks.OUT_OF_HIVE_TIMER, AntTasks.NO_WORK_TIME, AntTasks.NO_HIVE_TIMER,

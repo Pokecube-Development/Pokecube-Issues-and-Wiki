@@ -62,7 +62,8 @@ public class Tasks
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
             MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.LEAP_TARGET,
             MemoryModules.PATH, MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
-            MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH, MemoryModuleType.DOORS_TO_CLOSE);
+            MemoryModules.EGG, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
+            MemoryModuleType.DOORS_TO_CLOSE);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
             SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
@@ -76,8 +77,7 @@ public class Tasks
 
     static
     {
-        for (final Init.Type type : Init.Type.values())
-            Tasks.taskAdders.put(type, Lists.newArrayList());
+        for (final Init.Type type : Init.Type.values()) Tasks.taskAdders.put(type, Lists.newArrayList());
     }
 
     public static void register(final Init.Type type, final ITaskAdder adder)
@@ -115,19 +115,19 @@ public class Tasks
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
-            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length, 8
-                    + entity.getBbWidth() + pokemob.getPokedexEntry().length));
+            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length,
+                    8 + entity.getBbWidth() + pokemob.getPokedexEntry().length));
 
         final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
 
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
-        guardai.shouldRun = () ->
-        {
+        guardai.shouldRun = () -> {
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
 
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
+        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0,
+                new GuardTask<>(entity, guardai));
         list.add(pair);
 
         if (entry.stock)
@@ -241,13 +241,12 @@ public class Tasks
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
-        guardai.shouldRun = () ->
-        {
+        guardai.shouldRun = () -> {
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
-                guardai));
+        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0,
+                new GuardTask<>(pokemob.getEntity(), guardai));
         list.add(pair);
         if (entry.stock)
         {

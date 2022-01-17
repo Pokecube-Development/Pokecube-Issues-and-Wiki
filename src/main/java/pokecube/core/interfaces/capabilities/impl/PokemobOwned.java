@@ -476,6 +476,13 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.resetLoveStatus();
         final IPokemob pokemob = this;
         this.spawnInitRule = info;
+        FormeHolder forme = this.getCustomHolder();
+        if (forme != null)
+        {
+            // Sync these to PGs as well
+            this.genesSpecies.getAllele(0).getValue().forme = forme;
+            this.genesSpecies.getAllele(1).getValue().forme = forme;
+        }
         return pokemob;
     }
 
