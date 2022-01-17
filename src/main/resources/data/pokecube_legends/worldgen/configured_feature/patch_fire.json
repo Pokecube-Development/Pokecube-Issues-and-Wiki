@@ -1,6 +1,6 @@
 {
   "config": {
-    "tries": 196,
+    "tries": 32,
     "xz_spread": 7,
     "y_spread": 3,
     "feature": {
@@ -29,7 +29,8 @@
             "predicates": [
               {
                 "blocks": [
-                  "minecraft:air"
+                  "minecraft:air",
+                  "pokecube_legends:ash"
                 ],
                 "type": "minecraft:matching_blocks"
               },

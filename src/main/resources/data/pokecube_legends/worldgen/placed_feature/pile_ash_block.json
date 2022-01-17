@@ -2,7 +2,7 @@
   "feature": "pokecube_legends:pile_ash_block",
   "placement": [
     {
-      "chance": 200,
+      "chance": 10,
       "type": "minecraft:rarity_filter"
     },
     {
