@@ -2,6 +2,7 @@ package pokecube.legends.worldgen;
 
 import com.mojang.serialization.Codec;
 
+import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
@@ -31,6 +32,8 @@ import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.DeadCoralClawFeature;
 import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
 import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
+import pokecube.legends.worldgen.features.DiskBaseFeature;
+import pokecube.legends.worldgen.features.DiskFeature;
 import pokecube.legends.worldgen.features.DistortedIslandsFeature;
 import pokecube.legends.worldgen.features.DistorticStoneBouldersFeature;
 import pokecube.legends.worldgen.features.DistorticVinesFeature;
@@ -72,8 +75,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new AshLayer2Feature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ASH_LAYER3 = WorldgenFeatures.FEATURES.register("ash_layer3_feature",
             () -> new AshLayer3Feature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
-//            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
+            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
             () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DEAD_CORAL_CLAW = WorldgenFeatures.FEATURES.register("dead_coral_claw_feature",
@@ -84,10 +87,10 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
-//            () -> new DiskFeature(DiskConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",
-//            () -> new DiskBaseFeature(DiskConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
+            () -> new DiskFeature(DiskConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",
+            () -> new DiskBaseFeature(DiskConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTED_ISLANDS = WorldgenFeatures.FEATURES.register("distorted_islands_feature",
             () -> new DistortedIslandsFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTIC_STONE_BOULDERS = WorldgenFeatures.FEATURES.register("distortic_stone_boulders_feature",

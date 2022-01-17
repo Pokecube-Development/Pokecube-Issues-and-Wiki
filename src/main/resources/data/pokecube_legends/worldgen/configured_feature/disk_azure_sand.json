@@ -101,5 +101,5 @@
       }
     ]
   },
-  "type": "minecraft:disk"
+  "type": "pokecube_legends:disk_feature"
 }

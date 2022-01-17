@@ -40,8 +40,8 @@
     [
       "minecraft:amethyst_geode",
       "minecraft:basalt_pillar",
-      "minecraft:large_basalt_columns",
-      "minecraft:small_basalt_columns",
+      "pokecube_legends:large_basalt_columns",
+      "pokecube_legends:small_basalt_columns",
       "pokecube_legends:delta_shattered"
     ],
     [],

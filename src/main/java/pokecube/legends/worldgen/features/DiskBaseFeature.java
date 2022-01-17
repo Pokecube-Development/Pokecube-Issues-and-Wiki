@@ -28,8 +28,8 @@ public class DiskBaseFeature extends Feature<DiskConfiguration>
       int i = pos.getY();
       int j = i + diskConfig.halfHeight();
       int k = i - diskConfig.halfHeight() - 1;
-      boolean flag1 = diskConfig.state.getBlock() instanceof FallingBlock;
-      int l = diskConfig.radius.sample(context.random());
+      boolean flag1 = diskConfig.state().getBlock() instanceof FallingBlock;
+      int l = diskConfig.radius().sample(context.random());
 
       for(int i1 = pos.getX() - l; i1 <= pos.getX() + l; ++i1)
       {
@@ -48,10 +48,10 @@ public class DiskBaseFeature extends Feature<DiskConfiguration>
                   Block block = state.getBlock();
                   boolean flag3 = false;
                   if (i2 > k) {
-                     for(BlockState state1 : diskConfig.targets)
+                     for(BlockState stateTarget : diskConfig.targets())
                      {
-                        if (state1.is(block)) {
-                           world.setBlock(pos1, diskConfig.state, 2);
+                        if (stateTarget.is(block)) {
+                           world.setBlock(pos1, diskConfig.state(), 2);
                            this.markAboveForPostProcessing(world, pos1);
                            flag = true;
                            flag3 = true;
@@ -62,9 +62,11 @@ public class DiskBaseFeature extends Feature<DiskConfiguration>
 
                   if (flag1 && flag2 && state.isAir())
                   {
-                     BlockState blockstate2 = diskConfig.state.is(BlockInit.BLACKENED_SAND.get())
-                             ? BlockInit.BLACKENED_SANDSTONE.get().defaultBlockState() : BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState();
-                     world.setBlock(new BlockPos(i1, i2 + 1, j1), blockstate2, 2);
+                     BlockState stateSand = diskConfig.state().is(BlockInit.ASH_BLOCK.get()) ? BlockInit.ASH_BLOCK.get().defaultBlockState()
+                             : diskConfig.state().is(BlockInit.AZURE_SAND.get()) ? BlockInit.AZURE_SANDSTONE.get().defaultBlockState() 
+                             : diskConfig.state().is(BlockInit.BLACKENED_SAND.get()) ? BlockInit.BLACKENED_SANDSTONE.get().defaultBlockState()
+                                     : BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState();
+                     world.setBlock(new BlockPos(i1, i2 + 1, j1), stateSand, 2);
                   }
                   flag2 = flag3;
                }

@@ -22,11 +22,11 @@ import pokecube.legends.init.BlockInit;
 public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {
    public static final ImmutableList<Block> CANNOT_PLACE_ON =
-		   ImmutableList.of(BlockInit.AGED_LEAVES.get(), BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(),
+		   ImmutableList.of(BlockInit.AGED_LEAVES.get(), BlockInit.ASH.get(), BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(),
 				   BlockInit.DYNA_LEAVES_PASTEL_PINK.get(), BlockInit.DYNA_LEAVES_PINK.get(), BlockInit.DYNA_LEAVES_RED.get(),
 				   BlockInit.INVERTED_LEAVES.get(), BlockInit.MIRAGE_LEAVES.get(), BlockInit.TEMPORAL_LEAVES.get(),
 				   Blocks.BEDROCK, Blocks.CHEST, Blocks.NETHER_BRICKS, Blocks.NETHER_BRICK_FENCE, Blocks.NETHER_BRICK_STAIRS,
-				   Blocks.NETHER_WART, Blocks.SPAWNER);
+				   Blocks.NETHER_WART, Blocks.SNOW, Blocks.SPAWNER);
 
    private static final int CLUSTERED_REACH = 5;
    private static final int CLUSTERED_SIZE = 50;
