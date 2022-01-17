@@ -1,15 +1,15 @@
 {
-  "feature": "pokecube_legends:patch_inverted_orchid",
+  "feature": "pokecube_legends:patch_crystallized_bush_waterlogged",
   "placement": [
     {
-      "count": 5,
+      "count": 6,
       "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "heightmap": "WORLD_SURFACE_WG",
+      "heightmap": "OCEAN_FLOOR",
       "type": "minecraft:heightmap"
     },
     {

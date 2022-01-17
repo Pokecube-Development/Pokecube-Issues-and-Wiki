@@ -497,7 +497,8 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
     {
        BlockPos pos1 = pos.relative(direction.getOpposite());
        BlockState state = world.getBlockState(pos1);
-       return state.isFaceSturdy(world, pos1, direction) || isAquamarineCrystalWithDirection(state, direction);
+       return state.isFaceSturdy(world, pos1, direction) || isAquamarineCrystalWithDirection(state, direction)
+               || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
     }
 
     public static boolean isTip(BlockState state, boolean b)
@@ -532,6 +533,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
        return isStalactite(state) && !world.getBlockState(pos.above()).is(BlockInit.AQUAMARINE_CRYSTAL.get());
     }
 
+    @Override
     public boolean isPathfindable(BlockState state, BlockGetter block, BlockPos pos, PathComputationType type)
     {
        return false;

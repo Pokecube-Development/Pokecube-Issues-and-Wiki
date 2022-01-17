@@ -1,0 +1,12 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": "pokecube_legends:mirage_tree",
+        "chance": 0.2
+      }
+    ],
+    "default": "pokecube_legends:mirage_tree"
+  },
+  "type": "minecraft:random_selector"
+}

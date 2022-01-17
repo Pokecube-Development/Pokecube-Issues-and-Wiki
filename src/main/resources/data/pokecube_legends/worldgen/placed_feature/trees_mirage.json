@@ -1,15 +1,19 @@
 {
-  "feature": "pokecube_legends:patch_inverted_orchid",
+  "feature": "pokecube_legends:trees_mirage",
   "placement": [
     {
-      "count": 5,
+      "count": 1,
       "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
     },
     {
-      "heightmap": "WORLD_SURFACE_WG",
+      "max_water_depth": 0,
+      "type": "minecraft:surface_water_depth_filter"
+    },
+    {
+      "heightmap": "OCEAN_FLOOR",
       "type": "minecraft:heightmap"
     },
     {

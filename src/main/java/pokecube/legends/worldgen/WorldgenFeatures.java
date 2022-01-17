@@ -27,6 +27,7 @@ import pokecube.legends.worldgen.features.AquamarineCrystalFeature;
 import pokecube.legends.worldgen.features.AshLayer1Feature;
 import pokecube.legends.worldgen.features.AshLayer2Feature;
 import pokecube.legends.worldgen.features.AshLayer3Feature;
+import pokecube.legends.worldgen.features.CrystallizedSandstoneBouldersFeature;
 import pokecube.legends.worldgen.features.DeadCoralClawFeature;
 import pokecube.legends.worldgen.features.DeadCoralMushroomFeature;
 import pokecube.legends.worldgen.features.DeadCoralTreeFeature;
@@ -73,8 +74,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new AshLayer3Feature(NoneFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> BASALT_COLUMNS = WorldgenFeatures.FEATURES.register("basalt_columns_feature",
 //            () -> new BasaltColumnsFeature(ColumnFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
-//            () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> CRYS_SANDSTONE_BOULDERS = WorldgenFeatures.FEATURES.register("crystallized_sandstone_boulders_feature",
+            () -> new CrystallizedSandstoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DEAD_CORAL_CLAW = WorldgenFeatures.FEATURES.register("dead_coral_claw_feature",
             () -> new DeadCoralClawFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DEAD_CORAL_MUSHROOM = WorldgenFeatures.FEATURES.register("dead_coral_mushroom_feature",
@@ -83,8 +84,6 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new DeadCoralTreeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ULTRASPACE_DELTA = WorldgenFeatures.FEATURES.register("delta_feature",
             () -> new UltraspaceDeltaFeature(DeltaFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<?>> ROCK = WorldgenFeatures.FEATURES.register("rock_feature",
-            () -> new RockFeature(BlockStateConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DISK = WorldgenFeatures.FEATURES.register("disk_feature",
 //            () -> new DiskFeature(DiskConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> DISK_BASE = WorldgenFeatures.FEATURES.register("disk_base_feature",
@@ -109,6 +108,8 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new PollutedIcebergFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> POLLUTED_SNOW_FREEZE = WorldgenFeatures.FEATURES.register("freeze_top_layer_polluted_feature",
             () -> new PollutedSnowAndFreezeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> ROCK = WorldgenFeatures.FEATURES.register("rock_feature",
+            () -> new RockFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> SURFACE_FOSSILS = WorldgenFeatures.FEATURES.register("surface_fossil_feature",
             () -> new SurfaceFossilFeature(FossilFeatureConfiguration.CODEC));
 //    public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",

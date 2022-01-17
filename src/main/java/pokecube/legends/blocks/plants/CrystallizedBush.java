@@ -42,7 +42,7 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
     }
 
 	@Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter block, final BlockPos pos, final CollisionContext context) {
+  public VoxelShape getShape(final BlockState state, final BlockGetter block, final BlockPos pos, final CollisionContext context) {
 		final Vec3 vector = state.getOffset(block, pos);
 		return CrystallizedBush.SHAPE.move(vector.x, vector.y, vector.z);
 	}

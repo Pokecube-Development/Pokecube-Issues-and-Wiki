@@ -1,0 +1,82 @@
+{
+  "config": {
+    "tries": 10,
+    "xz_spread": 7,
+    "y_spread": 3,
+    "feature": {
+      "feature": {
+        "config": {
+          "layers": [
+            {
+              "height": {
+                "type": "minecraft:biased_to_bottom",
+                "value": {
+                  "min_inclusive": 1,
+                  "max_inclusive": 5
+                }
+              },
+              "provider": {
+                "state": {
+                  "Properties": {
+                    "waterlogged": "true"
+                  },
+                  "Name": "pokecube_legends:crystallized_cactus"
+                },
+                "type": "minecraft:simple_state_provider"
+              }
+            }
+          ],
+          "direction": "up",
+          "allowed_placement": {
+            "blocks": [
+              "minecraft:water"
+            ],
+            "type": "minecraft:matching_blocks"
+          },
+          "prioritize_tip": false
+        },
+        "type": "minecraft:block_column"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:water"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "state": {
+                  "Properties": {
+                    "waterlogged": "true"
+                  },
+                  "Name": "pokecube_legends:crystallized_cactus"
+                },
+                "type": "minecraft:would_survive"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "pokecube_legends:crystallized_cactus",
+                  "pokecube_legends:crystallized_sand",
+                  "pokecube_legends:crystallized_sandstone",
+                  "pokecube_legends:unrefined_aquamarine"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
+            ],
+            "type": "minecraft:all_of"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:random_patch"
+}

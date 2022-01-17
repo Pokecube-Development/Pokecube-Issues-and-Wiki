@@ -31,10 +31,10 @@ public class RockFeature extends Feature<BlockStateConfiguration>
       BlockStateConfiguration stateConfig;
       for(stateConfig = context.config(); pos.getY() > world.getMinBuildHeight() + 3; pos = pos.below())
       {
-         if (!world.isEmptyBlock(pos.below()))
+         BlockState state = world.getBlockState(pos.below());
+         if (!world.isEmptyBlock(pos.below()) || !state.is(Blocks.LAVA) || !state.is(Blocks.WATER))
          {
-            BlockState state = world.getBlockState(pos.below());
-            if (state.is(Blocks.AIR) || state.is(Blocks.LAVA) || state.is(Blocks.WATER))
+            if (!state.is(Blocks.AIR) || !state.is(Blocks.LAVA) || !state.is(Blocks.WATER))
             {
                break;
             }
