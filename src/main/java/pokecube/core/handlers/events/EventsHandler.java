@@ -479,7 +479,13 @@ public class EventsHandler
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
             {
                 SpawnBiomeMatcher m = SpawnBiomeMatcher.get(entry.getValue());
-                if (m.matches(check)) valid.add(entry.getKey());
+                m.reset();
+                if (m.matches(check))
+                {
+                    valid.add(entry.getKey());
+//                    System.out.println("-------------------\n" + entry.getKey() + "\n" + m.debugPrint(0));
+//                    System.out.println(m.debugPrint(0));
+                }
             }
             if (!valid.isEmpty())
             {

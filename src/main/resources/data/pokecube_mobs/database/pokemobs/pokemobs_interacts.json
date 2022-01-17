@@ -7594,7 +7594,7 @@
             "location": {
               "values": {
                 "typesBlacklist": "cold",
-                "or_presets": "oceans,beaches"
+                "or_preset": "oceans,beaches"
               }
             },
             "evoMoves": "gust",
@@ -7712,7 +7712,7 @@
             "location": {
               "values": {
                 "typesBlacklist": "cold,hot,mountain",
-                "or_presets": "plains,forests"
+                "or_preset": "plains,forests"
               }
             },
             "evoMoves": "gust",

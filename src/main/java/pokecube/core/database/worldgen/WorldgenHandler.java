@@ -191,8 +191,6 @@ public class WorldgenHandler
         private final List<ResourceKey<Level>> _blacklisted = Lists.newArrayList();
         private final List<ResourceKey<Level>> _whitelisted = Lists.newArrayList();
 
-        private SpawnBiomeMatcher _matcher;
-
         public String serialize()
         {
             return WorldgenHandler.GSON.toJson(this);
@@ -238,8 +236,7 @@ public class WorldgenHandler
         public SpawnBiomeMatcher getMatcher()
         {
             if (this.spawn == null) return null;
-            if (_matcher != null) return _matcher;
-            return _matcher = SpawnBiomeMatcher.get(spawn);
+            return SpawnBiomeMatcher.get(spawn);
         }
     }
 
@@ -634,15 +631,25 @@ public class WorldgenHandler
         for (final BiomeFeature feat : this.features.keySet())
             if (this.features.get(feat).test(event)) event.getGeneration().addFeature(feat.stage, feat.feature);
 
-        for (final BiomeStructure feat : this.structures.keySet()) if (this.structures.get(feat).test(event))
+        for (final BiomeStructure feat : this.structures.keySet())
         {
             ConfiguredStructureFeature<?, ?> configured = feat.configured_feature;
             final JigsawConfig conf = (JigsawConfig) feat.configured_feature.config;
-            PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+            if (conf.struct_config.getMatcher() == null) continue;
+            boolean valid = conf.struct_config.getMatcher().checkLoadEvent(event);
 
-            Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
-            keys.add(from(event));
-            structure_biomes.put(configured, keys);
+            if (valid && event.getName().toString().contains("forest") && conf.struct_config.name.contains("swamp"))
+            {
+                PokecubeCore.LOGGER.error("wat...");
+            }
+
+            if (valid)
+            {
+                PokecubeCore.LOGGER.info("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+                Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
+                keys.add(from(event));
+                structure_biomes.put(configured, keys);
+            }
         }
     }
 
@@ -711,6 +718,6 @@ public class WorldgenHandler
 
     private static void forceVillageFeature(final StructureFeature<?> feature)
     {
-        if (!WorldgenHandler.HAS_BASES.contains(feature)) WorldgenHandler.HAS_BASES.add(feature);
+        WorldgenHandler.HAS_BASES.add(feature);
     }
 }

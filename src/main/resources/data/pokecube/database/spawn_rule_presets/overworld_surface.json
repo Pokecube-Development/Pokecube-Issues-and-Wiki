@@ -4,154 +4,156 @@
       "values": {
         "preset": "forests",
         "category": "forest",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "taigas",
         "category": "taiga",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "jungles",
         "category": "jungle",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "plains",
         "category": "plains",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "savannas",
         "category": "savanna",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "deserts",
         "category": "desert",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "mesas",
         "category": "mesa",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "mesa_forests",
         "types": "sparse,mesa",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "mountains",
         "category": "mountain",
-        "or_presets": "extreme_hills",
-        "and_presets": "overworld"
+        "or_preset": "extreme_hills",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "extreme_hills",
         "category": "extreme_hills",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "mushrooms",
         "category": "mushroom",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "swamps",
-        "or_presets": "swamp_ground,swamp_water",
-        "and_presets": "overworld"
+        "or_preset": "swamp_ground,swamp_water",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "swamp_ground",
         "category": "swamp",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "river_ground",
         "types": "river",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "rivers",
-        "or_presets": "river_ground,river_water",
-        "and_presets": "overworld"
+        "or_preset": "river_ground,river_water",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "lake_ground",
         "types": "lake",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "lakes",
-        "or_presets": "lake_ground,lake_water",
-        "and_presets": "overworld"
+        "or_preset": "lake_ground,lake_water",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "beach_ground",
         "category": "beach",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "beaches",
-        "or_presets": "beach_ground,beach_water",
-        "and_presets": "overworld"
+        "or_preset": "beach_ground,beach_water",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "ocean_ground",
         "category": "ocean",
-        "and_presets": "overworld"
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "oceans",
-        "or_presets": "ocean_ground,ocean_water",
-        "and_presets": "overworld"
+        "or_preset": "ocean_ground,ocean_water",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "overworld",
-        "types": "overworld,all"
+        "types": "overworld,all",
+        "air": "true",
+        "water": "true"
       }
     }
   ]

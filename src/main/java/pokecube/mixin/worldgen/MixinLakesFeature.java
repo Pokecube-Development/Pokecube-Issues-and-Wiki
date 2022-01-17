@@ -41,12 +41,6 @@ public abstract class MixinLakesFeature extends Feature<BlockStateConfiguration>
     private void checkForRSVillages(final FeaturePlaceContext<?> context, final CallbackInfoReturnable<Boolean> cir)
     {
         if (!PokecubeCore.getConfig().lakeFeatureMixin) return;
-        for (final StructureFeature<?> village : StructureFeature.NOISE_AFFECTING_FEATURES)
-            if (!context.level().startsForFeature(SectionPos.of(context.origin()), village).isEmpty())
-        {
-            cir.setReturnValue(false);
-            return;
-        }
         for (final StructureFeature<?> village : WorldgenHandler.HAS_BASE_OVERRIDES)
             if (!context.level().startsForFeature(SectionPos.of(context.origin()), village).isEmpty())
         {

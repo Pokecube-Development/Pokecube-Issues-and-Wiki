@@ -98,7 +98,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "not_presets": "oceans,beaches"
+          "not_preset": "oceans,beaches"
         }
       }
     },
@@ -114,7 +114,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "not_presets": "oceans,beaches"
+          "not_preset": "oceans,beaches"
         }
       }
     },
@@ -130,7 +130,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "not_presets": "oceans,beaches"
+          "not_preset": "oceans,beaches"
         }
       }
     }

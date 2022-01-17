@@ -382,7 +382,8 @@ public class JigsawAssmbler
 
         for (StructurePiece p : parts)
         {
-            if (total == null) total = p.getBoundingBox();
+            if (total == null) total = new BoundingBox(p.getBoundingBox().minX, p.getBoundingBox().minY,
+                    p.getBoundingBox().minZ, p.getBoundingBox().maxX, p.getBoundingBox().maxY, p.getBoundingBox().maxZ);
             else
             {
                 @SuppressWarnings("deprecation")

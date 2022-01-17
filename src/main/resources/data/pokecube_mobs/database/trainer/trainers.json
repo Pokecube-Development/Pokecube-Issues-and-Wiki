@@ -8,7 +8,7 @@
           "values": {
             "rate": "0.05",
       		"not_preset": "cold_areas",
-            "and_presets": "forests"
+            "and_preset": "forests"
           }
         }
       ],
@@ -47,7 +47,7 @@
         {
           "values": {
             "rate": "1.0",
-            "and_presets": "caves,mountains"
+            "and_preset": "caves,mountains"
           }
         }
       ],
@@ -64,7 +64,7 @@
         {
           "values": {
             "rate": "0.25",
-            "or_presets": "lake_ground,river_ground,beach_ground,ocean_ground"
+            "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground"
           }
         }
       ],
@@ -190,7 +190,7 @@
         {
           "values": {
             "rate": "0.75",
-            "and_presets": "caves,mountains"
+            "and_preset": "caves,mountains"
           }
         }
       ],
@@ -352,7 +352,7 @@
         {
           "values": {
             "rate": "0.25",
-            "or_presets": "beach_ground,ocean_ground"
+            "or_preset": "beach_ground,ocean_ground"
           }
         }
       ],
@@ -365,7 +365,7 @@
         {
           "values": {
             "rate": "0.25",
-            "or_presets": "lakes,beaches,oceans,rivers"
+            "or_preset": "lakes,beaches,oceans,rivers"
           }
         }
       ],

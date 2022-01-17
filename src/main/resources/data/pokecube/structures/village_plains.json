@@ -115,7 +115,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "not_presets": "snowy_areas"
+          "not_preset": "snowy_areas"
         }
       }
     },
@@ -139,7 +139,7 @@
       "spawn": {
         "values": {
           "preset": "plains",
-          "not_presets": "snowy_areas"
+          "not_preset": "snowy_areas"
         }
       }
     }
