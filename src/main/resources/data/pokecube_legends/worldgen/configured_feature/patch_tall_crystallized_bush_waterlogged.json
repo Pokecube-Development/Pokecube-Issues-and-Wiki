@@ -22,10 +22,28 @@
       "placement": [
         {
           "predicate": {
-            "blocks": [
-              "minecraft:water"
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:water"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "pokecube_legends:crystallized_cactus",
+                  "pokecube_legends:crystallized_sand",
+                  "pokecube_legends:crystallized_sandstone"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
             ],
-            "type": "minecraft:matching_blocks"
+            "type": "minecraft:all_of"
           },
           "type": "minecraft:block_predicate_filter"
         }

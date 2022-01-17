@@ -61,7 +61,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
 
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
-       return isValidAquamarineCrystalPlacement(world, pos, state.getValue(TIP_DIRECTION));
+       return isValidAquamarineCrystalPlacement(world, pos, state.getValue(TIP_DIRECTION)) || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
     }
 
     public void onProjectileHit(Level world, BlockState state, BlockHitResult block, Projectile projectile)

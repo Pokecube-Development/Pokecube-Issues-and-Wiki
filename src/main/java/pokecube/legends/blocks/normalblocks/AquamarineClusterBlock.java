@@ -3,10 +3,13 @@ package pokecube.legends.blocks.normalblocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AmethystClusterBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.legends.init.BlockInit;
 
@@ -23,7 +26,20 @@ public class AquamarineClusterBlock extends AmethystClusterBlock implements Simp
     {
         Direction direction = state.getValue(FACING);
         BlockPos posOpposite = pos.relative(direction.getOpposite());
-        return world.getBlockState(posOpposite).isFaceSturdy(world, posOpposite, direction) || state.is(BlockInit.CRYSTALLIZED_CACTUS.get());
+        BlockPos posDown = pos.relative(direction.DOWN);
+        return world.getBlockState(posOpposite).isFaceSturdy(world, posOpposite, direction) || world.getBlockState(posDown).is(BlockInit.CRYSTALLIZED_CACTUS.get());
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1)
+    {
+       if (state.getValue(WATERLOGGED))
+       {
+          world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+       }
+
+       return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(world, pos)
+               ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
     }
     
     @Override
