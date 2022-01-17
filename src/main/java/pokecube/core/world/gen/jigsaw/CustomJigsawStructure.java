@@ -34,7 +34,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class CustomJigsawStructure extends NoiseAffectingStructureFeature<JigsawConfig>

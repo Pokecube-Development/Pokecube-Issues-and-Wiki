@@ -1,5 +1,10 @@
 package pokecube.core.ai.logic;
 
+import java.util.UUID;
+
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
@@ -20,7 +25,23 @@ public class LogicInLiquid extends LogicBase
     public void tick(Level world)
     {
         if (world == null) return;
-        this.pokemob.setLogicState(LogicStates.INLAVA, this.entity.isInLava());
-        this.pokemob.setLogicState(LogicStates.INWATER, this.entity.isInWater());
+        AttributeInstance gravity = entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+
+        UUID id = new UUID(134123546, 4356456);
+        boolean water = this.entity.isInWater();
+        boolean lava = this.entity.isInLava();
+
+        this.pokemob.setLogicState(LogicStates.INLAVA, lava);
+        this.pokemob.setLogicState(LogicStates.INWATER, water);
+
+        if (water)
+        {
+            if (gravity.getModifier(id) == null)
+            {
+                gravity.addTransientModifier(
+                        new AttributeModifier(id, "water_gravity", -0.75, Operation.MULTIPLY_TOTAL));
+            }
+        }
+        else gravity.removeModifier(id);
     }
 }
