@@ -26,7 +26,6 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
         this.dimensions = EntityDimensions.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
-        this.setPersistenceRequired();
     }
 
     @Override

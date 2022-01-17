@@ -26,10 +26,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -516,16 +518,22 @@ public class EntityPokemob extends PokemobRidable
         final boolean despawns = Config.Rules.doDespawn(level);
         final boolean culls = Config.Rules.doCull(level);
         final boolean owned = this.pokemobCap.getOwnerId() != null;
-        if (owned) return true;
+
+        if (owned)
+        {
+            this.setPersistenceRequired();
+            return true;
+        }
         if (this.getPersistentData().contains(TagNames.NOPOOF)) return true;
         return !(despawns || culls);
     }
 
-    private boolean cullCheck(final double distanceToClosestPlayer)
+    private boolean cullCheck(double distanceToClosestPlayer)
     {
         if (this.pokemobCap.getOwnerId() != null || !(level instanceof ServerLevel level)) return false;
         final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
         if (noPoof) return false;
+        distanceToClosestPlayer = Math.sqrt(distanceToClosestPlayer);
         if (Config.Rules.doCull(level, distanceToClosestPlayer)) return true;
         if (Config.Rules.doDespawn(level, distanceToClosestPlayer))
         {
@@ -535,6 +543,43 @@ public class EntityPokemob extends PokemobRidable
         }
         this.despawntimer = PokecubeCore.getConfig().despawnTimer;
         return false;
+    }
+
+    @Override
+    public void checkDespawn()
+    {
+        if (this.level.getDifficulty() == Difficulty.PEACEFUL && this.shouldDespawnInPeaceful())
+        {
+            this.discard();
+        }
+        else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence())
+        {
+            Entity entity = this.level.getNearestPlayer(this, -1.0D);
+            net.minecraftforge.eventbus.api.Event.Result result = net.minecraftforge.event.ForgeEventFactory
+                    .canEntityDespawn(this);
+            if (result == net.minecraftforge.eventbus.api.Event.Result.DENY)
+            {
+                noActionTime = 0;
+                entity = null;
+            }
+            else if (result == net.minecraftforge.eventbus.api.Event.Result.ALLOW)
+            {
+                this.discard();
+                entity = null;
+            }
+            if (entity != null)
+            {
+                double d0 = entity.distanceToSqr(this);
+                if (this.removeWhenFarAway(d0))
+                {
+                    this.discard();
+                }
+            }
+        }
+        else
+        {
+            this.noActionTime = 0;
+        }
     }
 
     @Override
