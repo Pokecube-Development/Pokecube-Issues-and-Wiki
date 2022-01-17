@@ -32,9 +32,9 @@ public class RockFeature extends Feature<BlockStateConfiguration>
       for(stateConfig = context.config(); pos.getY() > world.getMinBuildHeight() + 3; pos = pos.below())
       {
          BlockState state = world.getBlockState(pos.below());
-         if (!world.isEmptyBlock(pos.below()) || !state.is(Blocks.LAVA) || !state.is(Blocks.WATER))
+         if (!world.isEmptyBlock(pos.below()))
          {
-            if (!state.is(Blocks.AIR) || !state.is(Blocks.LAVA) || !state.is(Blocks.WATER))
+            if (isSand(state) || isSandstone(state) || isDirt(state) || isStone(state))
             {
                break;
             }
