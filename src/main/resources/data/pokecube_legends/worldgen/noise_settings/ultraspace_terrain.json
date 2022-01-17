@@ -3972,7 +3972,7 @@
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:corrupted_dirt"
+                                      "Name": "pokecube_legends:corrupted_dirt"
                                     }
                                   }
                                 ]
