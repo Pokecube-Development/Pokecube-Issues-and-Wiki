@@ -15,6 +15,9 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
  */
 public class LogicInLiquid extends LogicBase
 {
+    private static final UUID id = new UUID(134123546, 4356456);
+    private static final AttributeModifier SWIMGRAVITY = new AttributeModifier(id, "swim_gravity", -0.75,
+            Operation.MULTIPLY_TOTAL);
 
     public LogicInLiquid(IPokemob pokemob_)
     {
@@ -27,7 +30,6 @@ public class LogicInLiquid extends LogicBase
         if (world == null) return;
         AttributeInstance gravity = entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
 
-        UUID id = new UUID(134123546, 4356456);
         boolean water = this.entity.isInWater();
         boolean lava = this.entity.isInLava();
 
@@ -38,8 +40,7 @@ public class LogicInLiquid extends LogicBase
         {
             if (gravity.getModifier(id) == null)
             {
-                gravity.addTransientModifier(
-                        new AttributeModifier(id, "water_gravity", -0.75, Operation.MULTIPLY_TOTAL));
+                gravity.addTransientModifier(SWIMGRAVITY);
             }
         }
         else gravity.removeModifier(id);
