@@ -1581,7 +1581,7 @@ public class PokedexEntry
         return this.entity_type;
     }
 
-    public PokedexEntry getEvo(final IPokemob pokemob)
+    public PokedexEntry getMegaEvo(final IPokemob pokemob)
     {
         for (final Entry<PokedexEntry, MegaRule> e : this.megaRules.entrySet())
         {

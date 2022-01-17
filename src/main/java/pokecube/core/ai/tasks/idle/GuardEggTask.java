@@ -69,6 +69,7 @@ public class GuardEggTask extends BaseIdleTask
             this.egg = null;
             break egg;
         }
+        if (this.egg == null) return false;
         this.egg.mother = this.pokemob;
         BrainUtils.deagro(this.pokemob.getEntity());
 

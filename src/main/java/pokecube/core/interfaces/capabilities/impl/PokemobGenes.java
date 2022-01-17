@@ -665,6 +665,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
         // Ensures the species gene is initialised
         this.genesSpecies.getExpressed().getValue().forme = holder;
+        PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesSpecies);
     }
 
     @Override

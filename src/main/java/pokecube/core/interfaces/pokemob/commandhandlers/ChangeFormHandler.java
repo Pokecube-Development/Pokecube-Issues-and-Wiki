@@ -116,7 +116,7 @@ public class ChangeFormHandler extends DefaultHandler
             return;
         }
 
-        newEntry = pokemob.getPokedexEntry().getEvo(pokemob);
+        newEntry = pokemob.getPokedexEntry().getMegaEvo(pokemob);
         if (newEntry != null && newEntry.getPokedexNb() == pokemob.getPokedexEntry().getPokedexNb())
         {
             if (pokemob.getPokedexEntry() == newEntry)
