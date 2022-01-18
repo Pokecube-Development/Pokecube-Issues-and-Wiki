@@ -41,7 +41,8 @@
                   0
                 ],
                 "blocks": [
-                  "pokecube_legends:blackened_sand"
+                  "pokecube_legends:blackened_sand",
+                  "pokecube_legends:meteorite_block"
                 ],
                 "type": "minecraft:matching_blocks"
               }
