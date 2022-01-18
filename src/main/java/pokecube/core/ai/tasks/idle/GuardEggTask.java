@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.idle;
 
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.common.collect.Maps;
 
@@ -62,12 +63,13 @@ public class GuardEggTask extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        this.egg = entity.getBrain().getMemory(MemoryModules.EGG).get();
-        egg:
+        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG);
+        if (!eggOpt.isPresent()) return false;
+        this.egg = eggOpt.get();
         if (!this.egg.isAlive())
         {
             this.egg = null;
-            break egg;
+            return false;
         }
         if (this.egg == null) return false;
         this.egg.mother = this.pokemob;

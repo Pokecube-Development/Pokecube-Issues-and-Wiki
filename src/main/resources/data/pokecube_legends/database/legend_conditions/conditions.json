@@ -642,7 +642,7 @@
           "id": "pokecube_legends:meloetta_ocarina"
         },
         "target": {
-          "id": "pokecube_legends:naturespawn"
+          "id": "pokecube_legends:nature_spawn"
         }
       }
     },
@@ -658,7 +658,7 @@
           "id": "pokecube_legends:lifeorb"
         },
         "target": {
-          "id": "pokecube_legends:xerneas_tree"
+          "id": "pokecube_legends:xerneas_spawn"
         }
       }
     },
@@ -706,7 +706,7 @@
           "id": "pokecube_legends:zygardecube"
         },
         "target": {
-          "id": "pokecube_legends:xerneas_tree"
+          "id": "pokecube_legends:xerneas_spawn"
         }
       }
     },
@@ -833,7 +833,7 @@
           "id": "pokecube_legends:cosmic_orb"
         },
         "target": {
-          "id": "pokecube_legends:timerspawn"
+          "id": "pokecube_legends:timerspace_spawn"
         }
       }
     },
