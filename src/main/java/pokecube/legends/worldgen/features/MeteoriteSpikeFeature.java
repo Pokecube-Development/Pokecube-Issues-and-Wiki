@@ -5,19 +5,25 @@ import java.util.Random;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.common.Tags;
+import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 
 public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 {
+   public static final Tag.Named<Block> FEATURES_CANNOT_PLACE_ON = BlockTags.createOptional(new ResourceLocation(Reference.ID, "features_cannot_place_on"));
+   
    public MeteoriteSpikeFeature(Codec<NoneFeatureConfiguration> config)
    {
       super(config);
@@ -28,12 +34,14 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
    {
       BlockPos pos = context.origin();
       Random random = context.random();
-
+      
       WorldGenLevel world;
       for(world = context.level(); world.isEmptyBlock(pos) && pos.getY() > world.getMinBuildHeight() + 2; pos = pos.below())
       {}
+      
+      BlockState state = world.getBlockState(pos);
 
-      if (world.getBlockState(pos).is(Blocks.AIR) || world.getBlockState(pos).is(Blocks.LAVA) || world.getBlockState(pos).is(Blocks.WATER))
+      if (world.getBlockState(pos).is(Blocks.AIR) || FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
       {
          return false;
       } else
@@ -60,16 +68,18 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
                   float f2 = (float)Mth.abs(j1) - 0.25F;
                   if ((i1 == 0 && j1 == 0 || !(f1 * f1 + f2 * f2 > f * f)) && (i1 != -l && i1 != l && j1 != -l && j1 != l || !(random.nextFloat() > 0.75F)))
                   {
-                     BlockState state = world.getBlockState(pos.offset(i1, k, j1));
-                     if (state.isAir() || isDirt(state) || isSand(state) || state.is(BlockInit.ASH.get()) || state.is(BlockInit.ASH_BLOCK.get()) || state.is(Blocks.ICE))
+                     BlockState stateOffset = world.getBlockState(pos.offset(i1, k, j1));
+                     if (stateOffset.isAir() || isDirt(stateOffset) || isSand(stateOffset) || isSandstone(stateOffset) || isStone(stateOffset)
+                             || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
                      {
                         this.setBlock(world, pos.offset(i1, k, j1), BlockInit.METEORITE_BLOCK.get().defaultBlockState());
                      }
 
                      if (k != 0 && l > 1)
                      {
-                        state = world.getBlockState(pos.offset(i1, -k, j1));
-                        if (state.isAir() || isDirt(state) || isSand(state) || state.is(BlockInit.ASH.get()) || state.is(BlockInit.ASH_BLOCK.get()) || state.is(Blocks.ICE))
+                        stateOffset = world.getBlockState(pos.offset(i1, -k, j1));
+                        if (stateOffset.isAir() || isDirt(stateOffset) || isSand(stateOffset) || isSandstone(stateOffset) || isStone(stateOffset)
+                                || stateOffset.is(BlockInit.ASH_BLOCK.get()) || stateOffset.is(Blocks.ICE) && !FEATURES_CANNOT_PLACE_ON.contains(state.getBlock()))
                         {
                            this.setBlock(world, pos.offset(i1, -k, j1), BlockInit.METEORITE_BLOCK.get().defaultBlockState());
                         }
@@ -127,5 +137,10 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
    public static boolean isSand(BlockState state)
    {
       return state.is(BlockTags.SAND) || state.is(Tags.Blocks.SAND);
+   }
+
+   public static boolean isSandstone(BlockState state)
+   {
+      return state.is(Tags.Blocks.SANDSTONE);
    }
 }

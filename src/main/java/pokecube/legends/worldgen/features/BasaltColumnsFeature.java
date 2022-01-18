@@ -4,11 +4,13 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -17,17 +19,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
-import pokecube.legends.init.BlockInit;
+import pokecube.legends.Reference;
 
 public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {
-   public static final ImmutableList<Block> CANNOT_PLACE_ON =
-		   ImmutableList.of(BlockInit.AGED_LEAVES.get(), BlockInit.ASH.get(), BlockInit.CORRUPTED_LEAVES.get(), BlockInit.DISTORTIC_LEAVES.get(),
-				   BlockInit.DYNA_LEAVES_PASTEL_PINK.get(), BlockInit.DYNA_LEAVES_PINK.get(), BlockInit.DYNA_LEAVES_RED.get(),
-				   BlockInit.INVERTED_LEAVES.get(), BlockInit.MIRAGE_LEAVES.get(), BlockInit.TEMPORAL_LEAVES.get(),
-				   Blocks.BEDROCK, Blocks.CHEST, Blocks.NETHER_BRICKS, Blocks.NETHER_BRICK_FENCE, Blocks.NETHER_BRICK_STAIRS,
-				   Blocks.NETHER_WART, Blocks.SNOW, Blocks.SPAWNER);
-
+   public static final Tag.Named<Block> FEATURES_CANNOT_PLACE_ON = BlockTags.createOptional(new ResourceLocation(Reference.ID, "features_cannot_place_on"));
+   
    private static final int CLUSTERED_REACH = 5;
    private static final int CLUSTERED_SIZE = 50;
    private static final int UNCLUSTERED_REACH = 8;
@@ -112,7 +109,7 @@ public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
       {
          final BlockState state = world.getBlockState(pos.move(Direction.DOWN));
          pos.move(Direction.UP);
-         return !state.isAir() && !BasaltColumnsFeature.CANNOT_PLACE_ON.contains(state.getBlock());
+         return !state.isAir() && !FEATURES_CANNOT_PLACE_ON.contains(state.getBlock());
       }
    }
 
@@ -123,7 +120,7 @@ public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
       {
          --height;
          final BlockState state = world.getBlockState(pos);
-         if (BasaltColumnsFeature.CANNOT_PLACE_ON.contains(state.getBlock())) return null;
+         if (BasaltColumnsFeature.FEATURES_CANNOT_PLACE_ON.contains(state.getBlock())) return null;
 
          if (state.isAir()) return pos;
          pos.move(Direction.UP);
