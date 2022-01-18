@@ -5738,26 +5738,6 @@
       }
     },
     {
-      "name": "giratina",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NGiratina Origin:Igriseousorb"
-          }
-        }
-      }
-    },
-    {
-      "name": "shaymin_land",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NShaymin Sky:Igracidea"
-          }
-        }
-      }
-    },
-    {
       "name": "snivy",
       "stats": {
         "evolutions": [
@@ -7344,16 +7324,6 @@
       }
     },
     {
-      "name": "kyurem",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NKyurem Black:Idna_splicera,NKyurem White:Idna_splicerb"
-          }
-        }
-      }
-    },
-    {
       "name": "keldeo",
       "stats": {
         "megaRules": [
@@ -7373,16 +7343,6 @@
             "move": "relicsong"
           }
         ]
-      }
-    },
-    {
-      "name": "genesect",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NGenesectSDrive:Iredstone"
-          }
-        }
       }
     },
     {
@@ -8355,16 +8315,6 @@
       }
     },
     {
-      "name": "hoopa_confined",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NHoopa Unbound:Iprisonbottle"
-          }
-        }
-      }
-    },
-    {
       "name": "rowlet",
       "stats": {
         "evolutions": [
@@ -8372,10 +8322,7 @@
             "name": "Dartrix",
             "level": 17
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8388,9 +8335,6 @@
             "evoMoves": "spiritshackle"
           }
         ],
-        "formeItems": {
-          "values": {}
-        },
         "prey": "Insecta"
       }
     },
@@ -8402,10 +8346,7 @@
             "name": "Torracat",
             "level": 17
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8417,18 +8358,7 @@
             "level": 34,
             "evoMoves": "darkestlariat"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "incineroar",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8439,10 +8369,7 @@
             "name": "Brionne",
             "level": 17
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8454,18 +8381,7 @@
             "level": 34,
             "evoMoves": "sparklingaria"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "primarina",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8476,10 +8392,7 @@
             "name": "Trumbeak",
             "level": 14
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8491,18 +8404,7 @@
             "level": 28,
             "evoMoves": "beakblast"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "toucannon",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8514,18 +8416,12 @@
             "level": 20,
             "time": "day"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
       "name": "gumshoos",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -8565,10 +8461,7 @@
             "level": 20,
             "evoMoves": "charge"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8584,18 +8477,7 @@
             },
             "evoMoves": "thunderbolt"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "vikavolt",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8611,27 +8493,11 @@
             },
             "evoMoves": "icepunch"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
-      "name": "crabominable",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "oricorio",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
+      "name": "oricorio"
     },
     {
       "name": "cutiefly",
@@ -8643,18 +8509,12 @@
             "evoMoves": "pollenpuff"
           }
         ],
-        "formeItems": {
-          "values": {}
-        },
         "activeTimes": "day"
       }
     },
     {
       "name": "ribombee",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "activeTimes": "day"
       }
     },
@@ -8680,18 +8540,12 @@
             "time": "dusk",
             "evoMoves": "thrash"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
       "name": "lycanroc",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -8725,9 +8579,6 @@
     {
       "name": "lycanroc_midnight",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -8761,9 +8612,6 @@
     {
       "name": "lycanroc_dusk",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -8795,14 +8643,6 @@
       }
     },
     {
-      "name": "wishiwashi",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
       "name": "mareanie",
       "stats": {
         "evolutions": [
@@ -8811,18 +8651,7 @@
             "level": 38,
             "evoMoves": "banefulbunker"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "toxapex",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8833,18 +8662,12 @@
             "name": "Mudsdale",
             "level": 30
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
       "name": "mudsdale",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -8883,18 +8706,7 @@
             "name": "Araquanid",
             "level": 22
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "araquanid",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8907,18 +8719,7 @@
             "time": "day",
             "evoMoves": "petalblizzard"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "lurantis",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8929,18 +8730,7 @@
             "name": "Shiinotic",
             "level": 24
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "shiinotic",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8953,18 +8743,7 @@
             "sexe": "female",
             "evoMoves": "captivate"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "salazzle",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -8976,18 +8755,12 @@
             "level": 27,
             "evoMoves": "bind"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
       "name": "bewear",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -9027,10 +8800,7 @@
             "level": 18,
             "evoMoves": "doubleslap"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9042,34 +8812,12 @@
             "move": "stomp",
             "evoMoves": "tropkick"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "tsareena",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "comfey",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
       "name": "oranguru",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -9103,9 +8851,6 @@
     {
       "name": "passimian",
       "stats": {
-        "formeItems": {
-          "values": {}
-        },
         "interactions": [
           {
             "male": false,
@@ -9145,18 +8890,7 @@
             "level": 30,
             "evoMoves": "firstimpression"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "golisopod",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9167,26 +8901,7 @@
             "name": "Palossand",
             "level": 42
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "palossand",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "pyukumuku",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9198,82 +8913,7 @@
             "happy": true,
             "evoMoves": "multiattack"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "silvally",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "minior",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "komala",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "turtonator",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "togedemaru",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "mimikyu",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "bruxish",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "drampa",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "dhelmise",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9285,10 +8925,7 @@
             "level": 35,
             "evoMoves": "skyuppercut"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9300,50 +8937,7 @@
             "level": 45,
             "evoMoves": "clangingscales"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "kommo-o",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "tapu_koko",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "tapu_lele",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "tapu_bulu",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "tapu_fini",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9355,10 +8949,7 @@
             "level": 43,
             "evoMoves": "cosmicpower"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9377,70 +8968,7 @@
             "time": "night",
             "evoMoves": "moongeistbeam"
           }
-        ],
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "solgaleo",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NSolgaleo Dusk:In_sun"
-          }
-        }
-      }
-    },
-    {
-      "name": "lunala",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NLunala Dawn:In_moon"
-          }
-        }
-      }
-    },
-    {
-      "name": "nihilego",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "buzzwole",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "pheromosa",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "xurkitree",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "celesteela",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
+        ]
       }
     },
     {
@@ -9448,7 +8976,7 @@
       "stats": {
         "megaRules": [
           {
-            "name": "Necrozma Ultra",
+            "name": "necrozma_ultra",
             "item_preset": "pokecube_mobs:necrozma"
           }
         ]
@@ -10125,26 +9653,6 @@
       }
     },
     {
-      "name": "zacian",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NZacian Crowned:Izacian_sword"
-          }
-        }
-      }
-    },
-    {
-      "name": "zamazenta",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NZamazenta Crowned:Izamazenta_shield"
-          }
-        }
-      }
-    },
-    {
       "name": "kubfu",
       "stats": {
         "evolutions": [
@@ -10171,50 +9679,6 @@
             "evoMoves": "surgingstrikes"
           }
         ]
-      }
-    },
-    {
-      "name": "glastrier",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NCalyrex Ice Rider:Ireins_u"
-          }
-        }
-      }
-    },
-    {
-      "name": "calyrex_ice_rider",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "spectrier",
-      "stats": {
-        "formeItems": {
-          "values": {
-            "forme": "NCalyrex Shadow Rider:Ireins_u"
-          }
-        }
-      }
-    },
-    {
-      "name": "calyrex_shadow_rider",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
-      }
-    },
-    {
-      "name": "calyrex",
-      "stats": {
-        "formeItems": {
-          "values": {}
-        }
       }
     }
   ]

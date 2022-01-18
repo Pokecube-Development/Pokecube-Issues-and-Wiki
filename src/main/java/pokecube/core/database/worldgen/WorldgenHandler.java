@@ -645,7 +645,7 @@ public class WorldgenHandler
 
             if (valid)
             {
-                PokecubeCore.LOGGER.info("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+                PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
                 Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
                 keys.add(from(event));
                 structure_biomes.put(configured, keys);
@@ -662,7 +662,7 @@ public class WorldgenHandler
         // already registered! (Need to do something about this?
         if (structure == null)
         {
-            PokecubeCore.LOGGER.info("Registering Structure: {} for mod {}", structName, this.MODID);
+            PokecubeCore.LOGGER.debug("Registering Structure: {} for mod {}", structName, this.MODID);
             structure = new CustomJigsawStructure(JigsawConfig.CODEC);
             ResourceLocation id = new ResourceLocation(structName);
             structure.priority = struct.priority;
@@ -698,7 +698,7 @@ public class WorldgenHandler
                         struct.toSettings());
             }
         }
-        PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
+        PokecubeCore.LOGGER.debug("Requesting pool of: {}", struct.root);
         if (!this.patterns.containsKey(struct.root))
         {
             PokecubeCore.LOGGER.error("No pool found for {}, are you sure it is registered?", struct.root);

@@ -36510,12 +36510,7 @@
         "captureRate": -1,
         "baseExp": -1,
         "baseFriendship": 70,
-        "genderRatio": -1,
-        "logics": {
-          "values": {
-            "dye": "FALSE"
-          }
-        }
+        "genderRatio": -1
       }
     },
     {
@@ -42457,9 +42452,6 @@
         "baseFriendship": 70,
         "expMode": "Medium Slow",
         "genderRatio": 255,
-        "logics": {
-          "values": {}
-        },
         "formeItems": {
           "values": {}
         },

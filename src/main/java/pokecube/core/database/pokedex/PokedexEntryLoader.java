@@ -485,6 +485,30 @@ public class PokedexEntryLoader
         public List<String> dyes = Lists.newArrayList();
     }
 
+    public static class FormeItem
+    {
+        protected String item;
+        protected String forme;
+
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
+        }
+
+        public PokedexEntry getOutput()
+        {
+            return Database.getEntry(forme);
+        }
+
+        public ResourceLocation getKey()
+        {
+            return new ResourceLocation(item);
+        }
+    }
+
     public static class XMLPokedexEntry
     {
         public String name;
@@ -524,6 +548,8 @@ public class PokedexEntryLoader
         public DefaultFormeHolder model = null;
         public DefaultFormeHolder male_model = null;
         public DefaultFormeHolder female_model = null;
+
+        public List<FormeItem> formeItems = Lists.newArrayList();
 
         public StatsNode stats;
         public Moves moves;
@@ -1087,17 +1113,6 @@ public class PokedexEntryLoader
         // Held
         if (xmlStats.heldTable != null && !xmlStats.heldTable.isEmpty())
             entry.heldTable = new ResourceLocation(xmlStats.heldTable);
-        // Logics
-        if (xmlStats.logics != null)
-        {
-            final Map<String, String> values = xmlStats.logics.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
-            }
-        }
         try
         {
             if (xmlStats.expMode != null) entry.evolutionMode = Tools.getType(xmlStats.expMode);
@@ -1134,8 +1149,6 @@ public class PokedexEntryLoader
         if (!xmlStats.interactions.isEmpty()) entry._loaded_interactions.addAll(xmlStats.interactions);
 
         if (xmlStats.hatedMaterials != null) entry.hatedMaterial = xmlStats.hatedMaterials.split(":");
-
-        if (xmlStats.formeItems != null) entry._forme_items = xmlStats.formeItems;
 
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
     }
@@ -1252,6 +1265,7 @@ public class PokedexEntryLoader
                 try
                 {
                     PokedexEntryLoader.postIniStats(entry, stats);
+                    if (xmlEntry.formeItems != null) entry._forme_items = xmlEntry.formeItems;
 
                     // Now handle dyable stuff
                     if (xmlEntry.dye != null)
