@@ -753,7 +753,7 @@
           "id": "pokecube_legends:steam_core"
         },
         "target": {
-          "id": "pokecube_legends:magearna_block"
+          "id": "pokecube_legends:magearna_spawn"
         }
       }
     },
@@ -864,7 +864,7 @@
           "id": "pokecube_legends:soul_heart"
         },
         "target": {
-          "id": "pokecube_legends:magearna_block"
+          "id": "pokecube_legends:magearna_spawn"
         }
       }
     },
@@ -935,7 +935,7 @@
           "id": "pokecube_legends:ice_carrot"
         },
         "target": {
-          "id": "pokecube_legends:trough_block"
+          "id": "pokecube_legends:trough_spawn"
         }
       }
     },
@@ -950,7 +950,7 @@
           "id": "pokecube_legends:shadow_carrot"
         },
         "target": {
-          "id": "pokecube_legends:trough_block"
+          "id": "pokecube_legends:trough_spawn"
         }
       }
     },
@@ -966,7 +966,7 @@
           "id": "pokecube_legends:wooden_crown"
         },
         "target": {
-          "id": "pokecube_legends:trough_block"
+          "id": "pokecube_legends:trough_spawn"
         }
       }
     }
