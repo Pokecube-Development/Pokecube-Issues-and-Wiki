@@ -41,8 +41,10 @@
                   0
                 ],
                 "blocks": [
+                  "minecraft:magma_block",
                   "pokecube_legends:blackened_sand",
-                  "pokecube_legends:meteorite_block"
+                  "pokecube_legends:meteorite_block",
+                  "pokecube_legends:ultra_darkstone"
                 ],
                 "type": "minecraft:matching_blocks"
               }
