@@ -1017,7 +1017,7 @@ public class BlockInit
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_PURPLE)
                         .sound(SoundType.ROOTED_DIRT).strength(0.9F)));
         
-        TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(4416624,
+        TURQUOISE_GRAVEL = PokecubeLegends.DIMENSIONS_TAB.register("turquoise_gravel", () -> new FallingBlockBase(2243919,
                 BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_CYAN).sound(SoundType.GRAVEL).strength(0.6F)));
         
         ASH_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("ash_block", () -> new AshBlock(3816264, 

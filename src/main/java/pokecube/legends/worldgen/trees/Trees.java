@@ -97,7 +97,7 @@ public class Trees
     {
         TREE_DECORATORS.register(bus);
         // Register this as a low priority, so that the tree decorator exists
-        // before we try to add it to the trees themseleves.
+        // before we try to add it to the trees themselves.
         bus.addGenericListener(Feature.class, EventPriority.LOWEST, Trees::registerConfigured);
     }
 
@@ -128,7 +128,7 @@ public class Trees
                 // Different trees use a variety of the three values below, usually ranging from
                 // 0 to 2, this example is from basic oak trees, but it can vary for different ones
                 new TwoLayersFeatureSize(1, 0, 1))
-                .ignoreVines();
+                .ignoreVines().decorators(ImmutableList.of(BEEHIVE_005));
         //@formatter:on
     }
 
@@ -139,7 +139,8 @@ public class Trees
             new StraightTrunkPlacer(8, 6, 0),
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()),
             new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 3)),
-            new TwoLayersFeatureSize(1, 0, 1)).ignoreVines();
+            new TwoLayersFeatureSize(1, 0, 1)).ignoreVines()
+                .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
     }
 
     public static TreeConfigurationBuilder getMegaAgedPineTree()
@@ -149,7 +150,8 @@ public class Trees
             new GiantTrunkPlacer(13, 2, 14),
             BlockStateProvider.simple(BlockInit.AGED_LEAVES.get().defaultBlockState()), 
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(3, 8)),
-            new TwoLayersFeatureSize(1, 1, 2));
+            new TwoLayersFeatureSize(1, 1, 2))
+                .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL))));
     }
 
     public static TreeConfigurationBuilder getMegaAgedSpruceTree()
@@ -169,7 +171,7 @@ public class Trees
             new ForkingTrunkPlacer(6, 2, 3),
             BlockStateProvider.simple(BlockInit.CORRUPTED_LEAVES.get().defaultBlockState()),
             new AcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
-            new TwoLayersFeatureSize(1, 0, 2)).ignoreVines();
+            new TwoLayersFeatureSize(1, 0, 2)).ignoreVines().dirt(BlockStateProvider.simple(BlockInit.ROOTED_CORRUPTED_DIRT.get())).forceDirt();
     }
 
     public static TreeConfigurationBuilder getDistorticTree()
@@ -192,7 +194,8 @@ public class Trees
                     .add(BlockInit.DYNA_LEAVES_PINK.get().defaultBlockState(), 1)
                     .add(BlockInit.DYNA_LEAVES_PASTEL_PINK.get().defaultBlockState(), 1)), 
             new RandomSpreadFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), ConstantInt.of(2), 50),
-            new TwoLayersFeatureSize(1, 0, 1));
+            new TwoLayersFeatureSize(1, 0, 1)).decorators(ImmutableList.of(BEEHIVE_002))
+                .dirt(BlockStateProvider.simple(BlockInit.ROOTED_MUSHROOM_DIRT.get())).forceDirt();
     }
     
     public static TreeConfigurationBuilder getInvertedTree()
@@ -202,7 +205,7 @@ public class Trees
             new StraightTrunkPlacer(6, 4, 0),
             BlockStateProvider.simple(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
             new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
-            new TwoLayersFeatureSize(1, 0, 1)).ignoreVines();
+            new TwoLayersFeatureSize(1, 0, 1)).ignoreVines().decorators(ImmutableList.of(BEEHIVE_005));
     }
 
     public static TreeConfigurationBuilder getInvertedTreeFancy()
@@ -212,7 +215,7 @@ public class Trees
             new FancyTrunkPlacer(3, 11, 0),
             BlockStateProvider.simple(BlockInit.INVERTED_LEAVES.get().defaultBlockState()),
             new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
-            new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))).ignoreVines();
+            new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))).ignoreVines().decorators(ImmutableList.of(BEEHIVE_005));
     }
 
     public static TreeConfigurationBuilder getMirageTree()
@@ -278,38 +281,35 @@ public class Trees
 
     private static void registerConfigured(final RegistryEvent.Register<Feature<?>> event)
     {
-        Trees.INVERTED_TREE = FeatureUtils.register("pokecube_legends:inverted_tree",
-                Feature.TREE.configured(Trees.getInvertedTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
-        Trees.INVERTED_TREE_FANCY = FeatureUtils.register("pokecube_legends:inverted_fancy_tree", Feature.TREE
-                .configured(Trees.getInvertedTreeFancy().decorators(ImmutableList.of(BEEHIVE_005)).build()));
-
-        Trees.TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:temporal_tree",
-                Feature.TREE.configured(Trees.getTemporalTree().build()));
-        Trees.MEGA_TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:mega_temporal_tree",
-                Feature.TREE.configured(Trees.getMegaTemporalTree().build()));
-
         Trees.AGED_PINE_TREE = FeatureUtils.register("pokecube_legends:aged_pine_tree",
-                Feature.TREE.configured(Trees.getAgedPineTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
+                Feature.TREE.configured(Trees.getAgedPineTree().build()));
         Trees.AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:aged_spruce_tree",
-                Feature.TREE.configured(Trees.getAgedSpruceTree().decorators(ImmutableList.of(BEEHIVE_005)).build()));
+                Feature.TREE.configured(Trees.getAgedSpruceTree().build()));
         Trees.MEGA_AGED_PINE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_pine_tree",
-                Feature.TREE.configured(Trees.getMegaAgedPineTree()
-                        .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL)))).build()));
+                Feature.TREE.configured(Trees.getMegaAgedPineTree().build()));
         Trees.MEGA_AGED_SPRUCE_TREE = FeatureUtils.register("pokecube_legends:mega_aged_spruce_tree",
-                Feature.TREE.configured(Trees.getMegaAgedSpruceTree()
-                        .decorators(ImmutableList.of(BEEHIVE_005, new AlterGroundDecorator(BlockStateProvider.simple(States.AGED_PODZOL)))).build()));
+                Feature.TREE.configured(Trees.getMegaAgedSpruceTree().build()));
 
         Trees.CORRUPTED_TREE = FeatureUtils.register("pokecube_legends:corrupted_tree",
-                Feature.TREE.configured(Trees.getCorruptedTree().dirt(BlockStateProvider.simple(BlockInit.ROOTED_CORRUPTED_DIRT.get())).forceDirt().build()));
-
-        Trees.MIRAGE_TREE = FeatureUtils.register("pokecube_legends:mirage_tree",
-                Feature.TREE.configured(Trees.getMirageTree().build()));
+                Feature.TREE.configured(Trees.getCorruptedTree().build()));
 
         Trees.DISTORTIC_TREE = FeatureUtils.register("pokecube_legends:distortic_tree",
                 Feature.TREE.configured(Trees.getDistorticTree().build()));
 
         Trees.DYNA_TREE = FeatureUtils.register("pokecube_legends:dyna_tree",
-                Feature.TREE.configured(Trees.getDynaTree().decorators(ImmutableList.of(BEEHIVE_002))
-                        .dirt(BlockStateProvider.simple(BlockInit.ROOTED_MUSHROOM_DIRT.get())).forceDirt().build()));
+                Feature.TREE.configured(Trees.getDynaTree().build()));
+        
+        Trees.INVERTED_TREE = FeatureUtils.register("pokecube_legends:inverted_tree",
+                Feature.TREE.configured(Trees.getInvertedTree().build()));
+        Trees.INVERTED_TREE_FANCY = FeatureUtils.register("pokecube_legends:inverted_fancy_tree",
+                Feature.TREE.configured(Trees.getInvertedTreeFancy().build()));
+
+        Trees.MIRAGE_TREE = FeatureUtils.register("pokecube_legends:mirage_tree",
+                Feature.TREE.configured(Trees.getMirageTree().build()));
+
+        Trees.TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:temporal_tree",
+                Feature.TREE.configured(Trees.getTemporalTree().build()));
+        Trees.MEGA_TEMPORAL_TREE = FeatureUtils.register("pokecube_legends:mega_temporal_tree",
+                Feature.TREE.configured(Trees.getMegaTemporalTree().build()));
     }
 }

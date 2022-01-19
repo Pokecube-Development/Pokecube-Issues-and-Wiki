@@ -1,6 +1,6 @@
 {
   "config": {
-    "tries": 32,
+    "tries": 64,
     "xz_spread": 7,
     "y_spread": 3,
     "feature": {
@@ -8,7 +8,7 @@
         "config": {
           "to_place": {
             "state": {
-              "Name": "minecraft:grass"
+              "Name": "minecraft:melon"
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -20,10 +20,7 @@
           "predicate": {
             "predicates": [
               {
-                "blocks": [
-                  "minecraft:air"
-                ],
-                "type": "minecraft:matching_blocks"
+                "type": "minecraft:replaceable"
               },
               {
                 "offset": [

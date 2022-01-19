@@ -43,9 +43,11 @@ import pokecube.legends.worldgen.features.PatchFeature;
 import pokecube.legends.worldgen.features.PollutedIcebergFeature;
 import pokecube.legends.worldgen.features.PollutedSnowAndFreezeFeature;
 import pokecube.legends.worldgen.features.RockFeature;
+import pokecube.legends.worldgen.features.StringOfPearlsFeature;
 import pokecube.legends.worldgen.features.SurfaceFossilFeature;
 import pokecube.legends.worldgen.features.TaintedKelpFeature;
 import pokecube.legends.worldgen.features.TaintedSeagrassFeature;
+import pokecube.legends.worldgen.features.TemporalBambooFeature;
 import pokecube.legends.worldgen.features.UltraspaceDeltaFeature;
 import pokecube.legends.worldgen.features.UltraspaceVegetationFeature;
 
@@ -115,14 +117,14 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new RockFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> SURFACE_FOSSILS = WorldgenFeatures.FEATURES.register("surface_fossil_feature",
             () -> new SurfaceFossilFeature(FossilFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",
-//            () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> TEMPORAL_BAMBOO = WorldgenFeatures.FEATURES.register("temporal_bamboo_feature",
+            () -> new TemporalBambooFeature(ProbabilityFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> TAINTED_KELP= WorldgenFeatures.FEATURES.register("tainted_kelp_feature",
             () -> new TaintedKelpFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> TAINTED_SEAGRASS = WorldgenFeatures.FEATURES.register("tainted_seagrass_feature",
             () -> new TaintedSeagrassFeature(ProbabilityFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
-//            () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> STRING_OF_PEARLS = WorldgenFeatures.FEATURES.register("string_of_pearls_feature",
+            () -> new StringOfPearlsFeature(NoneFeatureConfiguration.CODEC));
     
     public static final RegistryObject<Feature<NetherForestVegetationConfig>> ULTRASPACE_VEGETATION = WorldgenFeatures.FEATURES.register("ultraspace_vegetation_feature",
             () -> new UltraspaceVegetationFeature(NetherForestVegetationConfig.CODEC));

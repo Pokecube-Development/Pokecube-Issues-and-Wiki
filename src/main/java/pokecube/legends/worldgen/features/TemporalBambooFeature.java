@@ -58,7 +58,8 @@ public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfigurati
                      int k1 = i1 - pos.getZ();
                      if (j1 * j1 + k1 * k1 <= k * k) {
                         mutablePos1.set(l, world.getHeight(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
-                        if (isDirt(world.getBlockState(mutablePos1))) {
+                        if (isDirt(world.getBlockState(mutablePos1)))
+                        {
                            world.setBlock(mutablePos1, BlockInit.JUNGLE_GRASS.get().defaultBlockState(), 2);
                         }
                      }
