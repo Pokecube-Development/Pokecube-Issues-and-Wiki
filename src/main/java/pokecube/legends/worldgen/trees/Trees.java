@@ -57,9 +57,9 @@ public class Trees
             .create(ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
 
     public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS.register(
-            "leaves_string_of_pearls_decorator", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
+            "leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
     public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS.register(
-            "trunk_string_of_pearls_decorator", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
+            "trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
 
     public static ConfiguredFeature<TreeConfiguration, ?> AGED_PINE_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> AGED_SPRUCE_TREE;
@@ -89,7 +89,7 @@ public class Trees
 
     public static final class States
     {
-        public static final BlockState JUNGLE_GRASS = BlockInit.JUNGLE_GRASS.get().defaultBlockState();
+        public static final BlockState JUNGLE_PODZOL = BlockInit.JUNGLE_PODZOL.get().defaultBlockState();
         public static final BlockState AGED_PODZOL = BlockInit.AGED_PODZOL.get().defaultBlockState();
     }
 
@@ -248,7 +248,7 @@ public class Trees
             new MegaJungleFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
             new TwoLayersFeatureSize(1, 1, 2)).decorators(ImmutableList.of(TrunkStringOfPearlsDecorator.INSTANCE, 
                     LeavesStringOfPearlsDecorator.INSTANCE, BEEHIVE_0002, 
-                    new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_GRASS))));
+                    new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_PODZOL))));
     }
 
     private static void registerPlacements()

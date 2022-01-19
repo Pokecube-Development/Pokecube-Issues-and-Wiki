@@ -4165,7 +4165,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:podzol"
+                                    "Name": "pokecube_legends:jungle_podzol"
                                   }
                                 }
                               },
@@ -4180,7 +4180,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:coarse_dirt"
+                                    "Name": "pokecube_legends:jungle_coarse_dirt"
                                   }
                                 }
                               }
@@ -5275,7 +5275,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:coarse_dirt"
+                                "Name": "pokecube_legends:jungle_coarse_dirt"
                               }
                             }
                           }

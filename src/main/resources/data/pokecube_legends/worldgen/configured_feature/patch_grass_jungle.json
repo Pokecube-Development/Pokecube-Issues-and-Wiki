@@ -44,7 +44,8 @@
                     0
                   ],
                   "blocks": [
-                    "minecraft:podzol"
+                    "minecraft:podzol",
+                    "pokecube_legends:jungle_podzol"
                   ],
                   "type": "minecraft:matching_blocks"
                 },

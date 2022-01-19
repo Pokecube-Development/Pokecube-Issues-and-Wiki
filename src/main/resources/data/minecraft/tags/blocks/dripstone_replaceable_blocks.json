@@ -1,21 +1,18 @@
 {
   "replace": false,
   "values": [
-    {"id": "#pokecube:cave", "required": false},
     {"id": "#pokecube_legends:base_stone_distorted_world", "required": false},
-    {"id": "#pokecube_legends:base_stone_ultraspace", "required": false},
+    {"id": "#pokecube_legends:dusk_dolerite_ore_replaceables", "required": false},
+    {"id": "#pokecube_legends:meteorite_ore_replaceables", "required": false},
+    {"id": "#pokecube_legends:ultra_stone_ore_replaceables", "required": false},
     {"id": "pokecube_legends:aged_dirt", "required": false},
     {"id": "pokecube_legends:ash_block", "required": false},
     {"id": "pokecube_legends:azure_dirt", "required": false},
     {"id": "pokecube_legends:corrupted_dirt", "required": false},
-    {"id": "pokecube_legends:hanging_tendrils", "required": false},
-    {"id": "pokecube_legends:hanging_tendrils_plant", "required": false},
     {"id": "pokecube_legends:jungle_dirt", "required": false},
     {"id": "pokecube_legends:mushroom_dirt", "required": false},
-    {"id": "pokecube_legends:mushroom_dirt", "required": false},
-    {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
-    {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false},
     {"id": "pokecube_legends:rooted_corrupted_dirt", "required": false},
-    {"id": "pokecube_legends:turquoise_gravel", "required": false}
+    {"id": "pokecube_legends:turquoise_gravel", "required": false},
+    {"id": "pokecube_legends:ultra_darkstone", "required": false}
   ]
 }

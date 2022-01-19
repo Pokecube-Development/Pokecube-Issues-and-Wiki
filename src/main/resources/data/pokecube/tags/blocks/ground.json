@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:end_stone",
     "#forge:gravel",
     "#forge:sand",
     "#forge:cobblestone",
@@ -13,6 +12,7 @@
     "#minecraft:lush_ground_replaceable",
     "#pokecube_legends:base_stone_distorted_world",
     "#pokecube_legends:base_stone_ultraspace",
+    "minecraft:end_stone",
     "pokecube_legends:ash_block"
   ]
 }

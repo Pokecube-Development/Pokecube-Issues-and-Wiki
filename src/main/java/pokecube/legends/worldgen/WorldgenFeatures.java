@@ -1,9 +1,6 @@
 package pokecube.legends.worldgen;
 
-import com.mojang.serialization.Codec;
-
 import net.minecraft.world.level.levelgen.feature.BasaltColumnsFeature;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;

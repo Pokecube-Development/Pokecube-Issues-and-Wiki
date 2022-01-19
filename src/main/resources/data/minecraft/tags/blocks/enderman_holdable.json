@@ -3,6 +3,8 @@
   "values": [
     "#pokecube_legends:ultra_sands",
     "pokecube_legends:aged_grass_block",
+    "pokecube_legends:aged_podzol",
+    "pokecube_legends:aquamarine_cluster",
     "pokecube_legends:azure_coleus",
     "pokecube_legends:azure_grass_block",
     "pokecube_legends:compreced_mushroom",
@@ -15,9 +17,14 @@
     "pokecube_legends:dyna_shrub",
     "pokecube_legends:golden_fern",
     "pokecube_legends:golden_grass",
+    "pokecube_legends:fungal_nylium",
     "pokecube_legends:jungle_grass_block",
+    "pokecube_legends:jungle_podzol",
+    "pokecube_legends:large_aquamarine_bud",
+    "pokecube_legends:medium_aquamarine_bud",
     "pokecube_legends:mushroom_grass_block",
     "pokecube_legends:pink_blossom_tainted_lily_pad",
+    "pokecube_legends:small_aquamarine_bud",
     "pokecube_legends:tainted_lily_pad",
     "pokecube_legends:tainted_roots",
     "pokecube_legends:turquoise_gravel"

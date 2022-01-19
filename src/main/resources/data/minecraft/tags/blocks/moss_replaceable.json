@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    {"id": "#pokecube:cave", "required": false},
     {"id": "#pokecube_legends:ultra_dirts", "required": false},
     {"id": "pokecube_legends:ash_block", "required": false},
     {"id": "pokecube_legends:cracked_distortic_stone", "required": false},
@@ -10,6 +9,7 @@
     {"id": "pokecube_legends:dusk_dolerite", "required": false},
     {"id": "pokecube_legends:hanging_tendrils", "required": false},
     {"id": "pokecube_legends:hanging_tendrils_plant", "required": false},
+    {"id": "pokecube_legends:meteorite_block", "required": false},
     {"id": "pokecube_legends:purple_wisteria_vines", "required": false},
     {"id": "pokecube_legends:purple_wisteria_vines_plant", "required": false},
     {"id": "pokecube_legends:turquoise_gravel", "required": false},

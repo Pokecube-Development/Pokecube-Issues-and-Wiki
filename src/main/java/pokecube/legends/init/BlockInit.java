@@ -388,8 +388,10 @@ public class BlockInit
     public static final RegistryObject<Block> CORRUPTED_DIRT;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
     public static final RegistryObject<Block> FUNGAL_NYLIUM;
+    public static final RegistryObject<Block> JUNGLE_COARSE_DIRT;
     public static final RegistryObject<Block> JUNGLE_DIRT;
     public static final RegistryObject<Block> JUNGLE_GRASS;
+    public static final RegistryObject<Block> JUNGLE_PODZOL;
     public static final RegistryObject<Block> MUSHROOM_DIRT;
     public static final RegistryObject<Block> MUSHROOM_COARSE_DIRT;
     public static final RegistryObject<Block> MUSHROOM_GRASS;
@@ -977,7 +979,7 @@ public class BlockInit
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         AGED_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("aged_podzol",
                 () -> new SnowyDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.GOLD)
-                        .sound(SoundType.GRAVEL).strength(0.6F).randomTicks()));
+                        .sound(SoundType.GRAVEL).strength(0.6F)));
         AGED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 0.5F, 0.5F, SoundType.WET_GRASS, false));
         AGED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_coarse_dirt",
@@ -1001,7 +1003,12 @@ public class BlockInit
         JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", 
                 () -> new JungleGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
+        JUNGLE_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("jungle_podzol",
+                () -> new SnowyDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BROWN)
+                        .sound(SoundType.GRAVEL).strength(0.6F)));
         JUNGLE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_dirt",
+                () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 0.5F, 0.5F, SoundType.GRAVEL, false));
+        JUNGLE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_coarse_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 0.5F, 0.5F, SoundType.GRAVEL, false));
         MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block",
                 () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
@@ -2467,6 +2474,8 @@ public class BlockInit
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(),
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
+            ItemGenerator.addHoeables(BlockInit.JUNGLE_COARSE_DIRT.get(),
+                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.JUNGLE_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.MUSHROOM_COARSE_DIRT.get(),
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.MUSHROOM_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.ROOTED_CORRUPTED_DIRT.get(), Pair.of((item) -> { return true; }, 

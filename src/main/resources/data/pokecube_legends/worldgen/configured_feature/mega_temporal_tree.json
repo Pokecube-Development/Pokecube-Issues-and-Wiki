@@ -13,7 +13,7 @@
             "Properties": {
               "snowy": "false"
             },
-            "Name": "pokecube_legends:jungle_grass_block"
+            "Name": "pokecube_legends:jungle_podzol"
           },
           "type": "minecraft:simple_state_provider"
         },

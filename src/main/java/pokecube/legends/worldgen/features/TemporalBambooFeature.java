@@ -60,7 +60,7 @@ public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfigurati
                         mutablePos1.set(l, world.getHeight(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
                         if (isDirt(world.getBlockState(mutablePos1)))
                         {
-                           world.setBlock(mutablePos1, BlockInit.JUNGLE_GRASS.get().defaultBlockState(), 2);
+                           world.setBlock(mutablePos1, BlockInit.JUNGLE_PODZOL.get().defaultBlockState(), 2);
                         }
                      }
                   }
