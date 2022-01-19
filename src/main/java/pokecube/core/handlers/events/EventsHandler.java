@@ -73,6 +73,7 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
@@ -760,7 +761,8 @@ public class EventsHandler
 
     private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-        // Database.onResourcesReloaded();
+        // Final setup of tag required things
+        for (final PokedexEntry entry : Database.getSortedFormes()) entry.postTagsReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)

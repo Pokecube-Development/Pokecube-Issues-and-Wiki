@@ -1148,82 +1148,11 @@ public class PokedexEntry
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
                 .printStackTrace();
     }
-
-    /**
-     * Applies various things which needed server to be initialized, such as
-     * interactions for tag lists, etc
-     */
-    public void onResourcesReloaded()
+    
+    public void postTagsReloaded()
     {
         this.formeItems.clear();
         this.megaRules.clear();
-        this.interactionLogic.stackActions.clear();
-        // Apply loaded interactions
-        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
-        // Apply default interactions
-        InteractionLogic.initForEntry(this);
-
-        if (this.getSpawnData() != null) this.getSpawnData().postInit();
-
-        final Class<?> me = this.getClass();
-        Required c;
-        for (final Field f : me.getDeclaredFields())
-        {
-            c = f.getAnnotation(Required.class);
-            if (c != null) try
-            {
-                f.setAccessible(true);
-                if (this.isSame(f, this, PokedexEntry.BLANK))
-                {
-                    boolean fixed = false;
-                    PokedexEntry base = this.getBaseForme();
-                    if (base == null) base = Database.dummyMap.get(this.getPokedexNb());
-                    if (base != null)
-                    {
-                        f.set(this, f.get(base));
-                        fixed = !this.isSame(f, this, PokedexEntry.BLANK);
-                    }
-                    if (!fixed) PokecubeCore.LOGGER.error("Unfilled value {} for {}!", f.getName(), this);
-                }
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        // Set the tag based values
-        this.shouldFly = this.isType(PokeType.getType("flying"));
-        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
-        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
-        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
-        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
-        this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
-        this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
-        this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
-        this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
-        this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
-
-        // Breeding whitelist is generally for legends that are explicitly
-        // allowed to breed, like manaphy
-        this.breeds = Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName())
-                || !Tags.POKEMOB.isIn("no_breeding", this.getTrimmedName());
-
-        this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
-        this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
-        this.foods[2] = Tags.POKEMOB.isIn("eats_redstone", this.getTrimmedName());
-        this.foods[3] = Tags.POKEMOB.isIn("eats_plants", this.getTrimmedName());
-        this.foods[4] = Tags.POKEMOB.isIn("eats_never", this.getTrimmedName());
-        this.foods[5] = !Tags.POKEMOB.isIn("eats_no_berries", this.getTrimmedName());
-        this.foods[6] = Tags.POKEMOB.isIn("eats_water", this.getTrimmedName());
-
-        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
-        if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
-        if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
-        if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
-
-        if (this.isMega() || this.isGMax()) this.breeds = false;
-
         if (this._forme_items != null)
         {
             for (FormeItem i : _forme_items)
@@ -1314,6 +1243,82 @@ public class PokedexEntry
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
             }
         }
+    }
+
+    /**
+     * Applies various things which needed server to be initialized, such as
+     * interactions for tag lists, etc
+     */
+    public void onResourcesReloaded()
+    {
+        this.formeItems.clear();
+        this.megaRules.clear();
+        this.interactionLogic.stackActions.clear();
+        // Apply loaded interactions
+        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
+        // Apply default interactions
+        InteractionLogic.initForEntry(this);
+
+        if (this.getSpawnData() != null) this.getSpawnData().postInit();
+
+        final Class<?> me = this.getClass();
+        Required c;
+        for (final Field f : me.getDeclaredFields())
+        {
+            c = f.getAnnotation(Required.class);
+            if (c != null) try
+            {
+                f.setAccessible(true);
+                if (this.isSame(f, this, PokedexEntry.BLANK))
+                {
+                    boolean fixed = false;
+                    PokedexEntry base = this.getBaseForme();
+                    if (base == null) base = Database.dummyMap.get(this.getPokedexNb());
+                    if (base != null)
+                    {
+                        f.set(this, f.get(base));
+                        fixed = !this.isSame(f, this, PokedexEntry.BLANK);
+                    }
+                    if (!fixed) PokecubeCore.LOGGER.error("Unfilled value {} for {}!", f.getName(), this);
+                }
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        // Set the tag based values
+        this.shouldFly = this.isType(PokeType.getType("flying"));
+        this.shouldFly = this.shouldFly || Tags.POKEMOB.isIn("fly_allowed", this.getTrimmedName());
+        if (Tags.POKEMOB.isIn("fly_disallowed", this.getTrimmedName())) this.shouldFly = false;
+        this.shouldDive = Tags.POKEMOB.isIn("dive_allowed", this.getTrimmedName());
+        this.shouldSurf = Tags.POKEMOB.isIn("surf_allowed", this.getTrimmedName());
+        this.canSitShoulder = Tags.POKEMOB.isIn("shoulder_allowed", this.getTrimmedName());
+        this.isHeatProof = Tags.POKEMOB.isIn("fire_proof", this.getTrimmedName());
+        this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
+        this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
+        this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
+
+        // Breeding whitelist is generally for legends that are explicitly
+        // allowed to breed, like manaphy
+        this.breeds = Tags.POKEMOB.isIn("breeding_whitelist", this.getTrimmedName())
+                || !Tags.POKEMOB.isIn("no_breeding", this.getTrimmedName());
+
+        this.foods[0] = Tags.POKEMOB.isIn("eats_light", this.getTrimmedName());
+        this.foods[1] = Tags.POKEMOB.isIn("eats_stone", this.getTrimmedName());
+        this.foods[2] = Tags.POKEMOB.isIn("eats_redstone", this.getTrimmedName());
+        this.foods[3] = Tags.POKEMOB.isIn("eats_plants", this.getTrimmedName());
+        this.foods[4] = Tags.POKEMOB.isIn("eats_never", this.getTrimmedName());
+        this.foods[5] = !Tags.POKEMOB.isIn("eats_no_berries", this.getTrimmedName());
+        this.foods[6] = Tags.POKEMOB.isIn("eats_water", this.getTrimmedName());
+
+        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
+        if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
+        if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
+        if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
+
+        if (this.isMega() || this.isGMax()) this.breeds = false;
         this.copyToGenderFormes();
     }
 
