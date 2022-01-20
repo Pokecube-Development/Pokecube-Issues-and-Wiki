@@ -8,11 +8,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.BaseDiskFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 
-public class PatchFeature extends BaseDiskFeature
+public class PatchFeature extends DiskBaseFeature
 {
    public PatchFeature(Codec<DiskConfiguration> config)
    {
