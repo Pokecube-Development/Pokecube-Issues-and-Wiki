@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:infiniburn_overworld"
+    "#minecraft:infiniburn_overworld",
+    "minecraft:basalt",
+    "minecraft:blackstone"
   ]
 }
