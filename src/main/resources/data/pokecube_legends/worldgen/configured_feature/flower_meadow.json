@@ -17,19 +17,16 @@
             "scale": 1.0,
             "states": [
               {
-                "Name": "minecraft:allium"
+                "Name": "pokecube_legends:golden_allium"
               },
               {
-                "Name": "minecraft:azure_bluet"
+                "Name": "pokecube_legends:golden_azure_bluet"
               },
               {
-                "Name": "minecraft:cornflower"
+                "Name": "pokecube_legends:golden_cornflower"
               },
               {
-                "Name": "minecraft:dandelion"
-              },
-              {
-                "Name": "minecraft:oxeye_daisy"
+                "Name": "pokecube_legends:golden_dandelion"
               },
               {
                 "Name": "pokecube_legends:golden_fern"
@@ -38,7 +35,19 @@
                 "Name": "pokecube_legends:golden_grass"
               },
               {
+                "Name": "pokecube_legends:golden_lily_of_the_valley"
+              },
+              {
+                "Name": "pokecube_legends:golden_orchid"
+              },
+              {
+                "Name": "pokecube_legends:golden_oxeye_daisy"
+              },
+              {
                 "Name": "pokecube_legends:golden_poppy"
+              },
+              {
+                "Name": "pokecube_legends:golden_tulip"
               },
               {
                 "Properties": {

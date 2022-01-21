@@ -65,7 +65,8 @@ public class DiskBaseFeature extends Feature<DiskConfiguration>
                      BlockState stateSand = diskConfig.state().is(BlockInit.ASH_BLOCK.get()) ? BlockInit.ASH_BLOCK.get().defaultBlockState()
                              : diskConfig.state().is(BlockInit.AZURE_SAND.get()) ? BlockInit.AZURE_SANDSTONE.get().defaultBlockState() 
                              : diskConfig.state().is(BlockInit.BLACKENED_SAND.get()) ? BlockInit.BLACKENED_SANDSTONE.get().defaultBlockState()
-                                     : BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState();
+                                     : diskConfig.state().is(BlockInit.CRYSTALLIZED_SAND.get()) ? BlockInit.CRYSTALLIZED_SANDSTONE.get().defaultBlockState()
+                                     : BlockInit.ULTRA_STONE.get().defaultBlockState();
                      world.setBlock(new BlockPos(i1, i2 + 1, j1), stateSand, 2);
                   }
                   flag2 = flag3;

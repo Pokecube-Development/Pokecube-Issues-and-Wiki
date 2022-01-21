@@ -12,7 +12,7 @@
         "group": "pokecube_legends",
         "ingredients": [
           {
-            "item": "pokecube_legends:golden_poppy"
+            "tag": "pokecube_legends:golden_flowers"
           }
         ],
         "result": {

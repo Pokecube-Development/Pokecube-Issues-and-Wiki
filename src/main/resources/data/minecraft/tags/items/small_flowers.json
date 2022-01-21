@@ -1,7 +1,15 @@
 {
   "replace": false,
   "values": [
+    {"id": "pokecube_legends:golden_allium", "required": false},
+    {"id": "pokecube_legends:golden_azure_bluet", "required": false},
+    {"id": "pokecube_legends:golden_cornflower", "required": false},
+    {"id": "pokecube_legends:golden_dandelion", "required": false},
+    {"id": "pokecube_legends:golden_lily_of_the_valley", "required": false},
+    {"id": "pokecube_legends:golden_orchid", "required": false},
+    {"id": "pokecube_legends:golden_oxeye_daisy", "required": false},
     {"id": "pokecube_legends:golden_poppy", "required": false},
+    {"id": "pokecube_legends:golden_tulip", "required": false},
     {"id": "pokecube_legends:inverted_orchid", "required": false},
     {"id": "pokecube_legends:pink_blossom_tainted_lily_pad", "required": false},
     {"id": "pokecube_legends:polluting_blossom", "required": false},

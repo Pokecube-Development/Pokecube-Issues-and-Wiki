@@ -43,10 +43,18 @@ public class PlantsInit
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> DISTORTIC_VINES;
     public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
+    public static final RegistryObject<Block> GOLDEN_ALLIUM;
+    public static final RegistryObject<Block> GOLDEN_AZURE_BLUET;
+    public static final RegistryObject<Block> GOLDEN_CORNFLOWER;
+    public static final RegistryObject<Block> GOLDEN_DANDELION;
     public static final RegistryObject<Block> GOLDEN_FERN;
     public static final RegistryObject<Block> GOLDEN_GRASS;
+    public static final RegistryObject<Block> GOLDEN_LILY_VALLEY;
+    public static final RegistryObject<Block> GOLDEN_ORCHID;
+    public static final RegistryObject<Block> GOLDEN_OXEYE_DAISY;
     public static final RegistryObject<Block> GOLDEN_POPPY;
     public static final RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
+    public static final RegistryObject<Block> GOLDEN_TULIP;
     public static final RegistryObject<Block> INVERTED_ORCHID;
     public static final RegistryObject<Block> HANGING_TENDRILS;
     public static final RegistryObject<Block> HANGING_TENDRILS_PLANT;
@@ -90,7 +98,31 @@ public class PlantsInit
         TALL_GOLDEN_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("tall_golden_grass", () -> new DoublePlantBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
+        GOLDEN_ALLIUM = PokecubeLegends.DIMENSIONS_TAB.register("golden_allium", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_AZURE_BLUET = PokecubeLegends.DIMENSIONS_TAB.register("golden_azure_bluet", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_CORNFLOWER = PokecubeLegends.DIMENSIONS_TAB.register("golden_cornflower", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_DANDELION = PokecubeLegends.DIMENSIONS_TAB.register("golden_dandelion", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_LILY_VALLEY = PokecubeLegends.DIMENSIONS_TAB.register("golden_lily_of_the_valley", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
         GOLDEN_POPPY = PokecubeLegends.DIMENSIONS_TAB.register("golden_poppy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_ORCHID = PokecubeLegends.DIMENSIONS_TAB.register("golden_orchid", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+        
+        GOLDEN_OXEYE_DAISY = PokecubeLegends.DIMENSIONS_TAB.register("golden_oxeye_daisy", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
+                BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+
+        GOLDEN_TULIP = PokecubeLegends.DIMENSIONS_TAB.register("golden_tulip", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
         GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("golden_sweet_berry_bush", () -> new GoldenSweetBerryBushBlock(

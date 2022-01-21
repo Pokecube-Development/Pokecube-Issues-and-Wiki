@@ -1,10 +1,10 @@
 {
   "group": "pokecube_legends",
   "type": "minecraft:blasting",
-  "experience": 0.25,
+  "experience": 0.1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:golden_poppy"
+    "tag": "pokecube_legends:golden_flowers"
   },
   "result": {
     "item": "minecraft:gold_nugget"

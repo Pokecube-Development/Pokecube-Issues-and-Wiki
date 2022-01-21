@@ -749,10 +749,18 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
     public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
     public static final RegistryObject<Block> POTTED_DYNA_SHRUB;
+    public static final RegistryObject<Block> POTTED_GOLDEN_ALLIUM;
+    public static final RegistryObject<Block> POTTED_GOLDEN_AZURE_BLUET;
+    public static final RegistryObject<Block> POTTED_GOLDEN_CORNFLOWER;
+    public static final RegistryObject<Block> POTTED_GOLDEN_DANDELION;
     public static final RegistryObject<Block> POTTED_GOLDEN_FERN;
     public static final RegistryObject<Block> POTTED_GOLDEN_GRASS;
+    public static final RegistryObject<Block> POTTED_GOLDEN_LILY_VALLEY;
+    public static final RegistryObject<Block> POTTED_GOLDEN_ORCHID;
+    public static final RegistryObject<Block> POTTED_GOLDEN_OXEYE_DAISY;
     public static final RegistryObject<Block> POTTED_GOLDEN_POPPY;
     public static final RegistryObject<Block> POTTED_GOLDEN_SWEET_BERRY_BUSH;
+    public static final RegistryObject<Block> POTTED_GOLDEN_TULIP;
     public static final RegistryObject<Block> POTTED_HANGING_TENDRILS;
     public static final RegistryObject<Block> POTTED_INVERTED_ORCHID;
     public static final RegistryObject<Block> POTTED_LARGE_GOLDEN_FERN;
@@ -2344,17 +2352,41 @@ public class BlockInit
         POTTED_DYNA_SHRUB = PokecubeLegends.NO_TAB.register("potted_dyna_shrub",
                 () -> new ItemGenerator.GenericPottedPlant(BlockInit.DYNA_SHRUB.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_ALLIUM = PokecubeLegends.NO_TAB.register("potted_golden_allium",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_ALLIUM.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_AZURE_BLUET = PokecubeLegends.NO_TAB.register("potted_golden_azure_bluet",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_AZURE_BLUET.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_CORNFLOWER = PokecubeLegends.NO_TAB.register("potted_golden_cornflower",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_CORNFLOWER.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_DANDELION = PokecubeLegends.NO_TAB.register("potted_golden_dandelion",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_DANDELION.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_LILY_VALLEY = PokecubeLegends.NO_TAB.register("potted_golden_lily_of_the_valley",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_LILY_VALLEY.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_FERN = PokecubeLegends.NO_TAB.register("potted_golden_fern",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_FERN.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_GRASS = PokecubeLegends.NO_TAB.register("potted_golden_grass",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_GRASS.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_ORCHID = PokecubeLegends.NO_TAB.register("potted_golden_orchid",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_ORCHID.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_OXEYE_DAISY = PokecubeLegends.NO_TAB.register("potted_golden_oxeye_daisy",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_OXEYE_DAISY.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_POPPY = PokecubeLegends.NO_TAB.register("potted_golden_poppy",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_POPPY.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.NO_TAB.register("potted_golden_sweet_berry_bush",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_GOLDEN_TULIP = PokecubeLegends.NO_TAB.register("potted_golden_tulip",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.GOLDEN_TULIP.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_INVERTED_ORCHID = PokecubeLegends.NO_TAB.register("potted_inverted_orchid",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.INVERTED_ORCHID.get(),
@@ -2531,8 +2563,16 @@ public class BlockInit
         BlockInit.compostableBlocks(0.65f, PlantsInit.AZURE_COLEUS);
         BlockInit.compostableBlocks(0.65f, PlantsInit.COMPRECED_MUSHROOM);
         BlockInit.compostableBlocks(0.65f, PlantsInit.DISTORCED_MUSHROOM);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_ALLIUM);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_AZURE_BLUET);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_CORNFLOWER);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_DANDELION);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_FERN);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_LILY_VALLEY);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_ORCHID);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_OXEYE_DAISY);
         BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_POPPY);
+        BlockInit.compostableBlocks(0.65f, PlantsInit.GOLDEN_TULIP);
         BlockInit.compostableBlocks(0.65f, PlantsInit.INVERTED_ORCHID);
         BlockInit.compostableBlocks(0.65f, PlantsInit.LARGE_GOLDEN_FERN);
         BlockInit.compostableBlocks(0.65f, PlantsInit.PINK_TAINTED_LILY_PAD);
@@ -2642,10 +2682,18 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_ALLIUM.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_AZURE_BLUET.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_CORNFLOWER.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_DANDELION.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_FERN.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_GRASS.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_LILY_VALLEY.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_ORCHID.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_OXEYE_DAISY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_POPPY.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.GOLDEN_TULIP.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.INVERTED_ORCHID.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.HANGING_TENDRILS_PLANT.get(), 60, 100);
