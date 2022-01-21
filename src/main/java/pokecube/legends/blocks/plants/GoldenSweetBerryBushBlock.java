@@ -57,16 +57,16 @@ public class GoldenSweetBerryBushBlock extends SweetBerryBushBlock implements Bo
       }
    }
 
-    @Override
-    public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
-    {
-        return false;
-    }
+   @Override
+   public boolean isPathfindable(final BlockState state, final BlockGetter worldIn, final BlockPos pos, final PathComputationType path)
+   {
+      return false;
+   }
 
-    @Nullable
-    @Override
-    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
-    {
-        return BlockPathTypes.DAMAGE_OTHER;
-    }
+   @Nullable
+   @Override
+   public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+   {
+      return BlockPathTypes.DAMAGE_OTHER;
+   }
 }

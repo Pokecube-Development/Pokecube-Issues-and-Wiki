@@ -90,14 +90,12 @@
       "pokecube_legends:spring_water"
     ],
     [
-      "minecraft:brown_mushroom_normal",
-      "minecraft:brown_mushroom_old_growth",
-      "minecraft:red_mushroom_normal",
-      "minecraft:red_mushroom_old_growth",
       "minecraft:patch_dead_bush",
       "minecraft:patch_sugar_cane",
       "pokecube_legends:flower_golden",
       "pokecube_legends:glow_lichen",
+      "pokecube_legends:golden_shroom_normal",
+      "pokecube_legends:golden_shroom_old_growth",
       "pokecube_legends:patch_golden_berry_bush_common",
       "pokecube_legends:patch_golden_grass_old_growth",
       "pokecube_legends:patch_large_golden_fern",

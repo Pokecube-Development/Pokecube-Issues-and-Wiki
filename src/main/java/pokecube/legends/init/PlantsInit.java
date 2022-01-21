@@ -2,6 +2,8 @@ package pokecube.legends.init;
 
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -53,6 +55,7 @@ public class PlantsInit
     public static final RegistryObject<Block> GOLDEN_ORCHID;
     public static final RegistryObject<Block> GOLDEN_OXEYE_DAISY;
     public static final RegistryObject<Block> GOLDEN_POPPY;
+    public static final RegistryObject<Block> GOLDEN_SHROOM_PLANT;
     public static final RegistryObject<Block> GOLDEN_SWEET_BERRY_BUSH;
     public static final RegistryObject<Block> GOLDEN_TULIP;
     public static final RegistryObject<Block> INVERTED_ORCHID;
@@ -73,18 +76,20 @@ public class PlantsInit
     public static final RegistryObject<Block> TEMPORAL_BAMBOO;
     public static final RegistryObject<Block> TEMPORAL_BAMBOO_SHOOT;
 
+    public static final RegistryObject<Item> GOLDEN_SHROOM;
+
     static
     {
         AZURE_COLEUS = PokecubeLegends.DIMENSIONS_TAB.register("azure_coleus", () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 15,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_BLUE).randomTicks().noCollission().sound(SoundType.AZALEA)));
 
         COMPRECED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("compreced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
-                .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> { return 1; }), () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
+                .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS),
+                () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
 
         DISTORCED_MUSHROOM = PokecubeLegends.DIMENSIONS_TAB.register("distorced_mushroom", () -> new MushroomBase(BlockBehaviour.Properties
-                .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
-                .lightLevel((i) -> { return 1; }), () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
+                .of(Material.PLANT, MaterialColor.COLOR_PURPLE).noCollission().randomTicks().instabreak().sound(SoundType.GRASS),
+                () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
 
         GOLDEN_FERN = PokecubeLegends.DIMENSIONS_TAB.register("golden_fern", () -> new TallGoldenGrassBlock(
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
@@ -124,6 +129,12 @@ public class PlantsInit
 
         GOLDEN_TULIP = PokecubeLegends.DIMENSIONS_TAB.register("golden_tulip", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
+
+        GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
+                new Item.Properties().food(FoodInit.GOLDEN_SHROOM)));
+        GOLDEN_SHROOM_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("golden_shroom_plant", () -> new MushroomBase(BlockBehaviour.Properties
+                .of(Material.PLANT, MaterialColor.GOLD).noCollission().randomTicks().instabreak().sound(SoundType.GRASS),
+                () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));
 
         GOLDEN_SWEET_BERRY_BUSH = PokecubeLegends.DIMENSIONS_TAB.register("golden_sweet_berry_bush", () -> new GoldenSweetBerryBushBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).randomTicks().noCollission().sound(SoundType.SWEET_BERRY_BUSH)));
