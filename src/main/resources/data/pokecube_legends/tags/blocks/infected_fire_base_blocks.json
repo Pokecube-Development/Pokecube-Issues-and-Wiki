@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:corrupted_coarse_dirt",
     "pokecube_legends:corrupted_dirt",
     "pokecube_legends:corrupted_grass_block",
     "pokecube_legends:rooted_corrupted_dirt"

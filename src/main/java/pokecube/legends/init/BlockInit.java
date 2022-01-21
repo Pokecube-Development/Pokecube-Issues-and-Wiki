@@ -386,6 +386,7 @@ public class BlockInit
     public static final RegistryObject<Block> AZURE_DIRT;
     public static final RegistryObject<Block> AZURE_GRASS;
     public static final RegistryObject<Block> CORRUPTED_DIRT;
+    public static final RegistryObject<Block> CORRUPTED_COARSE_DIRT;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
     public static final RegistryObject<Block> FUNGAL_NYLIUM;
     public static final RegistryObject<Block> JUNGLE_COARSE_DIRT;
@@ -995,6 +996,9 @@ public class BlockInit
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE)
                         .sound(SoundType.SCAFFOLDING).strength(4F, 5F).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
+                () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
+                        .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
+        CORRUPTED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_coarse_dirt", 
                 () -> new CorruptedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
@@ -1150,7 +1154,7 @@ public class BlockInit
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
                         .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 6)));
         AQUAMARINE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_block",
-                () -> new Block(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
+                () -> new Block(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(5.0F, 6.0F)
                         .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 12)));
         AQUAMARINE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_stairs",
                 () -> new ItemGenerator.GenericStairs(AQUAMARINE_BLOCK.get().defaultBlockState(),
