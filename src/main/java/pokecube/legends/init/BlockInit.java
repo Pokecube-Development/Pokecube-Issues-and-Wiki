@@ -1135,36 +1135,37 @@ public class BlockInit
                         .strength(1.5F).sound(SoundType.AMETHYST).noOcclusion().randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 5)));
         AQUAMARINE_CRYSTAL = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_crystal",
                 () -> new AquamarineCrystalBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().dynamicShape().lightLevel(i -> 6)));
         UNREFINED_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine",
                 () -> new UnrefinedAquamarineBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 6)));
         BUDDING_AQUAMARINE = PokecubeLegends.DIMENSIONS_TAB.register("budding_aquamarine",
                 () -> new BuddingAquamarineBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops()));
+                        .strength(1.5F).sound(SoundType.AMETHYST).randomTicks().requiresCorrectToolForDrops().lightLevel(i -> 6)));
         UNREFINED_AQUAMARINE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine_stairs",
                 () -> new ItemGenerator.GenericStairs(UNREFINED_AQUAMARINE.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
-                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 6)));
         UNREFINED_AQUAMARINE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("unrefined_aquamarine_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
-                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 6)));
         AQUAMARINE_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_block",
-                () -> new BlockBase(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE, 1.5F, 0.0F, SoundType.AMETHYST, true));
+                () -> new Block(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
+                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 12)));
         AQUAMARINE_STAIRS = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_stairs",
                 () -> new ItemGenerator.GenericStairs(AQUAMARINE_BLOCK.get().defaultBlockState(),
                         BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
-                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 12)));
         AQUAMARINE_SLAB = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).strength(1.5F)
-                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops()));
+                        .sound(SoundType.AMETHYST).requiresCorrectToolForDrops().lightLevel(i -> 12)));
         AQUAMARINE_BUTTON = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_button",
                 () -> new ItemGenerator.GenericWoodButton(BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE)
-                        .sound(SoundType.AMETHYST).noCollission().strength(0.5F).requiresCorrectToolForDrops()));
+                        .sound(SoundType.AMETHYST).noCollission().strength(0.5F).requiresCorrectToolForDrops().lightLevel(i -> 6)));
         AQUAMARINE_PR_PLATE = PokecubeLegends.DIMENSIONS_TAB.register("aquamarine_pressure_plate",
                 () -> new ItemGenerator.GenericPressurePlate(PressurePlateBlock.Sensitivity.EVERYTHING,
                         BlockBehaviour.Properties.of(Material.AMETHYST, MaterialColor.COLOR_LIGHT_BLUE).sound(SoundType.AMETHYST)
-                        .noCollission().strength(0.5F).requiresCorrectToolForDrops()));
+                        .noCollission().strength(0.5F).requiresCorrectToolForDrops().lightLevel(i -> 6)));
 
         // Distortic World
         DISTORTIC_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass_block",
@@ -2474,6 +2475,8 @@ public class BlockInit
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AGED_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.AZURE_COARSE_DIRT.get(),
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.AZURE_DIRT.get().defaultBlockState())));
+            ItemGenerator.addHoeables(BlockInit.CORRUPTED_COARSE_DIRT.get(),
+                    Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.CORRUPTED_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.JUNGLE_COARSE_DIRT.get(),
                     Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(BlockInit.JUNGLE_DIRT.get().defaultBlockState())));
             ItemGenerator.addHoeables(BlockInit.MUSHROOM_COARSE_DIRT.get(),
