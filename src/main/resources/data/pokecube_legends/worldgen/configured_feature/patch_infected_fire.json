@@ -8,15 +8,7 @@
         "config": {
           "to_place": {
             "state": {
-              "Properties": {
-                "west": "false",
-                "up": "false",
-                "south": "false",
-                "north": "false",
-                "east": "false",
-                "age": "0"
-              },
-              "Name": "minecraft:fire"
+              "Name": "pokecube_legends:infected_fire"
             },
             "type": "minecraft:simple_state_provider"
           }
@@ -41,6 +33,7 @@
                   0
                 ],
                 "blocks": [
+    		      "pokecube_legends:corrupted_coarse_dirt",
 				  "pokecube_legends:corrupted_dirt",
 				  "pokecube_legends:corrupted_grass_block",
 				  "pokecube_legends:rooted_corrupted_dirt"
