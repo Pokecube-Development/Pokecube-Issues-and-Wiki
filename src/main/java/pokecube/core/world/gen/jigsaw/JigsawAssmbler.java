@@ -431,6 +431,11 @@ public class JigsawAssmbler
         else if (!this.config.surface) this.SURFACE_TYPE = null;
 
         final StructurePoolElement jigsawpiece = getRandomTemplate(pool, rand);
+
+        // We return true here so that it counts as "built", despite being
+        // completely empty.
+        if (jigsawpiece == EmptyPoolElement.INSTANCE) return true;
+
         final PoolElementStructurePiece poolElement = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.getGroundLevelDelta(), rotation,
                 jigsawpiece.getBoundingBox(templateManagerIn, pos, rotation));
