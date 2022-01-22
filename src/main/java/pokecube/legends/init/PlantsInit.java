@@ -2,10 +2,7 @@ package pokecube.legends.init;
 
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -76,8 +73,6 @@ public class PlantsInit
     public static final RegistryObject<Block> TEMPORAL_BAMBOO;
     public static final RegistryObject<Block> TEMPORAL_BAMBOO_SHOOT;
 
-    public static final RegistryObject<Item> GOLDEN_SHROOM;
-
     static
     {
         AZURE_COLEUS = PokecubeLegends.DIMENSIONS_TAB.register("azure_coleus", () -> new AzureColeusBlock(MobEffects.INVISIBILITY, 15,
@@ -130,8 +125,6 @@ public class PlantsInit
         GOLDEN_TULIP = PokecubeLegends.DIMENSIONS_TAB.register("golden_tulip", () -> new FlowerBase(MobEffects.ABSORPTION, 10,
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
-        GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
-                new Item.Properties().food(FoodInit.GOLDEN_SHROOM).tab(PokecubeLegends.TAB_DIMENSIONS)));
         GOLDEN_SHROOM_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("golden_shroom_plant", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.GOLD).noCollission().randomTicks().instabreak().sound(SoundType.GRASS),
                 () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));

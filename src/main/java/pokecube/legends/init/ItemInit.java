@@ -190,6 +190,7 @@ public class ItemInit
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
+    public static final RegistryObject<Item> GOLDEN_SHROOM;
     public static final RegistryObject<Item> GOLDEN_SWEET_BERRIES;
     public static final RegistryObject<Item> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Item> TAINTED_LILY_PAD;
@@ -352,6 +353,8 @@ public class ItemInit
 
         // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
+        GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
+                new Item.Properties().food(FoodInit.GOLDEN_SHROOM).tab(PokecubeLegends.TAB_DIMENSIONS)));
         GOLDEN_SWEET_BERRIES = PokecubeLegends.ITEMS.register("golden_sweet_berries", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
                 new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
