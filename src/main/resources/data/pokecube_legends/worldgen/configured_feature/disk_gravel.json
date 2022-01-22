@@ -19,9 +19,6 @@
         }
       },
       {
-        "Name": "minecraft:gravel"
-      },
-      {
         "Name": "pokecube_legends:aged_coarse_dirt"
       },
       {
@@ -50,6 +47,9 @@
         "Properties": {
           "snowy": "false"
         }
+      },
+      {
+        "Name": "pokecube_legends:blackened_sand"
       },
       {
         "Name": "pokecube_legends:corrupted_dirt"
