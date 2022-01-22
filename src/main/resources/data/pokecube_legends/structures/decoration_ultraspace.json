@@ -44,7 +44,8 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/giant_berry_tree_island;{\"weight\":45}"
+        "empty;{\"weight\":45}",
+        "pokecube_legends:ultraspace/giant_berry_tree_island;{\"weight\":10}"
       ]
     },
     {
@@ -170,7 +171,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
+          "biomes": "pokecube_legends:fungal_flower_forest, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:fungal_sunflower_plains, pokecube_legends:snowy_fungal_plains"
         }
       }
     },
@@ -186,7 +187,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:fungal_forest, pokecube_legends:fungal_plains"
+          "biomes": "pokecube_legends:fungal_flower_forest, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:fungal_sunflower_plains, pokecube_legends:snowy_fungal_plains"
         }
       }
     },
@@ -376,7 +377,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+          "biomes": "pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },
@@ -392,7 +393,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+          "biomes": "pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },
@@ -408,7 +409,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
+          "biomes": "pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     },
@@ -418,7 +419,7 @@
       "biomeType": "none",
       "distance": 3,
       "separation": 2,
-      "height": 8,
+      "height": 16,
       "air": true,
       "base_under": false,
       "dimWhitelist": [
