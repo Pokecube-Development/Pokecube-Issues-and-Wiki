@@ -9,7 +9,6 @@ import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class CaveCarver extends CaveWorldCarver
 {
-
     public CaveCarver(final Codec<CaveCarverConfiguration> codec)
     {
         super(codec);
