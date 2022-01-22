@@ -131,7 +131,7 @@ public class PlantsInit
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.GOLD).noCollission().instabreak().sound(SoundType.GRASS)));
 
         GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
-                new Item.Properties().food(FoodInit.GOLDEN_SHROOM)));
+                new Item.Properties().food(FoodInit.GOLDEN_SHROOM).tab(PokecubeLegends.TAB_DIMENSIONS)));
         GOLDEN_SHROOM_PLANT = PokecubeLegends.DIMENSIONS_TAB.register("golden_shroom_plant", () -> new MushroomBase(BlockBehaviour.Properties
                 .of(Material.PLANT, MaterialColor.GOLD).noCollission().randomTicks().instabreak().sound(SoundType.GRASS),
                 () -> { return TreeFeatures.HUGE_RED_MUSHROOM; }).bonemealTarget(false));

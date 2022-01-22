@@ -2460,8 +2460,9 @@ public class BlockInit
         {
             // These are registered separately, so skip them.
             if (reg == BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM || reg == PlantsInit.DISTORTIC_VINES_PLANT || reg == PlantsInit.DISTORTIC_VINES
-                    || reg == PlantsInit.HANGING_TENDRILS_PLANT || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT || reg == PlantsInit.TEMPORAL_BAMBOO
-                    || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT || reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD)
+                    || reg == PlantsInit.GOLDEN_SHROOM_PLANT || reg == PlantsInit.HANGING_TENDRILS_PLANT || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT
+                    || reg == PlantsInit.TEMPORAL_BAMBOO || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT || reg == PlantsInit.PINK_TAINTED_LILY_PAD
+                    || reg == PlantsInit.TAINTED_LILY_PAD)
                 continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));

@@ -17,7 +17,7 @@ import pokecube.legends.init.PlantsInit;
 public class MushroomBase extends MushroomBlock
 {
     protected static final VoxelShape LARGE_SHAPE = Block.box(2, 0, 2, 14, 15, 14);
-    protected static final VoxelShape SMALL_SHAPE = Block.box(4, 0, 4, 12, 8, 12);
+    protected static final VoxelShape SMALL_SHAPE = Block.box(4, 0, 4, 12, 9, 12);
     public final Supplier<ConfiguredFeature<?, ?>> featureSupplier;
     public boolean                                 validBonemealTarget = true;
 
