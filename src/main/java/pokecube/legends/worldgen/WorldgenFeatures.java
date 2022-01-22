@@ -50,19 +50,8 @@ import pokecube.legends.worldgen.features.UltraspaceVegetationFeature;
 
 public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegistryEntry<Feature<?>>
 {
-//    public static final DeferredRegister<SurfaceBuilder<?>> SURFACE_BUILDERS = DeferredRegister.create(
-//            ForgeRegistries.SURFACE_BUILDERS, Reference.ID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(
             ForgeRegistries.FEATURES, Reference.ID);
-
-//    public static final RegistryObject<SurfaceBuilder<?>> BURNT_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("burnt_desert_builder",
-//            () -> new BurntDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
-//    public static final RegistryObject<SurfaceBuilder<?>> MIRAGE_DESERT = WorldgenFeatures.SURFACE_BUILDERS.register("mirage_desert_builder",
-//            () -> new MirageDesertSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
-//    public static final RegistryObject<SurfaceBuilder<?>> BLINDING_DELTAS = WorldgenFeatures.SURFACE_BUILDERS.register("blinding_deltas_builder",
-//            () -> new BlindingDeltasSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
-//    public static final RegistryObject<SurfaceBuilder<?>> TAINTED_BARRENS = WorldgenFeatures.SURFACE_BUILDERS.register("tainted_barrens_builder",
-//            () -> new TaintedBarrensSurfaceBuilder(SurfaceBuilderBaseConfiguration.CODEC));
 
     public static final RegistryObject<Feature<?>> AQUAMARINE_CLUSTER = WorldgenFeatures.FEATURES.register("aquamarine_cluster_feature",
             () -> new AquamarineClusterFeature(DripstoneClusterConfiguration.CODEC));
@@ -96,10 +85,6 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
             () -> new DistorticStoneBouldersFeature(ColumnFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> DISTORTIC_VINES = WorldgenFeatures.FEATURES.register("distortic_vines_feature",
             () -> new DistorticVinesFeature(NoneFeatureConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> FORBIDDEN_TAIGA_VEGETATION = WorldgenFeatures.FEATURES.register("forsaken_taiga_vegetation_feature",
-//            () -> new ForestVegetationFeature(BlockPileConfiguration.CODEC));
-//    public static final RegistryObject<Feature<?>> LAKE = WorldgenFeatures.FEATURES.register("lake_feature",
-//            () -> new LakeFeature(BlockStateConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> LARGE_UNREFINED_AQUAMARINE = WorldgenFeatures.FEATURES.register("large_unrefined_aquamarine_feature",
             () -> new LargeUnrefinedAquamarine(LargeDripstoneConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> METEORITE_SPIKES = WorldgenFeatures.FEATURES.register("meteorite_spike_feature",
@@ -128,7 +113,6 @@ public class WorldgenFeatures<FC extends FeatureConfiguration> extends ForgeRegi
 
     public static void init(final IEventBus bus)
     {
-//        WorldgenFeatures.SURFACE_BUILDERS.register(bus);
         WorldgenFeatures.FEATURES.register(bus);
     }
 }
