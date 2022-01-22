@@ -16,6 +16,7 @@ import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -108,8 +109,8 @@ public class MovesUtils implements IMoveConstants
     public static void addChange(final Entity target, final IPokemob attacker, final byte change)
     {
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-        final boolean effect = CapabilityAffected.addEffect(target, new NonPersistantStatusEffect(Effect.getStatus(
-                change)));
+        final boolean effect = CapabilityAffected.addEffect(target,
+                new NonPersistantStatusEffect(Effect.getStatus(change)));
         if (attacked != null) if (change == IMoveConstants.CHANGE_CONFUSED) if (effect)
         {
             MovesUtils.sendPairedMessages(target, attacker, "pokemob.status.confuse.add");
@@ -135,8 +136,7 @@ public class MovesUtils implements IMoveConstants
             if (index < 4 && index >= 0) if (attacker.getDisableTimer(index) <= 0) return true;
             else
             {
-                for (int i = 0; i < 4; i++)
-                    if (attacker.getDisableTimer(i) <= 0) return false;
+                for (int i = 0; i < 4; i++) if (attacker.getDisableTimer(i) <= 0) return false;
                 return true;
             }
             return true;
@@ -145,8 +145,7 @@ public class MovesUtils implements IMoveConstants
     }
 
     /**
-     * For contact moves like tackle. The mob gets close to its target and
-     * hits.
+     * For contact moves like tackle. The mob gets close to its target and hits.
      *
      * @return whether the mob can attack
      */
@@ -175,8 +174,7 @@ public class MovesUtils implements IMoveConstants
             final float dy = (float) (entity.getY() - p.getY());
 
             final AABB box = new AABB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
-                    + attackedLength);
+            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz + attackedLength);
             inRange = box.intersects(box2);
             if (inRange) break;
         }
@@ -191,8 +189,7 @@ public class MovesUtils implements IMoveConstants
             final float dy = (float) (entity.getY() - attacked.getY());
 
             final AABB box = new AABB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
-                    + attackedLength);
+            final AABB box2 = new AABB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz + attackedLength);
             inRange = box.intersects(box2);
         }
         return inRange;
@@ -201,11 +198,9 @@ public class MovesUtils implements IMoveConstants
     /**
      * @param attacker
      * @param attacked
-     * @param efficiency
-     *            -1 = missed, -2 = failed, 0 = no effect, <1 = not effective, 1
-     *            = normal effecive, >1 = supereffective
-     * @param criticalRatio
-     *            >1 = critical hit.
+     * @param efficiency    -1 = missed, -2 = failed, 0 = no effect, <1 = not
+     *                      effective, 1 = normal effecive, >1 = supereffective
+     * @param criticalRatio >1 = critical hit.
      */
     public static void displayEfficiencyMessages(final IPokemob attacker, final Entity attacked, final float efficiency,
             final float criticalRatio)
@@ -286,8 +281,7 @@ public class MovesUtils implements IMoveConstants
             {
                 final Component message = new TranslatableComponent(key, targName);
                 if (attacker != null) attacker.displayMessageToOwner(message);
-                else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target,
-                        message);
+                else if (target instanceof Player) PacketPokemobMessage.sendMessage((Player) target, message);
                 else target.sendMessage(message, Util.NIL_UUID);
             }
         }
@@ -406,8 +400,8 @@ public class MovesUtils implements IMoveConstants
     {
         float ret = 1;
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
-        if (type == PokeType.getType("dragon")) if (effect.isEffectActive(
-                PokemobTerrainEffects.TerrainEffectType.MISTY)) ret = 0.5f;
+        if (type == PokeType.getType("dragon"))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY)) ret = 0.5f;
         if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
         {
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC)) ret = 1.5f;
@@ -415,8 +409,8 @@ public class MovesUtils implements IMoveConstants
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MUD)) ret *= 0.33f;
         }
 
-        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5)) if (effect
-                .isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS)) ret = 1.5f;
+        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
+            if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS)) ret = 1.5f;
 
         if (type == PokeType.getType("water"))
         {
@@ -443,12 +437,9 @@ public class MovesUtils implements IMoveConstants
     /**
      * Handles stats modifications of the move
      *
-     * @param attacker
-     *            the pokemob being affected
-     * @param atk
-     *            the move being used
-     * @param attacked
-     *            whether the mob is the attacked mob, or the attacker
+     * @param attacker the pokemob being affected
+     * @param atk      the move being used
+     * @param attacked whether the mob is the attacked mob, or the attacker
      * @return
      */
     public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
@@ -485,16 +476,15 @@ public class MovesUtils implements IMoveConstants
         {
             final IOngoingAffected affect = CapabilityAffected.getAffected(target);
             final IPokemob targetMob = affected;
-            for (byte i = 0; i < diff.length; i++)
-                if (diff[i] != 0)
+            for (byte i = 0; i < diff.length; i++) if (diff[i] != 0)
+            {
+                if (!attacked) MovesUtils.displayStatsMessage(attacker, target, 0, i, diff[i]);
+                if (affected != null)
                 {
-                    if (!attacked) MovesUtils.displayStatsMessage(attacker, target, 0, i, diff[i]);
-                    if (affected != null)
-                    {
-                        if (attacked) MovesUtils.displayStatsMessage(targetMob, attacker.getEntity(), 0, i, diff[i]);
-                    }
-                    else if (affect != null) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
+                    if (attacked) MovesUtils.displayStatsMessage(targetMob, attacker.getEntity(), 0, i, diff[i]);
                 }
+                else if (affect != null) affect.addEffect(new StatEffect(Stats.values()[i], diff[i]));
+            }
             PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, affected);
         }
         return ret;
@@ -523,9 +513,8 @@ public class MovesUtils implements IMoveConstants
         if (ret)
         {
             final IPokemob targetMob = targetPokemob;
-            for (byte i = 0; i < diff.length; i++)
-                if (diff[i] != 0 && attacker != null) MovesUtils.displayStatsMessage(targetMob, attacker, 0, i,
-                        diff[i]);
+            for (byte i = 0; i < diff.length; i++) if (diff[i] != 0 && attacker != null)
+                MovesUtils.displayStatsMessage(targetMob, attacker, 0, i, diff[i]);
             PacketSyncModifier.sendUpdate(StatModifiers.DEFAULT, targetMob);
         }
         return ret;
@@ -548,12 +537,12 @@ public class MovesUtils implements IMoveConstants
     {
         if (attackName == null) return false;
         final Move_Base move = MovesUtils.moves.get(attackName);
-        if (move == null) for (final String s : MovesUtils.moves.keySet())
-            if (ThutCore.trim(s).equals(ThutCore.trim(attackName)))
-            {
-                attackName = s;
-                return true;
-            }
+        if (move == null)
+            for (final String s : MovesUtils.moves.keySet()) if (ThutCore.trim(s).equals(ThutCore.trim(attackName)))
+        {
+            attackName = s;
+            return true;
+        }
         if (move != null) return true;
         return false;
     }
@@ -562,7 +551,7 @@ public class MovesUtils implements IMoveConstants
     public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
             final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom(entity.getCommandSenderWorld(), entity, x, y, z, power)
+        final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.getLevel(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
@@ -586,8 +575,7 @@ public class MovesUtils implements IMoveConstants
 
         boolean applied = false;
         final boolean[] statuses = new boolean[Status.values().length];
-        for (final Status test : Status.values())
-            statuses[test.ordinal()] = (test.getMask() & status) != 0;
+        for (final Status test : Status.values()) statuses[test.ordinal()] = (test.getMask() & status) != 0;
         final int start = ThutCore.newRandom().nextInt(1000);
         for (int i = 0; i < statuses.length; i++)
         {
@@ -618,25 +606,25 @@ public class MovesUtils implements IMoveConstants
     public static Predicate<Entity> targetMatcher(final Entity attacker)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
-        return e ->
-        {
+        return e -> {
             if (pokemob == null || e == attacker) return false;
             if (!(e instanceof LivingEntity)) return false;
             if (attacker.is(e.getVehicle())) return false;
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeCore.getEntityProvider().getEntity(attacker.getCommandSenderWorld(), e.getId(),
-                    true) == attacker) return false;
+            if (PokecubeCore.getEntityProvider().getEntity(attacker.getLevel(), e.getId(),
+                    true) == attacker)
+                return false;
             return true;
         };
     }
 
     public static Entity targetHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker, false);
+        final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getCommandSenderWorld(), attacker,
+        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker,
                 ignoreAllies, MovesUtils.targetMatcher(attacker));
     }
 
@@ -649,34 +637,31 @@ public class MovesUtils implements IMoveConstants
                 matcher);
         double closest = 16;
 
-        if (targets != null) for (final Entity e : targets)
-            if (attacker.distanceTo(e) < closest)
-            {
-                closest = attacker.distanceTo(e);
-                target = e;
-            }
+        if (targets != null) for (final Entity e : targets) if (attacker.distanceTo(e) < closest)
+        {
+            closest = attacker.distanceTo(e);
+            target = e;
+        }
         return target;
     }
 
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker);
-        final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source, attacker
-                .getCommandSenderWorld(), attacker);
+        final Vector3 source = new Vector3().set(attacker);
+        final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source,
+                attacker.getLevel(), attacker);
         final List<LivingEntity> ret = new ArrayList<>();
-        if (targets != null) for (final Entity e : targets)
-            if (e instanceof LivingEntity) ret.add((LivingEntity) e);
+        if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
     }
 
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker);
-        final List<Entity> targets = attacker.getCommandSenderWorld().getEntities(attacker, source.getAABB().inflate(
-                area));
+        final Vector3 source = new Vector3().set(attacker);
+        final List<Entity> targets = attacker.getLevel().getEntities(attacker,
+                source.getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();
-        if (targets != null) for (final Entity e : targets)
-            if (e instanceof LivingEntity) ret.add((LivingEntity) e);
+        if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
     }
 

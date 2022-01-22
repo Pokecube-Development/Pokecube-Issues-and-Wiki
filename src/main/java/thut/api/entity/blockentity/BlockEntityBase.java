@@ -137,7 +137,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     BlockEntityInteractHandler interacter;
 
     BlockPos originalPos = null;
-    Vector3 lastSyncPos = Vector3.getNewVector();
+    Vector3 lastSyncPos = new Vector3();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
     {

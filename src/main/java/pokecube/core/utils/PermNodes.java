@@ -57,7 +57,6 @@ public class PermNodes
         return (PermissionNode<Boolean>) NODES.get(name);
     }
 
-    @SuppressWarnings("unchecked")
     public static boolean getBooleanPerm(ServerPlayer player, String name)
     {
         PermissionNode<Boolean> node = getBooleanNode(name);

@@ -18,7 +18,7 @@ public class PacketSyncGene extends Packet
 {
     public static void syncGene(final Entity mob, final Alleles<?, ?> gene, final ServerPlayer entityPlayer)
     {
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel) || gene == null) return;
+        if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();
@@ -27,7 +27,7 @@ public class PacketSyncGene extends Packet
 
     public static void syncGeneToTracking(final Entity mob, final Alleles<?, ?> gene)
     {
-        if (!(mob.getCommandSenderWorld() instanceof ServerLevel) || gene == null) return;
+        if (!(mob.getLevel() instanceof ServerLevel) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getId();
@@ -63,7 +63,7 @@ public class PacketSyncGene extends Packet
         final Player player = PokecubeCore.proxy.getPlayer();
         final int id = this.entityId;
         final Alleles<?, ?> alleles = this.genes;
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), id, true);
+        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), id, true);
         if (mob == null) return;
         final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);

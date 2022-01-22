@@ -364,30 +364,23 @@ public class PokedexEntryLoader
     {
         public Map<String, String> values = Maps.newHashMap();
 
+        protected DefaultFormeHolder model = null;
+
+        private String __cache__ = null;
+
         @Override
         public String toString()
         {
-            return this.values + "";
+            if (__cache__ != null) return __cache__;
+            return __cache__ = gson.toJson(this);
         }
 
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof SpawnRule)) return false;
-            final SpawnRule other = (SpawnRule) obj;
-            if (other.values.size() != this.values.size()) return false;
-            for (final Entry<String, String> var : this.values.entrySet())
-            {
-                final String key = var.getKey();
-                final String val = var.getValue();
-                if (!val.equals(other.values.get(key))) return false;
-            }
-            if (this.model != null) return this.model.equals(other.model);
-            if (this.model == null && other.model != null) return false;
-            return true;
+            if (!(obj instanceof SpawnRule other)) return false;
+            return other.toString().equals(this.toString());
         }
-
-        protected DefaultFormeHolder model = null;
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
@@ -492,6 +485,30 @@ public class PokedexEntryLoader
         public List<String> dyes = Lists.newArrayList();
     }
 
+    public static class FormeItem
+    {
+        protected String item;
+        protected String forme;
+
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
+        }
+
+        public PokedexEntry getOutput()
+        {
+            return Database.getEntry(forme);
+        }
+
+        public ResourceLocation getKey()
+        {
+            return new ResourceLocation(item);
+        }
+    }
+
     public static class XMLPokedexEntry
     {
         public String name;
@@ -531,6 +548,8 @@ public class PokedexEntryLoader
         public DefaultFormeHolder model = null;
         public DefaultFormeHolder male_model = null;
         public DefaultFormeHolder female_model = null;
+
+        public List<FormeItem> formeItems = Lists.newArrayList();
 
         public StatsNode stats;
         public Moves moves;
@@ -681,7 +700,7 @@ public class PokedexEntryLoader
         if ((val = rule.values.remove(LEVEL)) != null) spawnEntry.level = Integer.parseInt(val);
         if ((val = rule.values.remove(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
         if (entry.getSpawnData() == null) entry.setSpawnData(new SpawnData(entry));
-        matcher = new SpawnBiomeMatcher(rule);
+        matcher = SpawnBiomeMatcher.get(rule);
         entry.getSpawnData().matchers.put(matcher, spawnEntry);
         if (!Database.spawnables.contains(entry)) Database.spawnables.add(entry);
         // If it can spawn in water, then it can swim in water.
@@ -1072,7 +1091,7 @@ public class PokedexEntryLoader
         {
             final FormeHolder holder = rule.getForme(entry);
             if (holder != null) Database.registerFormeHolder(entry, holder);
-            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
+            final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for {}", entry);
         }
@@ -1094,17 +1113,6 @@ public class PokedexEntryLoader
         // Held
         if (xmlStats.heldTable != null && !xmlStats.heldTable.isEmpty())
             entry.heldTable = new ResourceLocation(xmlStats.heldTable);
-        // Logics
-        if (xmlStats.logics != null)
-        {
-            final Map<String, String> values = xmlStats.logics.values;
-            for (final String key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
-            }
-        }
         try
         {
             if (xmlStats.expMode != null) entry.evolutionMode = Tools.getType(xmlStats.expMode);
@@ -1141,8 +1149,6 @@ public class PokedexEntryLoader
         if (!xmlStats.interactions.isEmpty()) entry._loaded_interactions.addAll(xmlStats.interactions);
 
         if (xmlStats.hatedMaterials != null) entry.hatedMaterial = xmlStats.hatedMaterials.split(":");
-
-        if (xmlStats.formeItems != null) entry._forme_items = xmlStats.formeItems;
 
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
     }
@@ -1259,6 +1265,7 @@ public class PokedexEntryLoader
                 try
                 {
                     PokedexEntryLoader.postIniStats(entry, stats);
+                    if (xmlEntry.formeItems != null) entry._forme_items = xmlEntry.formeItems;
 
                     // Now handle dyable stuff
                     if (xmlEntry.dye != null)

@@ -5,13 +5,6 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -34,7 +27,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.ItemInit;
 
 public class DistorticGrassBlock extends DirectionalBlock implements BonemealableBlock
 {
@@ -155,9 +147,8 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
             world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
                     .get().defaultBlockState());
     }
-
-    @SuppressWarnings(
-    { "rawtypes", "unchecked" })
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)

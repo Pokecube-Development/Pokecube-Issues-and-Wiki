@@ -23,4 +23,8 @@ public interface Data<T>
     void setUID(int id);
 
     void write(ByteBuf buf);
+
+    boolean isRealtime();
+
+    Data<T> setRealtime();
 }

@@ -4,7 +4,12 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
@@ -12,6 +17,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.ExpirableValue;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.TeamManager;
@@ -32,12 +40,12 @@ public class AITools
         {
             final boolean tame = input.getGeneralState(GeneralStates.TAMED);
             boolean wildAgress = !tame;
-            if (PokecubeCore.getConfig().mobAgroRate > 0) wildAgress = wildAgress && ThutCore.newRandom().nextInt(
-                    PokecubeCore.getConfig().mobAgroRate) == 0;
+            if (PokecubeCore.getConfig().mobAgroRate > 0)
+                wildAgress = wildAgress && ThutCore.newRandom().nextInt(PokecubeCore.getConfig().mobAgroRate) == 0;
             else wildAgress = false;
             // Check if the mob should always be agressive.
-            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0) wildAgress = input.getEntity()
-                    .getPersistentData().getBoolean("alwaysAgress");
+            if (!tame && !wildAgress && input.getEntity().tickCount % 20 == 0)
+                wildAgress = input.getEntity().getPersistentData().getBoolean("alwaysAgress");
             return wildAgress;
         }
     }
@@ -51,8 +59,7 @@ public class AITools
             input = EntityTools.getCoreEntity(input);
             final ResourceLocation eid = input.getType().getRegistryName();
             if (AITools.invalidIDs.contains(eid)) return false;
-            for (final String tag : AITools.invalidTags)
-                if (input.getTags().contains(tag)) return false;
+            for (final String tag : AITools.invalidTags) if (input.getTags().contains(tag)) return false;
 
             // Then check if is a valid player.
             if (input instanceof ServerPlayer)
@@ -83,14 +90,12 @@ public class AITools
 
     private static class ValidDamageToPokemob implements Predicate<DamageSource>
     {
-
         @Override
         public boolean test(final DamageSource t)
         {
             if (!PokecubeCore.getConfig().onlyPokemobsDamagePokemobs) return true;
             return t instanceof IPokedamage;
         }
-
     }
 
     public static boolean handleDamagedTargets = true;
@@ -128,17 +133,14 @@ public class AITools
     public static void initIDs()
     {
         final Set<ResourceLocation> keys = ForgeRegistries.ENTITIES.getKeys();
-        for (String s : PokecubeCore.getConfig().aggroBlacklistIds)
-            if (s.endsWith("*"))
-            {
-                s = s.substring(0, s.length() - 1);
-                for (final ResourceLocation res : keys)
-                    if (res.toString().startsWith(s)) AITools.invalidIDs.add(res);
-            }
-            else AITools.invalidIDs.add(new ResourceLocation(s));
+        for (String s : PokecubeCore.getConfig().aggroBlacklistIds) if (s.endsWith("*"))
+        {
+            s = s.substring(0, s.length() - 1);
+            for (final ResourceLocation res : keys) if (res.toString().startsWith(s)) AITools.invalidIDs.add(res);
+        }
+        else AITools.invalidIDs.add(new ResourceLocation(s));
 
-        for (final String s : PokecubeCore.getConfig().aggroBlacklistTags)
-            AITools.invalidTags.add(s);
+        for (final String s : PokecubeCore.getConfig().aggroBlacklistTags) AITools.invalidTags.add(s);
     }
 
     public static boolean shouldBeAbleToAgro(final LivingEntity entity, final Entity target)
@@ -166,4 +168,33 @@ public class AITools
         return true;
     }
 
+    public static void reloadBrain(LivingEntity entity, CompoundTag compound)
+    {
+        if (compound.contains("Brain", 10))
+        {
+            final Brain<?> brain = entity.getBrain();
+            final CompoundTag mems = compound.getCompound("Brain").getCompound("memories");
+            for (final String s : mems.getAllKeys())
+            {
+                final Tag nbt = mems.get(s);
+                try
+                {
+                    final Dynamic<Tag> d = new Dynamic<>(NbtOps.INSTANCE, nbt);
+                    @SuppressWarnings("unchecked")
+                    final MemoryModuleType<Object> mem = (MemoryModuleType<Object>) ForgeRegistries.MEMORY_MODULE_TYPES
+                            .getValue(new ResourceLocation(s));
+                    final DataResult<?> res = mem.getCodec().map(DataResult::success)
+                            .orElseGet(() -> DataResult.error("Error loading Memory??"))
+                            .flatMap(codec -> codec.parse(d));
+                    final ExpirableValue<?> memory = (ExpirableValue<?>) res.getOrThrow(true,
+                            s1 -> PokecubeCore.LOGGER.error(s1));
+                    brain.setMemory(mem, memory.getValue());
+                }
+                catch (final Throwable e)
+                {
+                    PokecubeCore.LOGGER.error(e);
+                }
+            }
+        }
+    }
 }

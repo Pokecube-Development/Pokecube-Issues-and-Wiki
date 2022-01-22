@@ -21,11 +21,11 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
-import pokecube.core.ai.brain.RootTask;
-import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.entity.ai.PosWrapWrap;
+import thut.api.entity.ai.RootTask;
 import thut.api.world.IPathHelper;
 import thut.api.world.WorldTickManager;
 
@@ -33,11 +33,11 @@ public class WalkToTask extends RootTask<Mob>
 {
 
     @Nullable
-    private Path     currentPath;
+    private Path currentPath;
     @Nullable
     private BlockPos current_target;
-    private float    speed;
-    private int      time_till_next_check;
+    private float speed;
+    private int time_till_next_check;
 
     public WalkToTask(final int duration)
     {
@@ -77,7 +77,6 @@ public class WalkToTask extends RootTask<Mob>
                 if (wrapped.canThrottle) return false;
             }
         }
-
         if (!this.hasReachedTarget(owner, walktarget) && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
         {
             this.current_target = walktarget.getTarget().currentBlockPosition();
@@ -97,6 +96,8 @@ public class WalkToTask extends RootTask<Mob>
         {
             final Optional<WalkTarget> optional = entityIn.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
             final PathNavigation pathnavigator = entityIn.getNavigation();
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+            if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
             return !pathnavigator.isDone() && optional.isPresent() && !this.hasReachedTarget(entityIn, optional.get());
         }
         else return false;
@@ -136,8 +137,8 @@ public class WalkToTask extends RootTask<Mob>
             if (path != null && this.current_target != null)
             {
                 final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
-                if (walktarget.getTarget().currentBlockPosition().distSqr(this.current_target) > 4.0D && this
-                        .isPathValid(owner, walktarget, worldIn.getGameTime()))
+                if (walktarget.getTarget().currentBlockPosition().distSqr(this.current_target) > 4.0D
+                        && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
                 {
                     this.current_target = walktarget.getTarget().currentBlockPosition();
                     this.start(worldIn, owner, gameTime);
@@ -163,7 +164,7 @@ public class WalkToTask extends RootTask<Mob>
                 break pathing;
             }
 
-            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getCommandSenderWorld().dimension());
+            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getLevel().dimension());
             for (final IPathHelper h : pathers)
             {
                 final boolean valid = h.shouldHelpPath(mob, target);
@@ -175,7 +176,7 @@ public class WalkToTask extends RootTask<Mob>
             }
             this.currentPath = mob.getNavigation().createPath(ImmutableSet.of(blockpos), 16, false, 0);
             final double dist = target.getTarget().currentPosition().distanceTo(mob.position());
-            if (dist < 3 && (this.currentPath == null || !this.currentPath.canReach()))
+            if (dist < target.getCloseEnoughDist() && (this.currentPath == null || !this.currentPath.canReach()))
             {
                 mob.getNavigation().stop();
                 mob.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
@@ -199,14 +200,14 @@ public class WalkToTask extends RootTask<Mob>
 
             final boolean flag = this.currentPath != null && this.currentPath.canReach();
             if (flag) brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, Optional.empty());
-            else if (!brain.hasMemoryValue(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) brain.setMemory(
-                    MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, gametime);
+            else if (!brain.hasMemoryValue(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE))
+                brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, gametime);
 
             if (this.currentPath != null) return true;
 
             final int xz = 16;
             final int y = 10;
-//            final double scale = 2 * Math.PI / 2F;
+
             final Vec3 pos = new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ());
             final Vec3 vec3d = LandRandomPos.getPosTowards((PathfinderMob) mob, xz, y, pos);
             if (vec3d != null)
@@ -220,7 +221,7 @@ public class WalkToTask extends RootTask<Mob>
 
     private boolean hasReachedTarget(final Mob mob, final WalkTarget target)
     {
-        return target.getTarget().currentBlockPosition().distManhattan(mob.blockPosition()) <= target
-                .getCloseEnoughDist();
+        double close = Math.max(0.1, target.getCloseEnoughDist());
+        return target.getTarget().currentBlockPosition().distManhattan(mob.blockPosition()) <= close;
     }
 }

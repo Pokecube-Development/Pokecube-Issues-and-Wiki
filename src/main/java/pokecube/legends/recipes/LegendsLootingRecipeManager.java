@@ -50,7 +50,7 @@ public class LegendsLootingRecipeManager
                         final LootTable loottable = event.getEntity().getServer().getLootTables().get(
                                 blockRecipe.output);
                         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) event
-                                .getEntity().getCommandSenderWorld()).withRandom(event.getEntityLiving().getRandom());
+                                .getEntity().getLevel()).withRandom(event.getEntityLiving().getRandom());
 
                         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable
                                 .getParamSet()));

@@ -58,29 +58,38 @@ public class TrainerTracker
         // First remove the mob from all maps, incase it is in one.
         TrainerTracker.removeTrainer(npc);
 
-        final ResourceKey<Level> dim = npc.getCommandSenderWorld().dimension();
-        // Find the appropriate map
-        final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
-        // Register the dimension if not already there
-        if (!TrainerTracker.mobMap.containsKey(dim)) TrainerTracker.mobMap.put(dim, mobList);
-        // Add the mob to the list
-        mobList.add(new Entry(npc));
+        final ResourceKey<Level> dim = npc.getLevel().dimension();
+        synchronized (TrainerTracker.mobMap)
+        {
+            // Find the appropriate map
+            final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
+            // Register the dimension if not already there
+            if (!TrainerTracker.mobMap.containsKey(dim)) TrainerTracker.mobMap.put(dim, mobList);
+            // Add the mob to the list
+            mobList.add(new Entry(npc));
+        }
     }
 
     public static void removeTrainer(final TrainerBase pokemob)
     {
         final Entry e = new Entry(pokemob);
         // Remove the mob from all maps, incase it is in one.
-        TrainerTracker.mobMap.forEach((d, m) -> m.remove(e));
+        synchronized (TrainerTracker.mobMap)
+        {
+            TrainerTracker.mobMap.forEach((d, m) -> m.remove(e));
+        }
     }
 
     public static int countTrainers(final Level world, final AABB box, final Predicate<TrainerBase> matches)
     {
         final ResourceKey<Level> dim = world.dimension();
-        final Entry[] mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>()).toArray(new Entry[0]);
         int num = 0;
-        for (final Entry e : mobList)
-            if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.npc)) num++;
+        synchronized (TrainerTracker.mobMap)
+        {
+            final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
+            for (final Entry e : mobList)
+                if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.npc)) num++;
+        }
         return num;
     }
 

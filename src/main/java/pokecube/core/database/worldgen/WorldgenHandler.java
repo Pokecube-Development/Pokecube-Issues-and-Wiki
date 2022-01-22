@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -77,12 +76,7 @@ import thut.core.common.ThutCore;
 
 public class WorldgenHandler
 {
-    public static final Gson GSON;
-
-    static
-    {
-        GSON = new GsonBuilder().create();
-    }
+    public static final Gson GSON = JsonUtil.gson;
 
     public static class Options
     {
@@ -197,8 +191,6 @@ public class WorldgenHandler
         private final List<ResourceKey<Level>> _blacklisted = Lists.newArrayList();
         private final List<ResourceKey<Level>> _whitelisted = Lists.newArrayList();
 
-        public SpawnBiomeMatcher _matcher;
-
         public String serialize()
         {
             return WorldgenHandler.GSON.toJson(this);
@@ -239,6 +231,12 @@ public class WorldgenHandler
             }
             if (this._whitelisted.contains(dim)) return false;
             return this._blacklisted.contains(dim) || WorldgenHandler.SOFTBLACKLIST.contains(dim);
+        }
+
+        public SpawnBiomeMatcher getMatcher()
+        {
+            if (this.spawn == null) return null;
+            return SpawnBiomeMatcher.get(spawn);
         }
     }
 
@@ -329,8 +327,6 @@ public class WorldgenHandler
         public BiomeStructure(final ConfiguredStructureFeature<?, ?> configured, final JigSawConfig config)
         {
             this.configured_feature = configured;
-
-            if (config.spawn != null) config._matcher = new SpawnBiomeMatcher(config.spawn);
         }
     }
 
@@ -563,7 +559,7 @@ public class WorldgenHandler
                     final IForgeRegistry<StructureFeature<?>> reg = ForgeRegistries.STRUCTURE_FEATURES;
                     final StructureFeature<?> structure = reg.getValue(location);
                     if (reg.containsKey(location))
-                        serverWorld.findNearestMapFeature(structure, BlockPos.ZERO, 50, false);
+                        serverWorld.findNearestMapFeature(structure, BlockPos.ZERO, 5, false);
                 });
 
         }
@@ -586,7 +582,8 @@ public class WorldgenHandler
             final BiomeStructure value = new BiomeStructure(configured, struct);
             // Add the structures to the list, the predicate based on the spawn
             // rules it made.
-            this.structures.put(value, c -> struct._matcher == null ? false : struct._matcher.checkLoadEvent(c));
+            this.structures.put(value,
+                    c -> struct.getMatcher() == null ? false : struct.getMatcher().checkLoadEvent(c));
         }
     }
 
@@ -634,15 +631,25 @@ public class WorldgenHandler
         for (final BiomeFeature feat : this.features.keySet())
             if (this.features.get(feat).test(event)) event.getGeneration().addFeature(feat.stage, feat.feature);
 
-        for (final BiomeStructure feat : this.structures.keySet()) if (this.structures.get(feat).test(event))
+        for (final BiomeStructure feat : this.structures.keySet())
         {
             ConfiguredStructureFeature<?, ?> configured = feat.configured_feature;
             final JigsawConfig conf = (JigsawConfig) feat.configured_feature.config;
-            PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+            if (conf.struct_config.getMatcher() == null) continue;
+            boolean valid = conf.struct_config.getMatcher().checkLoadEvent(event);
 
-            Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
-            keys.add(from(event));
-            structure_biomes.put(configured, keys);
+            if (valid && event.getName().toString().contains("forest") && conf.struct_config.name.contains("swamp"))
+            {
+                PokecubeCore.LOGGER.error("wat...");
+            }
+
+            if (valid)
+            {
+                PokecubeCore.LOGGER.debug("Adding Structure {} to biome {}", conf.struct_config.name, event.getName());
+                Set<ResourceKey<Biome>> keys = this.structure_biomes.getOrDefault(configured, Sets.newHashSet());
+                keys.add(from(event));
+                structure_biomes.put(configured, keys);
+            }
         }
     }
 
@@ -655,7 +662,7 @@ public class WorldgenHandler
         // already registered! (Need to do something about this?
         if (structure == null)
         {
-            PokecubeCore.LOGGER.info("Registering Structure: {} for mod {}", structName, this.MODID);
+            PokecubeCore.LOGGER.debug("Registering Structure: {} for mod {}", structName, this.MODID);
             structure = new CustomJigsawStructure(JigsawConfig.CODEC);
             ResourceLocation id = new ResourceLocation(structName);
             structure.priority = struct.priority;
@@ -691,7 +698,7 @@ public class WorldgenHandler
                         struct.toSettings());
             }
         }
-        PokecubeCore.LOGGER.info("Requesting pool of: {}", struct.root);
+        PokecubeCore.LOGGER.debug("Requesting pool of: {}", struct.root);
         if (!this.patterns.containsKey(struct.root))
         {
             PokecubeCore.LOGGER.error("No pool found for {}, are you sure it is registered?", struct.root);
@@ -711,6 +718,6 @@ public class WorldgenHandler
 
     private static void forceVillageFeature(final StructureFeature<?> feature)
     {
-        if (!WorldgenHandler.HAS_BASES.contains(feature)) WorldgenHandler.HAS_BASES.add(feature);
+        WorldgenHandler.HAS_BASES.add(feature);
     }
 }

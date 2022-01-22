@@ -237,7 +237,7 @@ public class CapabilityHasPokemobs
             // Valid if any watchers say so
             for (final ITargetWatcher w : this.watchers) if (w.isValidTarget(target)) return AllowedBattle.YES;
             // Otherwise false.
-            return AllowedBattle.NO;
+            return AllowedBattle.NOTNOW;
         }
 
         @Override
@@ -666,7 +666,7 @@ public class CapabilityHasPokemobs
                 if (!this.getTrainer().getStringUUID().equals(owner))
                 {
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube,
-                            this.getTrainer().getCommandSenderWorld());
+                            this.getTrainer().getLevel());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
@@ -763,15 +763,15 @@ public class CapabilityHasPokemobs
         public void throwCubeAt(final Entity target)
         {
             if (target == null || this.aiStates.getAIState(AIState.THROWING)
-                    || !(target.getCommandSenderWorld() instanceof ServerLevel))
+                    || !(target.getLevel() instanceof ServerLevel))
                 return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
                 this.aiStates.setAIState(AIState.INBATTLE, true);
                 final IPokecube cube = (IPokecube) i.getItem();
-                final Vector3 here = Vector3.getNewVector().set(this.user);
-                final Vector3 t = Vector3.getNewVector().set(target);
+                final Vector3 here = new Vector3().set(this.user);
+                final Vector3 t = new Vector3().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
                 PokecubeManager.heal(i, user.level);
 

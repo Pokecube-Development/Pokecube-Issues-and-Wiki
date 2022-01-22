@@ -20,7 +20,7 @@ public class Acupressure extends Move_Basic
     {
         super.postAttack(packet);
         if (packet.canceled || packet.failed) return;
-        final Random r = new Random(packet.attacked.getCommandSenderWorld().random.nextLong());
+        final Random r = new Random(packet.attacked.getLevel().random.nextLong());
         int rand = r.nextInt(7);
         for (int i = 0; i < 8; i++)
         {

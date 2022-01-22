@@ -38,7 +38,7 @@ public class PacketChangeForme extends Packet
     public void handleClient()
     {
         final Player player = PokecubeCore.proxy.getPlayer();
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.entityId, true);
+        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         pokemob.setPokedexEntry(this.forme);

@@ -154,13 +154,12 @@ public class PokemobSpawns extends ResourceData
                     if (poke != null)
                     {
                         SpawnRule customRule = frule.copy();
-
                         customRule.values.put("min", mob.min + "");
                         customRule.values.put("max", mob.max + "");
                         customRule.values.put("rate", mob.rate + "");
                         if (mob.level > 0) customRule.values.put("level", mob.level + "");
                         if (mob.variance != null) customRule.values.put("variance", mob.variance);
-                        final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(customRule);
+                        final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }
                     else

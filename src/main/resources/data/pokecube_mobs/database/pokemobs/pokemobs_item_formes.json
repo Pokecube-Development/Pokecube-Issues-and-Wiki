@@ -1,0 +1,107 @@
+{
+  "pokemon": [
+    {
+      "name": "giratina",
+      "formeItems":[ 
+        {
+          "forme": "Giratina Origin",
+          "item": "pokecube_legends:griseousorb"
+	    }
+      ]
+    },
+    {
+      "name": "shaymin_land",
+      "formeItems":[ 
+        {
+          "forme": "Shaymin Sky",
+          "item": "pokecube_legends:gracidea"
+	    }
+      ]
+    },
+    {
+      "name": "kyurem",
+      "formeItems":[
+        {
+          "forme": "Kyurem Black",
+          "item": "pokecube_legends:dna_splicera"
+	    },
+        {
+          "forme": "Kyurem White",
+          "item": "pokecube_legends:dna_splicerb"
+	    }
+      ]
+    },
+    {
+      "name": "genesect",
+      "formeItems":[ 
+        {
+          "forme": "GenesectSDrive",
+          "item": "minecraft:redstone"
+	    }
+      ]
+    },
+    {
+      "name": "hoopa_confined",
+      "formeItems":[ 
+        {
+          "forme": "Hoopa Unbound",
+          "item": "pokecube_legends:prisonbottle"
+	    }
+      ]
+    },
+    {
+      "name": "solgaleo",
+      "formeItems":[ 
+        {
+          "forme": "Solgaleo Dusk",
+          "item": "pokecube_legends:n_sun"
+	    }
+      ]
+    },
+    {
+      "name": "lunala",
+      "formeItems":[ 
+        {
+          "forme": "Lunala Dawn",
+          "item": "pokecube_legends:n_moon"
+	    }
+      ]
+    },
+    {
+      "name": "zacian",
+      "formeItems":[ 
+        {
+          "forme": "Zacian Crowned",
+          "item": "pokecube_legends:zacian_sword"
+	    }
+      ]
+    },
+    {
+      "name": "zamazenta",
+      "formeItems":[ 
+        {
+          "forme": "Zamazenta Crowned",
+          "item": "pokecube_legends:zamazenta_shield"
+	    }
+      ]
+    },
+    {
+      "name": "glastrier",
+      "formeItems":[ 
+        {
+          "forme": "Calyrex Ice Rider",
+          "item": "pokecube_legends:reins_u"
+	    }
+      ]
+    },
+    {
+      "name": "spectrier",
+      "formeItems":[ 
+        {
+          "forme": "Calyrex Shadow Rider",
+          "item": "pokecube_legends:reins_u"
+	    }
+      ]
+    }
+  ]
+}

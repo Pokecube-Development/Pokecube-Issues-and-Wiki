@@ -33,7 +33,7 @@ import thut.core.common.ThutCore;
  */
 public class LogicMovesUpdates extends LogicBase
 {
-    Vector3 v          = Vector3.getNewVector();
+    Vector3 v          = new Vector3();
     int     index      = -1;
     int     statusTick = 0;
 

@@ -62,8 +62,7 @@ public class Pokemake
     {
         final List<String> cleaned = Lists.newArrayList();
         mob.setHungerTime(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
-        for (int i = 0; i < index; i++)
-            cleaned.add(args[i]);
+        for (int i = 0; i < index; i++) cleaned.add(args[i]);
         for (int i = index; i < args.length; i++)
         {
             String var = args[i];
@@ -101,8 +100,7 @@ public class Pokemake
             if (vals.length > 1)
             {
                 val = vals[1];
-                for (int i = 2; i < vals.length; i++)
-                    val = val + ":" + vals[i];
+                for (int i = 2; i < vals.length; i++) val = val + ":" + vals[i];
             }
             if (val.endsWith("\'")) val = val.substring(0, arg.length() - 1);
             if (arg.equalsIgnoreCase("s")) mob.setShiny(true);
@@ -176,8 +174,7 @@ public class Pokemake
                     final byte iv = Byte.parseByte(vec[0]);
                     Arrays.fill(ivs, iv);
                 }
-                else for (int i = 0; i < 6; i++)
-                    ivs[i] = Byte.parseByte(vec[i]);
+                else for (int i = 0; i < 6; i++) ivs[i] = Byte.parseByte(vec[i]);
                 mob.setIVs(ivs);
             }
             else if (arg.equalsIgnoreCase("w")) asWild = true;
@@ -198,8 +195,8 @@ public class Pokemake
             else if (arg.equalsIgnoreCase("n") && !val.isEmpty()) mob.setPokemonNickname(val);
         }
         mob.setHealth(mob.getMaxHealth());
-        if (mob.getEntity() instanceof IMobColourable) ((IMobColourable) mob.getEntity()).setRGBA(red, green, blue,
-                255);
+        if (mob.getEntity() instanceof IMobColourable)
+            ((IMobColourable) mob.getEntity()).setRGBA(red, green, blue, 255);
         if (initLevel) if (asWild) mob = mob.setForSpawn(exp);
         else
         {
@@ -208,13 +205,12 @@ public class Pokemake
             mob.levelUp(level);
         }
 
-        for (int i1 = 0; i1 < 4; i1++)
-            if (moves[i1] != null)
-            {
-                final String arg = moves[i1];
-                if (!arg.isEmpty()) if (arg.equalsIgnoreCase("none")) mob.setMove(i1, null);
-                else mob.setMove(i1, arg);
-            }
+        for (int i1 = 0; i1 < 4; i1++) if (moves[i1] != null)
+        {
+            final String arg = moves[i1];
+            if (!arg.isEmpty()) if (arg.equalsIgnoreCase("none")) mob.setMove(i1, null);
+            else mob.setMove(i1, arg);
+        }
     }
 
     private static int execute(final CommandSourceStack source, final String name, final List<Object> args)
@@ -228,20 +224,17 @@ public class Pokemake
             if (name.equalsIgnoreCase("random_normal"))
             {
                 entry = iterator.next();
-                while (entry.isLegendary() || entry.isMega())
-                    entry = iterator.next();
+                while (entry.isLegendary() || entry.isMega()) entry = iterator.next();
             }
             else if (name.equalsIgnoreCase("random_all"))
             {
                 entry = iterator.next();
-                while (!entry.base)
-                    entry = iterator.next();
+                while (!entry.base) entry = iterator.next();
             }
             else if (name.equalsIgnoreCase("random_legend"))
             {
                 entry = iterator.next();
-                while (!entry.isLegendary() || !entry.base)
-                    entry = iterator.next();
+                while (!entry.isLegendary() || !entry.base) entry = iterator.next();
             }
         }
         final Entity mob = PokecubeCore.createPokemob(entry, source.getLevel());
@@ -264,17 +257,22 @@ public class Pokemake
         for (final Object o : args)
         {
             final String[] split = o.toString().split(" ");
-            for (final String s : split)
-                newArgs.add(s);
+            for (final String s : split) newArgs.add(s);
         }
-        final Vector3 offset = Vector3.getNewVector().set(0, 1, 0);
-        Pokemake.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
-        pokemob.spawnInit();
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 offset = new Vector3().set(0, 1, 0);
+        final Vector3 temp = new Vector3();
+
+        // Move to approximate location first, so some checks for evolution can
+        // work;
         temp.set(source.getPosition()).addTo(offset);
         temp.moveEntity(mob);
+        Pokemake.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
+        // Now actually move it to correct spot, before calling spawnInit
+        temp.set(source.getPosition()).addTo(offset);
+        temp.moveEntity(mob);
+        pokemob.spawnInit();
         GeneticsManager.initMob(mob);
-        mob.getCommandSenderWorld().addFreshEntity(mob);
+        mob.getLevel().addFreshEntity(mob);
 
         final String text = ChatFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
         final Component message = Component.Serializer.fromJson("[\"" + text + "\"]");
@@ -283,8 +281,8 @@ public class Pokemake
     }
 
     private static SuggestionProvider<CommandSourceStack> SUGGEST_OTHERS = (ctx,
-            sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(Lists.newArrayList("random_normal", "random_all",
-                    "random_legend"), sb);
+            sb) -> net.minecraft.commands.SharedSuggestionProvider
+                    .suggest(Lists.newArrayList("random_normal", "random_all", "random_legend"), sb);
 
     private static SuggestionProvider<CommandSourceStack> SUGGEST_POKEMOB = (ctx,
             sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(Database.getSortedFormNames(), sb);
@@ -300,33 +298,34 @@ public class Pokemake
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
-                        .newArrayList())));
+                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"),
+                        Lists.newArrayList())));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // command with player and no arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
-                        .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
-                                .getPlayer(ctx, "player"))))));
+                .then(Commands.argument("player", EntityArgument.player())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"),
+                                Lists.newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command with player then string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
-                        StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
-                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(
-                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands
+                        .argument("args", StringArgumentType.greedyString())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"),
+                                Lists.newArrayList(EntityArgument.getPlayer(ctx, "player"),
+                                        StringArgumentType.getString(ctx, "args")))))));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
-                        .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
-                                .getString(ctx, "args"))))));
+                .then(Commands.argument("args", StringArgumentType.greedyString())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"),
+                                Lists.newArrayList(StringArgumentType.getString(ctx, "args"))))));
         commandDispatcher.register(command);
 
         // Random pokemake
@@ -337,36 +336,37 @@ public class Pokemake
         command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"), Lists
-                        .newArrayList())));
+                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"),
+                        Lists.newArrayList())));
         commandDispatcher.register(command);
 
         // Set a permission
         command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // command with player an no arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
-                        .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument
-                                .getPlayer(ctx, "player"))))));
+                .then(Commands.argument("player", EntityArgument.player())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"),
+                                Lists.newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
         commandDispatcher.register(command);
 
         // Set a permission
         command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Command with player then string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
-                        StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
-                                StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument.getPlayer(
-                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands
+                        .argument("args", StringArgumentType.greedyString())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"),
+                                Lists.newArrayList(EntityArgument.getPlayer(ctx, "player"),
+                                        StringArgumentType.getString(ctx, "args")))))));
         commandDispatcher.register(command);
 
         // Set a permission
         command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Command string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
-                        .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(StringArgumentType
-                                .getString(ctx, "args"))))));
+                .then(Commands.argument("args", StringArgumentType.greedyString())
+                        .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"),
+                                Lists.newArrayList(StringArgumentType.getString(ctx, "args"))))));
         commandDispatcher.register(command);
 
     }

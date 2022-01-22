@@ -75,7 +75,7 @@ public class Evolution
         if (scaleMob)
         {
             final float mobScale = pokemob.getSize();
-            final thut.api.maths.vecmath.Vector3f dims = entry.getModelSize();
+            final thut.api.maths.vecmath.Vec3f dims = entry.getModelSize();
             scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             mat.translate(0.0F, dims.y * pokemob.getSize() * pokemob.getEntity().getScale() / 2, 0.0F);
         }

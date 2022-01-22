@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#thutcore:ground",
+    "minecraft:calcite",
+    "minecraft:dripstone_block",
+    "minecraft:packed_ice",
+    "minecraft:smooth_basalt",
+    "minecraft:snow_block"
+  ]
+}

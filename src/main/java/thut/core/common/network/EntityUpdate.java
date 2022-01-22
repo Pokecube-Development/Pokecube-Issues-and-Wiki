@@ -47,7 +47,7 @@ public class EntityUpdate extends NBTPacket
 
     public static void sendEntityUpdate(final Entity entity)
     {
-        if (entity.getCommandSenderWorld().isClientSide)
+        if (entity.getLevel().isClientSide)
         {
             ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return;
@@ -63,7 +63,7 @@ public class EntityUpdate extends NBTPacket
 
     public static void readMob(final Entity mob, final CompoundTag tag)
     {
-        if ((mob.getCommandSenderWorld() instanceof ServerLevel || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
+        if ((mob.getLevel() instanceof ServerLevel || !ItemList.is(EntityUpdate.NOREAD, mob)) && !EntityUpdate.errorSet
                 .contains(mob.getType())) try
         {
             mob.load(tag);

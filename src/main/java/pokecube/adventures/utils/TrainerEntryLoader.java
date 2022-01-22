@@ -114,7 +114,7 @@ public class TrainerEntryLoader
             PokecubeCore.LOGGER.debug("Loaded Type: " + name);
             final TypeTrainer type = TypeTrainer.typeMap.containsKey(name) ? TypeTrainer.typeMap.get(name)
                     : new TypeTrainer(name);
-            type.matchers.clear();
+            type.spawns.clear();
             type.pokemon.clear();
             final byte male = 1;
             final byte female = 2;
@@ -138,8 +138,8 @@ public class TrainerEntryLoader
                             "Error with weight for " + type.getName() + " " + rule.values + " " + entry.spawns, e);
                     return;
                 }
-                final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(rule);
-                type.matchers.put(matcher, weight);
+                final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
+                type.spawns.put(matcher, weight);
             });
             type.hasBelt = entry.belt;
             if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male") ? male

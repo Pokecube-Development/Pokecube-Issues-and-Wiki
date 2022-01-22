@@ -26,9 +26,9 @@ public class ActionPayDay implements IMoveAction
     {
         if (!user.inCombat()) return false;
         final LivingEntity poke = user.getEntity();
-        final LootTable loottable = poke.getCommandSenderWorld().getServer().getLootTables().get(
+        final LootTable loottable = poke.getLevel().getServer().getLootTables().get(
                 ActionPayDay.lootTable);
-        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getCommandSenderWorld())
+        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getLevel())
                 .withRandom(poke.getRandom());
         // Generate the loot list.
         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));

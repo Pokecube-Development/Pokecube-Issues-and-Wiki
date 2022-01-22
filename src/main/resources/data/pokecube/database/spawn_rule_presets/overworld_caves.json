@@ -3,15 +3,15 @@
     {
       "values": {
         "preset": "desert_caves",
-        "or_presets": "underground,cave_subbiome",
-        "and_presets": "deserts"
+        "or_preset": "underground,cave_subbiome",
+        "and_preset": "deserts"
       }
     },
     {
       "values": {
         "preset": "caves",
-        "or_presets": "underground,cave_subbiome",
-        "and_presets": "overworld"
+        "or_preset": "underground,cave_subbiome",
+        "and_preset": "overworld"
       }
     }
   ]

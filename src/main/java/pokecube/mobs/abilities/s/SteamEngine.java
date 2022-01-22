@@ -42,8 +42,8 @@ public class SteamEngine extends Ability
 	@Override
     public void onUpdate(IPokemob mob)
     {
-        final Vector3 v = Vector3.getNewVector().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().getCommandSenderWorld().getEntitiesOfClass(
+        final Vector3 v = new Vector3().set(mob.getEntity());
+        final List<EntityPokemobEgg> eggs = mob.getEntity().getLevel().getEntitiesOfClass(
                 EntityPokemobEgg.class, v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();

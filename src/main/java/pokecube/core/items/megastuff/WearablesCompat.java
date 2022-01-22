@@ -253,17 +253,20 @@ public class WearablesCompat
                 if (!this.belt.isLoaded() || !this.belt.isValid()) return;
                 float s, dx, dy, dz;
                 dx = 0;
-                dy = -.0f;
-                dz = -0.6f;
+                dy = -0.6f;
+                dz = -0.f;
                 s = 1.1f;
                 if (wearer.getItemBySlot(EquipmentSlot.LEGS).isEmpty()) s = .95f;
-                mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
+
                 mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
                 mat.pushPose();
                 mat.translate(dx, dy, dz);
                 mat.scale(s, s, s);
                 VertexConsumer buf = Util.makeBuilder(buff, this.keystone);
+                mat.pushPose();
+                mat.translate(0, 0, -0.15);
                 this.belt.renderOnly(mat, buf, "stone");
+                mat.popPose();
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {

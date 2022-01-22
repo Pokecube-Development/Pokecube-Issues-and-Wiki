@@ -31,7 +31,7 @@ import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
@@ -180,27 +180,27 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         seats:
         if (seat != null)
         {
-            final Vector3 rel = Vector3.getNewVector().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
+            final Vector3 rel = new Vector3().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
             BlockState block = this.getFakeWorld().getBlockRelative(pos);
             if (block == null || !block.hasProperty(StairBlock.FACING)) break seats;
-            Vector3 dest = Vector3.getNewVector().set(destX, destY, destZ);
+            Vector3 dest = new Vector3().set(destX, destY, destZ);
             switch (block.getValue(StairBlock.FACING))
             {
             case DOWN:
                 break;
             case EAST:
-                dest = dest.rotateAboutAngles(0, -Math.PI / 2, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, -Math.PI / 2, new Vector3(), new Vector3());
                 break;
             case NORTH:
                 break;
             case SOUTH:
-                dest = dest.rotateAboutAngles(0, Math.PI, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, Math.PI, new Vector3(), new Vector3());
                 break;
             case UP:
                 break;
             case WEST:
-                dest = dest.rotateAboutAngles(0, Math.PI / 2, Vector3.getNewVector(), Vector3.getNewVector());
+                dest = dest.rotateAboutAngles(0, Math.PI / 2, new Vector3(), new Vector3());
                 break;
             default:
                 break;
@@ -255,7 +255,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         this.setDeltaMovement(vx, vy, vz);
     }
 
-    public void addSeat(final Vector3f seat)
+    public void addSeat(final Vec3f seat)
     {
         final Seat toSet = this.getSeat(this.getSeatCount());
         toSet.seat.set(seat);
@@ -291,7 +291,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         if (!EntityCraft.ENERGYUSE) return true;
         boolean power = false;
-        final Vector3 bounds = Vector3.getNewVector().set(this.boundMax.subtract(this.boundMin));
+        final Vector3 bounds = new Vector3().set(this.boundMax.subtract(this.boundMin));
         final double volume = bounds.x * bounds.y * bounds.z;
         final float speed = 10;
         double energyCost = Math.abs(speed) * EntityCraft.ENERGYCOST * volume * 0.01;
@@ -321,7 +321,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Entity getPassenger(final Vector3f seatl)
+    public Entity getPassenger(final Vec3f seatl)
     {
         UUID id = null;
         for (int i = 0; i < this.getSeatCount(); i++)
@@ -353,9 +353,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public Vector3f getSeat(final Entity passenger)
+    public Vec3f getSeat(final Entity passenger)
     {
-        final Vector3f ret = null;
+        final Vec3f ret = null;
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             Seat seat;
@@ -375,9 +375,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public List<Vector3f> getSeats()
+    public List<Vec3f> getSeats()
     {
-        final List<Vector3f> ret = Lists.newArrayList();
+        final List<Vec3f> ret = Lists.newArrayList();
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             final Seat seat = this.getSeat(i);
@@ -432,7 +432,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         super.defineSynchedData();
         this.entityData.define(EntityCraft.MAINSEATDW, Integer.valueOf(-1));
-        for (int i = 0; i < 10; i++) this.entityData.define(EntityCraft.SEAT[i], new Seat(new Vector3f(), null));
+        for (int i = 0; i < 10; i++) this.entityData.define(EntityCraft.SEAT[i], new Seat(new Vec3f(), null));
         this.entityData.define(EntityCraft.SEATCOUNT, 0);
     }
 

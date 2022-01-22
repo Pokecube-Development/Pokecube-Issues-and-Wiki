@@ -8,11 +8,16 @@ import java.util.function.Function;
 
 import com.google.gson.JsonSyntaxException;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.commands.CommandRuntimeException;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
@@ -23,13 +28,16 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -39,6 +47,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.network.NetworkHooks;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
@@ -61,6 +71,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
@@ -75,6 +86,7 @@ import pokecube.core.events.BrainInitEvent;
 import pokecube.core.events.CustomInteractEvent;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.npc.NpcBreedEvent;
+import pokecube.core.events.npc.NpcEvent;
 import pokecube.core.events.npc.NpcSpawn;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.pokemob.CaptureEvent;
@@ -91,6 +103,8 @@ import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
+import thut.api.inventory.npc.NpcContainer;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.api.world.mobs.data.DataSync;
@@ -99,6 +113,8 @@ import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
+import thut.wearables.events.WearableDroppedEvent;
+import thut.wearables.events.WearableUseEvent;
 
 public class TrainerEventHandler
 {
@@ -235,8 +251,7 @@ public class TrainerEventHandler
         {
             drop = JsonUtil.gson.fromJson(arg, Drop.class);
             return Tools.getStack(drop.getValues(),
-                    sender.getCommandSenderWorld() instanceof ServerLevel ? (ServerLevel) sender.getCommandSenderWorld()
-                            : null);
+                    sender.getLevel() instanceof ServerLevel ? (ServerLevel) sender.getLevel() : null);
         }
         catch (final JsonSyntaxException e)
         {
@@ -384,7 +399,7 @@ public class TrainerEventHandler
             final LivingEntity npc = event.getEntityLiving();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof Mob && npc.getCommandSenderWorld() instanceof ServerLevel)
+            if (npc instanceof Mob && npc.getLevel() instanceof ServerLevel)
             {
                 TypeTrainer.addAI((Mob) npc);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
@@ -402,21 +417,20 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
-        if (mobs == null || !(mob.getCommandSenderWorld() instanceof ServerLevel) || mob instanceof Player) return;
+        if (mobs == null || !(mob.getLevel() instanceof ServerLevel) || mob instanceof Player) return;
         if (mob.getPersistentData().contains("pokeadv_join")
-                && mob.getPersistentData().getLong("pokeadv_join") == mob.getCommandSenderWorld().getGameTime())
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.getLevel().getGameTime())
             return;
-        mob.getPersistentData().putLong("pokeadv_join", mob.getCommandSenderWorld().getGameTime());
+        mob.getPersistentData().putLong("pokeadv_join", mob.getLevel().getGameTime());
 
         if (mobs.countPokemon() != 0) return;
         final TypeTrainer newType = TypeTrainer.get(mob, true);
         if (newType == null) return;
         mobs.setType(newType);
-        SpawnContext context = new SpawnContext((ServerLevel) mob.level, Database.missingno,
-                Vector3.getNewVector().set(mob));
+        SpawnContext context = new SpawnContext((ServerLevel) mob.level, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
         if (mob instanceof TrainerBase) ((TrainerBase) mob).initTeam(level);
-        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getCommandSenderWorld());
+        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getLevel());
         if (mob.isAddedToWorld()) EntityUpdate.sendEntityUpdate(mob);
     }
 
@@ -433,31 +447,49 @@ public class TrainerEventHandler
     {
         if (!(target instanceof LivingEntity)) return;
 
+        Player player = evt.getPlayer();
+        InteractionHand hand = evt.getHand();
+
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
-        // if (target instanceof VillagerEntity && evt.getPlayer() instanceof
-        // ServerPlayerEntity)
-        // {
-        // final VillagerEntity villager = (VillagerEntity) target;
-        // final PlayerEntity player = evt.getPlayer();
-        // final int rep_base = PokecubeAdv.config.trainer_min_rep;
-        // final int rep = villager.getPlayerReputation(player) + rep_base;
-        // player.sendMessage(new StringTextComponent(" (" + rep + ")"), null);
-        // }
+        InteractionResult succeed = InteractionResult.sidedSuccess(target.level.isClientSide);
 
+        if (target instanceof Villager vill)
+        {
+            NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(vill);
+            MinecraftForge.EVENT_BUS.post(event);
+
+            boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
+
+            if (event.getResult() == Result.ALLOW || creativeStick)
+            {
+                if (player instanceof ServerPlayer sp)
+                {
+                    final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+                    buffer.writeInt(vill.getId());
+                    final SimpleMenuProvider provider = new SimpleMenuProvider(
+                            (i, p, e) -> new NpcContainer(i, p, buffer), vill.getDisplayName());
+                    NetworkHooks.openGui(sp, provider, buf -> {
+                        buf.writeInt(vill.getId());
+                    });
+                }
+                evt.setCanceled(true);
+                evt.setCancellationResult(succeed);
+            }
+        }
         if (evt.getItemStack().getItem() instanceof Linker
                 && Linker.interact((ServerPlayer) evt.getPlayer(), target, evt.getItemStack()))
         {
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(succeed);
             return;
         }
         if (target instanceof NpcMob && ((NpcMob) target).getNpcType().getInteraction().processInteract(evt.getPlayer(),
                 evt.getHand(), (NpcMob) target))
         {
             evt.setCanceled(true);
-            evt.setCancellationResult(InteractionResult.SUCCESS);
+            evt.setCancellationResult(succeed);
             return;
         }
 
@@ -496,8 +528,46 @@ public class TrainerEventHandler
                     .setLatestContext(new ActionContext(evt.getPlayer(), (LivingEntity) target, evt.getItemStack()))))
             {
                 evt.setCanceled(true);
-                evt.setCancellationResult(InteractionResult.SUCCESS);
+                evt.setCancellationResult(succeed);
             }
+        }
+    }
+
+    private static final ResourceLocation BELT = new ResourceLocation(PokecubeAdv.MODID, "poke_belt");
+
+    public static void onWearableUse(WearableUseEvent event)
+    {
+        if (ItemList.is(BELT, event.context.getItemInHand())
+                && event.context.getPlayer() instanceof ServerPlayer player)
+        {
+            final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
+            buffer.writeInt(player.getId());
+            final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
+                    player.getDisplayName());
+            NetworkHooks.openGui(player, provider, buf -> {
+                buf.writeInt(player.getId());
+            });
+        }
+    }
+
+    public static void dropBelt(final WearableDroppedEvent event)
+    {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(player);
+        if (!ItemList.is(BELT, event.getToDrop())) return;
+        if (pokemobs == null) return;
+        LivingEntity mob = event.getParent().getEntityLiving();
+        for (int i = 0; i < pokemobs.getContainerSize(); i++)
+        {
+            ItemStack stack = pokemobs.getItem(i);
+            if (stack.isEmpty()) continue;
+            final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
+            final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
+            final float f = mob.getRandom().nextFloat() * 0.5F;
+            final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
+            drop.setDeltaMovement(-Mth.sin(f1) * f, Mth.cos(f1) * f, 0.2);
+            pokemobs.setItem(i, ItemStack.EMPTY);
+            event.getParent().getDrops().add(drop);
         }
     }
 

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:flowers",
+    {"id": "#pokecube:berry_fruits", "required": false}
+  ]
+}

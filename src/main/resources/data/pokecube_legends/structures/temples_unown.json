@@ -60,7 +60,7 @@
       "spawn": {
         "values": {
           "preset": "all_overworld",
-          "not_presets": "oceans,beaches"
+          "not_preset": "oceans,beaches"
         }
       }
     },

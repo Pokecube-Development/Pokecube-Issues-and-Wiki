@@ -313,7 +313,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     @SubscribeEvent
     public void spawnEvent(final SpawnEvent.Post evt)
     {
-        if (this.shiny) if (evt.location().distanceTo(Vector3.getNewVector().set(this)) <= this.distance)
+        if (this.shiny) if (evt.location().distanceTo(new Vector3().set(this)) <= this.distance)
         {
             final Random rand = ThutCore.newRandom();
             final int rate = Math.max(PokecubeAdv.config.afaShinyRate, 1);

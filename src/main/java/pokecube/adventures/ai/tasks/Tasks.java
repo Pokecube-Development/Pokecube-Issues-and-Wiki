@@ -22,10 +22,10 @@ import pokecube.adventures.ai.tasks.battle.ManagePokemobTarget;
 import pokecube.adventures.ai.tasks.battle.agro.BaseAgroTask;
 import pokecube.adventures.ai.tasks.battle.agro.DeAgro;
 import pokecube.adventures.ai.tasks.battle.agro.Retaliate;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
+import thut.api.entity.ai.BrainUtil;
 
 public class Tasks
 {
@@ -54,8 +54,8 @@ public class Tasks
         for (final SensorType<?> type : Tasks.SENSOR_TYPES)
             if (!brain.sensors.containsKey(type)) senses.add(type);
 
-        BrainUtils.removeSensors(brain, Tasks.REMOVE);
-        BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, senses);
+        BrainUtil.removeSensors(brain, Tasks.REMOVE);
+        BrainUtil.addToBrain(brain, Tasks.MEMORY_TYPES, senses);
 
         final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> battle_list = Lists.newArrayList();
         final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> other_list = Lists.newArrayList();
@@ -81,7 +81,7 @@ public class Tasks
 
         brain.activeActivities.forEach(a ->
         {
-            BrainUtils.addToActivity(brain, a, other_list);
+            BrainUtil.addToActivity(brain, a, other_list);
         });
     }
 }

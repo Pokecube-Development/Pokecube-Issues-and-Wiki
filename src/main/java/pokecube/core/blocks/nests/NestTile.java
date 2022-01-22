@@ -36,10 +36,10 @@ import pokecube.core.interfaces.IInhabitable;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable;
 import pokecube.core.interfaces.capabilities.CapabilityInhabitable.HabitatProvider;
-import pokecube.core.inventory.InvWrapper;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.block.ITickTile;
+import thut.api.inventory.InvWrapper;
 import thut.core.common.ThutCore;
 
 public class NestTile extends InteractableTile implements ITickTile

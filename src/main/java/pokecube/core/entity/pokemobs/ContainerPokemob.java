@@ -35,7 +35,7 @@ public class ContainerPokemob extends BaseContainer
         super(ContainerPokemob.TYPE, id);
         LivingEntity entity = playerInv.player;
         final int num = data.readInt();
-        Entity mob = entity.getCommandSenderWorld().getEntity(num);
+        Entity mob = entity.getLevel().getEntity(num);
         mob = EntityTools.getCoreEntity(mob);
         if (mob instanceof LivingEntity) entity = (LivingEntity) mob;
         this.pokemob = CapabilityPokemob.getPokemobFor(entity);

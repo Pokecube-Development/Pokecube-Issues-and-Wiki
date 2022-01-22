@@ -16,7 +16,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,7 +38,6 @@ import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -62,6 +60,7 @@ import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
+import pokecube.core.handlers.Config;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -70,7 +69,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import thut.api.boom.ExplosionCustom;
-import thut.api.boom.ExplosionCustom.BlastResult;
 import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -203,7 +201,6 @@ public final class SpawnHandler
 
     public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
 
-    public static boolean doSpawns = true;
     public static boolean onlySubbiomes = false;
     public static boolean refreshSubbiomes = false;
 
@@ -269,11 +266,11 @@ public final class SpawnHandler
 
     public static boolean canSpawnInWorld(final Level world, final boolean respectDifficulty)
     {
-        if (world == null) return true;
+        if (world == null || !(world instanceof ServerLevel level)) return true;
         if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
-        if (!SpawnHandler.doSpawns) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(world.dimension())) return false;
-        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.dimension()))
+        if (!Config.Rules.doSpawn(level)) return false;
+        if (SpawnHandler.dimensionBlacklist.contains(level.dimension())) return false;
+        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(level.dimension()))
             return false;
         return true;
     }
@@ -391,9 +388,9 @@ public final class SpawnHandler
 
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
-        if (player == null || !(player.getCommandSenderWorld() instanceof ServerLevel)) return null;
-        return SpawnHandler.getRandomPointNear((ServerLevel) player.getCommandSenderWorld(),
-                Vector3.getNewVector().set(player), range);
+        if (player == null || !(player.getLevel() instanceof ServerLevel)) return null;
+        return SpawnHandler.getRandomPointNear((ServerLevel) player.getLevel(),
+                new Vector3().set(player), range);
     }
 
     public static SpawnContext getSpawnForLoc(SpawnContext context)
@@ -503,7 +500,7 @@ public final class SpawnHandler
         for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels) SpawnHandler.loadFunctionFromString(s);
     }
 
-    public static void makeMeteor(final Level world, final Vector3 location, final float power)
+    public static void makeMeteor(final ServerLevel world, final Vector3 location, final float power)
     {
         if (power > 0)
         {
@@ -514,33 +511,24 @@ public final class SpawnHandler
             boom.breaker = new BlockBreaker()
             {
                 @Override
-                public void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+                public BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
+                        boolean applyBreak, ServerLevel level)
                 {
-                    for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
-                    {
-                        final BlockPos pos = entry.getKey();
-                        final float power = entry.getFloatValue();
-                        boom.getToBlow().add(pos);
-                        final BlockState destroyed = boom.world.getBlockState(pos);
-                        BlockState to = Blocks.AIR.defaultBlockState();
-                        if (power < 36)
-                        {
-                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                            if (destroyed.getMaterial() == Material.REPLACEABLE_PLANT)
-                                to = Blocks.FIRE.defaultBlockState();
-                        }
-                        final MeteorEvent event = new MeteorEvent(destroyed, to, pos, power, boom);
-                        MinecraftForge.EVENT_BUS.post(event);
-                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
-                        seg.setBiome(pos, BiomeType.METEOR);
-                        boom.world.setBlock(pos, to, 3);
-                    }
+                    BlockState to = BlockBreaker.super.applyBreak(boom, pos, state, power, applyBreak, level);
+                    final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
+                    MinecraftForge.EVENT_BUS.post(event);
+                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
+                    seg.setBiome(pos, BiomeType.METEOR);
+                    return to;
                 }
             };
 
             final String message = "Meteor at " + location + " with energy of " + power;
             PokecubeCore.LOGGER.debug(message);
-            boom.doExplosion();
+
+            boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
+
+//            boom.doExplosion();
         }
         PokecubeSerializer.getInstance().addMeteorLocation(GlobalPos.of(world.dimension(), location.getPos()));
     }
@@ -549,7 +537,7 @@ public final class SpawnHandler
     {
         if (!(world instanceof ServerLevel level)) return 0;
         // BlockPos p = world.
-        final Vector3 spawn = Vector3.getNewVector().set(level.getSharedSpawnPos());
+        final Vector3 spawn = new Vector3().set(level.getSharedSpawnPos());
         final ResourceKey<Level> type = world.dimension();
         final JEP toUse = SpawnHandler.getParser(type);
         final Function function = SpawnHandler.getFunction(type);
@@ -616,7 +604,7 @@ public final class SpawnHandler
     {
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-        final Vector3 temp1 = Vector3.getNewVector();
+        final Vector3 temp1 = new Vector3();
         final int x0 = t.chunkX * 16, y0 = t.chunkY * 16, z0 = t.chunkZ * 16;
         final int dx = TerrainSegment.GRIDSIZE / 2;
         final int dy = TerrainSegment.GRIDSIZE / 2;
@@ -680,8 +668,8 @@ public final class SpawnHandler
             final Entity player = players.get(rand.nextInt(players.size()));
             final int dx = rand.nextInt(200) - 100;
             final int dz = rand.nextInt(200) - 100;
-            final Vector3 v = Vector3.getNewVector();
-            final Vector3 v1 = Vector3.getNewVector();
+            final Vector3 v = new Vector3();
+            final Vector3 v1 = new Vector3();
             v.set(player).add(dx, 0, dz);
             final Vector4 loc = new Vector4(player);
             loc.x += dx;
@@ -697,7 +685,7 @@ public final class SpawnHandler
                 final Vector3 location = Vector3.getNextSurfacePoint(world, v, direction, 255);
                 if (location != null)
                 {
-                    if (world.getNearestPlayer(location.x, location.y, location.z, 96,
+                    if (world.getNearestPlayer(location.x, location.y, location.z, 64,
                             EntitySelector.NO_SPECTATORS) != null)
                         return;
                     final float energy = (float) Math.abs((rand.nextGaussian() + 1) * 50);
@@ -729,7 +717,7 @@ public final class SpawnHandler
         double dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeMod.debug && dt > 500)
         {
-            final Vector3 debug = Vector3.getNewVector().set(v.getPos());
+            final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
             PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt));
         }
@@ -738,7 +726,7 @@ public final class SpawnHandler
         dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeMod.debug && dt > 500)
         {
-            final Vector3 debug = Vector3.getNewVector().set(v.getPos());
+            final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
             PokecubeCore.LOGGER.info(String.format(toLog, debug.getPos(), dt, num, context.entry()));
         }
@@ -777,7 +765,7 @@ public final class SpawnHandler
     public void doSpawn(ServerPlayer player, ServerLevel level, final int minRadius, final int maxRadius)
     {
         if (minRadius > maxRadius) return;
-        Vector3 v = Vector3.getNewVector().set(player);
+        Vector3 v = new Vector3().set(player);
         SpawnContext base = new SpawnContext(player, level, Database.missingno, v);
         SpawnContext context = randomSpawnContext(base, minRadius, maxRadius);
         this.doSpawnForContext(context);
@@ -792,9 +780,9 @@ public final class SpawnHandler
         Vector3 loc = context.location();
         PokedexEntry dbe = context.entry();
 
-        final Vector3 v = Vector3.getNewVector();
-        final Vector3 v2 = Vector3.getNewVector();
-        final Vector3 v3 = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
+        final Vector3 v2 = new Vector3();
+        final Vector3 v3 = new Vector3();
         int totalSpawnCount = 0;
         final Vector3 point = v2.clear();
         SpawnHandler.refreshTerrain(loc, level, false);
@@ -881,7 +869,7 @@ public final class SpawnHandler
     public void tick(final ServerLevel world)
     {
         if (!SpawnHandler.canSpawnInWorld(world)) return;
-        if (!PokecubeCore.getConfig().pokemonSpawn) return;
+        if (!Config.Rules.doSpawn(world)) return;
         try
         {
             final int rate = PokecubeCore.getConfig().spawnRate;

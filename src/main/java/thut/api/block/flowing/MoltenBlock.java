@@ -1,38 +1,43 @@
 package thut.api.block.flowing;
 
 import java.lang.reflect.Array;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import thut.api.item.ItemList;
+import thut.api.terrain.TerrainChecker;
 import thut.core.common.ThutCore;
 
-public class MoltenBlock extends DustBlock
+public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterloggedBlock
 {
-    private static final Map<ResourceLocation, RegistryObject<DustBlock>> REGMAP = Maps.newHashMap();
-
-    public static RegistryObject<DustBlock>[] makeMolten(DeferredRegister<Block> BLOCKS, String modid, String layer,
+    public static RegistryObject<FlowingBlock>[] makeMolten(DeferredRegister<Block> BLOCKS, String modid, String layer,
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props,
             ResourceLocation solid_layer, ResourceLocation solid_block)
     {
@@ -40,14 +45,15 @@ public class MoltenBlock extends DustBlock
         ResourceLocation block_id = new ResourceLocation(modid, block);
 
         @SuppressWarnings("unchecked")
-        RegistryObject<DustBlock>[] arr = (RegistryObject<DustBlock>[]) Array.newInstance(RegistryObject.class, 2);
+        RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
+                2);
 
-        RegistryObject<DustBlock> layer_reg = BLOCKS.register(layer,
-                () -> new MoltenBlock(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_layer).get())
+        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+                () -> new PartialMolten(layer_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_layer).get())
                         .alternateBlock(() -> REGMAP.get(block_id).get()));
         REGMAP.put(layer_id, layer_reg);
 
-        RegistryObject<DustBlock> block_reg = BLOCKS.register(block,
+        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
                 () -> new FullMolten(block_props).solidBlock(() -> SolidBlock.REGMAP.get(solid_block).get())
                         .alternateBlock(() -> REGMAP.get(layer_id).get()));
         REGMAP.put(block_id, block_reg);
@@ -58,20 +64,21 @@ public class MoltenBlock extends DustBlock
         return arr;
     }
 
+    public static final ResourceLocation LAVAREPLACEABLE = new ResourceLocation("thutcore:lava_replace");
+
     public static final BooleanProperty HEATED = BooleanProperty.create("heated");
 
     Supplier<Block> solid;
-    float hardenRate = 1;
+    public float hardenRate;
 
-    BlockState solid_full = null;
-    BlockState solid_layer = null;
+    protected BlockState solid_full = null;
+    protected BlockState solid_layer = null;
 
-    public MoltenBlock(Properties properties)
+    protected MoltenBlock(Properties properties)
     {
         super(properties);
-        this.slope = 7;
-        hardenRate = 0.5f;
-        tickRateFall = 20;
+        hardenRate = 1f;
+        tickRateFall = 5;
         tickRateFlow = 5;
     }
 
@@ -80,7 +87,7 @@ public class MoltenBlock extends DustBlock
     {
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, Integer.valueOf(16))
                 .setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FALLING, Boolean.valueOf(false))
-                .setValue(HEATED, Boolean.valueOf(false)));
+                .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
     }
 
     @Override
@@ -88,6 +95,38 @@ public class MoltenBlock extends DustBlock
     {
         super.createBlockStateDefinition(builder);
         builder.add(HEATED);
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState state)
+    {
+        if (isFalling(state)) return RenderShape.MODEL;
+        return RenderShape.INVISIBLE;
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState state)
+    {
+        // This one ticks so it can harden
+        return true;
+    }
+
+    @Override
+    public ItemStack pickupBlock(LevelAccessor level, BlockPos pos, BlockState state)
+    {
+        int amt = this.getAmount(state);
+        if (amt > 12)
+        {
+            // We are linked to the concrete fluid normally, so we let that be
+            // picked up instead.
+            level.setBlock(pos, this.empty(state), 3);
+            if (!state.canSurvive(level, pos))
+            {
+                level.destroyBlock(pos, true);
+            }
+            return new ItemStack(Items.LAVA_BUCKET);
+        }
+        return SimpleWaterloggedBlock.super.pickupBlock(level, pos, state);
     }
 
     public MoltenBlock solidBlock(Supplier<Block> supplier)
@@ -100,7 +139,9 @@ public class MoltenBlock extends DustBlock
     public FluidState getFluidState(BlockState state)
     {
         if (isFalling(state)) return Fluids.EMPTY.defaultFluidState();
-        return Fluids.FLOWING_LAVA.defaultFluidState();
+        int amt = this.getAmount(state);
+        if (amt < 2) amt = 2;
+        return Fluids.FLOWING_LAVA.defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
 
     @Override
@@ -111,14 +152,25 @@ public class MoltenBlock extends DustBlock
     }
 
     @Override
-    protected boolean canReplace(BlockState state, BlockPos pos, ServerLevel level)
+    public boolean canReplace(BlockState state, BlockPos pos, ServerLevel level)
     {
+        if (super.canReplace(state, pos, level)) return true;
         if (state.isFlammable(level, pos, Direction.UP)) return true;
-        return super.canReplace(state, pos, level);
+        return false;
     }
 
     @Override
-    protected BlockState setAmount(BlockState state, int amt)
+    public boolean canReplace(BlockState state)
+    {
+        if (ItemList.is(LAVAREPLACEABLE, state)) return true;
+        @SuppressWarnings("deprecation")
+        boolean burns = ((FireBlock) Blocks.FIRE).getBurnOdd(state) > 0;
+        if (burns) return true;
+        return super.canReplace(state);
+    }
+
+    @Override
+    public BlockState setAmount(BlockState state, int amt)
     {
         boolean hot = state.hasProperty(HEATED) && state.getValue(HEATED);
         BlockState ret = super.setAmount(state, amt);
@@ -127,26 +179,55 @@ public class MoltenBlock extends DustBlock
     }
 
     @Override
-    protected BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
-        checkSolid();
-        if (solid_full.isAir()) return mergeInto;
-
+        BlockState ret = super.getMergeResult(mergeFrom, mergeInto, posTo, level);
         // The result from the merge won't be heated, even if we are!
-        if (mergeFrom.hasProperty(HEATED)) mergeFrom = mergeFrom.setValue(HEATED, false);
-
-        if (mergeInto.getBlock() == solid_layer.getBlock()) return mergeFrom;
-
-        // for now, magma overrides other blocks.
-        if (mergeInto.getBlock() instanceof DustBlock) return mergeFrom;
-
-        return super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        if (ret != mergeInto && ret.hasProperty(HEATED)) ret = ret.setValue(HEATED, false);
+        return ret;
     }
 
     @Override
-    protected void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    public boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
+        checkSolid();
+        if (solid_full.isAir()) return false;
+
+        IFlowingBlock to = (other.getBlock() instanceof FlowingBlock) ? (IFlowingBlock) other.getBlock() : null;
+
+        if (other.getBlock() == solid_layer.getBlock() || to != null && to.getAlternate() == solid_layer.getBlock())
+        {
+            int amt_from = getAmount(here);
+            int amt_to = getAmount(other);
+            if (amt_from != amt_to) return true;
+        }
+
+        return super.canMergeInto(here, other, posTo, level);
+    }
+
+    @Override
+    public boolean isStableBelow(BlockState state, BlockPos pos, ServerLevel level)
+    {
+        int amt = getExistingAmount(state, pos, level);
+        if (TerrainChecker.isLeaves(state) || TerrainChecker.isWood(state)) return false;
+        if (amt == 16 && state.getBlock() instanceof IFlowingBlock b)
+        {
+            if (b.isFullBlock() && !b.flows(state)) return true;
+            if (state.hasProperty(HEATED) && state.getValue(HEATED)) return true;
+        }
+        return (amt == -1);
+    }
+
+    @Override
+    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    {
+        if (!FMLEnvironment.production)
+        {
+            tickRateFall = 1;
+            tickRateFlow = 1;
+        }
         double rng = random.nextDouble();
+
         harden:
         if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && rng < hardenRate && !isFalling(state))
         {
@@ -156,41 +237,46 @@ public class MoltenBlock extends DustBlock
 
             boolean stableBelow = false;
 
-            for (int i = 1; i < 2; i++)
-            {
-                BlockPos p2 = pos.below(i);
-                BlockState b2 = level.getBlockState(p2);
-                stableBelow = this.isStableBelow(b2, p2, level);
-                if (stableBelow) break;
-            }
+            BlockPos p2 = pos.below();
+            BlockState b2 = level.getBlockState(p2);
+            stableBelow = this.isStableBelow(b2, p2, level);
             if (!stableBelow) break harden;
 
             int dust = getExistingAmount(state, pos, level);
-            // 16 dust, we need a full block
-            if (dust == 16)
+            BlockState solidTo = solid_full;
+            // not 16 dust, we need a layer block
+            if (dust != 16)
             {
-                level.setBlock(pos, solid_full, 2);
+                solidTo = solid_layer;
             }
-            else
-            {
-                level.setBlock(pos, solid_layer.setValue(LAYERS, dust), 2);
-            }
+            solidTo = IFlowingBlock.copyValidTo(state, solidTo);
+            solidTo = this.setAmount(solidTo, dust);
+            level.setBlock(pos, solidTo, 2);
+            onHarden(state, solidTo, level, pos, random);
             return;
         }
         else if (rng > hardenRate)
         {
-            level.scheduleTick(pos.immutable(), this, tickRateFall);
+            reScheduleTick(state, level, pos);
             return;
         }
         super.onStableTick(state, level, pos, random);
+        // This is called when lighting changes, We do not want to do this, as
+        // it lags everything.
+        if (state.getLightBlock(level, pos) != 0) level.getChunk(pos).setUnsaved(false);
     }
 
-    private void checkSolid()
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
+    {
+
+    }
+
+    protected void checkSolid()
     {
         if (solid_layer == null)
         {
             Block block = this.solid.get();
-            if (!(block instanceof DustBlock b))
+            if (!(block instanceof FlowingBlock b))
             {
                 solid_full = Blocks.AIR.defaultBlockState();
                 return;
@@ -199,7 +285,7 @@ public class MoltenBlock extends DustBlock
             if (s.hasProperty(LAYERS))
             {
                 solid_layer = s;
-                solid_full = b.getAlternate().get().defaultBlockState();
+                solid_full = b.getAlternate().defaultBlockState();
                 if (solid_full.hasProperty(LAYERS))
                 {
                     ThutCore.LOGGER.error(new IllegalStateException("This should not be the case!"));
@@ -210,7 +296,7 @@ public class MoltenBlock extends DustBlock
             else
             {
                 solid_full = s;
-                solid_layer = b.getAlternate().get().defaultBlockState();
+                solid_layer = b.getAlternate().defaultBlockState();
                 if (!solid_layer.hasProperty(LAYERS))
                 {
                     ThutCore.LOGGER.error(new IllegalStateException("This should not be the case!"));
@@ -229,25 +315,10 @@ public class MoltenBlock extends DustBlock
             super(properties);
         }
 
-        protected int getExistingAmount(BlockState state, BlockPos pos, ServerLevel level)
+        @Override
+        public boolean isFullBlock()
         {
-            if (state.getBlock() == this) return 16;
-            if (state.getBlock() instanceof DustBlock && state.hasProperty(LAYERS)) return state.getValue(LAYERS);
-            if (state.canBeReplaced(Fluids.FLOWING_WATER)) return 0;
-            if (state.isAir()) return 0;
-            return -1;
-        }
-
-        protected BlockState makeFalling(BlockState state, boolean falling)
-        {
-            if (!falling) return this.defaultBlockState();
-            return getAlternate().get().defaultBlockState().setValue(LAYERS, 16).setValue(FALLING, falling);
-        }
-
-        protected BlockState setAmount(BlockState state, int amt)
-        {
-            if (amt == 16) return this.defaultBlockState();
-            return getAlternate().get().defaultBlockState().setValue(LAYERS, amt);
+            return true;
         }
 
         @Override
@@ -255,18 +326,27 @@ public class MoltenBlock extends DustBlock
         {
             builder.add(WATERLOGGED);
             builder.add(HEATED);
+            builder.add(VISCOSITY);
         }
 
         protected void initStateDefinition()
         {
             this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
-                    .setValue(HEATED, Boolean.valueOf(false)));
+                    .setValue(HEATED, Boolean.valueOf(false)).setValue(VISCOSITY, 4));
         }
 
         @Override
-        public VoxelShape getShape(BlockState state, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_)
+        public VoxelShape getBlockSupportShape(BlockState state, BlockGetter level, BlockPos pos)
         {
             return Shapes.block();
+        }
+    }
+
+    public static class PartialMolten extends MoltenBlock
+    {
+        public PartialMolten(Properties properties)
+        {
+            super(properties);
         }
     }
 }

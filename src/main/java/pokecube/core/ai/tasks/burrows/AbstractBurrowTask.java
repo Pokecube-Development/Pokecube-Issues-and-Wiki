@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor;
 import pokecube.core.ai.tasks.burrows.sensors.BurrowSensor.Burrow;
@@ -20,6 +19,7 @@ import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import thut.api.entity.ai.RootTask;
 import thut.api.maths.Vector3;
 
 public abstract class AbstractBurrowTask extends TaskBase
@@ -48,7 +48,7 @@ public abstract class AbstractBurrowTask extends TaskBase
 
     public boolean tryHarvest(final BlockPos pos, final boolean breakOnly)
     {
-        final Vector3 v = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
         final BlockState state = this.world.getBlockState(pos);
         if (breakOnly)
         {

@@ -66,7 +66,7 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 96, y + 35, 12, 20, prev, b ->
@@ -75,7 +75,7 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getCommandSenderWorld());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton formBtn = this.addRenderableWidget(new TexButton(x - 85, y + 35, 20, 10, form, b ->

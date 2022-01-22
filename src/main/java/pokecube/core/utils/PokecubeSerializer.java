@@ -44,11 +44,11 @@ import thut.core.common.handlers.PlayerDataHandler;
 public class PokecubeSerializer
 {
     private static final String POKECUBE = "pokecube";
-    private static final String DATA     = "data";
-    private static final String METEORS  = "meteors";
-    private static final String STRUCTS  = "structs";
-    private static final String BASES    = "bases";
-    private static final String LASTUID  = "lastUid";
+    private static final String DATA = "data";
+    private static final String METEORS = "meteors";
+    private static final String STRUCTS = "structs";
+    private static final String BASES = "bases";
+    private static final String LASTUID = "lastUid";
 
     public static int MeteorDistance = 3000 * 3000;
 
@@ -168,8 +168,7 @@ public class PokecubeSerializer
 
     public boolean canMeteorLand(final GlobalPos location, final ServerLevel world)
     {
-        for (final GlobalPos v : this.meteors)
-            if (this.tooClose(location, v)) return false;
+        for (final GlobalPos v : this.meteors) if (this.tooClose(location, v)) return false;
         return true;
     }
 
@@ -243,8 +242,8 @@ public class PokecubeSerializer
                 final CompoundTag pokemobData = tagListMeteors.getCompound(i);
                 if (pokemobData != null)
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
-                            .get().getFirst();
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result().get()
+                            .getFirst();
                     for (final GlobalPos v : this.meteors)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                     this.meteors.add(location);
@@ -261,8 +260,8 @@ public class PokecubeSerializer
                 final CompoundTag pokemobData = tagListBases.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
-                            .get().getFirst();
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result().get()
+                            .getFirst();
                     for (final GlobalPos v : this.bases)
                         if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                     this.bases.add(location);
@@ -283,8 +282,8 @@ public class PokecubeSerializer
                 final CompoundTag pokemobData = tagListStructs.getCompound(i);
                 if (pokemobData != null) try
                 {
-                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result()
-                            .get().getFirst();
+                    final GlobalPos location = GlobalPos.CODEC.decode(NbtOps.INSTANCE, pokemobData).result().get()
+                            .getFirst();
                     final String struct = pokemobData.getString("type");
                     final List<GlobalPos> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
                     locs.add(location);
@@ -337,8 +336,8 @@ public class PokecubeSerializer
     {
         try
         {
-            PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerData.class).setHasStarter(
-                    value);
+            PlayerDataHandler.getInstance().getPlayerData(player).getData(PokecubePlayerData.class)
+                    .setHasStarter(value);
         }
         catch (final Exception e)
         {
@@ -349,17 +348,19 @@ public class PokecubeSerializer
 
     public ItemStack starter(final PokedexEntry entry, final Player owner)
     {
-        final Level worldObj = owner.getCommandSenderWorld();
+        final Level worldObj = owner.getLevel();
         final IPokemob entity = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
         {
+            // Initialise position first for spsawn init check
+            entity.getEntity().moveTo(owner.position());
             entity.setForSpawn(Tools.levelToXp(entity.getExperienceMode(), 5));
             entity.setHealth(entity.getMaxHealth());
             entity.setOwner(owner.getUUID());
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
-            PokecubeManager.heal(item, owner.getCommandSenderWorld());
+            PokecubeManager.heal(item, owner.getLevel());
             entity.getEntity().discard();
             return item;
         }
@@ -389,8 +390,8 @@ public class PokecubeSerializer
             final List<GlobalPos> list = this.structs.get(s);
             for (final GlobalPos v : list)
             {
-                final CompoundTag nbt = (CompoundTag) GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, v).get()
-                        .left().get();
+                final CompoundTag nbt = (CompoundTag) GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, v).get().left()
+                        .get();
                 nbt.putString("type", s);
                 tagListStructs.add(nbt);
             }

@@ -11,11 +11,9 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
@@ -45,8 +43,8 @@ public class WearableEventHandler
         @SubscribeEvent
         public static void registerLayers(final RegisterLayerDefinitions event)
         {
-            final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("minecraft:player"),
-                    "wearables");
+//            final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("minecraft:player"),
+//                    "wearables");
             // TODO layer adding in here...
         }
     }

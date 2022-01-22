@@ -73,6 +73,7 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
@@ -95,7 +96,6 @@ import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.inventory.InvHelper.ItemCap;
 import pokecube.core.inventory.pc.PCWrapper;
 import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
@@ -117,6 +117,7 @@ import pokecube.nbtedit.NBTEdit;
 import thut.api.Tracker;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
+import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
@@ -138,15 +139,15 @@ public class EventsHandler
         public ChooseFirst(final Player player)
         {
             this.player = player;
-            this.start = player.getCommandSenderWorld().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.getCommandSenderWorld(), false)) return;
+            this.start = player.getLevel().getGameTime();
+            if (!SpawnHandler.canSpawnInWorld(player.getLevel(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (event.player.getCommandSenderWorld().getGameTime() - this.start < 20) return;
+            if (event.player.getLevel().getGameTime() - this.start < 20) return;
             if (event.player == this.player)
             {
                 PacketChoose packet;
@@ -470,7 +471,7 @@ public class EventsHandler
 
         if (isSpawnPresetDebug)
         {
-            Vector3 v = Vector3.getNewVector().set(player);
+            Vector3 v = new Vector3().set(player);
             Level level = player.level;
             SpawnCheck check = new SpawnCheck(v, level);
 
@@ -478,8 +479,14 @@ public class EventsHandler
 
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
             {
-                SpawnBiomeMatcher m = new SpawnBiomeMatcher(entry.getValue().copy());
-                if (m.matches(check)) valid.add(entry.getKey());
+                SpawnBiomeMatcher m = SpawnBiomeMatcher.get(entry.getValue());
+                m.reset();
+                if (m.matches(check))
+                {
+                    valid.add(entry.getKey());
+//                    System.out.println("-------------------\n" + entry.getKey() + "\n" + m.debugPrint(0));
+//                    System.out.println(m.debugPrint(0));
+                }
             }
             if (!valid.isEmpty())
             {
@@ -641,7 +648,7 @@ public class EventsHandler
         for (int i = 0; i < evt.getPlayer().getInventory().getContainerSize(); i++)
         {
             final ItemStack stack = evt.getPlayer().getInventory().getItem(i);
-            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getCommandSenderWorld());
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getLevel());
         }
     }
 
@@ -650,7 +657,7 @@ public class EventsHandler
         final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (poke != null) poke.onTick();
 
-        if (evt.getEntity().getCommandSenderWorld().isClientSide || !evt.getEntity().isAlive()) return;
+        if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
@@ -713,7 +720,7 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        final Level tworld = entity.getCommandSenderWorld();
+        final Level tworld = entity.getLevel();
         if (tworld.isClientSide || !(tworld instanceof ServerLevel)) return;
         // Recall the pokemobs if the player changes dimension.
         final ServerLevel world = (ServerLevel) tworld;
@@ -754,7 +761,8 @@ public class EventsHandler
 
     private static void onTagsUpdated(final TagsUpdatedEvent event)
     {
-        // Database.onResourcesReloaded();
+        // Final setup of tag required things
+        for (final PokedexEntry entry : Database.getSortedFormes()) entry.postTagsReloaded();
     }
 
     private static void onResourcesReloaded(final AddReloadListenerEvent event)

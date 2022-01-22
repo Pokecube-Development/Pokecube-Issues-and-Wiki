@@ -38,12 +38,12 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>> implements
-        IModelRenderer<EntityPokemobEgg>
+public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapper<EntityPokemobEgg>>
+        implements IModelRenderer<EntityPokemobEgg>
 {
     static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "entity/textures/egg.png");
-    static final ResourceLocation MODEL   = new ResourceLocation(PokecubeCore.MODID, "entity/models/egg.x3d");
-    static final ResourceLocation ANIM    = new ResourceLocation(PokecubeCore.MODID, "entity/animations/egg.xml");
+    static final ResourceLocation MODEL = new ResourceLocation(PokecubeCore.MODID, "entity/models/egg.x3d");
+    static final ResourceLocation ANIM = new ResourceLocation(PokecubeCore.MODID, "entity/animations/egg.xml");
 
     private static class EggColourer implements IAnimationChanger
     {
@@ -51,12 +51,12 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
         @Override
         public void addChild(final IAnimationChanger animationRandomizer)
-        {
-        }
+        {}
 
         @Override
         public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
         {
+            if (entity == null) return false;
             final IPokemob poke = ((EntityPokemobEgg) entity).getPokemob(false);
             if (poke == null) return false;
             final PokeType t1 = poke.getType1();
@@ -78,23 +78,19 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
         @Override
         public void init(final Collection<Animation> anims)
-        {
-        }
+        {}
 
         @Override
         public void parseDyeables(final Set<String> set)
-        {
-        }
+        {}
 
         @Override
         public void parseShearables(final Set<String> set)
-        {
-        }
+        {}
 
         @Override
         public void parseWornOffsets(final Map<String, WornOffsets> map)
-        {
-        }
+        {}
 
         @Override
         public void setAnimationHolder(final IAnimationHolder holder)
@@ -113,9 +109,9 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
     private IAnimationChanger changer = null;
-    private IPartTexturer     texer   = null;
+    private IPartTexturer texer = null;
 
-    private final Vector3 scale = Vector3.getNewVector();
+    private final Vector3 scale = new Vector3();
 
     IAnimationHolder animHolder = new CapabilityAnimation.DefaultImpl();
 
@@ -139,20 +135,18 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        // FIXME decide on shader
-        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder().setTextureState(
-                new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
+        final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
+                }, () -> {
                     RenderSystem.disableBlend();
-                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).setCullState(
-                        new RenderStateShard.CullStateShard(false)).setLightmapState(
-                                new RenderStateShard.LightmapStateShard(true)).setOverlayState(
-                                        new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
+                })).setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
+                .setCullState(new RenderStateShard.CullStateShard(false))
+                .setLightmapState(new RenderStateShard.LightmapStateShard(true))
+                .setOverlayState(new RenderStateShard.OverlayStateShard(true)).createCompositeState(false);
         return RenderType.create("pokecube:pokemob_egg", DefaultVertexFormat.NEW_ENTITY, Mode.TRIANGLES, 256, bool_a,
                 bool_b, rendertype$state);
     }
@@ -221,18 +215,15 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     @Override
     public void setRotationOffset(final Vector3 offset)
-    {
-    }
+    {}
 
     @Override
     public void setRotations(final thut.core.client.render.model.IModelRenderer.Vector5 rotations)
-    {
-    }
+    {}
 
     @Override
     public void setScale(final Vector3 scale)
-    {
-    }
+    {}
 
     @Override
     public void setTexturer(final IPartTexturer texturer)

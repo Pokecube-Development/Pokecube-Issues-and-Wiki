@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.AntTasks.AntRoom;
@@ -325,18 +324,18 @@ public class Build extends AbstractConstructTask
             {
                 this.progressTimer = -60;
                 final BlockPos pos = this.nest.nest.getBlockPos();
-                final IItemHandlerModifiable inv = this.storage.getInventory(this.world, pos, this.storage.storageFace);
+                final var inv = this.storage.getInventory(this.world, pos, this.storage.storageFace);
                 if (pos.distSqr(this.entity.blockPosition()) > 9) this.setWalkTo(pos, 1, 1);
                 else
                 {
-                    for (int i = 0; i < inv.getSlots(); i++)
+                    for (int i = 0; i < inv.getFirst().getSlots(); i++)
                     {
-                        final ItemStack stack = inv.getStackInSlot(i);
+                        final ItemStack stack = inv.getFirst().getStackInSlot(i);
                         if (!stack.isEmpty() && stack.getItem() instanceof BlockItem)
                         {
                             final BlockItem item = (BlockItem) stack.getItem();
                             if (!PokecubeTerrainChecker.isTerrain(item.getBlock().defaultBlockState())) continue;
-                            this.to_place = inv.extractItem(i, Math.min(stack.getCount(), 5), false);
+                            this.to_place = inv.getFirst().extractItem(i, Math.min(stack.getCount(), 5), false);
                             this.storeInd = this.storage.firstEmpty;
                             this.pokemob.getInventory().setItem(this.storage.firstEmpty, this.to_place);
                             return false;

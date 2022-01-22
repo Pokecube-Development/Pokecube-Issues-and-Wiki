@@ -172,15 +172,15 @@ public class ItemPokemobEgg extends Item
 
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
-        final Vector3 location = Vector3.getNewVector().set(mob.getEntity());
-        Player player = mob.getEntity().getCommandSenderWorld().getNearestPlayer(location.x, location.y, location.z,
+        final Vector3 location = new Vector3().set(mob.getEntity());
+        Player player = mob.getEntity().getLevel().getNearestPlayer(location.x, location.y, location.z,
                 ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
         LivingEntity owner = player;
         final AABB box = location.getAABB().inflate(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getCommandSenderWorld().getEntitiesOfClass(
+            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(
                     LivingEntity.class, box, (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
@@ -261,9 +261,9 @@ public class ItemPokemobEgg extends Item
             mob.setHealth(mob.getMaxHealth());
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
             exp = Math.max(1, exp);
-            mob.setForSpawn(exp);
             entity.moveTo(Math.floor(egg.getX()) + 0.5, Math.floor(egg.getY()) + 0.5, Math.floor(egg.getZ()) + 0.5,
                     world.random.nextFloat() * 360F, 0.0F);
+            mob.setForSpawn(exp);
             final CompoundTag nbt = stack.getTag();
             final boolean hasNest = nbt.contains("nestLoc");
             if (stack.hasTag()) ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag(), !hasNest);
@@ -379,7 +379,7 @@ public class ItemPokemobEgg extends Item
         final Level worldIn = context.getLevel();
         if (worldIn.isClientSide) return InteractionResult.SUCCESS;
         final Vec3 hit = context.getClickLocation();
-        final Vector3 loc = Vector3.getNewVector().set(hit);
+        final Vector3 loc = new Vector3().set(hit);
         final ItemStack stack = context.getItemInHand();
         final Player playerIn = context.getPlayer();
         if (this.dropEgg(worldIn, stack, loc, playerIn) && !playerIn.getAbilities().instabuild) stack.shrink(1);

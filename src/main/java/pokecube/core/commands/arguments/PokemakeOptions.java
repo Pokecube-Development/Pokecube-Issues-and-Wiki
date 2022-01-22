@@ -119,7 +119,7 @@ public class PokemakeOptions
             if (arg.equalsIgnoreCase("none")) mob.setMove(i, null);
             else mob.setMove(i, arg);
         }
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         temp.set(mob.getEntity()).addTo(this.x, this.y, this.z).moveEntity(mob.getEntity());
 
         return mob;

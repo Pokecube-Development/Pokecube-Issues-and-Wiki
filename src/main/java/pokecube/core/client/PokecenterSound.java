@@ -18,7 +18,7 @@ public class PokecenterSound extends AbstractTickableSoundInstance
         this.looping = true;
         this.delay = 1;
         this.volume = 3F;
-        final Vector3 pos1 = Vector3.getNewVector();
+        final Vector3 pos1 = new Vector3();
         pos1.set(tileIn).addTo(0.5, 0.5, 0.5);
         this.x = (float) pos1.x;
         this.y = (float) pos1.y;

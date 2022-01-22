@@ -99,7 +99,6 @@ public class LogicMiscUpdate extends LogicBase
     private String particle = null;
     private boolean initHome = false;
     private boolean checkedEvol = false;
-    private int pathTimer = 0;
     private long dynatime = -1;
     private boolean de_dyna = false;
 
@@ -115,7 +114,7 @@ public class LogicMiscUpdate extends LogicBase
 
     BlockPos lastCache = null;
 
-    Vector3 v = Vector3.getNewVector();
+    Vector3 v = new Vector3();
 
     UUID prevOwner = null;
 
@@ -199,6 +198,10 @@ public class LogicMiscUpdate extends LogicBase
             this.combatTimer = 50;
         }
 
+        boolean noMotion = this.pokemob.getLogicState(LogicStates.SLEEPING);
+        boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
+        noMotion |= sitting;
+
         this.inCombat = angry;
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
@@ -212,15 +215,18 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
 
         // Ensure sitting things don't have a path.
-        if (this.pokemob.getLogicState(LogicStates.SITTING) && !this.entity.getNavigation().isDone())
-            this.entity.getNavigation().stop();
-
-        // Check pathing states.
-        if (this.pokemob.getLogicState(LogicStates.PATHING) && this.entity.getNavigation().isDone()
-                && this.pathTimer++ > 10)
+        if (sitting && !this.entity.getNavigation().isDone())
         {
-            this.pokemob.setLogicState(LogicStates.PATHING, false);
-            this.pathTimer = 0;
+            this.entity.getNavigation().stop();
+        }
+
+        if (noMotion)
+        {
+            Vec3 v = entity.getDeltaMovement();
+            entity.setZza(0);
+            entity.setXxa(0);
+            entity.setYya(0);
+            entity.setDeltaMovement(v.x * 0.5f, v.y, v.z * 0.5f);
         }
 
         // Check if we shouldn't just randomly go to sleep.
@@ -386,7 +392,7 @@ public class LogicMiscUpdate extends LogicBase
         this.checkAnimationStates();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
-        if (this.entity.getCommandSenderWorld() instanceof ServerLevel)
+        if (this.entity.getLevel() instanceof ServerLevel)
         {
             if (targ != null && targ.isAlive())
             {
@@ -406,9 +412,9 @@ public class LogicMiscUpdate extends LogicBase
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = ThutCore.newRandom();
-        final Vector3 particleLoc = Vector3.getNewVector().set(this.entity);
+        final Vector3 particleLoc = new Vector3().set(this.entity);
         boolean randomV = false;
-        final Vector3 particleVelo = Vector3.getNewVector();
+        final Vector3 particleVelo = new Vector3();
         boolean pokedex = false;
         int particleIntensity = 100;
         if (this.pokemob.isShadow()) this.particle = "portal";
@@ -466,7 +472,7 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && this.entity.tickCount % 10 == 0)
         {
-            final Vector3 heart = Vector3.getNewVector();
+            final Vector3 heart = new Vector3();
             for (int i = 0; i < 3; ++i)
             {
                 heart.set(
@@ -474,8 +480,7 @@ public class LogicMiscUpdate extends LogicBase
                                 - this.entity.getBbWidth(),
                         this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
                                 + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
-                this.entity.getCommandSenderWorld().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0,
-                        0);
+                this.entity.getLevel().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }
         }
         int[] args = {};
@@ -484,7 +489,7 @@ public class LogicMiscUpdate extends LogicBase
             if (!pokedex)
             {
                 final float scale = this.entity.getBbWidth() * 2;
-                final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
                         rand.nextDouble() - 0.5);
                 offset.scalarMultBy(scale);
                 particleLoc.addTo(offset);
@@ -495,8 +500,7 @@ public class LogicMiscUpdate extends LogicBase
                         rand.nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
-            PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc, particleVelo,
-                    args);
+            PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
         }
         for (int i = 0; i < this.flavourAmounts.length; i++)
         {
@@ -507,7 +511,7 @@ public class LogicMiscUpdate extends LogicBase
                 if (!pokedex)
                 {
                     final float scale = this.entity.getBbWidth() * 2;
-                    final Vector3 offset = Vector3.getNewVector().set(rand.nextDouble() - 0.5, rand.nextDouble(),
+                    final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
                             rand.nextDouble() - 0.5);
                     offset.scalarMultBy(scale);
                     particleLoc.addTo(offset);
@@ -521,8 +525,7 @@ public class LogicMiscUpdate extends LogicBase
                 args = new int[]
                 { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.getCommandSenderWorld(), this.particle, particleLoc,
-                        particleVelo, args);
+                PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
             }
         }
         this.particle = null;

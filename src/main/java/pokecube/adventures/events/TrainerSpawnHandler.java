@@ -2,7 +2,6 @@ package pokecube.adventures.events;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import org.nfunk.jep.JEP;
@@ -29,7 +28,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -52,10 +50,9 @@ import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
-import pokecube.core.database.spawns.SpawnBiomeMatcher;
-import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.npc.NpcSpawn;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
@@ -70,7 +67,7 @@ import thut.core.common.ThutCore;
 
 public class TrainerSpawnHandler
 {
-    private static Vector3 vec1 = Vector3.getNewVector();
+    private static Vector3 vec1 = new Vector3();
 
     static JEP parser = new JEP();
 
@@ -80,7 +77,7 @@ public class TrainerSpawnHandler
             final ServerLevel world = (ServerLevel) mob.level;
             // Then apply trainer specific stuff.
             int level = SpawnHandler
-                    .getSpawnLevel(new SpawnContext(world, Database.missingno, Vector3.getNewVector().set(mob)));
+                    .getSpawnLevel(new SpawnContext(world, Database.missingno, new Vector3().set(mob)));
             if (thing.has("level")) level = thing.get("level").getAsInt();
             String typeName = "";
             if (thing.has("aiStates"))
@@ -123,7 +120,7 @@ public class TrainerSpawnHandler
                     Collections.shuffle(types);
                     for (final TypeTrainer type : types)
                     {
-                        if (type.matchers.isEmpty()) continue;
+                        if (type.spawns.isEmpty()) continue;
                         typeName = type.getName();
                         break;
                     }
@@ -185,28 +182,12 @@ public class TrainerSpawnHandler
 
     public static TrainerNpc getTrainer(Vector3 v, final ServerLevel w)
     {
-        TypeTrainer ttype = null;
-        final Material m = v.getBlockMaterial(w);
-        if (m == Material.AIR && v.offset(Direction.DOWN).getBlockMaterial(w) == Material.AIR)
-            v = v.getTopBlockPos(w).offsetBy(Direction.UP);
-        final SpawnCheck checker = new SpawnCheck(v, w);
-        final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
-        Collections.shuffle(types);
-        types:
-        for (final TypeTrainer type : types)
-            for (final Entry<SpawnBiomeMatcher, Float> entry : type.matchers.entrySet())
-        {
-            final SpawnBiomeMatcher matcher = entry.getKey();
-            final Float value = entry.getValue();
-            if (w.random.nextFloat() < value && matcher.matches(checker))
-            {
-                ttype = type;
-                break types;
-            }
-        }
+        NpcType ttype = NpcType.getRandomForLocation(v, w);
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(new SpawnContext(w, Database.missingno, v));
-        final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
+        final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w);
+        trainer.setNpcType(ttype);
+        trainer.setLevel(level);
         trainer.aiStates.setAIState(AIState.MATES, true);
         trainer.aiStates.setAIState(AIState.TRADES_ITEMS, true);
         return trainer;
@@ -214,7 +195,7 @@ public class TrainerSpawnHandler
 
     public static void randomizeTrainerTeam(final Entity trainer, final IHasPokemobs mobs)
     {
-        final Vector3 loc = Vector3.getNewVector().set(trainer);
+        final Vector3 loc = new Vector3().set(trainer);
         // Set level based on what wild pokemobs have.
         int level = SpawnHandler.getSpawnLevel(
                 new SpawnContext((ServerLevel) trainer.level, Pokedex.getInstance().getFirstEntry(), loc));
@@ -245,10 +226,14 @@ public class TrainerSpawnHandler
             // needed later.
             t.resetTrades();
             // Init for trainers randomizes their teams
-            if (mobs.getType() != null) t.setType(mobs.getType()).setLevel(level);
+            if (mobs.getType() != null)
+            {
+                t.setNpcType(mobs.getType());
+                t.setLevel(level);
+            }
         }
         else if (mobs.getType() != null)
-            TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer.getCommandSenderWorld());
+            TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer.getLevel());
     }
 
     public static void tick(final ServerLevel w)

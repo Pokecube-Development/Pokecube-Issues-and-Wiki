@@ -1,40 +1,49 @@
 package pokecube.core.ai.tasks.idle;
 
+import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 
-import net.minecraft.world.entity.LivingEntity;
+import com.google.common.collect.Maps;
+
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import pokecube.core.PokecubeCore;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 /**
  * This IAIRunnable results in the mother of an egg always staying within 4
  * blocks of it. It also prevents the mother from breeding, as well as prevents
- * the mother's breeding cooldown from dropping while an egg is being
- * guarded.
+ * the mother's breeding cooldown from dropping while an egg is being guarded.
  */
 public class GuardEggTask extends BaseIdleTask
 {
-    public static int PATHCOOLDOWN   = 50;
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+
+    static
+    {
+        MEMS.put(MemoryModules.EGG, MemoryStatus.VALUE_PRESENT);
+    }
+
+    public static int PATHCOOLDOWN = 50;
     public static int SEARCHCOOLDOWN = 50;
 
     EntityPokemobEgg egg = null;
 
     int eggSearchCooldown = 0;
-    int eggPathCooldown   = 0;
+    int eggPathCooldown = 0;
 
     public GuardEggTask(final IPokemob mob)
     {
-        super(mob);
+        super(mob, MEMS);
     }
 
     @Override
     public void reset()
     {
         this.egg = null;
+        entity.getBrain().eraseMemory(MemoryModules.EGG);
     }
 
     @Override
@@ -54,34 +63,15 @@ public class GuardEggTask extends BaseIdleTask
     @Override
     public boolean shouldRun()
     {
-        egg:
-        if (this.egg != null)
+        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG);
+        if (!eggOpt.isPresent()) return false;
+        this.egg = eggOpt.get();
+        if (!this.egg.isAlive())
         {
-            if (!this.egg.isAlive())
-            {
-                this.egg = null;
-                break egg;
-            }
-            return true;
+            this.egg = null;
+            return false;
         }
-        if (!this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)) return false;
-
-        if (this.eggSearchCooldown-- > 0) return false;
-        // Only the female (or neutral) will guard the eggs.
-        if (this.pokemob.getSexe() == IPokemob.MALE) return false;
-        this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
-
-        final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && GuardEggTask.this.entity
-                .getUUID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive() && input.distanceTo(
-                        this.entity) <= PokecubeCore.getConfig().guardSearchDistance;
-
-        final Optional<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findClosest(isEgg);
-
-        if (pokemobs.isEmpty()) return false;
-        // Select first egg found to guard, remove target, set not angry
-
-        this.egg = (EntityPokemobEgg) pokemobs.get();
+        if (this.egg == null) return false;
         this.egg.mother = this.pokemob;
         BrainUtils.deagro(this.pokemob.getEntity());
 

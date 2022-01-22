@@ -56,7 +56,6 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Tasks;
 import pokecube.core.ai.routes.GuardAI;
@@ -65,8 +64,9 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.events.npc.NpcBreedEvent;
 import pokecube.core.events.npc.NpcEvent;
 import pokecube.core.events.npc.NpcTradesEvent;
-import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.utils.CapHolders;
+import thut.api.entity.ai.BrainUtil;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends Villager implements IEntityAdditionalSpawnData
@@ -103,7 +103,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.setPersistenceRequired();
-        this.location = Vector3.getNewVector();
+        this.location = new Vector3();
     }
 
     @Override
@@ -148,7 +148,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
                     .newArrayList(Pair.of(0, new GuardTask<>(this, guardai)));
 
             Set<Activity> acts = brain.activityRequirements.keySet();
-            for (Activity act : acts) BrainUtils.addToActivity(brain, act, args);
+            for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
             brain.addActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
@@ -167,11 +167,14 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         EntityType<?> other = level.getRandom().nextBoolean() ? this.getType() : mob.getType();
         NpcMob villager = (NpcMob) other.create(level);
 
-        NpcType newType = NpcType.byType("none");
-
-        if (level.getRandom().nextDouble() > 0.5)
+        NpcType newType = NpcType.getRandomForLocation(new Vector3().set(mob), level);
+        if (newType == null || level.getRandom().nextDouble() > 0.5)
         {
-            newType = level.getRandom().nextBoolean() ? this.getNpcType() : npc.getNpcType();
+            newType = NpcType.byType("none");
+            if (level.getRandom().nextDouble() > 0.5)
+            {
+                newType = level.getRandom().nextBoolean() ? this.getNpcType() : npc.getNpcType();
+            }
         }
 
         villager.setMale(mob.getRandom().nextBoolean());
@@ -277,11 +280,21 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
 
         if (this.getVillagerData().getProfession() != this.getNpcType().getProfession())
         {
-            // Initialise exp as 1, so we don't get reset by the reset
-            // profession task in the AI. This does get us a free 10% of the way
-            // to the next level, but at least it prevents the resetting.
-            this.setVillagerXp(1);
-            this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
+            if (this.getNpcType().getProfession() == VillagerProfession.NONE)
+            {
+                String prof = this.getVillagerData().getProfession().getName();
+                NpcType type = NpcType.byType(prof);
+                this.setNpcType(type);
+            }
+            else
+            {
+                // Initialise exp as 1, so we don't get reset by the reset
+                // profession task in the AI. This does get us a free 10% of the
+                // way to the next level, but at least it prevents the
+                // resetting.
+                this.setVillagerXp(1);
+                this.setVillagerData(this.getVillagerData().setProfession(this.getNpcType().getProfession()));
+            }
         }
 
         if (this.getVillagerData().getProfession() != VillagerProfession.NONE

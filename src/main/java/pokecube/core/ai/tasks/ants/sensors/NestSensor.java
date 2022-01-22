@@ -48,7 +48,7 @@ public class NestSensor extends Sensor<Mob>
         final Optional<GlobalPos> pos_opt = brain.getMemory(AntTasks.NEST_POS);
         if (pos_opt.isPresent())
         {
-            final Level world = mob.getCommandSenderWorld();
+            final Level world = mob.getLevel();
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
             if (notHere) return Optional.empty();
@@ -80,7 +80,7 @@ public class NestSensor extends Sensor<Mob>
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(AntTasks.NO_HIVE_TIMER);
-            brain.setMemory(AntTasks.NEST_POS, GlobalPos.of(entityIn.getCommandSenderWorld().dimension(), opt.get()));
+            brain.setMemory(AntTasks.NEST_POS, GlobalPos.of(entityIn.getLevel().dimension(), opt.get()));
         }
         else
         {

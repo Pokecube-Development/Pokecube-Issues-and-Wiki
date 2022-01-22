@@ -147,7 +147,7 @@ public class EnergyHandler
     public static int getOutput(final SiphonTile tile, int power, final boolean simulated)
     {
         if (tile.getLevel() == null || power == 0) return 0;
-        final Vector3 v = Vector3.getNewVector().set(tile);
+        final Vector3 v = new Vector3().set(tile);
         final AABB box = tile.box != null ? tile.box : (tile.box = v.getAABB().inflate(10, 10, 10));
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
@@ -192,7 +192,7 @@ public class EnergyHandler
         event.getTile().energy.currentOutput = output;
         final IEnergyStorage producer = event.getTile().getCapability(CapabilityEnergy.ENERGY).orElse(null);
         final Integer start = output;
-        final Vector3 v = Vector3.getNewVector().set(event.getTile());
+        final Vector3 v = new Vector3().set(event.getTile());
         for (final Direction side : Direction.values())
         {
             final BlockEntity te = v.getTileEntity(world, side);
@@ -247,7 +247,7 @@ public class EnergyHandler
     public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP) || event.getCapabilities().containsKey(
-                EnergyHandler.ENERGYCAP) || event.getObject().getCommandSenderWorld() == null) return;
+                EnergyHandler.ENERGYCAP) || event.getObject().getLevel() == null) return;
         final IPokemob pokemob = event.getCapabilities().get(EventsHandler.POKEMOBCAP).getCapability(
                 PokemobCaps.POKEMOB_CAP).orElse(null);
         if (pokemob != null) event.addCapability(EnergyHandler.ENERGYCAP, new ProviderPokemob(pokemob));
@@ -316,9 +316,9 @@ public class EnergyHandler
 
             final Mob living = this.pokemob.getEntity();
             // We will update our energy when this is called, as that
-            if (living.getCommandSenderWorld().getGameTime() != this.lastTickCheck)
+            if (living.getLevel().getGameTime() != this.lastTickCheck)
             {
-                this.lastTickCheck = living.getCommandSenderWorld().getGameTime();
+                this.lastTickCheck = living.getLevel().getGameTime();
                 final int spAtk = this.pokemob.getStat(Stats.SPATTACK, true);
                 final int atk = this.pokemob.getStat(Stats.ATTACK, true);
                 final int level = this.pokemob.getLevel();

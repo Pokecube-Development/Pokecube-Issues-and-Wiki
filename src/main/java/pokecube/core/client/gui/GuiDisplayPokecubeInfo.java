@@ -472,7 +472,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
         final Player player = this.minecraft.player;
 
-        if (player == null || player.getCommandSenderWorld() == null) return GuiDisplayPokecubeInfo.EMPTY;
+        if (player == null || player.getLevel() == null) return GuiDisplayPokecubeInfo.EMPTY;
 
         final List<IPokemob> pokemobs = EventsHandlerClient.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();
@@ -595,7 +595,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
         if (Screen.hasShiftDown() && pokemob != null && pokemob.getOwner() != null)
         {
-            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(Vector3.getNewVector().set(pokemob
+            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(new Vector3().set(pokemob
                     .getOwner()), 1.0f));
             return;
         }

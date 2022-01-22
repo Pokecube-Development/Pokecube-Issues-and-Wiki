@@ -47,7 +47,7 @@ public class CaptureManager
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
-        if (!(cube.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(cube.getLevel() instanceof ServerLevel)) return;
         if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity)) return;
         if (e.isInvulnerable()) return;
@@ -62,7 +62,7 @@ public class CaptureManager
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
-        final Vector3 v = Vector3.getNewVector();
+        final Vector3 v = new Vector3();
         cube.autoRelease = -1;
         if (modifier <= 0)
         {
@@ -158,8 +158,9 @@ public class CaptureManager
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
-            // Ensure AI is initialized
-            pokemob.initAI();
+            
+            // FIXME See if AI need init?
+            
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
             pokemob.setOwner((UUID) null);
@@ -177,7 +178,7 @@ public class CaptureManager
     {
         cube.setNoCollisionRelease();
         PokecubeManager.setTilt(cube.getItem(), -2);
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getCommandSenderWorld());
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)

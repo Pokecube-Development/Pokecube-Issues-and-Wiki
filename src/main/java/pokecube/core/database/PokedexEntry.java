@@ -57,9 +57,9 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Action;
 import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Evolution;
+import pokecube.core.database.pokedex.PokedexEntryLoader.FormeItem;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Interact;
 import pokecube.core.database.pokedex.PokedexEntryLoader.MegaEvoRule;
-import pokecube.core.database.pokedex.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.pokedex.PokedexEntryLoader.XMLMegaRule;
 import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.database.spawns.SpawnCheck;
@@ -83,7 +83,7 @@ import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -235,7 +235,7 @@ public class PokedexEntry
             if (this.matcher != null && mob.getEntity().level instanceof ServerLevel world)
             {
                 final LivingEntity entity = mob.getEntity();
-                final Vector3 loc = Vector3.getNewVector().set(entity);
+                final Vector3 loc = new Vector3().set(entity);
                 if (!world.isPositionEntityTicking(loc.getPos()))
                 {
                     PokecubeCore.LOGGER.error("Error checking for evolution, this area is not loaded!");
@@ -243,7 +243,7 @@ public class PokedexEntry
                             new IllegalStateException());
                     return false;
                 }
-                final SpawnCheck check = new SpawnCheck(loc, entity.getCommandSenderWorld());
+                final SpawnCheck check = new SpawnCheck(loc, entity.getLevel());
                 return this.matcher.matches(check);
             }
             return true;
@@ -253,7 +253,7 @@ public class PokedexEntry
         {
             this.preset = null;
             if (data.level != null) this.level = data.level;
-            if (data.location != null) this.matcher = new SpawnBiomeMatcher(data.location);
+            if (data.location != null) this.matcher = SpawnBiomeMatcher.get(data.location);
             if (data.animation != null) this.FX = data.animation;
             if (data.item != null) this.item = Tools.getStack(data.item.getValues());
             if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
@@ -307,7 +307,7 @@ public class PokedexEntry
             }
             if (this.rainOnly)
             {
-                final Level world = mob.getEntity().getCommandSenderWorld();
+                final Level world = mob.getEntity().getLevel();
                 final boolean rain = world.isRaining();
                 if (!rain)
                 {
@@ -349,7 +349,7 @@ public class PokedexEntry
             if (!rightTime)
             {
                 // TODO better way to choose current time.
-                final double time = mob.getEntity().getCommandSenderWorld().getDayTime() % 24000 / 24000d;
+                final double time = mob.getEntity().getLevel().getDayTime() % 24000 / 24000d;
                 rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
                         : this.nightOnly ? PokedexEntry.night.contains(time)
                                 : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);
@@ -530,11 +530,11 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables()
+                final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()
                         .get(action.lootTable);
                 final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                        (ServerLevel) pokemob.getEntity().getCommandSenderWorld())
-                                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity());
+                        (ServerLevel) pokemob.getEntity().getLevel()).withParameter(LootContextParams.THIS_ENTITY,
+                                pokemob.getEntity());
                 for (final ItemStack itemstack : loottable
                         .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
                     if (!itemstack.isEmpty())
@@ -1105,7 +1105,7 @@ public class PokedexEntry
 
     // This is the actual size of the model, if not null, will be used for
     // scaling of rendering in guis, order is length, height, width
-    public Vector3f modelSize = null;
+    public Vec3f modelSize = null;
 
     /** Cached trimmed name. */
     private String trimmedName;
@@ -1123,7 +1123,7 @@ public class PokedexEntry
     // Here we have things that need to wait until loaded for initialization, so
     // we cache them.
     public List<Interact> _loaded_interactions = Lists.newArrayList();
-    public Stats _forme_items = null;
+    public List<FormeItem> _forme_items = Lists.newArrayList();
     public List<XMLMegaRule> _loaded_megarules = Lists.newArrayList();
 
     /** Times not included here the pokemob will go to sleep when idle. */
@@ -1147,6 +1147,102 @@ public class PokedexEntry
         if (Database.getEntry(name) == null) Database.allFormes.add(this);
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
                 .printStackTrace();
+    }
+    
+    public void postTagsReloaded()
+    {
+        this.formeItems.clear();
+        this.megaRules.clear();
+        if (this._forme_items != null)
+        {
+            for (FormeItem i : _forme_items)
+            {
+                PokedexEntry output = i.getOutput();
+                if (output == null)
+                {
+                    PokecubeCore.LOGGER.error("Error loading output forme for " + this);
+                    continue;
+                }
+                try
+                {
+                    ResourceLocation key = i.getKey();
+                    ItemStack stack = PokecubeItems.getStack(key);
+                    if (stack.isEmpty())
+                    {
+                        PokecubeCore.LOGGER.error("Error with key " + key + " for " + this);
+                        continue;
+                    }
+                    PokecubeItems.ADDED_HELD.add(stack.getItem().getRegistryName());
+                    this.formeItems.put(stack, output);
+                    if (output.noItemForm != null) PokecubeCore.LOGGER.warn("Changing Base forme of {} from {} to {}",
+                            output, output.noItemForm, this);
+                    PokecubeCore.LOGGER.debug("Adding Forme with Key " + key + " To " + output + " for " + this);
+                    output.noItemForm = this;
+                }
+                catch (Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error loading forme " + output + " for " + this);
+                    PokecubeCore.LOGGER.error(e);
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (final XMLMegaRule rule : this._loaded_megarules)
+        {
+            String forme = rule.name != null ? rule.name : null;
+            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
+            {
+                forme = this.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
+                if (rule.item_preset == null)
+                    rule.item_preset = this.getTrimmedName() + "" + ThutCore.trim(rule.preset);
+            }
+            final String move = rule.move;
+            final String ability = rule.ability;
+            final String item_preset = rule.item_preset;
+
+            if (forme == null)
+            {
+                PokecubeCore.LOGGER.info("Error with mega evolution for " + this + " rule: preset=" + rule.preset
+                        + " name=" + rule.name);
+                continue;
+            }
+
+            final PokedexEntry formeEntry = Database.getEntry(forme);
+            if (!forme.isEmpty() && formeEntry != null)
+            {
+                ItemStack stack = ItemStack.EMPTY;
+                if (item_preset != null && !item_preset.isEmpty())
+                {
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
+                    stack = PokecubeItems.getStack(item_preset, false);
+                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
+                }
+                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
+                if (rule.item != null)
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item.getValues());
+                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
+                {
+                    PokecubeCore.LOGGER.info("Skipping Mega: " + this + " -> " + formeEntry
+                            + " as it has no conditions, or conditions cannot be met.");
+                    PokecubeCore.LOGGER
+                            .info(" rule: preset=" + rule.preset + " name=" + rule.name + " item=" + rule.item_preset);
+                    continue;
+                }
+                final MegaEvoRule mrule = new MegaEvoRule(this);
+                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
+                if (ability != null) mrule.ability = ability;
+                if (move != null) mrule.moveName = move;
+                if (!stack.isEmpty())
+                {
+                    mrule.stack = stack;
+                    PokecubeItems.ADDED_HELD.add(stack.getItem().getRegistryName());
+                }
+                formeEntry.setMega(true);
+                formeEntry.setBaseForme(this);
+                this.megaRules.put(formeEntry, mrule);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
+            }
+        }
     }
 
     /**
@@ -1223,96 +1319,6 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
         if (this.isMega() || this.isGMax()) this.breeds = false;
-
-        if (this._forme_items != null)
-        {
-            final Map<String, String> values = this._forme_items.values;
-            for (final String key : values.keySet())
-            {
-                final String value = values.get(key);
-                if (key.equals("forme"))
-                {
-                    final String[] args = value.split(",");
-                    for (final String s : args)
-                    {
-                        String forme = "";
-                        String item = "";
-                        final String[] args2 = s.split(":");
-                        for (final String s1 : args2)
-                        {
-                            final String arg1 = s1.trim().substring(0, 1);
-                            final String arg2 = s1.trim().substring(1);
-                            if (arg1.equals("N")) forme = arg2;
-                            else if (arg1.equals("I")) item = arg2.replace("`", ":");
-                        }
-
-                        final PokedexEntry formeEntry = Database.getEntry(forme);
-                        if (!forme.isEmpty() && formeEntry != null)
-                        {
-                            final ItemStack stack = PokecubeItems.getStack(item, false);
-                            // TODO see if needs to add to holdables
-                            this.formeItems.put(stack, formeEntry);
-                            if (formeEntry.noItemForm != null)
-                                PokecubeCore.LOGGER.warn("Changing Base forme of {} from {} to {}", formeEntry,
-                                        formeEntry.noItemForm, this);
-                            formeEntry.noItemForm = this;
-                        }
-                    }
-                }
-            }
-        }
-        for (final XMLMegaRule rule : this._loaded_megarules)
-        {
-            String forme = rule.name != null ? rule.name : null;
-            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
-            {
-                forme = this.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                if (rule.item_preset == null)
-                    rule.item_preset = this.getTrimmedName() + "" + ThutCore.trim(rule.preset);
-            }
-            final String move = rule.move;
-            final String ability = rule.ability;
-            final String item_preset = rule.item_preset;
-
-            if (forme == null)
-            {
-                PokecubeCore.LOGGER.info("Error with mega evolution for " + this + " rule: preset=" + rule.preset
-                        + " name=" + rule.name);
-                continue;
-            }
-
-            final PokedexEntry formeEntry = Database.getEntry(forme);
-            if (!forme.isEmpty() && formeEntry != null)
-            {
-                ItemStack stack = ItemStack.EMPTY;
-                if (item_preset != null && !item_preset.isEmpty())
-                {
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
-                    stack = PokecubeItems.getStack(item_preset, false);
-                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
-                }
-                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null)
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item.getValues());
-                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
-                {
-                    PokecubeCore.LOGGER.info("Skipping Mega: " + this + " -> " + formeEntry
-                            + " as it has no conditions, or conditions cannot be met.");
-                    PokecubeCore.LOGGER
-                            .info(" rule: preset=" + rule.preset + " name=" + rule.name + " item=" + rule.item_preset);
-                    continue;
-                }
-                final MegaEvoRule mrule = new MegaEvoRule(this);
-                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
-                if (ability != null) mrule.ability = ability;
-                if (move != null) mrule.moveName = move;
-                if (!stack.isEmpty()) mrule.stack = stack;
-                formeEntry.setMega(true);
-                formeEntry.setBaseForme(this);
-                this.megaRules.put(formeEntry, mrule);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
-            }
-        }
         this.copyToGenderFormes();
     }
 
@@ -1581,7 +1587,7 @@ public class PokedexEntry
         return this.entity_type;
     }
 
-    public PokedexEntry getEvo(final IPokemob pokemob)
+    public PokedexEntry getMegaEvo(final IPokemob pokemob)
     {
         for (final Entry<PokedexEntry, MegaRule> e : this.megaRules.entrySet())
         {
@@ -1652,9 +1658,9 @@ public class PokedexEntry
 
     }
 
-    public Vector3f getModelSize()
+    public Vec3f getModelSize()
     {
-        if (this.modelSize == null) this.modelSize = new Vector3f(this.length, this.height, this.width);
+        if (this.modelSize == null) this.modelSize = new Vec3f(this.length, this.height, this.width);
         return this.modelSize;
     }
 
@@ -1720,14 +1726,14 @@ public class PokedexEntry
 
     public ItemStack getRandomHeldItem(final Mob mob)
     {
-        if (mob.getCommandSenderWorld().isClientSide) return ItemStack.EMPTY;
+        if (mob.getLevel().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null)
         {
-            final LootTable loottable = mob.getCommandSenderWorld().getServer().getLootTables().get(this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                    (ServerLevel) mob.getCommandSenderWorld()).withParameter(LootContextParams.THIS_ENTITY, mob)
-                            .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC)
-                            .withParameter(LootContextParams.ORIGIN, mob.position());
+            final LootTable loottable = mob.getLevel().getServer().getLootTables().get(this.heldTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.getLevel())
+                    .withParameter(LootContextParams.THIS_ENTITY, mob)
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC)
+                    .withParameter(LootContextParams.ORIGIN, mob.position());
             for (final ItemStack itemstack : loottable.getRandomItems(
                     lootcontext$builder.create(loottable.getParamSet())))
                 if (!itemstack.isEmpty()) return itemstack;

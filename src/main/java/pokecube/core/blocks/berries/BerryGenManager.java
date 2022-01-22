@@ -58,7 +58,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
@@ -193,8 +192,7 @@ public class BerryGenManager
         public static BiFunction<PieceGenerator.Context<JigsawConfig>, List<StructurePiece>, Boolean> validTreePlacement(
                 BoundingBox bounds, Random rand)
         {
-            return (context, parts_in) ->
-            {
+            return (context, parts_in) -> {
                 final List<CustomJigsawPiece> parts = Lists.newArrayList();
                 boolean valid = true;
                 outer:
@@ -238,8 +236,7 @@ public class BerryGenManager
 
         private Predicate<StructurePoolElement> isValid(final String type)
         {
-            return (j) ->
-            {
+            return (j) -> {
                 if (!(j instanceof CustomJigsawPiece)) return true;
                 final CustomJigsawPiece p = (CustomJigsawPiece) j;
                 if (p.opts.flag.isEmpty()) return true;
@@ -251,11 +248,12 @@ public class BerryGenManager
 
         public JigsawGrower(final Codec<JigsawConfig> codec, final BerryJigsaw jigsaw)
         {
-            super(codec, (context) ->
-            {
+            super(codec, (context) -> {
                 JigsawConfig config = context.config();
 
                 boolean validContext = true;
+
+                System.out.println("Test");
 
                 if (!validContext)
                 {
@@ -265,8 +263,7 @@ public class BerryGenManager
                 {
                     Pools.bootstrap();
                     final JigsawAssmbler assembler = new JigsawAssmbler(config.struct_config);
-                    return assembler.build(context, (a, b) ->
-                    {});
+                    return assembler.build(context, (a, b) -> {});
                 }
             });
             this.jigsaw = jigsaw;
@@ -313,8 +310,8 @@ public class BerryGenManager
             WorldgenRandom rand = new WorldgenRandom(new LegacyRandomSource(0L));
             rand.setLargeFeatureSeed(seed, pos.x, pos.z);
 
-            Optional<PieceGenerator<JigsawConfig>> made = assembler.build(context, (a, b) ->
-            {}, cropPos, cropPos.getY(), this.isValid(BerryManager.berryNames.get(berryId)));
+            Optional<PieceGenerator<JigsawConfig>> made = assembler.build(context, (a, b) -> {}, cropPos,
+                    cropPos.getY(), this.isValid(BerryManager.berryNames.get(berryId)));
 
             if (made.isPresent())
             {
@@ -568,8 +565,7 @@ public class BerryGenManager
 
     private static final String prior = "priority";
 
-    private static final Comparator<SpawnBiomeMatcher> COMPARE = (o1, o2) ->
-    {
+    private static final Comparator<SpawnBiomeMatcher> COMPARE = (o1, o2) -> {
         Integer p1 = 50;
         Integer p2 = 50;
         if (o1.spawnRule.values.containsKey(BerryGenManager.prior))
@@ -582,7 +578,7 @@ public class BerryGenManager
     public static ItemStack getRandomBerryForBiome(final Level world, final BlockPos location)
     {
         SpawnBiomeMatcher toMatch = null;
-        final SpawnCheck checker = new SpawnCheck(Vector3.getNewVector().set(location), world);
+        final SpawnCheck checker = new SpawnCheck(new Vector3().set(location), world);
         /**
          * Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for
@@ -634,7 +630,7 @@ public class BerryGenManager
         if (BerryGenManager.list != null)
             for (final BerrySpawn rule : BerryGenManager.list.locations) for (final SpawnRule spawn : rule.spawn)
         {
-            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(spawn);
+            final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(spawn);
             final List<ItemStack> berries = Lists.newArrayList();
             for (final String s : rule.berry.split(","))
             {

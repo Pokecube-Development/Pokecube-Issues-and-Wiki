@@ -22,7 +22,7 @@ public class Damp extends Ability
         if (!this.mob.getEntity().isAlive()) this.destroy();
         else
         {
-            final Vector3 boomLoc = Vector3.getNewVector().set(boom.getExplosion().getPosition());
+            final Vector3 boomLoc = new Vector3().set(boom.getExplosion().getPosition());
             if (boomLoc.distToEntity(this.mob.getEntity()) < this.range) boom.setCanceled(true);
         }
     }

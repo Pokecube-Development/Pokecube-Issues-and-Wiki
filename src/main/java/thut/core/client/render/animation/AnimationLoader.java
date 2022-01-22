@@ -51,7 +51,7 @@ public class AnimationLoader
     public static Vector3 getVector3(final String shift, final Vector3 default_)
     {
         if (shift == null || shift.isEmpty()) return default_;
-        final Vector3 vect = Vector3.getNewVector().set(default_);
+        final Vector3 vect = new Vector3().set(default_);
         String[] r;
         r = shift.split(",");
         if (r.length == 1) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0]
@@ -99,9 +99,9 @@ public class AnimationLoader
             final float[] headCaps1 = { -30, 70 };
 
             // Global model transforms
-            Vector3 offset = Vector3.getNewVector();
+            Vector3 offset = new Vector3();
             Vector5 rotation = new Vector5();
-            Vector3 scale = Vector3.getNewVector();
+            Vector3 scale = new Vector3();
 
             // Objects for modifying textures/animations
             IPartTexturer texturer = renderer.getTexturer();

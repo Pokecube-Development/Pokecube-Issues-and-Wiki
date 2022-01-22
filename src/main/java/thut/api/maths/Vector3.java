@@ -1,8 +1,6 @@
 package thut.api.maths;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +10,7 @@ import com.mojang.authlib.GameProfile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
@@ -22,10 +21,8 @@ import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
@@ -59,85 +56,21 @@ import thut.core.common.ThutCore;
 /** @author Thutmose */
 public class Vector3
 {
-    public static final class MutableBlockPos extends BlockPos
-    {
-        /** Mutable X Coordinate */
-        public int x;
-        /** Mutable Y Coordinate */
-        public int y;
-        /** Mutable Z Coordinate */
-        public int z;
+    public static final Vector3 secondAxis = new Vector3().set(0, 1, 0);
+    public static final Vector3 secondAxisNeg = new Vector3().set(0, -1, 0);
+    public static final Vector3 firstAxis = new Vector3().set(1, 0, 0);
+    public static final Vector3 firstAxisNeg = new Vector3().set(-1, 0, 0);
+    public static final Vector3 thirdAxis = new Vector3().set(0, 0, 1);
+    public static final Vector3 thirdAxisNeg = new Vector3().set(0, 0, -1);
 
-        public MutableBlockPos(final int x_, final int y_, final int z_)
-        {
-            super(0, 0, 0);
-            this.x = x_;
-            this.y = y_;
-            this.z = z_;
-        }
-
-        MutableBlockPos(final int p_i46025_1_, final int p_i46025_2_, final int p_i46025_3_, final Object p_i46025_4_)
-        {
-            this(p_i46025_1_, p_i46025_2_, p_i46025_3_);
-        }
-
-        /** Get the X coordinate */
-        @Override
-        public int getX()
-        {
-            return this.x;
-        }
-
-        /** Get the Y coordinate */
-        @Override
-        public int getY()
-        {
-            return this.y;
-        }
-
-        /** Get the Z coordinate */
-        @Override
-        public int getZ()
-        {
-            return this.z;
-        }
-
-        void setTo(final Vector3 vector)
-        {
-            this.x = vector.intX();
-            this.y = vector.intY();
-            this.z = vector.intZ();
-        }
-
-        public void set(final int x0, final int y0, final int z0)
-        {
-            this.x = x0;
-            this.y = y0;
-            this.z = z0;
-        }
-
-        @Override
-        public BlockPos immutable()
-        {
-            return new BlockPos(this);
-        }
-    }
-
-    public static final Vector3 secondAxis = Vector3.getNewVector().set(0, 1, 0);
-    public static final Vector3 secondAxisNeg = Vector3.getNewVector().set(0, -1, 0);
-    public static final Vector3 firstAxis = Vector3.getNewVector().set(1, 0, 0);
-    public static final Vector3 firstAxisNeg = Vector3.getNewVector().set(-1, 0, 0);
-    public static final Vector3 thirdAxis = Vector3.getNewVector().set(0, 0, 1);
-    public static final Vector3 thirdAxisNeg = Vector3.getNewVector().set(0, 0, -1);
-
-    public static final Vector3 empty = Vector3.getNewVector();
+    public static final Vector3 empty = new Vector3();
     public static final int length = 3;
-    public static Vector3 vecMult = Vector3.getNewVector();
+    public static Vector3 vecMult = new Vector3();
     public static double[][] rotBox = new double[3][3];
 
-    static Vector3 move1 = Vector3.getNewVector();
+    static Vector3 move1 = new Vector3();
 
-    static Vector3 move2 = Vector3.getNewVector();
+    static Vector3 move2 = new Vector3();
 
     private static FakePlayer USEDFORRAYTRACECONTEXT = null;
 
@@ -146,13 +79,13 @@ public class Vector3
 
     public static Vector3 entity(final Entity e)
     {
-        if (e != null) return Vector3.getNewVector().set(e.getX(), e.getY() + e.getEyeHeight(), e.getZ());
+        if (e != null) return new Vector3().set(e.getX(), e.getY() + e.getEyeHeight(), e.getZ());
         return null;
     }
 
     public static Vector3 findMidPoint(final List<Vector3> points)
     {
-        final Vector3 mid = Vector3.getNewVector();
+        final Vector3 mid = new Vector3();
         for (final Vector3 point : points) mid.addTo(point);
         if (points.size() > 0) mid.scalarMultBy(1 / (double) points.size());
         return mid;
@@ -175,7 +108,7 @@ public class Vector3
         direction = direction.normalize();
         double xprev = source.x, yprev = source.y, zprev = source.z;
         double dx, dy, dz;
-        final Vector3 test = Vector3.getNewVector();
+        final Vector3 test = new Vector3();
         for (double i = 0; i < range; i += 1)
         {
             dx = i * direction.x;
@@ -193,7 +126,7 @@ public class Vector3
                 final boolean clear = test.isClearOfBlocks(world);
 
                 if (!clear)
-                    return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
+                    return new Vector3().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
             }
 
             yprev = ytest;
@@ -201,11 +134,6 @@ public class Vector3
             zprev = ztest;
         }
         return null;
-    }
-
-    public static Vector3 getNewVector()
-    {
-        return new Vector3();
     }
 
     /**
@@ -235,7 +163,7 @@ public class Vector3
             boolean check = Vector3.isPointClearBlocks_internal(xtest, ytest - dy, ztest - dz, world, pos);
             check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest, ztest - dz, world, pos);
             check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest - dy, ztest, world, pos);
-            if (!check) return Vector3.getNewVector().set(xtest, ytest, ztest);
+            if (!check) return new Vector3().set(xtest, ytest, ztest);
         }
         return null;
     }
@@ -323,7 +251,7 @@ public class Vector3
 
     public static Vector3 readFromBuff(final ByteBuf dat)
     {
-        final Vector3 ret = Vector3.getNewVector();
+        final Vector3 ret = new Vector3();
         ret.x = dat.readDouble();
         ret.y = dat.readDouble();
         ret.z = dat.readDouble();
@@ -334,32 +262,18 @@ public class Vector3
     {
         if (!nbt.contains(tag + "x")) return null;
 
-        final Vector3 ret = Vector3.getNewVector();
+        final Vector3 ret = new Vector3();
         ret.x = nbt.getDouble(tag + "x");
         ret.y = nbt.getDouble(tag + "y");
         ret.z = nbt.getDouble(tag + "z");
         return ret;
     }
-
-    public static void rotateAboutAngles(final Vector3[] points, final double pitch, final double yaw,
-            final Vector3 temp, final Vector3 temp1)
-    {
-        for (int i = 0; i < points.length; i++) points[i] = points[i].rotateAboutAngles(pitch, yaw, temp, temp1);
-    }
-
-    /**
-     * Returns the dot (scalar) product of the two vectors
-     *
-     * @param vector1
-     * @param vector2
-     * @return
+    
+    @Deprecated
+    /*
+     * Do not use, use new Vector3() instead!
      */
-    public static double vectorDot(final Vector3 vector1, final Vector3 vector2)
-    {
-        double dot = 0;
-        for (int i = 0; i < Vector3.length; i++) dot += vector1.get(i) * vector2.get(i);
-        return dot;
-    }
+    public static Vector3 getNewVector() {return new Vector3();}
 
     public double x;
 
@@ -369,7 +283,7 @@ public class Vector3
 
     MutableBlockPos pos;
 
-    private Vector3()
+    public Vector3()
     {
         this.x = this.y = this.z = 0;
     }
@@ -381,21 +295,21 @@ public class Vector3
      * @param pitch
      * @param yaw
      */
-    private Vector3(final double pitch, final double yaw)
+    public Vector3(final double pitch, final double yaw)
     {
         this.x = 1;
         this.y = Math.toRadians(pitch);
         this.z = Math.toRadians(yaw);
     }
 
-    private Vector3(final double x, final double y, final double z)
+    public Vector3(final double x, final double y, final double z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    private Vector3(final Entity e, final boolean bool)
+    public Vector3(final Entity e, final boolean bool)
     {
         if (e != null && bool)
         {
@@ -412,21 +326,21 @@ public class Vector3
     }
 
     //
-    private Vector3(final Object a)
+    public Vector3(final Object a)
     {
         this();
         this.set(a);
     }
 
-    private Vector3(final Object a, final Object b)
+    public Vector3(final Object a, final Object b)
     {
         this();
-        final Vector3 A = Vector3.getNewVector().set(a);
-        final Vector3 B = Vector3.getNewVector().set(b);
+        final Vector3 A = new Vector3().set(a);
+        final Vector3 B = new Vector3().set(b);
         this.set(B.subtract(A));
     }
 
-    private Vector3(final Vec3 vec)
+    public Vector3(final Vec3 vec)
     {
         this.x = vec.x;
         this.y = vec.y;
@@ -435,7 +349,7 @@ public class Vector3
 
     public Vector3 add(final double i, final double j, final double k)
     {
-        return Vector3.getNewVector().set(this.x + i, j + this.y, k + this.z);
+        return new Vector3().set(this.x + i, j + this.y, k + this.z);
     }
 
     public void add(final int i, final double j)
@@ -454,7 +368,7 @@ public class Vector3
      */
     public Vector3 add(final Vector3 vectorB)
     {
-        final Vector3 vectorC = Vector3.getNewVector();
+        final Vector3 vectorC = new Vector3();
         for (int i = 0; i < 3; i++) vectorC.set(i, this.get(i) + vectorB.get(i));
         return vectorC;
     }
@@ -557,47 +471,6 @@ public class Vector3
         return ret;
     }
 
-    public int blockCount(final BlockGetter world, final Block block, final int range)
-    {
-        int ret = 0;
-        final Vector3 v = this.copy();
-        for (int i = -range; i <= range; i++)
-            for (int j = -range; j <= range; j++) for (int k = -range; k <= range; k++)
-        {
-            final Vector3 test = v.set(this).addTo(i, j, k);
-            if (test.getBlock(world) == block) ret++;
-        }
-
-        return ret;
-    }
-
-    public int blockCount2(final LevelAccessor world, final Block block, final int range)
-    {
-        int ret = 0;
-        final Vector3 v = this.copy();
-        final ChunkAccess chunk = world.getChunk(new BlockPos(this.intX(), 0, this.intZ()));
-        Block testBlock;
-        for (int i = -range / 2; i <= range / 2; i++)
-            for (int j = -range / 2; j <= range / 2; j++) for (int k = -range / 2; k <= range / 2; k++)
-        {
-            final int i1 = Mth.floor(this.intX() / 16.0D);
-            final int k1 = Mth.floor(this.intZ() / 16.0D);
-            final int j1 = Mth.floor(this.intY() / 16.0D);
-
-            final int i2 = Mth.floor((this.intX() + i) / 16.0D);
-            final int k2 = Mth.floor((this.intZ() + k) / 16.0D);
-            final int j2 = Mth.floor((this.intY() + j) / 16.0D);
-
-            if (!(i1 == i2 && k1 == k2 && j1 == j2)) continue;
-            v.set(this);
-            final Vector3 test = v.addTo(i, j, k);
-            testBlock = chunk.getBlockState(test.getPos()).getBlock();
-            if (testBlock == block) ret++;
-        }
-
-        return ret;
-    }
-
     public void breakBlock(final Level world, final boolean drops)
     {
         world.destroyBlock(this.getPos(), drops);
@@ -616,7 +489,7 @@ public class Vector3
 
     public Vector3 copy()
     {
-        final Vector3 newVector = Vector3.getNewVector().set(this.x, this.y, this.z);
+        final Vector3 newVector = new Vector3().set(this.x, this.y, this.z);
         return newVector;
     }
 
@@ -661,124 +534,6 @@ public class Vector3
         final Vector3 v = (Vector3) vec;
 
         return v.x == this.x && v.y == this.y && v.z == this.z;// sameBlock(v);
-    }
-
-    @SuppressWarnings("unchecked")
-    public Vector3 findClosestVisibleObject(final BlockGetter world, final boolean water, final int sightDistance,
-            final Object matching)
-    {
-        final int size = Math.min(sightDistance, 30);
-        List<Object> list = new ArrayList<>();
-        Block seekingBlock = null;
-        Class<?> seekingClass = null;
-        final boolean predicate = matching instanceof Predicate<?>;
-        Predicate<Object> matcher = null;
-        if (predicate) matcher = (Predicate<Object>) matching;
-        boolean isInterface = false;
-        boolean blockList = false;
-        boolean predicateList = false;
-        final Vector3 temp = Vector3.getNewVector();
-        if (matching instanceof Block) seekingBlock = (Block) matching;
-        if (matching instanceof Class)
-        {
-            seekingClass = (Class<?>) matching;
-            if (seekingClass.isInterface()) isInterface = true;
-        }
-        if (matching instanceof Collection<?> && !((Collection<?>) matching).isEmpty())
-        {
-            if (matching instanceof Collection<?> && ((Collection<?>) matching).toArray()[0] instanceof Block)
-            {
-                blockList = true;
-                list.addAll((Collection<?>) matching);
-            }
-            if (matching instanceof Collection<?> && ((Collection<?>) matching).toArray()[0] instanceof Predicate<?>)
-            {
-                predicateList = true;
-                list.addAll((Collection<?>) matching);
-            }
-        }
-        double rMag;
-        final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();
-        Vector3 rTest = Vector3.getNewVector();
-        final Vector3 rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector(),
-                ret = Vector3.getNewVector();
-
-        final HashMap<Class<?>, List<Object>> interfaces = new HashMap<>();
-
-        loop:
-        for (int i = 0; i < size * size * size; i++)
-        {
-
-            Cruncher.indexToVals(i, r);
-            rAbs.set(r).addTo(this);
-            rHat.set(temp.set(r).norm());
-            double rm;
-            if ((rm = r.mag()) > size || rm > sightDistance) continue;
-
-            if (rAbs.isAir(world) && !r.isEmpty()) continue;
-
-            rTest.clear();
-            rTestPrev.clear();
-            rMag = r.mag();
-            final float dj = 1;
-            for (float j = 0F; j <= rMag; j += dj)
-            {
-                rTest = temp.set(rHat).scalarMultBy(j);
-                if (!rTest.sameBlock(rTestPrev))
-                {
-                    rTestAbs.set(rTest).addTo(this);
-                    final BlockState state = rTestAbs.getBlockState(world);
-                    if (state == null) continue loop;
-                    final Block b = state.getBlock();
-                    if (predicateList) for (final Object o : list) if (((Predicate<BlockState>) o).test(state))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    if (isInterface)
-                    {
-                        List<Object> tempList;
-                        if ((tempList = interfaces.get(b.getClass())) != null)
-                        {}
-                        else
-                        {
-                            tempList = new ArrayList<>();
-                            interfaces.put(b.getClass(), tempList);
-                            for (final Object o : b.getClass().getInterfaces()) tempList.add(o);
-                        }
-                        list = tempList;
-                    }
-                    if (matcher != null && matcher.test(state))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (seekingBlock != null && b == seekingBlock)
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (!isInterface && seekingClass != null && b.getClass().isAssignableFrom(seekingClass))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (seekingClass != null && list.contains(seekingClass))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (blockList && list.contains(b))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (!rTestAbs.isClearOfBlocks(world)) continue loop;
-                    else if (!water && state.getMaterial() == Material.WATER) continue loop;
-                }
-            }
-        }
-        return null;
     }
 
     public Vector3 findNextSolidBlock(final BlockGetter world, final Vector3 direction, final double range)
@@ -837,40 +592,6 @@ public class Vector3
         return new Vec3(this.x, this.y, this.z);
     }
 
-    public List<Entity> firstEntityLocationExcluding(final int range, final double size, Vector3 direction,
-            final Vector3 source, final Level world, final Entity excluded)
-    {
-        direction = direction.normalize();
-        double dx, dy, dz;
-
-        for (double i = 0; i < range; i += 0.0625)
-        {
-            dx = i * direction.x;
-            dy = i * direction.y;
-            dz = i * direction.z;
-
-            final double xtest = source.x + dx, ytest = source.y + dy, ztest = source.z + dz;
-
-            final boolean check = Vector3.isPointClearBlocks(xtest, ytest, ztest, world);
-
-            if (!check) break;
-
-            final double x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest : (int) ytest - 1,
-                    z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-            final List<Entity> targets = world.getEntities(excluded,
-                    new AABB(x0 - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
-            if (targets != null && targets.size() > 0)
-            {
-                final List<Entity> ret = new ArrayList<>();
-                for (final Entity e : targets) if (e instanceof Mob) ret.add(e);
-                if (ret.size() > 0) return ret;
-            }
-
-        }
-
-        return null;
-    }
-
     public double get(final int i)
     {
         assert i < 3;
@@ -879,12 +600,12 @@ public class Vector3
 
     public AABB getAABB()
     {
-        return Matrix3.getAABB(this.x, this.y, this.z, this.x, this.y, this.z);
+        return new AABB(this.x, this.y, this.z, this.x, this.y, this.z);
     }
 
     public Biome getBiome(final LevelAccessor world)
     {
-        return world.getBiome(new BlockPos(this.intX(), this.intY(), this.intZ()));
+        return world.getBiome(this.getPos());
     }
 
     public Block getBlock(final BlockGetter worldMap)
@@ -942,7 +663,7 @@ public class Vector3
     public BlockPos getPos()
     {
         if (this.pos == null) this.pos = new MutableBlockPos(this.intX(), this.intY(), this.intZ());
-        else this.pos.setTo(this);
+        else this.pos.set(this.intX(), this.intY(), this.intZ());
         return this.pos;
     }
 
@@ -961,7 +682,7 @@ public class Vector3
     public Vector3 getTopBlockPos(final Level world)
     {
         final int y = this.getTopBlockY(world);
-        return Vector3.getNewVector().set(this.intX(), y, this.intZ());
+        return new Vector3().set(this.intX(), y, this.intZ());
     }
 
     public int getTopBlockY(final BlockGetter world)
@@ -986,31 +707,8 @@ public class Vector3
 
     public Vector3 horizonalPerp()
     {
-        final Vector3 vectorH = Vector3.getNewVector().set(-this.z, 0, this.x);
+        final Vector3 vectorH = new Vector3().set(-this.z, 0, this.x);
         return vectorH.norm();
-    }
-
-    // */
-    public boolean inAABB(final AABB aabb)
-    {
-        if (this.y >= aabb.maxY || this.y <= aabb.minY) return false;
-        if (this.z >= aabb.maxZ || this.z <= aabb.minZ) return false;
-        if (this.x >= aabb.maxX || this.x <= aabb.minX) return false;
-
-        return true;
-    }
-
-    public boolean inMatBox(final Matrix3 box)
-    {
-        final Vector3 min = box.get(0);
-        final Vector3 max = box.get(1);
-        boolean ycheck = false, xcheck = false, zcheck = false;
-
-        if (this.y <= max.y && this.y >= min.y) ycheck = true;
-        if (this.z <= max.z && this.z >= min.z) zcheck = true;
-        if (this.x <= max.x && this.x >= min.x) xcheck = true;
-
-        return ycheck && zcheck && xcheck;
     }
 
     public int intX()
@@ -1068,65 +766,9 @@ public class Vector3
         return this.x == 0 && this.z == 0 && this.y == 0;
     }
 
-    public boolean isEntityClearOfBlocks(final BlockGetter world, final Entity e)
-    {
-        boolean ret = false;
-        final EntityDimensions size = e.getDimensions(e.getPose());
-        final Vector3 v = Vector3.getNewVector();
-        final Vector3 v1 = Vector3.getNewVector();
-        v.set(this);
-        ret = v.addTo(v1.set(0, size.height, 0)).isClearOfBlocks(world);
-        if (!ret) return ret;
-
-        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++)
-            ret = ret && v.set(this).addTo(v1.set(i * size.width / 2, 0, j * size.width / 2)).isClearOfBlocks(world);
-        if (!ret) return ret;
-
-        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) ret = ret && v.set(this)
-                .addTo(v1.set(i * size.width / 2, size.height, j * size.width / 2)).isClearOfBlocks(world);
-
-        return ret;
-    }
-
-    /**
-     * @param world - world the block is in
-     * @return if the block is a liquid
-     */
-    public boolean isFluid(final Level world)
-    {
-        return !world.getFluidState(this.getPos()).isEmpty();
-    }
-
     public boolean isNaN()
     {
         return Double.isNaN(this.x) || Double.isNaN(this.z) || Double.isNaN(this.y);
-    }
-
-    public boolean isOnSurface(final LevelChunk chunk)
-    {
-        return chunk.getHeight(Types.MOTION_BLOCKING, this.intX() & 15, this.intZ() & 15) <= this.y;
-    }
-
-    public boolean isOnSurface(final Level world)
-    {
-        return this.getMaxY(world) <= this.y;
-    }
-
-    public boolean isOnSurfaceIgnoringDecorationAndWater(final LevelChunk chunk, final BlockGetter world)
-    {
-        final int h = chunk.getHeight(Types.WORLD_SURFACE_WG, this.intX() & 15, this.intZ() & 15);
-        return h <= this.y;
-    }
-
-    public boolean isPointClearOfEntity(final double x, final double y, final double z, final Entity e)
-    {
-        final AABB aabb = e.getBoundingBox();
-
-        if (y <= aabb.maxY && y >= aabb.minY) return false;
-        if (z <= aabb.maxZ && z >= aabb.minZ) return false;
-        if (x <= aabb.maxX && x >= aabb.minX) return false;
-
-        return true;
     }
 
     public boolean isVisible(final BlockGetter world, final Vector3 location)
@@ -1134,25 +776,6 @@ public class Vector3
         final Vector3 direction = location.subtract(this);
         final double range = direction.mag();
         return Vector3.isVisibleRange(world, this, direction, range);
-    }
-
-    public List<Entity> livingEntityAtPoint(final Level world)
-    {
-        final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
-        final List<Entity> ret = new ArrayList<>();
-        final List<Mob> targets = world.getEntitiesOfClass(Mob.class, new AABB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
-        for (final Entity e : targets) if (!this.isPointClearOfEntity(this.x, this.y, this.z, e)) ret.add(e);
-        return ret;
-    }
-
-    public List<Entity> livingEntityAtPointExcludingEntity(final Level world, final Entity entity)
-    {
-        final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
-        final List<Entity> ret = new ArrayList<>();
-        final List<Mob> targets = world.getEntitiesOfClass(Mob.class, new AABB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
-        for (final Entity e : targets)
-            if (!this.isPointClearOfEntity(this.x, this.y, this.z, e) && e != entity) ret.add(e);
-        return ret;
     }
 
     /**
@@ -1176,21 +799,6 @@ public class Vector3
     public double magSq()
     {
         return this.x * this.x + this.y * this.y + this.z * this.z;
-    }
-
-    /**
-     * Left multiplies the Matrix by the Vector
-     *
-     * @param Matrix
-     * @param vector
-     * @return
-     */
-    public Vector3 matrixMult(final Matrix3 Matrix)
-    {
-        final Vector3 newVect = Vector3.vecMult.clear();
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < Vector3.length; j++) newVect.add(i, Matrix.get(i).get(j) * this.get(j));
-        return newVect;
     }
 
     public void moveEntity(final Entity e)
@@ -1221,7 +829,7 @@ public class Vector3
     public Vector3 normalize()
     {
         final double vmag = this.mag();
-        final Vector3 vHat = Vector3.getNewVector();
+        final Vector3 vHat = new Vector3();
         if (vmag == 0) return vHat.clear();
         vHat.set(this).scalarMultBy(1 / vmag);
         return vHat;
@@ -1229,7 +837,7 @@ public class Vector3
 
     public Vector3 offset(final Direction side)
     {
-        return this.add(Vector3.getNewVector().set(side));
+        return this.add(new Vector3().set(side));
     }
 
     public Vector3 offsetBy(final Direction side)
@@ -1278,7 +886,7 @@ public class Vector3
     {
         if (line.magSq() != 1) line = line.normalize();
 
-        if (ret == null) ret = Vector3.getNewVector();
+        if (ret == null) ret = new Vector3();
         final double[][] mat = Vector3.rotBox;
 
         mat[0][0] = line.get(0) * line.get(0) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
@@ -1314,7 +922,7 @@ public class Vector3
      */
     public Vector3 scalarMult(final double constant)
     {
-        final Vector3 newVector = Vector3.getNewVector();
+        final Vector3 newVector = new Vector3();
         for (int i = 0; i < Vector3.length; i++) newVector.set(i, constant * this.get(i));
         return newVector;
     }
@@ -1483,6 +1091,11 @@ public class Vector3
 
         LevelChunkSection section = chunk.getSections()[j];
         PalettedContainer<Biome> biomes = section.getBiomes();
+
+        Biome old = biomes.get(qx & 3, l & 3, qz & 3);
+        // No need to run this if we are already the same biome...
+        if (old == biome) return;
+
         biomes.set(qx & 3, l & 3, qz & 3, biome);
 
         if (chunk instanceof LevelChunk lchunk)
@@ -1523,7 +1136,7 @@ public class Vector3
      */
     public Vector3 subtract(final Vector3 vectorB)
     {
-        final Vector3 vectorC = Vector3.getNewVector();
+        final Vector3 vectorC = new Vector3();
         for (int i = 0; i < 3; i++) vectorC.set(i, this.get(i) - vectorB.get(i));
         return vectorC;
     }
@@ -1552,7 +1165,7 @@ public class Vector3
      */
     public Vector3 toSpherical()
     {
-        final Vector3 vectorSpher = Vector3.getNewVector();
+        final Vector3 vectorSpher = new Vector3();
         vectorSpher.x = this.mag();
         vectorSpher.y = Math.acos(this.get(1) / vectorSpher.x) - Math.PI / 2;
         vectorSpher.z = Math.atan2(this.get(2), this.x);

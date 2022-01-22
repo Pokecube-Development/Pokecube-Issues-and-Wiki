@@ -222,7 +222,7 @@ public class ThutWearables
     {
         final LivingEntity mob = event.getEntityLiving();
         final GameRules rules = this.overworldRules ? mob.getServer().getLevel(Level.OVERWORLD).getGameRules()
-                : mob.getCommandSenderWorld().getGameRules();
+                : mob.getLevel().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
         if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY) || cap == null) return;
 
@@ -232,10 +232,10 @@ public class ThutWearables
             if (!stack.isEmpty())
             {
                 EnumWearable.takeOff(mob, stack, i);
-                final WearableDroppedEvent dropEvent = new WearableDroppedEvent(mob, stack, i);
+                final WearableDroppedEvent dropEvent = new WearableDroppedEvent(event, stack, i);
                 if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
                 final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
-                final ItemEntity drop = new ItemEntity(mob.getCommandSenderWorld(), mob.getX(), d0, mob.getZ(), stack);
+                final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
                 final float f = mob.getRandom().nextFloat() * 0.5F;
                 final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
                 drop.setDeltaMovement(-Mth.sin(f1) * f, Mth.cos(f1) * f, 0.2);
@@ -287,7 +287,7 @@ public class ThutWearables
     @SubscribeEvent
     public void playerTick(final LivingUpdateEvent event)
     {
-        if (event.getEntity().getCommandSenderWorld().isClientSide) return;
+        if (event.getEntity().getLevel().isClientSide) return;
         if (event.getEntity() instanceof Player && event.getEntity().isAlive())
         {
             final Player wearer = (Player) event.getEntity();
@@ -304,7 +304,7 @@ public class ThutWearables
         if (!(event.getEntity() instanceof ServerPlayer)) return;
         final Player player = (Player) event.getEntity();
         final GameRules rules = this.overworldRules ? player.getServer().getLevel(Level.OVERWORLD).getGameRules()
-                : player.getCommandSenderWorld().getGameRules();
+                : player.getLevel().getGameRules();
         if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY))
         {
             final PlayerWearables cap = ThutWearables.getWearables(player);

@@ -6,9 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -52,42 +52,18 @@ public class TerrainManager
 
     public static boolean isAreaLoaded(final LevelAccessor world, final BlockPos blockPos, final double distance)
     {
-        if (world.isClientSide()) return world.getChunk(blockPos) != null;
-        ResourceKey<Level> dim = null;
-        if (world instanceof Level) dim = ((Level) world).dimension();
-        return TerrainManager.isAreaLoaded(dim, blockPos, distance);
-    }
-
-    public static boolean isAreaLoaded(final ResourceKey<Level> dim, final BlockPos blockPos, final double distance)
-    {
-        if (dim == null) return false;
+        if (world.getChunkSource() == null) return false;
+        ChunkSource source = world.getChunkSource();
         final int r = (int) distance >> 4;
         final int x = blockPos.getX() >> 4;
         final int z = blockPos.getZ() >> 4;
         for (int i = -r; i <= r; i++) for (int j = -r; j <= r; j++)
         {
-            final ChunkPos pos = new ChunkPos(x + i, z + j);
-            if (!TerrainManager.chunkIsReal(dim, pos)) return false;
+            // getChunkNow returns null if the chunk is not a fully loaded
+            // chunk, and on the server thread.
+            if (source.getChunkNow(x + i, z + j) == null) return false;
         }
         return true;
-    }
-
-    public static boolean chunkIsReal(final LevelAccessor world, final BlockPos blockPos)
-    {
-        return TerrainManager.chunkIsReal(world, new ChunkPos(blockPos));
-    }
-
-    public static boolean chunkIsReal(final LevelAccessor world, final ChunkPos pos)
-    {
-        ResourceKey<Level> dim = null;
-        if (world instanceof Level) dim = ((Level) world).dimension();
-        return TerrainManager.chunkIsReal(dim, pos);
-    }
-
-    public static boolean chunkIsReal(final ResourceKey<Level> dim, final ChunkPos pos)
-    {
-        if (dim == null) return false;
-        return ITerrainProvider.getChunk(dim, pos) != null;
     }
 
     @SubscribeEvent
@@ -152,7 +128,7 @@ public class TerrainManager
     public TerrainSegment getTerrainForEntity(final Entity e)
     {
         if (e == null) return null;
-        return this.getTerrain(e.getCommandSenderWorld(), e.getX(), e.getY(), e.getZ());
+        return this.getTerrain(e.getLevel(), e.getX(), e.getY(), e.getZ());
     }
 
     public TerrainSegment getTerrian(final LevelAccessor world, final Vector3 v)

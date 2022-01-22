@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -29,6 +31,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
@@ -128,19 +131,27 @@ public class CustomJigsawStructure extends NoiseAffectingStructureFeature<Jigsaw
             int dist = context.config().struct_config.needed_space;
             boolean any = dist == -1;
             if (any) dist = 1;
+            dist = 1;
 
             final BlockPos pos = new BlockPos(x, y, z);
 
             Set<Biome> biomes = context.biomeSource().getBiomesWithin(pos.getX(), pos.getY(), pos.getZ(), dist,
                     chunkGenerator.climateSampler());
 
+            Set<ResourceLocation> names = Sets.newHashSet();
+
+            SpawnBiomeMatcher matcher = config.struct_config.getMatcher();
+
             if (!any) validContext = !biomes.isEmpty();
 
             for (Biome b : biomes)
             {
-                if (any) validContext = validContext || config.struct_config._matcher.checkBiome(b.getRegistryName());
-                else validContext = validContext && config.struct_config._matcher.checkBiome(b.getRegistryName());
+                names.add(b.getRegistryName());
+                boolean here_valid = matcher.checkBiome(b.getRegistryName());
+                if (any) validContext = validContext || here_valid;
+                else validContext = validContext && here_valid;
             }
+
             if (!validContext)
             {
                 return Optional.empty();

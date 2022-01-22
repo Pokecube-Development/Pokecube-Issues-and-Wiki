@@ -157,7 +157,7 @@ public class PacketTrainer extends NBTPacket
             if (this.getTag().getBoolean("O"))
             {
                 final int id = this.getTag().getInt("I");
-                final Entity mob = player.getCommandSenderWorld().getEntity(id);
+                final Entity mob = player.getLevel().getEntity(id);
                 if (mob != null && this.getTag().contains("C"))
                 {
                     final CompoundTag nbt = this.getTag().getCompound("C");
@@ -185,7 +185,7 @@ public class PacketTrainer extends NBTPacket
     protected void onCompleteServer(final ServerPlayer player)
     {
         this.message = this.getTag().getByte("__message__");
-        final Level world = player.getCommandSenderWorld();
+        final Level world = player.getLevel();
         String type;
         String name;
         boolean male;
@@ -213,7 +213,7 @@ public class PacketTrainer extends NBTPacket
             PokecubeCore.LOGGER.debug("Recieved Trainer Spawn Packet");
 
             final int level = this.getTag().getInt("L");
-            final Vector3 vec = Vector3.getNewVector().set(player);
+            final Vector3 vec = new Vector3().set(player);
             String args = "pokecube:mob:npc";
             final JsonObject thing = new JsonObject();
 
@@ -240,8 +240,8 @@ public class PacketTrainer extends NBTPacket
             }
             final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
-            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getCommandSenderWorld(),
-                    (ServerLevel) player.getCommandSenderWorld(), player.getRandom(), BoundingBox.infinite());
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getLevel(),
+                    (ServerLevel) player.getLevel(), player.getRandom(), BoundingBox.infinite());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
@@ -260,6 +260,20 @@ public class PacketTrainer extends NBTPacket
                 {
                     rewards.deserializeNBT((ListTag) this.getTag().get("__rewards__"));
                     player.displayClientMessage(new TextComponent("Updated rewards list"), true);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            // Here we do the trainer in general
+            if (this.getTag().contains("__T__"))
+            {
+                mobHolder = TrainerCaps.getHasPokemobs(mob);
+                try
+                {
+                    mobHolder.deserializeNBT((CompoundTag) this.getTag().get("__T__"));
                 }
                 catch (final Exception e)
                 {
@@ -339,7 +353,7 @@ public class PacketTrainer extends NBTPacket
                         Util.NIL_UUID);
                 return;
             }
-            mob = player.getCommandSenderWorld().getEntity(id);
+            mob = player.getLevel().getEntity(id);
             if (mob != null) mob.discard();
             break;
         case UPDATEMOB:
@@ -349,7 +363,7 @@ public class PacketTrainer extends NBTPacket
                         Util.NIL_UUID);
                 return;
             }
-            mob = player.getCommandSenderWorld().getEntity(id);
+            mob = player.getLevel().getEntity(id);
             mobHolder = TrainerCaps.getHasPokemobs(mob);
             // This means we are editing a mob of a trainer.
             if (this.getTag().contains("__trainers__") && mobHolder != null)

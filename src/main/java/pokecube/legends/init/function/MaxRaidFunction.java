@@ -32,11 +32,6 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-/**
- * Uses player interact here to also prevent opening of inventories.
- *
- * @param dependencies
- */
 public class MaxRaidFunction
 {
     public static ResourceLocation lootTable = new ResourceLocation("pokecube_legends", "raids/raid_drop");
@@ -71,14 +66,14 @@ public class MaxRaidFunction
         if (entry != null && entry != Database.missingno)
         {
             final Mob entity = PokecubeCore.createPokemob(entry, world);
-            final Vector3 v = Vector3.getNewVector().set(pos);
+            final Vector3 v = new Vector3().set(pos);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
-            final LootTable loottable = pokemob.getEntity().getCommandSenderWorld().getServer().getLootTables().get(
-                    MaxRaidFunction.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) pokemob.getEntity()
-                    .getCommandSenderWorld()).withRandom(poke.getRandom());
+            final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()
+                    .get(MaxRaidFunction.lootTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder(
+                    (ServerLevel) pokemob.getEntity().getLevel()).withRandom(poke.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
 
@@ -118,8 +113,7 @@ public class MaxRaidFunction
                 else new InventoryChange(entity, 2, itemstack, true).run(world);
                 if (i++ >= n) break;
             }
-            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1,
-                    false);
+            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1, false);
 
         }
     }

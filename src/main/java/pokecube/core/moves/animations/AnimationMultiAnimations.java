@@ -114,6 +114,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         final int tick = info.currentTick;
         final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
         final Level world = PokecubeCore.proxy.getWorld();
+        final Vector3 pos = new Vector3();
         for (int i = 0; i < this.components.size(); i++)
         {
             info.currentTick = tick;
@@ -138,7 +139,6 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                     }
                 }
                 boolean valid = toRun.soundSource;
-                final Vector3 pos = Vector3.getNewVector();
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);

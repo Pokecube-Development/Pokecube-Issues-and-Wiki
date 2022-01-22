@@ -8,10 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction.Axis;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +18,6 @@ import net.minecraft.world.entity.animal.ShoulderRidingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -39,11 +35,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final Level worldIn)
     {
         super(type, worldIn);
-
-        List<PokemobPart> allParts = Lists.newArrayList();
-        Map<String, PokemobPart[]> partMap = Maps.newHashMap();
-        this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
-        this.factory = PokemobPart::new;
     }
 
     @Override
@@ -55,6 +46,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public PartHolder<PokemobPart> getHolder()
     {
+        if (parts == null)
+        {
+            List<PokemobPart> allParts = Lists.newArrayList();
+            Map<String, PokemobPart[]> partMap = Maps.newHashMap();
+            this.parts = new PartHolder<PokemobPart>(allParts, partMap, new Holder<PokemobPart>());
+            this.factory = PokemobPart::new;
+        }
         return parts;
     }
 
@@ -240,13 +238,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     }
 
     @Override
-    public boolean hurt(final DamageSource source, final float amount)
-    {
-        if (this.isMultipartEntity()) return false;
-        return super.hurt(source, amount);
-    }
-
-    @Override
     public void push(final Entity entityIn)
     {
         if (entityIn.is(this)) return;
@@ -290,21 +281,28 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         this.refreshDimensions();
         this.firstTick = first;
 
+        boolean horizontalCollision = false;
+        boolean minorHorizontalCollision = false;
+        boolean onGround = false;
+        boolean verticalCollision = false;
+
         if (getHolder().holder().parts.length < 10) for (PokemobPart part : getHolder().holder().parts)
         {
             Vec3 before = part.position();
             part.move(typeIn, pos);
             pos = part.position().subtract(before);
+            horizontalCollision |= part.horizontalCollision;
+            minorHorizontalCollision |= part.minorHorizontalCollision;
+            onGround |= part.onGround;
+            verticalCollision |= part.verticalCollision;
         }
 
         super.move(typeIn, pos);
 
-        final BlockPos down = this.getBlockPosBelowThatAffectsMyMovement();
-        final VoxelShape s = this.level.getBlockState(down).getCollisionShape(this.level, down).move(down.getX(),
-                down.getY(), down.getZ());
-        final double tol = -1e-3;
-        final double d = s.collide(Axis.Y, this.getBoundingBox(), tol);
-        if (d != tol) this.setOnGround(true);
+        this.horizontalCollision = horizontalCollision;
+        this.minorHorizontalCollision = minorHorizontalCollision;
+        this.onGround = onGround;
+        this.verticalCollision = verticalCollision;
 
         this.dimensions = backup;
         this.firstTick = true;

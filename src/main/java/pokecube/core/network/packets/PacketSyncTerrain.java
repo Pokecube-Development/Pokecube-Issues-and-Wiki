@@ -79,7 +79,7 @@ public class PacketSyncTerrain extends Packet
     {
         Player player;
         player = PokecubeCore.proxy.getPlayer();
-        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getCommandSenderWorld(), this.x * 16,
+        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getLevel(), this.x * 16,
                 this.y * 16, this.z * 16);
         final PokemobTerrainEffects effects = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
 

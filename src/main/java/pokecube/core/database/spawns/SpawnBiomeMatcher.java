@@ -106,21 +106,31 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public static final String PRESET = "preset";
 
-    public static final String ANDPRESET = "and_presets";
-    public static final String ORPRESET = "or_presets";
-    public static final String NOTPRESET = "not_presets";
+    public static final String ANDPRESET = "and_preset";
+    public static final String ORPRESET = "or_preset";
+    public static final String NOTPRESET = "not_preset";
 
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
+
+    private static final Map<String, SpawnRule> RULES = Maps.newHashMap();
+    private static final Map<SpawnRule, SpawnBiomeMatcher> MATCHERS = Maps.newHashMap();
+
+    public static SpawnBiomeMatcher get(SpawnRule rule)
+    {
+        final SpawnRule orig = rule;
+        rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
+        return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
+    }
 
     static
     {
         SpawnRule rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "all");
-        ALLMATCHER = new SpawnBiomeMatcher(rule);
+        ALLMATCHER = SpawnBiomeMatcher.get(rule);
         rule = new SpawnRule();
         rule.values.put(SpawnBiomeMatcher.TYPES, "none");
-        NONEMATCHER = new SpawnBiomeMatcher(rule);
+        NONEMATCHER = SpawnBiomeMatcher.get(rule);
     }
 
     private static int lastBiomesSize = -1;
@@ -192,9 +202,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
      * If the spawnRule has an anyType key, make a child for each type in it,
      * then check if any of the children are valid.
      */
-    public Set<SpawnBiomeMatcher> _and_children = Sets.newHashSet();
-    public Set<SpawnBiomeMatcher> _or_children = Sets.newHashSet();
-    public Set<SpawnBiomeMatcher> _not_children = Sets.newHashSet();
+    public List<SpawnBiomeMatcher> _and_children = Lists.newArrayList();
+    public List<SpawnBiomeMatcher> _or_children = Lists.newArrayList();
+    public List<SpawnBiomeMatcher> _not_children = Lists.newArrayList();
 
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
@@ -221,13 +231,19 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public final SpawnRule spawnRule;
 
-    boolean parsed = false;
-    boolean valid = true;
+    public boolean _parsed = false;
+    public boolean _valid = true;
 
     public Set<TerrainType> _validTerrain = ALL_TERRAIN;
 
     private boolean _checked_cats = false;
 
+    @Deprecated
+    /**
+     * Do not call this, use the static method instead!
+     * 
+     * @param rules
+     */
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
@@ -257,6 +273,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public Set<ResourceLocation> getInvalidBiomes()
     {
+        if (!this._valid) parse();
         // Ensures we are actually loaded in, this is required to set loadedIn
         // true for the below check.
         SpawnBiomeMatcher.getAllBiomeKeys();
@@ -315,18 +332,33 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
     public boolean checkLoadEvent(final BiomeLoadingEvent event)
     {
-        // Parse this to initialize the lists at least.
-        this.parse();
+        // Ensure we are reset for the new biome loading event
+        this.reset();
+        // Here we only do the basic init of children, as a full parse is not
+        // meaningful.
+        this.createChildren();
+        initRawLists();
 
         boolean match = true;
         check:
         {
-
             // First check children
             if (!this._not_children.isEmpty())
             {
-                boolean any = _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
+                List<SpawnBiomeMatcher> check = Lists.newArrayList(_not_children);
+                boolean any = check.stream().anyMatch(m -> m.checkLoadEvent(event));
                 if (any)
+                {
+                    match = false;
+                    break check;
+                }
+            }
+            boolean or_valid = true;
+            if (!this._or_children.isEmpty())
+            {
+                List<SpawnBiomeMatcher> check = Lists.newArrayList(_or_children);
+                or_valid = check.stream().anyMatch(m -> m.checkLoadEvent(event));
+                if (!or_valid)
                 {
                     match = false;
                     break check;
@@ -334,12 +366,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             }
             if (!this._and_children.isEmpty())
             {
-                match = _and_children.stream().allMatch(m -> m.checkLoadEvent(event));
+                List<SpawnBiomeMatcher> check = Lists.newArrayList(_and_children);
+                match = check.stream().allMatch(m -> m.checkLoadEvent(event));
                 break check;
             }
             if (!this._or_children.isEmpty())
             {
-                match = _or_children.stream().anyMatch(m -> m.checkLoadEvent(event));
+                match = or_valid;
                 break check;
             }
 
@@ -387,6 +420,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 break check;
             }
         }
+        // Reset this so that we can do a proper check after
         this.reset();
         return match;
     }
@@ -394,29 +428,38 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     /**
      * This is a check for just a single biome, it doesn't factor in the other
      * values such as subbiome (unless flagged all), lighting, time, etc.
+     * 
+     * This is synchronised as it is run during worldgen, on multiple threads.
      *
      * @param biome
-     * @return
+     * @return true if the biome matches us
      */
-    public boolean checkBiome(final ResourceLocation biome)
+    public synchronized boolean checkBiome(final ResourceLocation biome)
     {
         this.parse();
-        if (!this.valid) return false;
+        if (!this._valid)
+        {
+            return false;
+        }
 
         // First check children
         if (!this._not_children.isEmpty())
         {
-            boolean any = _or_children.stream().anyMatch(m -> m.checkBiome(biome));
+            boolean any = _not_children.stream().anyMatch(m -> m.checkBiome(biome));
             if (any) return false;
         }
-        if (!this._and_children.isEmpty())
-        {
-            return _and_children.stream().allMatch(m -> m.checkBiome(biome));
-        }
+        boolean or_valid = true;
         if (!this._or_children.isEmpty())
         {
-            return _or_children.stream().anyMatch(m -> m.checkBiome(biome));
+            or_valid = _or_children.stream().anyMatch(m -> m.checkBiome(biome));
         }
+        if (!or_valid) return false;
+        if (!this._and_children.isEmpty())
+        {
+            boolean and_valid = _and_children.stream().allMatch(m -> m.checkBiome(biome));
+            return and_valid;
+        }
+        if (!this._or_children.isEmpty()) return or_valid;
 
         if (this.getInvalidBiomes().contains(biome)) return false;
         if (this.getValidBiomes().contains(biome)) return true;
@@ -425,25 +468,27 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return this.getValidBiomes().isEmpty();
     }
 
-    public boolean matches(final SpawnCheck checker)
+    public synchronized boolean matches(final SpawnCheck checker)
     {
         this.parse();
-        if (!this.valid) return false;
+        if (!this._valid) return false;
         // First check children
         if (!this._not_children.isEmpty())
         {
-            boolean any = _or_children.stream().anyMatch(m -> m.matches(checker));
+            boolean any = _not_children.stream().anyMatch(m -> m.matches(checker));
             if (any) return false;
         }
+        boolean or_valid = true;
+        if (!this._or_children.isEmpty())
+        {
+            or_valid = _or_children.stream().anyMatch(m -> m.matches(checker));
+        }
+        if (!or_valid) return false;
         if (!this._and_children.isEmpty())
         {
             return _and_children.stream().allMatch(m -> m.matches(checker));
         }
-        if (!this._or_children.isEmpty())
-        {
-            return _or_children.stream().anyMatch(m -> m.matches(checker));
-        }
-
+        if (!this._or_children.isEmpty()) return or_valid;
         if (!this.weatherMatches(checker)) return false;
         final boolean biome = this.biomeMatches(checker);
         if (!biome) return false;
@@ -466,7 +511,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
     private boolean biomeMatches(final SpawnCheck checker)
     {
         this.parse();
-        if (!this.valid) return false;
+        if (!this._valid) return false;
         // This takes priority, regardless of the other options.
         final BiomeType type = checker.type;
 
@@ -611,40 +656,34 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         return changed;
     }
 
-    public void parse()
+    // These two will be used to account for any custom stuff in the spawnRule.
+    // In the case where the spawn rule only defines presets, then these will be
+    // discarded later.
+    SpawnBiomeMatcher _or_base = null;
+    SpawnBiomeMatcher _and_base = null;
+
+    private void createChildren()
     {
-        if (this.parsed || __client__) return;
-
-        if (this.spawnRule.values.isEmpty())
-            PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
-
         SpawnRule spawnRule = this.spawnRule.copy();
         if (spawnRule.values.containsKey(PRESET))
         {
-            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            String key = spawnRule.values.remove(PRESET);
+            SpawnRule preset = PRESETS.get(key);
             if (preset != null)
             {
                 preset = preset.copy();
                 preset.values.putAll(spawnRule.values);
                 spawnRule = preset;
             }
+            else
+            {
+                PokecubeCore.LOGGER.error("No preset found for {}", key);
+            }
         }
 
-        String or_presets = spawnRule.values.get(SpawnBiomeMatcher.ORPRESET);
-        String and_presets = spawnRule.values.get(SpawnBiomeMatcher.ANDPRESET);
-        String not_presets = spawnRule.values.get(SpawnBiomeMatcher.NOTPRESET);
-
-        this.reset();
-
-        this.parsed = true;
-        this.valid = true;
-
-        // These two will be used to account for any custom stuff in the
-        // spawnRule.
-        // In the case where the spawn rule only defines presets, then these
-        // will be discarded below.
-        SpawnBiomeMatcher or_base = null;
-        SpawnBiomeMatcher and_base = null;
+        String or_presets = spawnRule.values.remove(SpawnBiomeMatcher.ORPRESET);
+        String and_presets = spawnRule.values.remove(SpawnBiomeMatcher.ANDPRESET);
+        String not_presets = spawnRule.values.remove(SpawnBiomeMatcher.NOTPRESET);
 
         if (or_presets != null)
         {
@@ -655,8 +694,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                or_base = new SpawnBiomeMatcher(base).setClient(__client__);
-                this._or_children.add(or_base);
+                _or_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                _or_base.reset();
+                this._or_children.add(_or_base);
             }
 
             for (String s : args)
@@ -665,14 +705,14 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    child.reset();
                     this._or_children.add(child);
                 }
                 else if (!__client__)
                     PokecubeCore.LOGGER.error("No preset found for or_preset {} in {}", s, or_presets);
             }
         }
-
         if (and_presets != null)
         {
             String[] args = and_presets.split(",");
@@ -682,8 +722,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             base.values.remove(PRESET);
             if (!base.values.isEmpty())
             {
-                and_base = new SpawnBiomeMatcher(base).setClient(__client__);
-                this._and_children.add(and_base);
+                _and_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                _and_base.reset();
+                this._and_children.add(_and_base);
             }
 
             for (String s : args)
@@ -692,14 +733,14 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    child.reset();
                     this._and_children.add(child);
                 }
                 else if (!__client__)
                     PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
-
         if (not_presets != null)
         {
             String[] args = not_presets.split(",");
@@ -709,88 +750,18 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 if (rule != null)
                 {
                     rule = rule.copy();
-                    SpawnBiomeMatcher child = new SpawnBiomeMatcher(rule).setClient(__client__);
+                    SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    child.reset();
                     this._not_children.add(child);
                 }
                 else if (!__client__)
                     PokecubeCore.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
+    }
 
-        this._structs = new StructureMatcher()
-        {
-        };
-        MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
-
-        for (final SpawnBiomeMatcher child : this._and_children) child.parse();
-        for (final SpawnBiomeMatcher child : this._or_children) child.parse();
-        for (final SpawnBiomeMatcher child : this._not_children) child.parse();
-
-        if (or_base != null)
-        {
-            or_base.parse();
-            if (!or_base.valid) this._or_children.remove(or_base);
-        }
-
-        if (and_base != null)
-        {
-            and_base.parse();
-            if (!and_base.valid) this._and_children.remove(and_base);
-        }
-
-        if (this._or_children.size() > 0 || this._and_children.size() > 0)
-        {
-            boolean or_valid = this._or_children.size() > 0;
-            boolean and_valid = this._and_children.size() > 0;
-
-            for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child.valid;
-            for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child.valid;
-
-            this.valid = or_valid || and_valid;
-
-            if (!this.valid && SpawnBiomeMatcher.loadedIn && !__client__)
-            {
-                PokecubeCore.LOGGER.debug("Invalid Matcher: {}, presets: `{}` `{}`",
-                        PacketPokedex.gson.toJson(spawnRule), or_presets, and_presets);
-            }
-            return;
-        }
-
-        // Lets deal with the weather checks
-        String weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
-        if (weather != null)
-        {
-            final String[] args = weather.split(",");
-            for (final String s : args)
-            {
-                if (s.equalsIgnoreCase("thunder"))
-                {
-                    this.needThunder = true;
-                    continue;
-                }
-                final Weather w = this.getWeather(s);
-                if (w != null) this._neededWeather.add(w);
-            }
-        }
-        weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
-        if (weather != null)
-        {
-            final String[] args = weather.split(",");
-            for (final String s : args)
-            {
-                if (s.equalsIgnoreCase("thunder"))
-                {
-                    this.noThunder = true;
-                    continue;
-                }
-                final Weather w = this.getWeather(s);
-                if (w != null) this._bannedWeather.add(w);
-            }
-        }
-
-        this.preParseSubBiomes(spawnRule);
-        boolean hasBasicSettings = this.parseBasic(spawnRule);
-
+    private boolean initRawLists()
+    {
         final String biomeString = spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
         final String typeString = spawnRule.values.get(SpawnBiomeMatcher.TYPES);
         final String biomeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
@@ -863,7 +834,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 this._validBiomes.add(biome);
             }
         }
-        boolean hasForgeTypes = false;
+        boolean forgeTypes = false;
         if (typeString != null)
         {
             String[] args = typeString.split(",");
@@ -872,7 +843,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 s = Database.trim(s);
                 if (BiomeDatabase.isAType(s))
                 {
-                    hasForgeTypes = true;
+                    forgeTypes = true;
                     if (s.equalsIgnoreCase("water"))
                     {
                         this._validTypes.add(BiomeDictionary.Type.getType("river"));
@@ -893,7 +864,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                 s = Database.trim(s);
                 if (BiomeDatabase.isAType(s))
                 {
-                    hasForgeTypes = true;
+                    forgeTypes = true;
                     if (s.equalsIgnoreCase("water"))
                     {
                         this._validTypes.add(BiomeDictionary.Type.getType("river"));
@@ -976,11 +947,118 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         this._validBiomes.removeAll(this._blackListBiomes);
 
+        return forgeTypes;
+    }
+
+    /**
+     * This sets up the lists of valid biomes and types.
+     * 
+     * This is synchronised as it is run during worldgen, on multiple threads.
+     */
+    public synchronized void parse()
+    {
+        if (this._parsed || __client__) return;
+
+        if (this.spawnRule.values.isEmpty())
+            PokecubeCore.LOGGER.error("No rules found!", new IllegalArgumentException());
+
+        SpawnRule spawnRule = this.spawnRule.copy();
+        if (spawnRule.values.containsKey(PRESET))
+        {
+            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            if (preset != null)
+            {
+                preset = preset.copy();
+                preset.values.putAll(spawnRule.values);
+                spawnRule = preset;
+            }
+        }
+
+        this.reset();
+
+        this._parsed = true;
+        this._valid = true;
+
+        createChildren();
+
+        this._structs = new StructureMatcher()
+        {
+        };
+        MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
+
+        for (final SpawnBiomeMatcher child : this._and_children) child.parse();
+        for (final SpawnBiomeMatcher child : this._or_children) child.parse();
+        for (final SpawnBiomeMatcher child : this._not_children) child.parse();
+
+        // These were base cases, they can be invalid and be fine.
+        if (_or_base != null && !_or_base._valid)
+        {
+            this._or_children.remove(_or_base);
+        }
+        // These were base cases, they can be invalid and be fine.
+        if (_and_base != null && !_and_base._valid)
+        {
+            this._and_children.remove(_and_base);
+        }
+
+        if (this._or_children.size() > 0 || this._and_children.size() > 0)
+        {
+            boolean or_valid = this._or_children.size() > 0;
+            boolean and_valid = this._and_children.size() > 0;
+
+            for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child._valid;
+            for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child._valid;
+
+            this._valid = or_valid || and_valid;
+
+            if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
+            {
+                PokecubeCore.LOGGER.debug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
+            }
+            return;
+        }
+
+        // Lets deal with the weather checks
+        String weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
+        if (weather != null)
+        {
+            final String[] args = weather.split(",");
+            for (final String s : args)
+            {
+                if (s.equalsIgnoreCase("thunder"))
+                {
+                    this.needThunder = true;
+                    continue;
+                }
+                final Weather w = this.getWeather(s);
+                if (w != null) this._neededWeather.add(w);
+            }
+        }
+        weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
+        if (weather != null)
+        {
+            final String[] args = weather.split(",");
+            for (final String s : args)
+            {
+                if (s.equalsIgnoreCase("thunder"))
+                {
+                    this.noThunder = true;
+                    continue;
+                }
+                final Weather w = this.getWeather(s);
+                if (w != null) this._bannedWeather.add(w);
+            }
+        }
+
+        this.preParseSubBiomes(spawnRule);
+        boolean hasBasicSettings = this.parseBasic(spawnRule);
+
+        boolean needsBiome = initRawLists();
+
         // This refeshes the _validBiomes, and validates things.
         this.getValidBiomes();
 
-        // We are not valid if we specified some types, but found no biomes.
-        if (hasForgeTypes && this._validBiomes.isEmpty() && terrain == null && !hasBasicSettings) this.valid = false;
+        if (needsBiome && _validBiomes.isEmpty()) _valid = false;
 
         //@formatter:off
         final boolean hasSomething = !(
@@ -994,12 +1072,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                                 && this._blackListSubBiomes.isEmpty()
                                 );
         //@formatter:on
-        if (!hasSomething && terrain == null && !hasBasicSettings) this.valid = false;
+        if (!hasSomething && !hasBasicSettings) this._valid = false;
 
-        if (!this.valid && SpawnBiomeMatcher.loadedIn)
-            PokecubeCore.LOGGER.debug("Invalid Matcher: {} ({}), presets: `{}` `{}`",
-                    PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule), or_presets,
-                    and_presets);
+        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeCore.LOGGER.debug("Invalid Matcher: {} ({})",
+                PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
     }
 
     private void preParseSubBiomes(SpawnRule rule)
@@ -1022,9 +1098,17 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         }
     }
 
-    public void reset()
+    /**
+     * This resets the lists for if they need to be recomputed for resource
+     * reloading/etc.
+     * 
+     * This is synchronised as it may be run during worldgen, on multiple
+     * threads.
+     */
+    public synchronized void reset()
     {
-        this.parsed = false;
+        this._parsed = false;
+        this._valid = false;
         this._checked_cats = false;
 
         // Somehow these can end up null after the gson parsing, so we need to
@@ -1040,9 +1124,9 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         if (this._neededWeather == null) this._neededWeather = Sets.newHashSet();
         if (this._validCats == null) this._validCats = Sets.newHashSet();
         if (this._blackListCats == null) this._blackListCats = Sets.newHashSet();
-        if (this._and_children == null) this._and_children = Sets.newHashSet();
-        if (this._or_children == null) this._or_children = Sets.newHashSet();
-        if (this._not_children == null) this._not_children = Sets.newHashSet();
+        if (this._and_children == null) this._and_children = Lists.newArrayList();
+        if (this._or_children == null) this._or_children = Lists.newArrayList();
+        if (this._not_children == null) this._not_children = Lists.newArrayList();
 
         // Now lets ensure they are empty.
         this._validCats.clear();
@@ -1071,5 +1155,32 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         water = false;
 
         _validTerrain = ALL_TERRAIN;
+    }
+
+    public String debugPrint(int depth)
+    {
+        String header = "\n";
+        for (int i = 0; i < depth; i++) header += " ";
+        String ret = header;
+        if (!_not_children.isEmpty())
+        {
+            ret += header + "Not: ";
+            for (SpawnBiomeMatcher m : _not_children) ret += header + m.debugPrint(depth + 1);
+        }
+        if (!_or_children.isEmpty())
+        {
+            ret += header + "Or: ";
+            for (SpawnBiomeMatcher m : _or_children) ret += header + m.debugPrint(depth + 1);
+        }
+        if (!_and_children.isEmpty())
+        {
+            ret += header + "And: ";
+            for (SpawnBiomeMatcher m : _and_children) ret += header + m.debugPrint(depth + 1);
+            return ret;
+        }
+        if (!_or_children.isEmpty()) return ret;
+        ret += header + "biomes: " + this._validBiomes;
+        ret += header + "Types: " + this._validTypes;
+        return ret;
     }
 }

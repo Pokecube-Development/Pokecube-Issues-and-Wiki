@@ -1,9 +1,13 @@
 package pokecube.core.ai.logic;
 
+import java.util.UUID;
+
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.level.Level;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import thut.api.maths.Matrix3;
 
 /**
  * This checks if the pokemob is in lava or water. The checks are done on a
@@ -11,7 +15,9 @@ import thut.api.maths.Matrix3;
  */
 public class LogicInLiquid extends LogicBase
 {
-    Matrix3 box = new Matrix3();
+    private static final UUID id = new UUID(134123546, 4356456);
+    private static final AttributeModifier SWIMGRAVITY = new AttributeModifier(id, "swim_gravity", -0.75,
+            Operation.MULTIPLY_TOTAL);
 
     public LogicInLiquid(IPokemob pokemob_)
     {
@@ -22,7 +28,21 @@ public class LogicInLiquid extends LogicBase
     public void tick(Level world)
     {
         if (world == null) return;
-        this.pokemob.setLogicState(LogicStates.INLAVA, this.entity.isInLava());
-        this.pokemob.setLogicState(LogicStates.INWATER, this.entity.isInWater());
+        AttributeInstance gravity = entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+
+        boolean water = this.entity.isInWater();
+        boolean lava = this.entity.isInLava();
+
+        this.pokemob.setLogicState(LogicStates.INLAVA, lava);
+        this.pokemob.setLogicState(LogicStates.INWATER, water);
+
+        if (water)
+        {
+            if (gravity.getModifier(id) == null)
+            {
+                gravity.addTransientModifier(SWIMGRAVITY);
+            }
+        }
+        else gravity.removeModifier(id);
     }
 }

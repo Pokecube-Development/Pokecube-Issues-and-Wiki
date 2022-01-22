@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import pokecube.core.ai.npc.behaviours.InteractWith;
+import pokecube.core.ai.npc.behaviours.NpcMateTask;
 import pokecube.core.ai.tasks.misc.BlankTask;
 import pokecube.core.ai.tasks.misc.LookAtMob;
 import pokecube.core.ai.tasks.misc.LookAtTask;

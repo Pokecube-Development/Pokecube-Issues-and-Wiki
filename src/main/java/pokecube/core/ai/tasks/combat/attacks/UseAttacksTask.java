@@ -25,7 +25,6 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
 import thut.api.Tracker;
 import thut.api.entity.ai.IAICombat;
-import thut.api.maths.Matrix3;
 import thut.api.maths.Vector3;
 
 /**
@@ -48,17 +47,14 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     IPokemob pokemobTarget;
 
     /** Where the target is/was for attack. */
-    Vector3 targetLoc   = Vector3.getNewVector();
-    Matrix3 targetBox   = new Matrix3();
-    Matrix3 attackerBox = new Matrix3();
-
+    Vector3 targetLoc   = new Vector3();
     /** Move we are using */
     Move_Base attack;
 
     /** Temp vectors for checking things. */
-    Vector3 v  = Vector3.getNewVector();
-    Vector3 v1 = Vector3.getNewVector();
-    Vector3 v2 = Vector3.getNewVector();
+    Vector3 v  = new Vector3();
+    Vector3 v1 = new Vector3();
+    Vector3 v2 = new Vector3();
 
     private final float speed = 1.8f;
 

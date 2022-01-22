@@ -123,9 +123,9 @@ public abstract class PokemobStats extends PokemobGenes
                     }
                     ret.levelUp(newLvl);
                     if (this.getEntity().isAddedToWorld() && ret.getOwner() instanceof Player && this.getEntity()
-                            .getCommandSenderWorld().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) && !this.getEntity()
-                                    .getCommandSenderWorld().isClientSide) this.getEntity().getCommandSenderWorld().addFreshEntity(
-                                            new ExperienceOrb(this.getEntity().getCommandSenderWorld(), this.getEntity()
+                            .getLevel().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT) && !this.getEntity()
+                                    .getLevel().isClientSide) this.getEntity().getLevel().addFreshEntity(
+                                            new ExperienceOrb(this.getEntity().getLevel(), this.getEntity()
                                                     .getX(), this.getEntity().getY(), this.getEntity().getZ(),
                                                     1));
                 }

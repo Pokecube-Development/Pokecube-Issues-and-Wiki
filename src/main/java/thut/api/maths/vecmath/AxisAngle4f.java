@@ -107,7 +107,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      *            the angle of rotation in radians
      * @since vecmath 1.2
      */
-    public AxisAngle4f(final Vector3f axis, final float angle)
+    public AxisAngle4f(final Vec3f axis, final float angle)
     {
         this.x = axis.x;
         this.y = axis.y;
@@ -199,7 +199,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      *            the angle of rotation in radians
      * @since vecmath 1.2
      */
-    public final void set(final Vector3f axis, final float angle)
+    public final void set(final Vec3f axis, final float angle)
     {
         this.x = axis.x;
         this.y = axis.y;
@@ -294,9 +294,9 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix4f
      */
-    public final void set(final Matrix4f m1)
+    public final void set(final Mat4f m1)
     {
-        final Matrix3f m3f = new Matrix3f();
+        final Mat3f m3f = new Mat3f();
 
         m1.get(m3f);
 
@@ -336,7 +336,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix4d
      */
-    public final void set(final Matrix4d m1)
+    public final void set(final Mat4d m1)
     {
         final Matrix3d m3d = new Matrix3d();
 
@@ -378,7 +378,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      * @param m1
      *            the matrix3f
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
         this.x = m1.m21 - m1.m12;
         this.y = m1.m02 - m1.m20;

@@ -9,13 +9,13 @@
     {
       "values": {
         "preset": "all_nether",
-        "and_presets": "all,nether"
+        "and_preset": "all,nether"
       }
     },
     {
       "values": {
         "preset": "all_overworld",
-        "and_presets": "all,overworld"
+        "and_preset": "all,overworld"
       }
     },
     {

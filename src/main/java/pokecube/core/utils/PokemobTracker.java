@@ -111,7 +111,7 @@ public class PokemobTracker
 
     private static PokemobTracker getFor(final Entity mob)
     {
-        return mob.getCommandSenderWorld() instanceof ServerLevel ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
+        return mob.getLevel() instanceof ServerLevel ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
     }
 
     private static PokemobTracker getFor(final LevelAccessor mob)
@@ -139,7 +139,7 @@ public class PokemobTracker
         this._removePokemob(pokemob);
         if (pokemob.getAbility() != null) pokemob.getAbility().init(pokemob);
         final MobEntry e = new MobEntry(pokemob);
-        ResourceKey<Level> dim = pokemob.getEntity().getCommandSenderWorld().dimension();
+        ResourceKey<Level> dim = pokemob.getEntity().getLevel().dimension();
         if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());

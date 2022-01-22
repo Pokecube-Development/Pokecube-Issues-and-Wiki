@@ -2,7 +2,7 @@ package thut.api.particle;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 
 public interface IParticle
 {
@@ -14,7 +14,7 @@ public interface IParticle
 
     @OnlyIn(value = Dist.CLIENT)
     public void renderParticle(final com.mojang.blaze3d.vertex.VertexConsumer buffer,
-            final net.minecraft.client.Camera entityIn, final float partialTicks, Vector3f offset);
+            final net.minecraft.client.Camera entityIn, final float partialTicks, Vec3f offset);
 
     void setColour(int colour);
 

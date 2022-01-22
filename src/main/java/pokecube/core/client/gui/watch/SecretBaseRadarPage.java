@@ -151,7 +151,7 @@ public class SecretBaseRadarPage extends WatchPage
         final BufferBuilder vertexbuffer = tessellator.getBuilder();
         r = 1;
         g = 0;
-        final Vector3 here = Vector3.getNewVector().set(this.watch.player);
+        final Vector3 here = new Vector3().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
         // GL11.glRotated(angle, 0, 0, 1);
         mat.mulPose(Vector3f.ZP.rotationDegrees(angle));
@@ -163,7 +163,7 @@ public class SecretBaseRadarPage extends WatchPage
 
         for (final BlockPos c : coords)
         {
-            final Vector3 loc = Vector3.getNewVector().set(c);
+            final Vector3 loc = new Vector3().set(c);
             mat.pushPose();
             Matrix4f matrix = mat.last().pose();
             final Vector3 v = loc.subtract(here);

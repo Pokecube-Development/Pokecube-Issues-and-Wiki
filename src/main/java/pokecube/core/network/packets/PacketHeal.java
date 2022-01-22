@@ -20,7 +20,7 @@ public class PacketHeal extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final AbstractContainerMenu cont = player.containerMenu;
-        if (cont instanceof IHealer) ((IHealer) cont).heal(player.getCommandSenderWorld());
+        if (cont instanceof IHealer) ((IHealer) cont).heal(player.getLevel());
     }
 
     @Override

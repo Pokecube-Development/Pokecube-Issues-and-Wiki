@@ -82,8 +82,8 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarpPadTile.invalidSources.contains(entityIn.getCommandSenderWorld().dimension())
-                || entityIn.getCommandSenderWorld().isClientSide)
+        if (WarpPadTile.invalidSources.contains(entityIn.getLevel().dimension())
+                || entityIn.getLevel().isClientSide)
             return;
 
         final TeleDest dest = this.getDest();
@@ -97,7 +97,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         {
 
             double cost = 0;
-            final Vector3 here = Vector3.getNewVector().set(this);
+            final Vector3 here = new Vector3().set(this);
             WarpPadTile.parser.setVarValue("dx", link.getX() - here.x);
             WarpPadTile.parser.setVarValue("dy", link.getY() - here.y + 0.5);
             WarpPadTile.parser.setVarValue("dz", link.getZ() - here.z);

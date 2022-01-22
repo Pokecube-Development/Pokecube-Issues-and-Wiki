@@ -232,7 +232,7 @@ public interface IHasMoves extends IHasStats
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().getCommandSenderWorld() == null || this.getEntity().getCommandSenderWorld().isClientSide)
+        if (moveName == null || this.getEntity().getLevel() == null || this.getEntity().getLevel().isClientSide)
             return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final String[] moves = this.getMoves();

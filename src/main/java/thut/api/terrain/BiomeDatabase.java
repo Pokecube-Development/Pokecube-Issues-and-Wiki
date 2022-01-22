@@ -35,12 +35,11 @@ public class BiomeDatabase
     {
         if (BiomeDatabase.notTypes.contains(name)) return false;
         if (BiomeDatabase.TYPES.containsKey(name)) return true;
-        for (final BiomeDictionary.Type t : BiomeDictionary.Type.getAll())
-            if (name.equalsIgnoreCase(t.getName()))
-            {
-                BiomeDatabase.TYPES.put(name, t);
-                return true;
-            }
+        if (BiomeDictionary.Type.hasType(name))
+        {
+            TYPES.put(name, BiomeDictionary.Type.getType(name));
+            return true;
+        }
         BiomeDatabase.notTypes.add(name);
         return false;
     }

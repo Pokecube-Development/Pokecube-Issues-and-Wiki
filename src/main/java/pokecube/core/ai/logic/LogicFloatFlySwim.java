@@ -73,7 +73,7 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             this.mob.setNoGravity(this.mob.isInWater());
-            
+
             if (pokemob.getController().blocksPathing()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
@@ -150,7 +150,7 @@ public class LogicFloatFlySwim extends LogicBase
         public void tick()
         {
             if (pokemob.getController().blocksPathing()) return;
-            
+
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {
                 this.operation = MoveControl.Operation.WAIT;
@@ -216,7 +216,7 @@ public class LogicFloatFlySwim extends LogicBase
 
     NaviState state = null;
 
-    Vector3 here = Vector3.getNewVector();
+    Vector3 here = new Vector3();
 
     // Navigators
     private final FlyingPathNavigation flyPather;
@@ -231,16 +231,18 @@ public class LogicFloatFlySwim extends LogicBase
     private final MoveControl swimController;
 
     // Path validators
-    Vector3 lastPos = Vector3.getNewVector();
+    final Vector3 lastPos = new Vector3();
+    final Vector3 hereVec = new Vector3();
+    final Vector3 nextVec = new Vector3();
     int time_at_pos = 0;
 
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
-        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().getCommandSenderWorld());
-        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().getCommandSenderWorld());
-        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().getCommandSenderWorld());
-        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().getCommandSenderWorld());
+        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().getLevel());
+        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().getLevel());
+        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().getLevel());
+        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().getLevel());
 
         this.flyPather.setCanOpenDoors(false);
         this.flyPather.setCanFloat(true);
@@ -256,7 +258,7 @@ public class LogicFloatFlySwim extends LogicBase
         this.walkController = new WalkController(entity);
         this.swimController = new SwimController(entity);
 
-        this.world = this.pokemob.getEntity().getCommandSenderWorld();
+        this.world = this.pokemob.getEntity().getLevel();
     }
 
     @Override
@@ -274,8 +276,8 @@ public class LogicFloatFlySwim extends LogicBase
         if (path != null && !path.isDone())
         {
             final BlockPos next = path.getNextNodePos();
-            final Vector3 hereVec = Vector3.getNewVector().set(this.entity);
-            final Vector3 nextVec = Vector3.getNewVector().set(next);
+            hereVec.set(this.entity);
+            nextVec.set(next);
 
             if (hereVec.distToSq(this.lastPos) < 1)
             {
@@ -297,7 +299,7 @@ public class LogicFloatFlySwim extends LogicBase
                 path.setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
 
-        final boolean air = this.pokemob.floats() || this.pokemob.flys();
+        final boolean air = (this.pokemob.floats() || this.pokemob.flys());
         final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
         if (air && this.entity.isAlive())

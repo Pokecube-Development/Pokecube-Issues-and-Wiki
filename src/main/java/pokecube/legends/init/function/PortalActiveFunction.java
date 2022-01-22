@@ -25,11 +25,6 @@ import pokecube.legends.init.FeaturesInit;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-/**
- * Uses player interact here to also prevent opening of inventories.
- *
- * @param dependencies
- */
 public class PortalActiveFunction
 {
     public static PokedexEntry getRandomEntry()
@@ -80,7 +75,7 @@ public class PortalActiveFunction
 
         final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
         final Mob entity = PokecubeCore.createPokemob(entityToSpawn, world);
-        final Vector3 v = Vector3.getNewVector().set(pos);
+        final Vector3 v = new Vector3().set(pos);
         final ResourceKey<Level> key = world.dimension();
 
         // // Normal Worlds

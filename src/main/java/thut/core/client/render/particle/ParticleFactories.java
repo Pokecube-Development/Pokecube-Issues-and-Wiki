@@ -21,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.particle.ParticleBase;
 import thut.api.particle.ParticleNoGravity;
 import thut.api.particle.ThutParticles;
@@ -89,7 +89,7 @@ public class ParticleFactories
             final float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3d.x());
             final float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3d.y());
             final float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3d.z());
-            final Vector3f source = new Vector3f(x, y, z);
+            final Vec3f source = new Vec3f(x, y, z);
 
             Quaternion quaternion;
             if (this.roll == 0.0F) quaternion = renderInfo.rotation();
@@ -124,8 +124,8 @@ public class ParticleFactories
     public static final ParticleProvider<ParticleBase> GENERICFACTORY = (type, world, x, y, z, vx, vy, vz) ->
     {
         type = ThutParticles.clone(type);
-        type.setVelocity(Vector3.getNewVector().set(vx, vy, vz));
-        type.setPosition(Vector3.getNewVector().set(x, y, z));
+        type.setVelocity(new Vector3().set(vx, vy, vz));
+        type.setPosition(new Vector3().set(x, y, z));
         return new ThutParticle(world, type);
     };
 }

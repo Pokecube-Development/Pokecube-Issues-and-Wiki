@@ -10,7 +10,7 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 
 /**
  * This event is fired during the item registration phase. Add any pokecubes
- * you want to register here. The name of the cube will be <prefix_>cube
+ * you want to register here. The name of the cube will be &lt;prefix_&gt;cube
  */
 public class RegisterPokecubes extends Event
 {

@@ -83,7 +83,7 @@ public class ContainerWearables extends AbstractContainerMenu
         @Override
         public void onTake(final Player thePlayer, final ItemStack stack)
         {
-            if (!this.wearer.getCommandSenderWorld().isClientSide) EnumWearable.takeOff(thePlayer, stack, this
+            if (!this.wearer.getLevel().isClientSide) EnumWearable.takeOff(thePlayer, stack, this
                     .getSlotIndex());
             super.onTake(thePlayer, stack);
         }
@@ -91,7 +91,7 @@ public class ContainerWearables extends AbstractContainerMenu
         @Override
         public void set(final ItemStack stack)
         {
-            if (!this.wearer.getCommandSenderWorld().isClientSide) EnumWearable.putOn(this.wearer, stack, this
+            if (!this.wearer.getLevel().isClientSide) EnumWearable.putOn(this.wearer, stack, this
                     .getSlotIndex());
             super.set(stack);
         }
@@ -112,7 +112,7 @@ public class ContainerWearables extends AbstractContainerMenu
         super(ContainerWearables.TYPE, id);
         LivingEntity wearer = player.player;
         final int num = extraData.readInt();
-        final Entity mob = wearer.getCommandSenderWorld().getEntity(num);
+        final Entity mob = wearer.getLevel().getEntity(num);
         if (mob instanceof LivingEntity) wearer = (LivingEntity) mob;
 
         this.wearer = wearer;

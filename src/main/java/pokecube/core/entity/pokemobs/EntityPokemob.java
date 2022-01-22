@@ -26,10 +26,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -119,7 +121,7 @@ public class EntityPokemob extends PokemobRidable
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getCommandSenderWorld());
+        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getLevel());
         egg.setStackByParents(this, other);
         return egg;
     }
@@ -156,7 +158,7 @@ public class EntityPokemob extends PokemobRidable
     protected void tickDeath()
     {
         ++this.deathTime;
-        if (!(this.getCommandSenderWorld() instanceof ServerLevel)) return;
+        if (!(this.getLevel() instanceof ServerLevel)) return;
 
         if (this.isVehicle()) this.ejectPassengers();
 
@@ -200,7 +202,7 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public void travel(final Vec3 dr)
+    public void travel(Vec3 dr)
     {
         // If we are ridden on ground, do similar stuff to horses.
         ridden:
@@ -227,15 +229,11 @@ public class EntityPokemob extends PokemobRidable
             this.setRot(this.yRot, this.xRot);
             this.yBodyRot = this.yRot;
             this.yHeadRot = this.yBodyRot;
-            float strafe = livingentity.xxa * 0.5F;
-            float forwards = livingentity.zza;
-            if (forwards <= 0.0F) forwards *= 0.25F;
 
-            if (!this.onGround && this.jumpPower == 0.0F)
-            {
-                strafe = 0.0F;
-                forwards = 0.0F;
-            }
+            float strafe = controller.moveSide;
+            float forwards = controller.moveFwd;
+            float upwards = controller.moveUp;
+
             if (this.jumpPower > 0.0F && !this.jumping && this.onGround)
             {
                 final double jumpStrength = 1.7;
@@ -259,15 +257,18 @@ public class EntityPokemob extends PokemobRidable
                 }
                 this.jumpPower = 0.0F;
             }
-            this.flyingSpeed = this.getSpeed() * 0.1F;
+            this.flyingSpeed = this.getSpeed();
             if (this.isControlledByLocalInstance())
             {
-                final double speed = controller.throttle;
-                final float speedFactor = (float) (1 + Math.sqrt(this.pokemobCap.getPokedexEntry().getStatVIT()) / 10F);
-                final Config config = PokecubeCore.getConfig();
-                final float moveSpeed = (float) (config.groundSpeedFactor * speed * speedFactor);
-                this.setSpeed(moveSpeed);
-                super.travel(new Vec3(strafe, dr.y, forwards));
+                dr = new Vec3(strafe, upwards, forwards);
+                this.setSpeed((float) dr.length());
+                if (controller.verticalControl)
+                {
+                    this.moveRelative(this.getSpeed(), dr.normalize());
+                    this.move(MoverType.SELF, this.getDeltaMovement());
+                    this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
+                }
+                else super.travel(new Vec3(strafe, upwards, forwards));
             }
             else if (livingentity instanceof Player) this.setDeltaMovement(Vec3.ZERO);
 
@@ -297,7 +298,8 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
-        if (PokecubeCore.getConfig().pokemobsDropItems) return this.pokemobCap.getPokedexEntry().lootTable;
+        if (this.getLevel() instanceof ServerLevel level && Config.Rules.dropLoot(level))
+            return this.pokemobCap.getPokedexEntry().lootTable;
         else return null;
     }
 
@@ -317,7 +319,7 @@ public class EntityPokemob extends PokemobRidable
         final PokedexEntry pokeEntry = pokemob.getPokedexEntry();
         final SpawnData entry = pokeEntry.getSpawnData();
         if (entry == null) return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        final Vector3 loc = Vector3.getNewVector().set(this);
+        final Vector3 loc = new Vector3().set(this);
 
         SpawnContext context = new SpawnContext(pokemob);
         SpawnCheck checker = new SpawnCheck(loc, worldIn);
@@ -511,30 +513,73 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public boolean requiresCustomPersistence()
     {
-        final boolean despawns = PokecubeCore.getConfig().despawn;
-        final boolean culls = PokecubeCore.getConfig().cull;
+        if (!(level instanceof ServerLevel level)) return true;
+
+        final boolean despawns = Config.Rules.doDespawn(level);
+        final boolean culls = Config.Rules.doCull(level);
         final boolean owned = this.pokemobCap.getOwnerId() != null;
-        if (owned) return true;
+
+        if (owned)
+        {
+            this.setPersistenceRequired();
+            return true;
+        }
         if (this.getPersistentData().contains(TagNames.NOPOOF)) return true;
         return !(despawns || culls);
     }
 
-    private boolean cullCheck(final double distanceToClosestPlayer)
+    private boolean cullCheck(double distanceToClosestPlayer)
     {
-        if (this.pokemobCap.getOwnerId() != null) return false;
-        boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
+        if (this.pokemobCap.getOwnerId() != null || !(level instanceof ServerLevel level)) return false;
         final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
         if (noPoof) return false;
-        if (PokecubeCore.getConfig().despawn)
+        distanceToClosestPlayer = Math.sqrt(distanceToClosestPlayer);
+        if (Config.Rules.doCull(level, distanceToClosestPlayer)) return true;
+        if (Config.Rules.doDespawn(level, distanceToClosestPlayer))
         {
             this.despawntimer--;
-            if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
-            else if (this.despawntimer == 0) return true;
+            if (this.despawntimer <= 0) return true;
+            return false;
         }
-        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance,
-                this.getCommandSenderWorld().getMaxBuildHeight(), this);
-        if (PokecubeCore.getConfig().cull && !player) return true;
+        this.despawntimer = PokecubeCore.getConfig().despawnTimer;
         return false;
+    }
+
+    @Override
+    public void checkDespawn()
+    {
+        if (this.level.getDifficulty() == Difficulty.PEACEFUL && this.shouldDespawnInPeaceful())
+        {
+            this.discard();
+        }
+        else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence())
+        {
+            Entity entity = this.level.getNearestPlayer(this, -1.0D);
+            net.minecraftforge.eventbus.api.Event.Result result = net.minecraftforge.event.ForgeEventFactory
+                    .canEntityDespawn(this);
+            if (result == net.minecraftforge.eventbus.api.Event.Result.DENY)
+            {
+                noActionTime = 0;
+                entity = null;
+            }
+            else if (result == net.minecraftforge.eventbus.api.Event.Result.ALLOW)
+            {
+                this.discard();
+                entity = null;
+            }
+            if (entity != null)
+            {
+                double d0 = entity.distanceToSqr(this);
+                if (this.removeWhenFarAway(d0))
+                {
+                    this.discard();
+                }
+            }
+        }
+        else
+        {
+            this.noActionTime = 0;
+        }
     }
 
     @Override

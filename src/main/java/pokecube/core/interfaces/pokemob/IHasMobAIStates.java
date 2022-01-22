@@ -35,7 +35,19 @@ public interface IHasMobAIStates extends IMoveConstants
     int getTotalLogicState();
 
     /** Initializes the ai */
-    void initAI();
+    void postInitAI();
+
+    /**
+     * First stage of brain initialisation, This calls early in the LivingEntity
+     * constructor, so some things may not be available yet
+     */
+    void preInitAI();
+
+    default void initAI()
+    {
+        preInitAI();
+        postInitAI();
+    }
 
     /**
      * This should default to whatever the routine defaults to, see

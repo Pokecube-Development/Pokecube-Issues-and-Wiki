@@ -36,7 +36,7 @@ public class AnimationHelper
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
         if (components == null) return false;
         boolean animated = false;
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         float x = 0, y = 0, z = 0;
         float sx = 1, sy = 1, sz = 1;
         int aniTick = tick;

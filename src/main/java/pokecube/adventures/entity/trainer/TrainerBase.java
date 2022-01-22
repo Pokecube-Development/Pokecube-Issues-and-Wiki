@@ -3,14 +3,10 @@ package pokecube.adventures.entity.trainer;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.network.NetworkHooks;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
@@ -33,12 +26,10 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.events.npc.NpcEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SpawnContext;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.inventory.npc.NpcContainer;
 import pokecube.core.utils.Tools;
 import thut.api.Tracker;
 import thut.api.item.ItemList;
@@ -81,27 +72,10 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public InteractionResult mobInteract(final Player player, final InteractionHand hand)
     {
-        NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(this);
-        MinecraftForge.EVENT_BUS.post(event);
-        if (event.getResult() == Result.ALLOW)
-        {
-            if (player instanceof ServerPlayer sp)
-            {
-                final FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer(0));
-                buffer.writeInt(this.getId());
-                final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new NpcContainer(i, p, buffer),
-                        this.getDisplayName());
-                NetworkHooks.openGui(sp, provider, buf -> {
-                    buf.writeInt(this.getId());
-                });
-            }
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
-        }
-
         final ItemStack stack = player.getItemInHand(hand);
         if (player.getAbilities().instabuild && player.isCrouching())
         {
-            if (!this.getCommandSenderWorld().isClientSide && player.isCrouching()
+            if (!this.getLevel().isClientSide && player.isCrouching()
                     && player.getMainHandItem().getItem() == Items.STICK)
                 this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -155,7 +129,7 @@ public abstract class TrainerBase extends NpcMob
         this.invuln = true;
         if (PokecubeAdv.config.trainerAIPause)
         {
-            final Player near = this.getCommandSenderWorld().getNearestPlayer(this, -1);
+            final Player near = this.getLevel().getNearestPlayer(this, -1);
             if (near != null)
             {
                 final float dist = near.distanceTo(this);
@@ -206,7 +180,7 @@ public abstract class TrainerBase extends NpcMob
             {
                 this.checkedMobs = true;
                 SpawnContext context = new SpawnContext(null, (ServerLevel) level, type.pokemon.get(0),
-                        Vector3.getNewVector().set(this));
+                        new Vector3().set(this));
                 final int level = SpawnHandler.getSpawnLevel(context);
                 this.initTeam(level);
                 type.initTrainerItems(this);
@@ -255,7 +229,11 @@ public abstract class TrainerBase extends NpcMob
     public void setNpcType(final NpcType type)
     {
         super.setNpcType(type);
-        if (this.pokemobsCap != null && type instanceof TypeTrainer) this.pokemobsCap.setType((TypeTrainer) type);
+        if (this.pokemobsCap != null && type instanceof TypeTrainer)
+        {
+            this.pokemobsCap.setType((TypeTrainer) type);
+            this.pokemobsCap.getType().initTrainerItems(this);
+        }
     }
 
     public abstract void initTeam(int level);

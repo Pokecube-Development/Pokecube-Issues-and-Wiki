@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube:plants_edible"
+    "#thutcore:plants_edible",
+    "#thutcore:fruits"
   ]
 }

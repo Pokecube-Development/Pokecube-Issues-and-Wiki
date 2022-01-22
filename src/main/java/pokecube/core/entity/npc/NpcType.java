@@ -1,20 +1,24 @@
 package pokecube.core.entity.npc;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.compress.utils.Lists;
-
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
@@ -23,13 +27,17 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.database.spawns.SpawnBiomeMatcher;
+import pokecube.core.database.spawns.SpawnCheck;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 public class NpcType
@@ -136,9 +144,22 @@ public class NpcType
 
     public static ItemListing[] join(ItemListing[]... listings)
     {
-        List<ItemListing> list = Lists.newArrayList();
+        List<ItemListing> list = new ArrayList<>();
         for (ItemListing[] listing : listings) for (ItemListing l : listing) list.add(l);
         return list.toArray(new ItemListing[list.size()]);
+    }
+
+    @Nullable
+    public static NpcType getRandomForLocation(Vector3 v, final ServerLevel w)
+    {
+        final Material m = v.getBlockMaterial(w);
+        if (m == Material.AIR && v.offset(Direction.DOWN).getBlockMaterial(w) == Material.AIR)
+            v = v.getTopBlockPos(w).offsetBy(Direction.UP);
+        final SpawnCheck checker = new SpawnCheck(v, w);
+        final List<NpcType> types = Lists.newArrayList(typeMap.values());
+        Collections.shuffle(types);
+        for (NpcType type : types) if (type.shouldSpawn(checker, w)) return type;
+        return null;
     }
 
     private final String name;
@@ -152,6 +173,8 @@ public class NpcType
     public Set<ResourceLocation> tags = Sets.newHashSet();
 
     private IInteract interaction = (p, h, mob) -> false;
+
+    public Map<SpawnBiomeMatcher, Float> spawns = Maps.newHashMap();
 
     public NpcType(String string)
     {
@@ -249,6 +272,11 @@ public class NpcType
 
     public boolean hasTrades(int level)
     {
+        if (VillagerTrades.TRADES.containsKey(this.getProfession())
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
+                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0)
+            return true;
+
         if (TRADE_MAP.get(name) == null) return false;
         /*
          * We have trades in the following cases:
@@ -258,8 +286,20 @@ public class NpcType
          * The vanilla TRADES map tells us we have trades
          * 
          */
-        return TRADE_MAP.get(name).get(level).length > 0 || (VillagerTrades.TRADES.containsKey(this.getProfession())
-                && VillagerTrades.TRADES.get(this.getProfession()).get(level) != null
-                && VillagerTrades.TRADES.get(this.getProfession()).get(level).length > 0);
+        return TRADE_MAP.get(name).get(level).length > 0;
+    }
+
+    public boolean shouldSpawn(SpawnCheck checker, final ServerLevel w)
+    {
+        for (final Entry<SpawnBiomeMatcher, Float> entry : this.spawns.entrySet())
+        {
+            final SpawnBiomeMatcher matcher = entry.getKey();
+            final Float value = entry.getValue();
+            if (w.random.nextFloat() < value && matcher.matches(checker))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

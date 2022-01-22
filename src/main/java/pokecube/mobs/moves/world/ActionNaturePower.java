@@ -201,7 +201,7 @@ public class ActionNaturePower implements IMoveAction
                 required.forEach(s -> _required_.add(new ResourceLocation(s)));
             }
             ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
-            final PointChecker checker = new PointChecker(world, Vector3.getNewVector().set(pos), _predicate_);
+            final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
             System.out.println("Checking for " + _biome_);
             if (!_has_required_.test(checker))
@@ -246,6 +246,8 @@ public class ActionNaturePower implements IMoveAction
         boolean yaxis = false;
         int maxRSq = 8 * 8;
 
+        final Vector3 temp = new Vector3();
+
         public PointChecker(final Level world, final Vector3 pos, final Predicate<BlockPos> validator)
         {
             this.world = world;
@@ -267,7 +269,6 @@ public class ActionNaturePower implements IMoveAction
         private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
         {
             boolean ret = false;
-            final Vector3 temp = Vector3.getNewVector();
             // Check the connected blocks, see if they match predicate, if they
             // do, add them to the list. This also checks diagonally connected
             // blocks.
@@ -330,7 +331,7 @@ public class ActionNaturePower implements IMoveAction
         {
             if (world.getBlockState(pos).getBlock() != Blocks.DIAMOND_BLOCK) return false;
             boolean mod = false;
-            final Vector3 vec = Vector3.getNewVector().set(pos);
+            final Vector3 vec = new Vector3().set(pos);
 
             ChunkGenerator generator = world.getChunkSource().getGenerator();
             Climate.Sampler sampler = generator.climateSampler();

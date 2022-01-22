@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -21,13 +22,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
+import thut.api.entity.ai.RootTask;
 import thut.api.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>
@@ -64,7 +66,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     protected void doTick(final ServerLevel worldIn, final LivingEntity entityIn)
     {
         final double s = 16;
-        if (!TerrainManager.isAreaLoaded(entityIn.getCommandSenderWorld(), entityIn.blockPosition(), 8 + s)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.getLevel(), entityIn.blockPosition(), 8 + s)) return;
 
         if (RootTask.doLoadThrottling)
         {
@@ -77,33 +79,38 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final List<ItemEntity> items = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();
         final List<LivingEntity> visible = Lists.newArrayList();
+        EntityPokemobEgg egg = null;
         final double dh = 8;
         final double dv = 4;
         final AABB mateBox = entityIn.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = entityIn.getBoundingBox().inflate(s, s, s);
-        final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) ->
-        {
+        final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> {
             return hit != entityIn && hit.isAlive() && (hit instanceof LivingEntity || hit instanceof ItemEntity);
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();
         final IPokemob us = CapabilityPokemob.getPokemobFor(entityIn);
         final boolean canMate = entityIn instanceof AgeableMob && (us == null || InterestingMobs.canPokemobMate(us));
-        for (final Entity e : list)
-            if (e instanceof LivingEntity)
+        for (final Entity e : list) if (e instanceof LivingEntity)
+        {
+            final LivingEntity living = (LivingEntity) e;
+            final boolean canSee = InterestingMobs.VISIBLE.test(entityIn, living);
+            mobs.add(living);
+            if (canSee)
             {
-                final LivingEntity living = (LivingEntity) e;
-                final boolean canSee = InterestingMobs.VISIBLE.test(entityIn, living);
-                mobs.add(living);
-                if (canSee)
-                {
-                    visible.add(living);
-                    final boolean validMate = canMate && e instanceof AgeableMob && mateBox.intersects(living
-                            .getBoundingBox()) && this.isValid((AgeableMob) entityIn, (AgeableMob) living);
-                    if (validMate) mates.add((AgeableMob) living);
-                }
+                visible.add(living);
+                final boolean validMate = canMate && e instanceof AgeableMob
+                        && mateBox.intersects(living.getBoundingBox())
+                        && this.isValid((AgeableMob) entityIn, (AgeableMob) living);
+                if (validMate) mates.add((AgeableMob) living);
             }
-            else if (e instanceof ItemEntity) items.add((ItemEntity) e);
+            if (living instanceof EntityPokemobEgg newEgg && entityIn.getUUID().equals(newEgg.getMotherId()))
+            {
+                if (egg == null) egg = newEgg;
+                else if (egg.distanceToSqr(entityIn) > newEgg.distanceToSqr(entityIn)) egg = newEgg;
+            }
+        }
+        else if (e instanceof ItemEntity) items.add((ItemEntity) e);
         if (!mates.isEmpty()) brain.setMemory(MemoryModules.POSSIBLE_MATES, mates);
         else brain.eraseMemory(MemoryModules.POSSIBLE_MATES);
         if (!visible.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
@@ -113,6 +120,11 @@ public class InterestingMobs extends Sensor<LivingEntity>
         else brain.eraseMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
         if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS, items);
         else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS);
+        if (brain.checkMemory(MemoryModules.EGG, MemoryStatus.REGISTERED))
+        {
+            if (egg != null) brain.setMemory(MemoryModules.EGG, egg);
+            else brain.eraseMemory(MemoryModules.EGG);
+        }
     }
 
     @Override

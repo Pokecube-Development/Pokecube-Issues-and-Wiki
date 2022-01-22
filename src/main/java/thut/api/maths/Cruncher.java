@@ -20,7 +20,7 @@ public class Cruncher
         // already initialized!
         if (Cruncher.useCache) return;
         Cruncher.CUBECACHE = new short[128 * 128 * 128][];
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         for (int i = 0; i < Cruncher.CUBECACHE.length; i++)
         {
             final short[] var = new short[3];

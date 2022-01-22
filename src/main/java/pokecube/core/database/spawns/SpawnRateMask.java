@@ -130,7 +130,7 @@ public class SpawnRateMask
         initFunctions();
         if (!(world instanceof ServerLevel level) || _function == null) return 0;
         // BlockPos p = world.
-        final Vector3 spawn = Vector3.getNewVector().set(level.getSharedSpawnPos());
+        final Vector3 spawn = new Vector3().set(level.getSharedSpawnPos());
         final boolean r = _function.radial;
         double old_t = this.phase_t;
         double old_x = this.phase_x;

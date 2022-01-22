@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +28,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
-import thut.api.maths.Vector3.MutableBlockPos;
 
 public interface IBlockEntity
 {
@@ -180,17 +180,17 @@ public interface IBlockEntity
                 final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
                 if (state != null)
                 {
-                    if (!entity.getCommandSenderWorld().isEmptyBlock(pos))
-                        entity.getCommandSenderWorld().destroyBlock(pos, true);
-                    entity.getCommandSenderWorld().setBlockAndUpdate(pos, state);
+                    if (!entity.getLevel().isEmptyBlock(pos))
+                        entity.getLevel().destroyBlock(pos, true);
+                    entity.getLevel().setBlockAndUpdate(pos, state);
                     if (tile != null)
                     {
-                        final BlockEntity newTile = entity.getCommandSenderWorld().getBlockEntity(pos);
+                        final BlockEntity newTile = entity.getLevel().getBlockEntity(pos);
                         if (newTile != null) newTile.load(tile.save(new CompoundTag()));
                     }
                 }
             }
-            final List<Entity> possibleInside = entity.getCommandSenderWorld().getEntities(entity,
+            final List<Entity> possibleInside = entity.getLevel().getEntities(entity,
                     entity.getBoundingBox());
             for (final Entity e : possibleInside) e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }

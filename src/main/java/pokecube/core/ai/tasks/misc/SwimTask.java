@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Mob;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IPokemob;
+import thut.api.entity.ai.RootTask;
 
 public class SwimTask extends RootTask<Mob>
 {
@@ -36,13 +36,13 @@ public class SwimTask extends RootTask<Mob>
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
     {
         if (this.pokemob != null && this.pokemob.swims()) return false;
-        final boolean belowDepth = owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold();
+        final boolean belowDepth = owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold()
+                || owner.isEyeInFluid(FluidTags.WATER);
         return owner.isInWater() && belowDepth || owner.isInLava();
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final Mob entityIn, final long gameTimeIn)
     {
         return this.checkExtraStartConditions(worldIn, entityIn);
     }

@@ -138,7 +138,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      *
      * @param m1 the source matrix
      */
-    public Matrix3d(final Matrix3f m1)
+    public Matrix3d(final Mat3f m1)
     {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
@@ -1023,7 +1023,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      *
      * @param m1 the matrix3d to be converted to double
      */
-    public final void set(final Matrix3f m1)
+    public final void set(final Mat3f m1)
     {
         this.m00 = m1.m00;
         this.m01 = m1.m01;

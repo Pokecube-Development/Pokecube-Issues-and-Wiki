@@ -180,7 +180,7 @@ public class PacketPokedex extends NBTPacket
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
         ListTag list = new ListTag();
 
-        final Level world = player.getCommandSenderWorld();
+        final Level world = player.getLevel();
 
         final BlockPos pos = player.blockPosition();
         final GlobalPos here = GlobalPos.of(world.dimension(), pos);
@@ -288,7 +288,7 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(),
+            final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(),
                     this.getTag().getInt("M"), true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
@@ -428,13 +428,13 @@ public class PacketPokedex extends NBTPacket
         SpawnData data;
         final CompoundTag spawns = new CompoundTag();
 
-        pos = Vector3.getNewVector().set(player);
+        pos = new Vector3().set(player);
         checker = new SpawnCheck(pos, player.level);
 
         switch (this.message)
         {
         case INSPECTMOB:
-            mob = PokecubeCore.getEntityProvider().getEntity(player.getCommandSenderWorld(), this.getTag().getInt("V"),
+            mob = PokecubeCore.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("V"),
                     true);
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
@@ -476,7 +476,7 @@ public class PacketPokedex extends NBTPacket
         case REQUESTLOC:
             rates = Maps.newHashMap();
             names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getCommandSenderWorld(),
+            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getLevel(),
                     pos.getPos()) != ForbidReason.NONE;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);

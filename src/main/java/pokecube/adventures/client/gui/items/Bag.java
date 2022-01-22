@@ -146,7 +146,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
-                final int y = i / 9 * 18 + this.height / 2 - 96;
+                final int y = i / 9 * 18 + this.height / 2 - 97;
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {

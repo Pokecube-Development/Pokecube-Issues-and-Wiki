@@ -6,10 +6,12 @@
   "refmap": "pokecube.refmap.json",
   "mixins": [
     "MixinBaseFireBlock",
-    "MixinLakesFeature",
-    "MixinMobEntity",
-    "MixinStructure",
-    "MixinBeardifier"
+    "worldgen.MixinLakesFeature",
+    "worldgen.MixinStructure",
+    "worldgen.MixinBeardifier",
+    "brain.MixinLivingEntityInit",
+    "brain.MixinVilagerBrainUpdate",
+    "brain.MixinMobEntity"
   ],
   "client": [
   ],

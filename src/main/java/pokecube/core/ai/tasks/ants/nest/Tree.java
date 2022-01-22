@@ -76,7 +76,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
     @Override
     public Path getPath(final Mob mob, final WalkTarget target)
     {
-        final ServerLevel world = (ServerLevel) mob.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) mob.getLevel();
         final BlockPos to = target.getTarget().currentBlockPosition();
         this.pather = new SwimAndWalkNodeProcessor();
         this.pather.setCanPassDoors(true);

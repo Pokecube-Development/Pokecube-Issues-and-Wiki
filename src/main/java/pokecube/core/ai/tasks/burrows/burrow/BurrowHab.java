@@ -34,6 +34,7 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.handlers.Config;
 import pokecube.core.handlers.events.SpawnHandler.AABBRegion;
 import pokecube.core.handlers.events.SpawnHandler.ForbidRegion;
 import pokecube.core.interfaces.IInhabitable;
@@ -54,10 +55,9 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
         final Predicate<Mob> filter = mob -> hab.canEnterHabitat(mob);
-        final List<Mob> mobs = pokemob.getEntity().getCommandSenderWorld().getEntitiesOfClass(Mob.class,
+        final List<Mob> mobs = pokemob.getEntity().getLevel().getEntitiesOfClass(Mob.class,
                 hab.burrow.getOutBounds().inflate(10), filter);
-        for (final Mob mob : mobs)
-            if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
+        for (final Mob mob : mobs) if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
         return hab;
     }
 
@@ -71,8 +71,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
     final Set<PokedexEntry> mutations = Sets.newHashSet();
 
-    Predicate<PokedexEntry> valid = e ->
-    {
+    Predicate<PokedexEntry> valid = e -> {
         return this.related.contains(e) || this.mutations.contains(e);
     };
 
@@ -103,8 +102,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         if (related.contains(parent)) return;
         related.add(parent);
         if (!related.contains(parent.getChild())) this.addRelations(parent.getChild(), related);
-        for (final EvolutionData d : parent.evolutions)
-            this.addRelations(d.evolution, related);
+        for (final EvolutionData d : parent.evolutions) this.addRelations(d.evolution, related);
     }
 
     public void setMaker(final PokedexEntry maker)
@@ -145,24 +143,21 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         nbt.putString("maker", this.maker.getTrimmedName());
         nbt.put("burrow", this.burrow.serializeNBT());
         final ListTag eggs = new ListTag();
-        this.eggs.forEach(uuid ->
-        {
+        this.eggs.forEach(uuid -> {
             final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             eggs.add(tag);
         });
         nbt.put("eggs", eggs);
         final ListTag mobs = new ListTag();
-        this.mobs.forEach(uuid ->
-        {
+        this.mobs.forEach(uuid -> {
             final CompoundTag tag = new CompoundTag();
             tag.putUUID("id", uuid);
             mobs.add(tag);
         });
         nbt.put("mobs", mobs);
         final ListTag muts = new ListTag();
-        this.mutations.forEach(entry ->
-        {
+        this.mutations.forEach(entry -> {
             muts.add(StringTag.valueOf(entry.getTrimmedName()));
         });
         nbt.put("mutated", muts);
@@ -184,8 +179,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     private List<IPokemob> cleanAndCollectMobs(final ServerLevel world)
     {
         final List<IPokemob> pokemobs = Lists.newArrayList();
-        this.mobs.removeIf(uuid ->
-        {
+        this.mobs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (mob == null || !(mob instanceof Mob)) return true;
             if (!this.canEnterHabitat((Mob) mob)) return true;
@@ -205,14 +199,13 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         y = this.burrow.getCenter().getY();
         z = this.burrow.getCenter().getZ();
 
-        final boolean playerNear = !world.getPlayers(p -> p.distanceToSqr(x, y, z) < PokecubeCore
-                .getConfig().cullDistance).isEmpty();
+        final boolean playerNear = !world
+                .getPlayers(p -> p.distanceToSqr(x, y, z) < Config.Rules.despawnDistance(world)).isEmpty();
 
         final Random rng = ThutCore.newRandom();
         // Lets make the eggs not hatch for now,
         // This also removes hatched/removed eggs
-        this.eggs.removeIf(uuid ->
-        {
+        this.eggs.removeIf(uuid -> {
             final Entity mob = world.getEntity(uuid);
             if (!(mob instanceof EntityPokemobEgg) || !mob.isAddedToWorld()) return true;
             final EntityPokemobEgg egg = (EntityPokemobEgg) mob;
@@ -241,8 +234,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
             if (tile instanceof NestTile)
             {
-                ((NestTile) tile).residents.removeIf(p ->
-                {
+                ((NestTile) tile).residents.removeIf(p -> {
                     if (p == null) return true;
                     if (!p.getEntity().isAlive()) return true;
                     if (!p.getEntity().isAddedToWorld()) return true;
@@ -255,8 +247,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             // sizes will fit.
             if (this.mobs.isEmpty() && this.eggs.isEmpty())
             {
-                final List<EntityType<?>> types = Lists.newArrayList(EntityTypeTags.bind(IMoveConstants.BURROWS
-                        .toString()).getValues());
+                final List<EntityType<?>> types = Lists
+                        .newArrayList(EntityTypeTags.bind(IMoveConstants.BURROWS.toString()).getValues());
                 Collections.shuffle(types);
                 final Biome b = world.getBiome(this.burrow.getCenter());
                 selection:
@@ -346,14 +338,12 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         }
         final int stringId = 8;
         final ListTag muts = nbt.getList("mutated", stringId);
-        for (int i = 0; i < muts.size(); ++i)
-            this.mutations.add(Database.getEntry(muts.getString(i)));
+        for (int i = 0; i < muts.size(); ++i) this.mutations.add(Database.getEntry(muts.getString(i)));
     }
 
     @Override
     public void onExitHabitat(final Mob mob)
-    {
-    }
+    {}
 
     @Override
     public boolean onEnterHabitat(final Mob mob)

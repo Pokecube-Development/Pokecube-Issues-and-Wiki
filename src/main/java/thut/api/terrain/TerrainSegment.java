@@ -41,7 +41,7 @@ public class TerrainSegment
                 // Do not return this for cave worlds
                 if (world.dimensionType().hasCeiling()) return BiomeType.NONE;
                 boolean sky = false;
-                final Vector3 temp1 = Vector3.getNewVector();
+                final Vector3 temp1 = new Vector3();
                 final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
                 final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
                 final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
@@ -173,7 +173,7 @@ public class TerrainSegment
 
     public static int count(final LevelAccessor world, final Block b, final Vector3 v, final int range)
     {
-        final Vector3 temp = Vector3.getNewVector();
+        final Vector3 temp = new Vector3();
         temp.set(v);
         int ret = 0;
         for (int i = -range; i <= range; i++)
@@ -270,11 +270,11 @@ public class TerrainSegment
     // worldgen
     public boolean real = false;
 
-    Vector3 temp = Vector3.getNewVector();
+    Vector3 temp = new Vector3();
 
-    Vector3 temp1 = Vector3.getNewVector();
+    Vector3 temp1 = new Vector3();
 
-    Vector3 mid = Vector3.getNewVector();
+    Vector3 mid = new Vector3();
 
     protected int[] biomes = new int[TerrainSegment.TOTAL];
 

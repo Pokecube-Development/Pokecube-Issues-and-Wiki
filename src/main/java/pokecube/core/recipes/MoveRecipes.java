@@ -149,7 +149,7 @@ public class MoveRecipes
             if (!MoveEventsHandler.canAffectBlock(user, location, name, false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
-            final Level world = user.getEntity().getCommandSenderWorld();
+            final Level world = user.getEntity().getLevel();
             final BlockState block = location.getBlockState(world);
             if (block == null || world.isEmptyBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
@@ -217,7 +217,7 @@ public class MoveRecipes
         {
             // This should look for items near the location, and try to stuff
             // them into a shapeless recipe.
-            final Level world = attacker.getEntity().getCommandSenderWorld();
+            final Level world = attacker.getEntity().getLevel();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(2));
             final List<ItemStack> stacks = Lists.newArrayList();
             items.forEach(e -> stacks.add(e.getItem()));

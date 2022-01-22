@@ -37,7 +37,7 @@ public class ConfigTerrainChecker implements ISubBiomeChecker
     {
         if (caveAdjusted)
         {
-            final Vector3 temp1 = Vector3.getNewVector();
+            final Vector3 temp1 = new Vector3();
             final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
             final int dx = (v.intX() - x0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;
             final int dy = (v.intY() - y0) / TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE;

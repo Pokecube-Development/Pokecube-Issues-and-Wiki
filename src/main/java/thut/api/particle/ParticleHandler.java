@@ -74,7 +74,7 @@ public class ParticleHandler
                         continue;
                     }
                     final Player player = Minecraft.getInstance().player;
-                    final Vector3 source = Vector3.getNewVector().set(player.xOld, player.yOld,
+                    final Vector3 source = new Vector3().set(player.xOld, player.yOld,
                             player.zOld);
                     mat.pushPose();
                     source.set(target.subtract(source));
@@ -86,10 +86,10 @@ public class ParticleHandler
                     mat.translate(source.x, source.y, source.z);
                     // particle.render(event.getRenderPartialTicks());
                     mat.popPose();
-                    if (particle.lastTick() != player.getCommandSenderWorld().getGameTime())
+                    if (particle.lastTick() != player.getLevel().getGameTime())
                     {
                         particle.setDuration(particle.getDuration() - 1);
-                        particle.setLastTick(player.getCommandSenderWorld().getGameTime());
+                        particle.setLastTick(player.getLevel().getGameTime());
                     }
                     if (particle.getDuration() < 0)
                     {

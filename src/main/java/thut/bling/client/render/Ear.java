@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.IModel;
 
 public class Ear
@@ -22,8 +22,8 @@ public class Ear
         dy = .175f;
         dz = 0.0f;
         s = 0.475f / 4f;
-        final Vector3f dr = new Vector3f(dx, dy, dz);
-        final Vector3f ds = new Vector3f(s, s, s);
+        final Vec3f dr = new Vec3f(dx, dy, dz);
+        final Vec3f ds = new Vec3f(s, s, s);
         mat.mulPose(com.mojang.math.Vector3f.XP.rotationDegrees(90));
         mat.mulPose(com.mojang.math.Vector3f.ZP.rotationDegrees(180));
         Util.renderStandardModelWithGem(mat, buff, stack, "main", "gem", model, textures, dr, ds, brightness, overlay);

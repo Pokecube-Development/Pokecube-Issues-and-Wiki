@@ -192,7 +192,7 @@ public class LinkableCaps
         // Otherwise try to save the location instead
         else
         {
-            final GlobalPos pos = GlobalPos.of(event.getPlayer().getCommandSenderWorld().dimension(), event.getPos());
+            final GlobalPos pos = GlobalPos.of(event.getPlayer().getLevel().dimension(), event.getPos());
             storage.setLinkedPos(pos, event.getPlayer());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);

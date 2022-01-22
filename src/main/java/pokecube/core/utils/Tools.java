@@ -45,11 +45,11 @@ import thut.core.common.commands.CommandTools;
 public class Tools
 {
     /**
-     * This is an array of what lvl has what exp for the varying exp modes.
-     * This array came from:
-     * http://bulbapedia.bulbagarden.net/wiki/Experience
+     * This is an array of what lvl has what exp for the varying exp modes. This
+     * array came from: http://bulbapedia.bulbagarden.net/wiki/Experience
      */
-    private static final int[][] expMap = {
+    private static final int[][] expMap =
+    {
             //@formatter:off
             { 0, 0, 0, 0, 0, 0, 1 },
             { 15, 6, 8, 9, 10, 4, 2 },
@@ -153,7 +153,8 @@ public class Tools
             { 600000, 800000, 1000000, 1059860, 1250000, 1640000, 100 } };
     //@formatter:on
     // cache these in tables, for easier lookup.
-    public static int[] maxXPs = { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
+    public static int[] maxXPs =
+    { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
 
     /**
      * This is a cache of a radial lookup map, note that it only has +- 4 blocks
@@ -163,7 +164,7 @@ public class Tools
 
     static
     {
-        final Vector3 r = Vector3.getNewVector();
+        final Vector3 r = new Vector3();
         for (int i = 0; i < Tools.indexArr.length; i++)
         {
             Cruncher.indexToVals(i, r);
@@ -212,8 +213,8 @@ public class Tools
         int additionalBonus = 0;
         final Item cube = PokecubeItems.getFilledCube(pokecubeId);
         if (cube instanceof IPokecube) cubeBonus = ((IPokecube) cube).getCaptureModifier(pokemob, pokecubeId);
-        if (IPokecube.BEHAVIORS.containsKey(pokecubeId)) additionalBonus = IPokecube.BEHAVIORS.getValue(pokecubeId)
-                .getAdditionalBonus(pokemob);
+        if (IPokecube.BEHAVIORS.containsKey(pokecubeId))
+            additionalBonus = IPokecube.BEHAVIORS.getValue(pokecubeId).getAdditionalBonus(pokemob);
         return Tools.computeCatchRate(pokemob, cubeBonus, additionalBonus);
     }
 
@@ -231,12 +232,11 @@ public class Tools
     private static int getLevelFromTable(final int index, final int exp)
     {
         int level = 100;
-        for (int i = 0; i < 99; i++)
-            if (Tools.expMap[i][index] <= exp && Tools.expMap[i + 1][index] > exp)
-            {
-                level = Tools.expMap[i][6];
-                break;
-            }
+        for (int i = 0; i < 99; i++) if (Tools.expMap[i][index] <= exp && Tools.expMap[i + 1][index] > exp)
+        {
+            level = Tools.expMap[i][6];
+            break;
+        }
         return level;
     }
 
@@ -247,24 +247,22 @@ public class Tools
 
     public static boolean isRidingOrRider(final Entity a, final Entity b)
     {
-        for (final Entity c : a.getIndirectPassengers())
-            if (b.equals(c)) return true;
-        for (final Entity c : b.getIndirectPassengers())
-            if (a.equals(c)) return true;
+        for (final Entity c : a.getIndirectPassengers()) if (b.equals(c)) return true;
+        for (final Entity c : b.getIndirectPassengers()) if (a.equals(c)) return true;
         return false;
     }
 
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
-        final Vector3 pos = Vector3.getNewVector().set(entity, true);
+        final Vector3 pos = new Vector3().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
         if (loc != null) distance = loc.distanceTo(pos);
         final Vec3 vec31 = entity.getViewVector(0);
         Predicate<Entity> predicate = EntitySelector.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(
-                entity, c));
-        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getCommandSenderWorld(), entity, predicate);
+        predicate = predicate
+                .and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(entity, c));
+        Entity hit = pos.firstEntityExcluding(distance, vec31, entity.getLevel(), entity, predicate);
         if (hit != null) hit = EntityTools.getCoreEntity(hit);
         return hit;
     }
@@ -275,11 +273,11 @@ public class Tools
         final double d0 = distance;
         final Vec3 vec31 = entity.getViewVector(0);
         final Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        final Level world = entity.getCommandSenderWorld();
-        final BlockHitResult result = world.clip(new ClipContext(vec3, vec32,
-                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        final Level world = entity.getLevel();
+        final BlockHitResult result = world
+                .clip(new ClipContext(vec3, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result == null || result.getBlockPos() == null) return null;
-        final Vector3 vec = Vector3.getNewVector().set(result.getLocation());
+        final Vector3 vec = new Vector3().set(result.getLocation());
         return vec;
     }
 
@@ -292,8 +290,8 @@ public class Tools
         if (mob != null)
         {
             pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
-            if (mob.getAbility() != null) pwr = mob.getAbility().beforeDamage(mob, new MovePacket(user, target, attack),
-                    pwr);
+            if (mob.getAbility() != null)
+                pwr = mob.getAbility().beforeDamage(mob, new MovePacket(user, target, attack), pwr);
         }
         return pwr;
     }
@@ -307,9 +305,8 @@ public class Tools
      * Can be {@link IPokemob#MALE}, {@link IPokemob#FEMALE} or
      * {@link IPokemob#NOSEXE}
      *
-     * @param baseValue
-     *            the sexe ratio of the Pokemon, 254=Only female, 255=no sexe,
-     *            0=Only male
+     * @param baseValue the sexe ratio of the Pokemon, 254=Only female, 255=no
+     *                  sexe, 0=Only male
      * @param random
      * @return the int gender
      */
@@ -334,21 +331,20 @@ public class Tools
         boolean isTable = false;
         String table = "";
 
-        for (final String key : values.keySet())
-            if (key.toString().equals("id")) id = values.get(key);
-            else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
-            else if (key.toString().equals("tag")) tag = values.get(key).trim();
-            else if (key.toString().equals("table"))
-            {
-                table = values.get(key).trim();
-                isTable = true;
-            }
+        for (final String key : values.keySet()) if (key.toString().equals("id")) id = values.get(key);
+        else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
+        else if (key.toString().equals("tag")) tag = values.get(key).trim();
+        else if (key.toString().equals("table"))
+        {
+            table = values.get(key).trim();
+            isTable = true;
+        }
 
         if (isTable && world != null)
         {
             final LootTable loottable = world.getServer().getLootTables().get(new ResourceLocation(table));
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world).withRandom(world
-                    .getRandom());
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world)
+                    .withRandom(world.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
             // Shuffle the list.
@@ -356,12 +352,12 @@ public class Tools
             for (final ItemStack itemstack : list)
                 // Pick first valid item in it.
                 if (!itemstack.isEmpty())
-                {
-                    final ItemStack stack = itemstack.copy();
+            {
+                final ItemStack stack = itemstack.copy();
                 if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
                     PokecubeItems.makeStackValid(stack);
-                    return stack;
-                }
+                return stack;
+            }
         }
 
         if (id.isEmpty()) return ItemStack.EMPTY;
@@ -372,12 +368,12 @@ public class Tools
 
         if (!resource || item == null) stack = PokecubeItems.getStack(id, false);
         if (!stack.isEmpty()) item = stack.getItem();
-        if (item == null) for (final ResourceLocation loc : ForgeRegistries.ITEMS.getKeys())
-            if (loc.getPath().equals(id))
-            {
-                item = ForgeRegistries.ITEMS.getValue(loc);
-                break;
-            }
+        if (item == null)
+            for (final ResourceLocation loc : ForgeRegistries.ITEMS.getKeys()) if (loc.getPath().equals(id))
+        {
+            item = ForgeRegistries.ITEMS.getValue(loc);
+            break;
+        }
 
         if (item == null && stack.isEmpty())
         {
@@ -420,14 +416,9 @@ public class Tools
         }
 
         /*
-         * 1 - slow - 4
-         * 2 - medium - 2
-         * 3 - fast - 1
-         * 4 - medium-slow - 3
-         * 5 - slow-then-very-fast - 0
-         * 6 - fast-then-very-slow - 5
-         * 5 3 2 4 1 6
-         * { 52, 21, 27, 57, 33, 13, 3 },
+         * 1 - slow - 4 2 - medium - 2 3 - fast - 1 4 - medium-slow - 3 5 -
+         * slow-then-very-fast - 0 6 - fast-then-very-slow - 5 5 3 2 4 1 6 { 52,
+         * 21, 27, 57, 33, 13, 3 },
          */
         PokecubeCore.LOGGER.error(new IllegalArgumentException("Error parsing EXP Type for " + name));
         return 0;
@@ -438,9 +429,10 @@ public class Tools
         final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.getCommandSenderWorld().playSound((Player) null, PlayerEntity.getX(), PlayerEntity
-                    .getY(), PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((PlayerEntity
-                            .getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+            PlayerEntity.getLevel().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(),
+                    PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
+                    ((PlayerEntity.getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F)
+                            * 2.0F);
             PlayerEntity.inventoryMenu.broadcastChanges();
         }
         if (!flag)
@@ -456,16 +448,14 @@ public class Tools
 
     public static boolean hasMove(final String move, final IPokemob mob)
     {
-        for (final String s : mob.getMoves())
-            if (s != null && s.equalsIgnoreCase(move)) return true;
+        for (final String s : mob.getMoves()) if (s != null && s.equalsIgnoreCase(move)) return true;
         return false;
     }
 
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
             final Entity entity)
     {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getCommandSenderWorld(), Vector3
-                .getNewVector().set(entity));
+        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getLevel(), new Vector3().set(entity));
     }
 
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
@@ -491,7 +481,7 @@ public class Tools
 
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
-        final Level world = entity.getCommandSenderWorld();
+        final Level world = entity.getLevel();
         return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
                 EntitySelector.NO_SPECTATORS) != null;
     }

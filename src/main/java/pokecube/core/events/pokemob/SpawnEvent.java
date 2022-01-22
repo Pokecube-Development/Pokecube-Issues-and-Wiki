@@ -27,12 +27,12 @@ public class SpawnEvent extends Event
         {
             this(pokemob_.getOwner() instanceof ServerPlayer player ? player : null,
                     (ServerLevel) pokemob_.getEntity().level, pokemob_.getPokedexEntry(),
-                    Vector3.getNewVector().set(pokemob_.getEntity()));
+                    new Vector3().set(pokemob_.getEntity()));
         }
 
         public SpawnContext(@Nonnull ServerPlayer player, PokedexEntry entry)
         {
-            this(player, (ServerLevel) player.level, entry, Vector3.getNewVector().set(player));
+            this(player, (ServerLevel) player.level, entry, new Vector3().set(player));
         }
 
         public SpawnContext(SpawnContext context, PokedexEntry entry)

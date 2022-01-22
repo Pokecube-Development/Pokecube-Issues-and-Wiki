@@ -125,7 +125,7 @@ public class CommanderTile extends InteractableTile
             final Class<?> type = argTypes[i];
             if (type == Vector3.class)
             {
-                final Vector3 arg = Vector3.getNewVector();
+                final Vector3 arg = new Vector3();
                 arg.set(Double.parseDouble(args[index]), Double.parseDouble(args[index + 1]),
                         Double.parseDouble(args[index + 2]));
                 index += 3;
@@ -211,7 +211,7 @@ public class CommanderTile extends InteractableTile
         if (id != null)
         {
             this.setPokeID(id);
-            if (!player.getCommandSenderWorld().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
+            if (!player.getLevel().isClientSide) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return InteractionResult.SUCCESS;
         }
         else if (!player.isCrouching() && player instanceof ServerPlayer)

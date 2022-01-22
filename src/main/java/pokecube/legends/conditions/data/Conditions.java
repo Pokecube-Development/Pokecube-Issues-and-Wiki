@@ -8,8 +8,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -26,10 +29,10 @@ public class Conditions
 
     public static class Spawn
     {
-        public Map<String, String> key    = Maps.newHashMap();
+        public Map<String, String> key = Maps.newHashMap();
         public Map<String, String> target = Maps.newHashMap();
 
-        private Predicate<ItemStack>  _key;
+        private Predicate<ItemStack> _key;
         private Predicate<BlockState> _target;
 
         public Predicate<ItemStack> getKey()
@@ -37,6 +40,9 @@ public class Conditions
             if (this._key == null) if (this.key.containsKey("id"))
             {
                 final ResourceLocation loc = new ResourceLocation(this.key.get("id"));
+                Item b = ForgeRegistries.ITEMS.getValue(loc);
+                if (b == null) PokecubeCore.LOGGER.error("Error loading Legendary Spawn, item {} not found!", loc);
+                else PokecubeCore.LOGGER.debug("Registering Spawn Key: {}", loc);
                 this._key = i -> ItemList.is(loc, i);
             }
             else if (this.key.containsKey("tag"))
@@ -52,6 +58,9 @@ public class Conditions
             if (this._target == null) if (this.target.containsKey("id"))
             {
                 final ResourceLocation loc = new ResourceLocation(this.target.get("id"));
+                Block b = ForgeRegistries.BLOCKS.getValue(loc);
+                if (b == null) PokecubeCore.LOGGER.error("Error loading Legendary Spawn, block {} not found!", loc);
+                else PokecubeCore.LOGGER.debug("Registering Spawner: {}", loc);
                 this._target = i -> ItemList.is(loc, i);
             }
             else if (this.target.containsKey("tag"))
@@ -100,8 +109,8 @@ public class Conditions
             final String names = this.options.get("entries");
             if (names == null)
             {
-                PokecubeCore.LOGGER.error(String.format("Warning, No entries found for legendary condition for {}",
-                        this.name));
+                PokecubeCore.LOGGER
+                        .error(String.format("Warning, No entries found for legendary condition for {}", this.name));
                 return;
             }
             final String[] list = names.split(",");
@@ -132,8 +141,8 @@ public class Conditions
             final String type = this.options.get("type");
             if (type == null)
             {
-                PokecubeCore.LOGGER.error(String.format("Warning, No type found for legendary condition for {}",
-                        this.name));
+                PokecubeCore.LOGGER
+                        .error(String.format("Warning, No type found for legendary condition for {}", this.name));
                 return;
             }
             float threshold = 0.5f;

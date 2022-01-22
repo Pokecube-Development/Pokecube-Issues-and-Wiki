@@ -102,6 +102,15 @@ public class RecipeHandlers
                 Mob entity = PokecubeCore.createPokemob(entry, world);
                 if (entity != null)
                 {
+                    // First move the mob to correct spot, so later checks for
+                    // evolution/etc can apply properly
+                    final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
+                    entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
+                            world.random.nextFloat() * 360F, 0.0F);
+                    
+                    // Mark as cloned for preventing drops, etc
+                    entity.getPersistentData().putBoolean("cloned", true);
+
                     ItemStack dnaSource = tile.getItem(0);
                     if (!dnaSource.isEmpty()) dnaSource = dnaSource.copy();
                     IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
@@ -112,10 +121,6 @@ public class RecipeHandlers
                     // You can give him more XP if you want
                     entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
                     if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUUID());
-                    final Direction dir = world.getBlockState(pos).getValue(HorizontalDirectionalBlock.FACING);
-                    entity.moveTo(pos.getX() + 0.5 + dir.getStepX(), pos.getY() + 1, pos.getZ() + 0.5 + dir.getStepZ(),
-                            world.random.nextFloat() * 360F, 0.0F);
-                    entity.getPersistentData().putBoolean("cloned", true);
 
                     final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                     if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
@@ -168,7 +173,7 @@ public class RecipeHandlers
             }
 
             @Override
-            public boolean shouldKeep(final ItemStack stack)
+            public boolean shouldKeep(final ItemStack stack, int slot)
             {
                 for (final Integer test : this.remains)
                 {
@@ -332,7 +337,7 @@ public class RecipeHandlers
         final CraftingContainer inv = (CraftingContainer) event.getInventory();
         final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
 
-        if (!test.matches(inv, event.getEntity().getCommandSenderWorld())) return;
+        if (!test.matches(inv, event.getEntity().getLevel())) return;
         final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
         if (value == RecipeSelector.defaultSelector) return;
         event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);

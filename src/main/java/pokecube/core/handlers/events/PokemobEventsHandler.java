@@ -70,7 +70,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -108,13 +107,14 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.entity.ai.RootTask;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
@@ -144,7 +144,7 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingHurt);
         // Used to reset the "NOITEMUSE" flag, which controls using healing
         // items, the capture delay, etc.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttack);
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onLivingAttacked);
 
         // This ensures that the damage sources apply for the correct entity,
         // this part is for support for mods like customnpcs
@@ -376,7 +376,7 @@ public class PokemobEventsHandler
                     // processing to make sure that we fit properly
                     if (col)
                     {
-                        Vector3 v = Vector3.getNewVector().set(toPush);
+                        Vector3 v = new Vector3().set(toPush);
                         v = SendOutManager.getFreeSpot(toPush, world, v, false);
                         if (v != null) v.moveEntity(toPush);
                     }
@@ -420,10 +420,16 @@ public class PokemobEventsHandler
         }
     }
 
-    private static void onLivingAttack(final LivingAttackEvent event)
+    private static void onLivingAttacked(final LivingAttackEvent event)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getSource().getDirectEntity());
         if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+
+        if (event.getSource().getDirectEntity() != null
+                && event.getSource().getDirectEntity().isPassengerOfSameVehicle(event.getEntity()))
+        {
+            event.setCanceled(true);
+        }
     }
 
     private static void onLivingDeath(final LivingDeathEvent evt)
@@ -472,8 +478,8 @@ public class PokemobEventsHandler
             final Mob newMob = modified.getEntity();
             if (world instanceof ServerLevel && !newMob.isAddedToWorld()) world.addFreshEntity(newMob);
         }
-        // This initializes logics on the client side.
-        if (!(world instanceof ServerLevel)) pokemob.initAI();
+        // This init stage involves block checks, etc, so do that here
+        pokemob.postInitAI();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
@@ -481,7 +487,7 @@ public class PokemobEventsHandler
         final Entity mob = event.getEntity();
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
-        pokemob.initAI();
+        pokemob.preInitAI();
     }
 
     private static void onStartTracking(final StartTracking event)
@@ -610,7 +616,7 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(living);
-        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel)
+        if (pokemob instanceof DefaultPokemob && living instanceof EntityPokemob && dim instanceof ServerLevel level)
         {
             final DefaultPokemob pokemobCap = (DefaultPokemob) pokemob;
             final EntityPokemob mob = (EntityPokemob) living;
@@ -625,14 +631,9 @@ public class PokemobEventsHandler
             if (near != null && pokemob.getOwnerId() == null)
             {
                 dist = near.distanceTo(mob);
-                if (PokecubeCore.getConfig().cull && dist > PokecubeCore.getConfig().cullDistance)
+                if (Config.Rules.doCull(level, dist))
                 {
                     pokemobCap.onRecall();
-                    evt.setCanceled(true);
-                    return;
-                }
-                if (dist > PokecubeCore.getConfig().aiDisableDistance)
-                {
                     evt.setCanceled(true);
                     return;
                 }
@@ -774,7 +775,7 @@ public class PokemobEventsHandler
                 return false;
         }
         final float scale = pokemob.getSize();
-        final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+        final Vec3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getBbWidth()
                 && Math.max(dims.x, dims.z) * scale > rider.getBbWidth() * 1.4;
     }
@@ -840,24 +841,24 @@ public class PokemobEventsHandler
                     if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
                     return;
                 }
-                final Vector3 look = Vector3.getNewVector().set(player.getLookAngle()).scalarMultBy(1);
+                final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(1);
                 look.y = 0.2;
                 look.addVelocities(target);
                 return;
             }
             // Debug thing to maximize happiness
             if (held.getItem() == Items.APPLE)
-                if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob.addHappiness(255);
+                if (player.isCreative() && player.isShiftKeyDown()) pokemob.addHappiness(255);
             // Debug thing to increase hunger time
             if (held.getItem() == Items.GOLDEN_HOE)
-                if (player.getAbilities().instabuild && player.isShiftKeyDown()) pokemob.applyHunger(+4000);
+                if (player.isCreative() && player.isShiftKeyDown()) pokemob.applyHunger(+4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
                 if (player.isShiftKeyDown())
                 {
                     pokemob.setShiny(!pokemob.isShiny());
-                    if (!player.getAbilities().instabuild) held.split(1);
+                    if (!player.isCreative()) held.split(1);
                 }
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
@@ -882,7 +883,7 @@ public class PokemobEventsHandler
             if (dye != null && (entry.validDyes.isEmpty() || entry.validDyes.contains(dye)))
             {
                 pokemob.setDyeColour(dye.getId());
-                if (!player.getAbilities().instabuild) held.shrink(1);
+                if (!player.isCreative()) held.shrink(1);
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
                 return;
@@ -922,7 +923,7 @@ public class PokemobEventsHandler
                     && !hasTarget && held.getItem() instanceof ItemBerry
                     && (fav == -1 || fav == ((ItemBerry) held.getItem()).type.index))
             {
-                if (!player.getAbilities().instabuild)
+                if (!player.isCreative())
                 {
                     held.shrink(1);
                     if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
@@ -960,7 +961,7 @@ public class PokemobEventsHandler
                     if (!valid) break evo;
 
                     final IPokemob evolution = pokemob.evolve(true, false, held);
-                    if (evolution != null) if (!player.getAbilities().instabuild)
+                    if (evolution != null) if (!player.isCreative())
                     {
                         held.shrink(1);
                         if (held.isEmpty())

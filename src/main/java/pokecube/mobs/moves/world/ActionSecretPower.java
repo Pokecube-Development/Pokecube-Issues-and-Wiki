@@ -30,14 +30,14 @@ public class ActionSecretPower implements IMoveAction
         final long now = Tracker.instance().getTick();
         if (time + 20 * 3 > now) return false;
         final ServerPlayer owner = (ServerPlayer) attacker.getOwner();
-        final BlockState state = location.getBlockState(owner.getCommandSenderWorld());
+        final BlockState state = location.getBlockState(owner.getLevel());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
             final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.deny.wrongloc");
             owner.sendMessage(message, Util.NIL_UUID);
             return false;
         }
-        SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getCommandSenderWorld().dimension(),
+        SecretBase.pendingBaseLocations.put(owner.getUUID(), GlobalPos.of(owner.getLevel().dimension(),
                 location.getPos()));
         final TranslatableComponent message = new TranslatableComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));

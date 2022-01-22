@@ -51,7 +51,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.api.maths.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 
@@ -194,7 +194,7 @@ public class Pokecube extends Item implements IPokecube
             cube.setDeltaMovement(0, 0, 0);
             cube.shootingEntity = null;
             cube.shooter = null;
-            Vector3.getNewVector().set(oldItem).moveEntity(cube);
+            new Vector3().set(oldItem).moveEntity(cube);
             cube.setNoCollisionRelease();
             cube.targetLocation.clear();
             return cube;
@@ -320,7 +320,7 @@ public class Pokecube extends Item implements IPokecube
                 return pokemob.getOwner() != player;
             };
             Entity target = Tools.getPointedEntity(player, 32, selector);
-            final Vector3 direction = Vector3.getNewVector().set(player.getViewVector(0));
+            final Vector3 direction = new Vector3().set(player.getViewVector(0));
             final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
             if (target instanceof EntityPokecube) target = null;
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
@@ -401,15 +401,15 @@ public class Pokecube extends Item implements IPokecube
         entity.shooter = thrower.getUUID();
         entity.setItem(stack);
 
-        final Vector3 temp = Vector3.getNewVector().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
+        final Vector3 temp = new Vector3().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
         if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
         {
             final ServerPlayer player = (ServerPlayer) thrower;
             final InteractionHand hand = player.getUsedItemHand();
             final Vec3 tmp = thrower.getLookAngle();
-            final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-            final Vector3f shift = new Vector3f();
-            shift.cross(look, new Vector3f(0, 1, 0));
+            final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+            final Vec3f shift = new Vec3f();
+            shift.cross(look, new Vec3f(0, 1, 0));
             shift.scale(player.getBbWidth() / 2);
             switch (hand)
             {
@@ -462,16 +462,16 @@ public class Pokecube extends Item implements IPokecube
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
-            final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
+            final Vector3 temp = new Vector3().set(thrower).add(0, thrower.getEyeHeight(), 0);
             temp.moveEntity(entity);
             if (thrower instanceof ServerPlayer && !(thrower instanceof FakePlayer))
             {
                 final ServerPlayer player = (ServerPlayer) thrower;
                 final InteractionHand hand = player.getUsedItemHand();
                 final Vec3 tmp = thrower.getLookAngle();
-                final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
-                final Vector3f shift = new Vector3f();
-                shift.cross(look, new Vector3f(0, 1, 0));
+                final Vec3f look = new Vec3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+                final Vec3f shift = new Vec3f();
+                shift.cross(look, new Vec3f(0, 1, 0));
                 shift.scale(player.getBbWidth() / 2);
                 switch (hand)
                 {

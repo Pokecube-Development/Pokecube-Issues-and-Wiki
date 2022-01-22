@@ -76,6 +76,8 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
 
     private long tick;
 
+    private boolean syncNow = false;
+
     private int offset = ThutCore.newRandom().nextInt();
 
     @Override
@@ -104,6 +106,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
             list.add(value);
         }
         this.r.unlock();
+        syncNow = false;
         return list;
     }
 
@@ -124,6 +127,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
             list.add(value);
         }
         this.r.unlock();
+        syncNow = false;
         return list;
     }
 
@@ -146,6 +150,7 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         @SuppressWarnings("unchecked")
         final Data<T> type = (Data<T>) this.data.get(key);
         type.set(value);
+        if (type.isRealtime() && type.dirty()) syncNow = true;
         this.w.unlock();
     }
 
@@ -185,6 +190,12 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
     public int tickOffset()
     {
         return offset;
+    }
+
+    @Override
+    public boolean syncNow()
+    {
+        return syncNow;
     }
 
 }

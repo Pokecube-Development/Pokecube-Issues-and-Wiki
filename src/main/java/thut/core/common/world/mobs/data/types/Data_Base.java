@@ -5,10 +5,12 @@ import thut.api.world.mobs.data.Data;
 
 public abstract class Data_Base<T> implements Data<T>
 {
-    private int     ID       = -1;
-    private int     UID      = -1;
-    private boolean dirty    = false;
-    private T       lastSent = null;
+    private int ID = -1;
+    private int UID = -1;
+    private boolean dirty = false;
+    private T lastSent = null;
+
+    private boolean realtime = false;
 
     @Override
     public boolean dirty()
@@ -73,4 +75,16 @@ public abstract class Data_Base<T> implements Data<T>
         buf.writeInt(this.ID);
     }
 
+    @Override
+    public Data<T> setRealtime()
+    {
+        realtime = true;
+        return this;
+    }
+
+    @Override
+    public boolean isRealtime()
+    {
+        return realtime;
+    }
 }

@@ -35,6 +35,7 @@ import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -86,54 +87,54 @@ public class PokecubeItems extends ItemList
 {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             PokecubeCore.MODID);
-    public static final DeferredRegister<Item>  ITEMS  = DeferredRegister.create(ForgeRegistries.ITEMS,
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
             PokecubeCore.MODID);
 
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(
-            ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister
+            .create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
 
-    public static ItemStack POKECUBE_ITEMS   = ItemStack.EMPTY;
-    public static ItemStack POKECUBE_BLOCKS  = ItemStack.EMPTY;
-    public static ItemStack POKECUBE_CUBES   = ItemStack.EMPTY;
+    public static ItemStack POKECUBE_ITEMS = ItemStack.EMPTY;
+    public static ItemStack POKECUBE_BLOCKS = ItemStack.EMPTY;
+    public static ItemStack POKECUBE_CUBES = ItemStack.EMPTY;
     public static ItemStack POKECUBE_BERRIES = ItemStack.EMPTY;
 
-    public static final CreativeModeTab TAB_ITEMS   = new CreativeModeTab("pokecube_items")
-                                                  {
-                                                      @Override
-                                                      public ItemStack makeIcon()
-                                                      {
-                                                          return PokecubeItems.POKECUBE_ITEMS;
-                                                      }
-                                                  };
-    public static final CreativeModeTab TAB_BLOCKS  = new CreativeModeTab("pokecube_blocks")
-                                                  {
-                                                      @Override
-                                                      public ItemStack makeIcon()
-                                                      {
-                                                          return PokecubeItems.POKECUBE_BLOCKS;
-                                                      }
-                                                  };
-    public static final CreativeModeTab TAB_POKECUBES   = new CreativeModeTab("pokecube_cubes")
-                                                  {
-                                                      @Override
-                                                      public ItemStack makeIcon()
-                                                      {
-                                                          return PokecubeItems.POKECUBE_CUBES;
-                                                      }
-                                                  };
+    public static final CreativeModeTab TAB_ITEMS = new CreativeModeTab("pokecube_items")
+    {
+        @Override
+        public ItemStack makeIcon()
+        {
+            return PokecubeItems.POKECUBE_ITEMS;
+        }
+    };
+    public static final CreativeModeTab TAB_BLOCKS = new CreativeModeTab("pokecube_blocks")
+    {
+        @Override
+        public ItemStack makeIcon()
+        {
+            return PokecubeItems.POKECUBE_BLOCKS;
+        }
+    };
+    public static final CreativeModeTab TAB_POKECUBES = new CreativeModeTab("pokecube_cubes")
+    {
+        @Override
+        public ItemStack makeIcon()
+        {
+            return PokecubeItems.POKECUBE_CUBES;
+        }
+    };
     public static final CreativeModeTab TAB_BERRIES = new CreativeModeTab("pokecube_berries")
-                                                  {
-                                                      @Override
-                                                      public ItemStack makeIcon()
-                                                      {
-                                                          return PokecubeItems.POKECUBE_BERRIES;
-                                                      }
-                                                  };
+    {
+        @Override
+        public ItemStack makeIcon()
+        {
+            return PokecubeItems.POKECUBE_BERRIES;
+        }
+    };
 
     public static final ResourceLocation POKEMOBEGG = new ResourceLocation("pokecube:pokemob_egg");
-    public static final ResourceLocation HELDKEY    = new ResourceLocation("pokecube:pokemob_held");
-    public static final ResourceLocation EVOSKEY    = new ResourceLocation("pokecube:pokemob_evo");
-    public static final ResourceLocation TMKEY      = new ResourceLocation("pokecube:tms");
+    public static final ResourceLocation HELDKEY = new ResourceLocation("pokecube:pokemob_held");
+    public static final ResourceLocation EVOSKEY = new ResourceLocation("pokecube:pokemob_evo");
+    public static final ResourceLocation TMKEY = new ResourceLocation("pokecube:tms");
 
     // Items
     public static final RegistryObject<Item> BERRYJUICE;
@@ -167,13 +168,13 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<BlockEntityType<?>> TM_TYPE;
     public static final RegistryObject<BlockEntityType<?>> TRADE_TYPE;
 
-    public static boolean      resetTimeTags = false;
-    public static Vector<Long> times         = new Vector<>();
+    public static boolean resetTimeTags = false;
+    public static Vector<Long> times = new Vector<>();
 
     private static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
 
     /** contains pokecubes that should be rendered using the default renderer */
-    private static Set<ResourceLocation>           cubeIds = new HashSet<>();
+    private static Set<ResourceLocation> cubeIds = new HashSet<>();
     /**
      * Items to be considered for re-animation, mapped to the pokedex number to
      * reanimate to.
@@ -185,18 +186,21 @@ public class PokecubeItems extends ItemList
     static
     {
         // Items
-        POKEDEX = PokecubeItems.ITEMS.register("pokedex", () -> new ItemPokedex(new Properties().tab(
-                PokecubeItems.TAB_ITEMS), false));
-        POKEWATCH = PokecubeItems.ITEMS.register("pokewatch", () -> new ItemPokedex(new Properties().tab(
-                PokecubeItems.TAB_ITEMS), true));
-        BERRYJUICE = PokecubeItems.ITEMS.register("berryjuice", () -> new Item(new Properties().food(new FoodProperties.Builder()
-                .nutrition(4).saturationMod(0.3F).build()).tab(PokecubeItems.TAB_ITEMS)));
-        EGG = PokecubeItems.ITEMS.register("pokemobegg", () -> new ItemPokemobEgg(new Properties().tab(
-                PokecubeItems.TAB_ITEMS)));
-        CANDY = PokecubeItems.ITEMS.register("candy", () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC)
-                .tab(PokecubeItems.TAB_ITEMS)));
-        REVIVE = PokecubeItems.ITEMS.register("revive", () -> new ItemRevive(new Item.Properties().tab(
-                PokecubeItems.TAB_ITEMS)));
+        POKEDEX = PokecubeItems.ITEMS.register("pokedex",
+                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), false));
+        POKEWATCH = PokecubeItems.ITEMS.register("pokewatch",
+                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), true));
+        BERRYJUICE = PokecubeItems.ITEMS
+                .register("berryjuice",
+                        () -> new Item(new Properties()
+                                .food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())
+                                .tab(PokecubeItems.TAB_ITEMS)));
+        EGG = PokecubeItems.ITEMS.register("pokemobegg",
+                () -> new ItemPokemobEgg(new Properties().tab(PokecubeItems.TAB_ITEMS)));
+        CANDY = PokecubeItems.ITEMS.register("candy",
+                () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).tab(PokecubeItems.TAB_ITEMS)));
+        REVIVE = PokecubeItems.ITEMS.register("revive",
+                () -> new ItemRevive(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
         // Blocks
         FOSSIL_ORE = PokecubeItems.BLOCKS.register("fossil_ore", () -> new OreBlock(BlockBehaviour.Properties.of(
@@ -224,30 +228,30 @@ public class PokecubeItems extends ItemList
                 MaterialColor.COLOR_MAGENTA).sound(SoundType.GLASS).sound(SoundType.AMETHYST_CLUSTER).strength(0.8F).requiresCorrectToolForDrops()));
 
         // Tile Entity Types
-        NEST_TYPE = PokecubeItems.TILES.register("nest", () -> BlockEntityType.Builder.of(NestTile::new,
-                PokecubeItems.NEST.get()).build(null));
-        REPEL_TYPE = PokecubeItems.TILES.register("repel", () -> BlockEntityType.Builder.of(RepelTile::new,
-                PokecubeItems.REPEL.get()).build(null));
-        MAX_TYPE = PokecubeItems.TILES.register("dynamax", () -> BlockEntityType.Builder.of(MaxTile::new,
-                PokecubeItems.DYNAMAX.get()).build(null));
-        BASE_TYPE = PokecubeItems.TILES.register("secret_base", () -> BlockEntityType.Builder.of(BaseTile::new,
-                PokecubeItems.SECRET_BASE.get()).build(null));
+        NEST_TYPE = PokecubeItems.TILES.register("nest", 
+                () -> BlockEntityType.Builder.of(NestTile::new, PokecubeItems.NEST.get()).build(null));
+        REPEL_TYPE = PokecubeItems.TILES.register("repel",
+                () -> BlockEntityType.Builder.of(RepelTile::new, PokecubeItems.REPEL.get()).build(null));
+        MAX_TYPE = PokecubeItems.TILES.register("dynamax",
+                () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
+        BASE_TYPE = PokecubeItems.TILES.register("secret_base",
+                () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
 
-        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine", () -> BlockEntityType.Builder.of(TraderTile::new,
-                PokecubeItems.TRADER.get()).build(null));
-        TM_TYPE = PokecubeItems.TILES.register("tm_machine", () -> BlockEntityType.Builder.of(TMTile::new,
-                PokecubeItems.TM_MACHINE.get()).build(null));
-        HEALER_TYPE = PokecubeItems.TILES.register("pokecenter", () -> BlockEntityType.Builder.of(HealerTile::new,
-                PokecubeItems.HEALER.get()).build(null));
-        PC_TYPE = PokecubeItems.TILES.register("pc", () -> BlockEntityType.Builder.of(PCTile::new,
-                PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get()).build(null));
+        TRADE_TYPE = PokecubeItems.TILES.register("trade_machine",
+                () -> BlockEntityType.Builder.of(TraderTile::new, PokecubeItems.TRADER.get()).build(null));
+        TM_TYPE = PokecubeItems.TILES.register("tm_machine",
+                () -> BlockEntityType.Builder.of(TMTile::new, PokecubeItems.TM_MACHINE.get()).build(null));
+        HEALER_TYPE = PokecubeItems.TILES.register("pokecenter",
+                () -> BlockEntityType.Builder.of(HealerTile::new, PokecubeItems.HEALER.get()).build(null));
+        PC_TYPE = PokecubeItems.TILES.register("pc",
+                () -> BlockEntityType.Builder.of(PCTile::new, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get()).build(null));
     }
 
     public static void init()
     {
         for (final RegistryObject<Block> reg : PokecubeItems.BLOCKS.getEntries())
-            PokecubeItems.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()
-                    .tab(PokecubeItems.TAB_BLOCKS)));
+            PokecubeItems.ITEMS.register(reg.getId().getPath(),
+                    () -> new BlockItem(reg.get(), new Item.Properties().tab(PokecubeItems.TAB_BLOCKS)));
     }
 
     /**
@@ -277,10 +281,11 @@ public class PokecubeItems extends ItemList
      */
     public static void addCube(final ResourceLocation id, Item[] cubes, final boolean defaultRenderer)
     {
-        if (PokecubeItems.pokecubes.containsKey(id)) System.err.println("Pokecube Id " + id
-                + " Has already been registered as " + PokecubeItems.getEmptyCube(id));
+        if (PokecubeItems.pokecubes.containsKey(id)) System.err
+                .println("Pokecube Id " + id + " Has already been registered as " + PokecubeItems.getEmptyCube(id));
 
-        if (cubes.length == 1) cubes = new Item[] { cubes[0], cubes[0] };
+        if (cubes.length == 1) cubes = new Item[]
+        { cubes[0], cubes[0] };
 
         final Item[] items = cubes;
 
@@ -315,8 +320,7 @@ public class PokecubeItems extends ItemList
         if (!stack.isEmpty()) for (final ResourceLocation i : PokecubeItems.pokecubes.keySet())
         {
             final Item[] cubes = PokecubeItems.pokecubes.get(i);
-            for (final Item cube : cubes)
-                if (cube == stack.getItem()) return i;
+            for (final Item cube : cubes) if (cube == stack.getItem()) return i;
         }
         return null;
     }
@@ -377,12 +381,11 @@ public class PokecubeItems extends ItemList
     {
         if (fossil.isEmpty()) return null;
         PokedexEntry ret = null;
-        for (final ItemStack s : PokecubeItems.fossils.keySet())
-            if (Tools.isSameStack(fossil, s))
-            {
-                ret = PokecubeItems.fossils.get(s);
-                break;
-            }
+        for (final ItemStack s : PokecubeItems.fossils.keySet()) if (Tools.isSameStack(fossil, s))
+        {
+            ret = PokecubeItems.fossils.get(s);
+            break;
+        }
         return ret;
     }
 
@@ -441,9 +444,9 @@ public class PokecubeItems extends ItemList
         final String val = valTemp;
         return new Predicate<>()
         {
-            final Pattern                  modidPattern = Pattern.compile(modid);
-            final Pattern                  blockPattern = Pattern.compile(blockName);
-            Map<ResourceLocation, Boolean> checks       = Maps.newHashMap();
+            final Pattern modidPattern = Pattern.compile(modid);
+            final Pattern blockPattern = Pattern.compile(blockName);
+            Map<ResourceLocation, Boolean> checks = Maps.newHashMap();
 
             @Override
             public boolean apply(final BlockState input)
@@ -467,12 +470,11 @@ public class PokecubeItems extends ItemList
                     this.checks.put(name, true);
                 }
                 if (key == null) return true;
-                for (final Property<?> prop : input.getProperties())
-                    if (prop.getName().equals(key))
-                    {
-                        final Object inputVal = input.getValue(prop);
-                        return inputVal.toString().equalsIgnoreCase(val);
-                    }
+                for (final Property<?> prop : input.getProperties()) if (prop.getName().equals(key))
+                {
+                    final Object inputVal = input.getValue(prop);
+                    return inputVal.toString().equalsIgnoreCase(val);
+                }
                 return false;
             }
         };
@@ -489,8 +491,7 @@ public class PokecubeItems extends ItemList
         JsonObject json = new JsonObject();
         json.addProperty("replace", false);
         JsonArray array = new JsonArray();
-        for (final PokedexEntry entry : Database.getSortedFormes())
-            array.add("pokecube:" + entry.getTrimmedName());
+        for (final PokedexEntry entry : Database.getSortedFormes()) array.add("pokecube:" + entry.getTrimmedName());
         json.add("values", array);
         File folder = new File(".", "generated/entity_types");
         folder.mkdirs();
@@ -514,8 +515,7 @@ public class PokecubeItems extends ItemList
         json = new JsonObject();
         json.addProperty("replace", false);
         array = new JsonArray();
-        for (final String type : ItemGenerator.fossilVariants)
-            array.add(PokecubeCore.MODID + ":fossil_" + type);
+        for (final String type : ItemGenerator.fossilVariants) array.add(PokecubeCore.MODID + ":fossil_" + type);
         json.add("values", array);
         file = new File(folder, "pokemob_fossils.json");
         try
@@ -575,8 +575,7 @@ public class PokecubeItems extends ItemList
             array = new JsonArray();
             final List<Item> items = Lists.newArrayList(ItemList.pendingTags.get(name));
             items.sort((a, b) -> a.getRegistryName().compareTo(b.getRegistryName()));
-            for (final Item item : items)
-                array.add(item.getRegistryName().toString());
+            for (final Item item : items) array.add(item.getRegistryName().toString());
             json.add("values", array);
             final String fileConts = JsonUtil.gson.toJson(json);
             file = new File(folder, name.getPath() + ".json");
@@ -605,9 +604,12 @@ public class PokecubeItems extends ItemList
         return ItemList.is(PokecubeItems.EVOSKEY, stack);
     }
 
+    public static Set<ResourceLocation> ADDED_HELD = Sets.newHashSet();
+
     public static boolean isValidHeldItem(final ItemStack stack)
     {
         if (stack.getCapability(UsableItemEffects.USABLEITEM_CAP, null).isPresent()) return true;
+        if (ADDED_HELD.contains(stack.getItem().getRegistryName())) return true;
         return ItemList.is(PokecubeItems.HELDKEY, stack) || PokecubeItems.isValidEvoItem(stack);
     }
 
@@ -657,12 +659,11 @@ public class PokecubeItems extends ItemList
             PokecubeCore.LOGGER.error("No Data to save for Item Validations.");
             return;
         }
-        for (final Long l : i)
-            if (l != null)
-            {
-                nbt.putLong("" + num, l.longValue());
-                num++;
-            }
+        for (final Long l : i) if (l != null)
+        {
+            nbt.putLong("" + num, l.longValue());
+            num++;
+        }
         nbt.putInt("count", num);
     }
 

@@ -17,12 +17,12 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.InterestingMobs;
-import pokecube.core.ai.pathing.PosWrapWrap;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.IBreedingMob;
+import thut.api.entity.ai.PosWrapWrap;
 
 /**
  * This IAIRunnable is responsible for most of the breeding AI for the

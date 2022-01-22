@@ -61,7 +61,6 @@ public class PermNodes
         return (PermissionNode<Boolean>) NODES.get(name);
     }
 
-    @SuppressWarnings("unchecked")
     public static boolean getBooleanPerm(ServerPlayer player, String name)
     {
         PermissionNode<Boolean> node = getBooleanNode(name);
@@ -97,10 +96,10 @@ public class PermNodes
     {
         Set<PermissionNode<?>> nodes = Sets.newHashSet();
         nodes.addAll(NODES.values());
-        
+
         // FIXME do this with the single call when it stops crashing.
         // event.addNodes(nodes);
-        
+
         // We add them 1 at a time. For some reason, in the development
         // environment, this evnt is called 4 times in a row.
         nodes.forEach(node -> {

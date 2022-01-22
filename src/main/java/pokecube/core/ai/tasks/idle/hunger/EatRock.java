@@ -40,7 +40,7 @@ public class EatRock extends EatBlockBase
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerLevel world = (ServerLevel) entity.getCommandSenderWorld();
+        final ServerLevel world = (ServerLevel) entity.getLevel();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRock.checker.test(current)) return EatResult.NOEAT;
 
@@ -71,7 +71,7 @@ public class EatRock extends EatBlockBase
             if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL) drop = Blocks.AIR
                     .defaultBlockState();
             // If we are allowed to, we remove the eaten block
-            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, Vector3.getNewVector().set(block.getPos()),
+            final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(block.getPos()),
                     "nom_nom_nom", false, false);
             if (canEat) world.setBlockAndUpdate(block.getPos(), drop);
         }

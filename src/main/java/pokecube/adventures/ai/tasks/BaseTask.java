@@ -9,8 +9,8 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import thut.api.entity.ai.RootTask;
 import pokecube.adventures.capabilities.TrainerCaps;
-import pokecube.core.ai.brain.RootTask;
 
 public abstract class BaseTask extends RootTask<LivingEntity>
 {
@@ -25,7 +25,7 @@ public abstract class BaseTask extends RootTask<LivingEntity>
             final Map<MemoryModuleType<?>, MemoryStatus> requiredMemoryStateIn)
     {
         super(trainer, requiredMemoryStateIn);
-        this.world = (ServerLevel) trainer.getCommandSenderWorld();
+        this.world = (ServerLevel) trainer.getLevel();
         this.aiTracker = TrainerCaps.getNPCAIStates(trainer);
         this.trainer = TrainerCaps.getHasPokemobs(trainer);
         this.messages = TrainerCaps.getMessages(trainer);

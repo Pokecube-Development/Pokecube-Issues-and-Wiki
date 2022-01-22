@@ -138,7 +138,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public static class Holder extends ModelHolder implements IModelRenderer<Mob>
     {
         public ModelWrapper<Mob> wrapper;
-        final Vector3 rotPoint = Vector3.getNewVector();
+        final Vector3 rotPoint = new Vector3();
         HashMap<String, List<Animation>> anims = Maps.newHashMap();
         private IPartTexturer texturer;
         private IAnimationChanger animator;
@@ -148,8 +148,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public HashMap<String, List<Animation>> animations = Maps.newHashMap();
         private final List<String> toRunNames = Lists.newArrayList();
         private final List<Animation> toRun = Lists.newArrayList();
-        private Vector3 offset = Vector3.getNewVector();;
-        private Vector3 scale = Vector3.getNewVector();
+        private Vector3 offset = new Vector3();;
+        private Vector3 scale = new Vector3();
         PokedexEntry entry;
 
         public boolean reload = false;

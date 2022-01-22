@@ -57,9 +57,9 @@ public class FollowOwnerTask extends TaskBase
     float maxDist;
     float minDist;
 
-    Vector3 ownerPos = Vector3.getNewVector();
-    Vector3 v        = Vector3.getNewVector();
-    Vector3 v1       = Vector3.getNewVector();
+    Vector3 ownerPos = new Vector3();
+    Vector3 v        = new Vector3();
+    Vector3 v1       = new Vector3();
 
     public FollowOwnerTask(final IPokemob entity, final float min, final float max)
     {
@@ -136,7 +136,7 @@ public class FollowOwnerTask extends TaskBase
         else if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
         else if (this.pathing && this.entity.distanceToSqr(LivingEntity) > this.maxDist * this.maxDist) return true;
         else if (this.entity.distanceToSqr(LivingEntity) < this.minDist * this.minDist) return false;
-        else if (Vector3.getNewVector().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist)
+        else if (new Vector3().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist)
             return false;
         // Follow owner.
         else return true;

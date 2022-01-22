@@ -18,7 +18,7 @@ package org.nfunk.jep;
  * There is also a flag to indicate whether the value of the
  * variable is valid, if the variable is initialised without a value
  * then its value is said to be invalid.
- * <p>
+ * <p></p>
  *
  * @author Rich Morris
  *         Created on 18-Nov-2003

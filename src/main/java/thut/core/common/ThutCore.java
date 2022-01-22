@@ -13,15 +13,18 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -43,6 +46,7 @@ import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
+import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -50,6 +54,7 @@ import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.inventory.npc.NpcContainer;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.StructureManager;
 import thut.core.common.config.Config;
@@ -108,8 +113,8 @@ public class ThutCore
                 {
                     final Vec3 vector3d1 = optional.get();
                     final double d1 = startVec.distanceToSqr(vector3d1);
-                    if (d1 < d0 || d0 == 0.0D) if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1
-                            .canRiderInteract())
+                    if (d1 < d0 || d0 == 0.0D)
+                        if (entity1.getRootVehicle() == shooter.getRootVehicle() && !entity1.canRiderInteract())
                     {
                         if (d0 == 0.0D)
                         {
@@ -143,8 +148,8 @@ public class ThutCore
                 if (var != null && var.getType() == HitResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
-                    if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(), event
-                            .getHand()) != InteractionResult.PASS)
+                    if (entity.getInteractor().processInitialInteract(event.getPlayer(), event.getItemStack(),
+                            event.getHand()) != InteractionResult.PASS)
                     {
                         event.setCanceled(true);
                         return;
@@ -182,11 +187,24 @@ public class ThutCore
             event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID, "string"));
             event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID, "powder"));
         }
+        
+        @SubscribeEvent
+        public static void registerContainers(final RegistryEvent.Register<MenuType<?>> event)
+        {
+            event.getRegistry().register(NpcContainer.TYPE.setRegistryName(ThutCore.MODID, "npc"));
+        }
+
+        public static void registerLootFunction()
+        {
+            LootLayerFunction.TYPE = Registry.register(Registry.LOOT_FUNCTION_TYPE,
+                    new ResourceLocation("thutcore:flowing_layer_loot"),
+                    new LootItemFunctionType(new LootLayerFunction.Serializer()));
+        }
     }
 
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger(ThutCore.MODID);
-    public static final String MODID  = "thutcore";
+    public static final String MODID = "thutcore";
 
     private static final String NETVERSION = "1.1.0";
 
@@ -240,8 +258,8 @@ public class ThutCore
         final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(ThutCore.MODID + ".log").toFile();
         if (logfile.exists()) logfile.delete();
         final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) ThutCore.LOGGER;
-        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
-                ThutCore.MODID).build();
+        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath())
+                .setName(ThutCore.MODID).build();
         logger.addAppender(appender);
         appender.start();
 
@@ -258,6 +276,9 @@ public class ThutCore
 
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
+
+        // Do the loot functions here, since that isn't a forge registry
+        RegistryEvents.registerLootFunction();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event)
@@ -304,13 +325,17 @@ public class ThutCore
 
         ThutCore.proxy.setup(event);
 
-        event.enqueueWork(() ->
-        {
+        event.enqueueWork(() -> {
             // Register the mob serializers
             // for seats
             EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
             EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
         });
+    }
+
+    public static ConfigHandler getConfig()
+    {
+        return conf;
     }
 }
