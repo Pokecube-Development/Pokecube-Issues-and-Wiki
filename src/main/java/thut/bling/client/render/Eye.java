@@ -22,7 +22,7 @@ public class Eye
             VertexFormat.Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder()
                     .setTextureState(new TextureStateShard(
-                            new ResourceLocation(ThutBling.MODID, "textures/items/eye.png"), false, false))
+                            new ResourceLocation(ThutBling.MODID, "textures/item/eye.png"), false, false))
                     .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
                     {
                         RenderSystem.enableBlend();
