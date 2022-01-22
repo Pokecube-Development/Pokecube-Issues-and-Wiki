@@ -44,6 +44,7 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
+        "empty;{\"weight\":90}",
         "pokecube_legends:ultraspace/giant_berry_tree_island;{\"weight\":10}"
       ]
     },
