@@ -2,23 +2,19 @@ package pokecube.legends.worldgen;
 
 import java.util.Map;
 import java.util.function.Function;
+
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-import net.minecraft.core.BlockPos;
+
 import net.minecraft.core.Registry;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.SurfaceRules;
-import net.minecraft.world.level.levelgen.SurfaceSystem;
-import net.minecraft.world.level.levelgen.WorldGenerationContext;
-import thut.core.common.ThutCore;
 import net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule;
+import net.minecraft.world.level.levelgen.SurfaceSystem;
 
 public class UltraSpaceSurfaceRules
 {

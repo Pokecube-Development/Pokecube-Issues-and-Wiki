@@ -5,14 +5,7 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -28,7 +21,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.ParticleInit;
 
 public class MushroomGrassBlock extends GrassBlock implements BonemealableBlock

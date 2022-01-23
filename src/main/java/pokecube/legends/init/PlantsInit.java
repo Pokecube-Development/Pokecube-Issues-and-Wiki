@@ -21,6 +21,8 @@ import pokecube.legends.blocks.plants.HangingTendrilsBlock;
 import pokecube.legends.blocks.plants.HangingTendrilsPlantBlock;
 import pokecube.legends.blocks.plants.InvertedOrchidBlock;
 import pokecube.legends.blocks.plants.LilyPadBlock;
+import pokecube.legends.blocks.plants.PurpleWisteriaVinesBlock;
+import pokecube.legends.blocks.plants.PurpleWisteriaVinesPlantBlock;
 import pokecube.legends.blocks.plants.TaintedKelpBlock;
 import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.blocks.plants.TaintedRootsBlock;
@@ -31,8 +33,6 @@ import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
-import pokecube.legends.blocks.plants.PurpleWisteriaVinesBlock;
-import pokecube.legends.blocks.plants.PurpleWisteriaVinesPlantBlock;
 
 public class PlantsInit
 {

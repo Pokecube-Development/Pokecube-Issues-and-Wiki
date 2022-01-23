@@ -27,8 +27,8 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
-import thut.api.entity.ai.RootTask;
 import pokecube.core.utils.Tools;
+import thut.api.entity.ai.RootTask;
 
 public class Count
 {

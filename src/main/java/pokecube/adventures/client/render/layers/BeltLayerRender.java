@@ -21,10 +21,10 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.TrainerCaps;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
-import pokecube.adventures.capabilities.TrainerCaps;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M>

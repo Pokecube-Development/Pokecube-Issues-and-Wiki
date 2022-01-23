@@ -2,10 +2,7 @@ package pokecube.legends.blocks.plants;
 
 import java.util.Random;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
@@ -13,7 +10,6 @@ import net.minecraft.world.level.block.NetherVines;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
 
 public class PurpleWisteriaVinesBlock extends GrowingPlantHeadBlock implements BonemealableBlock
