@@ -180,18 +180,16 @@ public interface IBlockEntity
                 final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
                 if (state != null)
                 {
-                    if (!entity.getLevel().isEmptyBlock(pos))
-                        entity.getLevel().destroyBlock(pos, true);
+                    if (!entity.getLevel().isEmptyBlock(pos)) entity.getLevel().destroyBlock(pos, true);
                     entity.getLevel().setBlockAndUpdate(pos, state);
                     if (tile != null)
                     {
                         final BlockEntity newTile = entity.getLevel().getBlockEntity(pos);
-                        if (newTile != null) newTile.load(tile.save(new CompoundTag()));
+                        if (newTile != null) newTile.load(tile.saveWithFullMetadata());
                     }
                 }
             }
-            final List<Entity> possibleInside = entity.getLevel().getEntities(entity,
-                    entity.getBoundingBox());
+            final List<Entity> possibleInside = entity.getLevel().getEntities(entity, entity.getBoundingBox());
             for (final Entity e : possibleInside) e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
         }
     }

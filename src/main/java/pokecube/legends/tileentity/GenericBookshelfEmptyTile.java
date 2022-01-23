@@ -51,7 +51,6 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     public void saveAdditional(final CompoundTag saveCompoundNBT)
     {
         super.saveAdditional(saveCompoundNBT);
-        this.saveMetadataAndItems(saveCompoundNBT);
         if (!this.trySaveLootTable(saveCompoundNBT)) ContainerHelper.saveAllItems(saveCompoundNBT, this.itemStacks);
         if (this.name != null) saveCompoundNBT.putString("CustomName", Component.Serializer.toJson(this.name));
     }
@@ -82,13 +81,6 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     protected AbstractContainerMenu createMenu(final int i, final Inventory playerInventory)
     {
         return null;
-    }
-
-    public CompoundTag saveMetadataAndItems(final CompoundTag nbt)
-    {
-        super.save(nbt);
-        ContainerHelper.saveAllItems(nbt, this.itemStacks, true);
-        return nbt;
     }
 
     @Override
