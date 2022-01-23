@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_orientable_trapdoor_open",
   "textures": {
-    "texture": "pokecube_legends:block/temporal_trapdoor"
+    "texture": "pokecube_legends:blocks/temporal_trapdoor"
   }
 }

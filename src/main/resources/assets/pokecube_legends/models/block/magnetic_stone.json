@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:block/magnetic_stone",
-    "up": "pokecube_legends:block/magnetic_stone",
-    "north": "pokecube_legends:block/magnetic_stone",
-    "east": "pokecube_legends:block/magnetic_stone",
-    "south": "pokecube_legends:block/magnetic_stone",
-    "west": "pokecube_legends:block/magnetic_stone",
-    "particle": "pokecube_legends:block/magnetic_stone"
+    "down": "pokecube_legends:blocks/magnetic_stone",
+    "up": "pokecube_legends:blocks/magnetic_stone",
+    "north": "pokecube_legends:blocks/magnetic_stone",
+    "east": "pokecube_legends:blocks/magnetic_stone",
+    "south": "pokecube_legends:blocks/magnetic_stone",
+    "west": "pokecube_legends:blocks/magnetic_stone",
+    "particle": "pokecube_legends:blocks/magnetic_stone"
   }
 }

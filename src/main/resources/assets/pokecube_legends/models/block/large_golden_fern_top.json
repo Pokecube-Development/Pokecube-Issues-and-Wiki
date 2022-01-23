@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "pokecube_legends:block/large_golden_fern_top"
+    "cross": "pokecube_legends:blocks/large_golden_fern_top"
   }
 }

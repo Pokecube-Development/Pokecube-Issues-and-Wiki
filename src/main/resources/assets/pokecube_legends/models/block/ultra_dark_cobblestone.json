@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/ultra_dark_cobblestone",
-    "up": "pokecube_legends:block/ultra_dark_cobblestone",
-    "north": "pokecube_legends:block/ultra_dark_cobblestone",
-    "east": "pokecube_legends:block/ultra_dark_cobblestone",
-    "south": "pokecube_legends:block/ultra_dark_cobblestone",
-    "west": "pokecube_legends:block/ultra_dark_cobblestone",
-    "particle": "pokecube_legends:block/ultra_dark_cobblestone"
+	"down": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "up": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "north": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "east": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "south": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "west": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "particle": "pokecube_legends:blocks/ultra_dark_cobblestone"
    }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
   "textures": {
-    "dirt": "pokecube_legends:block/corrupted_dirt",
-    "plant": "pokecube_legends:block/corrupted_sapling"
+    "dirt": "pokecube_legends:blocks/corrupted_dirt",
+    "plant": "pokecube_legends:blocks/corrupted_sapling"
   }
 }

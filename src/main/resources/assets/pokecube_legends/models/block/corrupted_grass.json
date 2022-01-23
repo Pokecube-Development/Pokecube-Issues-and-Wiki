@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "pokecube_legends:block/corrupted_grass"
+    "cross": "pokecube_legends:blocks/corrupted_grass"
   }
 }

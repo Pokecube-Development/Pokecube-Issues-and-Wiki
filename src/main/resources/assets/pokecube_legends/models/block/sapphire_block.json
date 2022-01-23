@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/sapphire_block",
-    "up": "pokecube_legends:block/sapphire_block",
-    "north": "pokecube_legends:block/sapphire_block",
-    "east": "pokecube_legends:block/sapphire_block",
-    "south": "pokecube_legends:block/sapphire_block",
-    "west": "pokecube_legends:block/sapphire_block",
-    "particle": "pokecube_legends:block/sapphire_block"
+	"down": "pokecube_legends:blocks/sapphire_block",
+    "up": "pokecube_legends:blocks/sapphire_block",
+    "north": "pokecube_legends:blocks/sapphire_block",
+    "east": "pokecube_legends:blocks/sapphire_block",
+    "south": "pokecube_legends:blocks/sapphire_block",
+    "west": "pokecube_legends:blocks/sapphire_block",
+    "particle": "pokecube_legends:blocks/sapphire_block"
    }
 }

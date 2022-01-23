@@ -1,7 +1,7 @@
 {
   "parent": "pokecube:block/generic_bookshelf",
     "textures": {
-        "end": "pokecube_legends:block/inverted_planks",
-        "side": "pokecube_legends:block/inverted_bookshelf"
+        "end": "pokecube_legends:blocks/inverted_planks",
+        "side": "pokecube_legends:blocks/inverted_bookshelf"
     }
 }

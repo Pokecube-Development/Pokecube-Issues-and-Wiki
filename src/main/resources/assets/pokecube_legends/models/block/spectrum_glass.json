@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/spectrum_glass",
-    "up": "pokecube_legends:block/spectrum_glass",
-    "north": "pokecube_legends:block/spectrum_glass",
-    "east": "pokecube_legends:block/spectrum_glass",
-    "south": "pokecube_legends:block/spectrum_glass",
-    "west": "pokecube_legends:block/spectrum_glass",
-    "particle": "pokecube_legends:block/spectrum_glass"
+	"down": "pokecube_legends:blocks/spectrum_glass",
+    "up": "pokecube_legends:blocks/spectrum_glass",
+    "north": "pokecube_legends:blocks/spectrum_glass",
+    "east": "pokecube_legends:blocks/spectrum_glass",
+    "south": "pokecube_legends:blocks/spectrum_glass",
+    "west": "pokecube_legends:blocks/spectrum_glass",
+    "particle": "pokecube_legends:blocks/spectrum_glass"
    }
 }

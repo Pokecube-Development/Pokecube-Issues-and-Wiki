@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "pokecube_legends:block/tall_crystallized_bush_bottom"
+    "cross": "pokecube_legends:blocks/tall_crystallized_bush_bottom"
   }
 }

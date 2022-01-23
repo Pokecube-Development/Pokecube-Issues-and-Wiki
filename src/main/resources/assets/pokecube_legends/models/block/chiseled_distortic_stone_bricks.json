@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-    "all": "pokecube_legends:block/chiseled_distortic_stone_bricks"
+    "all": "pokecube_legends:blocks/chiseled_distortic_stone_bricks"
   }
 }

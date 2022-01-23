@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:block/aged_dirt"
+	"all": "pokecube_legends:blocks/aged_dirt"
    }
 }

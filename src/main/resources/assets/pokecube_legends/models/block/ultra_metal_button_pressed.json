@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_pressed",
   "textures": {
-    "texture": "pokecube_legends:block/ultra_metal"
+    "texture": "pokecube_legends:blocks/ultra_metal"
   }
 }

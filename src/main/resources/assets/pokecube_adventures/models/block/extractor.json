@@ -1,12 +1,12 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_adventures:block/extractor_front",
-		"2": "pokecube_adventures:block/extractor_side",
-		"3": "pokecube_adventures:block/extractor_back",
-		"4": "pokecube_adventures:block/extractor_top",
-		"5": "pokecube_adventures:block/extractor_details",
-		"particle": "pokecube_adventures:block/extractor_side"
+		"1": "pokecube_adventures:blocks/extractor_front",
+		"2": "pokecube_adventures:blocks/extractor_side",
+		"3": "pokecube_adventures:blocks/extractor_back",
+		"4": "pokecube_adventures:blocks/extractor_top",
+		"5": "pokecube_adventures:blocks/extractor_details",
+		"particle": "pokecube_adventures:blocks/extractor_side"
 	},
 	"elements": [
 		{

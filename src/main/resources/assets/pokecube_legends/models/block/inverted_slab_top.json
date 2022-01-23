@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube_legends:block/inverted_planks",
-    "top": "pokecube_legends:block/inverted_planks",
-    "side": "pokecube_legends:block/inverted_planks"
+    "bottom": "pokecube_legends:blocks/inverted_planks",
+    "top": "pokecube_legends:blocks/inverted_planks",
+    "side": "pokecube_legends:blocks/inverted_planks"
   }
 }

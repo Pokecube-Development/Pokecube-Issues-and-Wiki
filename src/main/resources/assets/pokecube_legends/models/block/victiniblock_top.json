@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"3": "pokecube_legends:block/victini_block_antenna",
-		"particle": "pokecube_legends:block/victini_block_antenna"
+		"3": "pokecube_legends:blocks/victini_block_antenna",
+		"particle": "pokecube_legends:blocks/victini_block_antenna"
 	},
 	"elements": [
 		{

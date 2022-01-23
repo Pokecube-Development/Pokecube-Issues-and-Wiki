@@ -2,8 +2,8 @@
   "parent": "minecraft:block/flower_pot_cross",
   "ambientocclusion": false,
   "textures": {
-    "dirt": "pokecube_legends:block/ultrasand",
-    "plant": "pokecube_legends:block/crystallized_bush"
+    "dirt": "pokecube_legends:blocks/ultrasand",
+    "plant": "pokecube_legends:blocks/crystallized_bush"
   },
   "elements": [
     {   "from": [ 5, 0, 5 ],

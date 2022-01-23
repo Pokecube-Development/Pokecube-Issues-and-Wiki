@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/stormy_sky_bricks",
-    "up": "pokecube_legends:block/stormy_sky_bricks",
-    "north": "pokecube_legends:block/stormy_sky_bricks",
-    "east": "pokecube_legends:block/stormy_sky_bricks",
-    "south": "pokecube_legends:block/stormy_sky_bricks",
-    "west": "pokecube_legends:block/stormy_sky_bricks",
-    "particle": "pokecube_legends:block/stormy_sky_bricks"
+	"down": "pokecube_legends:blocks/stormy_sky_bricks",
+    "up": "pokecube_legends:blocks/stormy_sky_bricks",
+    "north": "pokecube_legends:blocks/stormy_sky_bricks",
+    "east": "pokecube_legends:blocks/stormy_sky_bricks",
+    "south": "pokecube_legends:blocks/stormy_sky_bricks",
+    "west": "pokecube_legends:blocks/stormy_sky_bricks",
+    "particle": "pokecube_legends:blocks/stormy_sky_bricks"
    }
 }

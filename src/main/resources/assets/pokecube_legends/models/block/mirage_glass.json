@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/mirage_glass",
-    "up": "pokecube_legends:block/mirage_glass",
-    "north": "pokecube_legends:block/mirage_glass",
-    "east": "pokecube_legends:block/mirage_glass",
-    "south": "pokecube_legends:block/mirage_glass",
-    "west": "pokecube_legends:block/mirage_glass",
-    "particle": "pokecube_legends:block/mirage_glass"
+	"down": "pokecube_legends:blocks/mirage_glass",
+    "up": "pokecube_legends:blocks/mirage_glass",
+    "north": "pokecube_legends:blocks/mirage_glass",
+    "east": "pokecube_legends:blocks/mirage_glass",
+    "south": "pokecube_legends:blocks/mirage_glass",
+    "west": "pokecube_legends:blocks/mirage_glass",
+    "particle": "pokecube_legends:blocks/mirage_glass"
    }
 }

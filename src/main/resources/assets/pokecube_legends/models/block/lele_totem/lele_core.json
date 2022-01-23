@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"1": "pokecube_legends:block/lele_totem/tapu_lele_front",
-		"2": "pokecube_legends:block/lele_totem/tapu_lele_side",
-		"3": "pokecube_legends:block/lele_totem/tapu_lele_back",
-		"4": "pokecube_legends:block/lele_totem/tapu_lele_top",
-		"particle": "pokecube_legends:block/lele_totem/tapu_lele_front"
+		"1": "pokecube_legends:blocks/lele_totem/tapu_lele_front",
+		"2": "pokecube_legends:blocks/lele_totem/tapu_lele_side",
+		"3": "pokecube_legends:blocks/lele_totem/tapu_lele_back",
+		"4": "pokecube_legends:blocks/lele_totem/tapu_lele_top",
+		"particle": "pokecube_legends:blocks/lele_totem/tapu_lele_front"
 	},
 	"elements": [
 		{

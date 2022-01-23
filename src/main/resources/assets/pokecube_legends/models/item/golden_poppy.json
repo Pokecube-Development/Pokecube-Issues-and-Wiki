@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:block/golden_poppy"
+      "layer0":"pokecube_legends:blocks/golden_poppy"
    }
 }

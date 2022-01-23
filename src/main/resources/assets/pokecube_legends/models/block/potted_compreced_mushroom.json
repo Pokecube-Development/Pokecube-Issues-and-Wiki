@@ -1,7 +1,7 @@
 {
 	"parent": "minecraft:block/flower_pot_cross",
 	"textures": {
-		"dirt": "pokecube_legends:block/jungle_dirt",
-		"plant": "pokecube_legends:block/potted_compreced_mushroom"
+		"dirt": "pokecube_legends:blocks/jungle_dirt",
+		"plant": "pokecube_legends:blocks/potted_compreced_mushroom"
 	}
 }

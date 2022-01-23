@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fire_side",
   "textures": {
-    "fire": "pokecube_legends:block/infected_fire_1"
+    "fire": "pokecube_legends:blocks/infected_fire_1"
   }
 }

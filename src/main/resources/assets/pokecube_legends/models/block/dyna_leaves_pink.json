@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:block/dyna_leaves_pink"
+	"all": "pokecube_legends:blocks/dyna_leaves_pink"
    }
 }

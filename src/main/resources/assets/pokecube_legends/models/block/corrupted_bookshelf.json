@@ -1,7 +1,7 @@
 {
   "parent": "pokecube:block/generic_bookshelf",
     "textures": {
-        "end": "pokecube_legends:block/corrupted_planks",
-        "side": "pokecube_legends:block/corrupted_bookshelf"
+        "end": "pokecube_legends:blocks/corrupted_planks",
+        "side": "pokecube_legends:blocks/corrupted_bookshelf"
     }
 }

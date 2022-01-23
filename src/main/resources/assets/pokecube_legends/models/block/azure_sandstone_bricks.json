@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-    "all": "pokecube_legends:block/azure_sandstone_bricks"
+    "all": "pokecube_legends:blocks/azure_sandstone_bricks"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "pokecube:block/generic_bookshelf",
     "textures": {
-        "end": "pokecube_legends:block/temporal_planks",
-        "side": "pokecube_legends:block/temporal_bookshelf"
+        "end": "pokecube_legends:blocks/temporal_planks",
+        "side": "pokecube_legends:blocks/temporal_bookshelf"
     }
 }

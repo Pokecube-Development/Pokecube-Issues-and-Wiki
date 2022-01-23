@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:block/distortic_birch_planks",
-    "up": "pokecube_legends:block/distortic_birch_planks",
-    "north": "pokecube_legends:block/distortic_birch_planks",
-    "east": "pokecube_legends:block/distortic_birch_planks",
-    "south": "pokecube_legends:block/distortic_birch_planks",
-    "west": "pokecube_legends:block/distortic_birch_planks",
-    "particle": "pokecube_legends:block/distortic_birch_planks"
+    "down": "pokecube_legends:blocks/distortic_birch_planks",
+    "up": "pokecube_legends:blocks/distortic_birch_planks",
+    "north": "pokecube_legends:blocks/distortic_birch_planks",
+    "east": "pokecube_legends:blocks/distortic_birch_planks",
+    "south": "pokecube_legends:blocks/distortic_birch_planks",
+    "west": "pokecube_legends:blocks/distortic_birch_planks",
+    "particle": "pokecube_legends:blocks/distortic_birch_planks"
   }
 }
