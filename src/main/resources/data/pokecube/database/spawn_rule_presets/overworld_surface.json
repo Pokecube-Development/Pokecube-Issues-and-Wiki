@@ -102,8 +102,7 @@
     {
       "values": {
         "preset": "rivers",
-        "or_preset": "river_ground,river_water",
-        "and_preset": "overworld"
+        "or_preset": "river_ground,river_water"
       }
     },
     {
@@ -116,8 +115,7 @@
     {
       "values": {
         "preset": "lakes",
-        "or_preset": "lake_ground,lake_water",
-        "and_preset": "overworld"
+        "or_preset": "lake_ground,lake_water"
       }
     },
     {
@@ -130,8 +128,7 @@
     {
       "values": {
         "preset": "beaches",
-        "or_preset": "beach_ground,beach_water",
-        "and_preset": "overworld"
+        "or_preset": "beach_ground,beach_water"
       }
     },
     {
@@ -144,8 +141,7 @@
     {
       "values": {
         "preset": "oceans",
-        "or_preset": "ocean_ground,ocean_water",
-        "and_preset": "overworld"
+        "or_preset": "ocean_ground,ocean_water"
       }
     },
     {

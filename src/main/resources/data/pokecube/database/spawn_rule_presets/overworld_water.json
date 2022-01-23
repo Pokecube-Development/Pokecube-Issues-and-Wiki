@@ -4,48 +4,55 @@
       "values": {
         "preset": "river_water",
         "types": "river",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "lake_water",
         "types": "lake",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "beach_water",
         "types": "beach",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "ocean_water",
         "types": "ocean",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "cave_water",
         "types": "cavewater",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "swamp_water",
         "types": "swamp",
-        "air": "false"
+        "air": "false",
+        "and_preset": "overworld"
       }
     },
     {
       "values": {
         "preset": "cave_lake_shore",
-        "types": "cavewater"
+        "types": "cavewater",
+        "and_preset": "overworld"
       }
     },
     {
