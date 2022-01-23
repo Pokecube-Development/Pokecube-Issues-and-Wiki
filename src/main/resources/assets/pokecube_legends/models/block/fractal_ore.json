@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/fractal_ore",
-    "up": "pokecube_legends:blocks/fractal_ore",
-    "north": "pokecube_legends:blocks/fractal_ore",
-    "east": "pokecube_legends:blocks/fractal_ore",
-    "south": "pokecube_legends:blocks/fractal_ore",
-    "west": "pokecube_legends:blocks/fractal_ore",
-    "particle": "pokecube_legends:blocks/fractal_ore"
+	"down": "pokecube_legends:block/fractal_ore",
+    "up": "pokecube_legends:block/fractal_ore",
+    "north": "pokecube_legends:block/fractal_ore",
+    "east": "pokecube_legends:block/fractal_ore",
+    "south": "pokecube_legends:block/fractal_ore",
+    "west": "pokecube_legends:block/fractal_ore",
+    "particle": "pokecube_legends:block/fractal_ore"
    }
 }

@@ -10,7 +10,7 @@
       "tag": "forge:obsidian"
     },
     "A": {
-      "tag": "forge:storage_blocks/ruby"
+      "tag": "forge:storage_block/ruby"
     },
     "C": {
       "item": "minecraft:magma_block"

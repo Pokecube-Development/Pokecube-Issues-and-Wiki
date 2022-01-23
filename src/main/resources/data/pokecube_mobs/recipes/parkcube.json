@@ -11,10 +11,10 @@
       "item": "pokecube:mastercube"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "forge:storage_block/gold"
     },
     "D": {
-      "tag": "forge:storage_blocks/diamond"
+      "tag": "forge:storage_block/diamond"
     },
     "B": {
       "item": "minecraft:bone_block"

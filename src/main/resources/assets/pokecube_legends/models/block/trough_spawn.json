@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:blocks/trough_block",
-		"2": "pokecube_legends:blocks/trough_block_top",
-		"particle": "pokecube_legends:blocks/trough_block_top"
+		"0": "pokecube_legends:block/trough_block",
+		"2": "pokecube_legends:block/trough_block_top",
+		"particle": "pokecube_legends:block/trough_block_top"
 	},
 	"elements": [
 		{

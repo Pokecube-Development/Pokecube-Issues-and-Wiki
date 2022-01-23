@@ -12,7 +12,7 @@
       "data": 0
     },
     "B": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "forge:storage_block/redstone"
     }
   },
   "result": {

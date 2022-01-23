@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_fence_gate_wall_open",
   "textures": {
-    "texture": "pokecube_legends:blocks/corrupted_planks"
+    "texture": "pokecube_legends:block/corrupted_planks"
   }
 }

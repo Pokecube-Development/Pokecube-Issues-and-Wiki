@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_orientable_trapdoor_bottom",
   "textures": {
-    "texture": "pokecube_legends:blocks/inverted_trapdoor"
+    "texture": "pokecube_legends:block/inverted_trapdoor"
   }
 }

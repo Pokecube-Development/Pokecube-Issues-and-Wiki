@@ -10,7 +10,7 @@
       "item": "pokecube_legends:legendaryorb"
     },
     "A": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "forge:storage_block/gold"
     },
     "H": {
       "item": "minecraft:nether_star"

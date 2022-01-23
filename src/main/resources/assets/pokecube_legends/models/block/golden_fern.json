@@ -1,7 +1,7 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "pokecube_legends:blocks/golden_fern",
-    "particle": "pokecube_legends:blocks/golden_fern"
+    "cross": "pokecube_legends:block/golden_fern",
+    "particle": "pokecube_legends:block/golden_fern"
   }
 }

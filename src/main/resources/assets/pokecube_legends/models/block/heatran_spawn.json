@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/magma",
-		"1": "pokecube_legends:blocks/heatran_block",
-		"2": "pokecube_legends:blocks/heatran_block1",
-		"particle": "pokecube_legends:blocks/heatran_block"
+		"1": "pokecube_legends:block/heatran_block",
+		"2": "pokecube_legends:block/heatran_block1",
+		"particle": "pokecube_legends:block/heatran_block"
 	},
 	"elements": [
 		{

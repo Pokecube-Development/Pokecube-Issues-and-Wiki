@@ -2,10 +2,10 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"petals": "pokecube_legends:blocks/pink_blossom_lily",
-		"pollen": "pokecube_legends:blocks/pink_blossom_lily_pollen",
-		"particle": "pokecube_legends:blocks/tainted_lily_pad",
-		"lily_pad": "pokecube_legends:blocks/tainted_lily_pad"
+		"petals": "pokecube_legends:block/pink_blossom_lily",
+		"pollen": "pokecube_legends:block/pink_blossom_lily_pollen",
+		"particle": "pokecube_legends:block/tainted_lily_pad",
+		"lily_pad": "pokecube_legends:block/tainted_lily_pad"
 	},
 	"elements": [
 		{

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button",
   "textures": {
-    "texture": "pokecube_legends:blocks/blackened_sandstone_bricks"
+    "texture": "pokecube_legends:block/blackened_sandstone_bricks"
   }
 }

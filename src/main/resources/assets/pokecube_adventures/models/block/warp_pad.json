@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "pokecube_adventures:blocks/warp_pad"
+        "all": "pokecube_adventures:block/warp_pad"
     }
 }

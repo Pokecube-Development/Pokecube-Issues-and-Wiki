@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/ruby_block",
-    "up": "pokecube_legends:blocks/ruby_block",
-    "north": "pokecube_legends:blocks/ruby_block",
-    "east": "pokecube_legends:blocks/ruby_block",
-    "south": "pokecube_legends:blocks/ruby_block",
-    "west": "pokecube_legends:blocks/ruby_block",
-    "particle": "pokecube_legends:blocks/ruby_block"
+	"down": "pokecube_legends:block/ruby_block",
+    "up": "pokecube_legends:block/ruby_block",
+    "north": "pokecube_legends:block/ruby_block",
+    "east": "pokecube_legends:block/ruby_block",
+    "south": "pokecube_legends:block/ruby_block",
+    "west": "pokecube_legends:block/ruby_block",
+    "particle": "pokecube_legends:block/ruby_block"
    }
 }

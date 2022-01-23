@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "thutcore:blocks/craft_crate"
+        "all": "thutcore:block/craft_crate"
     }
 }
