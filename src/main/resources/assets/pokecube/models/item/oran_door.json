@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube:item/oran_door"
+    "layer0": "pokecube:items/oran_door"
   }
 }

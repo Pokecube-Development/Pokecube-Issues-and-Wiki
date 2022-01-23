@@ -1,6 +1,6 @@
 {  
    "parent":"item/handheld",
    "textures":{  
-      "layer0":"pokecube_legends:item/terrakion_sword"
+      "layer0":"pokecube_legends:items/terrakion_sword"
    }
 }

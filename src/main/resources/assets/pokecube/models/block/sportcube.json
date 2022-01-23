@@ -1,10 +1,10 @@
 {
   "parent": "pokecube:block/pokecubes",
   "textures": {
-    "top": "pokecube:item/sportcubetop",
-    "bottom": "pokecube:item/sportcubebottom",
-    "front": "pokecube:item/sportcubefront",
-    "side": "pokecube:item/sportcubeside",
-    "back": "pokecube:item/sportcubeback"
+    "top": "pokecube:items/sportcubetop",
+    "bottom": "pokecube:items/sportcubebottom",
+    "front": "pokecube:items/sportcubefront",
+    "side": "pokecube:items/sportcubeside",
+    "back": "pokecube:items/sportcubeback"
   }
 }

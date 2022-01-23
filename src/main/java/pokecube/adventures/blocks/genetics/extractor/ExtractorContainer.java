@@ -50,11 +50,11 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
         final int dj = 32;
 
         // DNA Container
-        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, "pokecube_adventures:gui/slot_bottle"));
+        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, "pokecube_adventures:items/slot_bottle"));
         // Stabiliser
-        this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, "pokecube_adventures:gui/slot_selector"));
+        this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, "pokecube_adventures:items/slot_selector"));
         // DNA Source
-        this.addSlot(new TexturedSlot(this.tile, 2, 47, di + di2, "pokecube_adventures:gui/slot_dna"));
+        this.addSlot(new TexturedSlot(this.tile, 2, 47, di + di2, "pokecube_adventures:items/slot_dna"));
 
         this.bindPlayerInventory(invIn, -19);
     }

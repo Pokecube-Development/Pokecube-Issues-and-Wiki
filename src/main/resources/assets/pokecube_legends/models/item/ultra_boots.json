@@ -1,6 +1,6 @@
 {
    "parent": "item/generated",
    "textures": {
-   	"layer0": "pokecube_legends:item/ultra_boots"
+   	"layer0": "pokecube_legends:items/ultra_boots"
    }
 }

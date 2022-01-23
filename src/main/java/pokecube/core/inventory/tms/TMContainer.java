@@ -57,9 +57,9 @@ public class TMContainer extends BaseContainer
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new TexturedSlot(this.inv, 0, 15 + 00, 12 + 00, "pokecube:gui/slot_tm"));
+        this.addSlot(new TexturedSlot(this.inv, 0, 15 + 00, 12 + 00, "pokecube:items/slot_tm"));
         final TMContainer cont = this;
-        this.addSlot(new TexturedSlot(this.inv, 1, 15 + 00, 12 + 49, "pokecube:gui/slot_cube")
+        this.addSlot(new TexturedSlot(this.inv, 1, 15 + 00, 12 + 49, "pokecube:items/slot_cube")
         {
             @Override
             public boolean mayPlace(final ItemStack stack)

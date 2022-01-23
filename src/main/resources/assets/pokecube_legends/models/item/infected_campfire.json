@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:item/infected_campfire"
+    "layer0": "pokecube_legends:items/infected_campfire"
   }
 }

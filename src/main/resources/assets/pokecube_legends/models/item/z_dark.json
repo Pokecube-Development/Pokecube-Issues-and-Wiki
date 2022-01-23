@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:item/z_dark"
+      "layer0":"pokecube_legends:items/z_dark"
    }
 }

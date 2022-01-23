@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/venusaurite"
+    "layer0": "pokecube:items/venusaurite"
   }
 }
