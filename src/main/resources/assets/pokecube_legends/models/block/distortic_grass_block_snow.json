@@ -1,9 +1,9 @@
 {
     "parent": "minecraft:block/cube_bottom_top",
     "textures": {
-        "bottom": "pokecube_legends:block/distortic_stone",
+        "bottom": "pokecube_legends:blocks/distortic_stone",
         "top": "minecraft:block/snow",
-        "side": "pokecube_legends:block/distortic_grass_block_snow",
-        "particle": "pokecube_legends:block/distortic_grass_block_snow"
+        "side": "pokecube_legends:blocks/distortic_grass_block_snow",
+        "particle": "pokecube_legends:blocks/distortic_grass_block_snow"
     }
 }
