@@ -53,6 +53,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.EventsHandler;
@@ -249,8 +250,7 @@ public class SecretBaseDimension
         @Override
         public Sampler climateSampler()
         {
-            return (p_188507_, p_188508_, p_188509_) ->
-            {
+            return (p_188507_, p_188508_, p_188509_) -> {
                 return Climate.target(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             };
         }
@@ -332,84 +332,93 @@ public class SecretBaseDimension
     public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(Registry.BIOME_REGISTRY,
             SecretBaseDimension.IDLOC);
 
-    @SubscribeEvent
-    @OnlyIn(value = Dist.CLIENT)
-    public static void onClientTick(final ClientTickEvent event)
+    @EventBusSubscriber(value = Dist.CLIENT)
+    public static class ClientEventHandler
     {
-        final Level world = PokecubeCore.proxy.getWorld();
-        if (world == null) return;
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
-                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-            world.getWorldBorder().setAbsoluteMaxSize(2999984);
-    }
 
-    @SubscribeEvent
-    public static void onWorldTick(final WorldTickEvent event)
-    {
-        final Level world = event.world;
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
-                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-            world.getWorldBorder().setAbsoluteMaxSize(2999984);
-    }
-
-    @SubscribeEvent
-    public static void onWorldLoad(final WorldEvent.Load event)
-    {
-        final Level world = (Level) event.getWorld();
-        if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
-                && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-            world.getWorldBorder().setAbsoluteMaxSize(2999984);
-    }
-
-    @SubscribeEvent
-    public static void onEnterChunk(final EntityEvent.EnteringSection event)
-    {
-        final Level world = event.getEntity().level;
-        // Only wrap in secret bases, only if chunk changes, and only server
-        // side.
-        if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || world.isClientSide) return;
-
-        final SectionPos newPos = event.getNewPos();
-
-        int x = newPos.getX() / 16;
-        int z = newPos.getZ() / 16;
-
-        final int dx = newPos.getX() % 16;
-        final int dz = newPos.getZ() % 16;
-
-        // Middle of base, don't care
-        if (dx == 0 && dz == 0) return;
-
-        if (dx > 0) if (dx < 8) x += 1;
-        if (dx < 0) if (dx < -7) x -= 1;
-
-        if (dz > 0) if (dz < 8) z += 1;
-        if (dz < 0) if (dz < -7) z -= 1;
-
-        final ChunkPos nearestBase = new ChunkPos(x << 4, z << 4);
-
-        // We need to shunt it back to nearest valid point.
-        final AABB chunkBox = SecretBaseDimension.getBaseBox(nearestBase);
-
-        final BlockPos mob = event.getEntity().blockPosition();
-
-        double nx = mob.getX();
-        double nz = mob.getZ();
-
-        if (nx <= chunkBox.minX) nx = chunkBox.maxX - 1;
-        if (nx >= chunkBox.maxX) nx = chunkBox.minX + 1;
-        if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
-        if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
-
-        final BlockPos pos = new BlockPos(nx, mob.getY(), nz);
-
-        final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), pos));
-        EventsHandler.Schedule(world, w ->
+        @SubscribeEvent
+        public static void onClientTick(final ClientTickEvent event)
         {
-            event.getEntity().setDeltaMovement(0, 0, 0);
-            ThutTeleporter.transferTo(event.getEntity(), dest);
-            return true;
-        });
+            final Level world = PokecubeCore.proxy.getWorld();
+            if (world == null) return;
+            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                    && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        }
+    }
+
+    @EventBusSubscriber
+    public static class EventHandler
+    {
+
+        @SubscribeEvent
+        public static void onWorldTick(final WorldTickEvent event)
+        {
+            final Level world = event.world;
+            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                    && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        }
+
+        @SubscribeEvent
+        public static void onWorldLoad(final WorldEvent.Load event)
+        {
+            final Level world = (Level) event.getWorld();
+            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+                    && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
+                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+        }
+
+        @SubscribeEvent
+        public static void onEnterChunk(final EntityEvent.EnteringSection event)
+        {
+            final Level world = event.getEntity().level;
+            // Only wrap in secret bases, only if chunk changes, and only server
+            // side.
+            if (world.dimension() != SecretBaseDimension.WORLD_KEY || !event.didChunkChange() || world.isClientSide)
+                return;
+
+            final SectionPos newPos = event.getNewPos();
+
+            int x = newPos.getX() / 16;
+            int z = newPos.getZ() / 16;
+
+            final int dx = newPos.getX() % 16;
+            final int dz = newPos.getZ() % 16;
+
+            // Middle of base, don't care
+            if (dx == 0 && dz == 0) return;
+
+            if (dx > 0) if (dx < 8) x += 1;
+            if (dx < 0) if (dx < -7) x -= 1;
+
+            if (dz > 0) if (dz < 8) z += 1;
+            if (dz < 0) if (dz < -7) z -= 1;
+
+            final ChunkPos nearestBase = new ChunkPos(x << 4, z << 4);
+
+            // We need to shunt it back to nearest valid point.
+            final AABB chunkBox = SecretBaseDimension.getBaseBox(nearestBase);
+
+            final BlockPos mob = event.getEntity().blockPosition();
+
+            double nx = mob.getX();
+            double nz = mob.getZ();
+
+            if (nx <= chunkBox.minX) nx = chunkBox.maxX - 1;
+            if (nx >= chunkBox.maxX) nx = chunkBox.minX + 1;
+            if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
+            if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
+
+            final BlockPos pos = new BlockPos(nx, mob.getY(), nz);
+
+            final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), pos));
+            EventsHandler.Schedule(world, w -> {
+                event.getEntity().setDeltaMovement(0, 0, 0);
+                ThutTeleporter.transferTo(event.getEntity(), dest);
+                return true;
+            });
+        }
     }
 
     private static AABB getBaseBox(final ChunkPos nearestBase)
