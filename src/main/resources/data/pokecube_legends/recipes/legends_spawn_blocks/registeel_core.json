@@ -10,10 +10,10 @@
       "item": "minecraft:magma_block"
     },
     "A": {
-      "tag": "forge:storage_block/redstone"
+      "tag": "forge:storage_blocks/redstone"
     },
     "C": {
-      "tag": "forge:storage_block/iron"
+      "tag": "forge:storage_blocks/iron"
     }
   },
   "result": {

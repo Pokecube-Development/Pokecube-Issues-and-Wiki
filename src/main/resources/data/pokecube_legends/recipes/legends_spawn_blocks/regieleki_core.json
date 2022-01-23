@@ -7,13 +7,13 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:storage_block/redstone"
+      "tag": "forge:storage_blocks/redstone"
     },
     "A": {
-      "tag": "forge:storage_block/ruby"
+      "tag": "forge:storage_blocks/ruby"
     },
     "S": {
-      "tag": "forge:storage_block/sapphire"
+      "tag": "forge:storage_blocks/sapphire"
     },
     "C": {
       "item": "minecraft:yellow_terracotta"

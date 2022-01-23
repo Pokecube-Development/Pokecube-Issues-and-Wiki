@@ -14,7 +14,7 @@
       "item": "pokecube:trade_machine"
     },
     "G": {
-      "tag": "forge:storage_block/gold"
+      "tag": "forge:storage_blocks/gold"
     },
     "I": {
       "tag": "forge:ingots/gold"
