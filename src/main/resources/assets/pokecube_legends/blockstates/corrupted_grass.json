@@ -1,7 +1,7 @@
 {
-   "variants": {
-       "": {
-    "model": "pokecube_legends:block/corrupted_grass"
-  }
+  "variants": {
+    "": {
+      "model": "pokecube_legends:block/corrupted_grass"
+    }
   }
 }

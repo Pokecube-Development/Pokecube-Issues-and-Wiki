@@ -52,7 +52,7 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
         for(BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
         {
            BlockState stateOffset = world.getBlockState(posOffset);
-           if (stateOffset.is(BlockInit.CORRUPTED_GRASS.get()))
+           if (stateOffset.is(BlockInit.CORRUPTED_GRASS_BLOCK.get()))
            {
               flag1 = true;
            }
@@ -65,7 +65,7 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
 
         if (flag1)
         {
-           world.setBlock(pos, BlockInit.CORRUPTED_GRASS.get().defaultBlockState(), 3);
+           world.setBlock(pos, BlockInit.CORRUPTED_GRASS_BLOCK.get().defaultBlockState(), 3);
         }
     }
 }

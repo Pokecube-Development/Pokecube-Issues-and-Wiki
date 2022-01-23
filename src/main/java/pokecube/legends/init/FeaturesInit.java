@@ -97,13 +97,13 @@ public class FeaturesInit
 
     public static final class Configs
     {
-        public static final ConfiguredFeature<?, ?> PATCH_TAIGA_GRASS = FeatureUtils.register("patch_taiga_grass", Feature.RANDOM_PATCH
-                .configured(grassPatch(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(Blocks.GRASS.defaultBlockState(), 1)
-                        .add(Blocks.FERN.defaultBlockState(), 4)), 32)));
-        public static final PlacedFeature GRASS_BONEMEAL = PlacementUtils.register("grass_bonemeal", VegetationFeatures.SINGLE_PIECE_OF_GRASS.onlyWhenEmpty());
-        public static final ConfiguredFeature<SimpleBlockConfiguration, ?> SINGLE_PIECE_OF_GRASS = 
-                FeatureUtils.register("single_piece_of_grass", Feature.SIMPLE_BLOCK
-                        .configured(new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.GRASS.defaultBlockState()))));
+//        public static final ConfiguredFeature<?, ?> PATCH_TAIGA_GRASS = FeatureUtils.register("patch_taiga_grass", Feature.RANDOM_PATCH
+//                .configured(grassPatch(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(Blocks.GRASS.defaultBlockState(), 1)
+//                        .add(Blocks.FERN.defaultBlockState(), 4)), 32)));
+//        public static final PlacedFeature GRASS_BONEMEAL = PlacementUtils.register("grass_bonemeal", VegetationFeatures.SINGLE_PIECE_OF_GRASS.onlyWhenEmpty());
+//        public static final ConfiguredFeature<SimpleBlockConfiguration, ?> SINGLE_PIECE_OF_GRASS = 
+//                FeatureUtils.register("single_piece_of_grass", Feature.SIMPLE_BLOCK
+//                        .configured(new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.GRASS.defaultBlockState()))));
         
         public static final WeightedStateProvider FORBIDDEN_VEGETATION_PROVIDER = 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
@@ -125,7 +125,12 @@ public class FeaturesInit
         public static final ConfiguredFeature<?, ?> TAINTED_VEGETATION_BONEMEAL = 
                 FeatureUtils.register("tainted_barrens_vegetation_bonemeal", WorldgenFeatures.ULTRASPACE_VEGETATION.get()
                         .configured(new NetherForestVegetationConfig(CORRUPTED_VEGETATION_PROVIDER, 3, 1)));
-        
+
+        public static final ConfiguredFeature<SimpleBlockConfiguration, ?> SINGLE_PIECE_OF_DISTORTIC_GRASS = 
+                FeatureUtils.register("single_piece_of_distortic_grass", Feature.SIMPLE_BLOCK
+                        .configured(new SimpleBlockConfiguration(BlockStateProvider.simple(PlantsInit.DISTORTIC_GRASS.get().defaultBlockState()))));
+        public static final PlacedFeature DISTORTIC_GRASS_BONEMEAL = PlacementUtils.register("distortic_grass_bonemeal", 
+                SINGLE_PIECE_OF_DISTORTIC_GRASS.onlyWhenEmpty());
     }
     
     public class PlantPlacements
@@ -135,6 +140,9 @@ public class FeaturesInit
         
         public static final PlacedFeature PATCH_CORRUPTED_GRASS = PlacementUtils.register("tainted_barrens_bonemeal", 
                 FeaturesInit.Configs.TAINTED_VEGETATION_BONEMEAL.onlyWhenEmpty());
+        
+//        public static final PlacedFeature PATCH_DISTORTIC_GRASS = PlacementUtils.register("distorted_world_bonemeal", 
+//                FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL);
     }
     
     static SimpleWeightedRandomList.Builder<BlockState> weightedBlockStateBuilder()

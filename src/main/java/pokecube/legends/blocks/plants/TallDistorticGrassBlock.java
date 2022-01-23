@@ -13,18 +13,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.IForgeShearable;
 import pokecube.legends.init.PlantsInit;
 
-public class TallCorruptedGrassBlock extends TallGrassBlock implements IForgeShearable
+public class TallDistorticGrassBlock extends TallGrassBlock implements IForgeShearable
 {
-   public TallCorruptedGrassBlock(final BlockBehaviour.Properties config)
+   public TallDistorticGrassBlock(final BlockBehaviour.Properties config)
    {
       super(config);
    }
 
    @Override
-   public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
+   public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
    {
-       final DoublePlantBlock block = (DoublePlantBlock) PlantsInit.TALL_CORRUPTED_GRASS.get();
-       if (block.defaultBlockState().canSurvive(world, pos) && world.isEmptyBlock(pos.above())) 
-           DoublePlantBlock.placeAt(world, block.defaultBlockState(), pos, 2);
+      return false;
    }
+
+   @Override
+   public boolean isBonemealSuccess(Level world, Random random, BlockPos pos, BlockState state)
+   {
+      return false;
+   }
+
+   @Override
+   public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
+   {}
 }

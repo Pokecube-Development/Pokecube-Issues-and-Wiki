@@ -26,6 +26,7 @@ import pokecube.legends.blocks.plants.TaintedKelpPlantBlock;
 import pokecube.legends.blocks.plants.TaintedRootsBlock;
 import pokecube.legends.blocks.plants.TaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TallCorruptedGrassBlock;
+import pokecube.legends.blocks.plants.TallDistorticGrassBlock;
 import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
 import pokecube.legends.blocks.plants.TemporalBambooBlock;
@@ -40,6 +41,7 @@ public class PlantsInit
     public static final RegistryObject<Block> COMPRECED_MUSHROOM;
     public static final RegistryObject<Block> CORRUPTED_GRASS;
     public static final RegistryObject<Block> DISTORCED_MUSHROOM;
+    public static final RegistryObject<Block> DISTORTIC_GRASS;
     public static final RegistryObject<Block> DISTORTIC_VINES;
     public static final RegistryObject<Block> DISTORTIC_VINES_PLANT;
     public static final RegistryObject<Block> GOLDEN_ALLIUM;
@@ -190,6 +192,10 @@ public class PlantsInit
                 BlockBehaviour.Properties.of(Material.BAMBOO_SAPLING, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak().noCollission()
                 .strength(1.2f).sound(SoundType.BAMBOO_SAPLING)));
 
+        DISTORTIC_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass", () -> new TallDistorticGrassBlock(
+                BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.COLOR_MAGENTA).noCollission()
+                .instabreak().sound(SoundType.ROOTS)));
+        
         DISTORTIC_VINES = PokecubeLegends.DIMENSIONS_TAB.register("distortic_vines", () -> new DistortedVinesTopBlock(
                 BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_MAGENTA).randomTicks().noCollission()
                 .instabreak().sound(SoundType.WEEPING_VINES)));

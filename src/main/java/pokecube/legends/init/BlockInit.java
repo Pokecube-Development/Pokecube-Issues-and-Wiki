@@ -297,7 +297,7 @@ public class BlockInit
 
     // Dimensions
     // Distortic World
-    public static final RegistryObject<Block> DISTORTIC_GRASS;
+    public static final RegistryObject<Block> DISTORTIC_GRASS_BLOCK;
     public static final RegistryObject<Block> DISTORTIC_STONE;
     public static final RegistryObject<Block> DISTORTIC_STONE_SLAB;
     public static final RegistryObject<Block> DISTORTIC_STONE_STAIRS;
@@ -378,24 +378,24 @@ public class BlockInit
 
     public static final RegistryObject<Block> AGED_COARSE_DIRT;
     public static final RegistryObject<Block> AGED_DIRT;
-    public static final RegistryObject<Block> AGED_GRASS;
+    public static final RegistryObject<Block> AGED_GRASS_BLOCK;
     public static final RegistryObject<Block> AGED_PODZOL;
     public static final RegistryObject<Block> ASH;
     public static final RegistryObject<Block> ASH_BLOCK;
     public static final RegistryObject<Block> AZURE_COARSE_DIRT;
     public static final RegistryObject<Block> AZURE_DIRT;
-    public static final RegistryObject<Block> AZURE_GRASS;
+    public static final RegistryObject<Block> AZURE_GRASS_BLOCK;
     public static final RegistryObject<Block> CORRUPTED_DIRT;
     public static final RegistryObject<Block> CORRUPTED_COARSE_DIRT;
-    public static final RegistryObject<Block> CORRUPTED_GRASS;
+    public static final RegistryObject<Block> CORRUPTED_GRASS_BLOCK;
     public static final RegistryObject<Block> FUNGAL_NYLIUM;
     public static final RegistryObject<Block> JUNGLE_COARSE_DIRT;
     public static final RegistryObject<Block> JUNGLE_DIRT;
-    public static final RegistryObject<Block> JUNGLE_GRASS;
+    public static final RegistryObject<Block> JUNGLE_GRASS_BLOCK;
     public static final RegistryObject<Block> JUNGLE_PODZOL;
     public static final RegistryObject<Block> MUSHROOM_DIRT;
     public static final RegistryObject<Block> MUSHROOM_COARSE_DIRT;
-    public static final RegistryObject<Block> MUSHROOM_GRASS;
+    public static final RegistryObject<Block> MUSHROOM_GRASS_BLOCK;
     public static final RegistryObject<Block> ROOTED_CORRUPTED_DIRT;
     public static final RegistryObject<Block> ROOTED_MUSHROOM_DIRT;
 
@@ -747,6 +747,7 @@ public class BlockInit
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_BUSH;
     public static final RegistryObject<Block> POTTED_CRYSTALLIZED_CACTUS;
     public static final RegistryObject<Block> POTTED_DISTORCED_MUSHROOM;
+    public static final RegistryObject<Block> POTTED_DISTORTIC_GRASS;
     public static final RegistryObject<Block> POTTED_DISTORTIC_VINES;
     public static final RegistryObject<Block> POTTED_DYNA_SHRUB;
     public static final RegistryObject<Block> POTTED_GOLDEN_ALLIUM;
@@ -984,7 +985,7 @@ public class BlockInit
                         .sound(SoundType.DRIPSTONE_BLOCK).requiresCorrectToolForDrops()));
 
         // Soils
-        AGED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
+        AGED_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("aged_grass_block",
                 () -> new AgedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.GOLD)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         AGED_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("aged_podzol",
@@ -994,14 +995,14 @@ public class BlockInit
                 () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 0.5F, 0.5F, SoundType.WET_GRASS, false));
         AGED_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("aged_coarse_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.TERRACOTTA_YELLOW, 0.5F, 0.5F, SoundType.GRAVEL, false));
-        AZURE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("azure_grass_block",
+        AZURE_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("azure_grass_block",
                 () -> new AzureGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_LIGHT_BLUE)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         AZURE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5F, 0.5F, SoundType.GRAVEL, false));
         AZURE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("azure_coarse_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BLUE, 0.5F, 0.5F, SoundType.GRAVEL, false));
-        CORRUPTED_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block",
+        CORRUPTED_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_grass_block",
                 () -> new CorruptedGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_BLUE)
                         .sound(SoundType.SCAFFOLDING).strength(4F, 5F).randomTicks().requiresCorrectToolForDrops()));
         CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_dirt", 
@@ -1013,7 +1014,7 @@ public class BlockInit
         ROOTED_CORRUPTED_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("rooted_corrupted_dirt", 
                 () -> new RootedDirtBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_PURPLE)
                         .sound(SoundType.METAL).strength(0.9F).requiresCorrectToolForDrops()));
-        JUNGLE_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", 
+        JUNGLE_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("jungle_grass_block", 
                 () -> new JungleGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.WARPED_NYLIUM)
                         .sound(SoundType.GRASS).strength(0.6F).randomTicks()));
         JUNGLE_PODZOL= PokecubeLegends.DIMENSIONS_TAB.register("jungle_podzol",
@@ -1023,7 +1024,7 @@ public class BlockInit
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 0.5F, 0.5F, SoundType.GRAVEL, false));
         JUNGLE_COARSE_DIRT = PokecubeLegends.DIMENSIONS_TAB.register("jungle_coarse_dirt",
                 () -> new BlockBase(Material.DIRT, MaterialColor.COLOR_BROWN, 0.5F, 0.5F, SoundType.GRAVEL, false));
-        MUSHROOM_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block",
+        MUSHROOM_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("mushroom_grass_block",
                 () -> new MushroomGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.COLOR_RED).sound(SoundType.GRASS)
                         .strength(0.6F).randomTicks()));
         FUNGAL_NYLIUM = PokecubeLegends.DIMENSIONS_TAB.register("fungal_nylium",
@@ -1181,7 +1182,7 @@ public class BlockInit
                         .noCollission().strength(0.5F).requiresCorrectToolForDrops().lightLevel(i -> 6)));
 
         // Distortic World
-        DISTORTIC_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass_block",
+        DISTORTIC_GRASS_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass_block",
                 () -> new DistorticGrassBlock(BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.TERRACOTTA_PINK)
                         .sound(SoundType.NYLIUM).strength(1, 2).requiresCorrectToolForDrops().randomTicks()));
         CRACKED_DISTORTIC_STONE = PokecubeLegends.DIMENSIONS_TAB.register("cracked_distortic_stone",
@@ -2347,6 +2348,9 @@ public class BlockInit
         POTTED_DISTORCED_MUSHROOM = PokecubeLegends.NO_TAB.register("potted_distorced_mushroom",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORCED_MUSHROOM.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
+        POTTED_DISTORTIC_GRASS = PokecubeLegends.NO_TAB.register("potted_distortic_grass",
+                () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_GRASS.get(),
+                        BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
         POTTED_DISTORTIC_VINES = PokecubeLegends.NO_TAB.register("potted_distortic_vines",
                 () -> new ItemGenerator.GenericPottedPlant(PlantsInit.DISTORTIC_VINES.get(),
                         BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion()));
@@ -2551,6 +2555,7 @@ public class BlockInit
         BlockInit.compostableBlocks(0.3f, BlockInit.SMALL_CONTAMINATED_DRIPLEAF);
         BlockInit.compostableBlocks(0.3f, BlockInit.TEMPORAL_SAPLING);
         BlockInit.compostableBlocks(0.3f, PlantsInit.CORRUPTED_GRASS);
+        BlockInit.compostableBlocks(0.3f, PlantsInit.DISTORTIC_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_GRASS);
         BlockInit.compostableBlocks(0.3f, PlantsInit.GOLDEN_SWEET_BERRY_BUSH);
         BlockInit.compostableBlocks(0.3f, PlantsInit.HANGING_TENDRILS);
@@ -2688,6 +2693,7 @@ public class BlockInit
         BlockInit.flammableBlocks(PlantsInit.COMPRECED_MUSHROOM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.CORRUPTED_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.DISTORCED_MUSHROOM.get(), 60, 100);
+        BlockInit.flammableBlocks(PlantsInit.DISTORTIC_GRASS.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_ALLIUM.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_AZURE_BLUET.get(), 60, 100);
         BlockInit.flammableBlocks(PlantsInit.GOLDEN_CORNFLOWER.get(), 60, 100);

@@ -327,7 +327,7 @@ public class PokecubeLegends
         @Override
         public ItemStack makeIcon()
         {
-            return new ItemStack(BlockInit.DISTORTIC_GRASS.get());
+            return new ItemStack(BlockInit.DISTORTIC_GRASS_BLOCK.get());
         }
     };
 

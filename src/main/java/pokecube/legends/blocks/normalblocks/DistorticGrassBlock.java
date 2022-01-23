@@ -1,5 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.core.BlockPos;
@@ -22,11 +23,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LayerLightEngine;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.FeaturesInit;
+import pokecube.legends.init.PlantsInit;
 
 public class DistorticGrassBlock extends DirectionalBlock implements BonemealableBlock
 {
@@ -153,51 +159,48 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
     {
-        final BlockState blockstate1 = Blocks.GRASS.defaultBlockState();
-        final BlockState blockstate = world.getBlockState(pos);
-        final BlockPos blockpos = pos.above();
-        if (blockstate.is(BlockInit.DISTORTIC_GRASS.get()))
         {
-//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.CRIMSON_FOREST_CONFIG, 3, 1);
-//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.WARPED_FOREST_CONFIG, 3, 1);
-//            NetherForestVegetationFeature.place(world, random, blockpos, Features.Configs.NETHER_SPROUTS_CONFIG, 3, 1);
-        }
+            BlockPos posAbove = pos.above();
+            BlockState grassState = PlantsInit.DISTORTIC_GRASS.get().defaultBlockState();
 
-        label48: for (int i = 0; i < 128; ++i)
-        {
-            BlockPos blockpos1 = blockpos;
-
-            for (int i2 = 0; i2 < i / 16; ++i2)
+            label46:
+            for(int i = 0; i < 128; ++i)
             {
-                blockpos1 = blockpos1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2,
-                        random.nextInt(3) - 1);
-                if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1)
-                        .isCollisionShapeFullBlock(world, blockpos1))
-                    continue label48;
-            }
+               BlockPos posAbove1 = posAbove;
 
-            final BlockState blockstate2 = world.getBlockState(blockpos1);
-            if (blockstate2.is(blockstate1.getBlock()) && random.nextInt(10) == 0)
-                ((BonemealableBlock) blockstate1
-                        .getBlock()).performBonemeal(world, random, blockpos1, blockstate2);
+               for(int j = 0; j < i / 16; ++j)
+               {
+                  posAbove1 = posAbove1.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+                  if (!world.getBlockState(posAbove1.below()).is(this) || world.getBlockState(posAbove1).isCollisionShapeFullBlock(world, posAbove1))
+                  {
+                     continue label46;
+                  }
+               }
 
-            if (blockstate2.isAir())
-            {
-                // FIXME grass bonemeal
-//                BlockState blockstate3;
-//                if (random.nextInt(8) == 0)
-//                {
-//                    final List<ConfiguredFeature<?, ?>> features = world.getBiome(blockpos1).getGenerationSettings()
-//                            .getFlowerFeatures();
-//                    if (features.isEmpty()) continue;
-//
-//                    final ConfiguredFeature<?, ?> features2 = features.get(0);
-//                    final AbstractFlowerFeature flowers = (AbstractFlowerFeature) features2.feature;
-//                    blockstate3 = flowers.getRandomFlower(random, blockpos1, features2.config());
-//                }
-//                else blockstate3 = blockstate1;
-//
-//                if (blockstate3.canSurvive(world, blockpos1)) world.setBlock(blockpos1, blockstate3, 3);
+               BlockState stateAbove = world.getBlockState(posAbove1);
+               if (stateAbove.is(grassState.getBlock()) && random.nextInt(10) == 0) 
+               {
+                  ((BonemealableBlock)grassState.getBlock()).performBonemeal(world, random, posAbove1, stateAbove);
+               }
+
+               if (stateAbove.isAir())
+               {
+                  PlacedFeature placedFeature;
+                  if (random.nextInt(8) == 0)
+                  {
+                     List<ConfiguredFeature<?, ?>> list = world.getBiome(posAbove1).getGenerationSettings().getFlowerFeatures();
+                     if (list.isEmpty())
+                     {
+                        continue;
+                     }
+
+                     placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature().get();
+                  } else {
+                     placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL;
+                  }
+
+                  placedFeature.place(world, world.getChunkSource().getGenerator(), random, posAbove1);
+               }
             }
         }
     }
