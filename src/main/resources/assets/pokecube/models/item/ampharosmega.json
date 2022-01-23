@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/ampharosite"
+    "layer0": "pokecube:items/ampharosite"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube:item/leppa_door"
+    "layer0": "pokecube:items/leppa_door"
   }
 }

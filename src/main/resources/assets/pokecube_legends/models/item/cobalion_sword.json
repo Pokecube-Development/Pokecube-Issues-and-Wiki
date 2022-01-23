@@ -1,6 +1,6 @@
 {  
    "parent":"item/handheld",
    "textures":{  
-      "layer0":"pokecube_legends:item/cobalion_sword"
+      "layer0":"pokecube_legends:items/cobalion_sword"
    }
 }

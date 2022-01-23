@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:item/ice_dark_wing"
+      "layer0":"pokecube_legends:items/ice_dark_wing"
    }
 }

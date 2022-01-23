@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:item/star_core"
+      "layer0":"pokecube_legends:items/star_core"
    }
 }

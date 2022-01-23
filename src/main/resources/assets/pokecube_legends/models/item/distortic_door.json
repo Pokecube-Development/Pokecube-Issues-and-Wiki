@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:item/distortic_door"
+    "layer0": "pokecube_legends:items/distortic_door"
   }
 }

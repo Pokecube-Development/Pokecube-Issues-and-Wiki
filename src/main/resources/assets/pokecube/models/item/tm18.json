@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "pokecube:item/tm18"
+		"layer0": "pokecube:items/tm18"
 	}
 }

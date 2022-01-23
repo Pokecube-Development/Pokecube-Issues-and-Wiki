@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:item/pink_blossom_tainted_lily_pad"
+    "layer0": "pokecube_legends:items/pink_blossom_tainted_lily_pad"
   }
 }

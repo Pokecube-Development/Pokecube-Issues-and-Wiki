@@ -1,7 +1,7 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "pokecube_legends:item/giratina_mirror"
+		"layer0": "pokecube_legends:items/giratina_mirror"
 	},
 	"display": {
 		"thirdperson_righthand": {
