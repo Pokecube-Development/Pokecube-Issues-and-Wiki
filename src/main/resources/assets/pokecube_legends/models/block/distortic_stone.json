@@ -1,6 +1,7 @@
 {
    "parent": "block/cube",
    "textures": {
+<<<<<<< HEAD
     "down": "pokecube_legends:blocks/distortic_stone",
     "up": "pokecube_legends:blocks/distortic_stone",
     "north": "pokecube_legends:blocks/distortic_stone",
@@ -8,5 +9,8 @@
     "south": "pokecube_legends:blocks/distortic_stone",
     "west": "pokecube_legends:blocks/distortic_stone",
     "particle": "pokecube_legends:blocks/distortic_stone"
+=======
+    "all": "pokecube_legends:block/distortic_stone"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }

@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/nature_spawn_pillar_side",
-		"2": "pokecube_legends:blocks/nature_spawn_pillar_top",
-		"particle": "pokecube_legends:blocks/nature_spawn_pillar_side"
+		"1": "pokecube_legends:block/nature_spawn_pillar_side",
+		"2": "pokecube_legends:block/nature_spawn_pillar_top",
+		"particle": "pokecube_legends:block/nature_spawn_pillar_side"
 	},
 	"elements": [
 		{

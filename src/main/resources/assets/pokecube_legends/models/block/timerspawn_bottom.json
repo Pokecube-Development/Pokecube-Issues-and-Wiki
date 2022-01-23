@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:blocks/time_and_space_pillar_side",
-		"2": "pokecube_legends:blocks/time_and_space_pillar_top",
-		"particle": "pokecube_legends:blocks/time_and_space_pillar_side"
+		"1": "pokecube_legends:block/time_and_space_pillar_side",
+		"2": "pokecube_legends:block/time_and_space_pillar_top",
+		"particle": "pokecube_legends:block/time_and_space_pillar_side"
 	},
 	"elements": [
 		{

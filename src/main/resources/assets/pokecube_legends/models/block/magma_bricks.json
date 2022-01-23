@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:blocks/magma_bricks",
-    "up": "pokecube_legends:blocks/magma_bricks",
-    "north": "pokecube_legends:blocks/magma_bricks",
-    "east": "pokecube_legends:blocks/magma_bricks",
-    "south": "pokecube_legends:blocks/magma_bricks",
-    "west": "pokecube_legends:blocks/magma_bricks",
-    "particle": "pokecube_legends:blocks/magma_bricks"
+	"down": "pokecube_legends:block/magma_bricks",
+    "up": "pokecube_legends:block/magma_bricks",
+    "north": "pokecube_legends:block/magma_bricks",
+    "east": "pokecube_legends:block/magma_bricks",
+    "south": "pokecube_legends:block/magma_bricks",
+    "west": "pokecube_legends:block/magma_bricks",
+    "particle": "pokecube_legends:block/magma_bricks"
    }
 }

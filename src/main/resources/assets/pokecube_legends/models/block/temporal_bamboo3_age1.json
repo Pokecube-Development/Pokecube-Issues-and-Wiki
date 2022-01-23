@@ -1,7 +1,7 @@
 {
     "textures": {
-        "all": "pokecube_legends:blocks/temporal_bamboo_stalk",
-        "particle": "pokecube_legends:blocks/temporal_bamboo_stalk"
+        "all": "pokecube_legends:block/temporal_bamboo_stalk",
+        "particle": "pokecube_legends:block/temporal_bamboo_stalk"
     },
     "elements": [
         {   "from": [ 6.5, 0, 6.5 ],

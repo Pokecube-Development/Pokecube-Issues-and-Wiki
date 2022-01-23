@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_top",
   "textures": {
-    "top": "pokecube_legends:blocks/concrete_door_top",
-    "bottom": "pokecube_legends:blocks/concrete_door_bottom"
+    "top": "pokecube_legends:block/concrete_door_top",
+    "bottom": "pokecube_legends:block/concrete_door_bottom"
   }
 }

@@ -1,7 +1,12 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
   "textures": {
+<<<<<<< HEAD
     "dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
     "plant": "pokecube_legends:blocks/inverted_orchid"
+=======
+    "dirt": "pokecube_legends:block/jungle_dirt",
+    "plant": "pokecube_legends:block/inverted_orchid"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }

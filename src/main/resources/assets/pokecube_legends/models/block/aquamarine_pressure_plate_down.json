@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_down",
   "textures": {
-    "texture": "pokecube_legends:blocks/aquamarine_block"
+    "texture": "pokecube_legends:block/aquamarine_block"
   }
 }

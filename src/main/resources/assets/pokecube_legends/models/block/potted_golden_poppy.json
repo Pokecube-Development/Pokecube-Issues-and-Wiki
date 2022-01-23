@@ -1,7 +1,12 @@
 {
   "parent": "pokecube_legends:block/flower_pot_cross_shadeless",
   "textures": {
+<<<<<<< HEAD
     "dirt": "pokecube_legends:blocks/ultra_aged_dirt",
     "plant": "pokecube_legends:blocks/golden_poppy"
+=======
+    "dirt": "pokecube_legends:block/aged_dirt",
+    "plant": "pokecube_legends:block/golden_poppy"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }

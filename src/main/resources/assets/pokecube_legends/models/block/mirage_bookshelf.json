@@ -1,7 +1,7 @@
 {
   "parent": "pokecube:block/generic_bookshelf",
     "textures": {
-        "end": "pokecube_legends:blocks/mirage_planks",
-        "side": "pokecube_legends:blocks/mirage_bookshelf"
+        "end": "pokecube_legends:block/mirage_planks",
+        "side": "pokecube_legends:block/mirage_bookshelf"
     }
 }

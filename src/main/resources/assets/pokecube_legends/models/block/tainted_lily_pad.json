@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "pokecube_legends:blocks/tainted_lily_pad",
-		"texture": "pokecube_legends:blocks/tainted_lily_pad"
+		"particle": "pokecube_legends:block/tainted_lily_pad",
+		"texture": "pokecube_legends:block/tainted_lily_pad"
 	},
 	"elements": [
 		{

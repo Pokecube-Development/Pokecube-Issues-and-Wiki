@@ -1,7 +1,12 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
   "textures": {
+<<<<<<< HEAD
     "dirt": "pokecube_legends:blocks/ultra_corrupted_dirt",
     "plant": "pokecube_legends:blocks/corrupted_sapling"
+=======
+    "dirt": "pokecube_legends:block/corrupted_dirt",
+    "plant": "pokecube_legends:block/corrupted_sapling"
+>>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }

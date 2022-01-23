@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_adventures:blocks/laboratory_glass"
+	"all": "pokecube_adventures:block/laboratory_glass"
    }
 }
