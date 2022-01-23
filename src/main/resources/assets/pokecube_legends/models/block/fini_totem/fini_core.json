@@ -3,10 +3,10 @@
 	"parent": "block/block",
 	"ambientocclusion": false,
 	"textures": {
-		"1": "pokecube_legends:block/fini_totem/tapu_fini_front",
-		"2": "pokecube_legends:block/fini_totem/tapu_fini_side",
-		"3": "pokecube_legends:block/fini_totem/tapu_fini_top",
-		"particle": "pokecube_legends:block/fini_totem/tapu_fini_side"
+		"1": "pokecube_legends:blocks/fini_totem/tapu_fini_front",
+		"2": "pokecube_legends:blocks/fini_totem/tapu_fini_side",
+		"3": "pokecube_legends:blocks/fini_totem/tapu_fini_top",
+		"particle": "pokecube_legends:blocks/fini_totem/tapu_fini_side"
 	},
 	"elements": [
 		{

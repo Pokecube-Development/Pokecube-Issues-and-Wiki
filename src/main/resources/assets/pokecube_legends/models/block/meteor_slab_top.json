@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube_legends:block/meteorblock",
-    "top": "pokecube_legends:block/meteorblock",
-    "side": "pokecube_legends:block/meteorblock"
+    "bottom": "pokecube_legends:blocks/meteorblock",
+    "top": "pokecube_legends:blocks/meteorblock",
+    "side": "pokecube_legends:blocks/meteorblock"
   }
 }

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_top_rh",
   "textures": {
-    "top": "pokecube_legends:block/temporal_door_top",
-    "bottom": "pokecube_legends:block/temporal_door_bottom"
+    "top": "pokecube_legends:blocks/temporal_door_top",
+    "bottom": "pokecube_legends:blocks/temporal_door_bottom"
   }
 }

@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"3": "pokecube_legends:block/time_and_space_pillar_side",
-		"4": "pokecube_legends:block/time_and_space_pillar_top",
-		"5": "pokecube_legends:block/time_and_space_portal",
-		"particle": "pokecube_legends:block/time_and_space_pillar_side"
+		"3": "pokecube_legends:blocks/time_and_space_pillar_side",
+		"4": "pokecube_legends:blocks/time_and_space_pillar_top",
+		"5": "pokecube_legends:blocks/time_and_space_portal",
+		"particle": "pokecube_legends:blocks/time_and_space_pillar_side"
 	},
 	"elements": [
 		{

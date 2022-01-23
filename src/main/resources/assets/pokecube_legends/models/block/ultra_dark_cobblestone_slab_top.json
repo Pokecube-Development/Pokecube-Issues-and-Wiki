@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube_legends:block/ultra_dark_cobblestone",
-    "top": "pokecube_legends:block/ultra_dark_cobblestone",
-    "side": "pokecube_legends:block/ultra_dark_cobblestone"
+    "bottom": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "top": "pokecube_legends:blocks/ultra_dark_cobblestone",
+    "side": "pokecube_legends:blocks/ultra_dark_cobblestone"
   }
 }

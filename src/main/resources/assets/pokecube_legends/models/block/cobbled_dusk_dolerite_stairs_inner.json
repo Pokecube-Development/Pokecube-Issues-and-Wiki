@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:block/cobbled_dusk_dolerite",
-    "top": "pokecube_legends:block/cobbled_dusk_dolerite",
-    "side": "pokecube_legends:block/cobbled_dusk_dolerite"
-  }
-}

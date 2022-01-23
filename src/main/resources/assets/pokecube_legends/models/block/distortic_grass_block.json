@@ -1,10 +1,10 @@
 {
     "parent": "block/block",
     "textures": {
-        "bottom": "pokecube_legends:block/distortic_stone",
-        "top": "pokecube_legends:block/distortic_grass_top",
-        "side": "pokecube_legends:block/distortic_grass",
-        "particle": "pokecube_legends:block/distortic_grass"
+        "bottom": "pokecube_legends:blocks/distortic_stone",
+        "top": "pokecube_legends:blocks/distortic_grass_top",
+        "side": "pokecube_legends:blocks/distortic_grass",
+        "particle": "pokecube_legends:blocks/distortic_grass"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

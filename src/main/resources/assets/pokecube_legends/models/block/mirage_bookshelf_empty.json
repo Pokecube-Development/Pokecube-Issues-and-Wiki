@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "pokecube:block/generic_bookshelf_empty",
 	"textures": {
-		"particle": "pokecube_legends:block/mirage_bookshelf_empty",
-		"center": "pokecube_legends:block/mirage_bookshelf_empty",
-		"planks": "pokecube_legends:block/mirage_planks"
+		"particle": "pokecube_legends:blocks/mirage_bookshelf_empty",
+		"center": "pokecube_legends:blocks/mirage_bookshelf_empty",
+		"planks": "pokecube_legends:blocks/mirage_planks"
 	}
 }

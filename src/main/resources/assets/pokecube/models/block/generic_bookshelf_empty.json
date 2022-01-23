@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"center": "pokecube_legends:block/bookshelf_empty",
-		"particle": "pokecube_legends:block/bookshelf_empty",
+		"center": "pokecube_legends:blocks/bookshelf_empty",
+		"particle": "pokecube_legends:blocks/bookshelf_empty",
 		"planks": "block/oak_planks"
 	},
 	"elements": [

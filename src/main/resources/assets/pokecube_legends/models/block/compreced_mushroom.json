@@ -1,7 +1,7 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "pokecube_legends:block/compreced_mushroom",
-    "particle": "pokecube_legends:block/compreced_mushroom"
+    "cross": "pokecube_legends:blocks/compreced_mushroom",
+    "particle": "pokecube_legends:blocks/compreced_mushroom"
   }
 }

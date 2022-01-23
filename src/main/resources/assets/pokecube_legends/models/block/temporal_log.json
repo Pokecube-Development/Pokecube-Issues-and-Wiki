@@ -1,7 +1,7 @@
 {
    "parent": "block/cube_column",
    "textures": {
-	"end":  "pokecube_legends:block/temporal_log_top",
-    "side": "pokecube_legends:block/temporal_log"
+	"end":  "pokecube_legends:blocks/temporal_log_top",
+    "side": "pokecube_legends:blocks/temporal_log"
    }
 }

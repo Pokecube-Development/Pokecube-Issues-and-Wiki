@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_adventures:block/splicer_side",
-		"2": "pokecube_adventures:block/splicer_front",
-		"3": "pokecube_adventures:block/splicer_top",
-		"4": "pokecube_adventures:block/splicer_details",
-		"particle": "pokecube_adventures:block/splicer_side"
+		"1": "pokecube_adventures:blocks/splicer_side",
+		"2": "pokecube_adventures:blocks/splicer_front",
+		"3": "pokecube_adventures:blocks/splicer_top",
+		"4": "pokecube_adventures:blocks/splicer_details",
+		"particle": "pokecube_adventures:blocks/splicer_side"
 	},
 	"elements": [
 		{

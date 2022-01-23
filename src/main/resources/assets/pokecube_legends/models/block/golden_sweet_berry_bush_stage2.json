@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "pokecube_legends:block/golden_sweet_berry_bush_stage2"
+    "cross": "pokecube_legends:blocks/golden_sweet_berry_bush_stage2"
   }
 }

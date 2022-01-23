@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "pokecube_legends:block/concrete_log",
-    "side": "pokecube_legends:block/concrete_log"
+    "end": "pokecube_legends:blocks/concrete_log",
+    "side": "pokecube_legends:blocks/concrete_log"
   }
 }

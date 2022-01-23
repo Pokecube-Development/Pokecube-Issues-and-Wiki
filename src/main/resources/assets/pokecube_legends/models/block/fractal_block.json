@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/fractal_block",
-    "up": "pokecube_legends:block/fractal_block",
-    "north": "pokecube_legends:block/fractal_block",
-    "east": "pokecube_legends:block/fractal_block",
-    "south": "pokecube_legends:block/fractal_block",
-    "west": "pokecube_legends:block/fractal_block",
-    "particle": "pokecube_legends:block/fractal_block"
+	"down": "pokecube_legends:blocks/fractal_block",
+    "up": "pokecube_legends:blocks/fractal_block",
+    "north": "pokecube_legends:blocks/fractal_block",
+    "east": "pokecube_legends:blocks/fractal_block",
+    "south": "pokecube_legends:blocks/fractal_block",
+    "west": "pokecube_legends:blocks/fractal_block",
+    "particle": "pokecube_legends:blocks/fractal_block"
    }
 }

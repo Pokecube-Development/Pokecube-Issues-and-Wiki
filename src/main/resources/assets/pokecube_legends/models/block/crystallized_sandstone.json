@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-    "down": "pokecube_legends:block/crystallized_sandstone_bottom",
-    "up": "pokecube_legends:block/crystallized_sandstone_top",
-    "north": "pokecube_legends:block/crystallized_sandstone",
-    "east": "pokecube_legends:block/crystallized_sandstone",
-    "south": "pokecube_legends:block/crystallized_sandstone",
-    "west": "pokecube_legends:block/crystallized_sandstone",
-    "particle": "pokecube_legends:block/crystallized_sandstone"
+    "down": "pokecube_legends:blocks/crystallized_sandstone_bottom",
+    "up": "pokecube_legends:blocks/crystallized_sandstone_top",
+    "north": "pokecube_legends:blocks/crystallized_sandstone",
+    "east": "pokecube_legends:blocks/crystallized_sandstone",
+    "south": "pokecube_legends:blocks/crystallized_sandstone",
+    "west": "pokecube_legends:blocks/crystallized_sandstone",
+    "particle": "pokecube_legends:blocks/crystallized_sandstone"
   }
 }

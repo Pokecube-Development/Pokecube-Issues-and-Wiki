@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "pokecube_legends:block/azure_sandstone_bottom",
-    "top": "pokecube_legends:block/azure_sandstone_top",
-    "side": "pokecube_legends:block/azure_sandstone"
-  }
-}

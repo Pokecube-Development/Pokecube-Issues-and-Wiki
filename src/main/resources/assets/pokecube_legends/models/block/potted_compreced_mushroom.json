@@ -2,12 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/flower_pot_cross",
 	"textures": {
-<<<<<<< HEAD
 		"dirt": "pokecube_legends:blocks/ultra_jungle_dirt",
 		"plant": "pokecube_legends:blocks/potted_compreced_mushroom"
-=======
-		"dirt": "pokecube_legends:block/jungle_dirt",
-		"plant": "pokecube_legends:block/potted_compreced_mushroom"
->>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
 	}
 }

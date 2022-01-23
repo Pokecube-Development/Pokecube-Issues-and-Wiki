@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-    "all": "pokecube_legends:block/crystallized_sand"
+    "all": "pokecube_legends:blocks/crystallized_sand"
   }
 }

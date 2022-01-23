@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "pokecube_legends:block/ultra_darkstone",
-    "top": "pokecube_legends:block/ultra_darkstone",
-    "side": "pokecube_legends:block/ultra_darkstone"
+    "bottom": "pokecube_legends:blocks/ultra_darkstone",
+    "top": "pokecube_legends:blocks/ultra_darkstone",
+    "side": "pokecube_legends:blocks/ultra_darkstone"
   }
 }

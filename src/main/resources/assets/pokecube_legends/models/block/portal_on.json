@@ -5,7 +5,7 @@
   "ambientToFullbright": true,
   "flip-v": true,
   "textures": {
-    "None": "pokecube_legends:block/portal_on",
-    "particle": "pokecube_legends:block/portal_on"
+    "None": "pokecube_legends:blocks/portal_on",
+    "particle": "pokecube_legends:blocks/portal_on"
   }
 }

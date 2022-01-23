@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "pokecube_legends:block/crystallized_bush"
+    "layer0": "pokecube_legends:blocks/crystallized_bush"
   }
 }

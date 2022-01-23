@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
   "textures": {
-    "dirt": "pokecube_legends:block/distortic_grass_top",
-    "plant": "pokecube_legends:block/potted_distortic_vines"
+    "dirt": "pokecube_legends:blocks/distortic_grass_top",
+    "plant": "pokecube_legends:blocks/potted_distortic_vines"
   }
 }

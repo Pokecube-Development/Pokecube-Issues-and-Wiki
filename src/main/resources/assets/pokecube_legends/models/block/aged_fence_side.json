@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/fence_side",
   "textures": {
-    "texture": "pokecube_legends:block/aged_planks"
+    "texture": "pokecube_legends:blocks/aged_planks"
   }
 }

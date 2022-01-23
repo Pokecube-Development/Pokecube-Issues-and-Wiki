@@ -1,17 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-<<<<<<< HEAD
     "bottom": "pokecube_legends:blocks/ultra_aged_dirt",
     "top": "pokecube_legends:blocks/ultra_aged_grass_top",
     "side": "pokecube_legends:blocks/ultra_aged_grass",
     "particle": "pokecube_legends:blocks/ultra_aged_grass"
-=======
-    "bottom": "pokecube_legends:block/aged_dirt",
-    "top": "pokecube_legends:block/aged_grass_block_top",
-    "side": "pokecube_legends:block/aged_grass_block_side",
-    "particle": "pokecube_legends:block/aged_grass_block_side"
->>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube_legends:block/victini_block_front",
-		"2": "pokecube_legends:block/victini_block_top",
-		"3": "pokecube_legends:block/victini_block_antenna",
-		"particle": "pokecube_legends:block/victini_block_front"
+		"1": "pokecube_legends:blocks/victini_block_front",
+		"2": "pokecube_legends:blocks/victini_block_top",
+		"3": "pokecube_legends:blocks/victini_block_antenna",
+		"particle": "pokecube_legends:blocks/victini_block_front"
 	},
 	"elements": [
 		{

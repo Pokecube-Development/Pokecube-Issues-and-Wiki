@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:block/meteor_cosmic_dust_ore"
+	"all": "pokecube_legends:blocks/meteor_cosmic_dust_ore"
    }
 }

@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/totem_block",
-    "up": "pokecube_legends:block/totem_block",
-    "north": "pokecube_legends:block/totem_block",
-    "east": "pokecube_legends:block/totem_block",
-    "south": "pokecube_legends:block/totem_block",
-    "west": "pokecube_legends:block/totem_block",
-    "particle": "pokecube_legends:block/totem_block"
+	"down": "pokecube_legends:blocks/totem_block",
+    "up": "pokecube_legends:blocks/totem_block",
+    "north": "pokecube_legends:blocks/totem_block",
+    "east": "pokecube_legends:blocks/totem_block",
+    "south": "pokecube_legends:blocks/totem_block",
+    "west": "pokecube_legends:blocks/totem_block",
+    "particle": "pokecube_legends:blocks/totem_block"
    }
 }

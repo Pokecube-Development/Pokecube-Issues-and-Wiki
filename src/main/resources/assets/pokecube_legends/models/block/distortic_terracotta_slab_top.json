@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "pokecube_legends:block/distortic_terracotta",
-    "top": "pokecube_legends:block/distortic_terracotta",
-    "side": "pokecube_legends:block/distortic_terracotta"
+    "bottom": "pokecube_legends:blocks/distortic_terracotta",
+    "top": "pokecube_legends:blocks/distortic_terracotta",
+    "side": "pokecube_legends:blocks/distortic_terracotta"
   }
 }

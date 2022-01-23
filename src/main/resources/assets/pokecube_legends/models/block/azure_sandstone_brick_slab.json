@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "pokecube_legends:block/azure_sandstone_bricks",
-    "top": "pokecube_legends:block/azure_sandstone_bricks",
-    "side": "pokecube_legends:block/azure_sandstone_bricks"
-  }
-}

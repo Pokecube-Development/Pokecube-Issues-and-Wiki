@@ -1,7 +1,6 @@
 {
    "parent": "block/cube",
    "textures": {
-<<<<<<< HEAD
 	"down": "pokecube_legends:blocks/ultra_aged_dirt",
     "up": "pokecube_legends:blocks/ultra_aged_dirt",
     "north": "pokecube_legends:blocks/ultra_aged_dirt",
@@ -9,8 +8,5 @@
     "south": "pokecube_legends:blocks/ultra_aged_dirt",
     "west": "pokecube_legends:blocks/ultra_aged_dirt",
     "particle": "pokecube_legends:blocks/ultra_aged_dirt"
-=======
-	"all": "pokecube_legends:block/aged_dirt"
->>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
    }
 }

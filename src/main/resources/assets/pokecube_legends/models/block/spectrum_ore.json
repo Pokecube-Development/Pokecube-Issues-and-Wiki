@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/spectrum_ore",
-    "up": "pokecube_legends:block/spectrum_ore",
-    "north": "pokecube_legends:block/spectrum_ore",
-    "east": "pokecube_legends:block/spectrum_ore",
-    "south": "pokecube_legends:block/spectrum_ore",
-    "west": "pokecube_legends:block/spectrum_ore",
-    "particle": "pokecube_legends:block/spectrum_ore"
+	"down": "pokecube_legends:blocks/spectrum_ore",
+    "up": "pokecube_legends:blocks/spectrum_ore",
+    "north": "pokecube_legends:blocks/spectrum_ore",
+    "east": "pokecube_legends:blocks/spectrum_ore",
+    "south": "pokecube_legends:blocks/spectrum_ore",
+    "west": "pokecube_legends:blocks/spectrum_ore",
+    "particle": "pokecube_legends:blocks/spectrum_ore"
    }
 }

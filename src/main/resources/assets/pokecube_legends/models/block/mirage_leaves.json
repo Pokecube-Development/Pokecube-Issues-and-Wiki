@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:block/mirage_leaves"
+	"all": "pokecube_legends:blocks/mirage_leaves"
    }
 }

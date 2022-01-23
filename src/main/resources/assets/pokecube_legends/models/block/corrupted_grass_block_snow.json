@@ -1,16 +1,9 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-<<<<<<< HEAD
     "bottom": "pokecube_legends:blocks/ultra_corrupted_dirt",
     "top": "minecraft:block/snow",
     "side": "pokecube_legends:blocks/ultra_corrupted_grass_snow",
     "particle": "pokecube_legends:blocks/ultra_corrupted_grass_snow"
-=======
-    "bottom": "pokecube_legends:block/corrupted_dirt",
-    "top": "minecraft:block/snow",
-    "side": "pokecube_legends:block/corrupted_grass_block_snow",
-    "particle": "pokecube_legends:block/corrupted_grass_block_snow"
->>>>>>> 9d3c76d1c (Move textures from blocks to block directory)
   }
 }

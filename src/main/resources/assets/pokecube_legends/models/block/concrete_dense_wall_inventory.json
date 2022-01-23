@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "pokecube_legends:block/concrete_dense_planks"
+    "wall": "pokecube_legends:blocks/concrete_dense_planks"
   }
 }

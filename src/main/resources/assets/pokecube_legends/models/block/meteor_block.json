@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/meteorblock",
-    "up": "pokecube_legends:block/meteorblock",
-    "north": "pokecube_legends:block/meteorblock",
-    "east": "pokecube_legends:block/meteorblock",
-    "south": "pokecube_legends:block/meteorblock",
-    "west": "pokecube_legends:block/meteorblock",
-    "particle": "pokecube_legends:block/meteorblock"
+	"down": "pokecube_legends:blocks/meteorblock",
+    "up": "pokecube_legends:blocks/meteorblock",
+    "north": "pokecube_legends:blocks/meteorblock",
+    "east": "pokecube_legends:blocks/meteorblock",
+    "south": "pokecube_legends:blocks/meteorblock",
+    "west": "pokecube_legends:blocks/meteorblock",
+    "particle": "pokecube_legends:blocks/meteorblock"
    }
 }

@@ -1,12 +1,12 @@
 {
    "parent": "block/cube",
    "textures": {
-	"down": "pokecube_legends:block/cosmic_dust_block_bottom",
-    "up": "pokecube_legends:block/cosmic_dust_block_top",
-    "north": "pokecube_legends:block/cosmic_dust_block_side",
-    "east": "pokecube_legends:block/cosmic_dust_block_side",
-    "south": "pokecube_legends:block/cosmic_dust_block_side",
-    "west": "pokecube_legends:block/cosmic_dust_block_side",
-    "particle": "pokecube_legends:block/cosmic_dust_block_top"
+	"down": "pokecube_legends:blocks/cosmic_dust_block_bottom",
+    "up": "pokecube_legends:blocks/cosmic_dust_block_top",
+    "north": "pokecube_legends:blocks/cosmic_dust_block_side",
+    "east": "pokecube_legends:blocks/cosmic_dust_block_side",
+    "south": "pokecube_legends:blocks/cosmic_dust_block_side",
+    "west": "pokecube_legends:blocks/cosmic_dust_block_side",
+    "particle": "pokecube_legends:blocks/cosmic_dust_block_top"
    }
 }
