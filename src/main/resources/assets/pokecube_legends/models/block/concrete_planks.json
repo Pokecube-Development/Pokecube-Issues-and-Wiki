@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:blocks/concrete_planks"
+	"all": "pokecube_legends:block/concrete_planks"
    }
 }

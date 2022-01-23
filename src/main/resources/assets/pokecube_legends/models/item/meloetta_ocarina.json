@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/meloetta_ocarina"
+      "layer0":"pokecube_legends:item/meloetta_ocarina"
    }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:items/vitamin_hpup"
+    "layer0": "pokecube:item/vitamin_hpup"
   }
 }

@@ -60,10 +60,9 @@ public class AfaContainer extends BaseContainer
         final int dj = 36;
         final int i = 0;
         final int j = 0;
-
-        this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube:items/slot_cube"));
+		
+        this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, "pokecube:gui/slot_cube"));
         this.bindPlayerInventory(invIn, -19);
-
         this.addDataSlots(this.tile.syncValues);
     }
 

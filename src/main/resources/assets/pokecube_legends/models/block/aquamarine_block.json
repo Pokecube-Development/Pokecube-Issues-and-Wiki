@@ -1,6 +1,6 @@
 {
    "parent": "block/cube_all",
    "textures": {
-	"all": "pokecube_legends:blocks/aquamarine_block"
+	"all": "pokecube_legends:block/aquamarine_block"
    }
 }

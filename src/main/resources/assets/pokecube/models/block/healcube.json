@@ -1,10 +1,10 @@
 {
   "parent": "pokecube:block/pokecubes",
   "textures": {
-    "top": "pokecube:items/healcubetop",
-    "bottom": "pokecube:items/healcubebottom",
-    "front": "pokecube:items/healcubefront",
-    "side": "pokecube:items/healcubeside",
-    "back": "pokecube:items/healcubeback"
+    "top": "pokecube:item/healcubetop",
+    "bottom": "pokecube:item/healcubebottom",
+    "front": "pokecube:item/healcubefront",
+    "side": "pokecube:item/healcubeside",
+    "back": "pokecube:item/healcubeback"
   }
 }

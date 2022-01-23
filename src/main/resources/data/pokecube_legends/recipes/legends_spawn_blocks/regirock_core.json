@@ -10,10 +10,10 @@
       "item": "minecraft:terracotta"
     },
     "A": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "forge:storage_block/redstone"
     },
     "R": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "forge:storage_block/gold"
     }
   },
   "result": {

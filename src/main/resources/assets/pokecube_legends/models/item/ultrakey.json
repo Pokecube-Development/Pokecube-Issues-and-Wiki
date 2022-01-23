@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:items/cosmogs_cage2",
-		"1": "pokecube_legends:items/cosmogs_cage1",
-		"2": "pokecube_legends:items/cosmogs_cage3",
-		"particle": "pokecube_legends:items/cosmogs_cage2"
+		"0": "pokecube_legends:item/cosmogs_cage2",
+		"1": "pokecube_legends:item/cosmogs_cage1",
+		"2": "pokecube_legends:item/cosmogs_cage3",
+		"particle": "pokecube_legends:item/cosmogs_cage2"
 	},
 	"elements": [
 		{

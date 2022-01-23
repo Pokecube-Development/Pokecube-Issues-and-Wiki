@@ -7,10 +7,10 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "forge:storage_block/lapis"
     },
     "A": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "forge:storage_block/redstone"
     },
     "C": {
       "item": "minecraft:packed_ice"

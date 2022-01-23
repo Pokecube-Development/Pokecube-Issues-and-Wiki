@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"4": "pokecube_legends:blocks/nature_spawn_shell",
-		"particle": "pokecube_legends:blocks/nature_spawn_shell"
+		"4": "pokecube_legends:block/nature_spawn_shell",
+		"particle": "pokecube_legends:block/nature_spawn_shell"
 	},
 	"elements": [
 		{

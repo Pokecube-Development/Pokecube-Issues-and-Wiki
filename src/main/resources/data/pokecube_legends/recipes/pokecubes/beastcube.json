@@ -7,7 +7,7 @@
   ],
   "key": {
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "forge:storage_block/gold"
     },
     "A": {
       "item": "minecraft:stone_button"

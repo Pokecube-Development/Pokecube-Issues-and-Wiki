@@ -1,11 +1,11 @@
 {
 	"parent": "pokecube:block/pokecubes",
 	"textures": {
-		"top": "pokecube:items/dynacubetop",
-		"bottom": "pokecube:items/dynacubebottom",
-		"front": "pokecube:items/dynacubefront",
-		"back": "pokecube:items/dynacubeback",
-		"side": "pokecube:items/dynacubeside"
+		"top": "pokecube:item/dynacubetop",
+		"bottom": "pokecube:item/dynacubebottom",
+		"front": "pokecube:item/dynacubefront",
+		"back": "pokecube:item/dynacubeback",
+		"side": "pokecube:item/dynacubeside"
 	},
 	"display": {
 		"thirdperson_righthand": {

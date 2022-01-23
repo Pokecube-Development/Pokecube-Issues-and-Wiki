@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "pokecube_legends:blocks/mirage_log",
-    "side": "pokecube_legends:blocks/mirage_log"
+    "end": "pokecube_legends:block/mirage_log",
+    "side": "pokecube_legends:block/mirage_log"
   }
 }

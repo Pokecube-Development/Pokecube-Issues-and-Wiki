@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:items/shiny_charm"
+    "layer0": "pokecube:item/shiny_charm"
   }
 }
