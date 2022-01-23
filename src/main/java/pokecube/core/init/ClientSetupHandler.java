@@ -252,7 +252,7 @@ public class ClientSetupHandler
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
         PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
-        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_cube"));
-        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "gui/slot_tm"));
+        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
+        event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));
     }
 }
