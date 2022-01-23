@@ -1,0 +1,16 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": "pokecube_legends:dyna_tree_bees_002",
+        "chance": 0.05
+      },
+      {
+        "feature": "pokecube_legends:fancy_inverted_tree_bees_002",
+        "chance": 0.1
+      }
+    ],
+    "default": "pokecube_legends:inverted_tree_bees_002"
+  },
+  "type": "minecraft:random_selector"
+}

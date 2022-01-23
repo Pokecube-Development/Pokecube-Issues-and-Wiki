@@ -1,0 +1,158 @@
+{
+  "temperature": 2,
+  "downfall": 0.2,
+  "precipitation": "none",
+  "category": "mountain",
+  "effects": {
+    "sky_color": 9776403,
+    "fog_color": 9776403,
+    "water_color": 11994630,
+    "water_fog_color": 11994630,
+    "grass_color": 3944746,
+    "foliage_color": 2958880,
+    "ambient_sound": "minecraft:ambient.basalt_deltas.loop",
+    "mood_sound": {
+      "sound": "minecraft:ambient.basalt_deltas.mood",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.06
+    }
+  },
+  "carvers": {
+    "air": [
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:lake_lava_underground_ultra_darkstone",
+      "pokecube_legends:lake_lava_surface_ultra_darkstone"
+    ],
+    [
+      "minecraft:amethyst_geode",
+      "pokecube_legends:small_basalt_columns",
+      "pokecube_legends:aquamarine_geode",
+      "pokecube_legends:delta_magmatic"
+    ],
+    [],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma",
+      "pokecube_legends:basalt_blobs",
+      "pokecube_legends:blackstone_blobs",
+      "pokecube_legends:disk_ash_block",
+      "pokecube_legends:disk_blackened_sand",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_turquoise_gravel",
+      "pokecube_legends:ore_meteorite",
+      "pokecube_legends:ore_ash_block",
+      "pokecube_legends:ore_coal_lower",
+      "pokecube_legends:ore_coal_upper",
+	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_cosmic_buried",
+      "pokecube_legends:ore_cosmic_large",
+      "pokecube_legends:ore_cosmic_meteorite",
+      "pokecube_legends:ore_diamond",
+      "pokecube_legends:ore_diamond_buried",
+      "pokecube_legends:ore_diamond_large",
+      "pokecube_legends:ore_gold",
+      "pokecube_legends:ore_gold_lower",
+      "pokecube_legends:ore_iron_extra",
+      "pokecube_legends:ore_iron_middle",
+      "pokecube_legends:ore_iron_small",
+      "pokecube_legends:ore_iron_upper",
+      "pokecube_legends:ore_lapis",
+      "pokecube_legends:ore_lapis_buried",
+      "pokecube_legends:ore_redstone",
+      "pokecube_legends:ore_redstone_lower",
+      "pokecube_legends:ore_ruby",
+      "pokecube_legends:ore_ruby_buried",
+      "pokecube_legends:ore_ruby_large",
+      "pokecube_legends:ore_sapphire",
+      "pokecube_legends:ore_sapphire_buried",
+      "pokecube_legends:ore_sapphire_large",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_spectrum_buried",
+      "pokecube_legends:ore_spectrum_large",
+      "pokecube_legends:ore_turquoise_gravel",
+      "pokecube_legends:ore_ultra_darkstone",
+      "pokecube_legends:ultra_darkstone_blobs"
+    ],
+    [],
+    [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_lava_closed_double",
+      "pokecube_legends:spring_lava_delta",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:patch_sugar_cane_badlands",
+      "pokecube_legends:compreced_mushroom_normal",
+      "pokecube_legends:distorced_mushroom_normal",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_fire",
+      "pokecube_legends:patch_ash_layer4",
+      "pokecube_legends:patch_ash_layer4_waterlogged",
+      "pokecube_legends:pile_ash",
+      "pokecube_legends:pile_ash_block"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:magma_cube",
+        "weight": 100,
+        "minCount": 2,
+        "maxCount": 5
+      },
+      {
+        "type": "minecraft:husk",
+        "weight": 80,
+        "minCount": 4,
+        "maxCount": 4
+      }
+    ],
+    "creature": [
+      {
+        "type": "minecraft:strider",
+        "weight": 60,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "ambient": [],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
+    "water_creature": [
+      {
+        "type": "minecraft:squid",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 4
+      }
+    ],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {}
+}

@@ -1,0 +1,17 @@
+{
+  "feature": "pokecube_legends:mega_temporal_tree",
+  "placement": [
+    {
+      "predicate": {
+        "state": {
+	      "Properties": {
+	        "stage": "0"
+	      },
+	      "Name": "pokecube_legends:temporal_sapling"
+        },
+        "type": "minecraft:would_survive"
+      },
+      "type": "minecraft:block_predicate_filter"
+    }
+  ]
+}

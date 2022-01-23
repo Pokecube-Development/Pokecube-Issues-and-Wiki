@@ -1,0 +1,7 @@
+{
+    "variants": {
+    	"axis=x": { "model": "pokecube_legends:block/unrefined_aquamarine_horizontal", "x": 90, "y": 90 },
+    	"axis=y": { "model": "pokecube_legends:block/unrefined_aquamarine" },
+    	"axis=z": { "model": "pokecube_legends:block/unrefined_aquamarine_horizontal", "x": 90 }
+    }
+}

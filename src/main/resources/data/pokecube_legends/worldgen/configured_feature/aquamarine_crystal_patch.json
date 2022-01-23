@@ -1,0 +1,50 @@
+{
+  "config": {
+    "to_place": {
+      "entries": [
+        {
+          "data": {
+            "Properties": {
+              "waterlogged": "false",
+              "facing": "up"
+            },
+            "Name": "pokecube_legends:small_aquamarine_bud"
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Properties": {
+              "waterlogged": "false",
+              "facing": "up"
+            },
+            "Name": "pokecube_legends:medium_aquamarine_bud"
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "Properties": {
+              "waterlogged": "false",
+              "facing": "up"
+            },
+            "Name": "pokecube_legends:large_aquamarine_bud"
+          },
+          "weight": 50
+        },
+        {
+          "data": {
+            "Properties": {
+              "waterlogged": "false",
+              "facing": "up"
+            },
+            "Name": "pokecube_legends:aquamarine_cluster"
+          },
+          "weight": 25
+        }
+      ],
+      "type": "minecraft:weighted_state_provider"
+    }
+  },
+  "type": "minecraft:simple_block"
+}

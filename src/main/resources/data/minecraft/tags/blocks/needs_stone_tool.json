@@ -9,6 +9,7 @@
     "#pokecube_legends:concrete_stairs",
     "pokecube:deepslate_fossil_ore",
     "pokecube:fossil_ore",
+    "pokecube_legends:ash_iron_ore",
     "pokecube_legends:concrete_barrel",
     "pokecube_legends:concrete_bookshelf",
     "pokecube_legends:concrete_bookshelf_empty",
@@ -22,9 +23,14 @@
     "pokecube_legends:concrete_door",
     "pokecube_legends:concrete_pressure_plate",
     "pokecube_legends:concrete_trapdoor",
+    "pokecube_legends:dusk_dolerite_copper_ore",
+    "pokecube_legends:dusk_dolerite_fossil_ore",
+    "pokecube_legends:dusk_dolerite_iron_ore",
+    "pokecube_legends:dusk_dolerite_lapis_ore",
     "pokecube_legends:heatran_spawn",
     "pokecube_legends:ultra_copper_ore",
+    "pokecube_legends:ultra_fossil_ore",
     "pokecube_legends:ultra_iron_ore",
-    "pokecube_legends:ultra_lazuli_ore"
+    "pokecube_legends:ultra_lapis_ore"
   ]
 }

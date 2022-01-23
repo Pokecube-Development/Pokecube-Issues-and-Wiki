@@ -95,7 +95,7 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
     else
       {
          final BlockState state = world.getBlockState(pos.below());
-         return !state.is(BlockInit.DISTORTIC_STONE.get()) && !state.is(BlockInit.DISTORTIC_GRASS.get()) && !state.is(BlockInit.DISTORTIC_MIRROR.get());
+         return !state.is(BlockInit.DISTORTIC_STONE.get()) && !state.is(BlockInit.DISTORTIC_GRASS_BLOCK.get()) && !state.is(BlockInit.DISTORTIC_MIRROR.get());
       }
    }
 }

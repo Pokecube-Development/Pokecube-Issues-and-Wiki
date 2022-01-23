@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:fungal_nylium",
     "pokecube_legends:corrupted_grass_block",
     "pokecube_legends:distortic_grass_block"
   ]

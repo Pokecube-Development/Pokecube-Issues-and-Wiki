@@ -97,7 +97,7 @@
       ],
       "spawn": {
         "values": {
-          "biomes": "pokecube_legends:blinding_deltas, pokecube_legends:crystallized_beach, pokecube_legends:dried_blinding_deltas, pokecube_legends:forbidden_taiga, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:mirage_desert, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:rocky_mirage_desert, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:sparse_temporal_jungle, pokecube_legends:tainted_barrens, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle"
+          "biomes":"pokecube_legends:fungal_flower_forest, pokecube_legends:fungal_forest, pokecube_legends:fungal_plains, pokecube_legends:fungal_sunflower_plains, pokecube_legends:snowy_fungal_plains, pokecube_legends:sparse_temporal_jungle, pokecube_legends:temporal_bamboo_jungle, pokecube_legends:temporal_jungle, pokecube_legends:windswept_temporal_jungle, pokecube_legends:mirage_desert, pokecube_legends:rocky_mirage_desert, pokecube_legends:blinding_deltas, pokecube_legends:dried_blinding_deltas, pokecube_legends:magmatic_blinding_deltas, pokecube_legends:shattered_blinding_deltas, pokecube_legends:volcanic_blinding_deltas, pokecube_legends:shattered_tainted_barrens, pokecube_legends:tainted_barrens, pokecube_legends:forbidden_grove, pokecube_legends:forbidden_meadow, pokecube_legends:forbidden_taiga, pokecube_legends:old_growth_forbidden_taiga, pokecube_legends:snowy_forbidden_taiga, pokecube_legends:windswept_forbidden_taiga"
         }
       }
     }

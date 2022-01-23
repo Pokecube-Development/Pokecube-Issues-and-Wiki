@@ -24,9 +24,9 @@ import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
-import thut.api.entity.ai.RootTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import thut.api.entity.ai.RootTask;
 
 public abstract class AbstractConstructTask extends AbstractWorkTask
 {

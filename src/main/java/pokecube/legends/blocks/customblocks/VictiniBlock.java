@@ -246,15 +246,17 @@ public class VictiniBlock extends Rotates implements SimpleWaterloggedBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos victiniPos = this.getVictiniTopPos(pos, context.getHorizontalDirection().getOpposite());
-        if (pos.getY() < 255 && victiniPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                context)) return this.defaultBlockState().setValue(VictiniBlock.FACING, context.getHorizontalDirection()
-                        .getOpposite()).setValue(VictiniBlock.HALF, VictiniBlockPart.BOTTOM).setValue(
-                                VictiniBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
-                                        .getAmount() == 8);
+        final BlockPos victiniPos = this.getVictiniTopPos(pos, direction);
+        
+        if (pos.getY() < world.getMaxBuildHeight() && victiniPos.getY() < world.getMaxBuildHeight()
+                && world.getBlockState(pos.above()).canBeReplaced(context))
+            return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, VictiniBlockPart.BOTTOM)
+                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         return null;
     }
 

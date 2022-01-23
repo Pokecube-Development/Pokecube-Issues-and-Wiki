@@ -4,7 +4,7 @@
   "experience": 1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:spectrum_ore"
+    "tag": "pokecube_legends:spectrum_ores"
   },
   "result": {
     "item": "pokecube_legends:spectrum_shard"

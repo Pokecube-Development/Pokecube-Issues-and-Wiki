@@ -1,0 +1,84 @@
+{
+  "config": {
+    "tries": 96,
+    "xz_spread": 6,
+    "y_spread": 2,
+    "feature": {
+      "feature": {
+        "config": {
+          "to_place": {
+            "seed": 6789,
+            "noise": {
+              "firstOctave": 0,
+              "amplitudes": [
+                1.0
+              ]
+            },
+            "scale": 0.020833334,
+            "states": [
+              {
+		        "Properties": {
+		          "waterlogged": "true",
+		          "facing": "up"
+		        },
+                "Name": "pokecube_legends:small_aquamarine_bud"
+              },
+              {
+		        "Properties": {
+		          "waterlogged": "true",
+		          "facing": "up"
+		        },
+                "Name": "pokecube_legends:medium_aquamarine_bud"
+              },
+              {
+		        "Properties": {
+		          "waterlogged": "true",
+		          "facing": "up"
+		        },
+                "Name": "pokecube_legends:large_aquamarine_bud"
+              },
+              {
+		        "Properties": {
+		          "waterlogged": "true",
+		          "facing": "up"
+		        },
+                "Name": "pokecube_legends:aquamarine_cluster"
+              }
+            ],
+            "type": "minecraft:noise_provider"
+          }
+        },
+        "type": "minecraft:simple_block"
+      },
+      "placement": [
+        {
+          "predicate": {
+            "predicates": [
+              {
+                "blocks": [
+                  "minecraft:water"
+                ],
+                "type": "minecraft:matching_blocks"
+              },
+              {
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ],
+                "blocks": [
+                  "pokecube_legends:crystallized_cactus",
+                  "pokecube_legends:unrefined_aquamarine"
+                ],
+                "type": "minecraft:matching_blocks"
+              }
+            ],
+            "type": "minecraft:all_of"
+          },
+          "type": "minecraft:block_predicate_filter"
+        }
+      ]
+    }
+  },
+  "type": "minecraft:flower"
+}

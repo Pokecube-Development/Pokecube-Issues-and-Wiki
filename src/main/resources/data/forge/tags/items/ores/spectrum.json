@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:dusk_dolerite_spectrum_ore",
     "pokecube_legends:spectrum_ore"
   ]
 }

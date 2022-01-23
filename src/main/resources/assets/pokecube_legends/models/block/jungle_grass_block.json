@@ -1,10 +1,10 @@
 {
   "parent": "block/block",
   "textures": {
-    "bottom": "pokecube_legends:blocks/ultra_jungle_dirt",
-    "top": "pokecube_legends:blocks/ultra_jungle_grass_top",
-    "side": "pokecube_legends:blocks/ultra_jungle_grass",
-    "particle": "pokecube_legends:blocks/ultra_jungle_grass"
+    "bottom": "pokecube_legends:blocks/jungle_dirt",
+    "top": "pokecube_legends:blocks/jungle_grass_block_top",
+    "side": "pokecube_legends:blocks/jungle_grass_block_side",
+    "particle": "pokecube_legends:blocks/jungle_grass_block_side"
   },
   "elements": [
     {   "from": [ 0, 0, 0 ],

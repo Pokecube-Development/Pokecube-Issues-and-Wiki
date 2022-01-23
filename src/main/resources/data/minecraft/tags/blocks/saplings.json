@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#pokecube_legends:legends_saplings"
+    "#pokecube_legends:distorted_saplings",
+    "#pokecube_legends:ultra_saplings"
   ]
 }

@@ -109,7 +109,7 @@ public class Drops extends LootTableProvider
         @Override
         protected void addTables()
         {
-            this.dropSelf(PokecubeItems.REPELBLOCK.get());
+            this.dropSelf(PokecubeItems.REPEL.get());
 
             final List<ItemFossil> drops = Lists.newArrayList(ItemGenerator.fossils.values());
             LootPool.Builder fossilPool = LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem

@@ -18,18 +18,18 @@
     },
     "particle": {
       "options": {
-        "type": "minecraft:falling_dust"
+        "type": "minecraft:white_ash"
       },
-      "probability": 0.2
+      "probability": 0.012
     }
   },
   "spawners": {},
   "spawn_costs": {},
   "carvers": {
     "air": [
+      "pokecube_legends:canyon",
       "pokecube_legends:cave",
-      "pokecube_legends:cave_extra_underground",
-      "pokecube_legends:canyon"
+      "pokecube_legends:cave_extra_underground"
     ]
   },
   "features": [
@@ -52,6 +52,7 @@
     [],
     [
       "pokecube_legends:distortic_vines",
+      "pokecube_legends:patch_distortic_grass",
       "pokecube_legends:trees_distorted_world",
       "pokecube_legends:spring_distortic_water_open"
     ],

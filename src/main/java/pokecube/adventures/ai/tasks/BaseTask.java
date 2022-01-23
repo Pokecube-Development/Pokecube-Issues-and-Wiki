@@ -9,8 +9,8 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
-import thut.api.entity.ai.RootTask;
 import pokecube.adventures.capabilities.TrainerCaps;
+import thut.api.entity.ai.RootTask;
 
 public abstract class BaseTask extends RootTask<LivingEntity>
 {

@@ -1,0 +1,7 @@
+
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "pokecube_legends:block/small_aquamarine_bud"
+  }
+}

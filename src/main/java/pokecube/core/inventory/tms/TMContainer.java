@@ -50,7 +50,7 @@ public class TMContainer extends BaseContainer
         // Client side
         if (this.inv == null)
         {
-            this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TMMACHINE.get().defaultBlockState());
+            this.tile = new TMTile(inv.player.blockPosition(), PokecubeItems.TM_MACHINE.get().defaultBlockState());
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);

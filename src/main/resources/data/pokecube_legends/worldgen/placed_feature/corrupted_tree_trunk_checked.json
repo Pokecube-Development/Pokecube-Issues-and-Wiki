@@ -1,0 +1,17 @@
+{
+  "feature": "pokecube_legends:corrupted_tree_trunk",
+  "placement": [
+    {
+      "predicate": {
+        "state": {
+	      "Properties": {
+	        "stage": "0"
+	      },
+	      "Name": "pokecube_legends:corrupted_sapling"
+        },
+        "type": "minecraft:would_survive"
+      },
+      "type": "minecraft:block_predicate_filter"
+    }
+  ]
+}

@@ -356,7 +356,7 @@
 
     "block.pokecube.deepslate_fossil_ore": "Deepslate Fossil Ore",
     "block.pokecube.fossil_ore": "Fossil Ore",
-    
+
     "block.pokecube.enigma_wood": "Enigma Wood",
     "block.pokecube.leppa_wood": "Leppa Wood",
     "block.pokecube.nanab_wood": "Nanab Wood",
@@ -435,7 +435,6 @@
     "block.pokecube.sitrus_door": "Sitrus Door",
     
     "_comment": "Items",
-
     "item.pokecube.pokedex": "Pokédex",
     "item.pokecube.pokewatch": "PokéWatch",
     "item.pokecube.tm0": "Blank TM",

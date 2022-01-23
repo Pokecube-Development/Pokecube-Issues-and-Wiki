@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-    "down": "pokecube_legends:blocks/distortic_terracotta",
-    "up": "pokecube_legends:blocks/distortic_terracotta",
-    "north": "pokecube_legends:blocks/distortic_terracotta",
-    "east": "pokecube_legends:blocks/distortic_terracotta",
-    "south": "pokecube_legends:blocks/distortic_terracotta",
-    "west": "pokecube_legends:blocks/distortic_terracotta",
-    "particle": "pokecube_legends:blocks/distortic_terracotta"
+    "all": "pokecube_legends:blocks/distortic_terracotta"
   }
 }

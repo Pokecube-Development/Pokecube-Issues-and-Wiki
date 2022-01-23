@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube_legends",
+  "ingredients": [
+    {
+      "item": "pokecube_legends:dusk_dolerite"
+    }
+  ],
+  "result": {
+    "item": "pokecube_legends:dusk_dolerite_button"
+  }
+}

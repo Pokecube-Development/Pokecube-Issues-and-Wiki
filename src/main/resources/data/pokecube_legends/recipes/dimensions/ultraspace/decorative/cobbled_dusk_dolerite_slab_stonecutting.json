@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:cobbled_dusk_dolerite"
+  },
+  "result": "pokecube_legends:cobbled_dusk_dolerite_slab",
+  "count": 2
+}

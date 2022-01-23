@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_adventures:laboratory_glass",
+    "pokecube_legends:distortic_one_way_glass",
+    "pokecube_legends:distortic_one_way_mirage_glass",
+    "pokecube_legends:distortic_one_way_white_stained_glass",
+    "pokecube_legends:distortic_one_way_orange_stained_glass",
+    "pokecube_legends:distortic_one_way_magenta_stained_glass",
+    "pokecube_legends:distortic_one_way_light_blue_stained_glass",
+    "pokecube_legends:distortic_one_way_yellow_stained_glass",
+    "pokecube_legends:distortic_one_way_lime_stained_glass",
+    "pokecube_legends:distortic_one_way_pink_stained_glass",
+    "pokecube_legends:distortic_one_way_gray_stained_glass",
+    "pokecube_legends:distortic_one_way_light_gray_stained_glass",
+    "pokecube_legends:distortic_one_way_cyan_stained_glass",
+    "pokecube_legends:distortic_one_way_purple_stained_glass",
+    "pokecube_legends:distortic_one_way_blue_stained_glass",
+    "pokecube_legends:distortic_one_way_brown_stained_glass",
+    "pokecube_legends:distortic_one_way_green_stained_glass",
+    "pokecube_legends:distortic_one_way_red_stained_glass",
+    "pokecube_legends:distortic_one_way_black_stained_glass",
+    "pokecube_legends:distortic_one_way_spectrum_glass",
+    "pokecube_legends:distortic_one_way_tinted_glass",
+    "pokecube_legends:distortic_one_way_laboratory_glass",
+    "pokecube_legends:mirage_glass",
+    "pokecube_legends:spectrum_glass"
+  ]
+}

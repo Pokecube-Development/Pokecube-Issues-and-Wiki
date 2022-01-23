@@ -1,12 +1,6 @@
 {
-   "parent": "block/cube",
+   "parent": "block/cube_all",
    "textures": {
-	"down": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "up": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "north": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "east": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "south": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "west": "pokecube_legends:blocks/ultra_mushroom_dirt",
-    "particle": "pokecube_legends:blocks/ultra_mushroom_dirt"
+	"all": "pokecube_legends:blocks/mushroom_dirt"
    }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:aquamarine_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:aquamarine",
+    "count": 1
+  }
+}

@@ -120,9 +120,10 @@ public class ItemInit
     public static final RegistryObject<Item> GRAY_SCARF;
     public static final RegistryObject<Item> WOODEN_CROWN;
 
-    // Gens_ores
-    public static final RegistryObject<Item> SAPPHIRE;
+    // Gems
+    public static final RegistryObject<Item> AQUAMARINE;
     public static final RegistryObject<Item> RUBY;
+    public static final RegistryObject<Item> SAPPHIRE;
 
     // Forms
     public static final RegistryObject<Item> SILVER_WING;
@@ -165,6 +166,7 @@ public class ItemInit
     public static final RegistryObject<Item> ZACIAN_SWORD;
 
     // Dimensions
+    public static final RegistryObject<Item> PILE_OF_ASH;
     public static final RegistryObject<Item> SPECTRUM_SHARD;
     public static final RegistryObject<Item> ULTRAKEY;
     public static final RegistryObject<Item> COSMIC_DUST;
@@ -188,6 +190,7 @@ public class ItemInit
 
     // Plants
     public static final RegistryObject<Item> DISTORTIC_VINES;
+    public static final RegistryObject<Item> GOLDEN_SHROOM;
     public static final RegistryObject<Item> GOLDEN_SWEET_BERRIES;
     public static final RegistryObject<Item> PINK_TAINTED_LILY_PAD;
     public static final RegistryObject<Item> TAINTED_LILY_PAD;
@@ -321,13 +324,16 @@ public class ItemInit
                 new Item.Properties().durability(200).tab(PokecubeLegends.TAB_LEGENDS).fireResistant()));
 
         // Items Creative Tab - Sorting depends on the order the items are listed in
-        // Ores
+        // Gems
         COSMIC_DUST 	= PokecubeLegends.ITEMS.register("cosmic_dust", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 16));
+        AQUAMARINE = PokecubeLegends.ITEMS.register("aquamarine", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         AQUAMARINE_SHARD = PokecubeLegends.ITEMS.register("aquamarine_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         FRACTAL_SHARD 	= PokecubeLegends.ITEMS.register("fractal_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
         SPECTRUM_SHARD = PokecubeLegends.ITEMS.register("spectrum_shard", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
+        
+        PILE_OF_ASH = PokecubeLegends.ITEMS.register("pile_of_ash", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 64));
 
         HEAD_MIRROR = PokecubeLegends.ITEMS.register("head_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         BODY_MIRROR = PokecubeLegends.ITEMS.register("body_mirror", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
@@ -347,6 +353,8 @@ public class ItemInit
 
         // Dimensions Creative Tab - Sorting depends on the order the items are listed in
         // UltraSpace
+        GOLDEN_SHROOM = PokecubeLegends.ITEMS.register("golden_shroom", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SHROOM_PLANT.get(),
+                new Item.Properties().food(FoodInit.GOLDEN_SHROOM).tab(PokecubeLegends.TAB_DIMENSIONS)));
         GOLDEN_SWEET_BERRIES = PokecubeLegends.ITEMS.register("golden_sweet_berries", () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
                 new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad", () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),

@@ -1,0 +1,62 @@
+{
+  "variants": {
+    "axis=x": [
+      {
+        "model": "pokecube_legends:block/dusk_dolerite",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite",
+        "y": 90,
+        "x": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored",
+        "y": 90,
+        "x": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "pokecube_legends:block/dusk_dolerite"
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored"
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite",
+        "y": 180
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "pokecube_legends:block/dusk_dolerite",
+        "x": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored",
+        "x": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite",
+        "y": 180,
+        "x": 90
+      },
+      {
+        "model": "pokecube_legends:block/dusk_dolerite_mirrored",
+        "y": 180,
+        "x": 90
+      }
+    ]
+  }
+}

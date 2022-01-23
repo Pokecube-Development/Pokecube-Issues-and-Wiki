@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pokecube_legends:block/tall_corrupted_grass_top"
+  }
+}

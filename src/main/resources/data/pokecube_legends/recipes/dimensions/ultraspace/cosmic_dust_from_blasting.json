@@ -4,7 +4,7 @@
   "experience": 0.7,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:ultra_cosmic_dust_ore"
+    "tag": "pokecube_legends:cosmic_ores"
   },
   "result": {
     "item": "pokecube_legends:cosmic_dust"

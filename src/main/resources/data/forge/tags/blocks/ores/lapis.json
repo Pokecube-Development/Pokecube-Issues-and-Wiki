@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube_legends:ultra_lazuli_ore"
+    "pokecube_legends:dusk_dolerite_lapis_ore",
+    "pokecube_legends:ultra_lapis_ore"
   ]
 }

@@ -75,7 +75,7 @@ public class CheckNest extends BaseIdleTask
                     if (clearHive && dist < 256 && this.nest != null)
                     {
                         // Lets remake the hive.
-                        this.world.setBlockAndUpdate(pos.pos(), PokecubeItems.NESTBLOCK.get().defaultBlockState());
+                        this.world.setBlockAndUpdate(pos.pos(), PokecubeItems.NEST.get().defaultBlockState());
                         final BlockEntity tile = this.world.getBlockEntity(pos.pos());
                         if (tile instanceof NestTile)
                         {

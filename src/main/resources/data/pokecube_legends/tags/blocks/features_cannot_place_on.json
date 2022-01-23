@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:features_cannot_replace",
+    "#minecraft:leaves",
+    "minecraft:fire",
+    "minecraft:lava",
+    "minecraft:snow",
+    "minecraft:water",
+    "pokecube_legends:ash"
+  ]
+}

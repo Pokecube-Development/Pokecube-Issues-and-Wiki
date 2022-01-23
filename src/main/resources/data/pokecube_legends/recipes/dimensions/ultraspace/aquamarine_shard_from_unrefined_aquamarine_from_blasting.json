@@ -1,0 +1,12 @@
+{
+  "group": "pokecube_legends",
+  "type": "minecraft:blasting",
+  "experience": 0.5,
+  "cookingtime": 100,
+  "ingredient": {
+    "item": "pokecube_legends:unrefined_aquamarine"
+  },
+  "result": {
+    "item": "pokecube_legends:aquamarine_shard"
+  }
+}

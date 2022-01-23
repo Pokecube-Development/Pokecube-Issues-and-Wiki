@@ -1,0 +1,8 @@
+{
+  "feature": "pokecube_legends:freeze_top_layer_polluted",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

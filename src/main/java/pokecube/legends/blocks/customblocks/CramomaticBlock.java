@@ -40,9 +40,10 @@ import pokecube.legends.Reference;
 import pokecube.legends.blocks.BlockBase;
 import thut.api.item.ItemList;
 
-public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
+public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
+{
 
-	private static final Map<Direction, VoxelShape> CRAMOBOT  = new HashMap<>();
+	  private static final Map<Direction, VoxelShape> CRAMOBOT  = new HashMap<>();
     private static final DirectionProperty          FACING      = HorizontalDirectionalBlock.FACING;
     private static final BooleanProperty            WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -141,45 +142,45 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock {
 			Block.box(12, 8, 5, 12.01, 10, 10)).optimize());
     }
 
-	@Override
+	  @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-		return CramomaticBlock.CRAMOBOT.get(state.getValue(CramomaticBlock.FACING));
+		    return CramomaticBlock.CRAMOBOT.get(state.getValue(CramomaticBlock.FACING));
     }
 
-	public CramomaticBlock(final Properties props)
+	  public CramomaticBlock(final Properties props)
     {
         super(props);
         this.registerDefaultState(this.stateDefinition.any().setValue(CramomaticBlock.FACING, Direction.NORTH).setValue(
-        		CramomaticBlock.WATERLOGGED, false));
+            CramomaticBlock.WATERLOGGED, false));
     }
 
-	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player entity, InteractionHand hand,
-			BlockHitResult hit) {
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
+	  @Override
+	  public InteractionResult use(BlockState state, Level world, BlockPos pos, Player entity, InteractionHand hand,
+	      BlockHitResult hit) {
+  	    int x = pos.getX();
+  	    int y = pos.getY();
+  	    int z = pos.getZ();
+  
+  	    if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
+  	    {
+  	      addParticles(entity,world,x,y,z);
+  	      return InteractionResult.SUCCESS;
+  	    }
+  	    else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
+  	    {
+  	      entity.displayClientMessage(new TranslatableComponent("msg.pokecube_legends.cramomatic.fail"), true);
+  	      return InteractionResult.PASS;
+  	    }
+  	    return InteractionResult.PASS;
+	  }
 
-		if (ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
-		{
-			addParticles(entity,world,x,y,z);
-			return InteractionResult.SUCCESS;
-		}
-		else if (!ItemList.is(CramomaticBlock.CRAMOMATIC_FUEL, entity.getMainHandItem()))
-		{
-			entity.displayClientMessage(new TranslatableComponent("msg.pokecube_legends.cramomatic.fail"), true);
-			return InteractionResult.PASS;
-		}
-		return InteractionResult.PASS;
-	}
-
-	public static void addParticles(Player entity, Level world, int x, int y, int z) {
-		if (world.isClientSide) {
-			world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5, 0, 1, 0);
-		}
-		world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
-			"entity.player.levelup"))), SoundSource.NEUTRAL, 1, 1, false);
-	}
+	  public static void addParticles(Player entity, Level world, int x, int y, int z) {
+  	    if (world.isClientSide) {
+  	      world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5, 0, 1, 0);
+  	    }
+  	    world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+  	      "entity.player.levelup"))), SoundSource.NEUTRAL, 1, 1, false);
+	  }
 }

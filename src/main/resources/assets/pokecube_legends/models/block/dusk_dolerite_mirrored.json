@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_mirrored",
+  "textures": {
+    "end": "pokecube_legends:blocks/dusk_dolerite_top",
+    "side": "pokecube_legends:blocks/dusk_dolerite"
+  }
+}

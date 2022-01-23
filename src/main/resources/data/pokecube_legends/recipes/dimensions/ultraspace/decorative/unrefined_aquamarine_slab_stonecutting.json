@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:unrefined_aquamarine"
+  },
+  "result": "pokecube_legends:unrefined_aquamarine_slab",
+  "count": 2
+}

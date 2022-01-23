@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:inverted_sapling",
+    "pokecube_legends:temporal_sapling",
+    "pokecube_legends:aged_sapling",
+    "pokecube_legends:dyna_shrub",
+    "pokecube_legends:corrupted_sapling",
+    "pokecube_legends:mirage_sapling"
+  ]
+}

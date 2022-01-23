@@ -1,0 +1,23 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": "pokecube_legends:fancy_inverted_tree_bees_002",
+        "chance": 0.015
+      },
+      {
+        "feature": "pokecube_legends:temporal_bush",
+        "chance": 0.15
+      },
+      {
+        "feature": "pokecube_legends:mega_temporal_tree",
+        "chance": 0.7
+      }
+    ],
+    "default": {
+      "feature": "pokecube_legends:patch_grass_jungle",
+      "placement": []
+    }
+  },
+  "type": "minecraft:random_selector"
+}
