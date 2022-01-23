@@ -53,31 +53,31 @@ public enum EnumWearable
         switch (slot)
         {
         case ANKLE:
-            tex = ThutWearables.MODID + ":items/empty_ankle_" + (subIndex == 0 ? "left" : "right");
+            tex = ThutWearables.MODID + ":item/empty_ankle_" + (subIndex == 0 ? "left" : "right");
             break;
         case BACK:
-            tex = ThutWearables.MODID + ":items/empty_back";
+            tex = ThutWearables.MODID + ":item/empty_back";
             break;
         case EAR:
-            tex = ThutWearables.MODID + ":items/empty_ear_" + (subIndex == 0 ? "left" : "right");
+            tex = ThutWearables.MODID + ":item/empty_ear_" + (subIndex == 0 ? "left" : "right");
             break;
         case EYE:
-            tex = ThutWearables.MODID + ":items/empty_eye";
+            tex = ThutWearables.MODID + ":item/empty_eye";
             break;
         case FINGER:
-            tex = ThutWearables.MODID + ":items/empty_finger_" + (subIndex == 0 ? "left" : "right");
+            tex = ThutWearables.MODID + ":item/empty_finger_" + (subIndex == 0 ? "left" : "right");
             break;
         case HAT:
-            tex = ThutWearables.MODID + ":items/empty_hat";
+            tex = ThutWearables.MODID + ":item/empty_hat";
             break;
         case NECK:
-            tex = ThutWearables.MODID + ":items/empty_neck";
+            tex = ThutWearables.MODID + ":item/empty_neck";
             break;
         case WAIST:
-            tex = ThutWearables.MODID + ":items/empty_waist";
+            tex = ThutWearables.MODID + ":item/empty_waist";
             break;
         case WRIST:
-            tex = ThutWearables.MODID + ":items/empty_wrist_" + (subIndex == 0 ? "left" : "right");
+            tex = ThutWearables.MODID + ":item/empty_wrist_" + (subIndex == 0 ? "left" : "right");
             break;
         default:
             break;
