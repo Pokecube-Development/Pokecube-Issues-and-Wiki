@@ -1,0 +1,16 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": "pokecube_legends:corrupted_bush_checked",
+        "chance": 0.15
+      },
+      {
+        "feature": "pokecube_legends:corrupted_tree_checked",
+        "chance": 0.15
+      }
+    ],
+    "default": "pokecube_legends:corrupted_tree_trunk_checked"
+  },
+  "type": "minecraft:random_selector"
+}

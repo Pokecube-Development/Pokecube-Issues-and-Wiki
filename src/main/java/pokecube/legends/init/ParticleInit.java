@@ -1,5 +1,6 @@
 package pokecube.legends.init;
 
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;

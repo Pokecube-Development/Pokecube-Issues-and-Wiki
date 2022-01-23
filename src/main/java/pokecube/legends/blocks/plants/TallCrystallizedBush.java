@@ -85,13 +85,16 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
         final BlockPos tallBushPos = this.getTallBushTopPos(pos);
-        if (pos.getY() < 255 && tallBushPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
-            return this.defaultBlockState().setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.LOWER)
-            .setValue(TallCrystallizedBush.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate.getAmount() == 8);
+        
+        if (pos.getY() < world.getMaxBuildHeight() && tallBushPos.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+            return this.defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER)
+                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
 
         return null;
     }
@@ -115,14 +118,6 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
     {
         final BlockPos tallBushPos = this.getTallBushPos(pos, state.getValue(TallCrystallizedBush.HALF));
         BlockState tallBushBlockState = world.getBlockState(tallBushPos);
-
-        if (!world.isClientSide) {
-           if (player.isCreative()) {
-              preventCreativeDropFromBottomPart(world, pos, state, player);
-           } else {
-              dropResources(state, world, pos, (BlockEntity)null, player, player.getMainHandItem());
-           }
-        }
 
         if (tallBushBlockState.getBlock() == this && !pos.equals(tallBushPos)) this.removeHalf(world, tallBushPos,
             tallBushBlockState, player);

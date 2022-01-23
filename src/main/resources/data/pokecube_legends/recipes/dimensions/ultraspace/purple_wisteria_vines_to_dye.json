@@ -1,0 +1,24 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube_legends",
+        "ingredients": [
+          {
+            "item": "pokecube_legends:purple_wisteria_vines"
+          }
+        ],
+        "result": {
+          "item": "minecraft:purple_dye"
+        }
+      }
+    }
+  ]
+}

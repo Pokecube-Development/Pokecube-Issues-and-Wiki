@@ -4,7 +4,7 @@
   "experience": 0.1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:ultra_coal_ore"
+    "tag": "pokecube_legends:coal_ores"
   },
   "result": {
     "item": "minecraft:coal"

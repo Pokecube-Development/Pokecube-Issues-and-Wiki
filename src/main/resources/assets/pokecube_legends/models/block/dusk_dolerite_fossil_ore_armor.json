@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "pokecube_legends:block/dusk_dolerite_fossil_ore_armor"
+	}
+}

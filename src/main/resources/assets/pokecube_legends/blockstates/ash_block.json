@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "wet=false": { "model": "pokecube_legends:block/ash_block" },
+        "wet=true": { "model": "pokecube_legends:block/ash_block_wet" }
+    }
+}

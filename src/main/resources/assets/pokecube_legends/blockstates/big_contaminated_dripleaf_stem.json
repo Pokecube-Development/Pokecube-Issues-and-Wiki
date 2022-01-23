@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_stem",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_stem"
+    },
+    "facing=south": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_stem",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "pokecube_legends:block/big_contaminated_dripleaf_stem",
+      "y": 270
+    }
+  }
+}

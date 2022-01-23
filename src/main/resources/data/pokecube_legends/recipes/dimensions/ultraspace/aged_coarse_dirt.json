@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DG",
+    "GD"
+  ],
+  "key": {
+    "D": {
+      "item": "pokecube_legends:aged_dirt"
+    },
+    "G": {
+      "item": "pokecube_legends:turquoise_gravel"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:aged_coarse_dirt",
+    "count": 4
+  }
+}

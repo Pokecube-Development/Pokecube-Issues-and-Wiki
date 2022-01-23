@@ -1,0 +1,24 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube_legends",
+        "ingredients": [
+          {
+            "tag": "pokecube_legends:golden_flowers"
+          }
+        ],
+        "result": {
+          "item": "minecraft:yellow_dye"
+        }
+      }
+    }
+  ]
+}

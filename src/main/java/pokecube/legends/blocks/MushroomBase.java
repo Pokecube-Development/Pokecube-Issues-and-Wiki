@@ -12,10 +12,12 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
+import pokecube.legends.init.PlantsInit;
 
 public class MushroomBase extends MushroomBlock
 {
-    protected static final VoxelShape              SHAPE               = Block.box(2, 0, 2, 14, 15, 14);
+    protected static final VoxelShape LARGE_SHAPE = Block.box(2, 0, 2, 14, 15, 14);
+    protected static final VoxelShape SMALL_SHAPE = Block.box(4, 0, 4, 12, 9, 12);
     public final Supplier<ConfiguredFeature<?, ?>> featureSupplier;
     public boolean                                 validBonemealTarget = true;
 
@@ -29,7 +31,11 @@ public class MushroomBase extends MushroomBlock
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
-        return MushroomBase.SHAPE;
+        if (state.getBlock() == PlantsInit.COMPRECED_MUSHROOM.get() || state.getBlock() == PlantsInit.DISTORCED_MUSHROOM.get())
+        {
+            return LARGE_SHAPE;
+        }
+        else return SMALL_SHAPE;
     }
 
     @Override

@@ -27,7 +27,7 @@ public abstract class UtilTask extends TaskBase
     public static Predicate<BlockState> diggable = state -> (PokecubeTerrainChecker.isTerrain(state)
             || PokecubeTerrainChecker.isRock(state) || PokecubeTerrainChecker.isCutablePlant(state)
             || PokecubeTerrainChecker.isLeaves(state) || PokecubeTerrainChecker.isWood(state)) && state
-                    .getBlock() != PokecubeItems.NESTBLOCK.get();
+                    .getBlock() != PokecubeItems.NEST.get();
 
     public UtilTask(final IPokemob pokemob)
     {

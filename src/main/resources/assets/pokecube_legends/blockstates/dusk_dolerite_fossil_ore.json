@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"": [
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_amber" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_armor" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_claw" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_dome" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_helix" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_root" },
+			{ "model": "pokecube_legends:block/dusk_dolerite_fossil_ore_skull" }
+		]
+	}
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:dusk_dolerite"
+  },
+  "result": "pokecube_legends:dusk_dolerite_stairs",
+  "count": 1
+}

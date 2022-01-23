@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "wet=false": { "model": "pokecube_legends:block/ash_iron_ore" },
+        "wet=true": { "model": "pokecube_legends:block/ash_iron_ore_wet" }
+    }
+}

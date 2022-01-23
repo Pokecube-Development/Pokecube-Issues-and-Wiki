@@ -165,16 +165,17 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos natureCorePos = this.getNatureCoreTopPos(pos, context.getHorizontalDirection()
-                .getOpposite());
-        if (pos.getY() < 255 && natureCorePos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                context)) return this.defaultBlockState().setValue(NatureCoreBlock.FACING, context
-                        .getHorizontalDirection().getOpposite()).setValue(NatureCoreBlock.HALF, NatureCorePart.BOTTOM)
-                        .setValue(NatureCoreBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
-                                .getAmount() == 8);
+        final BlockPos natureCorePos = this.getNatureCoreTopPos(pos, context.getHorizontalDirection().getOpposite());
+        
+        if (pos.getY() < world.getMaxBuildHeight() && natureCorePos.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+            return this.defaultBlockState().setValue(FACING, direction)
+                    .setValue(HALF, NatureCorePart.BOTTOM).setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         return null;
     }
 

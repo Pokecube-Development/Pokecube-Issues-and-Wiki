@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pokecube_legends:block/large_aquamarine_bud"
+  },
+  "display": {
+    "fixed": {
+      "translation": [ 0, 4, 0 ]
+    }
+  }
+}

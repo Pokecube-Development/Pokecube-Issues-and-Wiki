@@ -1,0 +1,28 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": {
+          "config": {},
+          "type": "pokecube_legends:dead_coral_tree_feature"
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "config": {},
+          "type": "pokecube_legends:dead_coral_claw_feature"
+        },
+        "placement": []
+      },
+      {
+        "feature": {
+          "config": {},
+          "type": "pokecube_legends:dead_coral_mushroom_feature"
+        },
+        "placement": []
+      }
+    ]
+  },
+  "type": "minecraft:simple_random_selector"
+}

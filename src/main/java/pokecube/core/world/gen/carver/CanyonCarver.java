@@ -9,7 +9,6 @@ import pokecube.core.world.terrain.PokecubeTerrainChecker;
 
 public class CanyonCarver extends CanyonWorldCarver
 {
-
     public CanyonCarver(final Codec<CanyonCarverConfiguration> codec)
     {
         super(codec);

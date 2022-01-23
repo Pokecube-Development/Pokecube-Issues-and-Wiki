@@ -1,0 +1,27 @@
+{
+  "feature": "pokecube_legends:ore_iron_extra",
+  "placement": [
+    {
+      "count": 15,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "height": {
+        "min_inclusive": {
+          "absolute": 0
+        },
+        "max_inclusive": {
+          "absolute": 384
+        },
+        "type": "minecraft:uniform"
+      },
+      "type": "minecraft:height_range"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

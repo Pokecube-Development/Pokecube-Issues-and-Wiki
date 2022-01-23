@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -370,9 +374,9 @@ public class ItemGenerator
     public static class GenericStairs extends StairBlock
     {
         @SuppressWarnings("deprecation")
-        public GenericStairs(final BlockState state, final Properties properties)
+        public GenericStairs(final BlockState blockForStairs, final Properties properties)
         {
-            super(state, properties);
+            super(blockForStairs, properties);
         }
     }
 
@@ -431,7 +435,7 @@ public class ItemGenerator
         }
     }
 
-    public static void addStrippable(final Block logs, final Block strippedLogs)
+    public static void addStrippables(final Block logs, final Block strippedLogs)
     {
         AxeItem.STRIPPABLES = Maps.newHashMap(AxeItem.STRIPPABLES);
         AxeItem.STRIPPABLES.put(logs, strippedLogs);
@@ -441,16 +445,21 @@ public class ItemGenerator
     {
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
         Collections.sort(names);
-        // Enqueue this so that it runs on main thread, to prevent concurrency
-        // issues.
+        // Enqueue this so that it runs on main thread, to prevent concurrency issues.
         event.enqueueWork(() ->
         {
             for (final String name : names)
             {
-                ItemGenerator.addStrippable(ItemGenerator.logs.get(name), ItemGenerator.stripped_logs.get(name));
-                ItemGenerator.addStrippable(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
+                ItemGenerator.addStrippables(ItemGenerator.logs.get(name), ItemGenerator.stripped_logs.get(name));
+                ItemGenerator.addStrippables(ItemGenerator.woods.get(name), ItemGenerator.stripped_woods.get(name));
             }
         });
+    }
+    
+    public static void addHoeables(final Block dirt, final Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> use)
+    {
+        HoeItem.TILLABLES = Maps.newHashMap(HoeItem.TILLABLES);
+        HoeItem.TILLABLES.put(dirt, use);
     }
 
     public static void compostableBlocks(final float chance, final ItemLike item)

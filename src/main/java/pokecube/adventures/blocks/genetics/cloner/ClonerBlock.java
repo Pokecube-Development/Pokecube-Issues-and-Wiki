@@ -143,15 +143,17 @@ public class ClonerBlock extends InteractableHorizontalBlock implements SimpleWa
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        final Direction direction = context.getHorizontalDirection().getOpposite();
         final BlockPos pos = context.getClickedPos();
+        final Level world = context.getLevel();
 
-        final BlockPos clonerPos = this.getClonerTopPos(pos, context.getHorizontalDirection().getOpposite());
-        if (pos.getY() < 255 && clonerPos.getY() < 255 && context.getLevel().getBlockState(pos.above()).canBeReplaced(
-                context)) return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context
-                        .getHorizontalDirection().getOpposite()).setValue(ClonerBlock.HALF, ClonerBlockPart.BOTTOM)
-                        .setValue(ClonerBlock.WATERLOGGED, ifluidstate.is(FluidTags.WATER) && ifluidstate
-                                .getAmount() == 8);
+        final BlockPos clonerPos = this.getClonerTopPos(pos, direction);
+        
+        if (pos.getY() < world.getMaxBuildHeight() && clonerPos.getY() < world.getMaxBuildHeight()
+                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+            return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, ClonerBlockPart.BOTTOM)
+                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
         return null;
     }
 

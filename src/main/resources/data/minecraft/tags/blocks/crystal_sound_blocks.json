@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:aquamarine_block",
+    "pokecube_legends:aquamarine_bricks",
+    "pokecube_legends:aquamarine_brick_slab",
+    "pokecube_legends:aquamarine_brick_stairs",
+    "pokecube_legends:aquamarine_button",
+    "pokecube_legends:aquamarine_cluster",
+    "pokecube_legends:aquamarine_crystal",
+    "pokecube_legends:aquamarine_pressure_plate",
+    "pokecube_legends:aquamarine_slab",
+    "pokecube_legends:aquamarine_stairs",
+    "pokecube_legends:budding_aquamarine",
+    "pokecube_legends:crystallized_bush",
+    "pokecube_legends:crystallized_cactus",
+    "pokecube_legends:large_aquamarine_bud",
+    "pokecube_legends:medium_aquamarine_bud",
+    "pokecube_legends:small_aquamarine_bud",
+    "pokecube_legends:tall_crystallized_bush",
+    "pokecube_legends:unrefined_aquamarine",
+    "pokecube_legends:unrefined_aquamarine_slab",
+    "pokecube_legends:unrefined_aquamarine_stairs"
+  ]
+}

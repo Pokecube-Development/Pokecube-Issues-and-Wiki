@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": [
+      { "model": "pokecube_legends:block/smooth_azure_sandstone_slab" }
+    ],
+    "type=double": [
+      { "model": "pokecube_legends:block/smooth_azure_sandstone" }
+    ],
+    "type=top": [
+      { "model": "pokecube_legends:block/smooth_azure_sandstone_slab_top" }
+    ]
+  }
+}

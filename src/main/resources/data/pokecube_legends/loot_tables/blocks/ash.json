@@ -1,0 +1,645 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:alternatives",
+              "conditions": [
+                {
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:match_tool",
+                    "predicate": {
+                      "enchantments": [
+                        {
+                          "enchantment": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "1"
+                      }
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "2"
+                      }
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "3"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 2.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "4"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 2.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "5"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 3.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "6"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 3.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "7"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 4.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "8"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 4.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "9"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 5.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "10"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 5.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "11"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 6.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "12"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 6.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "13"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 7.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "14"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 7.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "15"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 8.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 8.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:pile_of_ash"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:alternatives",
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "1"
+                      }
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "2"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 2.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "3"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 3.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "4"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 4.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "5"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 5.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "6"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 6.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "7"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 7.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "8"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 8.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "9"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 9.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "10"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 10.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "11"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 11.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "12"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 12.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "13"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 13.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "14"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 14.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "conditions": [
+                    {
+                      "condition": "minecraft:block_state_property",
+                      "block": "pokecube_legends:ash",
+                      "properties": {
+                        "layers": "15"
+                      }
+                    }
+                  ],
+                  "functions": [
+                    {
+                      "function": "minecraft:set_count",
+                      "count": 15.0,
+                      "add": false
+                    }
+                  ],
+                  "name": "pokecube_legends:ash"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "pokecube_legends:ash_block"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "predicate": {},
+          "entity": "this"
+        }
+      ]
+    }
+  ]
+}

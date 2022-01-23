@@ -1,0 +1,27 @@
+{
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "tag": "pokecube_legends:dusk_dolerite_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:dusk_dolerite_ruby_ore"
+        }
+      },
+      {
+        "target": {
+          "tag": "pokecube_legends:ultra_stone_ore_replaceables",
+          "predicate_type": "minecraft:tag_match"
+        },
+        "state": {
+          "Name": "pokecube_legends:ultra_ruby_ore"
+        }
+      }
+    ],
+    "size": 8,
+    "discard_chance_on_air_exposure": 1.0
+  },
+  "type": "minecraft:ore"
+}

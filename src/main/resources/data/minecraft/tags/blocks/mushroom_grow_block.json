@@ -1,7 +1,11 @@
 {
   "replace": false,
   "values": [
+    "pokecube_legends:aged_podzol",
+    "pokecube_legends:fungal_nylium",
+    "pokecube_legends:jungle_podzol",
     "pokecube_legends:mushroom_dirt",
+    "pokecube_legends:mushroom_coarse_dirt",
     "pokecube_legends:mushroom_grass_block"
   ]
 }

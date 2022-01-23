@@ -1,0 +1,12 @@
+{
+  "config": {
+    "features": [
+      {
+        "feature": "pokecube_legends:aged_pine_tree_checked",
+        "chance": 0.33333334
+      }
+    ],
+    "default": "pokecube_legends:aged_spruce_tree_checked"
+  },
+  "type": "minecraft:random_selector"
+}

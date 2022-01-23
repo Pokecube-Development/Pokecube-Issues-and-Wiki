@@ -1,0 +1,27 @@
+{
+  "feature": "pokecube_legends:ore_meteorite",
+  "placement": [
+    {
+      "count": 1,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "height": {
+        "min_inclusive": {
+          "absolute": 0
+        },
+        "max_inclusive": {
+          "above_bottom": 256
+        },
+        "type": "minecraft:uniform"
+      },
+      "type": "minecraft:height_range"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

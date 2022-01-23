@@ -1,0 +1,12 @@
+{
+  "feature": "pokecube_legends:delta_volcanic",
+  "placement": [
+    {
+      "count": 50,
+      "type": "minecraft:count_on_every_layer"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ public class PointsOfInterest
                     Sets.newHashSet(PokecubeItems.HEALER.get().getStateDefinition().getPossibleStates()), 1, 2));
     public static final RegistryObject<PoiType> NEST = PointsOfInterest.REG.register("pokemob_nest",
             () -> new PoiType("pokemob_nest",
-                    Sets.newHashSet(PokecubeItems.NESTBLOCK.get().getStateDefinition().getPossibleStates()), 1, 2));
+                    Sets.newHashSet(PokecubeItems.NEST.get().getStateDefinition().getPossibleStates()), 1, 2));
 
     public static void postInit()
     {

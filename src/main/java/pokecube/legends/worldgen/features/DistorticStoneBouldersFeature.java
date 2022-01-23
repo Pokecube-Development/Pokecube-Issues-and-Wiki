@@ -22,7 +22,7 @@ import pokecube.legends.init.FluidInit;
 
 public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
 {
-    private static final ImmutableList<Block> CAN_PLACE_ON      = ImmutableList.of(BlockInit.DISTORTIC_GRASS.get(),
+    private static final ImmutableList<Block> CAN_PLACE_ON      = ImmutableList.of(BlockInit.DISTORTIC_GRASS_BLOCK.get(),
             BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
     private static final int                  CLUSTERED_REACH   = 5;
     private static final int                  CLUSTERED_SIZE    = 50;

@@ -1,0 +1,214 @@
+{
+  "temperature": 0.0,
+  "downfall": 0.5,
+  "precipitation": "snow",
+  "category": "river",
+  "effects": {
+    "sky_color": 3155731,
+    "fog_color": 4799261,
+    "water_color": 8281120,
+    "water_fog_color": 8281120,
+    "grass_color": 11701550,
+    "foliage_color": 11701550,
+    "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",
+    "mood_sound": {
+      "sound": "minecraft:ambient.soul_sand_valley.mood",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:white_ash"
+      },
+      "probability": 0.012
+    }
+  },
+  "carvers": {
+    "air": [
+      "pokecube_legends:canyon",
+      "pokecube_legends:cave",
+      "pokecube_legends:cave_extra_underground"
+    ]
+  },
+  "features": [
+    [],
+    [
+      "pokecube_legends:lake_lava_underground",
+      "pokecube_legends:lake_lava_surface"
+    ],
+    [
+      "minecraft:amethyst_geode",
+      "pokecube_legends:aquamarine_geode",
+      "pokecube_legends:rock_ultra_cobblestone",
+      "pokecube_legends:rock_ultra_stone"
+	],
+    [
+      "pokecube_legends:fossil_lower",
+      "pokecube_legends:fossil_upper"
+	],
+    [],
+    [],
+    [
+      "minecraft:underwater_magma",
+      "pokecube_legends:disk_blackened_sand_rare",
+      "pokecube_legends:disk_clay",
+      "pokecube_legends:disk_turquoise_gravel",
+      "pokecube_legends:ore_meteorite",
+      "pokecube_legends:ore_coal_lower",
+      "pokecube_legends:ore_coal_upper",
+	  "pokecube_legends:ore_copper",
+      "pokecube_legends:ore_corrupted_dirt",
+      "pokecube_legends:ore_cosmic",
+      "pokecube_legends:ore_cosmic_buried",
+      "pokecube_legends:ore_cosmic_large",
+      "pokecube_legends:ore_cosmic_meteorite",
+      "pokecube_legends:ore_diamond",
+      "pokecube_legends:ore_diamond_buried",
+      "pokecube_legends:ore_diamond_large",
+      "pokecube_legends:ore_fossil",
+      "pokecube_legends:ore_fossil_buried",
+      "pokecube_legends:ore_fossil_large",
+      "pokecube_legends:ore_gold",
+      "pokecube_legends:ore_gold_lower",
+      "pokecube_legends:ore_iron_middle",
+      "pokecube_legends:ore_iron_small",
+      "pokecube_legends:ore_iron_upper",
+      "pokecube_legends:ore_lapis",
+      "pokecube_legends:ore_lapis_buried",
+      "pokecube_legends:ore_redstone",
+      "pokecube_legends:ore_redstone_lower",
+      "pokecube_legends:ore_ruby",
+      "pokecube_legends:ore_ruby_buried",
+      "pokecube_legends:ore_ruby_large",
+      "pokecube_legends:ore_sapphire",
+      "pokecube_legends:ore_sapphire_buried",
+      "pokecube_legends:ore_sapphire_large",
+      "pokecube_legends:ore_spectrum",
+      "pokecube_legends:ore_spectrum_buried",
+      "pokecube_legends:ore_spectrum_large",
+      "pokecube_legends:ore_turquoise_gravel"
+    ],
+    [],
+    [
+      "pokecube_legends:spring_lava",
+      "pokecube_legends:spring_water"
+    ],
+    [
+      "minecraft:patch_grass_badlands",
+      "minecraft:patch_sugar_cane",
+      "pokecube_legends:compreced_mushroom_normal",
+      "pokecube_legends:distorced_mushroom_normal",
+      "pokecube_legends:glow_lichen",
+      "pokecube_legends:patch_pink_blossom_tainted_lily_pad",
+      "pokecube_legends:patch_tainted_lily_pad_rare",
+      "pokecube_legends:tainted_kelp_cold",
+      "pokecube_legends:tainted_seagrass_cold",
+      "pokecube_legends:tainted_seagrass_simple",
+      "pokecube_legends:trees_polluted_water"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:spider",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:zombie",
+        "weight": 95,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:zombie_villager",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecraft:skeleton",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:stray",
+        "weight": 80,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:creeper",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:slime",
+        "weight": 100,
+        "minCount": 4,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:enderman",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 4
+      },
+      {
+        "type": "minecraft:witch",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "minecraft:drowned",
+        "weight": 100,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "creature": [],
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "weight": 10,
+        "minCount": 8,
+        "maxCount": 8
+      }
+    ],
+    "axolotls": [],
+    "underground_water_creature": [
+      {
+        "type": "minecraft:glow_squid",
+        "weight": 10,
+        "minCount": 4,
+        "maxCount": 6
+      }
+    ],
+    "water_creature": [
+      {
+        "type": "minecraft:squid",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 4
+      }
+    ],
+    "water_ambient": [
+      {
+        "type": "minecraft:salmon",
+        "weight": 5,
+        "minCount": 1,
+        "maxCount": 5
+      }
+    ],
+    "misc": []
+  },
+  "spawn_costs": {}
+}

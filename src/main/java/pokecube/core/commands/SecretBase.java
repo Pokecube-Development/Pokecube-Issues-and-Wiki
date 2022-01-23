@@ -92,7 +92,7 @@ public class SecretBase
             {
                 final BlockPos base_pos = new BlockPos(input);
                 final BlockState original = pos.getBlockState(player.getLevel());
-                pos.setBlock(player.getLevel(), PokecubeItems.SECRETBASE.get().defaultBlockState());
+                pos.setBlock(player.getLevel(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
                 final BaseTile tile = (BaseTile) player.getLevel().getBlockEntity(pos.getPos());
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                 ownable.setPlacer(player);

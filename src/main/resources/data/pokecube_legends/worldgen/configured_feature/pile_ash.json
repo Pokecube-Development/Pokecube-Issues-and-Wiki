@@ -1,0 +1,16 @@
+{
+  "config": {
+    "state_provider": {
+      "state": {
+        "Properties": {
+          "layers": "4",
+		  "waterlogged": "false",
+		  "wet": "false"
+        },
+        "Name": "pokecube_legends:ash"
+      },
+      "type": "minecraft:simple_state_provider"
+    }
+  },
+  "type": "minecraft:block_pile"
+}

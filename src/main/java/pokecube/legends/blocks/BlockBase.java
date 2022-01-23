@@ -25,27 +25,27 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockBase extends Block
 {
-    VoxelShape customShape     = null;
-    String     infoname;
-    boolean    hasTextInfo     = false;
-    boolean    hasDropRequired = false;
+    VoxelShape customShape = null;
+    String infoname;
+    boolean hasTextInfo = false;
+    boolean hasRequiresCorrectToolForDrops = false;
 
     // ToolTip
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean dropRequired)
+            final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
-        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
         this.infoname = name;
         this.hasTextInfo = true;
-        this.hasDropRequired(dropRequired);
+        this.hasRequiresCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
     // No Tooltip
     public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final boolean dropRequired)
+            final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
-        this.hasDropRequired(dropRequired);
+        this.hasRequiresCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
     // Vertex
@@ -64,7 +64,7 @@ public class BlockBase extends Block
 
     // Effects -ToolTip-
     public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
+            final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops, final MobEffect effects)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
         this.infoname = name;
@@ -73,7 +73,7 @@ public class BlockBase extends Block
 
     // Effects -No ToolTip-
     public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final boolean hadDrop, final MobEffect effects)
+            final SoundType sound, final boolean requiresCorrectToolForDrops, final MobEffect effects)
     {
         super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
     }
@@ -99,10 +99,11 @@ public class BlockBase extends Block
     }
 
     // Drop Required
-    public BlockBase hasDropRequired(final boolean hasDrop)
+    public BlockBase hasRequiresCorrectToolForDrops(final boolean hasDrop)
     {
-        this.hasDropRequired = hasDrop;
-        if (this.hasDropRequired == true) this.properties.requiresCorrectToolForDrops();
+        this.hasRequiresCorrectToolForDrops = hasDrop;
+        if (this.hasRequiresCorrectToolForDrops == true)
+            this.properties.requiresCorrectToolForDrops();
         return this;
     }
 
@@ -111,10 +112,13 @@ public class BlockBase extends Block
     public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        if (!this.hasTextInfo) return;
+        if (!this.hasTextInfo)
+            return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legendblock." + this.infoname + ".tooltip");
-        else message = I18n.get("pokecube.tooltip.advanced");
+        if (Screen.hasShiftDown())
+            message = I18n.get("legendblock." + this.infoname + ".tooltip");
+        else
+            message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(new TranslatableComponent(message));
     }
 

@@ -1,0 +1,35 @@
+{
+  "feature": "pokecube_legends:aquamarine_crystal",
+  "placement": [
+    {
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 2,
+          "max_inclusive": 5
+        }
+      },
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "OCEAN_FLOOR_WG",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 5
+        }
+      },
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

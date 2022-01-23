@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "pokecube_legends:smooth_azure_sandstone"
+  },
+  "result": "pokecube_legends:smooth_azure_sandstone_slab",
+  "count": 2
+}

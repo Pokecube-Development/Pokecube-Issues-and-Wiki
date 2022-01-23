@@ -24,10 +24,9 @@ public class TallGoldenGrassBlock extends TallGrassBlock implements Bonemealable
     public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
     {
-        final DoublePlantBlock block = (DoublePlantBlock) (state.is(PlantsInit.GOLDEN_FERN.get())
-                ? PlantsInit.LARGE_GOLDEN_FERN.get()
+        final DoublePlantBlock block = (DoublePlantBlock) (state.is(PlantsInit.GOLDEN_FERN.get()) ? PlantsInit.LARGE_GOLDEN_FERN.get()
                 : PlantsInit.TALL_GOLDEN_GRASS.get());
-        if (block.defaultBlockState().canSurvive(world, pos) && world.isEmptyBlock(pos.above())) DoublePlantBlock
-                .placeAt(world, block.defaultBlockState(), pos, 2);
+        if (block.defaultBlockState().canSurvive(world, pos) && world.isEmptyBlock(pos.above())) 
+            DoublePlantBlock.placeAt(world, block.defaultBlockState(), pos, 2);
     }
 }

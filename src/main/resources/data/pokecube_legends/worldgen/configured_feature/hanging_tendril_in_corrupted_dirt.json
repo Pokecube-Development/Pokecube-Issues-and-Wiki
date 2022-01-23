@@ -1,0 +1,104 @@
+{
+  "config": {
+    "layers": [
+      {
+        "height": {
+          "distribution": [
+            {
+              "data": {
+                "type": "minecraft:uniform",
+                "value": {
+                  "min_inclusive": 0,
+                  "max_inclusive": 3
+                }
+              },
+              "weight": 5
+            },
+            {
+              "data": {
+                "type": "minecraft:uniform",
+                "value": {
+                  "min_inclusive": 1,
+                  "max_inclusive": 7
+                }
+              },
+              "weight": 1
+            }
+          ],
+          "type": "minecraft:weighted_list"
+        },
+        "provider": {
+          "entries": [
+            {
+              "data": {
+                "Properties": {
+                  "eyes": "false"
+                },
+                "Name": "pokecube_legends:hanging_tendrils_plant"
+              },
+              "weight": 5
+            },
+            {
+              "data": {
+                "Properties": {
+                  "eyes": "true"
+                },
+                "Name": "pokecube_legends:hanging_tendrils_plant"
+              },
+              "weight": 1
+            }
+          ],
+          "type": "minecraft:weighted_state_provider"
+        }
+      },
+      {
+        "height": 1,
+        "provider": {
+          "source": {
+            "entries": [
+              {
+                "data": {
+                  "Properties": {
+                    "eyes": "false",
+                    "age": "0"
+                  },
+                  "Name": "pokecube_legends:hanging_tendrils"
+                },
+                "weight": 5
+              },
+              {
+                "data": {
+                  "Properties": {
+                    "eyes": "true",
+                    "age": "0"
+                  },
+                  "Name": "pokecube_legends:hanging_tendrils"
+                },
+                "weight": 1
+              }
+            ],
+            "type": "minecraft:weighted_state_provider"
+          },
+          "property": "age",
+          "values": {
+            "type": "minecraft:uniform",
+            "value": {
+              "min_inclusive": 23,
+              "max_inclusive": 25
+            }
+          },
+          "type": "minecraft:randomized_int_state_provider"
+        }
+      }
+    ],
+    "direction": "down",
+    "allowed_placement": {
+      "blocks": [
+        "minecraft:air"
+      ],
+      "type": "minecraft:matching_blocks"
+    },
+    "prioritize_tip": true
+  },
+  "type": "minecraft:block_column"
+}

@@ -1,0 +1,19 @@
+{
+  "feature": "pokecube_legends:patch_tall_crystallized_bush",
+  "placement": [
+    {
+      "count": 2,
+      "type": "minecraft:count"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "OCEAN_FLOOR",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

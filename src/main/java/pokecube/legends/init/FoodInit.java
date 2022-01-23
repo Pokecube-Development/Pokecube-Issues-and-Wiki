@@ -12,6 +12,7 @@ public class FoodInit
     public static final FoodProperties DAMAGE_BOOST_POKEPUFF;
     public static final FoodProperties FIRE_RESISTANCE_POKEPUFF;
     public static final FoodProperties GLOWING_POKEPUFF;
+    public static final FoodProperties GOLDEN_SHROOM;
     public static final FoodProperties GOLDEN_SWEET_BERRIES;
     public static final FoodProperties HEAL_POKEPUFF;
     public static final FoodProperties HERO_POISON_POKEPUFF;
@@ -57,6 +58,9 @@ public class FoodInit
         SATURATION_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.SATURATION, 400, 1), 1.0F).alwaysEat().build();
 
+        GOLDEN_SHROOM = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.5F)
+                .effect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 0), 1.0F)
+                .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 320, 4), 1.0F).alwaysEat().build();
         GOLDEN_SWEET_BERRIES = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.5F)
                 .effect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 1), 1.0F).alwaysEat().build();
         ICE_CARROT = (new FoodProperties.Builder()).nutrition(4).saturationMod(1.2F)

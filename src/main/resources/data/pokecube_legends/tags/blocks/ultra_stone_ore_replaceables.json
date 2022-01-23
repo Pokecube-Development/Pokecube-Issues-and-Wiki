@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "minecraft:calcite",
+    "minecraft:smooth_basalt",
     "pokecube_legends:ultra_stone"
   ]
 }

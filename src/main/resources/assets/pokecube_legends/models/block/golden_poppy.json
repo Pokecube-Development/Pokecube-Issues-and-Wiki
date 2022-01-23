@@ -1,7 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "pokecube_legends:blocks/golden_poppy",
-    "particle": "pokecube_legends:blocks/golden_poppy"
+    "cross": "pokecube_legends:blocks/golden_poppy"
   }
 }

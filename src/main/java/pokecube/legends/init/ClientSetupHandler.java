@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
@@ -91,14 +92,14 @@ public class ClientSetupHandler
                 }
                 if (!fullCube) ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutout());
             }
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_CAMPFIRE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.INFECTED_LANTERN.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.MIRAGE_GLASS.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BlockInit.SPECTRUM_GLASS.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.TALL_CRYSTALLIZED_BUSH.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(BlockInit.YVELTAL_CORE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.LARGE_GOLDEN_FERN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(PlantsInit.TALL_GOLDEN_GRASS.get(), RenderType.cutout());
 
             for (final RegistryObject<Block> reg : PokecubeLegends.DECORATION_TAB.getEntries())
             {

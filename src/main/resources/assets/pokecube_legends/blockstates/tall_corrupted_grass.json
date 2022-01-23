@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "pokecube_legends:block/tall_corrupted_grass_bottom"
+    },
+    "half=upper": {
+      "model": "pokecube_legends:block/tall_corrupted_grass_top"
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "experience": 1,
   "cookingtime": 100,
   "ingredient": {
-    "item": "pokecube_legends:ultra_iron_ore"
+    "tag": "pokecube_legends:iron_ores"
   },
   "result": {
     "item": "minecraft:iron_ingot"

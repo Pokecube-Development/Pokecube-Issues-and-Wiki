@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:deepslate_fossil_ore",
+    "pokecube:fossil_ore",
+    "pokecube_legends:deepslate_ruby_ore",
+    "pokecube_legends:deepslate_sapphire_ore",
+    "pokecube_legends:dusk_dolerite_coal_ore",
+    "pokecube_legends:dusk_dolerite_diamond_ore",
+    "pokecube_legends:dusk_dolerite_fossil_ore",
+    "pokecube_legends:dusk_dolerite_emerald_ore",
+    "pokecube_legends:dusk_dolerite_gold_ore",
+    "pokecube_legends:dusk_dolerite_iron_ore",
+    "pokecube_legends:dusk_dolerite_ruby_ore",
+    "pokecube_legends:dusk_dolerite_sapphire_ore",
+    "pokecube_legends:dusk_dolerite_spectrum_ore",
+    "pokecube_legends:fractal_ore",
+    "pokecube_legends:ruby_ore",
+    "pokecube_legends:sapphire_ore",
+    "pokecube_legends:spectrum_ore",
+    "pokecube_legends:ultra_coal_ore",
+    "pokecube_legends:ultra_diamond_ore",
+    "pokecube_legends:ultra_emerald_ore",
+    "pokecube_legends:ultra_fossil_ore",
+    "pokecube_legends:ultra_gold_ore",
+    "pokecube_legends:ultra_iron_ore",
+    "pokecube_legends:ultra_ruby_ore",
+    "pokecube_legends:ultra_sapphire_ore"
+  ]
+}
