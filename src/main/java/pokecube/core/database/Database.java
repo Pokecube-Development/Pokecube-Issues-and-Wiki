@@ -30,8 +30,6 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.Pack.Position;
-import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.repository.ServerPacksSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
