@@ -71,6 +71,7 @@ public class Linker extends Item
                         final Player player = (Player) user;
                         player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.unset"),
                                 true);
+                        player.swing(player.getUsedItemHand());
                     }
                     else
                     {
@@ -90,6 +91,7 @@ public class Linker extends Item
                         final Player player = (Player) user;
                         player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
                                 true);
+                        player.swing(player.getUsedItemHand());
                     }
                     else
                     {
@@ -106,6 +108,7 @@ public class Linker extends Item
                         final Player player = (Player) user;
                         player.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linker.set"),
                                 true);
+                        player.swing(player.getUsedItemHand());
                     }
                     else
                     {
@@ -152,6 +155,7 @@ public class Linker extends Item
                 ai.getPrimaryTask().setPos(pos.pos().above());
                 playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob",
                         target.getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()), true);
+                playerIn.swing(playerIn.getUsedItemHand());
                 return true;
             }
             else playerIn.displayClientMessage(new TranslatableComponent("item.pokecube_adventures.linked.mob.fail"),
