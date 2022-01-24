@@ -17,13 +17,13 @@
       "item": "minecraft:golden_apple"
     },
     "D": {
-      "tag": "forge:storage_block/diamond"
+      "tag": "forge:storage_blocks/diamond"
     },
     "L": {
-      "tag": "forge:storage_block/lapis"
+      "tag": "forge:storage_blocks/lapis"
     },
     "R": {
-      "tag": "forge:storage_block/redstone"
+      "tag": "forge:storage_blocks/redstone"
     }
   },
   "result": {

@@ -11,7 +11,7 @@
       "item": "minecraft:ender_eye"
     },
     "I": {
-      "tag": "forge:storage_block/iron"
+      "tag": "forge:storage_blocks/iron"
     }
   },
   "result": {

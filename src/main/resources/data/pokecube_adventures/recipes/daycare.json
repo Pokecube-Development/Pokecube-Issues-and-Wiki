@@ -11,7 +11,7 @@
       "item": "pokecube:trade_machine"
     },
     "S": {
-      "tag": "forge:storage_block/iron"
+      "tag": "forge:storage_blocks/iron"
     },
     "I": {
       "tag": "forge:ingots/iron"

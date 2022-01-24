@@ -8,7 +8,7 @@
   ],
   "key": {
     "0": {
-      "tag": "forge:storage_block/gold"
+      "tag": "forge:storage_blocks/gold"
     },
     "R": {
       "tag": "forge:ingots/gold"

@@ -16,7 +16,9 @@
       "name": "pokecube_legends:fungal_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
+        "empty;{\"weight\":40}",
         "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
         "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
@@ -26,7 +28,8 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":15}",
+        "empty;{\"weight\":40}",
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":10}",
         "pokecube_legends:ultraspace/giant_jungle_tree;{\"weight\":30}",
         "pokecube_legends:ultraspace/giant_chimney;{\"weight\":30}"
       ]
@@ -35,7 +38,9 @@
       "name": "pokecube_legends:jungle_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
+        "empty;{\"weight\":30}",
         "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":15}"
       ]
     },
@@ -53,7 +58,9 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
+        "empty;{\"weight\":50}",
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":10}",
+        "pokecube_legends:ultraspace/aquamarine_tendril;{\"weight\":5}",
         "pokecube_legends:ultraspace/aquamarine_statue;{\"weight\":25}",
         "pokecube_legends:ultraspace/palm_berry_tree;{\"weight\":40}",
         "pokecube_legends:ultraspace/giant_aquamarine_statue;{\"weight\":130}"
@@ -63,8 +70,10 @@
       "name": "pokecube_legends:desert_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
-        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+        "empty;{\"weight\":85}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":15}"
       ]
     },
     {
@@ -72,7 +81,8 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/mirage_pyramid"
+        "empty;{\"weight\":90}",
+        "pokecube_legends:ultraspace/mirage_pyramid;{\"weight\":10}"
       ]
     },
     {
@@ -80,8 +90,9 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/mirage_house1",
-        "pokecube_legends:ultraspace/mirage_house2"
+        "empty;{\"weight\":40}",
+        "pokecube_legends:ultraspace/mirage_house1;{\"weight\":50}",
+        "pokecube_legends:ultraspace/mirage_house2;{\"weight\":60}"
       ]
     },
     {
@@ -89,6 +100,7 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
+        "empty;{\"weight\":40}",
         "pokecube_legends:ultraspace/ruined_building;{\"weight\":55}",
         "pokecube_legends:ultraspace/tower;{\"weight\":100}"
       ]
@@ -97,7 +109,9 @@
       "name": "pokecube_legends:delta_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
+        "empty;{\"weight\":40}",
         "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
         "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
       ]
@@ -106,7 +120,9 @@
       "name": "pokecube_legends:delta_roads/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
+        "empty;{\"weight\":20}",
         "pokecube_legends:ultraspace/ruined_bridge1;{\"weight\":30}",
         "pokecube_legends:ultraspace/ruined_bridge2;{\"weight\":30}",
         "pokecube_legends:ultraspace/ruined_road;{\"weight\":30}"
@@ -117,18 +133,21 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
-        "pokecube_legends:ultraspace/giant_crystal_flower;{\"weight\":30}",
-        "pokecube_legends:ultraspace/aquamarine_tendril;{\"weight\":30}"
+        "empty;{\"weight\":60}",
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":5}",
+        "pokecube_legends:ultraspace/giant_crystal_flower;{\"weight\":20}",
+        "pokecube_legends:ultraspace/aquamarine_tendril;{\"weight\":10}"
       ]
     },
     {
       "name": "pokecube_legends:barrens_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
-        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
-        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
+        "empty;{\"weight\":40}",
+        "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":10}",
+        "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":10}"
       ]
     },
     {
@@ -136,14 +155,16 @@
       "rigid": true,
       "ignoreAir": true,
       "options": [
-        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":20}",
-        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":40}"
+        "empty;{\"weight\":80}",
+        "pokecube_legends:ultraspace/aquamarine_spike;{\"weight\":5}",
+        "pokecube_legends:ultraspace/acacia_berry_tree;{\"weight\":20}"
       ]
     },
     {
       "name": "pokecube_legends:taiga_rocks/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
         "pokecube_legends:ultraspace/ultra_rock_pile;{\"weight\":20}",
         "pokecube_legends:ultraspace/ultra_rock_spike;{\"weight\":20}"
@@ -153,8 +174,10 @@
       "name": "pokecube_legends:taiga_plane/loose",
       "rigid": false,
       "ignoreAir": true,
+      "water": true,
       "options": [
-        "pokecube_legends:ultraspace/red_plane;{\"weight\":40}"
+        "empty;{\"weight\":80}",
+        "pokecube_legends:ultraspace/red_plane;{\"weight\":20}"
       ]
     }
   ],
@@ -176,7 +199,7 @@
       }
     },
     {
-      "type": "pokecube_legends:giant_mushrooms",
+      "type": "pokecube_legends:fungal_rocks",
       "name": "pokecube_legends:fungal_rocks/loose",
       "root": "pokecube_legends:fungal_rocks/loose",
       "biomeType": "none",
@@ -208,7 +231,7 @@
       }
     },
     {
-      "type": "pokecube_legends:temporal_jungle_misc",
+      "type": "pokecube_legends:temporal_jungle_loose",
       "name": "pokecube_legends:jungle_rocks/loose",
       "root": "pokecube_legends:jungle_rocks/loose",
       "biomeType": "none",
@@ -240,7 +263,7 @@
       }
     },
     {
-      "type": "pokecube_legends:mirage_desert_misc",
+      "type": "pokecube_legends:mirage_desert_loose",
       "name": "pokecube_legends:desert_rocks/loose",
       "root": "pokecube_legends:desert_rocks/loose",
       "biomeType": "none",
@@ -302,7 +325,7 @@
       }
     },
     {
-      "type": "pokecube_legends:ruined_buildings",
+      "type": "pokecube_legends:delta_rocks",
       "name": "pokecube_legends:delta_rocks/loose",
       "root": "pokecube_legends:delta_rocks/loose",
       "biomeType": "none",
@@ -350,7 +373,7 @@
       }
     },
     {
-      "type": "pokecube_legends:tainted_barrens_misc",
+      "type": "pokecube_legends:tainted_barrens_loose",
       "name": "pokecube_legends:barrens_rocks/loose",
       "root": "pokecube_legends:barrens_rocks/loose",
       "biomeType": "none",
@@ -382,7 +405,7 @@
       }
     },
     {
-      "type": "pokecube_legends:forbidden_taiga_misc",
+      "type": "pokecube_legends:forbidden_taiga_loose",
       "name": "pokecube_legends:taiga_rocks/loose",
       "root": "pokecube_legends:taiga_rocks/loose",
       "biomeType": "none",

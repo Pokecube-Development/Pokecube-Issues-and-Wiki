@@ -11,7 +11,7 @@
       "item": "pokecube_adventures:cloner"
     },
     "S": {
-      "tag": "forge:storage_block/diamond"
+      "tag": "forge:storage_blocks/diamond"
     },
     "I": {
       "item": "minecraft:nether_star"
