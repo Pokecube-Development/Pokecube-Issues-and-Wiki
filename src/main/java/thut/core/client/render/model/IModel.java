@@ -91,6 +91,7 @@ public interface IModel
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;
         material.cull = mat.cull;
+        material.shader = mat.shader;
         for (final IExtendedModelPart part : this.getParts().values())
             part.updateMaterial(mat, material);
     }
