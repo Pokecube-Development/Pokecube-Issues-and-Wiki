@@ -13,8 +13,8 @@ public class Config extends ConfigData
 {
     public static final String client = "client";
 
-    @Configure(category = Config.client, comment = "Position of the Wearables button. [Default: [26, 9]]")
-    public List<Integer> buttonPos       = Lists.newArrayList(new Integer[] { 26, 9 });
+    @Configure(category = Config.client, comment = "Position of the Wearables button. [Default: [27, 9]]")
+    public List<Integer> buttonPos       = Lists.newArrayList(new Integer[] { 27, 9 });
     @Configure(category = Config.client, comment = "Enables the Wearables button. [Default: true]")
     public boolean       hasButton       = true;
     @Configure(category = Config.client, comment = "Render blacklist for wearables.")
