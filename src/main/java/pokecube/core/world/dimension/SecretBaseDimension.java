@@ -340,9 +340,9 @@ public class SecretBaseDimension
         {
             final Level world = PokecubeCore.proxy.getWorld();
             if (world == null) return;
-            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+            if (world.getWorldBorder().getSize() != 2999984
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+                world.getWorldBorder().setSize(2999984);
         }
     }
 
@@ -354,18 +354,21 @@ public class SecretBaseDimension
         public static void onWorldTick(final WorldTickEvent event)
         {
             final Level world = event.world;
-            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+            System.out.println(world.dimension() + " " + world.dimension().compareTo(SecretBaseDimension.WORLD_KEY)
+                    + " " + world.getWorldBorder().getSize());
+
+            if (world.getWorldBorder().getSize() != 2999984
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+                world.getWorldBorder().setSize(2999984);
         }
 
         @SubscribeEvent
         public static void onWorldLoad(final WorldEvent.Load event)
         {
             final Level world = (Level) event.getWorld();
-            if (world.getWorldBorder().getAbsoluteMaxSize() != 2999984
+            if (world.getWorldBorder().getSize() != 2999984
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setAbsoluteMaxSize(2999984);
+                world.getWorldBorder().setSize(2999984);
         }
 
         @SubscribeEvent
