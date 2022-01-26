@@ -26,7 +26,7 @@ public class AquamarineClusterBlock extends AmethystClusterBlock implements Simp
     {
         Direction direction = state.getValue(FACING);
         BlockPos posOpposite = pos.relative(direction.getOpposite());
-        BlockPos posDown = pos.relative(direction.DOWN);
+        BlockPos posDown = pos.relative(Direction.DOWN);
         return world.getBlockState(posOpposite).isFaceSturdy(world, posOpposite, direction) || world.getBlockState(posDown).is(BlockInit.CRYSTALLIZED_CACTUS.get());
     }
 

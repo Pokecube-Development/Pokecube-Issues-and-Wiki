@@ -391,7 +391,6 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
     public static void spawnDripParticle(Level world, BlockPos pos, BlockState state, Fluid fluid)
     {
        Vec3 vec3 = state.getOffset(world, pos);
-       double d0 = 0.0625D;
        double d1 = (double)pos.getX() + 0.5D + vec3.x;
        double d2 = (double)((float)(pos.getY() + 1) - 0.6875F) - 0.0D;
        double d3 = (double)pos.getZ() + 0.5D + vec3.z;
