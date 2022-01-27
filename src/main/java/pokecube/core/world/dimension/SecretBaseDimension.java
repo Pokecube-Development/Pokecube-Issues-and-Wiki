@@ -331,6 +331,8 @@ public class SecretBaseDimension
     public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(Registry.BIOME_REGISTRY,
             SecretBaseDimension.IDLOC);
 
+    public static final double WORLDSIZE = 2 * 2999984;
+
     @EventBusSubscriber(value = Dist.CLIENT)
     public static class ClientEventHandler
     {
@@ -340,9 +342,9 @@ public class SecretBaseDimension
         {
             final Level world = PokecubeCore.proxy.getWorld();
             if (world == null) return;
-            if (world.getWorldBorder().getSize() != 2999984
+            if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setSize(2999984);
+                world.getWorldBorder().setSize(WORLDSIZE);
         }
     }
 
@@ -354,21 +356,18 @@ public class SecretBaseDimension
         public static void onWorldTick(final WorldTickEvent event)
         {
             final Level world = event.world;
-            System.out.println(world.dimension() + " " + world.dimension().compareTo(SecretBaseDimension.WORLD_KEY)
-                    + " " + world.getWorldBorder().getSize());
-
-            if (world.getWorldBorder().getSize() != 2999984
+            if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setSize(2999984);
+                world.getWorldBorder().setSize(WORLDSIZE);
         }
 
         @SubscribeEvent
         public static void onWorldLoad(final WorldEvent.Load event)
         {
             final Level world = (Level) event.getWorld();
-            if (world.getWorldBorder().getSize() != 2999984
+            if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
-                world.getWorldBorder().setSize(2999984);
+                world.getWorldBorder().setSize(WORLDSIZE);
         }
 
         @SubscribeEvent
