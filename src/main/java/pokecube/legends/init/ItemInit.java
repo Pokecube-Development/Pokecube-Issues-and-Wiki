@@ -27,7 +27,6 @@ import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
-import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.ItemTiers;
 import pokecube.legends.items.LegendsSword;
@@ -343,7 +342,7 @@ public class ItemInit
         CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase(PokecubeItems.TAB_ITEMS,1));
         GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase(PokecubeItems.TAB_ITEMS,1));
         GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(PokecubeItems.TAB_ITEMS,1));
-        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", PokecubeItems.TAB_ITEMS, 1));
+        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new ItemBase("gigantic_shard", PokecubeItems.TAB_ITEMS, 1).setShiny());
         PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", PokecubeItems.TAB_ITEMS,1));
         PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", PokecubeItems.TAB_ITEMS,1));
         REINS_U = PokecubeLegends.ITEMS.register("reins_u", () -> new ItemBase("reins_u", PokecubeItems.TAB_ITEMS,1));
