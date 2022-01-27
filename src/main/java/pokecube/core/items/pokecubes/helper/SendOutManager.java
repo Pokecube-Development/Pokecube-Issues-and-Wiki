@@ -239,6 +239,7 @@ public class SendOutManager
                 final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
                         pokemob.getDisplayName());
                 pokemob.displayMessageToOwner(mess);
+                pokemob.getEntity().getPersistentData().remove(TagNames.NOPOOF);
             }
             final SendOut evt = new SendOut.Post(pokemob.getPokedexEntry(), v, world, pokemob);
             PokecubeCore.POKEMOB_BUS.post(evt);
