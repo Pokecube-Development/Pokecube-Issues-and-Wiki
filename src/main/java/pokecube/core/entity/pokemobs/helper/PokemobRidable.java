@@ -9,7 +9,9 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -312,7 +314,6 @@ public abstract class PokemobRidable extends PokemobHasParts
         final double x = this.getX();
         final double y = this.getY();
         final double z = this.getZ();
-        passenger.setPos(x, y, z);
         this.initSeats();
         if (!this.level.isClientSide)
             for (int i = 0; i < this.seatCount; i++) if (this.getSeat(i).getEntityId().equals(passenger.getUUID()))
@@ -320,6 +321,13 @@ public abstract class PokemobRidable extends PokemobHasParts
             this.updateSeat(i, Seat.BLANK);
             break;
         }
+        if (passenger instanceof ServerPlayer player)
+        {
+            player.getServer().tell(new TickTask(player.getServer().getTickCount() + 1, () -> {
+                passenger.moveTo(x, y, z);
+            }));
+        }
+        else passenger.moveTo(x, y, z);
     }
 
     @Override
