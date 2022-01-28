@@ -60,7 +60,7 @@ public class GuiEvents
             final CreativeModeInventoryScreen gui = (CreativeModeInventoryScreen) event.getScreen();
             this.active = event.getScreen() instanceof GuiWearables;
             GuiWearableButton button;
-            event.getScreen().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 37, gui.getGuiTop()
+            event.getScreen().addRenderableWidget(button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop()
                     + 9, 9, 9, new TranslatableComponent(this.active ? "button.wearables.off" : "button.wearables.on"),
                     b -> this.pressButton(gui)));
             button.setFGColor(0xFFFF00FF);

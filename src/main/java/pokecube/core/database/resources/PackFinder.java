@@ -6,13 +6,11 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
@@ -79,7 +77,7 @@ public class PackFinder implements RepositorySource
     }
 
     public final List<PackResources> allPacks = Lists.newArrayList();
-    public Set<PackResources> folderPacks = Sets.newHashSet();
+    public final List<PackResources> folderPacks = Lists.newArrayList();
 
     private final FolderRepositorySource folderFinder_old;
     private final FolderRepositorySource folderFinder_new;
@@ -127,7 +125,6 @@ public class PackFinder implements RepositorySource
         {
             PokecubeCore.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
         }
-
         for (final Pack info : map.values())
         {
             final PackResources pack = info.open();
@@ -136,7 +133,7 @@ public class PackFinder implements RepositorySource
                 this.allPacks.add(pack);
                 this.folderPacks.add(pack);
             }
-            else PokecubeCore.LOGGER.debug("No Pack found for " + info);
+            else PokecubeCore.LOGGER.error("No Pack found for " + info);
         }
     }
 

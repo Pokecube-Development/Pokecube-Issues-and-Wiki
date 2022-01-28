@@ -5,7 +5,6 @@ import java.util.concurrent.Executor;
 
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -21,24 +20,24 @@ public class PackListener implements PreparableReloadListener
             final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
             final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
     {
-        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::wait)
-                .thenAcceptAsync((v) ->
-                {
-                    this.add(resourceManager);
-                }, gameExecutor);
+        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::wait).thenAcceptAsync((v) -> {
+            this.add(resourceManager);
+        }, gameExecutor);
     }
 
     public void add(final ResourceManager resourceManager)
     {
-        if (!(resourceManager instanceof SimpleReloadableResourceManager)) return;
-        Database.resourceManager = (ReloadableResourceManager) resourceManager;
+        if (!(resourceManager instanceof SimpleReloadableResourceManager manager)) return;
+        Database.resourceManager = manager;
         // Initialize the resourceloader.
         Database.loadCustomPacks(false);
+
         for (final PackResources pack : Database.customPacks)
         {
             PokecubeCore.LOGGER.debug("Reloading Pack: " + pack.getName());
-            ((SimpleReloadableResourceManager) resourceManager).add(pack);
+            manager.add(pack);
         }
+
         this.loaded = true;
     }
 }

@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/glass_mirror"
+      "layer0":"pokecube_legends:item/glass_mirror"
    }
 }

@@ -26,7 +26,7 @@ public class BlingRender extends BlingRenderBase
                         || slot == EnumWearable.FINGER || slot == EnumWearable.EAR || slot == EnumWearable.NECK)
                 {
                     tex = new ResourceLocation[2];
-                    tex[0] = new ResourceLocation("minecraft", "textures/items/diamond.png");
+                    tex[0] = new ResourceLocation("minecraft", "textures/item/diamond.png");
                     tex[1] = new ResourceLocation(ThutBling.MODID, "textures/worn/belt.png");
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/belt.x3d"), tex[1],
                             null, "belt");

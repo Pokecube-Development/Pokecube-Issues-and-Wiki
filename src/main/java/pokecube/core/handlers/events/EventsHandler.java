@@ -655,7 +655,15 @@ public class EventsHandler
     private static void onLivingUpdate(final LivingUpdateEvent evt)
     {
         final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (poke != null) poke.onTick();
+        if (poke != null)
+        {
+            if (PokecubeCore.getConfig().pokemobsAreAllFrozen)
+            {
+                evt.setCanceled(true);
+                return;
+            }
+            poke.onTick();
+        }
 
         if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);

@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "texture": "pokecube_legends:blocks/temporal_bamboo_large_leaves",
-        "particle": "pokecube_legends:blocks/temporal_bamboo_large_leaves"
+        "texture": "pokecube_legends:block/temporal_bamboo_large_leaves",
+        "particle": "pokecube_legends:block/temporal_bamboo_large_leaves"
     },
     "elements": [
         {   "from": [ 0.8, 0, 8 ],

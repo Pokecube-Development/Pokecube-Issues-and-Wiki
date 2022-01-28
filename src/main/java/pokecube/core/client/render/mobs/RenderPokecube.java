@@ -132,7 +132,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     @Override
     public ResourceLocation getTextureLocation(final EntityPokecube entity)
     {
-        return new ResourceLocation(PokecubeMod.ID, "textures/items/pokecubefront.png");
+        return new ResourceLocation(PokecubeMod.ID, "textures/item/pokecubefront.png");
     }
 
 }

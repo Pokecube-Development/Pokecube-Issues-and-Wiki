@@ -145,16 +145,6 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          return this.getHeightAtRadius(0.0F);
       }
 
-      private int getMinY()
-      {
-         return this.pointingUp ? this.root.getY() : this.root.getY() - this.getHeight();
-      }
-
-      private int getMaxY()
-      {
-         return !this.pointingUp ? this.root.getY() : this.root.getY() + this.getHeight();
-      }
-
       boolean moveBackUntilBaseIsInsideStoneAndShrinkRadiusIfNecessary(WorldGenLevel world, LargeUnrefinedAquamarine.WindOffsetter windOffsetter)
       {
          while(this.radius > 1)

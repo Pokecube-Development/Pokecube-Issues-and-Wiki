@@ -58,6 +58,14 @@ public class ItemBase extends Item
 
     @Override
     @OnlyIn(Dist.CLIENT)
+    public boolean isFoil(final ItemStack itemstack)
+    {
+        if (!hasShiny) return super.isFoil(itemstack);
+        return true;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {

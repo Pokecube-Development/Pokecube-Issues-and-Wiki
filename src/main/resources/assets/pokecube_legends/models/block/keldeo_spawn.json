@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"2": "block/cracked_stone_bricks",
-		"3": "pokecube_legends:blocks/keldeo_banner_end",
-		"4": "pokecube_legends:blocks/keldeo_justice_block",
-		"5": "pokecube_legends:blocks/keldeo_banner",
+		"3": "pokecube_legends:block/keldeo_banner_end",
+		"4": "pokecube_legends:block/keldeo_justice_block",
+		"5": "pokecube_legends:block/keldeo_banner",
 		"particle": "block/cracked_stone_bricks"
 	},
 	"elements": [

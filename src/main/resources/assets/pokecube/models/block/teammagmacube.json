@@ -1,10 +1,10 @@
 {
   "parent": "pokecube_legends:block/pokecubes",
   "textures": {
-    "top": "pokecube_legends:items/teammagmacubetop",
-    "bottom": "pokecube_legends:items/teammagmacubebottom",
-    "front": "pokecube_legends:items/teammagmacubefront",
-    "back": "pokecube_legends:items/teammagmacubeback",
-    "side": "pokecube_legends:items/teammagmacubeside"
+    "top": "pokecube_legends:item/teammagmacubetop",
+    "bottom": "pokecube_legends:item/teammagmacubebottom",
+    "front": "pokecube_legends:item/teammagmacubefront",
+    "back": "pokecube_legends:item/teammagmacubeback",
+    "side": "pokecube_legends:item/teammagmacubeside"
   }
 }

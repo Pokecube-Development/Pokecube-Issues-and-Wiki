@@ -29,8 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.repository.ServerPacksSource;
+import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -933,15 +932,16 @@ public class Database
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
-        final PackRepository resourcePacks = new PackRepository(PackType.SERVER_DATA, new ServerPacksSource());
         final PackFinder finder = new PackFinder(
-                (name, component, bool, supplier, metadata, source, p_143900_, hidden) ->
+                (name, component, bool, supplier, metadata, position, source, hidden) ->
                 {
-                    return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, source, p_143900_,
-                            hidden);
+                    return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, Position.TOP,
+                            source, hidden);
                 });
-        resourcePacks.addPackFinder(finder);
-        for (final PackResources info : finder.allPacks) try
+
+        List<PackResources> packs = applyToManager ? finder.allPacks : finder.folderPacks;
+
+        for (final PackResources info : packs) try
         {
             if (applyToManager)
             {
@@ -956,7 +956,6 @@ public class Database
         {
             PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
         }
-        resourcePacks.close();
     }
 
     /**

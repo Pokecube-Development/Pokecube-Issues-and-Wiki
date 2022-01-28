@@ -42,8 +42,8 @@ public class PollutedIcebergFeature extends IcebergFeature
           l += random.nextInt(19) + 7;
        }
 
-       int i1 = Math.min(l + random.nextInt(11), 18);
-       int j1 = Math.min(l + random.nextInt(7) - random.nextInt(5), 11);
+       int i1 = Math.min(l + random.nextInt(k), 18);
+       int j1 = Math.min(l + random.nextInt(7) - random.nextInt(5), k);
        int k1 = flag1 ? i : 11;
 
        for(int l1 = -k1; l1 < k1; ++l1)

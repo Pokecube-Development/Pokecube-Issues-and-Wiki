@@ -93,6 +93,8 @@ public class AnimationXML
         public boolean smooth = false;
         @XmlAttribute(name = "cull")
         public boolean cull = true;
+        @XmlAttribute(name = "shader")
+        public String shader = "";
     }
 
     @XmlRootElement(name = "merges")

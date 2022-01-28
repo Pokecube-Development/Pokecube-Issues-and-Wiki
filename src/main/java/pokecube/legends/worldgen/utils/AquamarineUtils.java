@@ -36,7 +36,7 @@ public class AquamarineUtils
         double d4 = 0.3333333333333333D * Math.log(d1);
         double d5 = k * (d2 - d3 - d4);
         d5 = Math.max(d5, 0.0D);
-        return d5 / 0.384D * j;
+        return d5 / d0 * j;
      }
 
      public static boolean isCircleMostlyEmbeddedInStone(WorldGenLevel world, BlockPos pos, int x)
@@ -47,7 +47,7 @@ public class AquamarineUtils
         } else
         {
            float f = 6.0F;
-           float f1 = 6.0F / (float)x;
+           float f1 = f / (float)x;
 
            for(float f2 = 0.0F; f2 < ((float)Math.PI * 2F); f2 += f1)
            {

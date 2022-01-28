@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "pokecube:block/generic_bookshelf_empty",
 	"textures": {
-		"particle": "pokecube_legends:blocks/aged_bookshelf_empty",
-		"center": "pokecube_legends:blocks/aged_bookshelf_empty",
-		"planks": "pokecube_legends:blocks/aged_planks"
+		"particle": "pokecube_legends:block/aged_bookshelf_empty",
+		"center": "pokecube_legends:block/aged_bookshelf_empty",
+		"planks": "pokecube_legends:block/aged_planks"
 	}
 }

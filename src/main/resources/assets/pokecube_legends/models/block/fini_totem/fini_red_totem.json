@@ -1,9 +1,9 @@
 {
 	"parent": "pokecube_legends:block/fini_totem/fini_core",
 	"textures": {
-		"1": "pokecube_legends:blocks/fini_totem/tapu_fini_front_red",
-		"2": "pokecube_legends:blocks/fini_totem/tapu_fini_side_red",
-		"3": "pokecube_legends:blocks/fini_totem/tapu_fini_top_red",
-		"particle": "pokecube_legends:blocks/fini_totem/tapu_fini_side_red"
+		"1": "pokecube_legends:block/fini_totem/tapu_fini_front_red",
+		"2": "pokecube_legends:block/fini_totem/tapu_fini_side_red",
+		"3": "pokecube_legends:block/fini_totem/tapu_fini_top_red",
+		"particle": "pokecube_legends:block/fini_totem/tapu_fini_side_red"
 	}
 }

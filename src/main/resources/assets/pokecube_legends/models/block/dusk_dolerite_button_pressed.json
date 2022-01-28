@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/button_pressed",
   "textures": {
-    "texture": "pokecube_legends:blocks/dusk_dolerite"
+    "texture": "pokecube_legends:block/dusk_dolerite"
   }
 }

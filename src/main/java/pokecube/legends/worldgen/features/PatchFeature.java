@@ -1,13 +1,10 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 
@@ -22,9 +19,6 @@ public class PatchFeature extends DiskBaseFeature
    public boolean place(FeaturePlaceContext<DiskConfiguration> context)
    {
       WorldGenLevel world = context.level();
-      ChunkGenerator chunk = context.chunkGenerator();
-      Random random = context.random();
-      DiskConfiguration diskConfig = context.config();
 
       BlockPos pos;
       for(pos = context.origin(); world.isEmptyBlock(pos) && pos.getY() > world.getMinBuildHeight() + 2; pos = pos.below())

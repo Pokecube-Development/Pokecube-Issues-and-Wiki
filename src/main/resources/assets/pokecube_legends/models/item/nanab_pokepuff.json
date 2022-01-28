@@ -1,6 +1,6 @@
 {  
    "parent":"item/generated",
    "textures":{  
-      "layer0":"pokecube_legends:items/nanab_pokepuff"
+      "layer0":"pokecube_legends:item/nanab_pokepuff"
    }
 }

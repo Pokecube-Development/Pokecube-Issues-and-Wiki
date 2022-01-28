@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/door_bottom_rh",
   "textures": {
-    "top": "pokecube_legends:blocks/corrupted_door_top",
-    "bottom": "pokecube_legends:blocks/corrupted_door_bottom"
+    "top": "pokecube_legends:block/corrupted_door_top",
+    "bottom": "pokecube_legends:block/corrupted_door_bottom"
   }
 }
