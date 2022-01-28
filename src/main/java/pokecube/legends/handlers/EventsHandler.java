@@ -186,32 +186,26 @@ public class EventsHandler
 
             if (biome.getRegistryName().toString().equals("pokecube_legends:ultra_stony_shore") && !player.isCreative()
                     && !player.isSpectator()
-                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.HARM))
+                    && !player.getActiveEffects().stream().anyMatch(e -> e.getEffect() == MobEffects.UNLUCK))
             {
                 effect = new MobEffectInstance(MobEffects.UNLUCK, 480, 0);
             }
 
             if (takesBiomeDamage(player) && effect != null)
             {
+                effect.setCurativeItems(Lists.newArrayList(new ItemStack(ItemInit.ULTRA_HELMET.get()),
+                        new ItemStack(ItemInit.ULTRA_CHESTPLATE.get()), new ItemStack(ItemInit.ULTRA_LEGGINGS.get()),
+                        new ItemStack(ItemInit.ULTRA_BOOTS.get())));
                 player.addEffect(effect);
             }
 
-            effect.setCurativeItems(Lists.newArrayList(new ItemStack(ItemInit.ULTRA_HELMET.get()),
-                    new ItemStack(ItemInit.ULTRA_CHESTPLATE.get()), new ItemStack(ItemInit.ULTRA_LEGGINGS.get()),
-                    new ItemStack(ItemInit.ULTRA_BOOTS.get())));
-
-            if (player.getInventory().armor.get(3).getItem() == new ItemStack(ItemInit.ULTRA_HELMET.get(), 1).getItem()
-                    && player.getInventory().armor.get(2).getItem() == new ItemStack(ItemInit.ULTRA_CHESTPLATE.get(), 1)
-                            .getItem()
-                    && player.getInventory().armor.get(1).getItem() == new ItemStack(ItemInit.ULTRA_LEGGINGS.get(), 1)
-                            .getItem()
-                    && player.getInventory().armor.get(0).getItem() == new ItemStack(ItemInit.ULTRA_BOOTS.get(), 1)
-                            .getItem())
+            if (!takesBiomeDamage(player))
             {
                 player.clearFire();
                 player.curePotionEffects(new ItemStack(ItemInit.ULTRA_HELMET.get()));
                 player.setIsInPowderSnow(false);
             }
+
         }
     }
 }
