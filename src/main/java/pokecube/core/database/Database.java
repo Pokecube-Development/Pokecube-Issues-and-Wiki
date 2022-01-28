@@ -64,6 +64,7 @@ import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.tags.Tags;
+import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.events.onload.InitDatabase;

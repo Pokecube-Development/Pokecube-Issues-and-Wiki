@@ -1,4 +1,4 @@
-package pokecube.core.database;
+package pokecube.core.database.types;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
