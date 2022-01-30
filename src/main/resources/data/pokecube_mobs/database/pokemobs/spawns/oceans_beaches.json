@@ -10,6 +10,14 @@
       ]
     },
     {
+      "and_preset": "oceans",
+      "not_preset": "cold_areas",
+      "entries": [
+        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_west"},
+        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_east"}
+      ]
+    },
+    {
       "and_preset": "ocean_ground",
       "entries": [
         {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
@@ -83,6 +91,14 @@
         {"key": "piplup","min": 1,"max": 2,"rate": 0.01},
         {"key": "popplio","min": 1,"max": 2,"rate": 0.01},
         {"key": "sobble","min": 1,"max": 2,"rate": 0.01}
+      ]
+    },
+    {
+      "and_preset": "oceans",
+      "not_preset": "cold_areas",
+      "entries": [
+        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_west"},
+        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_east"}
       ]
     },
     {

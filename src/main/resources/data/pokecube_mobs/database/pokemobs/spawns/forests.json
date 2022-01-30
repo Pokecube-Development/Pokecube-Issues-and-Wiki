@@ -96,6 +96,8 @@
         
         {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
         
+        {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_su"},
+        
         {"key": "pansage","min": 2,"max": 4,"rate": 0.1},
         {"key": "pansear","min": 2,"max": 4,"rate": 0.1},
         {"key": "panpour","min": 2,"max": 4,"rate": 0.1},

@@ -114,15 +114,6 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ruin",
-              "rate": "0.5"
-            },
-            "model": {
-              "key": "unown_*"
-            }
-          },
-          {
-            "values": {
               "biomes": "pokecube_legends:distorted_lands, pokecube_legends:small_distorted_islands",
               "rate": "0.3"
             },
@@ -218,101 +209,6 @@
               "min": "1",
               "rate": "0.002",
               "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "shellos",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "ocean,cave",
-              "rate": "0.1",
-              "water": "true"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "beach,cave",
-              "rate": "0.1",
-              "water": "true"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "ocean",
-              "rate": "0.2",
-              "water": "true"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "beach",
-              "rate": "0.2",
-              "water": "true"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "ocean,cave",
-              "rate": "0.1",
-              "water": "true"
-            },
-            "model": {
-              "key": "shellos_west",
-              "tex": "shellos_west",
-              "model": "shellos_west",
-              "anim": "shellos_west"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "beach,cave",
-              "rate": "0.1",
-              "water": "true"
-            },
-            "model": {
-              "key": "shellos_west",
-              "tex": "shellos_west",
-              "model": "shellos_west",
-              "anim": "shellos_west"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "category": "ocean",
-              "rate": "0.2",
-              "water": "true"
-            },
-            "model": {
-              "key": "shellos_west",
-              "tex": "shellos_west",
-              "model": "shellos_west",
-              "anim": "shellos_west"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "beach",
-              "rate": "0.2",
-              "water": "true"
-            },
-            "model": {
-              "key": "shellos_west",
-              "tex": "shellos_west",
-              "model": "shellos_west",
-              "anim": "shellos_west"
             }
           }
         ]
@@ -499,61 +395,6 @@
               "tex": "basculin_blue",
               "model": "basculin_blue",
               "anim": "basculin_blue"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "deerling",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "types": "flower",
-              "rate": "0.11"
-            },
-            "model": {
-              "key": "deerling_sp",
-              "tex": "deerling_sp",
-              "model": "deerling_sp",
-              "anim": "deerling_sp"
-            }
-          },
-          {
-            "values": {
-              "category": "plains",
-              "rate": "0.11"
-            },
-            "model": {
-              "key": "deerling_au",
-              "tex": "deerling_au",
-              "model": "deerling_au",
-              "anim": "deerling_au"
-            }
-          },
-          {
-            "values": {
-              "category": "forest",
-              "rate": "0.11"
-            },
-            "model": {
-              "key": "deerling_su",
-              "tex": "deerling_su",
-              "model": "deerling_su",
-              "anim": "deerling_su"
-            }
-          },
-          {
-            "values": {
-              "types": "snowy",
-              "rate": "0.1"
-            },
-            "model": {
-              "key": "deerling_wi",
-              "tex": "deerling_wi",
-              "model": "deerling_wi",
-              "anim": "deerling_wi"
             }
           }
         ]
@@ -824,63 +665,6 @@
               "min": "1",
               "rate": "0.2",
               "max": "1"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "sinistea",
-      "stats": {
-        "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "spooky",
-              "rate": "0.02"
-            },
-            "model": {
-              "key": "sinistea_nofake",
-              "tex": "sinistea",
-              "model": "sinistea_nofake",
-              "anim": "sinistea"
-            }
-          },
-          {
-            "values": {
-              "types": "village",
-              "rate": "0.01"
-            },
-            "model": {
-              "key": "sinistea_nofake",
-              "tex": "sinistea",
-              "model": "sinistea_nofake",
-              "anim": "sinistea"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "spooky",
-              "rate": "0.2"
-            },
-            "model": {
-              "key": "sinistea_fake",
-              "tex": "sinistea",
-              "model": "sinistea_fake",
-              "anim": "sinistea"
-            }
-          },
-          {
-            "values": {
-              "types": "village",
-              "rate": "0.1"
-            },
-            "model": {
-              "key": "sinistea_fake",
-              "tex": "sinistea",
-              "model": "sinistea_fake",
-              "anim": "sinistea"
             }
           }
         ]

@@ -70,6 +70,14 @@
       "entries": [
         {"key": "spiritomb","min": 2,"max": 4,"rate": 0.2}
       ]
+    },
+    {
+      "and_preset": "spooky_areas",
+      "not_preset": "cold_areas",
+      "entries": [
+        {"key": "sinistea","min": 2,"max": 4,"rate": 0.2, "variant": "sinistea_fake"},
+        {"key": "sinistea","min": 2,"max": 4,"rate": 0.02, "variant": "sinistea_nofake"}
+      ]
     }
   ]
 }
