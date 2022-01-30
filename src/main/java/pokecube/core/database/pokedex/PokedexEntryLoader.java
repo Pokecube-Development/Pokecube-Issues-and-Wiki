@@ -364,7 +364,7 @@ public class PokedexEntryLoader
     {
         public Map<String, String> values = Maps.newHashMap();
 
-        protected DefaultFormeHolder model = null;
+        public DefaultFormeHolder model = null;
 
         private String __cache__ = null;
 

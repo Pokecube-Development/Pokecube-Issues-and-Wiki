@@ -629,6 +629,20 @@
     },
     {
       "name": "shellos",
+      "models": [
+        {
+          "key": "shellos_east",
+          "tex": "shellos_east",
+          "model": "shellos_east",
+          "anim": "shellos_east"
+        },
+        {
+          "key": "shellos_west",
+          "tex": "shellos_west",
+          "model": "shellos_west",
+          "anim": "shellos_west"
+        }
+      ],
       "model": {
         "key": "shellos_east",
         "tex": "shellos_east",
@@ -770,6 +784,20 @@
     },
     {
       "name": "basculin",
+      "models": [
+        {
+          "key": "basculin_red",
+          "tex": "basculin_red",
+          "model": "basculin_red",
+          "anim": "basculin_red"
+        },
+        {
+          "key": "basculin_blue",
+          "tex": "basculin_blue",
+          "model": "basculin_blue",
+          "anim": "basculin_blue"
+        }
+      ],
       "model": {
         "key": "basculin_red",
         "tex": "basculin_red",
@@ -784,6 +812,32 @@
     },
     {
       "name": "deerling",
+      "models": [
+        {
+          "key": "deerling_sp",
+          "tex": "deerling_sp",
+          "model": "deerling_sp",
+          "anim": "deerling_sp"
+        },
+        {
+          "key": "deerling_au",
+          "tex": "deerling_au",
+          "model": "deerling_au",
+          "anim": "deerling_au"
+        },
+        {
+          "key": "deerling_su",
+          "tex": "deerling_su",
+          "model": "deerling_su",
+          "anim": "deerling_su"
+        },
+        {
+          "key": "deerling_wi",
+          "tex": "deerling_wi",
+          "model": "deerling_wi",
+          "anim": "deerling_wi"
+        }
+      ],
       "model": {
         "key": "deerling_sp",
         "tex": "deerling_sp",
@@ -793,6 +847,32 @@
     },
     {
       "name": "sawsbuck",
+      "models": [
+        {
+          "key": "sawsbuck_sp",
+          "tex": "sawsbuck_sp",
+          "model": "sawsbuck_sp",
+          "anim": "sawsbuck_sp"
+        },
+        {
+          "key": "sawsbuck_au",
+          "tex": "sawsbuck_au",
+          "model": "sawsbuck_au",
+          "anim": "sawsbuck_au"
+        },
+        {
+          "key": "sawsbuck_su",
+          "tex": "sawsbuck_su",
+          "model": "sawsbuck_su",
+          "anim": "sawsbuck_su"
+        },
+        {
+          "key": "sawsbuck_wi",
+          "tex": "sawsbuck_wi",
+          "model": "sawsbuck_wi",
+          "anim": "sawsbuck_wi"
+        }
+      ],
       "model": {
         "key": "sawsbuck_sp",
         "tex": "sawsbuck_sp",

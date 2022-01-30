@@ -3,6 +3,8 @@
     {
       "and_preset": "ruins",
       "entries": [
+        {"key": "unown","min": 2,"max": 4,"rate": 0.5, "variant": "unown_*"},
+        
         {"key": "klefki","min": 2,"max": 4,"rate": 0.2},
         {"key": "honedge","min": 2,"max": 4,"rate": 0.2},
         

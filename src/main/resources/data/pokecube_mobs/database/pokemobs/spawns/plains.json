@@ -84,6 +84,8 @@
         
         {"key": "bellsprout","min": 2,"max": 4,"rate": 0.2},
         
+        {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_au"},
+        
         {"key": "exeggcute","min": 4,"max": 8,"rate": 0.08},
         {"key": "combee","min": 4,"max": 8,"rate": 0.06},
         

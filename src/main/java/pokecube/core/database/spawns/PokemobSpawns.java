@@ -14,6 +14,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
+import pokecube.core.database.pokedex.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.pokedex.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
@@ -49,6 +50,7 @@ public class PokemobSpawns extends ResourceData
         public float rate = 0;
         public int level = -1;
         public String variance;
+        public String variant = "";
     }
 
     private static final SpawnList MASTER_LIST = new SpawnList();
@@ -154,6 +156,13 @@ public class PokemobSpawns extends ResourceData
                     if (poke != null)
                     {
                         SpawnRule customRule = frule.copy();
+
+                        if (!mob.variant.isBlank())
+                        {
+                            customRule.model = new DefaultFormeHolder();
+                            customRule.model.key = mob.variant;
+                        }
+
                         customRule.values.put("min", mob.min + "");
                         customRule.values.put("max", mob.max + "");
                         customRule.values.put("rate", mob.rate + "");
