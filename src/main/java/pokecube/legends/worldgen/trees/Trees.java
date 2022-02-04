@@ -1,11 +1,9 @@
 package pokecube.legends.worldgen.trees;
 
 import java.util.OptionalInt;
-import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -40,6 +38,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
@@ -54,36 +53,11 @@ public class Trees
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister
             .create(ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
 
-    public static class TempSupplier implements Supplier<TreeDecoratorType<?>>
-    {
-        private final TreeDecoratorType<?> value;
-
-        public TempSupplier(String name, TreeDecoratorType<?> value)
-        {
-            this.value = value;
-            value.setRegistryName(Reference.ID, name);
-            Registry.register(Registry.TREE_DECORATOR_TYPES, value.getRegistryName(), value);
-        }
-
-        @Override
-        public TreeDecoratorType<?> get()
-        {
-            return value;
-        }
-
-    }
-
-// FIXME swap this back when forge fixes TreeDecoratorType registry
-//    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS.register(
-//            "leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
-//    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS.register(
-//            "trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
-//    
-
-    public static final TempSupplier LEAVES_STRING_OF_PEARLS = new TempSupplier("leaves_string_of_pearls",
-            new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
-    public static final TempSupplier TRUNK_STRING_OF_PEARLS = new TempSupplier("trunk_string_of_pearls",
-            new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
+    public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS.register(
+            "leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
+    public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS.register(
+            "trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
+    
 
     public static ConfiguredFeature<TreeConfiguration, ?> AGED_PINE_TREE;
     public static ConfiguredFeature<TreeConfiguration, ?> AGED_SPRUCE_TREE;
