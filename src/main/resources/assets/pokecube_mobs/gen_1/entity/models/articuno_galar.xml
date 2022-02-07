@@ -8,7 +8,7 @@
    <part name="glow" tex="articunogalareye"/>
    <animation diffs="0,0.5" part="glow" trigger="random:0.001:2"/>
   </customTex>
-  <material name="glow" light="1" transluscent="false"/>
+  <material name="glow" light="1" transluscent="false" shader="swirl_shader"/>
   <phase axis="0" name="snakeWalk" parts="tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:tail10:tail11"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:taill10:tail11"/>
   <phase type="sitting">

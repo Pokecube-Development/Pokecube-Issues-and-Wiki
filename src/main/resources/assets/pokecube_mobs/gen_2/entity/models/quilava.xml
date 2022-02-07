@@ -7,13 +7,15 @@
   <customTex default="quilava">
    <part name="Head" tex="quilavaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+  <part name="Glow" tex="flame_cyn"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow" trigger="sequence"/>
   </customTex>
-  <material name="Glow" light="1"/>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="sitting">
-   <part name="fire1">
+   <part name="flame1">
     <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="fire2">
+   <part name="flame2">
     <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="body">
@@ -67,12 +69,12 @@
    </part>
   </phase>
   <phase type="idle">
-   <part name="fire1">
+   <part name="flame1">
     <component length="1" name="1" hidden="true" startKey="0"/>
 	<component length="1" name="2" hidden="false" startKey="15"/>
 	<component length="1" name="3" hidden="true" startKey="25"/>
    </part>
-   <part name="fire2">
+   <part name="flame2">
     <component length="1" name="1" hidden="true" startKey="0"/>
 	<component length="1" name="2" hidden="false" startKey="15"/>
 	<component length="1" name="3" hidden="true" startKey="25"/>
@@ -110,11 +112,11 @@
    </part>
   </phase>
   <phase type="walking">
-   <part name="fire1">
+   <part name="flame1">
     <component length="10" name="1" rotChange="-3,0,0," startKey="0"/>
 	<component length="10" name="2" rotChange="3,0,0," startKey="10"/>
    </part>
-   <part name="fire2">
+   <part name="flame2">
     <component length="10" name="1" rotChange="-3,0,0," startKey="0"/>
 	<component length="10" name="2" rotChange="3,0,0," startKey="10"/>
    </part>

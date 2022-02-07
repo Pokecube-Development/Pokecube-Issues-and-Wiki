@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="0.3"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <phase angle="15" axis="0" name="snakeSit" parts="p2:p3:p4:p5"/>
+  <phase angle="15" axis="2" name="snakeSit" parts="hair3:hair4:hair5:hair6:hair7:hair8:hair9:hair10:hair11"/>
+  <phase angle="15" axis="1" name="snakeIdle" parts="p2:p3:p4:p5"/>
+  <phase angle="15" axis="0" name="snakeIdle" parts="hair3:hair4:hair5:hair6:hair7:hair8:hair9:hair10:hair11"/>
+  <phase angle="15" axis="0" name="snakeWalk" parts="p2:p3:p4:p5"/>
+  <phase angle="15" axis="2" name="snakeWalk" parts="hair3:hair4:hair5:hair6:hair7:hair8:hair9:hair10:hair11"/>
+  <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
+  <customTex default="zorua_hisui">
+   <part name="Head" tex="zorua_hisuieye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,10,0" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="1" name="1" rotOffset="30,0,0" startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="1" rotOffset="75,0,0" startKey="0"/>
+   </part>
+   <part name="hair2">
+    <component length="10" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="tail">
+    <component length="10" name="1" rotChange="-4,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="1" rotChange="0,0,-5" rotOffset="40,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="hair2">
+    <component length="10" name="1" rotChange="0,0,0" rotOffset="-20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="tail">
+    <component length="10" name="1" rotChange="7,0,0" rotOffset="-20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-7,0,0" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="hair2">
+    <component length="10" name="1" rotOffset="-55,0,0" startKey="0"/>
+   </part>
+   <part name="orl1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

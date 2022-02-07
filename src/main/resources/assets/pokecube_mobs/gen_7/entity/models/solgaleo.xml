@@ -12,9 +12,9 @@
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
    <part name="Mark" tex="solgaleomask"/>
   </customTex>
-  <material name="Glow" light="1" transluscent="false"/>
-  <material name="Head" light="1" transluscent="true"/>
-  <material name="Mark" light="1" transluscent="true"/>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
+  <material name="Head" light="1" transluscent="false" shader="swirl_shader"/>
+  <material name="Mark" light="1" transluscent="false" shader="swirl_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" posOffset="0,30,0" startKey="0"/>

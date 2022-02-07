@@ -12,12 +12,12 @@
    <part name="Mark" tex="lunaladawnmask"/>
    <part name="Mark1" tex="lunaladawnmark1"/>
   </customTex>
-  <material name="Head" light="1" transluscent="true"/>
-  <material name="Mark" light="1" transluscent="true"/>
-  <material name="Mark1" light="1" transluscent="true"/>
-  <material name="Mouth" light="1" transluscent="false"/>
-  <material name="Glow" light="1" transluscent="false"/>
-  <material name="Glow2" light="1" transluscent="false"/>
+  <material name="Head" light="1" transluscent="true" shader="swirl_shader"/>
+  <material name="Mark" light="1" transluscent="true" shader="swirl_shader"/>
+  <material name="Mark1" light="1" transluscent="true" shader="swirl_shader"/>
+  <material name="Mouth" light="1" transluscent="false" shader="swirl_shader"/>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
+  <material name="Glow2" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" posOffset="0,-15,0" startKey="0"/>

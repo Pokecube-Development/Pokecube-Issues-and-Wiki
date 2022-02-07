@@ -5,10 +5,12 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="typhlosion">
-   <part name="Head" tex="typhlosionhead"/>
+   <part name="Head" tex="typhlosioneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+  <part name="Glow" tex="flame_cyn"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow" trigger="sequence"/>
   </customTex>
-  <material name="Flame" light="1" transluscent="true"/>
+  <material name="Glow" light="1" transluscent="false" shader="swirl_shader"/>
   <phase type="idle">
    <part name="body1">
     <component length="15" name="1" rotChange="-1,0,0" rotOffset="0,0,0" startKey="0"/>
@@ -73,9 +75,4 @@
    </part>
   </phase>
  </model>
- <details>
-  <RIDDENOFFSET>
-   0.5
-  </RIDDENOFFSET>
- </details>
 </ModelAnimator>

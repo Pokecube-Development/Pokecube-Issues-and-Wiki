@@ -9,7 +9,7 @@
   <customTex default="centiskorchgigantamax">
    <part name="Head" tex="centiskorchgeye"/>
   </customTex>
-  <material name="Glow" light="1" transluscent="false"/>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" rotOffset="30,0,0" posOffset="0,-59,-50" startKey="0"/>

@@ -1,8 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" scale="1.0"/>
-  <metadata head="head" headCap="-60,60"/>
-  <phase armAngle="50" duration="10" leftArm="armleft" leftLeg="" legAngle="45" name="biWalk" rightArm="armright" rightLeg=""/>
+  <phase name="global" scale="0.18"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <customTex default="lilligant">
+   <part name="Head" tex="lilliganteye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+   <part name="flower">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="m1">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="m2">
+    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="hair1">
+    <component length="10" name="1" rotOffset="5,0,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="0,0,-40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="10" name="1" rotOffset="0,-20,10" startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="10" name="1" rotOffset="0,0,20" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="0,0,40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="10" name="1" rotOffset="0,20,-10" startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="10" name="1" rotOffset="0,0,-20" startKey="0"/>
+   </part>
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,-1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,1" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="bl1">
+    <component length="10" name="1" rotChange="0,0,-2" rotOffset="3,0,2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="bl2">
+    <component length="10" name="1" rotChange="0,0,2" rotOffset="0,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="flower">
+    <component length="10" name="1" rotChange="-3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="m1">
+    <component length="10" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="m2">
+    <component length="10" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="-6,0,0" rotOffset="18,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="6,0,0" startKey="10"/>
+   </part>
+   <part name="hair1">
+    <component length="10" name="1" rotOffset="8,0,0" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" posChange="0,2,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-4,0" startKey="5"/>
+	<component length="10" name="3" posChange="0,2,0" startKey="10"/>
+   </part>
+   <part name="botton">
+    <component length="10" name="1" rotChange="0,0,0" scaleChange="0,0,-0.1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0" scaleChange="0,0,0.2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,0" scaleChange="0,0,-0.1" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,20,0" rotOffset="0,0,-40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-40,0" startKey="5"/>
+	<component length="10" name="2" rotChange="0,20,0" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="10" name="1" rotOffset="0,-20,10" startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="10" name="1" rotOffset="0,-10,0" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,20,0" rotOffset="0,0,40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-40,0" startKey="5"/>
+	<component length="10" name="2" rotChange="0,20,0" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="10" name="1" rotOffset="0,20,-10" startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="10" name="1" rotOffset="0,10,0" startKey="0"/>
+   </part>
+   <part name="l1">
+    <component length="10" name="1" rotChange="0,0,-1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,1" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="10" name="1" rotChange="0,0,1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="bl1">
+    <component length="10" name="1" rotChange="0,0,-2" rotOffset="3,0,2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="bl2">
+    <component length="10" name="1" rotChange="0,0,2" rotOffset="0,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

@@ -192,6 +192,7 @@
     {
       "and_preset": "oceans,caves",
       "entries": [
+	    {"key": "qwilfish_hisui","min": 2,"max": 4,"rate": 0.4},
         {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
         {"key": "spheal","min": 2,"max": 4,"rate": 0.2}
       ]

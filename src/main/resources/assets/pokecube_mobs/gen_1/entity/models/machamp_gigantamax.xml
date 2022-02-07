@@ -8,7 +8,7 @@
    <part name="Head" tex="machampgigantamaxhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>
-  <material name="Glow" light="1" transluscent="false"/>
+  <material name="Glow" light="1" transluscent="false" shader="swirl_shader"/>
   <phase type="sitting">
    <part name="body1">
     <component length="10" name="1" rotChange="-1,0,0" rotOffset="0,0,0" startKey="0"/>

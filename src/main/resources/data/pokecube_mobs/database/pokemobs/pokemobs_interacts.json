@@ -1083,6 +1083,17 @@
         ]
       }
     },
+	{
+      "name": "growlithe_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "arcanine_hisui",
+            "item_preset": "firestone"
+          }
+        ]
+      }
+    },
     {
       "name": "arcanine",
       "stats": {
@@ -1749,6 +1760,17 @@
         ]
       }
     },
+	{
+      "name": "voltorb_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "electrode_hisui",
+            "item_preset": "leafstone"
+          }
+        ]
+      }
+    },
     {
       "name": "exeggcute",
       "stats": {
@@ -1945,6 +1967,10 @@
             "name": "Scizor",
             "item_preset": "metalcoat",
             "trade": true
+          },
+		  {
+            "name": "Kleavor",
+            "item_preset": "pokecube_mobs:black_metal"
           }
         ]
       }
@@ -2194,6 +2220,16 @@
           {
             "name": "Typhlosion",
             "level": 36
+          },
+		  {
+            "name": "Typhlosion Hisui",
+            "level": 36,
+			"location": {
+              "values": {
+                "preset": "spooky_areas"
+              }
+            },
+			"evoMoves": "hex"
           }
         ]
       }
@@ -2756,6 +2792,21 @@
         ]
       }
     },
+	{
+      "name": "qwilfish_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "overqwil",
+			"location": {
+              "values": {
+                "preset": "cave_water"
+              }
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "scizor",
       "stats": {
@@ -2795,6 +2846,22 @@
         ]
       }
     },
+	{
+      "name": "sneasel_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "sneasler",
+            "item": {
+              "values": {
+                "id": "minecraft:iron_axe"
+              }
+            },
+            "time": "day"
+          }
+        ]
+      }
+    },
     {
       "name": "teddiursa",
       "stats": {
@@ -2809,6 +2876,13 @@
     {
       "name": "ursaring",
       "stats": {
+		"evolutions": [
+          {
+            "name": "Ursaluna",
+            "item_preset": "pokecube_mobs:peat_block",
+			"time": "night"
+          }
+        ],
         "interactions": [
           {
             "male": false,
@@ -3007,6 +3081,17 @@
     {
       "name": "stantler",
       "stats": {
+		"evolutions": [
+          {
+            "name": "wyrdeer",
+            "level": "20",
+            "location": {
+              "values": {
+                "preset": "snowy_areas"
+              }
+            }
+          }
+        ],
         "interactions": [
           {
             "male": false,
@@ -5866,8 +5951,17 @@
           {
             "name": "Samurott",
             "level": 36,
-            "animation": "9",
             "evoMoves": "slash"
+          },
+		  {
+            "name": "Samurott Hisui",
+            "level": 36,
+			"location": {
+              "values": {
+                "preset": "beach_ground"
+              }
+            },
+            "evoMoves": "nightslash"
           }
         ],
         "interactions": [
@@ -6405,6 +6499,33 @@
           {
             "name": "Lilligant",
             "item_preset": "sunstone"
+          },
+		  {
+            "name": "lilligant_hisui",
+            "item_preset": "sunstone",
+			"time": "day",
+			"location": {
+              "values": {
+                "preset": "deserts"
+              }
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "basculin_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "Basculegion_male",
+            "level": 25,
+			"sexe": "male"
+          },
+		  {
+            "name": "Basculegion_female",
+            "level": 25,
+			"sexe": "female"
           }
         ]
       }
@@ -6496,9 +6617,10 @@
           {
             "name": "Runerigus",
             "level": 34,
+			"time": "night",
             "location": {
               "values": {
-                "preset": "hills"
+                "preset": "extreme_hills"
               }
             },
             "evoMoves": "shadowclaw"
@@ -6547,6 +6669,17 @@
             "name": "Zoroark",
             "level": 30,
             "evoMoves": "nightslash"
+          }
+        ]
+      }
+    },
+	{
+      "name": "zorua_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "zoroark_hisui",
+            "level": 30
           }
         ]
       }
@@ -7105,7 +7238,16 @@
             "name": "Braviary",
             "level": 54,
             "evoMoves": "superpower"
-          }
+          },
+		  {
+            "name": "braviary_hisui",
+            "level": 54,
+			"location": {
+              "values": {
+                "preset": "snowy_areas"
+              }
+            }
+		  }
         ]
       }
     },
@@ -7555,7 +7697,7 @@
             "level": 12,
             "location": {
               "values": {
-                "types": "sandy"
+                "types": "deserts"
               }
             },
             "evoMoves": "gust",
@@ -8083,6 +8225,11 @@
           {
             "name": "Sliggoo",
             "level": 40
+          },
+		  {
+            "name": "sliggoo_hisui",
+            "level": 39,
+			"item_preset": "pokecube_mobs:iron_shell"
           }
         ]
       }
@@ -8095,6 +8242,17 @@
             "name": "Goodra",
             "level": 50,
             "evoMoves": "aquatail"
+          }
+        ]
+      }
+    },
+	{
+      "name": "sliggoo_hisui",
+      "stats": {
+        "evolutions": [
+          {
+            "name": "goodra_hisui",
+            "level": 50
           }
         ]
       }
@@ -8163,6 +8321,16 @@
             "name": "Avalugg",
             "level": 37,
             "evoMoves": "bodyslam"
+          },
+		  {
+            "name": "Avalugg_hisui",
+            "level": 37,
+			"time": "night",
+			"location": {
+              "values": {
+                "preset": "extreme_hills"
+              }
+            }
           }
         ]
       }
@@ -8321,6 +8489,16 @@
             "name": "Decidueye",
             "level": 34,
             "evoMoves": "spiritshackle"
+          },
+		  {
+            "name": "Decidueye Hisui",
+            "level": 36,
+			"location": {
+              "values": {
+                "preset": "savanna"
+              }
+            },
+            "evoMoves": "rocksmash"
           }
         ],
         "prey": "Insecta"
@@ -9665,6 +9843,58 @@
               }
             },
             "evoMoves": "surgingstrikes"
+          }
+        ]
+      }
+    },
+	{
+      "name": "enamorus_incarnate",
+      "stats": {
+        "interactions": [
+          {
+            "male": true,
+            "female": true,
+            "cooldown": 50,
+            "variance": 100,
+            "baseHunger": 100,
+            "isTag": false,
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "enamorus_therian",
+                "type": "forme"
+              }
+            }
+          }
+        ]
+      }
+    },
+	{
+      "name": "enamorus_therian",
+      "stats": {
+        "interactions": [
+          {
+            "male": true,
+            "female": true,
+            "cooldown": 50,
+            "variance": 100,
+            "baseHunger": 100,
+            "isTag": false,
+            "key": {
+              "values": {
+                "id": "revealglass"
+              }
+            },
+            "action": {
+              "values": {
+                "forme": "enamorus_incarnate",
+                "type": "forme"
+              }
+            }
           }
         ]
       }

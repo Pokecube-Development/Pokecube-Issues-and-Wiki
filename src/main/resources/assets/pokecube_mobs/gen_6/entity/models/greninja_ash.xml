@@ -12,7 +12,7 @@
    <part name="Water" tex="greninjawater"/>
    <animation diffs="0,0.5" part="Water" trigger="random:0.005:6"/>
   </customTex>
-  <material name="Water" light="1" transluscent="true"/>
+  <material name="Water" light="1" transluscent="true" shader="swirl_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" posOffset="0,20,0" startKey="0"/>

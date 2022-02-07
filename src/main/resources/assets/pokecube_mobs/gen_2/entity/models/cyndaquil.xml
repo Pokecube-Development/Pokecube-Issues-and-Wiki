@@ -7,14 +7,16 @@
   <customTex default="cyndaquil">
    <part name="Head" tex="cyndaquileye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
+  <part name="Glow" tex="flame_cyn"/>
+   <animation diffs="0,0, 0,0, 0,0.5, 0,0.5, 0,0.125, 0,0.125, 0,0.25, 0,0.25" part="Glow" trigger="sequence"/>
   </customTex>
-  <material name="Fire" light="1" transluscent="false"/>
+  <material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
   <phase type="idle">
    <part name="body1">
     <component length="15" name="1" rotChange="-1,0,0" rotOffset="0,0,0" startKey="0"/>
     <component length="15" name="2" rotChange="1,0,0" startKey="15"/>
    </part>
-   <part name="fire">
+   <part name="flame">
     <component length="1" name="1" hidden="true" startKey="0"/>
 	<component length="1" name="2" hidden="false" startKey="100"/>
 	<component length="1" name="3" hidden="ture" startKey="200"/>
