@@ -18,6 +18,50 @@
       },
       "hungerCost": 50
     },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:redstone_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
+    },
     {
       "type": "pokecube:move_recipe",
       "result": {
@@ -53,6 +97,226 @@
         ]
       },
       "hungerCost": 50
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:coal_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        },
+        {
+          "item": "minecraft:coal"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:lapis_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        },
+        {
+          "item": "minecraft:lapis_lazuli"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
+    },
+    {
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:iron_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        },
+        {
+          "item": "minecraft:iron_ingot"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:copper_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        },
+        {
+          "item": "minecraft:copper_ingot"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:gold_block"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        },
+        {
+          "item": "minecraft:gold_ingot"
+        }
+      ],
+      "move": {
+        "moves": [
+          "crabhammer",
+          "dragonhammer",
+          "hammerarm",
+		  "icehammer"
+        ]
+      },
+      "hungerCost": 120
     },
     {
       "type": "pokecube:move_recipe",
@@ -116,6 +380,40 @@
       },
       "hungerCost": 5
     },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:glowstone_dust"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        }
+      ],
+      "move": {
+        "type": "fairy",
+        "minPower": 10,
+        "contact": false
+      },
+      "hungerCost": 150
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:redstone_torch"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:stick"
+        }
+      ],
+      "move": {
+        "type": "electric",
+        "minPower": 10,
+        "contact": false
+      },
+      "hungerCost": 25
+    },
     {
       "type": "pokecube:move_recipe",
       "result": {
@@ -132,6 +430,62 @@
         "contact": false
       },
       "hungerCost": 50
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:redstone"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:gunpowder"
+        }
+      ],
+      "move": {
+        "moves": [
+          "flashcannon",
+          "magneticflux",
+		  "zapcannon"
+        ]
+      },
+      "hungerCost": 210
+    },
+	{
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:powder_snow_bucket"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:bucket"
+        }
+      ],
+      "move": {
+        "moves": [
+          "powdersnow",
+          "icywind",
+		  "blizard"
+        ]
+      },
+      "hungerCost": 110
+    },
+    {
+      "type": "pokecube:move_recipe",
+      "result": {
+        "item": "minecraft:clay"
+      },
+      "ingredients": [
+        {
+          "item": "minecraft:podzol"
+        }
+      ],
+      "move": {
+        "moves": [
+          "mudshot",
+          "mudslap"
+        ]
+      },
+      "hungerCost": 85
     }
   ]
 }

@@ -34,6 +34,7 @@
     "pokecube:floatzel",
     "pokecube:gastrodon",
     "pokecube:samurott",
+	"pokecube:samurott_hisui",
     "pokecube:seismitoad",
     "pokecube:carracosta",
     "pokecube:jellicent",
@@ -45,6 +46,8 @@
     "pokecube:grapploct",
     "pokecube:eiscue",
     "pokecube:eiscue_noice",
-    "pokecube:arctovish"
+    "pokecube:arctovish",
+	"pokecube:basculegion_male",
+	"pokecube:basculegion_female"
   ]
 }

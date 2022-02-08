@@ -9,8 +9,8 @@
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
    <part name="Glow" tex="silvallylight_dark"/>
   </customTex>
-  <material name="Glow" light="1" transluscent="true"/>
-  <material name="Light" light="1" transluscent="true"/>
+  <material name="Glow" light="1" transluscent="false" shader="swirl_shader"/>
+  <material name="Light" light="1" transluscent="false" shader="swirl_shader"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" posOffset="0,30,0" startKey="0"/>

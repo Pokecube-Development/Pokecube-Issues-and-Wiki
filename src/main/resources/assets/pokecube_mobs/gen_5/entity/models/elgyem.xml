@@ -8,7 +8,7 @@
    <animation diffs="0,-0.5" part="Head" trigger="random:0.005:3"/>
    <part name="Mark" tex="elgyemhead"/>
   </customTex>
-  <material name="Light" light="1" transluscent="true"/>
+  <material name="Light" light="1" transluscent="true" shader="alpha_shader"/>
   <phase type="idle">
    <part name="body">
     <component length="10" name="1" posChange="0,1,0" startKey="0"/>

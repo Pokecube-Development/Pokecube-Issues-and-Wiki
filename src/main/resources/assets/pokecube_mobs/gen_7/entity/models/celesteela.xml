@@ -11,7 +11,7 @@
   <phase axis="0" name="snakeWalk" parts="h2_1:h2_2:h2_3:h2_4:h2_5"/>
   <phase axis="0" name="snakeFly" parts="h1_1:h1_2:h1_3:h1_4:h1_5"/>
   <phase axis="0" name="snakeFly" parts="h2_1:h2_2:h2_3:h2_4:h2_5"/>
-  <material name="Glow" light="1" transluscent="false"/>
+  <material name="Glow" light="1" transluscent="false" shader="swirl_shader"/>
   <phase type="sitting">
    <part name="hair">
     <component length="10" name="1" rotOffset="5,0,0," rotChange="0.5,0,0" startKey="0"/>

@@ -242,6 +242,50 @@
     <component length="1" name="1" rotOffset="70,0,0," startKey="0"/>
    </part>
   </phase>
+  <phase type="walking">
+   <part name="cint">
+    <component length="10" name="1" rotOffset="90,0,0," startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" rotOffset="-5,0,0," startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="1" name="1" rotOffset="-5,0,0," startKey="0"/>
+   </part>
+   <part name="neck">
+    <component length="1" name="1" rotOffset="-80,0,0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="-80,0,0," startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="90,0,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="-80,0,0," startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="90,0,0," startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="20,10,0," startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="70,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="20,-10,0," startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="70,0,0," startKey="0"/>
+   </part>
+  </phase>
   <phase type="flying">
    <part name="cint">
     <component length="10" name="1" rotOffset="90,0,0," startKey="0"/>
@@ -287,9 +331,4 @@
    </part>
   </phase>
  </model>
- <details>
-  <RIDDENOFFSET>
-   -0.6
-  </RIDDENOFFSET>
- </details>
 </ModelAnimator>

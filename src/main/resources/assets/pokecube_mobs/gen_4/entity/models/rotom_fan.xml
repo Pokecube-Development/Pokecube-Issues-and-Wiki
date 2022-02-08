@@ -6,7 +6,7 @@
    <part name="Mouth" tex="rotomfanmouth"/>
    <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:4"/>
   </customTex>
-  <material name="Glow" light="1" transluscent="true"/>
+  <material name="Glow" light="1" transluscent="true" shader="alpha_shader"/>
   <phase type="sitting">
    <part name="rotor">
     <component length="150" name="1" rotOffset="0,0,0" rotChange="0,0,360" startKey="0"/>

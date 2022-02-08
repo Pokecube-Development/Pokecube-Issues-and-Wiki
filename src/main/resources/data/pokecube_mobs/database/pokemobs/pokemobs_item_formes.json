@@ -9,6 +9,24 @@
 	    }
       ]
     },
+	{
+      "name": "dialga",
+      "formeItems":[ 
+        {
+          "forme": "Dialga Origin",
+          "item": "pokecube_legends:adamantorb"
+	    }
+      ]
+    },
+	{
+      "name": "palkia",
+      "formeItems":[ 
+        {
+          "forme": "Palkia Origin",
+          "item": "pokecube_legends:lustrousorb"
+	    }
+      ]
+    },
     {
       "name": "shaymin_land",
       "formeItems":[ 

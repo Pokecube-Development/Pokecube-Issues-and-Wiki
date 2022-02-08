@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="1.1"/>
-  <material name="Glow" light="1" smooth="true" transluscent="false"/>
+  <material name="Glow" light="1" smooth="true" transluscent="false" shader="alpha_shader"/>
   <phase type="idle">
    <part name="part1">
     <component length="15" name="1" rotChange="0,1,0" startKey="0"/>

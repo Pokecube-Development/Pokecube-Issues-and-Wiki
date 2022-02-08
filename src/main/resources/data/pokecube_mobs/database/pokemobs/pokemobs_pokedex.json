@@ -1,5 +1,5 @@
 {
-  "priority": 0,
+  "priority": 1,
   "register": true,
   "pokemon": [
     {
@@ -3710,6 +3710,52 @@
         "expMode": "slow"
       }
     },
+	{
+      "name": "growlithe_hisui",
+      "number": 58,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "60",
+            "atk": "75",
+            "def": "45",
+            "spatk": "65",
+            "spdef": "50",
+            "spd": "55"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.8",
+            "width": "0.8",
+            "height": "0.8"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "fire",
+			"type2": "rock"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "intimidate, flash-fire",
+            "hidden": "justified"
+          }
+        },
+        "mass": 22.7,
+        "baseExp": 70,
+        "captureRate": 190,
+        "baseFriendship": 70,
+        "genderRatio": 62,
+        "expMode": "slow"
+      }
+    },
     {
       "name": "arcanine",
       "number": 59,
@@ -3752,6 +3798,52 @@
         "baseExp": 194,
         "captureRate": 75,
         "baseFriendship": 70,
+        "genderRatio": 62,
+        "expMode": "slow"
+      }
+    },
+	{
+      "name": "arcanine_hisui",
+      "number": 59,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "95",
+            "atk": "115",
+            "def": "80",
+            "spatk": "95",
+            "spdef": "80",
+            "spd": "90"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2",
+            "width": "1.0",
+            "height": "2"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "fire",
+			"type2": "rock"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "intimidate, flash-fire",
+            "hidden": "justified"
+          }
+        },
+        "mass": 168.0,
+        "baseExp": 194,
+        "captureRate": 75,
+        "baseFriendship": 50,
         "genderRatio": 62,
         "expMode": "slow"
       }
@@ -6315,6 +6407,52 @@
         "expMode": "medium"
       }
     },
+	{
+      "name": "voltorb_hisui",
+      "number": 100,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "40",
+            "atk": "30",
+            "def": "50",
+            "spatk": "55",
+            "spdef": "55",
+            "spd": "100"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.5",
+            "width": "0.5",
+            "height": "0.5"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "electric",
+			"type2": "grass"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "soundproof, static",
+            "hidden": "aftermath"
+          }
+        },
+        "mass": 13.0,
+        "baseExp": 66,
+        "captureRate": 190,
+        "baseFriendship": 50,
+        "genderRatio": 255,
+        "expMode": "medium fast"
+      }
+    },
     {
       "name": "electrode",
       "number": 101,
@@ -6359,6 +6497,52 @@
         "baseFriendship": 70,
         "genderRatio": 255,
         "expMode": "medium"
+      }
+    },
+	{
+      "name": "electrode_hisui",
+      "number": 101,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "60",
+            "atk": "50",
+            "def": "70",
+            "spatk": "80",
+            "spdef": "80",
+            "spd": "150"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.2",
+            "width": "1.2",
+            "height": "1.2"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "electric",
+			"type2": "grass"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "soundproof, static",
+            "hidden": "aftermath"
+          }
+        },
+        "mass": 71.0,
+        "baseExp": 172,
+        "captureRate": 60,
+        "baseFriendship": 50,
+        "genderRatio": 255,
+        "expMode": "medium fast"
       }
     },
     {
@@ -9601,6 +9785,52 @@
         "expMode": "medium slow"
       }
     },
+	{
+      "name": "typhlosion_hisui",
+      "number": 157,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "73",
+            "atk": "84",
+            "def": "78",
+            "spatk": "119",
+            "spdef": "85",
+            "spd": "95"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.9",
+            "width": "0.9",
+            "height": "1.6"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "fire",
+			"type2": "ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "blaze",
+            "hidden": "flash-fire"
+          }
+        },
+        "mass": 69.8,
+        "baseExp": 240,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "genderRatio": 30,
+        "expMode": "medium slow"
+      }
+    },
     {
       "name": "totodile",
       "number": 158,
@@ -12239,6 +12469,52 @@
         "expMode": "medium"
       }
     },
+	{
+      "name": "qwilfish_hisui",
+      "number": 211,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "65",
+            "atk": "95",
+            "def": "85",
+            "spatk": "55",
+            "spdef": "55",
+            "spd": "85"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.5",
+            "width": "0.5",
+            "height": "0.5"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dark",
+            "type2": "poison"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "poison-point, swift-swim",
+            "hidden": "intimidate"
+          }
+        },
+        "mass": 3.9,
+        "baseExp": 88,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "genderRatio": 127,
+        "expMode": "medium fast"
+      }
+    },
     {
       "name": "scizor",
       "number": 212,
@@ -12503,6 +12779,52 @@
           }
         },
         "mass": 28.0,
+        "baseExp": 86,
+        "captureRate": 60,
+        "baseFriendship": 35,
+        "genderRatio": 127,
+        "expMode": "medium slow"
+      }
+    },
+	{
+      "name": "sneasel_hisui",
+      "number": 215,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "55",
+            "atk": "95",
+            "def": "55",
+            "spatk": "35",
+            "spdef": "75",
+            "spd": "115"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.6",
+            "width": "0.6",
+            "height": "0.9"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "fighting",
+            "type2": "poison"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "inner-focus, keen-eye",
+            "hidden": "poison-touch"
+          }
+        },
+        "mass": 27.0,
         "baseExp": 86,
         "captureRate": 60,
         "baseFriendship": 35,
@@ -26704,6 +27026,52 @@
         "expMode": "slow"
       }
     },
+	{
+      "name": "dialga_origin",
+      "number": 483,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "100",
+            "atk": "100",
+            "def": "120",
+            "spatk": "150",
+            "spdef": "120",
+            "spd": "90"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "5.4",
+            "width": "4",
+            "height": "5.4"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "steel",
+            "type2": "dragon"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "pressure",
+            "hidden": "telepathy"
+          }
+        },
+        "mass": 683.0,
+        "baseExp": 306,
+        "captureRate": 3,
+        "baseFriendship": 0,
+        "genderRatio": 255,
+        "expMode": "slow"
+      }
+    },
     {
       "name": "palkia",
       "number": 484,
@@ -26717,6 +27085,52 @@
             "spatk": "150",
             "spdef": "120",
             "spd": "100"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "3",
+            "width": "3",
+            "height": "4.2"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "water",
+            "type2": "dragon"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "pressure",
+            "hidden": "telepathy"
+          }
+        },
+        "mass": 336.0,
+        "baseExp": 306,
+        "captureRate": 3,
+        "baseFriendship": 0,
+        "genderRatio": 255,
+        "expMode": "slow"
+      }
+    },
+	{
+      "name": "palkia_origin",
+      "number": 484,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "90",
+            "atk": "100",
+            "def": "100",
+            "spatk": "150",
+            "spdef": "120",
+            "spd": "120"
           }
         },
         "sizes": {
@@ -28089,6 +28503,52 @@
           }
         },
         "mass": 94.6,
+        "baseExp": 238,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "genderRatio": 30,
+        "expMode": "medium slow"
+      }
+    },
+	{
+      "name": "samurott_hisui",
+      "number": 503,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "90",
+            "atk": "108",
+            "def": "80",
+            "spatk": "100",
+            "spdef": "65",
+            "spd": "85"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.2",
+            "width": "1.2",
+            "height": "1.5"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "water",
+			"type2": "dark"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "torrent",
+            "hidden": "shell-armor"
+          }
+        },
+        "mass": 58.2,
         "baseExp": 238,
         "captureRate": 45,
         "baseFriendship": 70,
@@ -30270,6 +30730,52 @@
         "expMode": "medium"
       }
     },
+	{
+      "name": "lilligant_hisui",
+      "number": 549,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "70",
+            "atk": "105",
+            "def": "75",
+            "spatk": "50",
+            "spdef": "75",
+            "spd": "105"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.8",
+            "width": "0.8",
+            "height": "1.2"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "grass",
+			"type2": "fighting"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "chlorophyll, hustle",
+            "hidden": "leaf-guard"
+          }
+        },
+        "mass": 19.2,
+        "baseExp": 168,
+        "captureRate": 75,
+        "baseFriendship": 50,
+        "genderRatio": 254,
+        "expMode": "medium fast"
+      }
+    },
     {
       "name": "basculin",
       "number": 550,
@@ -30311,14 +30817,61 @@
         },
         "abilities": {
           "values": {
-            "normal": "Reckless, Rock Head, Adaptability, Dream World Ability, Mold Breaker",
-            "hidden": "Reckless, Rock Head, Mold Breaker"
+            "normal": "reckless, rock-head, adaptability, dream-world-ability, mold-breaker",
+            "hidden": "reckless, rock-head, mold-breaker"
           }
         },
         "mass": 18.0,
         "captureRate": 25,
         "baseExp": 161,
         "baseFriendship": 70,
+        "expMode": "Medium Fast",
+        "genderRatio": 127,
+        "movementType": "water"
+      }
+    },
+	{
+      "name": "basculin_hisui",
+      "number": 550,
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1",
+        "stats": {
+          "values": {
+            "spdef": "55",
+            "spatk": "80",
+            "def": "65",
+            "spd": "98",
+            "hp": "70",
+            "atk": "92"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.0"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Water"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Rock Head, Adaptability",
+            "hidden": "Mold Breaker"
+          }
+        },
+        "mass": 18.0,
+        "captureRate": 25,
+        "baseExp": 161,
+        "baseFriendship": 50,
         "expMode": "Medium Fast",
         "genderRatio": 127,
         "movementType": "water"
@@ -31500,6 +32053,51 @@
         "expMode": "medium slow"
       }
     },
+	{
+      "name": "zorua_hisui",
+      "number": 570,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "35",
+            "atk": "60",
+            "def": "40",
+            "spatk": "85",
+            "spdef": "40",
+            "spd": "70"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.7",
+            "width": "0.7",
+            "height": "0.7"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "normal",
+			"type2": "ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "illusion"
+          }
+        },
+        "mass": 12.5,
+        "baseExp": 66,
+        "captureRate": 75,
+        "baseFriendship": 50,
+        "genderRatio": 30,
+        "expMode": "medium slow"
+      }
+    },
     {
       "name": "zoroark",
       "number": 571,
@@ -31538,6 +32136,50 @@
           }
         },
         "mass": 81.1,
+        "baseExp": 179,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "genderRatio": 30,
+        "expMode": "medium slow"
+      }
+    },
+	{
+      "name": "zoroark_hisui",
+      "number": 571,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "55",
+            "atk": "100",
+            "def": "60",
+            "spatk": "125",
+            "spdef": "60",
+            "spd": "110"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.9",
+            "width": "0.9",
+            "height": "1.6"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dark"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "illusion"
+          }
+        },
+        "mass": 73,
         "baseExp": 179,
         "captureRate": 45,
         "baseFriendship": 70,
@@ -34223,6 +34865,52 @@
         "baseExp": 179,
         "captureRate": 60,
         "baseFriendship": 70,
+        "genderRatio": 0,
+        "expMode": "slow"
+      }
+    },
+	{
+      "name": "braviary_hisui",
+      "number": 628,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "110",
+            "atk": "83",
+            "def": "70",
+            "spatk": "112",
+            "spdef": "70",
+            "spd": "65"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.5",
+            "height": "1.7"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "psychic",
+            "type2": "flying"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "keen-eye, sheer-force",
+            "hidden": "defiant"
+          }
+        },
+        "mass": 41.0,
+        "baseExp": 179,
+        "captureRate": 60,
+        "baseFriendship": 50,
         "genderRatio": 0,
         "expMode": "slow"
       }
@@ -38220,6 +38908,52 @@
         "expMode": "slow"
       }
     },
+	{
+      "name": "sliggoo_hisui",
+      "number": 705,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "58",
+            "atk": "75",
+            "def": "83",
+            "spatk": "83",
+            "spdef": "113",
+            "spd": "40"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.6",
+            "width": "0.7",
+            "height": "0.7"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dragon",
+			"type2": "steel"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "sap-sipper, overcoat",
+            "hidden": "gooey"
+          }
+        },
+        "mass": 68.5,
+        "baseExp": 158,
+        "captureRate": 45,
+        "baseFriendship": 35,
+        "genderRatio": 127,
+        "expMode": "slow"
+      }
+    },
     {
       "name": "goodra",
       "number": 706,
@@ -38255,6 +38989,52 @@
         "abilities": {
           "values": {
             "normal": "sap-sipper, hydration",
+            "hidden": "gooey"
+          }
+        },
+        "mass": 150.5,
+        "baseExp": 270,
+        "captureRate": 45,
+        "baseFriendship": 35,
+        "genderRatio": 127,
+        "expMode": "slow"
+      }
+    },
+	{
+      "name": "goodra_hisui",
+      "number": 706,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "80",
+            "atk": "100",
+            "def": "100",
+            "spatk": "110",
+            "spdef": "150",
+            "spd": "60"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.0",
+            "height": "1.7"
+          }
+        },
+        "evs": {
+          "values": {
+            "spdef": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dragon",
+			"type2": "steel"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "sap-sipper, overcoat",
             "hidden": "gooey"
           }
         },
@@ -38843,6 +39623,52 @@
         "baseFriendship": 70,
         "genderRatio": 127,
         "expMode": "medium"
+      }
+    },
+	{
+      "name": "avalugg_hisui",
+      "number": 713,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "95",
+            "atk": "127",
+            "def": "184",
+            "spatk": "34",
+            "spdef": "36",
+            "spd": "38"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.4",
+            "width": "1.4",
+            "height": "1.4"
+          }
+        },
+        "evs": {
+          "values": {
+            "def": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "ice",
+			"type2": "rock"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "strong-jaw, ice-body",
+            "hidden": "sturdy"
+          }
+        },
+        "mass": 262.4,
+        "baseExp": 180,
+        "captureRate": 55,
+        "baseFriendship": 50,
+        "genderRatio": 127,
+        "expMode": "medium fast"
       }
     },
     {
@@ -39535,6 +40361,52 @@
           }
         },
         "mass": 36.6,
+        "baseExp": 239,
+        "captureRate": 45,
+        "baseFriendship": 70,
+        "genderRatio": 30,
+        "expMode": "medium slow"
+      }
+    },
+	{
+      "name": "decidueye_hisui",
+      "number": 724,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "88",
+            "atk": "112",
+            "def": "80",
+            "spatk": "95",
+            "spdef": "95",
+            "spd": "60"
+          }
+        },
+        "sizes": {
+          "values": {
+            "width": "0.9",
+            "length": "0.9",
+            "height": "1.6"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "grass",
+            "type2": "fighting"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "overgrow",
+            "hidden": "long-reach"
+          }
+        },
+        "mass": 37,
         "baseExp": 239,
         "captureRate": 45,
         "baseFriendship": 70,
@@ -49822,6 +50694,423 @@
         "baseFriendship": 100,
         "genderRatio": 255,
         "expMode": "slow"
+      }
+    },
+	{
+      "name": "wyrdeer",
+      "number": 899,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "103",
+            "atk": "105",
+            "def": "72",
+            "spatk": "105",
+            "spdef": "75",
+            "spd": "65"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.8"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "normal",
+			"type2": "psychic"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "intimidate, frisk",
+			"hidden": "sap-sipper"
+          }
+        },
+        "mass": 95.1,
+        "baseExp": 290,
+        "captureRate": 135,
+        "baseFriendship": 35,
+        "genderRatio": 127,
+        "expMode": "slow"
+      }
+    },
+	{
+      "name": "kleavor",
+      "number": 900,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "70",
+            "atk": "135",
+            "def": "95",
+            "spatk": "45",
+            "spdef": "70",
+            "spd": "85"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.8"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "bug",
+            "type2": "rock"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "swarm, sheer-force",
+            "hidden": "steadfast"
+          }
+        },
+        "mass": 89.0,
+        "baseExp": 100,
+        "captureRate": 115,
+        "baseFriendship": 70,
+        "genderRatio": 127,
+        "expMode": "medium"
+      }
+    },
+	{
+      "name": "ursaluna",
+      "number": 901,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "130",
+            "atk": "140",
+            "def": "105",
+            "spatk": "45",
+            "spdef": "80",
+            "spd": "50"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.5",
+            "width": "1.5",
+            "height": "2.4"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "ground",
+			"type2": "normal"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "guts, bulletproof",
+            "hidden": "unnerve"
+          }
+        },
+        "mass": 290,
+        "baseExp": 175,
+        "captureRate": 75,
+        "baseFriendship": 70,
+        "genderRatio": 127,
+        "expMode": "medium"
+      }
+    },
+	{
+      "name": "basculegion_male",
+      "number": 902,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "120",
+            "atk": "112",
+            "def": "65",
+            "spatk": "80",
+            "spdef": "75",
+            "spd": "78"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2",
+            "width": "2",
+            "height": "3"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "water",
+			"type2": "ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "rattled, adaptability",
+            "hidden": "mold-breaker"
+          }
+        },
+        "mass": 110,
+        "baseExp": 175,
+        "captureRate": 135,
+        "baseFriendship": 70,
+        "genderRatio": 0,
+        "expMode": "medium"
+      }
+    },
+	{
+      "name": "basculegion_female",
+      "number": 902,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "120",
+            "atk": "92",
+            "def": "65",
+            "spatk": "100",
+            "spdef": "78",
+            "spd": "78"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2",
+            "width": "2",
+            "height": "3"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "water",
+			"type2": "ghost"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "rattled, adaptability",
+            "hidden": "mold-breaker"
+          }
+        },
+        "mass": 110,
+        "baseExp": 175,
+        "captureRate": 135,
+        "baseFriendship": 70,
+        "genderRatio": 254,
+        "expMode": "medium"
+      }
+    },
+	{
+      "name": "sneasler",
+      "number": 903,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "80",
+            "atk": "130",
+            "def": "60",
+            "spatk": "40",
+            "spdef": "80",
+            "spd": "120"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "0.6",
+            "width": "0.6",
+            "height": "1.3"
+          }
+        },
+        "evs": {
+          "values": {
+            "spd": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dark",
+            "type2": "ice"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "pressure",
+            "hidden": "poison-touch"
+          }
+        },
+        "mass": 43.0,
+        "baseExp": 86,
+        "captureRate": 135,
+        "baseFriendship": 35,
+        "genderRatio": 127,
+        "expMode": "medium slow"
+      }
+    },
+	{
+      "name": "overqwil",
+      "number": 904,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "85",
+            "atk": "115",
+            "def": "95",
+            "spatk": "65",
+            "spdef": "65",
+            "spd": "85"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2.5",
+            "width": "2.5",
+            "height": "2.5"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "1"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "dark",
+            "type2": "poison"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "poison-point, swift-swim",
+            "hidden": "intimidate"
+          }
+        },
+        "mass": 60.5,
+        "baseExp": 88,
+        "captureRate": 135,
+        "baseFriendship": 70,
+        "genderRatio": 127,
+        "expMode": "medium"
+      }
+    },
+	{
+      "name": "enamorus_incarnate",
+      "number": 905,
+      "base": true,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "74",
+            "atk": "115",
+            "def": "70",
+            "spatk": "135",
+            "spdef": "80",
+            "spd": "106"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.0",
+            "width": "1.0",
+            "height": "1.6"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "fairy",
+            "type2": "flying"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "healer",
+			"hidden": "contrary"
+          }
+        },
+        "mass": 48.0,
+        "baseExp": 261,
+        "captureRate": 3,
+        "baseFriendship": 90,
+        "genderRatio": 254,
+        "expMode": "slow"
+      }
+    },
+    {
+      "name": "enamorus_therian",
+      "number": 905,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "74",
+            "atk": "115",
+            "def": "110",
+            "spatk": "135",
+            "spdef": "100",
+            "spd": "46"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2.0",
+            "width": "2.0",
+            "height": "1.6"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "electric",
+            "type2": "flying"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "overcoat"
+          }
+        },
+        "mass": 61.0,
+        "baseExp": 261,
+		"genderRatio": 254
       }
     }
   ]

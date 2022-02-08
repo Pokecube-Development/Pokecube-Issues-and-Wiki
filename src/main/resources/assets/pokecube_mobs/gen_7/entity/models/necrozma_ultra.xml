@@ -6,8 +6,8 @@
   <phase angle="15" axis="0" length="20" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <phase angle="15" axis="1" length="20" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <phase axis="1" length="50" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
-  <material name="Light" light="1" transluscent="false"/>
-  <material name="SubLight" light="0.3" transluscent="false"/>
+  <material name="Light" light="1" transluscent="false" shader="alpha_shader"/>
+  <material name="SubLight" light="0.3" transluscent="false" shader="swirl_shader"/>
   <phase type="idle">
    <part name="wing1">
     <component length="8" name="1" posChange="0,-2,0," rotChange="0,0,5," rotOffset="20,0,10," startKey="0"/>

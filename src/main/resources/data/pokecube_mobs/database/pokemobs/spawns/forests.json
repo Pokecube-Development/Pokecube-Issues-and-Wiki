@@ -39,6 +39,7 @@
         {"key": "skwovet","min": 2,"max": 4,"rate": 0.15},
         
         {"key": "abra","min": 1,"max": 2,"rate": 0.125},
+		{"key": "voltorb_hisui","min": 1,"max": 2,"rate": 0.125},
         
         {"key": "spinarak","min": 2,"max": 5,"rate": 0.1},
         {"key": "natu","min": 2,"max": 4,"rate": 0.1},

@@ -14,7 +14,7 @@
 					 0,-1.0, 0,-1.0, 0,0.8, 0,0.8, 0,0.6, 0,0.6, 0,0.5, 0,0.5, 0,0.3,
 					 0,0.3, 0,0, 0.0" part="Ball" trigger="sequence"/>
    </customTex>
-	<material name="Ball" light="1" transluscent="false"/>
+	<material name="Ball" light="1" transluscent="false" shader="alpha_shader"/>
 	<phase type="sitting-1">
 	<part name="ball">
 	 <component length="25" name="1" posOffset="-2,0,-13" rotChange="0,360,0" startKey="0"/>

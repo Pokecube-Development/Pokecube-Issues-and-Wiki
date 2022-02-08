@@ -82,6 +82,11 @@
     "pokecube:drakloak",
     "pokecube:dragapult",
     "pokecube:spectrier",
-    "pokecube:calyrex_shadow_rider"
+    "pokecube:calyrex_shadow_rider",
+	"pokecube:basculegion_male",
+	"pokecube:basculegion_female",
+	"pokecube:typhlosion_hisui",
+	"pokecube:zorua_hisui",
+	"pokecube:zoroark_hisui"
   ]
 }

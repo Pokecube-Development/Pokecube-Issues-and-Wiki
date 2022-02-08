@@ -24,6 +24,7 @@
         {"key": "geodude_alola","min": 2,"max": 4,"rate": 0.2},
         {"key": "cubone","min": 2,"max": 4,"rate": 0.2},
         {"key": "aron","min": 2,"max": 4,"rate": 0.2},
+		{"key": "growlithe_hisui","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "duraludon","min": 2,"max": 4,"rate": 0.1},
         {"key": "morpeko","min": 2,"max": 4,"rate": 0.1},
